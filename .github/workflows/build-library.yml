@@ -1,0 +1,55 @@
+name: Build Library for CDN
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build library
+        run: npm run build:lib
+      
+      - name: Verify build output
+        run: |
+          echo "✅ Checking build output..."
+          ls -lh dist/
+          if [ ! -f "dist/kiut-ui.iife.js" ]; then
+            echo "❌ Error: kiut-ui.iife.js not found"
+            exit 1
+          fi
+          if [ ! -f "dist/kiut-ui.css" ]; then
+            echo "❌ Error: kiut-ui.css not found"
+            exit 1
+          fi
+          echo "✅ All files generated successfully!"
+      
+      - name: Commit and push build files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add dist/
+          git diff --staged --quiet || git commit -m "chore: update build files [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+

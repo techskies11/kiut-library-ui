@@ -1,0 +1,49 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+dist-ssr
+*.local
+
+# IMPORTANTE: Para usar la biblioteca como CDN desde GitHub,
+# NO ignorar el directorio 'dist'. Descomenta la siguiente línea
+# si estás trabajando en desarrollo local y no quieres commitear el dist.
+# dist
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Storybook
+storybook-static
+
+# Coverage
+coverage
+*.lcov
+.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+
+# Build files
+*.tsbuildinfo
+

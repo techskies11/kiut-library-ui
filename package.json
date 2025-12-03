@@ -1,0 +1,63 @@
+{
+  "name": "kiut-library-ui",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/kiut-ui.umd.js",
+  "module": "./dist/kiut-ui.es.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/main.d.ts",
+      "import": "./dist/kiut-ui.es.js",
+      "require": "./dist/kiut-ui.umd.js"
+    },
+    "./dist/style.css": "./dist/kiut-ui.css",
+    "./style.css": "./dist/kiut-ui.css",
+    "./css": "./dist/kiut-ui.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TU-USUARIO/kiut-library-ui.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "build:lib": "vue-tsc -b && vite build --config vite.config.lib.ts",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^2.2.0",
+    "chart.js": "^4.5.1",
+    "echarts": "^6.0.0",
+    "moment": "^2.30.1",
+    "vue": "^3.5.24",
+    "vue-chartjs": "^5.3.3"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/addon-a11y": "^10.0.8",
+    "@storybook/addon-docs": "^10.0.8",
+    "@storybook/addon-onboarding": "^10.0.8",
+    "@storybook/addon-vitest": "^10.0.8",
+    "@storybook/vue3-vite": "^10.0.8",
+    "@types/moment": "^2.11.29",
+    "@types/node": "^24.10.1",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitest/browser-playwright": "^4.0.14",
+    "@vitest/coverage-v8": "^4.0.14",
+    "@vue/tsconfig": "^0.8.1",
+    "playwright": "^1.57.0",
+    "storybook": "^10.0.8",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4",
+    "vitest": "^4.0.14",
+    "vue-tsc": "^3.1.4"
+  }
+}
