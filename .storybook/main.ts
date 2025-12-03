@@ -13,6 +13,13 @@ const config: StorybookConfig = {
     name: '@storybook/vue3-vite',
     options: {},
   },
+  viteFinal: async (config) => {
+    // Base path para GitHub Pages
+    if (process.env.NODE_ENV === 'production') {
+      config.base = '/kiut-library-ui/';
+    }
+    return config;
+  },
 };
 export default config;
 
