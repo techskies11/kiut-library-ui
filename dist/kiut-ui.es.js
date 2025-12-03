@@ -33498,7 +33498,7 @@ const WY = { class: "messages-per-agent-card" }, UY = {
   },
   setup(e) {
     return (t, n) => (O(), I("div", BW, [
-      n[0] || (n[0] = Kt('<header class="nps-header glass rounded-2xl p-6 mb-6 border border-purple-200/20 shadow-glass" data-v-aa9793fe><div class="flex items-center gap-4" data-v-aa9793fe><div class="icon-wrapper bg-gradient-primary p-3 rounded-xl shadow-purple-sm" data-v-aa9793fe><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-aa9793fe><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-aa9793fe></path></svg></div><div data-v-aa9793fe><h1 class="font-display text-2xl font-bold gradient-text" data-v-aa9793fe>NPS Analytics Dashboard</h1><p class="text-sm text-gray-500 dark:text-gray-400 font-sans" data-v-aa9793fe>Net Promoter Score Metrics &amp; Insights</p></div></div></header>', 1)),
+      n[0] || (n[0] = Kt('<header class="nps-header glass rounded-2xl p-6 mb-6 border border-purple-200/20 shadow-glass" data-v-ee4ab784><div class="flex items-center gap-4" data-v-ee4ab784><div class="icon-wrapper bg-gradient-primary p-3 rounded-xl shadow-purple-sm" data-v-ee4ab784><svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-ee4ab784><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-ee4ab784></path></svg></div><div data-v-ee4ab784><h1 class="font-display text-2xl font-bold gradient-text" data-v-ee4ab784>NPS Analytics Dashboard</h1><p class="text-sm text-gray-500 dark:text-gray-400 font-sans" data-v-ee4ab784>Net Promoter Score Metrics &amp; Insights</p></div></div></header>', 1)),
       S("div", zW, [
         Ee(XS, {
           dates: e.dates,
@@ -33511,7 +33511,7 @@ const WY = { class: "messages-per-agent-card" }, UY = {
       ])
     ]));
   }
-}, $W = /* @__PURE__ */ de(VW, [["__scopeId", "data-v-aa9793fe"]]), HW = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+}, $W = /* @__PURE__ */ de(VW, [["__scopeId", "data-v-ee4ab784"]]), HW = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: $W
 }, Symbol.toStringTag, { value: "Module" })), qW = {

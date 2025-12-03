@@ -47,9 +47,7 @@ const props = defineProps({
 
 <style scoped>
 .nps-metrics-container {
-  min-height: 100vh;
   padding: 1.5rem;
-  background: var(--bg-primary, #f8f9fa);
 }
 
 .nps-header {
