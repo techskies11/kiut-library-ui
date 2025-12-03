@@ -8,7 +8,7 @@
     </header>
 
     <!-- Content when loaded -->
-    <div class="card-body" v-if="!loading">
+    <div class="card-body" v-if="!props.loading">
       <!-- KPI Cards -->
       <div class="kpi-grid">
         <div class="kpi-card kpi-purple">
@@ -71,9 +71,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, watch, computed } from 'vue'
 import moment from 'moment'
-import { getFaqMetrics } from '../../../../services/modules/business-metrics'
 import LineChart from '../../Line/ChartLine.vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 
@@ -96,16 +95,15 @@ interface MetricsData {
 }
 
 const props = withDefaults(defineProps<{
-  dates?: Date[];
-  airline_name?: string;
+  loading?: boolean;
+  data?: MetricsData | null;
 }>(), {
-  dates: () => [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
-  airline_name: 'default_airline'
+  loading: false,
+  data: null
 })
 
-const loading = ref(true)
 const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
-const metricsData = ref<MetricsData>({
+const metricsData = computed<MetricsData>(() => props.data ?? {
   total_faq_events: 0,
   total_documents_found: 0,
   total_airline_information_retrieved: 0,
@@ -189,97 +187,79 @@ const lineOptions = computed(() => ({
   },
 }))
 
-const searchData = async () => {
-  try {
-    loading.value = true
-    const startDate = moment(props.dates[0]).format('YYYY-MM-DD')
-    const endDate = moment(props.dates[1]).format('YYYY-MM-DD')
-
-    const response = await getFaqMetrics(props.airline_name, startDate, endDate)
-    metricsData.value = response
-
-    // Formatear datos para el gráfico
-    const faqData = response?.faq_by_day || []
-
-    if (faqData.length > 0) {
-      const labels = faqData.map((item: FaqDayData) => moment(item.date).format('MMM DD'))
-      const airlineInfo = faqData.map((item: FaqDayData) => item.airline_information_retrieved_count || 0)
-      const flightStatus = faqData.map((item: FaqDayData) => item.flight_status_retrieved_count || 0)
-      const bookingInfo = faqData.map((item: FaqDayData) => item.booking_info_retrieved_count || 0)
-
-      dataChart.value = {
-        labels,
-        datasets: [
-          {
-            label: 'Airline Information',
-            data: airlineInfo,
-            borderColor: '#8b5cf6',
-            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#8b5cf6',
-            pointBorderColor: '#7c3aed',
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-          },
-          {
-            label: 'Flight Status',
-            data: flightStatus,
-            borderColor: '#06b6d4',
-            backgroundColor: 'rgba(6, 182, 212, 0.1)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#06b6d4',
-            pointBorderColor: '#0891b2',
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-          },
-          {
-            label: 'Booking Information',
-            data: bookingInfo,
-            borderColor: '#f59e0b',
-            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: '#f59e0b',
-            pointBorderColor: '#d97706',
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-          },
-        ],
-      }
-    } else {
-      dataChart.value = { labels: [], datasets: [] }
-    }
-  } catch (error) {
-    console.error('Error fetching FAQ metrics data:', error)
+const processChartData = (data: MetricsData | null) => {
+  if (!data) {
     dataChart.value = { labels: [], datasets: [] }
-    metricsData.value = {
-      total_faq_events: 0,
-      total_documents_found: 0,
-      total_airline_information_retrieved: 0,
-      total_booking_info_retrieved: 0,
-      total_flight_status_retrieved: 0,
-      faq_by_day: [],
+    return
+  }
+
+  const faqData = data.faq_by_day || []
+
+  if (faqData.length > 0) {
+    const labels = faqData.map((item: FaqDayData) => moment(item.date).format('MMM DD'))
+    const airlineInfo = faqData.map((item: FaqDayData) => item.airline_information_retrieved_count || 0)
+    const flightStatus = faqData.map((item: FaqDayData) => item.flight_status_retrieved_count || 0)
+    const bookingInfo = faqData.map((item: FaqDayData) => item.booking_info_retrieved_count || 0)
+
+    dataChart.value = {
+      labels,
+      datasets: [
+        {
+          label: 'Airline Information',
+          data: airlineInfo,
+          borderColor: '#8b5cf6',
+          backgroundColor: 'rgba(139, 92, 246, 0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#8b5cf6',
+          pointBorderColor: '#7c3aed',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+        {
+          label: 'Flight Status',
+          data: flightStatus,
+          borderColor: '#06b6d4',
+          backgroundColor: 'rgba(6, 182, 212, 0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#06b6d4',
+          pointBorderColor: '#0891b2',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+        {
+          label: 'Booking Information',
+          data: bookingInfo,
+          borderColor: '#f59e0b',
+          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#f59e0b',
+          pointBorderColor: '#d97706',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+      ],
     }
-  } finally {
-    loading.value = false
+  } else {
+    dataChart.value = { labels: [], datasets: [] }
   }
 }
 
-onMounted(searchData)
+// Procesar datos cuando cambie el prop data
 watch(
-  () => props.dates,
-  (newDates) => {
-    if (newDates?.[0] && newDates?.[1]) searchData()
+  () => props.data,
+  (newData) => {
+    processChartData(newData ?? null)
   },
-  { deep: true }
+  { deep: true, immediate: true }
 )
 </script>
 
