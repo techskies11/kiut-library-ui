@@ -12,9 +12,9 @@
       "import": "./dist/kiut-ui.es.js",
       "require": "./dist/kiut-ui.umd.js"
     },
-    "./dist/style.css": "./dist/kiut-ui.css",
-    "./style.css": "./dist/kiut-ui.css",
-    "./css": "./dist/kiut-ui.css"
+    "./dist/style.css": "./dist/kiut-library-ui.css",
+    "./style.css": "./dist/kiut-library-ui.css",
+    "./css": "./dist/kiut-library-ui.css"
   },
   "files": [
     "dist",
@@ -28,6 +28,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "build:lib": "vue-tsc -b && vite build --config vite.config.lib.ts",
+    "prepare": "npm run build:lib",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

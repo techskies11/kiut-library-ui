@@ -33,13 +33,7 @@ export default defineConfig({
     cssCodeSplit: false,
     sourcemap: true,
     // Optimizar para CDN
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true
-      }
-    }
+    minify: 'esbuild'
   }
 });
 

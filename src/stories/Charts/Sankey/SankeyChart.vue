@@ -85,7 +85,7 @@ const loadError = ref(false);
 let chartInstance: echarts.ECharts | null = null;
 
 const CHART_CONFIG = {
-  animation: { duration: 1000, easing: 'cubicOut' },
+  animation: { duration: 1000, easing: 'cubicOut' as const },
   margins: { left: '2%', right: '2%', top: '2%', bottom: '2%' },
   node: { width: 70, gap: 20, align: 'left' as const, iterations: 64 },
   style: {
