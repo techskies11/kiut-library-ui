@@ -14,14 +14,17 @@ import SankeyChart from './stories/Charts/Sankey/SankeyChart.vue';
 // ============================================
 // Business Metrics
 // ============================================
+import AgentsPerDay from './stories/Charts/BusinessMetrics/AgentsPerDay/AgentsPerDay.vue';
 import BookingManager from './stories/Charts/BusinessMetrics/BookingManager/BookingManager.vue';
 import Checkin from './stories/Charts/BusinessMetrics/Checkin/Checkin.vue';
+import CheckinMetrics from './stories/Charts/BusinessMetrics/CheckinMetrics/CheckinMetrics.vue';
 import CheckinSegments from './stories/Charts/BusinessMetrics/CheckinSegments/checkinSegments.vue';
 import Disruption from './stories/Charts/BusinessMetrics/Disruption/Disruption.vue';
 import FAQ from './stories/Charts/BusinessMetrics/FAQ/FAQ.vue';
 import MessagesPerAgent from './stories/Charts/BusinessMetrics/MessagesPerAgent/MessagesPerAgent.vue';
 import RecordLocator from './stories/Charts/BusinessMetrics/RecordLocator/RecordLocator.vue';
 import Seller from './stories/Charts/BusinessMetrics/Seller/Seller.vue';
+import TopAgents from './stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue';
 
 // NPS Metrics
 import NpsDailyMetrics from './stories/Charts/BusinessMetrics/Nps/npsDailyMetrics.vue';
@@ -46,14 +49,17 @@ export {
   HistogramChart,
   SankeyChart,
   // Business Metrics
+  AgentsPerDay,
   BookingManager,
   Checkin,
+  CheckinMetrics,
   CheckinSegments,
   Disruption,
   FAQ,
   MessagesPerAgent,
   RecordLocator,
   Seller,
+  TopAgents,
   // NPS Metrics
   NpsDailyMetrics,
   NpsMetrics,
@@ -75,14 +81,17 @@ export const KiutUIPlugin = {
     app.component('KiutSankeyChart', SankeyChart);
     
     // Business Metrics
+    app.component('KiutAgentsPerDay', AgentsPerDay);
     app.component('KiutBookingManager', BookingManager);
     app.component('KiutCheckin', Checkin);
+    app.component('KiutCheckinMetrics', CheckinMetrics);
     app.component('KiutCheckinSegments', CheckinSegments);
     app.component('KiutDisruption', Disruption);
     app.component('KiutFAQ', FAQ);
     app.component('KiutMessagesPerAgent', MessagesPerAgent);
     app.component('KiutRecordLocator', RecordLocator);
     app.component('KiutSeller', Seller);
+    app.component('KiutTopAgents', TopAgents);
     app.component('KiutNpsDailyMetrics', NpsDailyMetrics);
     app.component('KiutNpsMetrics', NpsMetrics);
     app.component('KiutNpsOverviewMetrics', NpsOverviewMetrics);
