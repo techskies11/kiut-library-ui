@@ -39,9 +39,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import LineChart from '../../Line/ChartLine.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 // Tipo para los datos por día (clave: categoría, valor: cantidad)
 interface AgentsByDay {
@@ -61,26 +62,31 @@ interface AgentInteractionsData {
 
 // Mapa de colores por categoría de agente
 const colorMap: Record<string, string> = {
-    checkin: '#3B82F680',
-    faq: '#EF444480',
-    disruption_manager: '#F59E0B80',
-    booking_manager: '#a78bfa80',
-    triage: '#10B98180',
-    seller: '#06B6D480',
-    human: '#F472B680',
-    agency: '#6366F180',
-    loyalty: '#EAB30880'
+    checkin: '#3B82F6',
+    faq: '#EF4444',
+    disruption_manager: '#F59E0B',
+    booking_manager: '#a78bfa',
+    triage: '#10B981',
+    seller: '#06B6D4',
+    human: '#F472B6',
+    agency: '#6366F1',
+    loyalty: '#EAB308'
 };
 
 const props = withDefaults(defineProps<{
     data?: AgentInteractionsData;
     loading?: boolean;
     options?: Record<string, any>;
+    theme?: Theme;
 }>(), {
     data: () => ({}),
     loading: false,
-    options: undefined
+    options: undefined,
+    theme: undefined
 });
+
+// Theme detection with prop fallback
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
 // Computed que procesa agents_by_day y genera labels + datasets para el gráfico
 const chartData = computed(() => {
@@ -102,12 +108,22 @@ const chartData = computed(() => {
     const categories = Array.from(categoriesSet);
 
     // Crear datasets para cada categoría
-    const datasets = categories.map(category => ({
-        label: category,
-        data: labels.map(date => daysData[date]?.[category] || 0),
-        borderColor: colorMap[category] || 'gray',
-        tension: 0.3
-    }));
+    const datasets = categories.map(category => {
+        const color = colorMap[category] || '#94a3b8';
+        return {
+            label: category.charAt(0).toUpperCase() + category.slice(1).replace(/_/g, ' '),
+            data: labels.map(date => daysData[date]?.[category] || 0),
+            borderColor: color,
+            backgroundColor: `${color}20`,
+            pointBackgroundColor: color,
+            pointBorderColor: isDark.value ? '#1a1a1d' : '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            tension: 0.3,
+            fill: false
+        };
+    });
 
     return {
         labels,
@@ -115,30 +131,102 @@ const chartData = computed(() => {
     };
 });
 
-const chartOptions = computed(() => props.options);
+const chartOptions = computed(() => {
+    if (props.options) return props.options;
+    
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top' as const,
+                align: 'end' as const,
+                labels: {
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    padding: 20,
+                    font: {
+                        family: "'DM Sans', sans-serif",
+                        size: 12,
+                        weight: 500 as any,
+                    },
+                    color: colors.value.textSecondary,
+                }
+            },
+            tooltip: {
+                mode: 'index' as const,
+                intersect: false,
+                backgroundColor: colors.value.tooltipBg,
+                titleColor: colors.value.tooltipText,
+                bodyColor: colors.value.tooltipText,
+                borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
+                borderWidth: 1,
+                padding: 12,
+                cornerRadius: 8,
+                titleFont: {
+                    family: "'DM Sans', sans-serif",
+                    size: 13,
+                    weight: 600 as any,
+                },
+                bodyFont: {
+                    family: "'DM Sans', sans-serif",
+                    size: 12,
+                    weight: 500 as any,
+                },
+            }
+        },
+        scales: {
+            x: {
+                display: true,
+                grid: {
+                    display: false,
+                },
+                ticks: {
+                    font: {
+                        family: "'DM Sans', sans-serif",
+                        size: 11,
+                    },
+                    color: colors.value.textSecondary,
+                },
+            },
+            y: {
+                display: true,
+                beginAtZero: true,
+                grid: {
+                    color: colors.value.gridLines,
+                },
+                ticks: {
+                    font: {
+                        family: "'DM Sans', sans-serif",
+                        size: 11,
+                    },
+                    color: colors.value.textSecondary,
+                },
+            },
+        },
+    };
+});
+
+// Expose isDark for potential use in templates
+defineExpose({ isDark })
 </script>
 
 <style scoped>
 /* Main Card Styles */
 .messages-per-agent-card {
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+    background: var(--kiut-bg-card-gradient);
     border-radius: 20px;
     padding: 28px 32px;
-    box-shadow: 
-        0 1px 3px rgba(0, 0, 0, 0.05),
-        0 10px 15px -3px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--kiut-shadow-card);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
 
 .messages-per-agent-card:hover {
-    box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.05),
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--kiut-shadow-card-hover);
     transform: translateY(-2px);
 }
 
@@ -150,6 +238,7 @@ const chartOptions = computed(() => props.options);
 
 .header-content {
     width: 100%;
+    text-align: left;
 }
 
 .card-title {
@@ -159,7 +248,7 @@ const chartOptions = computed(() => props.options);
     margin: 0;
     line-height: 1.3;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #c67dff, #5d4b93);
+    background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -171,7 +260,7 @@ const chartOptions = computed(() => props.options);
 .card-subtitle {
     font-size: .875rem;
     font-weight: 400;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     margin: 0px;
     line-height: 1.25rem;
 }
@@ -205,22 +294,22 @@ const chartOptions = computed(() => props.options);
     justify-content: center;
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+    background: var(--kiut-bg-empty-icon);
     border-radius: 20px;
     margin: 0 auto 20px;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+    box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
     width: 40px;
     height: 40px;
-    color: #8b5cf6;
+    color: var(--kiut-primary);
 }
 
 .empty-title {
     font-size: 18px;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--kiut-text-primary);
     margin: 0 0 8px 0;
     letter-spacing: -0.01em;
 }
@@ -228,7 +317,7 @@ const chartOptions = computed(() => props.options);
 .empty-description {
     font-size: 14px;
     font-weight: 400;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     line-height: 1.6;
     margin: 0;
 }
@@ -260,41 +349,22 @@ const chartOptions = computed(() => props.options);
 
 .line {
     width: 8px;
-    background: linear-gradient(to top, #c67dff 0%, #8b5cf6 50%, #7c3aed 100%);
+    background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
     border-radius: 4px;
     animation: wave 1.5s ease-in-out infinite;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    box-shadow: var(--kiut-shadow-loader);
 }
 
-.line-1 {
-    height: 30%;
-    animation-delay: 0s;
-}
-
-.line-2 {
-    height: 50%;
-    animation-delay: 0.1s;
-}
-
-.line-3 {
-    height: 70%;
-    animation-delay: 0.2s;
-}
-
-.line-4 {
-    height: 50%;
-    animation-delay: 0.3s;
-}
-
-.line-5 {
-    height: 40%;
-    animation-delay: 0.4s;
-}
+.line-1 { height: 30%; animation-delay: 0s; }
+.line-2 { height: 50%; animation-delay: 0.1s; }
+.line-3 { height: 70%; animation-delay: 0.2s; }
+.line-4 { height: 50%; animation-delay: 0.3s; }
+.line-5 { height: 40%; animation-delay: 0.4s; }
 
 .loading-text {
     font-size: 15px;
     font-weight: 500;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     letter-spacing: -0.01em;
 }
@@ -312,12 +382,8 @@ const chartOptions = computed(() => props.options);
 }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 @keyframes fadeIn {
@@ -355,4 +421,3 @@ const chartOptions = computed(() => props.options);
     }
 }
 </style>
-

@@ -11,25 +11,25 @@
     <div class="card-body" v-if="!props.loading">
       <!-- KPI Cards -->
       <div class="kpi-grid">
-        <div class="kpi-card kpi-purple">
-          <p class="kpi-label">Total FAQ</p>
-          <p class="kpi-value">{{ useNumberFormat(metricsData.total_faq_events) }}</p>
+        <div class="kpi-card">
+          <span class="kpi-label">Total FAQ</span>
+          <span class="kpi-value">{{ useNumberFormat(metricsData.total_faq_events) }}</span>
         </div>
-        <div class="kpi-card kpi-blue">
-          <p class="kpi-label">Documents Found</p>
-          <p class="kpi-value">{{ useNumberFormat(metricsData.total_documents_found) }}</p>
+        <div class="kpi-card">
+          <span class="kpi-label">Documents Found</span>
+          <span class="kpi-value">{{ useNumberFormat(metricsData.total_documents_found) }}</span>
         </div>
-        <div class="kpi-card kpi-green">
-          <p class="kpi-label">Airline Info</p>
-          <p class="kpi-value">{{ useNumberFormat(metricsData.total_airline_information_retrieved) }}</p>
+        <div class="kpi-card">
+          <span class="kpi-label">Airline Info</span>
+          <span class="kpi-value">{{ useNumberFormat(metricsData.total_airline_information_retrieved) }}</span>
         </div>
-        <div class="kpi-card kpi-orange">
-          <p class="kpi-label">Booking Info</p>
-          <p class="kpi-value">{{ useNumberFormat(metricsData.total_booking_info_retrieved) }}</p>
+        <div class="kpi-card">
+          <span class="kpi-label">Booking Info</span>
+          <span class="kpi-value">{{ useNumberFormat(metricsData.total_booking_info_retrieved) }}</span>
         </div>
-        <div class="kpi-card kpi-cyan">
-          <p class="kpi-label">Flight Status</p>
-          <p class="kpi-value">{{ useNumberFormat(metricsData.total_flight_status_retrieved) }}</p>
+        <div class="kpi-card">
+          <span class="kpi-label">Flight Status</span>
+          <span class="kpi-value">{{ useNumberFormat(metricsData.total_flight_status_retrieved) }}</span>
         </div>
       </div>
 
@@ -69,10 +69,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, toRef } from 'vue'
 import moment from 'moment'
 import LineChart from '../../Line/ChartLine.vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 interface FaqDayData {
   date: string;
@@ -95,10 +96,15 @@ interface MetricsData {
 const props = withDefaults(defineProps<{
   loading?: boolean;
   data?: MetricsData | null;
+  theme?: Theme;
 }>(), {
   loading: false,
-  data: null
+  data: null,
+  theme: undefined
 })
+
+// Theme detection with prop fallback
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
 const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
 const metricsData = computed<MetricsData>(() => props.data ?? {
@@ -124,15 +130,16 @@ const lineOptions = computed(() => ({
           family: "'DM Sans', sans-serif",
           size: 12,
         },
+        color: colors.value.textSecondary,
       },
     },
     tooltip: {
       mode: 'index' as const,
       intersect: false,
-      backgroundColor: 'rgba(255, 255, 255, 0.95)',
-      titleColor: '#1e293b',
-      bodyColor: '#64748b',
-      borderColor: 'rgba(0, 0, 0, 0.1)',
+      backgroundColor: colors.value.tooltipBg,
+      titleColor: colors.value.tooltipText,
+      bodyColor: colors.value.textSecondary,
+      borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
       borderWidth: 1,
       padding: 12,
       cornerRadius: 8,
@@ -158,7 +165,7 @@ const lineOptions = computed(() => ({
           family: "'DM Sans', sans-serif",
           size: 11,
         },
-        color: '#64748b',
+        color: colors.value.textSecondary,
       },
     },
     y: {
@@ -167,14 +174,14 @@ const lineOptions = computed(() => ({
       position: 'left' as const,
       beginAtZero: true,
       grid: {
-        color: 'rgba(0, 0, 0, 0.05)',
+        color: colors.value.gridLines,
       },
       ticks: {
         font: {
           family: "'DM Sans', sans-serif",
           size: 11,
         },
-        color: '#64748b',
+        color: colors.value.textSecondary,
       },
     },
   },
@@ -259,29 +266,26 @@ watch(
   },
   { deep: true, immediate: true }
 )
+
+// Expose isDark for potential use in templates
+defineExpose({ isDark })
 </script>
 
 <style scoped>
 /* Main Card Styles */
 .faq-metrics-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  background: var(--kiut-bg-card-gradient);
   border-radius: 20px;
   padding: 28px 32px;
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
 .faq-metrics-card:hover {
-  box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.05),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card-hover);
   transform: translateY(-2px);
 }
 
@@ -301,7 +305,7 @@ watch(
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #c67dff, #5d4b93);
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -313,7 +317,7 @@ watch(
 .card-subtitle {
   font-size: .875rem;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0px;
   line-height: 1.25rem;
 }
@@ -326,86 +330,42 @@ watch(
 /* KPI Grid */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 28px;
-}
-
-@media (min-width: 768px) {
-  .kpi-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .kpi-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .kpi-card {
-  border-radius: 16px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 100px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--kiut-bg-stats-badge);
+  border: 1px solid var(--kiut-border-light);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  text-align: center;
 }
 
 .kpi-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background: var(--kiut-bg-card);
+  border-color: var(--kiut-border-color);
 }
-
-.kpi-purple {
-  background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 50%, #ddd6fe 100%);
-}
-
-.kpi-purple .kpi-label { color: #7c3aed; }
-.kpi-purple .kpi-value { color: #5b21b6; }
-
-.kpi-blue {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%);
-}
-
-.kpi-blue .kpi-label { color: #2563eb; }
-.kpi-blue .kpi-value { color: #1d4ed8; }
-
-.kpi-green {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
-}
-
-.kpi-green .kpi-label { color: #059669; }
-.kpi-green .kpi-value { color: #047857; }
-
-.kpi-orange {
-  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 50%, #fdba74 100%);
-}
-
-.kpi-orange .kpi-label { color: #ea580c; }
-.kpi-orange .kpi-value { color: #c2410c; }
-
-.kpi-cyan {
-  background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 50%, #67e8f9 100%);
-}
-
-.kpi-cyan .kpi-label { color: #0891b2; }
-.kpi-cyan .kpi-value { color: #0e7490; }
 
 .kpi-label {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  margin: 0 0 8px 0;
-  letter-spacing: -0.01em;
+  color: var(--kiut-text-secondary);
+  line-height: 1.2;
 }
 
 .kpi-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--kiut-text-primary);
   letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 /* Chart Section */
@@ -433,22 +393,22 @@ watch(
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+  background: var(--kiut-bg-empty-icon);
   border-radius: 20px;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+  box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
   width: 40px;
   height: 40px;
-  color: #8b5cf6;
+  color: var(--kiut-primary);
 }
 
 .empty-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -456,7 +416,7 @@ watch(
 .empty-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -488,41 +448,22 @@ watch(
 
 .bar {
   width: 8px;
-  background: linear-gradient(to top, #c67dff 0%, #8b5cf6 50%, #7c3aed 100%);
+  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
   border-radius: 4px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  box-shadow: var(--kiut-shadow-loader);
 }
 
-.bar-1 {
-  height: 30%;
-  animation-delay: 0s;
-}
-
-.bar-2 {
-  height: 50%;
-  animation-delay: 0.1s;
-}
-
-.bar-3 {
-  height: 70%;
-  animation-delay: 0.2s;
-}
-
-.bar-4 {
-  height: 50%;
-  animation-delay: 0.3s;
-}
-
-.bar-5 {
-  height: 40%;
-  animation-delay: 0.4s;
-}
+.bar-1 { height: 30%; animation-delay: 0s; }
+.bar-2 { height: 50%; animation-delay: 0.1s; }
+.bar-3 { height: 70%; animation-delay: 0.2s; }
+.bar-4 { height: 50%; animation-delay: 0.3s; }
+.bar-5 { height: 40%; animation-delay: 0.4s; }
 
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -540,12 +481,8 @@ watch(
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes fadeIn {
@@ -578,13 +515,21 @@ watch(
     margin-bottom: 24px;
   }
 
+  .kpi-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
   .kpi-card {
-    padding: 16px;
-    min-height: 90px;
+    padding: 10px 12px;
+  }
+
+  .kpi-label {
+    font-size: 0.6875rem;
   }
 
   .kpi-value {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
   }
 
   .chart-wrapper {
@@ -593,4 +538,3 @@ watch(
   }
 }
 </style>
-

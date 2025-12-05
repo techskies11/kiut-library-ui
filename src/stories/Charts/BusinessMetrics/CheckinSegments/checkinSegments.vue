@@ -101,7 +101,9 @@
 </template>
 
 <script setup lang="ts">
+import { toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 interface SegmentData {
   departure_airport: string;
@@ -116,10 +118,15 @@ interface SegmentData {
 const props = withDefaults(defineProps<{
   data?: SegmentData[];
   loading?: boolean;
+  theme?: Theme;
 }>(), {
   data: () => [],
-  loading: false
+  loading: false,
+  theme: undefined
 })
+
+// Theme detection with prop fallback
+const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
 const calculatePercentage = (value: number, total: number): string => {
   if (!total || total === 0 || !value) return '0%'
@@ -139,29 +146,26 @@ const isRoundtrip = (row: SegmentData): boolean => {
   if (dep === '-' || arr === '-') return false
   return dep === arr
 }
+
+// Expose isDark for potential use in templates
+defineExpose({ isDark })
 </script>
 
 <style scoped>
 /* Main Card Styles */
 .checkin-segments-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  background: var(--kiut-bg-card-gradient);
   border-radius: 20px;
   padding: 28px 32px;
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
 .checkin-segments-card:hover {
-  box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.05),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card-hover);
   transform: translateY(-2px);
 }
 
@@ -173,6 +177,7 @@ const isRoundtrip = (row: SegmentData): boolean => {
 
 .header-content {
   width: 100%;
+  text-align: left;
 }
 
 .card-title {
@@ -180,7 +185,7 @@ const isRoundtrip = (row: SegmentData): boolean => {
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #c67dff, #5d4b93);
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -192,7 +197,7 @@ const isRoundtrip = (row: SegmentData): boolean => {
 .card-subtitle {
   font-size: .875rem;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0px;
   line-height: 1.25rem;
 }
@@ -210,9 +215,9 @@ const isRoundtrip = (row: SegmentData): boolean => {
 .table-wrapper {
   overflow-x: auto;
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  background: white;
+  border: 1px solid var(--kiut-border-table);
+  box-shadow: var(--kiut-shadow-chart-wrapper);
+  background: var(--kiut-bg-table);
 }
 
 .data-table {
@@ -223,7 +228,7 @@ const isRoundtrip = (row: SegmentData): boolean => {
 }
 
 .table-header-row {
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+  background: var(--kiut-bg-table-header);
 }
 
 .table-header {
@@ -231,10 +236,10 @@ const isRoundtrip = (row: SegmentData): boolean => {
   text-align: center;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--kiut-text-table-header);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid var(--kiut-border-table);
 }
 
 .table-header:first-child {
@@ -246,16 +251,16 @@ const isRoundtrip = (row: SegmentData): boolean => {
 }
 
 .table-body {
-  background: white;
+  background: var(--kiut-bg-table);
 }
 
 .table-row {
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--kiut-border-table-row);
 }
 
 .table-row:hover {
-  background: linear-gradient(to right, #fafafa 0%, #f9fafb 100%);
+  background: var(--kiut-bg-table-hover);
 }
 
 .table-row:last-child {
@@ -265,7 +270,7 @@ const isRoundtrip = (row: SegmentData): boolean => {
 .table-cell {
   padding: 16px 12px;
   font-size: 0.875rem;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   white-space: nowrap;
 }
 
@@ -289,7 +294,7 @@ const isRoundtrip = (row: SegmentData): boolean => {
 }
 
 .empty-connection {
-  color: #94a3b8;
+  color: var(--kiut-text-muted);
   font-size: 0.875rem;
 }
 
@@ -322,11 +327,11 @@ const isRoundtrip = (row: SegmentData): boolean => {
 /* Percentage Value */
 .percentage-value {
   font-weight: 500;
-  color: #475569;
+  color: var(--kiut-text-secondary);
 }
 
 .percentage-value.success {
-  color: #059669;
+  color: var(--kiut-success);
   font-weight: 600;
 }
 
@@ -350,22 +355,22 @@ const isRoundtrip = (row: SegmentData): boolean => {
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  background: var(--kiut-bg-empty-icon);
   border-radius: 20px;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
   width: 40px;
   height: 40px;
-  color: #10b981;
+  color: var(--kiut-primary);
 }
 
 .empty-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -373,7 +378,7 @@ const isRoundtrip = (row: SegmentData): boolean => {
 .empty-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -405,41 +410,22 @@ const isRoundtrip = (row: SegmentData): boolean => {
 
 .flow-line {
   width: 10px;
-  background: linear-gradient(to top, #10b981 0%, #059669 50%, #047857 100%);
+  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
   border-radius: 5px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  box-shadow: var(--kiut-shadow-loader);
 }
 
-.flow-1 {
-  height: 35%;
-  animation-delay: 0s;
-}
-
-.flow-2 {
-  height: 55%;
-  animation-delay: 0.1s;
-}
-
-.flow-3 {
-  height: 75%;
-  animation-delay: 0.2s;
-}
-
-.flow-4 {
-  height: 55%;
-  animation-delay: 0.3s;
-}
-
-.flow-5 {
-  height: 45%;
-  animation-delay: 0.4s;
-}
+.flow-1 { height: 35%; animation-delay: 0s; }
+.flow-2 { height: 55%; animation-delay: 0.1s; }
+.flow-3 { height: 75%; animation-delay: 0.2s; }
+.flow-4 { height: 55%; animation-delay: 0.3s; }
+.flow-5 { height: 45%; animation-delay: 0.4s; }
 
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -457,12 +443,8 @@ const isRoundtrip = (row: SegmentData): boolean => {
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes fadeIn {

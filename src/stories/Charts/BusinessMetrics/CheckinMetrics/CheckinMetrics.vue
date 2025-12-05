@@ -1,7 +1,6 @@
 <template>
     <article class="checkin-metrics-card">
         <header class="card-header">
-            <div class="header-accent"></div>
             <div class="header-content">
                 <h3 class="card-title">Check-in Metrics</h3>
                 <p class="card-subtitle">Check-in performance and failure analysis</p>
@@ -11,11 +10,12 @@
         <!-- Loading State -->
         <div v-if="loading" class="loading-state">
             <div class="loading-container">
-                <div class="sankey-loader">
-                    <div class="flow flow-1"></div>
-                    <div class="flow flow-2"></div>
-                    <div class="flow flow-3"></div>
-                    <div class="flow flow-4"></div>
+                <div class="chart-bars-loader">
+                    <div class="bar bar-1"></div>
+                    <div class="bar bar-2"></div>
+                    <div class="bar bar-3"></div>
+                    <div class="bar bar-4"></div>
+                    <div class="bar bar-5"></div>
                 </div>
                 <p class="loading-text">Loading check-in data...</p>
             </div>
@@ -25,10 +25,6 @@
         <div v-else class="card-body">
             <!-- Sankey Flow Chart -->
             <div v-if="sankeyData.nodes.length > 0" class="sankey-section">
-                <div class="section-header">
-                    <h4 class="section-title">Check-in Flow</h4>
-                    <p class="section-subtitle">Complete funnel visualization with abandonment points</p>
-                </div>
                 <SankeyChart
                     :data="sankeyData"
                     :height="'500px'"
@@ -43,27 +39,27 @@
                 <div class="table-wrapper">
                     <table class="data-table">
                         <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Checkin Init</th>
-                                <th>Booking Retrieve (%)</th>
-                                <th>Number of Passengers</th>
-                                <th>Completed (%)</th>
-                                <th>Closed with BP (%)</th>
-                                <th>Failed (%)</th>
-                                <th>Failed (Reasons)</th>
+                            <tr class="table-header-row">
+                                <th class="table-header">Date</th>
+                                <th class="table-header">Checkin Init</th>
+                                <th class="table-header">Booking Retrieve (%)</th>
+                                <th class="table-header">Number of Passengers</th>
+                                <th class="table-header">Completed (%)</th>
+                                <th class="table-header">Closed with BP (%)</th>
+                                <th class="table-header">Failed (%)</th>
+                                <th class="table-header">Failed (Reasons)</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr v-for="row in tableData" :key="row.date">
-                                <td class="date-cell">{{ formatDate(row.date) }}</td>
-                                <td>{{ formatNumber(row.checkin_initiated_count) }}</td>
-                                <td>{{ formatValueWithPercentage(row.checkin_init_count, row.checkin_initiated_count) }}</td>
-                                <td>{{ formatNumber(row.checkin_started_count) }}</td>
-                                <td>{{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}</td>
-                                <td>{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</td>
-                                <td>{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</td>
-                                <td class="reasons-cell">
+                        <tbody class="table-body">
+                            <tr v-for="row in tableData" :key="row.date" class="table-row">
+                                <td class="table-cell date-cell">{{ formatDate(row.date) }}</td>
+                                <td class="table-cell text-center">{{ formatNumber(row.checkin_initiated_count) }}</td>
+                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.checkin_init_count, row.checkin_initiated_count) }}</td>
+                                <td class="table-cell text-center">{{ formatNumber(row.checkin_started_count) }}</td>
+                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}</td>
+                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</td>
+                                <td class="table-cell text-center">{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</td>
+                                <td class="table-cell reasons-cell">
                                     <div v-if="row.failed_steps && row.failed_steps.length > 0" class="reasons-list">
                                         <div v-for="step in row.failed_steps" :key="step.step_name" class="reason-item">
                                             <span class="reason-name">{{ formatStepName(step.step_name) }}:</span>
@@ -93,9 +89,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 // Types
 interface CheckinByDay {
@@ -156,6 +153,7 @@ const props = withDefaults(defineProps<{
     checkinData?: CheckinData;
     failedData?: FailedData;
     loading?: boolean;
+    theme?: Theme;
 }>(), {
     checkinData: () => ({
         total_checkin_init: 0,
@@ -172,8 +170,12 @@ const props = withDefaults(defineProps<{
         failed_by_step_by_day: [],
         unrecovered_by_step: [],
     }),
-    loading: false
+    loading: false,
+    theme: undefined
 });
+
+// Theme detection with prop fallback
+const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
 // Utility functions
 const formatNumber = (value: number | undefined): string => {
@@ -431,51 +433,39 @@ const sankeyData = computed(() => {
 
     return { nodes, links };
 });
+
+// Expose isDark for potential use in templates
+defineExpose({ isDark })
 </script>
 
 <style scoped>
 /* Main Card Styles */
 .checkin-metrics-card {
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+    background: var(--kiut-bg-card-gradient);
     border-radius: 20px;
     padding: 28px 32px;
-    box-shadow: 
-        0 1px 3px rgba(0, 0, 0, 0.05),
-        0 10px 15px -3px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--kiut-shadow-card);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
 
 .checkin-metrics-card:hover {
-    box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.05),
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--kiut-shadow-card-hover);
     transform: translateY(-2px);
 }
 
 /* Header Styles */
 .card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     position: relative;
-}
-
-.header-accent {
-    width: 4px;
-    height: 40px;
-    background: linear-gradient(to bottom, #10b981, #14b8a6);
-    border-radius: 4px;
-    flex-shrink: 0;
+    text-align: left;
 }
 
 .header-content {
-    flex: 1;
+    width: 100%;
+    text-align: left;
 }
 
 .card-title {
@@ -483,7 +473,7 @@ const sankeyData = computed(() => {
     margin: 0;
     line-height: 1.3;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #10b981, #047857);
+    background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -495,7 +485,7 @@ const sankeyData = computed(() => {
 .card-subtitle {
     font-size: .875rem;
     font-weight: 400;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     margin: 0px;
     line-height: 1.25rem;
 }
@@ -503,24 +493,6 @@ const sankeyData = computed(() => {
 /* Card Body */
 .card-body {
     animation: fadeIn 0.5s ease-out;
-}
-
-/* Section Headers */
-.section-header {
-    margin-bottom: 16px;
-}
-
-.section-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin: 0 0 4px 0;
-}
-
-.section-subtitle {
-    font-size: 0.875rem;
-    color: #64748b;
-    margin: 0;
 }
 
 /* Sankey Section */
@@ -536,7 +508,7 @@ const sankeyData = computed(() => {
 .table-wrapper {
     overflow-x: auto;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--kiut-border-table);
 }
 
 .data-table {
@@ -546,33 +518,45 @@ const sankeyData = computed(() => {
 }
 
 .data-table thead tr {
-    background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+    background: var(--kiut-bg-table-header);
 }
 
-.data-table th {
+.table-header-row {
+    background: var(--kiut-bg-table-header);
+}
+
+.data-table th,
+.table-header {
     padding: 12px 16px;
     text-align: center;
     font-size: 0.75rem;
     font-weight: 600;
-    color: #475569;
+    color: var(--kiut-text-table-header);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--kiut-border-table);
 }
 
-.data-table td {
+.data-table td,
+.table-cell {
     padding: 12px 16px;
     text-align: center;
-    color: #1e293b;
-    border-bottom: 1px solid #f1f5f9;
+    color: var(--kiut-text-primary);
+    border-bottom: 1px solid var(--kiut-border-table-row);
 }
 
-.data-table tbody tr:hover {
-    background-color: #f8fafc;
+.data-table tbody tr:hover,
+.table-row:hover {
+    background: var(--kiut-bg-table-hover);
 }
 
-.data-table tbody tr:last-child td {
+.data-table tbody tr:last-child td,
+.table-row:last-child {
     border-bottom: none;
+}
+
+.table-body {
+    background: var(--kiut-bg-table);
 }
 
 .date-cell {
@@ -598,16 +582,16 @@ const sankeyData = computed(() => {
 }
 
 .reason-name {
-    color: #64748b;
+    color: var(--kiut-text-secondary);
 }
 
 .reason-count {
     font-weight: 600;
-    color: #ef4444;
+    color: var(--kiut-danger);
 }
 
 .no-reasons {
-    color: #94a3b8;
+    color: var(--kiut-text-muted);
     text-align: center;
 }
 
@@ -631,22 +615,22 @@ const sankeyData = computed(() => {
     justify-content: center;
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    background: var(--kiut-bg-empty-icon);
     border-radius: 20px;
     margin: 0 auto 20px;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
     width: 40px;
     height: 40px;
-    color: #10b981;
+    color: var(--kiut-primary);
 }
 
 .empty-title {
     font-size: 18px;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--kiut-text-primary);
     margin: 0 0 8px 0;
     letter-spacing: -0.01em;
 }
@@ -654,7 +638,7 @@ const sankeyData = computed(() => {
 .empty-description {
     font-size: 14px;
     font-weight: 400;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     line-height: 1.6;
     margin: 0;
 }
@@ -664,7 +648,7 @@ const sankeyData = computed(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 400px;
+    min-height: 380px;
 }
 
 .loading-container {
@@ -675,71 +659,52 @@ const sankeyData = computed(() => {
     width: 100%;
 }
 
-.sankey-loader {
+.chart-bars-loader {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     height: 100px;
     margin-bottom: 24px;
 }
 
-.flow {
-    width: 120px;
-    height: 6px;
-    background: linear-gradient(to right, #10b981, #14b8a6, #06b6d4);
-    border-radius: 3px;
-    animation: flowAnimation 2s ease-in-out infinite;
+.bar {
+    width: 8px;
+    background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
+    border-radius: 4px;
+    animation: wave 1.5s ease-in-out infinite;
+    box-shadow: var(--kiut-shadow-loader);
 }
 
-.flow-1 {
-    animation-delay: 0s;
-    opacity: 0.4;
-}
-
-.flow-2 {
-    animation-delay: 0.15s;
-    opacity: 0.6;
-}
-
-.flow-3 {
-    animation-delay: 0.3s;
-    opacity: 0.8;
-}
-
-.flow-4 {
-    animation-delay: 0.45s;
-    opacity: 1;
-}
+.bar-1 { height: 30%; animation-delay: 0s; }
+.bar-2 { height: 50%; animation-delay: 0.1s; }
+.bar-3 { height: 70%; animation-delay: 0.2s; }
+.bar-4 { height: 50%; animation-delay: 0.3s; }
+.bar-5 { height: 40%; animation-delay: 0.4s; }
 
 .loading-text {
     font-size: 15px;
     font-weight: 500;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     letter-spacing: -0.01em;
 }
 
 /* Animations */
-@keyframes flowAnimation {
+@keyframes wave {
     0%, 100% {
-        transform: scaleX(0.8);
-        opacity: 0.4;
+        transform: scaleY(1);
+        opacity: 0.7;
     }
     50% {
-        transform: scaleX(1);
+        transform: scaleY(1.6);
         opacity: 1;
     }
 }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 @keyframes fadeIn {
@@ -769,11 +734,7 @@ const sankeyData = computed(() => {
     }
 
     .card-header {
-        margin-bottom: 20px;
-    }
-
-    .header-accent {
-        height: 32px;
+        margin-bottom: 24px;
     }
 
     .data-table th,
@@ -787,4 +748,3 @@ const sankeyData = computed(() => {
     }
 }
 </style>
-

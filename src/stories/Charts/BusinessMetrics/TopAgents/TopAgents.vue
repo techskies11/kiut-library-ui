@@ -1,7 +1,6 @@
 <template>
     <article class="top-agents-card">
         <header class="card-header">
-            <div class="header-accent"></div>
             <div class="header-content">
                 <h3 class="card-title">Top Agents</h3>
                 <p class="card-subtitle">Interactions by agent (excluding triage)</p>
@@ -26,11 +25,12 @@
         <!-- Loading state con animación CSS personalizada -->
         <div class="loading-state" v-else>
             <div class="loading-container">
-                <div class="pie-loader">
-                    <div class="pie-slice slice-1"></div>
-                    <div class="pie-slice slice-2"></div>
-                    <div class="pie-slice slice-3"></div>
-                    <div class="pie-slice slice-4"></div>
+                <div class="chart-lines-loader">
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                    <div class="line line-4"></div>
+                    <div class="line line-5"></div>
                 </div>
                 <p class="loading-text">Loading chart data...</p>
             </div>
@@ -39,9 +39,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import PieChart from '../../Pie/PieChart.vue'
 import { ChartPieIcon } from '@heroicons/vue/24/outline'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 // Tipo para un agente individual
 interface TopAgent {
@@ -87,11 +88,16 @@ const props = withDefaults(defineProps<{
     data?: TopAgentsData;
     loading?: boolean;
     options?: Record<string, any>;
+    theme?: Theme;
 }>(), {
     data: () => ({}),
     loading: false,
-    options: undefined
+    options: undefined,
+    theme: undefined
 });
+
+// Theme detection with prop fallback
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
 // Computed que procesa top_agents y genera labels + datasets para el gráfico
 const chartData = computed(() => {
@@ -114,13 +120,13 @@ const chartData = computed(() => {
     );
 
     // Generar colores para cada agente
-    const colors = filteredAgents.map(agent => {
+    const agentColors = filteredAgents.map(agent => {
         const agentKey = agent.agent_type?.toLowerCase();
         return colorMap[agentKey] || '#94a3b8';
     });
 
     // Colores con opacidad para el fondo
-    const backgroundColors = colors.map(color => `${color}80`);
+    const backgroundColors = agentColors.map(color => `${color}80`);
 
     return {
         labels: filteredAgents.map(agent => {
@@ -132,89 +138,88 @@ const chartData = computed(() => {
             {
                 data: filteredAgents.map(agent => agent.conversations),
                 backgroundColor: backgroundColors,
-                borderColor: colors,
+                borderColor: agentColors,
                 borderWidth: 2
             }
         ]
     };
 });
 
-const defaultOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        legend: {
-            position: 'bottom' as const,
-            labels: {
-                usePointStyle: true,
-                padding: 20,
-                font: {
+const chartOptions = computed(() => {
+    if (props.options) return props.options;
+    
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom' as const,
+                labels: {
+                    usePointStyle: true,
+                    padding: 20,
+                    font: {
+                        family: "'DM Sans', sans-serif",
+                        size: 13,
+                        weight: 500 as any,
+                    },
+                    color: colors.value.textSecondary,
+                }
+            },
+            tooltip: {
+                enabled: true,
+                backgroundColor: colors.value.tooltipBg,
+                titleColor: colors.value.tooltipText,
+                bodyColor: colors.value.tooltipText,
+                borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
+                borderWidth: 1,
+                padding: 12,
+                cornerRadius: 8,
+                titleFont: {
                     family: "'DM Sans', sans-serif",
                     size: 13,
+                    weight: 600 as any,
+                },
+                bodyFont: {
+                    family: "'DM Sans', sans-serif",
+                    size: 12,
                     weight: 500 as any,
                 },
-                color: '#475569',
-            }
-        },
-        tooltip: {
-            enabled: true,
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
-            titleColor: '#f1f5f9',
-            bodyColor: '#e2e8f0',
-            borderColor: 'rgba(148, 163, 184, 0.2)',
-            borderWidth: 1,
-            padding: 12,
-            cornerRadius: 8,
-            titleFont: {
-                family: "'DM Sans', sans-serif",
-                size: 13,
-                weight: 600 as any,
-            },
-            bodyFont: {
-                family: "'DM Sans', sans-serif",
-                size: 12,
-                weight: 500 as any,
-            },
-            callbacks: {
-                label: (context: any) => {
-                    const label = (context.label || '').toString().split(' - ')[0];
-                    const value = Number(context.parsed) || 0;
-                    const total = (context.dataset.data || []).reduce(
-                        (acc: number, val: number) => acc + (Number(val) || 0), 
-                        0
-                    );
-                    const percent = total ? ((value / total) * 100) : 0;
-                    return `${label}: ${value.toLocaleString()} (${percent.toFixed(1)}%)`;
+                callbacks: {
+                    label: (context: any) => {
+                        const label = (context.label || '').toString().split(' - ')[0];
+                        const value = Number(context.parsed) || 0;
+                        const total = (context.dataset.data || []).reduce(
+                            (acc: number, val: number) => acc + (Number(val) || 0), 
+                            0
+                        );
+                        const percent = total ? ((value / total) * 100) : 0;
+                        return `${label}: ${value.toLocaleString()} (${percent.toFixed(1)}%)`;
+                    }
                 }
             }
         }
-    }
-};
+    };
+});
 
-const chartOptions = computed(() => props.options || defaultOptions);
+// Expose isDark for potential use in templates
+defineExpose({ isDark })
 </script>
 
 <style scoped>
 /* Main Card Styles */
 .top-agents-card {
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+    background: var(--kiut-bg-card-gradient);
     border-radius: 20px;
     padding: 28px 32px;
-    box-shadow: 
-        0 1px 3px rgba(0, 0, 0, 0.05),
-        0 10px 15px -3px rgba(0, 0, 0, 0.08),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--kiut-shadow-card);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
 }
 
 .top-agents-card:hover {
-    box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.05),
-        0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--kiut-shadow-card-hover);
     transform: translateY(-2px);
 }
 
@@ -227,16 +232,9 @@ const chartOptions = computed(() => props.options || defaultOptions);
     position: relative;
 }
 
-.header-accent {
-    width: 4px;
-    height: 40px;
-    background: linear-gradient(to bottom, #a855f7, #ec4899);
-    border-radius: 4px;
-    flex-shrink: 0;
-}
-
 .header-content {
     flex: 1;
+    text-align: left;
 }
 
 .card-title {
@@ -244,7 +242,7 @@ const chartOptions = computed(() => props.options || defaultOptions);
     margin: 0;
     line-height: 1.3;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #c67dff, #5d4b93);
+    background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -256,7 +254,7 @@ const chartOptions = computed(() => props.options || defaultOptions);
 .card-subtitle {
     font-size: .875rem;
     font-weight: 400;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     margin: 0px;
     line-height: 1.25rem;
 }
@@ -290,22 +288,22 @@ const chartOptions = computed(() => props.options || defaultOptions);
     justify-content: center;
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+    background: var(--kiut-bg-empty-icon);
     border-radius: 20px;
     margin: 0 auto 20px;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+    box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
     width: 40px;
     height: 40px;
-    color: #8b5cf6;
+    color: var(--kiut-primary);
 }
 
 .empty-title {
     font-size: 18px;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--kiut-text-primary);
     margin: 0 0 8px 0;
     letter-spacing: -0.01em;
 }
@@ -313,7 +311,7 @@ const chartOptions = computed(() => props.options || defaultOptions);
 .empty-description {
     font-size: 14px;
     font-weight: 400;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     line-height: 1.6;
     margin: 0;
 }
@@ -334,83 +332,52 @@ const chartOptions = computed(() => props.options || defaultOptions);
     width: 100%;
 }
 
-/* Pie Loader Animation */
-.pie-loader {
-    position: relative;
-    width: 100px;
+.chart-lines-loader {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
     height: 100px;
     margin-bottom: 24px;
-    animation: rotate 3s linear infinite;
 }
 
-.pie-slice {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%);
+.line {
+    width: 8px;
+    background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
+    border-radius: 4px;
+    animation: wave 1.5s ease-in-out infinite;
+    box-shadow: var(--kiut-shadow-loader);
 }
 
-.slice-1 {
-    background: linear-gradient(135deg, #a855f7, #8b5cf6);
-    transform: rotate(0deg);
-    animation: pulse-slice 1.5s ease-in-out infinite;
-}
-
-.slice-2 {
-    background: linear-gradient(135deg, #ec4899, #f472b6);
-    transform: rotate(90deg);
-    animation: pulse-slice 1.5s ease-in-out infinite 0.2s;
-}
-
-.slice-3 {
-    background: linear-gradient(135deg, #06b6d4, #22d3ee);
-    transform: rotate(180deg);
-    animation: pulse-slice 1.5s ease-in-out infinite 0.4s;
-}
-
-.slice-4 {
-    background: linear-gradient(135deg, #f59e0b, #fbbf24);
-    transform: rotate(270deg);
-    animation: pulse-slice 1.5s ease-in-out infinite 0.6s;
-}
+.line-1 { height: 30%; animation-delay: 0s; }
+.line-2 { height: 50%; animation-delay: 0.1s; }
+.line-3 { height: 70%; animation-delay: 0.2s; }
+.line-4 { height: 50%; animation-delay: 0.3s; }
+.line-5 { height: 40%; animation-delay: 0.4s; }
 
 .loading-text {
     font-size: 15px;
     font-weight: 500;
-    color: #64748b;
+    color: var(--kiut-text-secondary);
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     letter-spacing: -0.01em;
 }
 
 /* Animations */
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes pulse-slice {
+@keyframes wave {
     0%, 100% {
-        opacity: 0.6;
-        transform: rotate(var(--rotation, 0deg)) scale(1);
+        transform: scaleY(1);
+        opacity: 0.7;
     }
     50% {
+        transform: scaleY(1.6);
         opacity: 1;
-        transform: rotate(var(--rotation, 0deg)) scale(1.05);
     }
 }
 
 @keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
 @keyframes fadeIn {
@@ -446,10 +413,5 @@ const chartOptions = computed(() => props.options || defaultOptions);
     .chart-section {
         padding-right: 8px;
     }
-
-    .header-accent {
-        height: 32px;
-    }
 }
 </style>
-

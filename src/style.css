@@ -1,16 +1,210 @@
 /*
  * Kiut Library UI - Global Styles
  * 
- * Este archivo contiene estilos globales específicos para los componentes
- * de la librería. NO incluir estilos de reset o del template de Vite aquí.
+ * Este archivo contiene estilos globales y CSS variables para los componentes
+ * de la librería. Soporta modo light y dark automáticamente.
  */
 
-/* Variables CSS para la librería (si se necesitan) */
+/* ============================================
+   CSS Variables - Light Mode (Default)
+   ============================================ */
 :root {
+  /* Brand Colors - Same in both themes */
   --kiut-primary: #8b5cf6;
   --kiut-primary-hover: #7c3aed;
+  --kiut-primary-light: #c67dff;
+  --kiut-primary-default: #5d4b93;
+  --kiut-primary-dark: #4a3a75;
+  
+  /* Status Colors - Same in both themes */
   --kiut-success: #10b981;
   --kiut-warning: #f59e0b;
   --kiut-danger: #ef4444;
   --kiut-info: #3b82f6;
+  
+  /* Backgrounds */
+  --kiut-bg-primary: #f8f9fa;
+  --kiut-bg-secondary: #ffffff;
+  --kiut-bg-card: #ffffff;
+  --kiut-bg-card-gradient: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  --kiut-bg-table: #ffffff;
+  --kiut-bg-table-header: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+  --kiut-bg-table-hover: linear-gradient(to right, #fafafa 0%, #f9fafb 100%);
+  --kiut-bg-chart-wrapper: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  --kiut-bg-empty-icon: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+  --kiut-bg-stats-badge: #fafafa;
+  
+  /* Text Colors */
+  --kiut-text-primary: #1e293b;
+  --kiut-text-secondary: #64748b;
+  --kiut-text-muted: #94a3b8;
+  --kiut-text-table-header: #374151;
+  
+  /* Borders */
+  --kiut-border-color: rgba(93, 75, 147, 0.1);
+  --kiut-border-light: rgba(0, 0, 0, 0.05);
+  --kiut-border-table: #e2e8f0;
+  --kiut-border-table-row: #f3f4f6;
+  
+  /* Grid Lines (Charts) */
+  --kiut-grid-lines: rgba(148, 163, 184, 0.12);
+  
+  /* Shadows */
+  --kiut-shadow-card: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 10px 15px -3px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  --kiut-shadow-card-hover: 
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.15);
+  --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.4);
+  
+  /* Tooltips (Charts) */
+  --kiut-tooltip-bg: rgba(15, 23, 42, 0.95);
+  --kiut-tooltip-text: #f1f5f9;
+  --kiut-tooltip-text-secondary: #e2e8f0;
+  --kiut-tooltip-border: rgba(148, 163, 184, 0.2);
+  
+  /* Chart Specific */
+  --kiut-chart-legend-color: #475569;
+  --kiut-chart-tick-color: #64748b;
+}
+
+/* ============================================
+   CSS Variables - Dark Mode
+   ============================================ */
+:root.dark,
+.dark {
+  /* Backgrounds */
+  --kiut-bg-primary: #000000;
+  --kiut-bg-secondary: #1a1a1d;
+  --kiut-bg-card: #1a1a1d;
+  --kiut-bg-card-gradient: linear-gradient(to bottom, #1a1a1d 0%, #0f0f11 100%);
+  --kiut-bg-table: #1a1a1d;
+  --kiut-bg-table-header: linear-gradient(to bottom, #252528 0%, #1f1f22 100%);
+  --kiut-bg-table-hover: linear-gradient(to right, #252528 0%, #1f1f22 100%);
+  --kiut-bg-chart-wrapper: linear-gradient(to bottom, #252528 0%, #1a1a1d 100%);
+  --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
+  --kiut-bg-stats-badge: #252528;
+  
+  /* Text Colors */
+  --kiut-text-primary: #f8f9fa;
+  --kiut-text-secondary: #9ca3af;
+  --kiut-text-muted: #6b7280;
+  --kiut-text-table-header: #d1d5db;
+  
+  /* Borders */
+  --kiut-border-color: rgba(198, 125, 255, 0.15);
+  --kiut-border-light: rgba(198, 125, 255, 0.08);
+  --kiut-border-table: rgba(198, 125, 255, 0.15);
+  --kiut-border-table-row: rgba(198, 125, 255, 0.08);
+  
+  /* Grid Lines (Charts) */
+  --kiut-grid-lines: rgba(198, 125, 255, 0.12);
+  
+  /* Shadows */
+  --kiut-shadow-card: 
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 10px 15px -3px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(198, 125, 255, 0.1);
+  --kiut-shadow-card-hover: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 20px 25px -5px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(198, 125, 255, 0.15);
+  --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
+  --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
+  
+  /* Tooltips (Charts) */
+  --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
+  --kiut-tooltip-text: #f8f9fa;
+  --kiut-tooltip-text-secondary: #d1d5db;
+  --kiut-tooltip-border: rgba(198, 125, 255, 0.2);
+  
+  /* Chart Specific */
+  --kiut-chart-legend-color: #d1d5db;
+  --kiut-chart-tick-color: #9ca3af;
+}
+
+/* ============================================
+   Gradient for titles (works in both themes)
+   ============================================ */
+.kiut-title-gradient {
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   Storybook Wrapper Styles
+   ============================================ */
+.storybook-wrapper {
+  min-height: 100vh;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.storybook-wrapper.light-mode {
+  background-color: var(--kiut-bg-primary);
+}
+
+.storybook-wrapper.dark-mode {
+  background-color: var(--kiut-bg-primary);
+}
+
+/* Ensure dark mode variables are applied to dark-mode wrapper */
+.storybook-wrapper.dark-mode {
+  /* Backgrounds */
+  --kiut-bg-primary: #000000;
+  --kiut-bg-secondary: #1a1a1d;
+  --kiut-bg-card: #1a1a1d;
+  --kiut-bg-card-gradient: linear-gradient(to bottom, #1a1a1d 0%, #0f0f11 100%);
+  --kiut-bg-table: #1a1a1d;
+  --kiut-bg-table-header: linear-gradient(to bottom, #252528 0%, #1f1f22 100%);
+  --kiut-bg-table-hover: linear-gradient(to right, #252528 0%, #1f1f22 100%);
+  --kiut-bg-chart-wrapper: linear-gradient(to bottom, #252528 0%, #1a1a1d 100%);
+  --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
+  --kiut-bg-stats-badge: #252528;
+  
+  /* Text Colors */
+  --kiut-text-primary: #f8f9fa;
+  --kiut-text-secondary: #9ca3af;
+  --kiut-text-muted: #6b7280;
+  --kiut-text-table-header: #d1d5db;
+  
+  /* Borders */
+  --kiut-border-color: rgba(198, 125, 255, 0.15);
+  --kiut-border-light: rgba(198, 125, 255, 0.08);
+  --kiut-border-table: rgba(198, 125, 255, 0.15);
+  --kiut-border-table-row: rgba(198, 125, 255, 0.08);
+  
+  /* Grid Lines (Charts) */
+  --kiut-grid-lines: rgba(198, 125, 255, 0.12);
+  
+  /* Shadows */
+  --kiut-shadow-card: 
+    0 1px 3px rgba(0, 0, 0, 0.3),
+    0 10px 15px -3px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(198, 125, 255, 0.1);
+  --kiut-shadow-card-hover: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 20px 25px -5px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(198, 125, 255, 0.15);
+  --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
+  --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
+  
+  /* Tooltips (Charts) */
+  --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
+  --kiut-tooltip-text: #f8f9fa;
+  --kiut-tooltip-text-secondary: #d1d5db;
+  --kiut-tooltip-border: rgba(198, 125, 255, 0.2);
+  
+  /* Chart Specific */
+  --kiut-chart-legend-color: #d1d5db;
+  --kiut-chart-tick-color: #9ca3af;
 }

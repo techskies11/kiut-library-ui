@@ -6,7 +6,7 @@
           <h3 class="card-title">Seller Metrics</h3>
           <p class="card-subtitle">Sales performance and failure analysis</p>
         </div>
-        <div class="total-sales-badge" v-if="!props.loading">
+        <div class="stats-badge" v-if="!props.loading">
           <p class="badge-label">Total Sales Value</p>
           <p class="badge-value">{{ useCurrencyFormat(props.sellerData.total_value_sell_success) }}</p>
         </div>
@@ -120,10 +120,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 interface FailedReason {
   reason: string;
@@ -163,6 +164,7 @@ const props = withDefaults(defineProps<{
   sellerData?: SellerData;
   failedData?: FailedData;
   loading?: boolean;
+  theme?: Theme;
 }>(), {
   sellerData: () => ({
     total_seller_conversations: 0,
@@ -177,8 +179,12 @@ const props = withDefaults(defineProps<{
     total_sell_failed: 0,
     failed_by_reason_by_day: [],
   }),
-  loading: false
+  loading: false,
+  theme: undefined
 })
+
+// Theme detection with prop fallback
+const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
 // Computed para combinar y ordenar los datos de la tabla
 const tableData = computed(() => {
@@ -385,29 +391,25 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   return `${formattedValue} (${percentage})`
 }
 
+// Expose isDark for potential use in templates
+defineExpose({ isDark })
 </script>
 
 <style scoped>
 /* Main Card Styles */
 .seller-metrics-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  background: var(--kiut-bg-card-gradient);
   border-radius: 20px;
   padding: 28px 32px;
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
 .seller-metrics-card:hover {
-  box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.05),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card-hover);
   transform: translateY(-2px);
 }
 
@@ -415,6 +417,7 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 .card-header {
   margin-bottom: 28px;
   position: relative;
+  text-align: left;
 }
 
 .header-content {
@@ -434,7 +437,7 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #c67dff, #5d4b93);
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -446,43 +449,46 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 .card-subtitle {
   font-size: .875rem;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0px;
   line-height: 1.25rem;
 }
 
-.total-sales-badge {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 16px;
-  padding: 16px 24px;
-  min-width: 140px;
+/* Stats Badge - KPI Style */
+.stats-badge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--kiut-bg-stats-badge);
+  border: 1px solid var(--kiut-border-light);
+  border-radius: 10px;
+  transition: all 0.2s ease;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 80px;
 }
 
-.total-sales-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+.stats-badge:hover {
+  background: var(--kiut-bg-card);
+  border-color: var(--kiut-border-color);
 }
 
 .badge-label {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: #047857;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 4px 0;
+  font-weight: 500;
+  color: var(--kiut-text-secondary);
+  line-height: 1.2;
+  margin: 0;
 }
 
 .badge-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #065f46;
-  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--kiut-text-primary);
   letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
 }
 
 /* Card Body */
@@ -497,11 +503,11 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 }
 
 .chart-wrapper {
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   padding: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--kiut-border-light);
+  box-shadow: var(--kiut-shadow-chart-wrapper);
 }
 
 /* Table Section */
@@ -512,9 +518,9 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 .table-wrapper {
   overflow-x: auto;
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  background: white;
+  border: 1px solid var(--kiut-border-table);
+  box-shadow: var(--kiut-shadow-chart-wrapper);
+  background: var(--kiut-bg-table);
 }
 
 .data-table {
@@ -525,7 +531,7 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 }
 
 .table-header-row {
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+  background: var(--kiut-bg-table-header);
 }
 
 .table-header {
@@ -533,10 +539,10 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   text-align: center;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--kiut-text-table-header);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid var(--kiut-border-table);
 }
 
 .table-header:first-child {
@@ -548,16 +554,16 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 }
 
 .table-body {
-  background: white;
+  background: var(--kiut-bg-table);
 }
 
 .table-row {
   transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--kiut-border-table-row);
 }
 
 .table-row:hover {
-  background: linear-gradient(to right, #fafafa 0%, #f9fafb 100%);
+  background: var(--kiut-bg-table-hover);
 }
 
 .table-row:last-child {
@@ -567,13 +573,13 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 .table-cell {
   padding: 16px 12px;
   font-size: 0.875rem;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   white-space: nowrap;
 }
 
 .success-value {
   font-weight: 600;
-  color: #059669;
+  color: var(--kiut-success);
 }
 
 .failed-reasons {
@@ -590,18 +596,18 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 }
 
 .reason-name {
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   text-transform: capitalize;
 }
 
 .reason-count {
   font-weight: 600;
-  color: #ef4444;
+  color: var(--kiut-danger);
 }
 
 .empty-cell {
   text-align: center;
-  color: #cbd5e1;
+  color: var(--kiut-text-muted);
 }
 
 /* Empty State */
@@ -624,22 +630,22 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+  background: var(--kiut-bg-empty-icon);
   border-radius: 20px;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+  box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
   width: 40px;
   height: 40px;
-  color: #8b5cf6;
+  color: var(--kiut-primary);
 }
 
 .empty-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -647,7 +653,7 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 .empty-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -679,10 +685,10 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 
 .flow-line {
   width: 10px;
-  background: linear-gradient(to top, #c67dff 0%, #8b5cf6 50%, #7c3aed 100%);
+  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
   border-radius: 5px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  box-shadow: var(--kiut-shadow-loader);
 }
 
 .flow-1 {
@@ -713,7 +719,7 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -773,8 +779,8 @@ const formatValueWithPercentage = (value: number, total: number): string => {
     gap: 16px;
   }
 
-  .total-sales-badge {
-    width: 100%;
+  .stats-badge {
+    min-width: auto;
   }
 
   .card-title {
@@ -804,4 +810,3 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   }
 }
 </style>
-

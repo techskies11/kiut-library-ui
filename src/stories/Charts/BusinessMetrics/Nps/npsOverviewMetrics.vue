@@ -62,8 +62,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import HistogramChart from '../../Histogram/HistogramChart.vue'
+import { useThemeDetection } from '../../../../composables/useThemeDetection'
 
 const props = defineProps({
   data: {
@@ -73,8 +74,15 @@ const props = defineProps({
   loading: {
     type: Boolean,
     default: false
+  },
+  theme: {
+    type: String,
+    default: undefined
   }
 })
+
+// Theme detection with prop fallback
+const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
 const npsData = computed(() => props.data)
 
@@ -85,29 +93,26 @@ const chartWidth = computed(() => {
 const chartHeight = 500
 const chartMargin = 60
 const chartBottomMargin = 80
+
+// Expose isDark for potential use in templates
+defineExpose({ isDark })
 </script>
 
 <style scoped>
 /* Main Card Styles - Consistente con otros componentes */
 .nps-overview-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  background: var(--kiut-bg-card-gradient);
   border-radius: 20px;
   padding: 28px 32px;
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
 .nps-overview-card:hover {
-  box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.05),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card-hover);
   transform: translateY(-2px);
 }
 
@@ -127,6 +132,7 @@ const chartBottomMargin = 80
 
 .title-section {
   flex: 1;
+  text-align: left;
 }
 
 .card-title {
@@ -134,7 +140,7 @@ const chartBottomMargin = 80
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #c67dff, #5d4b93);
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -146,44 +152,46 @@ const chartBottomMargin = 80
 .card-subtitle {
   font-size: .875rem;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0px;
   line-height: 1.25rem;
 }
 
-/* Stats Badge */
+/* Stats Badge - KPI Style */
 .stats-badge {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 16px;
-  padding: 16px 24px;
-  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  background: var(--kiut-bg-stats-badge);
+  border: 1px solid var(--kiut-border-light);
+  border-radius: 10px;
+  transition: all 0.2s ease;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 80px;
 }
 
 .stats-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+  background: var(--kiut-bg-card);
+  border-color: var(--kiut-border-color);
 }
 
 .badge-label {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: #047857;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 4px 0;
+  font-weight: 500;
+  color: var(--kiut-text-secondary);
+  line-height: 1.2;
+  margin: 0;
 }
 
 .badge-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #065f46;
-  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--kiut-text-primary);
   letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0;
 }
 
 /* Card Body */
@@ -193,11 +201,11 @@ const chartBottomMargin = 80
 
 /* Chart Wrapper */
 .chart-wrapper {
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   padding: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--kiut-border-light);
+  box-shadow: var(--kiut-shadow-chart-wrapper);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -224,22 +232,22 @@ const chartBottomMargin = 80
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+  background: var(--kiut-bg-empty-icon);
   border-radius: 20px;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+  box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
   width: 40px;
   height: 40px;
-  color: #8b5cf6;
+  color: var(--kiut-primary);
 }
 
 .empty-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -247,7 +255,7 @@ const chartBottomMargin = 80
 .empty-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -279,10 +287,10 @@ const chartBottomMargin = 80
 
 .flow-line {
   width: 10px;
-  background: linear-gradient(to top, #c67dff 0%, #8b5cf6 50%, #7c3aed 100%);
+  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
   border-radius: 5px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  box-shadow: var(--kiut-shadow-loader);
 }
 
 .flow-1 { height: 35%; animation-delay: 0s; }
@@ -294,7 +302,7 @@ const chartBottomMargin = 80
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -340,7 +348,7 @@ const chartBottomMargin = 80
   }
 
   .stats-badge {
-    width: 100%;
+    min-width: auto;
   }
 
   .card-title {
