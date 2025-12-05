@@ -1,10 +1,11 @@
 <template>
   <div class="chart-container">
-    <Line :data="chartData" :options="chartOptions" />
+    <Line :data="chartData" :options="computedOptions" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed, toRef } from 'vue';
 import { Line } from 'vue-chartjs';
 import {
   Chart as ChartJS,
@@ -17,6 +18,7 @@ import {
   Legend,
   Filler
 } from 'chart.js';
+import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 
 const props = defineProps<{
   data: {
@@ -31,6 +33,7 @@ const props = defineProps<{
     }>;
   };
   options?: Record<string, any>;
+  theme?: Theme;
 }>();
 
 ChartJS.register(
@@ -44,6 +47,9 @@ ChartJS.register(
   Filler
 );
 
+// Theme detection with prop fallback
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'));
+
 const chartData = props.data;
 
 // Función para capitalizar texto
@@ -54,146 +60,152 @@ const capitalizeText = (text: any): any => {
   return text;
 };
 
-const defaultOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  interaction: {
-    mode: 'index' as const,
-    intersect: false,
-  },
-  plugins: {
-    legend: {
-      display: true,
-      position: 'top' as const,
-      align: 'end' as const,
-      labels: {
-        font: {
+// Computed options that react to theme changes
+const computedOptions = computed(() => {
+  if (props.options) return props.options;
+  
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: {
+      mode: 'index' as const,
+      intersect: false,
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top' as const,
+        align: 'end' as const,
+        labels: {
+          font: {
+            family: "'DM Sans', sans-serif",
+            size: 13,
+            weight: 500 as any,
+          },
+          color: colors.value.textSecondary,
+          padding: 12,
+          boxWidth: 12,
+          boxHeight: 12,
+          borderRadius: 4,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          generateLabels: function(chart: any) {
+            const datasets = chart.data.datasets;
+            return datasets.map((dataset: any, i: number) => ({
+              text: capitalizeText(dataset.label || ''),
+              fillStyle: dataset.backgroundColor,
+              strokeStyle: dataset.borderColor,
+              lineWidth: dataset.borderWidth,
+              hidden: !chart.isDatasetVisible(i),
+              index: i,
+              datasetIndex: i,
+            }));
+          },
+        },
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: colors.value.tooltipBg,
+        titleColor: colors.value.tooltipText,
+        bodyColor: isDark.value ? '#d1d5db' : '#e2e8f0',
+        borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
+        borderWidth: 1,
+        padding: 12,
+        cornerRadius: 8,
+        displayColors: true,
+        titleFont: {
           family: "'DM Sans', sans-serif",
           size: 13,
-          weight: 500 as any,
+          weight: 600 as any,
         },
-        color: '#475569',
-        padding: 12,
-        boxWidth: 12,
-        boxHeight: 12,
-        borderRadius: 4,
-        usePointStyle: true,
-        pointStyle: 'circle',
-        generateLabels: function(chart: any) {
-          const datasets = chart.data.datasets;
-          return datasets.map((dataset: any, i: number) => ({
-            text: capitalizeText(dataset.label || ''),
-            fillStyle: dataset.backgroundColor,
-            strokeStyle: dataset.borderColor,
-            lineWidth: dataset.borderWidth,
-            hidden: !chart.isDatasetVisible(i),
-            index: i,
-            datasetIndex: i,
-          }));
-        },
-      },
-    },
-    tooltip: {
-      enabled: true,
-      backgroundColor: 'rgba(15, 23, 42, 0.95)',
-      titleColor: '#f1f5f9',
-      bodyColor: '#e2e8f0',
-      borderColor: 'rgba(148, 163, 184, 0.2)',
-      borderWidth: 1,
-      padding: 12,
-      cornerRadius: 8,
-      displayColors: true,
-      titleFont: {
-        family: "'DM Sans', sans-serif",
-        size: 13,
-        weight: 600 as any,
-      },
-      bodyFont: {
-        family: "'DM Sans', sans-serif",
-        size: 12,
-        weight: 500 as any,
-      },
-      boxPadding: 6,
-      callbacks: {
-        title: function(tooltipItems: any[]): string {
-          return tooltipItems.length > 0 ? String(capitalizeText(tooltipItems[0].label)) : '';
-        },
-        label: function(context: any): string {
-          let label = String(capitalizeText(context.dataset.label || ''));
-          if (label) {
-            label += ': ';
-          }
-          if (context.parsed.y !== null) {
-            label += context.parsed.y;
-          }
-          return label;
-        },
-      },
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      border: {
-        display: false,
-      },
-      grid: {
-        color: 'rgba(148, 163, 184, 0.12)',
-        lineWidth: 1,
-        drawTicks: false,
-      },
-      ticks: {
-        font: {
+        bodyFont: {
           family: "'DM Sans', sans-serif",
           size: 12,
           weight: 500 as any,
         },
-        color: '#64748b',
-        padding: 8,
-        callback: function(tickValue: any) {
-          return capitalizeText(tickValue);
+        boxPadding: 6,
+        callbacks: {
+          title: function(tooltipItems: any[]): string {
+            return tooltipItems.length > 0 ? String(capitalizeText(tooltipItems[0].label)) : '';
+          },
+          label: function(context: any): string {
+            let label = String(capitalizeText(context.dataset.label || ''));
+            if (label) {
+              label += ': ';
+            }
+            if (context.parsed.y !== null) {
+              label += context.parsed.y;
+            }
+            return label;
+          },
         },
       },
     },
-    x: {
-      border: {
-        display: false,
-      },
-      grid: {
-        display: false,
-      },
-      ticks: {
-        font: {
-          family: "'DM Sans', sans-serif",
-          size: 12,
-          weight: 500 as any,
+    scales: {
+      y: {
+        beginAtZero: true,
+        border: {
+          display: false,
         },
-        color: '#64748b',
-        padding: 8,
-        callback: function(value: any): any {
-          const label = (this as any).getLabelForValue(value);
-          return capitalizeText(label);
+        grid: {
+          color: colors.value.gridLines,
+          lineWidth: 1,
+          drawTicks: false,
+        },
+        ticks: {
+          font: {
+            family: "'DM Sans', sans-serif",
+            size: 12,
+            weight: 500 as any,
+          },
+          color: colors.value.textSecondary,
+          padding: 8,
+          callback: function(tickValue: any) {
+            return capitalizeText(tickValue);
+          },
+        },
+      },
+      x: {
+        border: {
+          display: false,
+        },
+        grid: {
+          display: false,
+        },
+        ticks: {
+          font: {
+            family: "'DM Sans', sans-serif",
+            size: 12,
+            weight: 500 as any,
+          },
+          color: colors.value.textSecondary,
+          padding: 8,
+          callback: function(value: any): any {
+            const label = (this as any).getLabelForValue(value);
+            return capitalizeText(label);
+          },
         },
       },
     },
-  },
-  elements: {
-    line: {
-      tension: 0.4,
-      borderWidth: 2.5,
-      borderCapStyle: 'round' as const,
+    elements: {
+      line: {
+        tension: 0.4,
+        borderWidth: 2.5,
+        borderCapStyle: 'round' as const,
+      },
+      point: {
+        radius: 4,
+        hoverRadius: 6,
+        borderWidth: 2,
+        backgroundColor: isDark.value ? '#1a1a1d' : '#ffffff',
+        hoverBorderWidth: 3,
+      },
     },
-    point: {
-      radius: 4,
-      hoverRadius: 6,
-      borderWidth: 2,
-      backgroundColor: '#ffffff',
-      hoverBorderWidth: 3,
-    },
-  },
-};
+  };
+});
 
-const chartOptions = props.options || defaultOptions;
+// Expose isDark for potential use in templates
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -202,6 +214,7 @@ const chartOptions = props.options || defaultOptions;
     height: 100%;
     min-height: 300px;
     max-height: 420px;
+    background: var(--kiut-bg-chart-wrapper);
     border-radius: 16px;
     position: relative;
   }

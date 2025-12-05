@@ -14,16 +14,16 @@
           :y="-tooltip.height - 10"
           :width="tooltip.width"
           :height="tooltip.height"
-          fill="rgba(15, 23, 42, 0.95)"
+          :fill="svgColors.tooltipBg"
           rx="8"
-          stroke="rgba(148, 163, 184, 0.2)"
+          :stroke="svgColors.tooltipBorder"
           stroke-width="1"
         />
         <text
           x="0"
           :y="-tooltip.height + 8"
           text-anchor="middle"
-          fill="#f1f5f9"
+          :fill="svgColors.tooltipText"
           font-size="13"
           font-weight="600"
           font-family="'DM Sans', sans-serif"
@@ -35,7 +35,7 @@
           x="0"
           :y="-tooltip.height + 26"
           text-anchor="middle"
-          fill="#e2e8f0"
+          :fill="svgColors.tooltipTextSecondary"
           font-size="11"
           font-weight="500"
           font-family="'DM Sans', sans-serif"
@@ -51,14 +51,14 @@
         :y1="chartMargin"
         :x2="chartMargin"
         :y2="chartHeight - chartBottomMargin"
-        stroke="#475569"
+        :stroke="svgColors.axis"
         stroke-width="2"
       />
       
       <!-- Y-axis arrow -->
       <polygon
         :points="`${chartMargin - 4},${chartMargin} ${chartMargin + 4},${chartMargin} ${chartMargin},${chartMargin - 10}`"
-        fill="#475569"
+        :fill="svgColors.axis"
       />
       
       <!-- Grid lines -->
@@ -68,7 +68,7 @@
           :y1="tick.y"
           :x2="chartWidth - chartMargin"
           :y2="tick.y"
-          stroke="#e5e7eb"
+          :stroke="svgColors.gridLine"
           stroke-width="1"
           stroke-dasharray="4,4"
           opacity="0.6"
@@ -82,14 +82,14 @@
           :y1="tick.y"
           :x2="chartMargin"
           :y2="tick.y"
-          stroke="#cbd5e1"
+          :stroke="svgColors.tickLine"
           stroke-width="1"
         />
         <text
           :x="chartMargin - 12"
           :y="tick.y + 4"
           text-anchor="end"
-          fill="#64748b"
+          :fill="svgColors.tickText"
           font-size="12"
           font-weight="500"
           font-family="'DM Sans', sans-serif"
@@ -103,7 +103,7 @@
         :x="chartMargin - 35"
         :y="chartHeight / 2"
         text-anchor="middle"
-        fill="#475569"
+        :fill="svgColors.labelText"
         font-size="14"
         font-weight="600"
         font-family="'DM Sans', sans-serif"
@@ -118,14 +118,14 @@
         :y1="chartHeight - chartBottomMargin"
         :x2="chartWidth - chartMargin"
         :y2="chartHeight - chartBottomMargin"
-        stroke="#475569"
+        :stroke="svgColors.axis"
         stroke-width="2"
       />
       
       <!-- X-axis arrow -->
       <polygon
         :points="`${chartWidth - chartMargin},${chartHeight - chartBottomMargin - 4} ${chartWidth - chartMargin},${chartHeight - chartBottomMargin + 4} ${chartWidth - chartMargin + 10},${chartHeight - chartBottomMargin}`"
-        fill="#475569"
+        :fill="svgColors.axis"
       />
       
       <!-- Candlesticks -->
@@ -198,7 +198,7 @@
             :cy="candle.lowY"
             r="5"
             fill="#5d4b93"
-            stroke="#ffffff"
+            :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
             @mouseenter="showTooltip($event, candle, 'min')"
@@ -210,7 +210,7 @@
             :cy="candle.highY"
             r="5"
             fill="#C67DFF"
-            stroke="#ffffff"
+            :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
             @mouseenter="showTooltip($event, candle, 'max')"
@@ -224,7 +224,7 @@
           :x="candle.centerX"
           :y="chartHeight - chartBottomMargin + 22"
           text-anchor="middle"
-          fill="#475569"
+          :fill="svgColors.labelText"
           font-size="13"
           font-weight="600"
           font-family="'DM Sans', sans-serif"
@@ -236,7 +236,7 @@
           :x="candle.centerX"
           :y="chartHeight - chartBottomMargin + 38"
           text-anchor="middle"
-          fill="#64748b"
+          :fill="svgColors.tickText"
           font-size="11"
           font-weight="500"
           font-family="'DM Sans', sans-serif"
@@ -249,8 +249,8 @@
       <g v-if="showLegend" :transform="`translate(${chartWidth / 2}, ${chartMargin - 35})`">
         <!-- Min -->
         <g transform="translate(-180, 0)">
-          <circle cx="0" cy="0" r="5" fill="#5d4b93" stroke="#ffffff" stroke-width="1.5" />
-          <text x="10" y="4" fill="#475569" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
+          <circle cx="0" cy="0" r="5" fill="#5d4b93" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Min
           </text>
         </g>
@@ -258,7 +258,7 @@
         <!-- Q1 -->
         <g transform="translate(-120, 0)">
           <rect x="-6" y="-6" width="12" height="12" fill="rgba(198, 125, 255, 0.15)" stroke="#C67DFF" stroke-width="1.5" rx="2" />
-          <text x="10" y="4" fill="#475569" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
+          <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Q1
           </text>
         </g>
@@ -266,15 +266,15 @@
         <!-- Q3 -->
         <g transform="translate(-60, 0)">
           <rect x="-6" y="-6" width="12" height="12" fill="rgba(198, 125, 255, 0.15)" stroke="#C67DFF" stroke-width="1.5" rx="2" />
-          <text x="10" y="4" fill="#475569" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
+          <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Q3
           </text>
         </g>
         
         <!-- Max -->
         <g transform="translate(0, 0)">
-          <circle cx="0" cy="0" r="5" fill="#C67DFF" stroke="#ffffff" stroke-width="1.5" />
-          <text x="10" y="4" fill="#475569" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
+          <circle cx="0" cy="0" r="5" fill="#C67DFF" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Max
           </text>
         </g>
@@ -282,7 +282,7 @@
         <!-- Average -->
         <g transform="translate(60, 0)">
           <line x1="0" y1="0" x2="14" y2="0" stroke="#f97316" stroke-width="2.5" stroke-dasharray="6,4" />
-          <text x="18" y="4" fill="#475569" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
+          <text x="18" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Avg
           </text>
         </g>
@@ -290,7 +290,7 @@
         <!-- Median -->
         <g transform="translate(130, 0)">
           <line x1="0" y1="0" x2="14" y2="0" stroke="#8b5cf6" stroke-width="2.5" />
-          <text x="18" y="4" fill="#475569" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
+          <text x="18" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Median
           </text>
         </g>
@@ -300,7 +300,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, toRef } from 'vue';
+import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 
 interface CandlestickData {
   label: string;
@@ -330,6 +331,7 @@ const props = withDefaults(defineProps<{
   candleWidth?: number;
   showLegend?: boolean;
   yAxisLabel?: string;
+  theme?: Theme;
 }>(), {
   chartWidth: 800,
   chartHeight: 400,
@@ -338,7 +340,32 @@ const props = withDefaults(defineProps<{
   candleWidth: 35,
   showLegend: true,
   yAxisLabel: 'score',
+  theme: undefined
 });
+
+// Theme detection with prop fallback
+const { isDark } = useThemeDetection(toRef(props, 'theme'));
+
+// SVG colors based on theme
+const svgColors = computed(() => ({
+  // Tooltip
+  tooltipBg: isDark.value ? 'rgba(26, 26, 29, 0.98)' : 'rgba(15, 23, 42, 0.95)',
+  tooltipBorder: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
+  tooltipText: isDark.value ? '#f8f9fa' : '#f1f5f9',
+  tooltipTextSecondary: isDark.value ? '#d1d5db' : '#e2e8f0',
+  // Axis
+  axis: isDark.value ? '#9ca3af' : '#475569',
+  // Grid
+  gridLine: isDark.value ? '#374151' : '#e5e7eb',
+  // Ticks
+  tickLine: isDark.value ? '#4b5563' : '#cbd5e1',
+  tickText: isDark.value ? '#9ca3af' : '#64748b',
+  // Labels
+  labelText: isDark.value ? '#d1d5db' : '#475569',
+  legendText: isDark.value ? '#d1d5db' : '#475569',
+  // Dots
+  dotStroke: isDark.value ? '#1a1a1d' : '#ffffff',
+}));
 
 const tooltip = ref({
   visible: false,
@@ -439,6 +466,9 @@ const yAxisTicks = computed(() => {
   
   return ticks;
 });
+
+// Expose isDark for potential use
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -447,7 +477,7 @@ const yAxisTicks = computed(() => {
   height: 100%;
   min-height: 400px;
   max-height: 500px;
-  background: linear-gradient(to bottom, #ffffff 0%, #fefefe 100%);
+  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   position: relative;
 }
@@ -498,4 +528,3 @@ const yAxisTicks = computed(() => {
   }
 }
 </style>
-

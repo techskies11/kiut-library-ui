@@ -35,11 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch, nextTick, toRef, computed } from 'vue';
 import * as echarts from 'echarts/core';
 import { TooltipComponent, TitleComponent } from 'echarts/components';
 import { SankeyChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
+import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 
 echarts.use([TooltipComponent, TitleComponent, SankeyChart, CanvasRenderer]);
 
@@ -69,6 +70,7 @@ const props = withDefaults(defineProps<{
   nodeColors?: Record<string, string>;
   useGradient?: boolean;
   nodeGap?: number;
+  theme?: Theme;
 }>(), {
   data: () => ({ nodes: [], links: [] }),
   title: '',
@@ -76,7 +78,11 @@ const props = withDefaults(defineProps<{
   nodeColors: () => ({}),
   useGradient: true,
   nodeGap: 20,
+  theme: undefined
 });
+
+// Theme detection with prop fallback
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'));
 
 const chartEl = ref<HTMLElement | null>(null);
 const isLoading = ref(true);
@@ -135,6 +141,8 @@ const createNodesWithColors = (nodes: SankeyNode[]) =>
 
 const createTooltipFormatter = (validLinks: SankeyLink[]) => (params: any) => {
   const isNode = params.dataType === 'node';
+  const tooltipTextColor = colors.value.tooltipText;
+  const tooltipSecondaryColor = isDark.value ? '#d1d5db' : '#e2e8f0';
 
   if (isNode) {
     const incomingLinks = validLinks.filter(link => link.target === params.name);
@@ -145,7 +153,7 @@ const createTooltipFormatter = (validLinks: SankeyLink[]) => (params: any) => {
         ? incomingLinks.reduce((sum, link) => sum + (link.originalValue || link.value), 0)
         : outgoingLinks.reduce((sum, link) => sum + (link.originalValue || link.value), 0);
 
-    return `<div style="font-weight: 600; margin-bottom: 4px; color: #f1f5f9;">${params.name}</div><div style="color: #e2e8f0; font-size: 12px;">Count: ${actualValue.toLocaleString()}</div>`;
+    return `<div style="font-weight: 600; margin-bottom: 4px; color: ${tooltipTextColor};">${params.name}</div><div style="color: ${tooltipSecondaryColor}; font-size: 12px;">Count: ${actualValue.toLocaleString()}</div>`;
   }
 
   const sourceName = params.data?.source || params.source || 'Unknown';
@@ -153,7 +161,7 @@ const createTooltipFormatter = (validLinks: SankeyLink[]) => (params: any) => {
   const originalValue = params.data?.originalValue || params.data?.value || params.value || 0;
   const label = params.data?.label || `${originalValue.toLocaleString()}`;
   
-  return `<div style="font-weight: 600; margin-bottom: 4px; color: #f1f5f9;">${sourceName} → ${targetName}</div><div style="color: #e2e8f0; font-size: 12px;">Flow: ${label}</div>`;
+  return `<div style="font-weight: 600; margin-bottom: 4px; color: ${tooltipTextColor};">${sourceName} → ${targetName}</div><div style="color: ${tooltipSecondaryColor}; font-size: 12px;">Flow: ${label}</div>`;
 };
 
 const setOptions = () => {
@@ -168,13 +176,13 @@ const setOptions = () => {
         trigger: 'item',
         triggerOn: 'mousemove',
         formatter: createTooltipFormatter(validLinks),
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(148, 163, 184, 0.2)',
+        backgroundColor: colors.value.tooltipBg,
+        borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
         borderWidth: 1,
         borderRadius: 8,
         padding: [10, 14],
         textStyle: {
-          color: '#f1f5f9',
+          color: colors.value.tooltipText,
           fontSize: 13,
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 500,
@@ -227,7 +235,7 @@ const setOptions = () => {
           edgeLabel: {
             show: true,
             fontSize: 11,
-            color: '#475569',
+            color: colors.value.textSecondary,
             fontWeight: 600,
             fontFamily: "'DM Sans', sans-serif",
             formatter: (params: any) => {
@@ -300,6 +308,10 @@ const cleanup = () => {
 onMounted(() => chartEl.value && waitForContainerAndInit());
 onBeforeUnmount(cleanup);
 watch(() => props.data, setOptions, { deep: true });
+watch(isDark, setOptions); // Re-render when theme changes
+
+// Expose isDark for potential use in templates
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -330,21 +342,21 @@ watch(() => props.data, setOptions, { deep: true });
 .error-icon {
   width: 48px;
   height: 48px;
-  color: #ef4444;
+  color: var(--kiut-danger);
   margin: 0 auto 16px;
 }
 
 .error-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
 }
 
 .error-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0;
 }
 
@@ -376,7 +388,7 @@ watch(() => props.data, setOptions, { deep: true });
 .flow {
   width: 60px;
   height: 4px;
-  background: linear-gradient(to right, #C67DFF, #8b5cf6, #5d4b93);
+  background: linear-gradient(to right, var(--kiut-primary-light), var(--kiut-primary), var(--kiut-primary-default));
   border-radius: 2px;
   animation: flowAnimation 2s ease-in-out infinite;
   position: relative;
@@ -421,7 +433,7 @@ watch(() => props.data, setOptions, { deep: true });
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -489,4 +501,3 @@ watch(() => props.data, setOptions, { deep: true });
   }
 }
 </style>
-
