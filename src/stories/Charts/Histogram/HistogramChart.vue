@@ -234,7 +234,7 @@
       <text
         v-if="q1X"
         :x="q1X"
-        :y="chartMargin - 10"
+        :y="getLabelY('q1')"
         text-anchor="middle"
         fill="#a855f7"
         font-size="12"
@@ -259,7 +259,7 @@
       <text
         v-if="medianX"
         :x="medianX"
-        :y="chartMargin - 25"
+        :y="getLabelY('median')"
         text-anchor="middle"
         fill="#8b5cf6"
         font-size="13"
@@ -284,7 +284,7 @@
       <text
         v-if="averageX"
         :x="averageX"
-        :y="chartMargin - 25"
+        :y="getLabelY('avg')"
         text-anchor="middle"
         fill="#f97316"
         font-size="13"
@@ -309,7 +309,7 @@
       <text
         v-if="q3X"
         :x="q3X"
-        :y="chartMargin - 10"
+        :y="getLabelY('q3')"
         text-anchor="middle"
         fill="#7c3aed"
         font-size="12"
@@ -516,8 +516,13 @@ const gaussianPath = computed(() => {
     }
   }
   
-  const availableHeight = plotHeight.value * 0.80;
-  const scaleFactor = (availableHeight / maxGaussianValue) * totalCount * 0.007;
+  // Calcular el factor de escala para que la curva no exceda el área disponible
+  // Usamos el 75% del área disponible para dar margen a las etiquetas
+  const availableHeight = plotHeight.value * 0.75;
+  const scaleFactor = (availableHeight / maxGaussianValue) * totalCount * 0.006;
+  
+  // Límite mínimo de Y para no exceder el área del gráfico
+  const minYLimit = props.chartMargin;
   
   for (let i = 0; i <= numPoints; i++) {
     const x = minX + (maxX - minX) * (i / numPoints);
@@ -526,7 +531,10 @@ const gaussianPath = computed(() => {
     
     const xCoord = valueToX(x);
     if (xCoord !== null) {
-      const yCoord = props.chartHeight - props.chartBottomMargin - scaledValue;
+      // Calcular Y y asegurar que no exceda el límite superior
+      let yCoord = props.chartHeight - props.chartBottomMargin - scaledValue;
+      yCoord = Math.max(yCoord, minYLimit); // No permitir que suba más allá del margen
+      
       points.push(`${i === 0 ? 'M' : 'L'} ${xCoord} ${yCoord}`);
     }
   }
@@ -572,6 +580,131 @@ const q1Value = computed(() => props.q1Score);
 const medianValue = computed(() => props.medianScore);
 const q3Value = computed(() => props.q3Score);
 const averageValue = computed(() => props.averageScore);
+
+// Sistema de posicionamiento de etiquetas con detección de colisiones
+interface LabelPosition {
+  x: number | null;
+  y: number;
+  value: number;
+  label: string;
+  color: string;
+  id: string;
+  width: number;
+}
+
+// Calcular posiciones de etiquetas superiores (Q1, Median, Avg, Q3) con detección de colisiones
+const topLabelPositions = computed(() => {
+  const labels: LabelPosition[] = [];
+  const baseY = props.chartMargin - 8;
+  const levelHeight = 18; // Espacio vertical entre niveles
+  
+  // Recopilar todas las etiquetas que van arriba, con sus anchos aproximados
+  if (q1X.value !== null) {
+    labels.push({ 
+      x: q1X.value, 
+      y: baseY, 
+      value: props.q1Score, 
+      label: `Q1: ${q1Value.value.toFixed(1)}`,
+      color: '#a855f7',
+      id: 'q1',
+      width: 55
+    });
+  }
+  if (medianX.value !== null) {
+    labels.push({ 
+      x: medianX.value, 
+      y: baseY - levelHeight, 
+      value: props.medianScore, 
+      label: `Median: ${medianValue.value.toFixed(1)}`,
+      color: '#8b5cf6',
+      id: 'median',
+      width: 90
+    });
+  }
+  if (averageX.value !== null) {
+    labels.push({ 
+      x: averageX.value, 
+      y: baseY - levelHeight, 
+      value: props.averageScore, 
+      label: `Avg: ${averageValue.value.toFixed(1)}`,
+      color: '#f97316',
+      id: 'avg',
+      width: 65
+    });
+  }
+  if (q3X.value !== null) {
+    labels.push({ 
+      x: q3X.value, 
+      y: baseY, 
+      value: props.q3Score, 
+      label: `Q3: ${q3Value.value.toFixed(1)}`,
+      color: '#7c3aed',
+      id: 'q3',
+      width: 55
+    });
+  }
+  
+  // Ordenar por posición X
+  labels.sort((a, b) => (a.x || 0) - (b.x || 0));
+  
+  // Agrupar etiquetas por niveles y detectar colisiones
+  // Crear niveles de posición vertical
+  const levels: LabelPosition[][] = [[], [], []]; // 3 niveles posibles
+  
+  labels.forEach(label => {
+    if (label.x === null) return;
+    
+    // Encontrar el nivel apropiado sin colisiones
+    let assignedLevel = -1;
+    
+    for (let levelIdx = 0; levelIdx < levels.length; levelIdx++) {
+      let hasCollision = false;
+      
+      for (const existingLabel of levels[levelIdx]) {
+        if (existingLabel.x === null) continue;
+        
+        // Verificar si hay superposición horizontal
+        const distance = Math.abs(label.x - existingLabel.x);
+        const minDistance = (label.width + existingLabel.width) / 2 + 10;
+        
+        if (distance < minDistance) {
+          hasCollision = true;
+          break;
+        }
+      }
+      
+      if (!hasCollision) {
+        assignedLevel = levelIdx;
+        break;
+      }
+    }
+    
+    // Si no encontró nivel sin colisión, usar el último
+    if (assignedLevel === -1) {
+      assignedLevel = levels.length - 1;
+    }
+    
+    // Asignar posición Y basada en el nivel
+    label.y = baseY - (assignedLevel * levelHeight);
+    levels[assignedLevel].push(label);
+  });
+  
+  // Asegurar que las etiquetas no salgan del viewBox (límite superior)
+  const minY = 15;
+  labels.forEach(label => {
+    if (label.y < minY) {
+      label.y = minY;
+    }
+  });
+  
+  return labels;
+});
+
+// Función helper para obtener la posición Y de una etiqueta específica
+const getLabelY = (id: string): number => {
+  const label = topLabelPositions.value.find(l => l.id === id);
+  return label?.y || props.chartMargin - 10;
+};
 
 const yAxisTicks = computed(() => {
   const ticks = [];
@@ -637,13 +770,7 @@ const hideTooltip = () => {
   height: 100%;
   min-height: 450px;
   max-height: 550px;
-  padding: 24px;
-  background: linear-gradient(to bottom, #ffffff 0%, #fefefe 100%);
   border-radius: 16px;
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.03),
-    0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease;
   position: relative;
 }
 
@@ -677,14 +804,12 @@ const hideTooltip = () => {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .chart-container {
-    padding: 16px;
     min-height: 400px;
   }
 }
 
 @media (max-width: 480px) {
   .chart-container {
-    padding: 12px;
     min-height: 350px;
   }
 }

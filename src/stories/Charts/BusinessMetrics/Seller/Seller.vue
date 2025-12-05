@@ -6,15 +6,15 @@
           <h3 class="card-title">Seller Metrics</h3>
           <p class="card-subtitle">Sales performance and failure analysis</p>
         </div>
-        <div class="total-sales-badge">
+        <div class="total-sales-badge" v-if="!props.loading">
           <p class="badge-label">Total Sales Value</p>
-          <p class="badge-value">{{ useCurrencyFormat(sellerData.total_value_sell_success) }}</p>
+          <p class="badge-value">{{ useCurrencyFormat(props.sellerData.total_value_sell_success) }}</p>
         </div>
       </div>
     </header>
 
     <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-if="loading">
+    <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
         <div class="chart-flow-loader">
           <div class="flow-line flow-1"></div>
@@ -120,12 +120,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { computed } from 'vue'
 import moment from 'moment'
-import {
-  getSellerMetrics,
-  getSellerFailedMetrics,
-} from '../../../../services/modules/business-metrics'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
 
@@ -164,30 +160,59 @@ interface FailedData {
 }
 
 const props = withDefaults(defineProps<{
-  dates?: Date[];
-  airline_name?: string;
+  sellerData?: SellerData;
+  failedData?: FailedData;
+  loading?: boolean;
 }>(), {
-  dates: () => [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
-  airline_name: 'default_airline'
+  sellerData: () => ({
+    total_seller_conversations: 0,
+    total_sell_started: 0,
+    total_sell_get_quote: 0,
+    total_sell_booking_created: 0,
+    total_sell_success: 0,
+    total_value_sell_success: 0,
+    seller_by_day: [],
+  }),
+  failedData: () => ({
+    total_sell_failed: 0,
+    failed_by_reason_by_day: [],
+  }),
+  loading: false
 })
 
-const loading = ref(true)
-const tableData = ref<SellerDayData[]>([])
-
-const sellerData = ref<SellerData>({
-  total_seller_conversations: 0,
-  total_sell_started: 0,
-  total_sell_get_quote: 0,
-  total_sell_booking_created: 0,
-  total_sell_success: 0,
-  total_value_sell_success: 0,
-  seller_by_day: [],
+// Computed para combinar y ordenar los datos de la tabla
+const tableData = computed(() => {
+  if (!props.sellerData?.seller_by_day) return []
+  
+  const data = [...props.sellerData.seller_by_day] as SellerDayData[]
+  
+  // Merge failed data with seller data by date
+  if (props.failedData?.failed_by_reason_by_day) {
+    props.failedData.failed_by_reason_by_day.forEach((failedItem) => {
+      const idx = data.findIndex(sellerItem => sellerItem.date === failedItem.date)
+      if (idx !== -1) {
+        data[idx] = { ...data[idx], reasons: failedItem.reasons }
+      } else {
+        data.push({
+          date: failedItem.date,
+          seller_conversations: 0,
+          sell_started_count: 0,
+          sell_get_quote_count: 0,
+          sell_booking_created_count: 0,
+          sell_success_count: 0,
+          daily_value_sell_success: 0,
+          reasons: failedItem.reasons,
+        })
+      }
+    })
+  }
+  
+  // Sort by date
+  return data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 })
 
-const failedData = ref<FailedData>({
-  total_sell_failed: 0,
-  failed_by_reason_by_day: [],
-})
+const sellerData = computed(() => props.sellerData)
+const failedData = computed(() => props.failedData)
 
 const sankeyData = computed(() => {
   const {
@@ -360,74 +385,6 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   return `${formattedValue} (${percentage})`
 }
 
-const DEFAULT_SELLER_DATA: SellerData = {
-  total_seller_conversations: 0,
-  total_sell_started: 0,
-  total_sell_get_quote: 0,
-  total_sell_booking_created: 0,
-  total_sell_success: 0,
-  total_value_sell_success: 0,
-  seller_by_day: [],
-}
-
-const DEFAULT_FAILED_DATA: FailedData = {
-  total_sell_failed: 0,
-  failed_by_reason_by_day: [],
-}
-
-const searchData = async () => {
-  loading.value = true
-
-  try {
-    const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
-
-    const [sellerResponse, failedResponse] = await Promise.all([
-      getSellerMetrics(props.airline_name, startDate, endDate),
-      getSellerFailedMetrics(props.airline_name, startDate, endDate),
-    ])
-
-    sellerData.value = sellerResponse
-    failedData.value = failedResponse
-    tableData.value = [...sellerResponse.seller_by_day]
-
-    // Merge failed data with seller data by date
-    failedResponse.failed_by_reason_by_day.forEach((failedItem: { date: string; reasons: FailedReason[] }) => {
-      const idx = tableData.value.findIndex(sellerItem => sellerItem.date === failedItem.date)
-      if (idx !== -1) {
-        tableData.value[idx] = { ...tableData.value[idx], reasons: failedItem.reasons }
-      } else {
-        tableData.value.push({
-          date: failedItem.date,
-          seller_conversations: 0,
-          sell_started_count: 0,
-          sell_get_quote_count: 0,
-          sell_booking_created_count: 0,
-          sell_success_count: 0,
-          daily_value_sell_success: 0,
-          reasons: failedItem.reasons,
-        })
-      }
-    })
-
-    // Sort by date
-    tableData.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-  } catch (error) {
-    console.error('Error fetching seller metrics:', error)
-    sellerData.value = DEFAULT_SELLER_DATA
-    failedData.value = DEFAULT_FAILED_DATA
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(searchData)
-watch(
-  () => props.dates,
-  (newDates) => {
-    if (newDates?.[0] && newDates?.[1]) searchData()
-  },
-  { deep: true }
-)
 </script>
 
 <style scoped>

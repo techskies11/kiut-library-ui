@@ -141,29 +141,16 @@ const chartOptions = props.options || defaultOptions;
   height: 100%;
   min-height: 320px;
   max-height: 420px;
-  padding: 24px;
-  background: linear-gradient(to bottom, #ffffff 0%, #fefefe 100%);
   border-radius: 16px;
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.03),
-    0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.chart-container:hover {
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.04),
-    0 8px 16px rgba(0, 0, 0, 0.08);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .chart-container {
-    padding: 16px;
     min-height: 280px;
     max-height: 380px;
   }
@@ -171,7 +158,6 @@ const chartOptions = props.options || defaultOptions;
 
 @media (max-width: 480px) {
   .chart-container {
-    padding: 12px;
     min-height: 240px;
     max-height: 340px;
   }

@@ -8,7 +8,7 @@
     </header>
 
     <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-if="loading">
+    <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
         <div class="chart-flow-loader">
           <div class="flow-line flow-1"></div>
@@ -50,8 +50,8 @@
                 <th class="table-header">Checkin Closed (%)</th>
                 <th class="table-header">Checkin Failed (%)</th>
                 <th class="table-header">Abandoned (%)</th>
-                <th class="table-header" v-if="isAvianca">Create Payment</th>
-                <th class="table-header" v-if="isAvianca">Failed Payment</th>
+                <th class="table-header" v-if="props.isAvianca">Create Payment</th>
+                <th class="table-header" v-if="props.isAvianca">Failed Payment</th>
               </tr>
             </thead>
             <tbody class="table-body">
@@ -84,10 +84,10 @@
                 <td class="table-cell text-center warning-value">
                   {{ formatValueWithPercentage(row.record_locator_abandoned_count, row.record_locator_started_count) }}
                 </td>
-                <td class="table-cell text-center" v-if="isAvianca">
+                <td class="table-cell text-center" v-if="props.isAvianca">
                   {{ useNumberFormat(row.record_locator_create_payment_count) }}
                 </td>
-                <td class="table-cell text-center failed-value" v-if="isAvianca">
+                <td class="table-cell text-center failed-value" v-if="props.isAvianca">
                   {{ useNumberFormat(row.record_locator_create_payment_failed_count) }}
                 </td>
               </tr>
@@ -113,9 +113,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { computed } from 'vue'
 import moment from 'moment'
-import { getRecordLocatorMetrics } from '../../../../services/modules/business-metrics'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 
@@ -145,28 +144,34 @@ interface RecordLocatorData {
 }
 
 const props = withDefaults(defineProps<{
-  dates?: Date[];
-  airline_name?: string;
+  data?: RecordLocatorData;
+  loading?: boolean;
+  isAvianca?: boolean;
 }>(), {
-  dates: () => [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
-  airline_name: 'default_airline'
+  data: () => ({
+    total_checkin_initiated: 0,
+    total_record_locator_init: 0,
+    total_record_locator_started: 0,
+    total_record_locator_completed: 0,
+    total_record_locator_closed: 0,
+    total_record_locator_failed: 0,
+    total_record_locator_abandoned: 0,
+    total_record_locator_init_abandoned: 0,
+    record_locator_by_day: [],
+  }),
+  loading: false,
+  isAvianca: false
 })
 
-const loading = ref(true)
-const tableData = ref<RecordLocatorDayData[]>([])
-const isAvianca = computed(() => (props.airline_name || '').toLowerCase() === 'avianca')
-
-const recordLocatorData = ref<RecordLocatorData>({
-  total_checkin_initiated: 0,
-  total_record_locator_init: 0,
-  total_record_locator_started: 0,
-  total_record_locator_completed: 0,
-  total_record_locator_closed: 0,
-  total_record_locator_failed: 0,
-  total_record_locator_abandoned: 0,
-  total_record_locator_init_abandoned: 0,
-  record_locator_by_day: [],
+// Computed para ordenar los datos por día
+const tableData = computed(() => {
+  if (!props.data?.record_locator_by_day) return []
+  return [...props.data.record_locator_by_day].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
 })
+
+const recordLocatorData = computed(() => props.data)
 
 // Computed para colores dinámicos del Sankey
 const sankeyNodeColors = computed(() => ({
@@ -197,17 +202,6 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   return `${formattedValue} (${percentage})`
 }
 
-const DEFAULT_RECORD_LOCATOR_DATA: RecordLocatorData = {
-  total_checkin_initiated: 0,
-  total_record_locator_init: 0,
-  total_record_locator_started: 0,
-  total_record_locator_completed: 0,
-  total_record_locator_closed: 0,
-  total_record_locator_failed: 0,
-  total_record_locator_abandoned: 0,
-  total_record_locator_init_abandoned: 0,
-  record_locator_by_day: [],
-}
 
 // Computed para generar datos del Sankey
 const sankeyData = computed(() => {
@@ -331,36 +325,6 @@ const sankeyData = computed(() => {
   return { nodes, links }
 })
 
-const searchData = async () => {
-  loading.value = true
-
-  try {
-    const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
-
-    const recordLocatorResponse = await getRecordLocatorMetrics(props.airline_name, startDate, endDate)
-    recordLocatorData.value = recordLocatorResponse
-
-    // Prepare data for table
-    tableData.value = [...recordLocatorResponse.record_locator_by_day]
-
-    // Sort by date ascending
-    tableData.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-  } catch (error) {
-    console.error('Error fetching record locator metrics:', error)
-    recordLocatorData.value = DEFAULT_RECORD_LOCATOR_DATA
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(searchData)
-watch(
-  () => props.dates,
-  (newDates) => {
-    if (newDates?.[0] && newDates?.[1]) searchData()
-  },
-  { deep: true }
-)
 </script>
 
 <style scoped>

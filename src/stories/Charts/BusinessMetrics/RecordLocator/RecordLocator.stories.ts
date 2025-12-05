@@ -1,18 +1,72 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import RecordLocator from './RecordLocator.vue';
 
+// Data de ejemplo para las stories
+const mockRecordLocatorData = {
+  total_checkin_initiated: 10000,
+  total_record_locator_init: 8500,
+  total_record_locator_started: 7200,
+  total_record_locator_completed: 6500,
+  total_record_locator_closed: 6000,
+  total_record_locator_failed: 400,
+  total_record_locator_abandoned: 800,
+  total_record_locator_init_abandoned: 1300,
+  record_locator_by_day: [
+    {
+      date: '2024-11-01',
+      checkin_initiated: 350,
+      record_locator_init_count: 300,
+      record_locator_started_count: 250,
+      record_locator_completed_count: 230,
+      record_locator_closed_count: 210,
+      record_locator_failed_count: 15,
+      record_locator_abandoned_count: 25,
+      record_locator_create_payment_count: 180,
+      record_locator_create_payment_failed_count: 12,
+    },
+    {
+      date: '2024-11-02',
+      checkin_initiated: 320,
+      record_locator_init_count: 280,
+      record_locator_started_count: 240,
+      record_locator_completed_count: 220,
+      record_locator_closed_count: 200,
+      record_locator_failed_count: 12,
+      record_locator_abandoned_count: 28,
+      record_locator_create_payment_count: 165,
+      record_locator_create_payment_failed_count: 10,
+    },
+    {
+      date: '2024-11-03',
+      checkin_initiated: 380,
+      record_locator_init_count: 330,
+      record_locator_started_count: 280,
+      record_locator_completed_count: 260,
+      record_locator_closed_count: 240,
+      record_locator_failed_count: 18,
+      record_locator_abandoned_count: 22,
+      record_locator_create_payment_count: 200,
+      record_locator_create_payment_failed_count: 15,
+    },
+  ],
+};
+
 const meta = {
   title: 'Charts/BusinessMetrics/RecordLocator',
   component: RecordLocator,
   tags: ['autodocs'],
   argTypes: {
-    dates: {
+    data: {
       control: 'object',
-      description: 'Array with start and end dates [startDate, endDate]'
+      description: 'Record locator metrics data object'
     },
-    airline_name: {
-      control: 'text',
-      description: 'Airline name to filter the metrics. Use "avianca" to show payment columns.'
+    loading: {
+      control: 'boolean',
+      description: 'Loading state indicator'
+    },
+    isAvianca: {
+      control: 'boolean',
+      description: 'Show Avianca-specific payment columns'
     }
   },
   parameters: {
@@ -27,23 +81,37 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Fechas de ejemplo
-const today = new Date();
-const thirtyDaysAgo = new Date(today);
-thirtyDaysAgo.setDate(today.getDate() - 30);
-
 /**
- * Vista por defecto con métricas de record locator para un rango de fechas
+ * Vista por defecto con métricas de record locator
  */
 export const Default: Story = {
   args: {
-    dates: [thirtyDaysAgo, today],
-    airline_name: 'example_airline',
+    data: mockRecordLocatorData,
+    loading: false,
+    isAvianca: false,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Muestra el componente completo con el flujo Sankey y tabla de métricas de record locator para los últimos 30 días.'
+        story: 'Muestra el componente completo con el flujo Sankey y tabla de métricas de record locator.'
+      }
+    }
+  }
+};
+
+/**
+ * Estado de carga
+ */
+export const Loading: Story = {
+  args: {
+    data: mockRecordLocatorData,
+    loading: true,
+    isAvianca: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Componente en estado de carga mostrando la animación de loading.'
       }
     }
   }
@@ -54,8 +122,9 @@ export const Default: Story = {
  */
 export const Avianca: Story = {
   args: {
-    dates: [thirtyDaysAgo, today],
-    airline_name: 'avianca',
+    data: mockRecordLocatorData,
+    loading: false,
+    isAvianca: true,
   },
   parameters: {
     docs: {
@@ -67,40 +136,75 @@ export const Avianca: Story = {
 };
 
 /**
- * Vista con rango de fechas de 7 días
+ * Sin datos disponibles
  */
-export const LastWeek: Story = {
+export const EmptyData: Story = {
   args: {
-    dates: [
-      new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000),
-      today
-    ],
-    airline_name: 'example_airline',
+    data: {
+      total_checkin_initiated: 0,
+      total_record_locator_init: 0,
+      total_record_locator_started: 0,
+      total_record_locator_completed: 0,
+      total_record_locator_closed: 0,
+      total_record_locator_failed: 0,
+      total_record_locator_abandoned: 0,
+      total_record_locator_init_abandoned: 0,
+      record_locator_by_day: [],
+    },
+    loading: false,
+    isAvianca: false,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Métricas de record locator para la última semana.'
+        story: 'Componente mostrando el estado vacío cuando no hay datos disponibles.'
       }
     }
   }
 };
 
 /**
- * Vista con rango de fechas de 90 días
+ * Con más días de datos
  */
-export const LastQuarter: Story = {
+export const WithMoreDays: Story = {
   args: {
-    dates: [
-      new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000),
-      today
-    ],
-    airline_name: 'example_airline',
+    data: {
+      ...mockRecordLocatorData,
+      record_locator_by_day: [
+        ...mockRecordLocatorData.record_locator_by_day,
+        {
+          date: '2024-11-04',
+          checkin_initiated: 400,
+          record_locator_init_count: 350,
+          record_locator_started_count: 300,
+          record_locator_completed_count: 280,
+          record_locator_closed_count: 260,
+          record_locator_failed_count: 20,
+          record_locator_abandoned_count: 20,
+          record_locator_create_payment_count: 220,
+          record_locator_create_payment_failed_count: 18,
+        },
+        {
+          date: '2024-11-05',
+          checkin_initiated: 360,
+          record_locator_init_count: 310,
+          record_locator_started_count: 265,
+          record_locator_completed_count: 245,
+          record_locator_closed_count: 225,
+          record_locator_failed_count: 16,
+          record_locator_abandoned_count: 24,
+          record_locator_create_payment_count: 190,
+          record_locator_create_payment_failed_count: 14,
+        },
+      ],
+    },
+    loading: false,
+    isAvianca: false,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Métricas de record locator para los últimos 90 días (trimestre).'
+        story: 'Componente con más días de datos para mostrar la tabla extendida.'
       }
     }
   }

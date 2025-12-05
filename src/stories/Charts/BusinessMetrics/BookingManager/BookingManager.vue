@@ -6,15 +6,15 @@
           <h3 class="card-title">Booking Manager Metrics</h3>
           <p class="card-subtitle">Booking manager workflow tracking and analysis</p>
         </div>
-        <div class="payment-success-badge" v-if="!loading">
+        <div class="payment-success-badge" v-if="!props.loading">
           <p class="badge-label">Payment Success</p>
-          <p class="badge-value">{{ useNumberFormat(bookingData.total_payment_success || 0) }}</p>
+          <p class="badge-value">{{ useNumberFormat(props.data.total_payment_success || 0) }}</p>
         </div>
       </div>
     </header>
 
     <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-if="loading">
+    <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
         <div class="chart-flow-loader">
           <div class="flow-line flow-1"></div>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Error State -->
-    <div v-else-if="error" class="error-state">
+    <div v-else-if="props.error" class="error-state">
       <div class="error-content">
         <div class="error-icon-wrapper">
           <svg class="error-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -36,10 +36,7 @@
           </svg>
         </div>
         <p class="error-title">Error loading data</p>
-        <p class="error-description">{{ error }}</p>
-        <button @click="fetchData" class="retry-button">
-          Retry
-        </button>
+        <p class="error-description">{{ props.error }}</p>
       </div>
     </div>
 
@@ -58,7 +55,7 @@
       </section>
 
       <!-- Daily Overview Table -->
-      <section v-if="bookingData.booking_manager_by_day && bookingData.booking_manager_by_day.length > 0" class="table-section">
+      <section v-if="sortedDayData.length > 0" class="table-section">
         <div class="section-header">
           <h4 class="section-title">Daily Overview</h4>
         </div>
@@ -76,7 +73,7 @@
             </thead>
             <tbody class="table-body">
               <tr
-                v-for="day in bookingData.booking_manager_by_day"
+                v-for="day in sortedDayData"
                 :key="day.date"
                 class="table-row"
               >
@@ -144,9 +141,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { computed } from 'vue'
 import moment from 'moment'
-import { getBookingManagerMetrics } from '../../../../services/modules/business-metrics'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 
@@ -177,31 +173,36 @@ interface BookingData {
 }
 
 const props = withDefaults(defineProps<{
-  dates?: Date[];
-  airline_name?: string;
+  data?: BookingData;
+  loading?: boolean;
+  error?: string | null;
 }>(), {
-  dates: () => [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
-  airline_name: 'default_airline'
+  data: () => ({
+    total_booking_initiated: 0,
+    total_booking_started: 0,
+    total_payment_initiated: 0,
+    total_not_found: 0,
+    total_cancelled: 0,
+    total_no_pending_balance: 0,
+    total_errors: 0,
+    total_payment_success: 0,
+    total_payment_failed: 0,
+    booking_manager_by_day: [],
+  }),
+  loading: false,
+  error: null
 })
 
-const loading = ref(true)
-const error = ref<string | null>(null)
-
-const bookingData = ref<BookingData>({
-  total_booking_initiated: 0,
-  total_booking_started: 0,
-  total_payment_initiated: 0,
-  total_not_found: 0,
-  total_cancelled: 0,
-  total_no_pending_balance: 0,
-  total_errors: 0,
-  total_payment_success: 0,
-  total_payment_failed: 0,
-  booking_manager_by_day: [],
+// Computed para ordenar los datos por día
+const sortedDayData = computed(() => {
+  if (!props.data?.booking_manager_by_day) return []
+  return [...props.data.booking_manager_by_day].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
 })
 
 const sankeyData = computed(() => {
-  const data = bookingData.value
+  const data = props.data
   const initiated = data.total_booking_initiated || 0
   const started = data.total_booking_started || 0
   const paymentInitiated = data.total_payment_initiated || 0
@@ -354,39 +355,6 @@ const calculatePercentage = (value: number, total: number): string => {
   if (!total || total === 0) return '0%'
   return `${Math.round((value / total) * 100)}%`
 }
-
-const fetchData = async () => {
-  try {
-    loading.value = true
-    error.value = null
-
-    const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
-
-    const data = await getBookingManagerMetrics(props.airline_name, startDate, endDate)
-    bookingData.value = data
-
-    // Sort by date ascending
-    if (bookingData.value.booking_manager_by_day) {
-      bookingData.value.booking_manager_by_day.sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-      )
-    }
-  } catch (err: any) {
-    console.error('Error fetching booking manager metrics:', err)
-    error.value = err.message || 'Failed to load booking manager metrics'
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(fetchData)
-watch(
-  () => props.dates,
-  (newDates) => {
-    if (newDates?.[0] && newDates?.[1]) fetchData()
-  },
-  { deep: true }
-)
 </script>
 
 <style scoped>
@@ -436,7 +404,7 @@ watch(
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #c67dff, #5d4b93);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

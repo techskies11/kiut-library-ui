@@ -8,7 +8,7 @@
     </header>
 
     <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-if="loading">
+    <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
         <div class="chart-flow-loader">
           <div class="flow-line flow-1"></div>
@@ -23,7 +23,7 @@
 
     <!-- Content when loaded -->
     <div v-else class="card-body">
-      <section v-if="segments.length > 0" class="table-section">
+      <section v-if="props.data.length > 0" class="table-section">
         <div class="table-wrapper">
           <table class="data-table">
             <thead>
@@ -39,7 +39,7 @@
               </tr>
             </thead>
             <tbody class="table-body">
-              <tr v-for="(row, idx) in segments" :key="idx" class="table-row">
+              <tr v-for="(row, idx) in props.data" :key="idx" class="table-row">
                 <td class="table-cell font-medium text-center">
                   <span class="airport-badge">{{ formatAirport(row.departure_airport) }}</span>
                 </td>
@@ -101,9 +101,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import moment from 'moment'
-import { getCheckinSegmentMetrics } from '../../../../services/modules/business-metrics'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 
 interface SegmentData {
@@ -117,15 +114,12 @@ interface SegmentData {
 }
 
 const props = withDefaults(defineProps<{
-  dates?: Date[];
-  airline_name?: string;
+  data?: SegmentData[];
+  loading?: boolean;
 }>(), {
-  dates: () => [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
-  airline_name: 'default_airline'
+  data: () => [],
+  loading: false
 })
-
-const loading = ref(true)
-const segments = ref<SegmentData[]>([])
 
 const calculatePercentage = (value: number, total: number): string => {
   if (!total || total === 0 || !value) return '0%'
@@ -145,29 +139,6 @@ const isRoundtrip = (row: SegmentData): boolean => {
   if (dep === '-' || arr === '-') return false
   return dep === arr
 }
-
-const fetchSegments = async () => {
-  loading.value = true
-  try {
-    const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
-    const response = await getCheckinSegmentMetrics(props.airline_name, startDate, endDate)
-    segments.value = Array.isArray(response?.segments_table) ? response.segments_table : []
-  } catch (error) {
-    console.error('Error fetching checkin segments:', error)
-    segments.value = []
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(fetchSegments)
-watch(
-  () => props.dates,
-  (newDates) => {
-    if (newDates?.[0] && newDates?.[1]) fetchSegments()
-  },
-  { deep: true }
-)
 </script>
 
 <style scoped>
@@ -209,7 +180,7 @@ watch(
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #10b981, #14b8a6);
+  background: linear-gradient(135deg, #c67dff, #5d4b93);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

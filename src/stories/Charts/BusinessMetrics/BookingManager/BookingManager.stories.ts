@@ -1,18 +1,73 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import BookingManager from './BookingManager.vue';
 
+// Data de ejemplo para las stories
+const mockBookingData = {
+  total_booking_initiated: 15000,
+  total_booking_started: 12500,
+  total_payment_initiated: 8000,
+  total_not_found: 500,
+  total_cancelled: 800,
+  total_no_pending_balance: 300,
+  total_errors: 200,
+  total_payment_success: 6500,
+  total_payment_failed: 1500,
+  booking_manager_by_day: [
+    {
+      date: '2024-11-01',
+      booking_initiated_count: 500,
+      booking_started_count: 420,
+      payment_initiated_count: 280,
+      not_found_count: 15,
+      cancelled_count: 25,
+      no_pending_balance_count: 10,
+      error_count: 5,
+      payment_success_count: 230,
+      payment_failed_count: 50,
+    },
+    {
+      date: '2024-11-02',
+      booking_initiated_count: 480,
+      booking_started_count: 400,
+      payment_initiated_count: 260,
+      not_found_count: 18,
+      cancelled_count: 28,
+      no_pending_balance_count: 12,
+      error_count: 8,
+      payment_success_count: 210,
+      payment_failed_count: 50,
+    },
+    {
+      date: '2024-11-03',
+      booking_initiated_count: 520,
+      booking_started_count: 440,
+      payment_initiated_count: 300,
+      not_found_count: 12,
+      cancelled_count: 22,
+      no_pending_balance_count: 8,
+      error_count: 6,
+      payment_success_count: 250,
+      payment_failed_count: 50,
+    },
+  ],
+};
+
 const meta = {
   title: 'Charts/BusinessMetrics/BookingManager',
   component: BookingManager,
   tags: ['autodocs'],
   argTypes: {
-    dates: {
+    data: {
       control: 'object',
-      description: 'Array with start and end dates [startDate, endDate]'
+      description: 'Booking manager metrics data object'
     },
-    airline_name: {
+    loading: {
+      control: 'boolean',
+      description: 'Loading state indicator'
+    },
+    error: {
       control: 'text',
-      description: 'Airline name to filter the metrics'
+      description: 'Error message to display'
     }
   },
   parameters: {
@@ -27,80 +82,131 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Fechas de ejemplo
-const today = new Date();
-const thirtyDaysAgo = new Date(today);
-thirtyDaysAgo.setDate(today.getDate() - 30);
-
 /**
- * Vista por defecto con métricas de booking manager para un rango de fechas
+ * Vista por defecto con métricas de booking manager
  */
 export const Default: Story = {
   args: {
-    dates: [thirtyDaysAgo, today],
-    airline_name: 'example_airline',
+    data: mockBookingData,
+    loading: false,
+    error: null,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Muestra el componente completo con el flujo Sankey, badge de pagos exitosos y tabla de métricas diarias para los últimos 30 días.'
+        story: 'Muestra el componente completo con el flujo Sankey, badge de pagos exitosos y tabla de métricas diarias.'
       }
     }
   }
 };
 
 /**
- * Vista con rango de fechas de 7 días
+ * Estado de carga
  */
-export const LastWeek: Story = {
+export const Loading: Story = {
   args: {
-    dates: [
-      new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000),
-      today
-    ],
-    airline_name: 'example_airline',
+    data: mockBookingData,
+    loading: true,
+    error: null,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Métricas de booking manager para la última semana.'
+        story: 'Componente en estado de carga mostrando la animación de loading.'
       }
     }
   }
 };
 
 /**
- * Vista con rango de fechas de 90 días
+ * Estado de error
  */
-export const LastQuarter: Story = {
+export const Error: Story = {
   args: {
-    dates: [
-      new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000),
-      today
-    ],
-    airline_name: 'example_airline',
+    data: mockBookingData,
+    loading: false,
+    error: 'Failed to load booking manager metrics. Please try again.',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Métricas de booking manager para los últimos 90 días (trimestre).'
+        story: 'Componente mostrando un mensaje de error.'
       }
     }
   }
 };
 
 /**
- * Vista con aerolínea diferente
+ * Sin datos disponibles
  */
-export const DifferentAirline: Story = {
+export const EmptyData: Story = {
   args: {
-    dates: [thirtyDaysAgo, today],
-    airline_name: 'different_airline',
+    data: {
+      total_booking_initiated: 0,
+      total_booking_started: 0,
+      total_payment_initiated: 0,
+      total_not_found: 0,
+      total_cancelled: 0,
+      total_no_pending_balance: 0,
+      total_errors: 0,
+      total_payment_success: 0,
+      total_payment_failed: 0,
+      booking_manager_by_day: [],
+    },
+    loading: false,
+    error: null,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Componente mostrando métricas de booking manager para una aerolínea diferente.'
+        story: 'Componente mostrando el estado vacío cuando no hay datos disponibles.'
+      }
+    }
+  }
+};
+
+/**
+ * Con muchos datos diarios
+ */
+export const WithMoreDays: Story = {
+  args: {
+    data: {
+      ...mockBookingData,
+      booking_manager_by_day: [
+        ...mockBookingData.booking_manager_by_day,
+        {
+          date: '2024-11-04',
+          booking_initiated_count: 550,
+          booking_started_count: 460,
+          payment_initiated_count: 320,
+          not_found_count: 10,
+          cancelled_count: 20,
+          no_pending_balance_count: 6,
+          error_count: 4,
+          payment_success_count: 270,
+          payment_failed_count: 50,
+        },
+        {
+          date: '2024-11-05',
+          booking_initiated_count: 490,
+          booking_started_count: 410,
+          payment_initiated_count: 270,
+          not_found_count: 16,
+          cancelled_count: 26,
+          no_pending_balance_count: 11,
+          error_count: 7,
+          payment_success_count: 220,
+          payment_failed_count: 50,
+        },
+      ],
+    },
+    loading: false,
+    error: null,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Componente con más días de datos para mostrar la tabla extendida.'
       }
     }
   }

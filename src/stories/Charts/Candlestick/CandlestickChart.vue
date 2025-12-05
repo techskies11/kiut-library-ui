@@ -447,20 +447,9 @@ const yAxisTicks = computed(() => {
   height: 100%;
   min-height: 400px;
   max-height: 500px;
-  padding: 24px;
   background: linear-gradient(to bottom, #ffffff 0%, #fefefe 100%);
   border-radius: 16px;
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.03),
-    0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease;
   position: relative;
-}
-
-.chart-container:hover {
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.04),
-    0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .candlestick-svg {

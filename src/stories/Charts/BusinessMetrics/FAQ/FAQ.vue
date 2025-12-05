@@ -35,9 +35,7 @@
 
       <!-- Chart Section -->
       <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
-        <div class="chart-wrapper">
-          <LineChart :data="dataChart" :options="lineOptions" />
-        </div>
+        <LineChart :data="dataChart" :options="lineOptions" />
       </section>
 
       <!-- Empty State -->
@@ -295,6 +293,7 @@ watch(
 
 .header-content {
   width: 100%;
+  text-align: left;
 }
 
 .card-title {
@@ -412,15 +411,6 @@ watch(
 /* Chart Section */
 .chart-section {
   animation: fadeIn 0.5s ease-out 0.1s backwards;
-}
-
-.chart-wrapper {
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
-  border-radius: 16px;
-  padding: 24px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  height: 320px;
 }
 
 /* Empty State */

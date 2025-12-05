@@ -6,22 +6,22 @@
           <h3 class="card-title">Disruption Metrics</h3>
           <p class="card-subtitle">Disruption workflow performance and completion tracking</p>
         </div>
-        <div class="payment-success-badge" v-if="!loading">
+        <div class="payment-success-badge" v-if="!props.loading">
           <p class="badge-label">Payment Success</p>
-          <p class="badge-value">{{ useNumberFormat(disruptionData.total_payment_success || 0) }}</p>
+          <p class="badge-value">{{ useNumberFormat(props.data.total_payment_success || 0) }}</p>
         </div>
       </div>
     </header>
 
     <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-if="loading">
+    <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
-        <div class="chart-flow-loader">
-          <div class="flow-line flow-1"></div>
-          <div class="flow-line flow-2"></div>
-          <div class="flow-line flow-3"></div>
-          <div class="flow-line flow-4"></div>
-          <div class="flow-line flow-5"></div>
+        <div class="chart-bars-loader">
+          <div class="bar bar-1"></div>
+          <div class="bar bar-2"></div>
+          <div class="bar bar-3"></div>
+          <div class="bar bar-4"></div>
+          <div class="bar bar-5"></div>
         </div>
         <p class="loading-text">Loading disruption data...</p>
       </div>
@@ -180,9 +180,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { computed } from 'vue'
 import moment from 'moment'
-import { getDisruptionMetrics } from '../../../../services/modules/business-metrics'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 
@@ -213,28 +212,31 @@ interface DisruptionData {
 }
 
 const props = withDefaults(defineProps<{
-  dates?: Date[];
-  airline_name?: string;
+  data?: DisruptionData;
+  loading?: boolean;
 }>(), {
-  dates: () => [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
-  airline_name: 'default_airline'
+  data: () => ({
+    total_disruption_conversations: 0,
+    total_disruption_initiated: 0,
+    total_voluntary: 0,
+    total_involuntary: 0,
+    total_accepted: 0,
+    total_confirmed: 0,
+    total_sell_success: 0,
+    total_sell_failed: 0,
+    total_finished: 0,
+    total_payment_success: 0,
+    disruption_by_day: [],
+  }),
+  loading: false
 })
 
-const loading = ref(true)
-const tableData = ref<DisruptionDayData[]>([])
-
-const disruptionData = ref<DisruptionData>({
-  total_disruption_conversations: 0,
-  total_disruption_initiated: 0,
-  total_voluntary: 0,
-  total_involuntary: 0,
-  total_accepted: 0,
-  total_confirmed: 0,
-  total_sell_success: 0,
-  total_sell_failed: 0,
-  total_finished: 0,
-  total_payment_success: 0,
-  disruption_by_day: [],
+// Computed para ordenar los datos por día
+const tableData = computed(() => {
+  if (!props.data?.disruption_by_day) return []
+  return [...props.data.disruption_by_day].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
 })
 
 const calculatePercentage = (value: number, total: number): string => {
@@ -243,7 +245,7 @@ const calculatePercentage = (value: number, total: number): string => {
 }
 
 const sankeyData = computed(() => {
-  const data = disruptionData.value
+  const data = props.data
   const conversations = data.total_disruption_conversations || 0
   const initiated = data.total_disruption_initiated || 0
   const voluntary = data.total_voluntary || 0
@@ -412,50 +414,6 @@ const nodeColors: Record<string, string> = {
   'Not Paid': '#FED7AA',
 }
 
-const DEFAULT_DISRUPTION_DATA: DisruptionData = {
-  total_disruption_conversations: 0,
-  total_disruption_initiated: 0,
-  total_voluntary: 0,
-  total_involuntary: 0,
-  total_accepted: 0,
-  total_confirmed: 0,
-  total_sell_success: 0,
-  total_sell_failed: 0,
-  total_finished: 0,
-  total_payment_success: 0,
-  disruption_by_day: [],
-}
-
-const searchData = async () => {
-  loading.value = true
-
-  try {
-    const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
-
-    const disruptionResponse = await getDisruptionMetrics(props.airline_name, startDate, endDate)
-
-    disruptionData.value = disruptionResponse
-    tableData.value = [...disruptionResponse.disruption_by_day]
-
-    // Sort by date ascending
-    tableData.value.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-  } catch (error) {
-    console.error('Error fetching disruption metrics:', error)
-    disruptionData.value = DEFAULT_DISRUPTION_DATA
-    tableData.value = []
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(searchData)
-watch(
-  () => props.dates,
-  (newDates) => {
-    if (newDates?.[0] && newDates?.[1]) searchData()
-  },
-  { deep: true }
-)
 </script>
 
 <style scoped>
@@ -505,7 +463,7 @@ watch(
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #f97316, #dc2626);
+  background: linear-gradient(135deg, #c67dff, #5d4b93);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -840,7 +798,7 @@ watch(
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 380px;
 }
 
 .loading-container {
@@ -851,45 +809,45 @@ watch(
   width: 100%;
 }
 
-.chart-flow-loader {
+.chart-bars-loader {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 12px;
-  height: 120px;
+  gap: 10px;
+  height: 100px;
   margin-bottom: 24px;
 }
 
-.flow-line {
-  width: 10px;
-  background: linear-gradient(to top, #f97316 0%, #ea580c 50%, #dc2626 100%);
-  border-radius: 5px;
+.bar {
+  width: 8px;
+  background: linear-gradient(to top, #c67dff 0%, #8b5cf6 50%, #7c3aed 100%);
+  border-radius: 4px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
 }
 
-.flow-1 {
-  height: 35%;
+.bar-1 {
+  height: 30%;
   animation-delay: 0s;
 }
 
-.flow-2 {
-  height: 55%;
+.bar-2 {
+  height: 50%;
   animation-delay: 0.1s;
 }
 
-.flow-3 {
-  height: 75%;
+.bar-3 {
+  height: 70%;
   animation-delay: 0.2s;
 }
 
-.flow-4 {
-  height: 55%;
+.bar-4 {
+  height: 50%;
   animation-delay: 0.3s;
 }
 
-.flow-5 {
-  height: 45%;
+.bar-5 {
+  height: 40%;
   animation-delay: 0.4s;
 }
 

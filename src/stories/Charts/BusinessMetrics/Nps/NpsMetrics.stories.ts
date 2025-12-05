@@ -1,18 +1,73 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import NpsMetrics from './npsMetrics.vue';
 
+// Data de ejemplo para las stories
+const mockNpsData = {
+  total_nps_responses: 1250,
+  min_score: 1,
+  max_score: 10,
+  q1_score: 6,
+  median_score: 8,
+  q3_score: 9,
+  average_score: 7.5,
+  histogram: [
+    { score: 1, count: 25 },
+    { score: 2, count: 18 },
+    { score: 3, count: 32 },
+    { score: 4, count: 45 },
+    { score: 5, count: 78 },
+    { score: 6, count: 125 },
+    { score: 7, count: 198 },
+    { score: 8, count: 285 },
+    { score: 9, count: 312 },
+    { score: 10, count: 132 },
+  ],
+  nps_by_day: [
+    {
+      date: '2024-11-01',
+      nps_responses_count: 45,
+      min_score: 2,
+      max_score: 10,
+      q1_score: 6,
+      median_score: 8,
+      q3_score: 9,
+      average_score: 7.6,
+    },
+    {
+      date: '2024-11-02',
+      nps_responses_count: 52,
+      min_score: 1,
+      max_score: 10,
+      q1_score: 5,
+      median_score: 7,
+      q3_score: 9,
+      average_score: 7.2,
+    },
+    {
+      date: '2024-11-03',
+      nps_responses_count: 48,
+      min_score: 3,
+      max_score: 10,
+      q1_score: 6,
+      median_score: 8,
+      q3_score: 9,
+      average_score: 7.8,
+    },
+  ],
+};
+
 const meta = {
   title: 'Charts/BusinessMetrics/NpsMetrics',
   component: NpsMetrics,
   tags: ['autodocs'],
   argTypes: {
-    dates: {
+    data: {
       control: 'object',
-      description: 'Array with start and end dates [startDate, endDate]'
+      description: 'NPS metrics data object'
     },
-    airline_name: {
-      control: 'text',
-      description: 'Airline name to filter the NPS metrics'
+    loading: {
+      control: 'boolean',
+      description: 'Loading state indicator'
     }
   },
   parameters: {
@@ -34,100 +89,104 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Fechas de ejemplo
-const today = new Date();
-const thirtyDaysAgo = new Date(today);
-thirtyDaysAgo.setDate(today.getDate() - 30);
-
 /**
- * Vista por defecto con métricas NPS para un rango de 30 días
+ * Vista por defecto con métricas NPS
  */
 export const Default: Story = {
   args: {
-    dates: [thirtyDaysAgo, today],
-    airline_name: 'example_airline',
+    data: mockNpsData,
+    loading: false,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Muestra el dashboard completo de NPS con el histograma de distribución y el gráfico de velas diario para los últimos 30 días.'
+        story: 'Muestra el dashboard completo de NPS con el histograma de distribución y el gráfico de velas diario.'
       }
     }
   }
 };
 
 /**
- * Vista con rango de fechas de 7 días
+ * Estado de carga
  */
-export const LastWeek: Story = {
+export const Loading: Story = {
   args: {
-    dates: [
-      new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000),
-      today
-    ],
-    airline_name: 'example_airline',
+    data: null,
+    loading: true,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Métricas NPS para la última semana. Ideal para análisis de tendencias a corto plazo.'
+        story: 'Dashboard NPS en estado de carga.'
       }
     }
   }
 };
 
 /**
- * Vista con rango de fechas de 14 días
+ * Sin datos disponibles
  */
-export const LastTwoWeeks: Story = {
+export const EmptyData: Story = {
   args: {
-    dates: [
-      new Date(today.getTime() - 14 * 24 * 60 * 60 * 1000),
-      today
-    ],
-    airline_name: 'example_airline',
+    data: {
+      total_nps_responses: 0,
+      min_score: 0,
+      max_score: 0,
+      q1_score: 0,
+      median_score: 0,
+      q3_score: 0,
+      average_score: 0,
+      histogram: [],
+      nps_by_day: [],
+    },
+    loading: false,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Métricas NPS para las últimas dos semanas.'
+        story: 'Dashboard NPS mostrando el estado vacío cuando no hay datos disponibles.'
       }
     }
   }
 };
 
 /**
- * Vista con rango de fechas de 90 días
+ * Con más días de datos
  */
-export const LastQuarter: Story = {
+export const WithMoreDays: Story = {
   args: {
-    dates: [
-      new Date(today.getTime() - 90 * 24 * 60 * 60 * 1000),
-      today
-    ],
-    airline_name: 'example_airline',
+    data: {
+      ...mockNpsData,
+      nps_by_day: [
+        ...mockNpsData.nps_by_day,
+        {
+          date: '2024-11-04',
+          nps_responses_count: 55,
+          min_score: 2,
+          max_score: 10,
+          q1_score: 6,
+          median_score: 8,
+          q3_score: 9,
+          average_score: 7.9,
+        },
+        {
+          date: '2024-11-05',
+          nps_responses_count: 42,
+          min_score: 1,
+          max_score: 10,
+          q1_score: 5,
+          median_score: 7,
+          q3_score: 9,
+          average_score: 7.1,
+        },
+      ],
+    },
+    loading: false,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Métricas NPS para los últimos 90 días (trimestre). Útil para identificar tendencias a largo plazo.'
-      }
-    }
-  }
-};
-
-/**
- * Vista con aerolínea diferente
- */
-export const DifferentAirline: Story = {
-  args: {
-    dates: [thirtyDaysAgo, today],
-    airline_name: 'different_airline',
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: 'Dashboard NPS mostrando métricas para una aerolínea diferente.'
+        story: 'Dashboard NPS con más días de datos para mostrar tendencias extendidas.'
       }
     }
   }

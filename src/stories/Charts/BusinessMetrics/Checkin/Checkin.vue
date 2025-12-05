@@ -8,7 +8,7 @@
     </header>
 
     <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-if="loading">
+    <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
         <div class="chart-flow-loader">
           <div class="flow-line flow-1"></div>
@@ -115,29 +115,40 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, watch, computed } from 'vue'
+  import { ref, computed } from 'vue'
   import moment from 'moment'
-  import {
-    getCheckinMetrics,
-    getCheckinFailedMetrics,
-  } from '../../../../services/modules/business-metrics'
   import { useNumberFormat } from '../../../../plugins/numberFormat'
   import SankeyChart from '../../Sankey/SankeyChart.vue'
 
   const props = defineProps({
-    dates: {
-      type: Array,
-      required: true,
+    loading: {
+      type: Boolean,
+      default: false,
     },
-    airline_name: {
-      type: String,
-      required: true,
+    checkinData: {
+      type: Object,
+      default: () => ({
+        total_checkin_init: 0,
+        total_checkin_initiated: 0,
+        total_checkin_init_abandoned: 0,
+        total_checkin_started: 0,
+        total_checkin_completed: 0,
+        total_checkin_closed: 0,
+        total_checkin_unrecovered: 0,
+        checkin_by_day: [],
+      }),
+    },
+    failedData: {
+      type: Object,
+      default: () => ({
+        total_checkin_failed: 0,
+        failed_by_step_by_day: [],
+        unrecovered_by_step: [],
+      }),
     },
   })
 
-  const loading = ref(true)
-  const tableData = ref([])
-  const checkinData = ref({
+  const DEFAULT_CHECKIN_DATA = {
     total_checkin_init: 0,
     total_checkin_initiated: 0,
     total_checkin_init_abandoned: 0,
@@ -146,13 +157,17 @@
     total_checkin_closed: 0,
     total_checkin_unrecovered: 0,
     checkin_by_day: [],
-  })
+  }
 
-  const failedData = ref({
+  const DEFAULT_FAILED_DATA = {
     total_checkin_failed: 0,
     failed_by_step_by_day: [],
     unrecovered_by_step: [],
-  })
+  }
+
+  const tableData = ref([])
+  const checkinDataInternal = computed(() => props.checkinData ?? DEFAULT_CHECKIN_DATA)
+  const failedDataInternal = computed(() => props.failedData ?? DEFAULT_FAILED_DATA)
 
   // Computed para colores dinámicos del Sankey (basado en sellerMetrics)
   const sankeyNodeColors = computed(() => {
@@ -176,7 +191,7 @@
     }
 
     // Agregar colores para pasos específicos de unrecovered dinámicamente
-    const unrecoveredSteps = failedData.value.unrecovered_by_step || []
+    const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || []
     unrecoveredSteps.forEach(step => {
       const stepName = step.step_name.replace(/_/g, ' ')
       const capitalizedStepName = stepName
@@ -213,29 +228,12 @@
     return failedSteps.reduce((acc, step) => acc + step.failed_count, 0)
   }
 
-  const DEFAULT_CHECKIN_DATA = {
-    total_checkin_init: 0,
-    total_checkin_initiated: 0,
-    total_checkin_init_abandoned: 0,
-    total_checkin_started: 0,
-    total_checkin_completed: 0,
-    total_checkin_closed: 0,
-    total_checkin_unrecovered: 0,
-    checkin_by_day: [],
-  }
-
-  const DEFAULT_FAILED_DATA = {
-    total_checkin_failed: 0,
-    failed_by_step_by_day: [],
-    unrecovered_by_step: [],
-  }
-
   // Computed para generar datos del Sankey
   const sankeyData = computed(() => {
     const nodes = []
     const links = []
 
-    if (!checkinData.value.total_checkin_initiated) {
+    if (!checkinDataInternal.value.total_checkin_initiated) {
       return { nodes, links }
     }
 
@@ -248,17 +246,17 @@
     nodes.push({ name: 'Closed with BP' })
 
     // Enlaces del flujo feliz
-    const initiated = checkinData.value.total_checkin_initiated
-    const init = checkinData.value.total_checkin_init
-    const abandonedInit = checkinData.value.total_checkin_init_abandoned
+    const initiated = checkinDataInternal.value.total_checkin_initiated
+    const init = checkinDataInternal.value.total_checkin_init
+    const abandonedInit = checkinDataInternal.value.total_checkin_init_abandoned
     const bookingSuccess = init - abandonedInit
-    const started = checkinData.value.total_checkin_started
-    const completed = checkinData.value.total_checkin_completed
-    const closed = checkinData.value.total_checkin_closed
-    const unrecoveredSteps = failedData.value.unrecovered_by_step || []
+    const started = checkinDataInternal.value.total_checkin_started
+    const completed = checkinDataInternal.value.total_checkin_completed
+    const closed = checkinDataInternal.value.total_checkin_closed
+    const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || []
     const totalUnrecovered = unrecoveredSteps.reduce((sum, step) => sum + step.count, 0)
 
-    console.log(JSON.stringify(checkinData.value))
+    console.log(JSON.stringify(checkinDataInternal.value))
 
     // Flujo principal: Checkin Init -> Booking retrive (usar initiated como base 100%)
     if (init > 0) {
@@ -407,49 +405,39 @@
     return { nodes, links }
   })
 
-  const searchData = async () => {
-    loading.value = true
+  // Procesa los datos para la tabla cuando cambian los props
+  const processTableData = () => {
+    const checkinByDay = checkinDataInternal.value.checkin_by_day || []
+    const failedByStepByDay = failedDataInternal.value.failed_by_step_by_day || []
 
-    try {
-      const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
-
-      const [checkinResponse, failedResponse] = await Promise.all([
-        getCheckinMetrics(props.airline_name, startDate, endDate),
-        getCheckinFailedMetrics(props.airline_name, startDate, endDate),
-      ])
-      checkinData.value = checkinResponse
-      failedData.value = failedResponse
-
-      // Combine data for table
-      tableData.value = [...checkinResponse.checkin_by_day].map(dayData => {
-        const failedDayData = failedResponse.failed_by_step_by_day.find(
-          failedDay => failedDay.date === dayData.date
-        )
-
-        return {
-          ...dayData,
-          failed_steps: failedDayData?.steps || [],
-        }
-      })
-
-      // Sort by date ascending
-      tableData.value.sort((a, b) => new Date(a.date) - new Date(b.date))
-    } catch (error) {
-      console.error('Error fetching check-in metrics:', error)
-      checkinData.value = DEFAULT_CHECKIN_DATA
-      failedData.value = DEFAULT_FAILED_DATA
-    } finally {
-      loading.value = false
+    if (checkinByDay.length === 0) {
+      tableData.value = []
+      return
     }
+
+    // Combine data for table
+    tableData.value = [...checkinByDay].map(dayData => {
+      const failedDayData = failedByStepByDay.find(
+        failedDay => failedDay.date === dayData.date
+      )
+
+      return {
+        ...dayData,
+        failed_steps: failedDayData?.steps || [],
+      }
+    })
+
+    // Sort by date ascending
+    tableData.value.sort((a, b) => new Date(a.date) - new Date(b.date))
   }
 
-  onMounted(searchData)
+  // Watch para procesar datos cuando cambien los props
   watch(
-    () => props.dates,
-    newDates => {
-      if (newDates?.[0] && newDates?.[1]) searchData()
+    [() => props.checkinData, () => props.failedData],
+    () => {
+      processTableData()
     },
-    { deep: true }
+    { deep: true, immediate: true }
   )
 </script>
 
