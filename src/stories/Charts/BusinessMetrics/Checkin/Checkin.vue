@@ -115,7 +115,7 @@
 </template>
 
 <script setup>
-  import { ref, computed } from 'vue'
+  import { ref, computed, watch } from 'vue'
   import moment from 'moment'
   import { useNumberFormat } from '../../../../plugins/numberFormat'
   import SankeyChart from '../../Sankey/SankeyChart.vue'

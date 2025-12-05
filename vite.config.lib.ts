@@ -24,6 +24,8 @@ export default defineConfig({
         globals: {
           vue: 'Vue'
         },
+        // Usar solo exports nombrados para evitar advertencias
+        exports: 'named',
         assetFileNames: (assetInfo) => {
           if (assetInfo.name === 'style.css') return 'kiut-ui.css';
           return assetInfo.name || '';
