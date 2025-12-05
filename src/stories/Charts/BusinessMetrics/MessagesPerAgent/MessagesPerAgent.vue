@@ -43,31 +43,78 @@ import { computed } from 'vue'
 import LineChart from '../../Line/ChartLine.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 
-interface Dataset {
-    label: string;
-    data: number[];
-    borderColor?: string;
-    backgroundColor?: string;
-    tension?: number;
-    fill?: boolean;
+// Tipo para los datos por día (clave: categoría, valor: cantidad)
+interface AgentsByDay {
+    [date: string]: {
+        [category: string]: number;
+    };
 }
 
-interface ChartData {
-    labels: string[];
-    datasets: Dataset[];
+// Modelo de datos que viene de la API
+interface AgentInteractionsData {
+    airline_name?: string;
+    start_date?: string;
+    end_date?: string;
+    agents_by_day?: AgentsByDay;
+    total_unique_agents?: number;
 }
+
+// Mapa de colores por categoría de agente
+const colorMap: Record<string, string> = {
+    checkin: '#3B82F680',
+    faq: '#EF444480',
+    disruption_manager: '#F59E0B80',
+    booking_manager: '#a78bfa80',
+    triage: '#10B98180',
+    seller: '#06B6D480',
+    human: '#F472B680',
+    agency: '#6366F180',
+    loyalty: '#EAB30880'
+};
 
 const props = withDefaults(defineProps<{
-    data?: ChartData;
+    data?: AgentInteractionsData;
     loading?: boolean;
     options?: Record<string, any>;
 }>(), {
-    data: () => ({ labels: [], datasets: [] }),
+    data: () => ({}),
     loading: false,
     options: undefined
 });
 
-const chartData = computed(() => props.data);
+// Computed que procesa agents_by_day y genera labels + datasets para el gráfico
+const chartData = computed(() => {
+    const daysData = props.data?.agents_by_day || {};
+    const labels = Object.keys(daysData).sort();
+
+    // Si no hay datos, retornar estructura vacía
+    if (labels.length === 0) {
+        return { labels: [], datasets: [] };
+    }
+
+    // Obtener todas las categorías únicas de todos los días
+    const categoriesSet = new Set<string>();
+    for (const dayData of Object.values(daysData)) {
+        for (const category of Object.keys(dayData)) {
+            categoriesSet.add(category);
+        }
+    }
+    const categories = Array.from(categoriesSet);
+
+    // Crear datasets para cada categoría
+    const datasets = categories.map(category => ({
+        label: category,
+        data: labels.map(date => daysData[date]?.[category] || 0),
+        borderColor: colorMap[category] || 'gray',
+        tension: 0.3
+    }));
+
+    return {
+        labels,
+        datasets
+    };
+});
+
 const chartOptions = computed(() => props.options);
 </script>
 
