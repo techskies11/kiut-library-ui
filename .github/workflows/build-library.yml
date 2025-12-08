@@ -1,4 +1,6 @@
 name: Build Library for CDN
+permissions:
+  contents: write
 
 on:
   push:
