@@ -39,7 +39,7 @@ A reusable export footer component for chart cards.
         defaultValue: { summary: "['pdf', 'csv', 'xlsx']" },
       },
     },
-    export: {
+    onExport: {
       action: 'export',
       description: 'Emitted when an export button is clicked',
       table: {

@@ -3,10 +3,14 @@
     <NpsOverviewMetrics
       :data="data"
       :loading="loading"
+      :enable-export="enableExport"
+      @export="handleExport"
     />
     <NpsDailyMetrics
       :data="data"
       :loading="loading"
+      :enable-export="enableExport"
+      @export="handleExport"
     />
   </div>
 </template>
@@ -15,12 +19,22 @@
 import NpsOverviewMetrics from './npsOverviewMetrics.vue'
 import NpsDailyMetrics from './npsDailyMetrics.vue'
 
+const emit = defineEmits(['export'])
+
+const handleExport = (format) => {
+  emit('export', format)
+}
+
 const props = defineProps({
   data: {
     type: Object,
     default: () => null
   },
   loading: {
+    type: Boolean,
+    default: false
+  },
+  enableExport: {
     type: Boolean,
     default: false
   }
