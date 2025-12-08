@@ -161,6 +161,7 @@
             </tbody>
           </table>
         </div>
+        <FooterExport v-if="enableExport" @export="handleExport" />
       </section>
 
       <!-- Empty State -->
@@ -184,6 +185,7 @@ import { computed } from 'vue'
 import moment from 'moment'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 
 interface DisruptionDayData {
   date: string;
@@ -214,6 +216,7 @@ interface DisruptionData {
 const props = withDefaults(defineProps<{
   data?: DisruptionData;
   loading?: boolean;
+  enableExport?: boolean;
 }>(), {
   data: () => ({
     total_disruption_conversations: 0,
@@ -228,8 +231,17 @@ const props = withDefaults(defineProps<{
     total_payment_success: 0,
     disruption_by_day: [],
   }),
-  loading: false
+  loading: false,
+  enableExport: false
 })
+
+const emit = defineEmits<{
+  export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+  emit('export', format)
+}
 
 // Computed para ordenar los datos por día
 const tableData = computed(() => {

@@ -86,7 +86,15 @@ const meta = {
     loading: {
       control: 'boolean',
       description: 'Loading state indicator'
-    }
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Habilita o deshabilita el footer de exportación',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf, csv, xlsx)',
+    },
   },
   parameters: {
     docs: {
@@ -108,6 +116,7 @@ export const Default: Story = {
     sellerData: mockSellerData,
     failedData: mockFailedData,
     loading: false,
+    enableExport: true,
   },
   parameters: {
     docs: {

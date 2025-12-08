@@ -122,6 +122,7 @@
             </tbody>
           </table>
         </div>
+        <FooterExport v-if="enableExport" @export="handleExport" />
       </section>
 
       <!-- Empty State -->
@@ -144,6 +145,7 @@
 import { computed } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 
 interface BookingDayData {
@@ -176,6 +178,7 @@ const props = withDefaults(defineProps<{
   data?: BookingData;
   loading?: boolean;
   error?: string | null;
+  enableExport?: boolean;
 }>(), {
   data: () => ({
     total_booking_initiated: 0,
@@ -190,8 +193,17 @@ const props = withDefaults(defineProps<{
     booking_manager_by_day: [],
   }),
   loading: false,
-  error: null
+  error: null,
+  enableExport: false
 })
+
+const emit = defineEmits<{
+  export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+  emit('export', format)
+}
 
 // Computed para ordenar los datos por día
 const sortedDayData = computed(() => {

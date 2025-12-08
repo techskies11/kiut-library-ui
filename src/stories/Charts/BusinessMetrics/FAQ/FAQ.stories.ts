@@ -51,6 +51,14 @@ const meta = {
     data: {
       control: 'object',
       description: 'Datos de métricas FAQ incluyendo totales y datos por día'
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Muestra el footer con botones de exportación'
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf | csv | xlsx)'
     }
   },
   parameters: {
@@ -72,11 +80,12 @@ export const Default: Story = {
   args: {
     loading: false,
     data: mockFaqData,
+    enableExport: true,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Muestra el componente completo con los KPIs y el gráfico de líneas de métricas de FAQ.'
+        story: 'Muestra el componente completo con los KPIs, el gráfico de líneas y los botones de exportación.'
       }
     }
   }
@@ -89,6 +98,7 @@ export const LastWeek: Story = {
   args: {
     loading: false,
     data: mockWeekData,
+    enableExport: true,
   },
   parameters: {
     docs: {
@@ -158,11 +168,30 @@ export const PartialData: Story = {
         { date: '2024-11-30', faq_events_count: 480, documents_found_count: 380, airline_information_retrieved_count: 280, booking_info_retrieved_count: 0, flight_status_retrieved_count: 170 },
       ]
     },
+    enableExport: true,
   },
   parameters: {
     docs: {
       description: {
         story: 'Componente mostrando datos parciales donde algunos KPIs están en cero.'
+      }
+    }
+  }
+};
+
+/**
+ * Sin botones de exportación
+ */
+export const WithoutExport: Story = {
+  args: {
+    loading: false,
+    data: mockFaqData,
+    enableExport: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Componente sin los botones de exportación (enableExport: false).'
       }
     }
   }

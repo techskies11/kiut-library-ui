@@ -17,7 +17,15 @@ const meta = {
     failedData: {
       control: 'object',
       description: 'Failed check-in data from getCheckinFailedMetrics API'
-    }
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Habilita o deshabilita el footer de exportación',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf, csv, xlsx)',
+    },
   },
 } satisfies Meta<typeof CheckinMetrics>;
 
@@ -121,6 +129,7 @@ export const Default: Story = {
     checkinData: sampleCheckinData,
     failedData: sampleFailedData,
     loading: false,
+    enableExport: true,
   },
 };
 

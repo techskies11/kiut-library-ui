@@ -10,6 +10,7 @@
         <div class="card-body" v-if="!loading">
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
                 <BarChart :data="chartData" :options="chartOptions" :stacked="true" />
+                <FooterExport v-if="enableExport" @export="handleExport" />
             </section>
             <section v-else class="empty-state">
                 <div class="empty-state-content">
@@ -42,6 +43,7 @@
 import { computed, toRef } from 'vue'
 import BarChart from '../../Bar/ChartBar.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 // Tipo para los datos por día (clave: categoría, valor: cantidad)
@@ -78,12 +80,22 @@ const props = withDefaults(defineProps<{
     loading?: boolean;
     options?: Record<string, any>;
     theme?: Theme;
+    enableExport?: boolean;
 }>(), {
     data: () => ({}),
     loading: false,
     options: undefined,
-    theme: undefined
+    theme: undefined,
+    enableExport: false
 });
+
+const emit = defineEmits<{
+    export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+    emit('export', format)
+}
 
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))

@@ -67,7 +67,15 @@ const meta = {
     isAvianca: {
       control: 'boolean',
       description: 'Show Avianca-specific payment columns'
-    }
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Habilita o deshabilita el footer de exportación',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf, csv, xlsx)',
+    },
   },
   parameters: {
     docs: {
@@ -89,6 +97,7 @@ export const Default: Story = {
     data: mockRecordLocatorData,
     loading: false,
     isAvianca: false,
+    enableExport: true,
   },
   parameters: {
     docs: {

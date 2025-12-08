@@ -96,6 +96,7 @@
             </tbody>
           </table>
         </div>
+        <FooterExport v-if="enableExport" @export="handleExport" />
       </section>
 
       <!-- Empty State -->
@@ -119,9 +120,20 @@
   import moment from 'moment'
   import { useNumberFormat } from '../../../../plugins/numberFormat'
   import SankeyChart from '../../Sankey/SankeyChart.vue'
+  import { FooterExport } from '../../Utils/FooterExport'
+
+  const emit = defineEmits(['export'])
+
+  const handleExport = (format) => {
+    emit('export', format)
+  }
 
   const props = defineProps({
     loading: {
+      type: Boolean,
+      default: false,
+    },
+    enableExport: {
       type: Boolean,
       default: false,
     },

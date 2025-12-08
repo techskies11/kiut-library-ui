@@ -36,6 +36,8 @@
       <!-- Chart Section -->
       <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
         <LineChart :data="dataChart" :options="lineOptions" />
+
+        <FooterExport v-if="enableExport" @export="handleExport" />
       </section>
 
       <!-- Empty State -->
@@ -72,6 +74,7 @@
 import { ref, watch, computed, toRef } from 'vue'
 import moment from 'moment'
 import LineChart from '../../Line/ChartLine.vue'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
@@ -97,11 +100,21 @@ const props = withDefaults(defineProps<{
   loading?: boolean;
   data?: MetricsData | null;
   theme?: Theme;
+  enableExport?: boolean;
 }>(), {
   loading: false,
   data: null,
-  theme: undefined
+  theme: undefined,
+  enableExport: false
 })
+
+const emit = defineEmits<{
+  export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+  emit('export', format)
+}
 
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))

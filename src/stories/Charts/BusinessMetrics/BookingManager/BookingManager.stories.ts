@@ -68,7 +68,15 @@ const meta = {
     error: {
       control: 'text',
       description: 'Error message to display'
-    }
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Habilita o deshabilita el footer de exportación',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf, csv, xlsx)',
+    },
   },
   parameters: {
     docs: {
@@ -90,6 +98,7 @@ export const Default: Story = {
     data: mockBookingData,
     loading: false,
     error: null,
+    enableExport: true,
   },
   parameters: {
     docs: {

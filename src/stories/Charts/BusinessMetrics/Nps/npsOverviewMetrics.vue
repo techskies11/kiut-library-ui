@@ -44,6 +44,7 @@
           :chart-bottom-margin="chartBottomMargin"
         />
       </div>
+      <FooterExport v-if="enableExport" @export="handleExport" />
     </div>
 
     <!-- Empty State -->
@@ -64,7 +65,14 @@
 <script setup>
 import { computed, toRef } from 'vue'
 import HistogramChart from '../../Histogram/HistogramChart.vue'
+import { FooterExport } from '../../Utils/FooterExport'
 import { useThemeDetection } from '../../../../composables/useThemeDetection'
+
+const emit = defineEmits(['export'])
+
+const handleExport = (format) => {
+  emit('export', format)
+}
 
 const props = defineProps({
   data: {
@@ -78,6 +86,10 @@ const props = defineProps({
   theme: {
     type: String,
     default: undefined
+  },
+  enableExport: {
+    type: Boolean,
+    default: false
   }
 })
 

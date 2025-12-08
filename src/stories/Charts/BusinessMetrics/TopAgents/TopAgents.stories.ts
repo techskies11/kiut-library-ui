@@ -17,7 +17,15 @@ const meta = {
     options: {
       control: 'object',
       description: 'Chart.js options for customization'
-    }
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Habilita o deshabilita el footer de exportación',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf, csv, xlsx)',
+    },
   },
 } satisfies Meta<typeof TopAgents>;
 
@@ -90,6 +98,7 @@ export const Default: Story = {
   args: {
     data: sampleData,
     loading: false,
+    enableExport: true,
   },
 };
 

@@ -94,6 +94,7 @@
             </tbody>
           </table>
         </div>
+        <FooterExport v-if="enableExport" @export="handleExport" />
       </section>
 
       <!-- Empty State -->
@@ -117,6 +118,7 @@ import { computed, toRef } from 'vue'
 import moment from 'moment'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 interface RecordLocatorDayData {
@@ -149,6 +151,7 @@ const props = withDefaults(defineProps<{
   loading?: boolean;
   isAvianca?: boolean;
   theme?: Theme;
+  enableExport?: boolean;
 }>(), {
   data: () => ({
     total_checkin_initiated: 0,
@@ -163,8 +166,17 @@ const props = withDefaults(defineProps<{
   }),
   loading: false,
   isAvianca: false,
-  theme: undefined
+  theme: undefined,
+  enableExport: false
 })
+
+const emit = defineEmits<{
+  export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+  emit('export', format)
+}
 
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))

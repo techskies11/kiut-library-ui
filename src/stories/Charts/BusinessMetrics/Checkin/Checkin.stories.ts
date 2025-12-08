@@ -80,7 +80,15 @@ const meta = {
     failedData: {
       control: 'object',
       description: 'Datos de errores de check-in por paso y por día'
-    }
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Habilita o deshabilita el footer de exportación',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf, csv, xlsx)',
+    },
   },
   parameters: {
     docs: {
@@ -102,6 +110,7 @@ export const Default: Story = {
     loading: false,
     checkinData: mockCheckinData,
     failedData: mockFailedData,
+    enableExport: true,
   },
   parameters: {
     docs: {

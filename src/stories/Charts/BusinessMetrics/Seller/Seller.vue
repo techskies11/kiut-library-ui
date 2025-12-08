@@ -114,6 +114,7 @@
             </tbody>
           </table>
         </div>
+        <FooterExport v-if="enableExport" @export="handleExport" />
       </section>
     </div>
   </article>
@@ -123,6 +124,7 @@
 import { computed, toRef } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
@@ -165,6 +167,7 @@ const props = withDefaults(defineProps<{
   failedData?: FailedData;
   loading?: boolean;
   theme?: Theme;
+  enableExport?: boolean;
 }>(), {
   sellerData: () => ({
     total_seller_conversations: 0,
@@ -180,8 +183,17 @@ const props = withDefaults(defineProps<{
     failed_by_reason_by_day: [],
   }),
   loading: false,
-  theme: undefined
+  theme: undefined,
+  enableExport: false
 })
+
+const emit = defineEmits<{
+  export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+  emit('export', format)
+}
 
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))

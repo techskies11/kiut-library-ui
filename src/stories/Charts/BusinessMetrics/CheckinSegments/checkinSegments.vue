@@ -82,6 +82,7 @@
             </tbody>
           </table>
         </div>
+        <FooterExport v-if="enableExport" @export="handleExport" />
       </section>
 
       <!-- Empty State -->
@@ -103,6 +104,7 @@
 <script setup lang="ts">
 import { toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 interface SegmentData {
@@ -119,11 +121,21 @@ const props = withDefaults(defineProps<{
   data?: SegmentData[];
   loading?: boolean;
   theme?: Theme;
+  enableExport?: boolean;
 }>(), {
   data: () => [],
   loading: false,
-  theme: undefined
+  theme: undefined,
+  enableExport: false
 })
+
+const emit = defineEmits<{
+  export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+  emit('export', format)
+}
 
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))

@@ -72,6 +72,7 @@
                         </tbody>
                     </table>
                 </div>
+                <FooterExport v-if="enableExport" @export="handleExport" />
             </div>
 
             <!-- Empty State -->
@@ -92,6 +93,7 @@
 import { computed, toRef } from 'vue'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 // Types
@@ -154,6 +156,7 @@ const props = withDefaults(defineProps<{
     failedData?: FailedData;
     loading?: boolean;
     theme?: Theme;
+    enableExport?: boolean;
 }>(), {
     checkinData: () => ({
         total_checkin_init: 0,
@@ -171,8 +174,17 @@ const props = withDefaults(defineProps<{
         unrecovered_by_step: [],
     }),
     loading: false,
-    theme: undefined
+    theme: undefined,
+    enableExport: false
 });
+
+const emit = defineEmits<{
+    export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+    emit('export', format)
+}
 
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
