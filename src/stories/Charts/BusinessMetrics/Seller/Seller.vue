@@ -114,7 +114,7 @@
             </tbody>
           </table>
         </div>
-        <FooterExport v-if="enableExport" @export="handleExport" />
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
     </div>
   </article>
@@ -168,6 +168,7 @@ const props = withDefaults(defineProps<{
   loading?: boolean;
   theme?: Theme;
   enableExport?: boolean;
+  exportLoading?: boolean;
 }>(), {
   sellerData: () => ({
     total_seller_conversations: 0,
@@ -184,7 +185,8 @@ const props = withDefaults(defineProps<{
   }),
   loading: false,
   theme: undefined,
-  enableExport: false
+  enableExport: false,
+  exportLoading: false
 })
 
 const emit = defineEmits<{

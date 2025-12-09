@@ -122,7 +122,7 @@
             </tbody>
           </table>
         </div>
-        <FooterExport v-if="enableExport" @export="handleExport" />
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -179,6 +179,7 @@ const props = withDefaults(defineProps<{
   loading?: boolean;
   error?: string | null;
   enableExport?: boolean;
+  exportLoading?: boolean;
 }>(), {
   data: () => ({
     total_booking_initiated: 0,
@@ -194,7 +195,8 @@ const props = withDefaults(defineProps<{
   }),
   loading: false,
   error: null,
-  enableExport: false
+  enableExport: false,
+  exportLoading: false
 })
 
 const emit = defineEmits<{

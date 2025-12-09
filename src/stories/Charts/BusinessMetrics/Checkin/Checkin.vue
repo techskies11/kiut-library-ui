@@ -96,7 +96,7 @@
             </tbody>
           </table>
         </div>
-        <FooterExport v-if="enableExport" @export="handleExport" />
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -134,6 +134,10 @@
       default: false,
     },
     enableExport: {
+      type: Boolean,
+      default: false,
+    },
+    exportLoading: {
       type: Boolean,
       default: false,
     },

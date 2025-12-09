@@ -161,7 +161,7 @@
             </tbody>
           </table>
         </div>
-        <FooterExport v-if="enableExport" @export="handleExport" />
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -217,6 +217,7 @@ const props = withDefaults(defineProps<{
   data?: DisruptionData;
   loading?: boolean;
   enableExport?: boolean;
+  exportLoading?: boolean;
 }>(), {
   data: () => ({
     total_disruption_conversations: 0,
@@ -232,7 +233,8 @@ const props = withDefaults(defineProps<{
     disruption_by_day: [],
   }),
   loading: false,
-  enableExport: false
+  enableExport: false,
+  exportLoading: false
 })
 
 const emit = defineEmits<{

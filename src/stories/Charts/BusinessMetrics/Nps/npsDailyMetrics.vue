@@ -85,7 +85,7 @@
           </div>
         </div>
       </div>
-      <FooterExport v-if="enableExport" @export="handleExport" />
+      <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
     </div>
 
     <!-- Empty State -->
@@ -130,6 +130,10 @@ const props = defineProps({
     default: undefined
   },
   enableExport: {
+    type: Boolean,
+    default: false
+  },
+  exportLoading: {
     type: Boolean,
     default: false
   }

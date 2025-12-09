@@ -37,7 +37,7 @@
       <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
         <LineChart :data="dataChart" :options="lineOptions" />
 
-        <FooterExport v-if="enableExport" @export="handleExport" />
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -101,11 +101,13 @@ const props = withDefaults(defineProps<{
   data?: MetricsData | null;
   theme?: Theme;
   enableExport?: boolean;
+  exportLoading?: boolean;
 }>(), {
   loading: false,
   data: null,
   theme: undefined,
-  enableExport: false
+  enableExport: false,
+  exportLoading: false
 })
 
 const emit = defineEmits<{
