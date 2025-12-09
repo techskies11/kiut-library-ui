@@ -13,7 +13,8 @@ const meta: Meta<typeof FooterExport> = {
 A reusable export footer component for chart cards.
 
 ## Features
-- Configurable export formats (PDF, CSV, XLSX)
+- Configurable export formats (PDF, CSV)
+- Loading state with animated spinner
 - Emits \`export\` event with the selected format
 - Responsive design (icons only on mobile)
 - Supports dark/light themes via CSS variables
@@ -21,9 +22,24 @@ A reusable export footer component for chart cards.
 ## Usage
 \`\`\`vue
 <FooterExport 
-  :formats="['pdf', 'csv', 'xlsx']" 
+  :formats="['pdf', 'csv']"
+  :loading="isExporting"
   @export="handleExport" 
 />
+\`\`\`
+
+## Loading State
+Pass a boolean to show the loading spinner on all buttons:
+\`\`\`vue
+<script setup>
+const isExporting = ref(false)
+
+const handleExport = async (format) => {
+  isExporting.value = true
+  await downloadFile(format)
+  isExporting.value = false
+}
+</script>
 \`\`\`
         `,
       },
@@ -32,18 +48,26 @@ A reusable export footer component for chart cards.
   argTypes: {
     formats: {
       control: 'check',
-      options: ['pdf', 'csv', 'xlsx'],
+      options: ['pdf', 'csv'],
       description: 'Array of export formats to display',
       table: {
-        type: { summary: "('pdf' | 'csv' | 'xlsx')[]" },
-        defaultValue: { summary: "['pdf', 'csv', 'xlsx']" },
+        type: { summary: "('pdf' | 'csv')[]" },
+        defaultValue: { summary: "['pdf', 'csv']" },
+      },
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Loading state (shows spinner on all buttons)',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
       },
     },
     onExport: {
       action: 'export',
       description: 'Emitted when an export button is clicked',
       table: {
-        type: { summary: "(format: 'pdf' | 'csv' | 'xlsx') => void" },
+        type: { summary: "(format: 'pdf' | 'csv') => void" },
       },
     },
   },
@@ -85,16 +109,28 @@ type Story = StoryObj<typeof FooterExport>
  */
 export const Default: Story = {
   args: {
-    formats: ['pdf', 'csv', 'xlsx'],
+    formats: ['pdf', 'csv'],
+    loading: false,
   },
 }
 
 /**
- * Only PDF and CSV formats
+ * Loading state - spinner on all buttons
  */
-export const PdfAndCsv: Story = {
+export const Loading: Story = {
   args: {
     formats: ['pdf', 'csv'],
+    loading: true,
+  },
+}
+
+/**
+ * Only PDF format
+ */
+export const PdfOnly: Story = {
+  args: {
+    formats: ['pdf'],
+    loading: false,
   },
 }
 
@@ -104,24 +140,6 @@ export const PdfAndCsv: Story = {
 export const CsvOnly: Story = {
   args: {
     formats: ['csv'],
+    loading: false,
   },
 }
-
-/**
- * Only XLSX format
- */
-export const XlsxOnly: Story = {
-  args: {
-    formats: ['xlsx'],
-  },
-}
-
-/**
- * PDF and XLSX formats (no CSV)
- */
-export const PdfAndXlsx: Story = {
-  args: {
-    formats: ['pdf', 'xlsx'],
-  },
-}
-

@@ -94,7 +94,7 @@
             </tbody>
           </table>
         </div>
-        <FooterExport v-if="enableExport" @export="handleExport" />
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -152,6 +152,7 @@ const props = withDefaults(defineProps<{
   isAvianca?: boolean;
   theme?: Theme;
   enableExport?: boolean;
+  exportLoading?: boolean;
 }>(), {
   data: () => ({
     total_checkin_initiated: 0,
@@ -167,7 +168,8 @@ const props = withDefaults(defineProps<{
   loading: false,
   isAvianca: false,
   theme: undefined,
-  enableExport: false
+  enableExport: false,
+  exportLoading: false
 })
 
 const emit = defineEmits<{
