@@ -27,7 +27,8 @@ export default defineConfig({
         // Usar solo exports nombrados para evitar advertencias
         exports: 'named',
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'kiut-ui.css';
+          // Renombrar cualquier archivo CSS generado a kiut-ui.css
+          if (assetInfo.name?.endsWith('.css')) return 'kiut-ui.css';
           return assetInfo.name || '';
         }
       }

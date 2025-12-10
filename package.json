@@ -13,9 +13,9 @@
       "require": "./dist/kiut-ui.umd.js"
     },
     "./src/*": "./src/*",
-    "./dist/style.css": "./dist/kiut-library-ui.css",
-    "./style.css": "./dist/kiut-library-ui.css",
-    "./css": "./dist/kiut-library-ui.css"
+    "./dist/style.css": "./dist/kiut-ui.css",
+    "./style.css": "./dist/kiut-ui.css",
+    "./css": "./dist/kiut-ui.css"
   },
   "files": [
     "dist",
