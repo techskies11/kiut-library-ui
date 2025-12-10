@@ -10,7 +10,7 @@
         <div class="card-body" v-if="!loading">
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
                 <LineChart :data="chartData" :options="chartOptions" />
-                <FooterExport v-if="enableExport" @export="handleExport" />
+                <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
             </section>
             <section v-else class="empty-state">
                 <div class="empty-state-content">
@@ -81,12 +81,14 @@ const props = withDefaults(defineProps<{
     options?: Record<string, any>;
     theme?: Theme;
     enableExport?: boolean;
+    exportLoading?: boolean;
 }>(), {
     data: () => ({}),
     loading: false,
     options: undefined,
     theme: undefined,
-    enableExport: false
+    enableExport: false,
+    exportLoading: false
 });
 
 const emit = defineEmits<{

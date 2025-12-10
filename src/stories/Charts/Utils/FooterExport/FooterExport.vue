@@ -8,10 +8,38 @@
           v-if="showFormat('pdf')"
           type="button"
           class="export-btn"
+          :class="{ 'is-loading': loading }"
+          :disabled="loading"
           title="Download PDF"
           @click="handleExport('pdf')"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Loading spinner -->
+          <svg
+            v-if="loading"
+            class="spinner"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.25" />
+            <path d="M12 2a10 10 0 0 1 10 10" />
+          </svg>
+          <!-- PDF icon -->
+          <svg
+            v-else
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -24,10 +52,38 @@
           v-if="showFormat('csv')"
           type="button"
           class="export-btn"
+          :class="{ 'is-loading': loading }"
+          :disabled="loading"
           title="Download CSV"
           @click="handleExport('csv')"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Loading spinner -->
+          <svg
+            v-if="loading"
+            class="spinner"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.25" />
+            <path d="M12 2a10 10 0 0 1 10 10" />
+          </svg>
+          <!-- CSV icon -->
+          <svg
+            v-else
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
             <line x1="12" y1="18" x2="12" y2="12"></line>
@@ -35,42 +91,34 @@
           </svg>
           <span>CSV</span>
         </button>
-        <button
-          v-if="showFormat('xlsx')"
-          type="button"
-          class="export-btn"
-          title="Download XLSX"
-          @click="handleExport('xlsx')"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <rect x="8" y="12" width="8" height="6" rx="1"></rect>
-          </svg>
-          <span>XLSX</span>
-        </button>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-export type ExportFormat = 'pdf' | 'csv' | 'xlsx'
+export type ExportFormat = 'pdf' | 'csv'
 
 const props = withDefaults(defineProps<{
   /**
    * Array of export formats to display
-   * @default ['pdf', 'csv', 'xlsx']
+   * @default ['pdf', 'csv']
    */
   formats?: ExportFormat[]
+  /**
+   * Loading state (shows spinner on all buttons)
+   * @default false
+   */
+  loading?: boolean
 }>(), {
-  formats: () => ['pdf', 'csv', 'xlsx']
+  formats: () => ['pdf', 'csv'],
+  loading: false
 })
 
 const emit = defineEmits<{
   /**
    * Emitted when an export button is clicked
-   * @param format - The export format type ('pdf' | 'csv' | 'xlsx')
+   * @param format - The export format type ('pdf' | 'csv')
    */
   export: [format: ExportFormat]
 }>()
@@ -86,7 +134,9 @@ const showFormat = (format: ExportFormat): boolean => {
  * Handle export button click
  */
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
+  if (!props.loading) {
+    emit('export', format)
+  }
 }
 </script>
 
@@ -147,14 +197,24 @@ const handleExport = (format: ExportFormat) => {
   cursor: pointer;
 }
 
-.export-btn:hover {
+.export-btn:hover:not(:disabled) {
   color: var(--kiut-primary, #8b5cf6);
   background: var(--kiut-bg-stats-badge, #fafafa);
   border-color: var(--kiut-border-color, rgba(93, 75, 147, 0.1));
 }
 
-.export-btn:active {
+.export-btn:active:not(:disabled) {
   transform: scale(0.97);
+}
+
+.export-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.export-btn.is-loading {
+  color: var(--kiut-primary, #8b5cf6);
+  border-color: var(--kiut-border-color, rgba(93, 75, 147, 0.2));
 }
 
 .export-btn svg {
@@ -162,8 +222,23 @@ const handleExport = (format: ExportFormat) => {
   transition: opacity 0.2s ease;
 }
 
-.export-btn:hover svg {
+.export-btn:hover:not(:disabled) svg {
   opacity: 1;
+}
+
+/* Spinner animation */
+.spinner {
+  animation: spin 0.8s linear infinite;
+  opacity: 1 !important;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive */
@@ -181,4 +256,3 @@ const handleExport = (format: ExportFormat) => {
   }
 }
 </style>
-
