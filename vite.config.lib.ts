@@ -17,12 +17,13 @@ export default defineConfig({
     },
     rollupOptions: {
       // Asegúrate de externalizar las dependencias que no quieres incluir en tu biblioteca
-      external: ['vue'],
+      external: ['vue', 'moment'],
       output: {
         // Proporciona variables globales para usar en el build UMD/IIFE
         // para dependencias externalizadas
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
+          moment: 'moment'
         },
         // Usar solo exports nombrados para evitar advertencias
         exports: 'named',

@@ -28,6 +28,9 @@ npm install github:TU-USUARIO/kiut-library-ui#v1.0.0
 <!-- Vue 3 (requerido) -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+<!-- Moment.js (requerido para componentes de fecha) -->
+<script src="https://cdn.jsdelivr.net/npm/moment@2/moment.min.js"></script>
+
 <!-- Kiut UI -->
 <script src="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.iife.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.css">
@@ -44,7 +47,7 @@ npm install github:TU-USUARIO/kiut-library-ui#v1.0.0
 **1. Instalar:**
 ```bash
 npm install github:TU-USUARIO/kiut-library-ui#v1.0.0
-npm install chart.js vue-chartjs  # Dependencias peer
+npm install chart.js vue-chartjs moment echarts  # Dependencias peer
 ```
 
 **2. Configurar (main.ts):**
@@ -91,6 +94,7 @@ const handleClick = () => console.log('Click!')
   </div>
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.iife.js"></script>
   <script>
     Vue.createApp({}).use(KiutUI).mount('#app')
