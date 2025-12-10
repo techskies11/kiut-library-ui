@@ -17,13 +17,18 @@ export default defineConfig({
     },
     rollupOptions: {
       // Asegúrate de externalizar las dependencias que no quieres incluir en tu biblioteca
-      external: ['vue', 'moment'],
+      // Usar función para externalizar echarts y todos sus submódulos
+      external: (id) => {
+        return id === 'vue' || id === 'moment' || id === 'echarts' || id.startsWith('echarts/');
+      },
       output: {
         // Proporciona variables globales para usar en el build UMD/IIFE
         // para dependencias externalizadas
-        globals: {
-          vue: 'Vue',
-          moment: 'moment'
+        globals: (id) => {
+          if (id === 'vue') return 'Vue';
+          if (id === 'moment') return 'moment';
+          if (id === 'echarts' || id.startsWith('echarts/')) return 'echarts';
+          return id;
         },
         // Usar solo exports nombrados para evitar advertencias
         exports: 'named',

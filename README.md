@@ -29,8 +29,9 @@ npm install github:TU-USUARIO/kiut-library-ui#v1.0.0
 <!-- Vue 3 (requerido) -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-<!-- Moment.js (requerido para componentes de fecha) -->
+<!-- Dependencias requeridas -->
 <script src="https://cdn.jsdelivr.net/npm/moment@2/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
 
 <!-- Kiut UI -->
 <script src="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.iife.js"></script>
@@ -96,6 +97,7 @@ const handleClick = () => console.log('Click!')
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/moment@2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.iife.js"></script>
   <script>
     Vue.createApp({}).use(KiutUI).mount('#app')

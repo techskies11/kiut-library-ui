@@ -43,6 +43,7 @@
     "vue-chartjs": "^5.3.3"
   },
   "peerDependencies": {
+    "echarts": "^5.4.0 || ^6.0.0",
     "moment": "^2.29.0",
     "vue": "^3.3.0"
   },
