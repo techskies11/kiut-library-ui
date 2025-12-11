@@ -8,7 +8,7 @@
         </div>
         <div class="stats-badge" v-if="!props.loading">
           <p class="badge-label">Total Sales Value</p>
-          <p class="badge-value">{{ useCurrencyFormat(props.sellerData.total_value_sell_success) }}</p>
+          <p class="badge-value">{{ formatCurrencyValue(props.sellerData.total_value_sell_success) }}</p>
         </div>
       </div>
     </header>
@@ -95,7 +95,7 @@
                   {{ formatValueWithPercentage(row.sell_success_count, row.seller_conversations || row.sell_started_count) }}
                 </td>
                 <td class="table-cell text-center success-value">
-                  {{ useCurrencyFormat(row.daily_value_sell_success) }}
+                  {{ formatCurrencyValue(row.daily_value_sell_success) }}
                 </td>
                 <td class="table-cell text-left">
                   <div v-if="row.reasons && row.reasons.length > 0" class="failed-reasons">
@@ -133,6 +133,12 @@ interface FailedReason {
   failed_count: number;
 }
 
+interface CurrencyValue {
+  currency: string;
+  total_value: number;
+  count: number;
+}
+
 interface SellerDayData {
   date: string;
   seller_conversations: number;
@@ -140,7 +146,7 @@ interface SellerDayData {
   sell_get_quote_count: number;
   sell_booking_created_count: number;
   sell_success_count: number;
-  daily_value_sell_success: number;
+  daily_value_sell_success: number | CurrencyValue[];
   reasons?: FailedReason[];
 }
 
@@ -150,7 +156,7 @@ interface SellerData {
   total_sell_get_quote: number;
   total_sell_booking_created: number;
   total_sell_success: number;
-  total_value_sell_success: number;
+  total_value_sell_success: number | CurrencyValue[];
   seller_by_day: SellerDayData[];
 }
 
@@ -403,6 +409,21 @@ const formatValueWithPercentage = (value: number, total: number): string => {
   const formattedValue = useNumberFormat(value)
   const percentage = calculatePercentage(value, total)
   return `${formattedValue} (${percentage})`
+}
+
+// Helper to extract total value from currency array or number
+const getTotalValue = (value: number | CurrencyValue[] | undefined): number => {
+  if (value === undefined || value === null) return 0
+  if (typeof value === 'number') return value
+  if (Array.isArray(value)) {
+    return value.reduce((sum, item) => sum + (item.total_value || 0), 0)
+  }
+  return 0
+}
+
+// Format currency value handling both number and array formats
+const formatCurrencyValue = (value: number | CurrencyValue[] | undefined): string => {
+  return useCurrencyFormat(getTotalValue(value))
 }
 
 // Expose isDark for potential use in templates
