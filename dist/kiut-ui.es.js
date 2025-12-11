@@ -10770,7 +10770,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       e.loading ? (x(), M("div", Gf, [...g[2] || (g[2] = [
-        tt('<div class="loading-container" data-v-ae77b001><div class="chart-lines-loader" data-v-ae77b001><div class="line line-1" data-v-ae77b001></div><div class="line line-2" data-v-ae77b001></div><div class="line line-3" data-v-ae77b001></div><div class="line line-4" data-v-ae77b001></div><div class="line line-5" data-v-ae77b001></div></div><p class="loading-text" data-v-ae77b001>Loading chart data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-4d18c22c><div class="chart-lines-loader" data-v-4d18c22c><div class="line line-1" data-v-4d18c22c></div><div class="line line-2" data-v-4d18c22c></div><div class="line line-3" data-v-4d18c22c></div><div class="line line-4" data-v-4d18c22c></div><div class="line line-5" data-v-4d18c22c></div></div><p class="loading-text" data-v-4d18c22c>Loading chart data...</p></div>', 1)
       ])])) : (x(), M("div", Yf, [
         d.value.labels && d.value.labels.length ? (x(), M("section", qf, [
           dt(No, {
@@ -10795,7 +10795,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
       ]))
     ]));
   }
-}), Zf = /* @__PURE__ */ it(Qf, [["__scopeId", "data-v-ae77b001"]]), V = (e) => e == null ? "0" : new Intl.NumberFormat("en-US").format(e), Jf = (e, t = "USD") => e == null ? "$0.00" : new Intl.NumberFormat("en-US", {
+}), Zf = /* @__PURE__ */ it(Qf, [["__scopeId", "data-v-4d18c22c"]]), V = (e) => e == null ? "0" : new Intl.NumberFormat("en-US").format(e), Jf = (e, t = "USD") => e == null ? "$0.00" : new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: t,
   minimumFractionDigits: 2,
@@ -10939,7 +10939,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ]),
       s.loading ? (x(), M("div", og, [...d[2] || (d[2] = [
-        tt('<div class="loading-container" data-v-6e8e43b2><div class="chart-flow-loader" data-v-6e8e43b2><div class="flow-line flow-1" data-v-6e8e43b2></div><div class="flow-line flow-2" data-v-6e8e43b2></div><div class="flow-line flow-3" data-v-6e8e43b2></div><div class="flow-line flow-4" data-v-6e8e43b2></div><div class="flow-line flow-5" data-v-6e8e43b2></div></div><p class="loading-text" data-v-6e8e43b2>Loading booking data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-dff9dd25><div class="chart-flow-loader" data-v-dff9dd25><div class="flow-line flow-1" data-v-dff9dd25></div><div class="flow-line flow-2" data-v-dff9dd25></div><div class="flow-line flow-3" data-v-dff9dd25></div><div class="flow-line flow-4" data-v-dff9dd25></div><div class="flow-line flow-5" data-v-dff9dd25></div></div><p class="loading-text" data-v-dff9dd25>Loading booking data...</p></div>', 1)
       ])])) : s.error ? (x(), M("div", ag, [
         u("div", rg, [
           d[3] || (d[3] = u("div", { class: "error-icon-wrapper" }, [
@@ -11023,12 +11023,12 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (x(), M("section", Fg, [...d[7] || (d[7] = [
-          tt('<div class="empty-state-content" data-v-6e8e43b2><div class="empty-icon-wrapper" data-v-6e8e43b2><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-6e8e43b2><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" data-v-6e8e43b2></path></svg></div><p class="empty-title" data-v-6e8e43b2>No booking manager data available</p><p class="empty-description" data-v-6e8e43b2>No booking manager data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          tt('<div class="empty-state-content" data-v-dff9dd25><div class="empty-icon-wrapper" data-v-dff9dd25><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-dff9dd25><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" data-v-dff9dd25></path></svg></div><p class="empty-title" data-v-dff9dd25>No booking manager data available</p><p class="empty-description" data-v-dff9dd25>No booking manager data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Bg = /* @__PURE__ */ it(Tg, [["__scopeId", "data-v-6e8e43b2"]]), Lg = { class: "checkin-metrics-card" }, Og = {
+}), Bg = /* @__PURE__ */ it(Tg, [["__scopeId", "data-v-dff9dd25"]]), Lg = { class: "checkin-metrics-card" }, Og = {
   key: 0,
   class: "loading-state"
 }, Eg = {
@@ -11282,7 +11282,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       i.loading ? (x(), M("div", Og, [...m[0] || (m[0] = [
-        tt('<div class="loading-container" data-v-e1510867><div class="chart-flow-loader" data-v-e1510867><div class="flow-line flow-1" data-v-e1510867></div><div class="flow-line flow-2" data-v-e1510867></div><div class="flow-line flow-3" data-v-e1510867></div><div class="flow-line flow-4" data-v-e1510867></div><div class="flow-line flow-5" data-v-e1510867></div></div><p class="loading-text" data-v-e1510867>Loading check-in data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-306ad607><div class="chart-flow-loader" data-v-306ad607><div class="flow-line flow-1" data-v-306ad607></div><div class="flow-line flow-2" data-v-306ad607></div><div class="flow-line flow-3" data-v-306ad607></div><div class="flow-line flow-4" data-v-306ad607></div><div class="flow-line flow-5" data-v-306ad607></div></div><p class="loading-text" data-v-306ad607>Loading check-in data...</p></div>', 1)
       ])])) : (x(), M("div", Eg, [
         p.value.nodes.length > 0 ? (x(), M("section", Rg, [
           u("div", Ig, [
@@ -11343,12 +11343,12 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (x(), M("section", ep, [...m[2] || (m[2] = [
-          tt('<div class="empty-state-content" data-v-e1510867><div class="empty-icon-wrapper" data-v-e1510867><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-e1510867><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-e1510867></path></svg></div><p class="empty-title" data-v-e1510867>No check-in data available</p><p class="empty-description" data-v-e1510867>Try adjusting the date range or check your filters to see check-in performance data.</p></div>', 1)
+          tt('<div class="empty-state-content" data-v-306ad607><div class="empty-icon-wrapper" data-v-306ad607><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-306ad607><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-306ad607></path></svg></div><p class="empty-title" data-v-306ad607>No check-in data available</p><p class="empty-description" data-v-306ad607>Try adjusting the date range or check your filters to see check-in performance data.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}, np = /* @__PURE__ */ it(sp, [["__scopeId", "data-v-e1510867"]]), ip = { class: "checkin-metrics-card" }, op = {
+}, np = /* @__PURE__ */ it(sp, [["__scopeId", "data-v-306ad607"]]), ip = { class: "checkin-metrics-card" }, op = {
   key: 0,
   class: "loading-state"
 }, ap = {
@@ -11552,7 +11552,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       e.loading ? (x(), M("div", op, [...m[0] || (m[0] = [
-        tt('<div class="loading-container" data-v-09223de5><div class="chart-bars-loader" data-v-09223de5><div class="bar bar-1" data-v-09223de5></div><div class="bar bar-2" data-v-09223de5></div><div class="bar bar-3" data-v-09223de5></div><div class="bar bar-4" data-v-09223de5></div><div class="bar bar-5" data-v-09223de5></div></div><p class="loading-text" data-v-09223de5>Loading check-in data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-8283d36d><div class="chart-bars-loader" data-v-8283d36d><div class="bar bar-1" data-v-8283d36d></div><div class="bar bar-2" data-v-8283d36d></div><div class="bar bar-3" data-v-8283d36d></div><div class="bar bar-4" data-v-8283d36d></div><div class="bar bar-5" data-v-8283d36d></div></div><p class="loading-text" data-v-8283d36d>Loading check-in data...</p></div>', 1)
       ])])) : (x(), M("div", ap, [
         v.value.nodes.length > 0 ? (x(), M("div", rp, [
           dt(ne, {
@@ -11622,7 +11622,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
       ]))
     ]));
   }
-}), $p = /* @__PURE__ */ it(Dp, [["__scopeId", "data-v-09223de5"]]), Ap = { class: "checkin-segments-card" }, Pp = {
+}), $p = /* @__PURE__ */ it(Dp, [["__scopeId", "data-v-8283d36d"]]), Ap = { class: "checkin-segments-card" }, Pp = {
   key: 0,
   class: "loading-state"
 }, Fp = {
@@ -11671,7 +11671,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       n.loading ? (x(), M("div", Pp, [...h[0] || (h[0] = [
-        tt('<div class="loading-container" data-v-b85af215><div class="chart-flow-loader" data-v-b85af215><div class="flow-line flow-1" data-v-b85af215></div><div class="flow-line flow-2" data-v-b85af215></div><div class="flow-line flow-3" data-v-b85af215></div><div class="flow-line flow-4" data-v-b85af215></div><div class="flow-line flow-5" data-v-b85af215></div></div><p class="loading-text" data-v-b85af215>Loading segment data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-5f8ce8fa><div class="chart-flow-loader" data-v-5f8ce8fa><div class="flow-line flow-1" data-v-5f8ce8fa></div><div class="flow-line flow-2" data-v-5f8ce8fa></div><div class="flow-line flow-3" data-v-5f8ce8fa></div><div class="flow-line flow-4" data-v-5f8ce8fa></div><div class="flow-line flow-5" data-v-5f8ce8fa></div></div><p class="loading-text" data-v-5f8ce8fa>Loading segment data...</p></div>', 1)
       ])])) : (x(), M("div", Fp, [
         n.data.length > 0 ? (x(), M("section", Tp, [
           u("div", Bp, [
@@ -11755,12 +11755,12 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (x(), M("section", Jp, [...h[4] || (h[4] = [
-          tt('<div class="empty-state-content" data-v-b85af215><div class="empty-icon-wrapper" data-v-b85af215><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-b85af215><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-b85af215></path></svg></div><p class="empty-title" data-v-b85af215>No segment data available</p><p class="empty-description" data-v-b85af215>No flight segment data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          tt('<div class="empty-state-content" data-v-5f8ce8fa><div class="empty-icon-wrapper" data-v-5f8ce8fa><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-5f8ce8fa><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-5f8ce8fa></path></svg></div><p class="empty-title" data-v-5f8ce8fa>No segment data available</p><p class="empty-description" data-v-5f8ce8fa>No flight segment data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), em = /* @__PURE__ */ it(tm, [["__scopeId", "data-v-b85af215"]]), sm = { class: "disruption-metrics-card" }, nm = { class: "card-header" }, im = { class: "header-content" }, om = {
+}), em = /* @__PURE__ */ it(tm, [["__scopeId", "data-v-5f8ce8fa"]]), sm = { class: "disruption-metrics-card" }, nm = { class: "card-header" }, im = { class: "header-content" }, om = {
   key: 0,
   class: "payment-success-badge"
 }, am = { class: "badge-value" }, rm = {
@@ -11913,7 +11913,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ]),
       s.loading ? (x(), M("div", rm, [...d[2] || (d[2] = [
-        tt('<div class="loading-container" data-v-e98bf459><div class="chart-bars-loader" data-v-e98bf459><div class="bar bar-1" data-v-e98bf459></div><div class="bar bar-2" data-v-e98bf459></div><div class="bar bar-3" data-v-e98bf459></div><div class="bar bar-4" data-v-e98bf459></div><div class="bar bar-5" data-v-e98bf459></div></div><p class="loading-text" data-v-e98bf459>Loading disruption data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-20b043d3><div class="chart-bars-loader" data-v-20b043d3><div class="bar bar-1" data-v-20b043d3></div><div class="bar bar-2" data-v-20b043d3></div><div class="bar bar-3" data-v-20b043d3></div><div class="bar bar-4" data-v-20b043d3></div><div class="bar bar-5" data-v-20b043d3></div></div><p class="loading-text" data-v-20b043d3>Loading disruption data...</p></div>', 1)
       ])])) : (x(), M("div", lm, [
         u("section", cm, [
           u("div", dm, [
@@ -11928,7 +11928,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
           ])
         ]),
         o.value && o.value.length > 0 ? (x(), M("section", um, [
-          d[5] || (d[5] = tt('<div class="section-header" data-v-e98bf459><h4 class="section-title" data-v-e98bf459>Daily Overview</h4></div><div class="legend-container" data-v-e98bf459><p class="legend-title" data-v-e98bf459>Legend</p><div class="legend-items" data-v-e98bf459><div class="legend-group" data-v-e98bf459><span class="legend-label" data-v-e98bf459>Voluntary:</span><span class="badge badge-vol" data-v-e98bf459>VOL</span></div><div class="legend-group" data-v-e98bf459><span class="legend-label" data-v-e98bf459>Involuntary:</span><span class="badge badge-inv" data-v-e98bf459>INV</span></div><div class="legend-note" data-v-e98bf459><span data-v-e98bf459>Vol=Voluntary</span><span data-v-e98bf459>•</span><span data-v-e98bf459>Inv=Involuntary</span></div></div></div>', 2)),
+          d[5] || (d[5] = tt('<div class="section-header" data-v-20b043d3><h4 class="section-title" data-v-20b043d3>Daily Overview</h4></div><div class="legend-container" data-v-20b043d3><p class="legend-title" data-v-20b043d3>Legend</p><div class="legend-items" data-v-20b043d3><div class="legend-group" data-v-20b043d3><span class="legend-label" data-v-20b043d3>Voluntary:</span><span class="badge badge-vol" data-v-20b043d3>VOL</span></div><div class="legend-group" data-v-20b043d3><span class="legend-label" data-v-20b043d3>Involuntary:</span><span class="badge badge-inv" data-v-20b043d3>INV</span></div><div class="legend-note" data-v-20b043d3><span data-v-20b043d3>Vol=Voluntary</span><span data-v-20b043d3>•</span><span data-v-20b043d3>Inv=Involuntary</span></div></div></div>', 2)),
           u("div", fm, [
             u("table", gm, [
               d[4] || (d[4] = u("thead", null, [
@@ -11982,12 +11982,12 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (x(), M("section", Om, [...d[6] || (d[6] = [
-          tt('<div class="empty-state-content" data-v-e98bf459><div class="empty-icon-wrapper" data-v-e98bf459><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-e98bf459><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" data-v-e98bf459></path></svg></div><p class="empty-title" data-v-e98bf459>No disruption data available</p><p class="empty-description" data-v-e98bf459>No disruption data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          tt('<div class="empty-state-content" data-v-20b043d3><div class="empty-icon-wrapper" data-v-20b043d3><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-20b043d3><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" data-v-20b043d3></path></svg></div><p class="empty-title" data-v-20b043d3>No disruption data available</p><p class="empty-description" data-v-20b043d3>No disruption data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Rm = /* @__PURE__ */ it(Em, [["__scopeId", "data-v-e98bf459"]]), Im = { class: "faq-metrics-card" }, zm = {
+}), Rm = /* @__PURE__ */ it(Em, [["__scopeId", "data-v-20b043d3"]]), Im = { class: "faq-metrics-card" }, zm = {
   key: 0,
   class: "card-body"
 }, Hm = { class: "kpi-grid" }, Nm = { class: "kpi-card" }, Wm = { class: "kpi-value" }, Vm = { class: "kpi-card" }, jm = { class: "kpi-value" }, Ym = { class: "kpi-card" }, qm = { class: "kpi-value" }, Um = { class: "kpi-card" }, Xm = { class: "kpi-value" }, Km = { class: "kpi-card" }, Gm = { class: "kpi-value" }, Qm = {
@@ -12165,7 +12165,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       n.loading ? (x(), M("div", Jm, [...g[6] || (g[6] = [
-        tt('<div class="loading-container" data-v-84c7118a><div class="chart-bars-loader" data-v-84c7118a><div class="bar bar-1" data-v-84c7118a></div><div class="bar bar-2" data-v-84c7118a></div><div class="bar bar-3" data-v-84c7118a></div><div class="bar bar-4" data-v-84c7118a></div><div class="bar bar-5" data-v-84c7118a></div></div><p class="loading-text" data-v-84c7118a>Loading FAQ metrics...</p></div>', 1)
+        tt('<div class="loading-container" data-v-a0bf4731><div class="chart-bars-loader" data-v-a0bf4731><div class="bar bar-1" data-v-a0bf4731></div><div class="bar bar-2" data-v-a0bf4731></div><div class="bar bar-3" data-v-a0bf4731></div><div class="bar bar-4" data-v-a0bf4731></div><div class="bar bar-5" data-v-a0bf4731></div></div><p class="loading-text" data-v-a0bf4731>Loading FAQ metrics...</p></div>', 1)
       ])])) : (x(), M("div", zm, [
         u("div", Hm, [
           u("div", Nm, [
@@ -12200,12 +12200,12 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (x(), M("section", Zm, [...g[5] || (g[5] = [
-          tt('<div class="empty-state-content" data-v-84c7118a><div class="empty-icon-wrapper" data-v-84c7118a><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-84c7118a><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" data-v-84c7118a></path></svg></div><p class="empty-title" data-v-84c7118a>No FAQ data available</p><p class="empty-description" data-v-84c7118a>No FAQ consultation data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          tt('<div class="empty-state-content" data-v-a0bf4731><div class="empty-icon-wrapper" data-v-a0bf4731><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-a0bf4731><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" data-v-a0bf4731></path></svg></div><p class="empty-title" data-v-a0bf4731>No FAQ data available</p><p class="empty-description" data-v-a0bf4731>No FAQ consultation data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), e0 = /* @__PURE__ */ it(t0, [["__scopeId", "data-v-84c7118a"]]), s0 = { class: "messages-per-agent-card" }, n0 = {
+}), e0 = /* @__PURE__ */ it(t0, [["__scopeId", "data-v-a0bf4731"]]), s0 = { class: "messages-per-agent-card" }, n0 = {
   key: 0,
   class: "card-body"
 }, i0 = {
@@ -12349,7 +12349,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       e.loading ? (x(), M("div", l0, [...f[2] || (f[2] = [
-        tt('<div class="loading-container" data-v-1b6d19d4><div class="chart-lines-loader" data-v-1b6d19d4><div class="line line-1" data-v-1b6d19d4></div><div class="line line-2" data-v-1b6d19d4></div><div class="line line-3" data-v-1b6d19d4></div><div class="line line-4" data-v-1b6d19d4></div><div class="line line-5" data-v-1b6d19d4></div></div><p class="loading-text" data-v-1b6d19d4>Loading chart data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-53a825f5><div class="chart-lines-loader" data-v-53a825f5><div class="line line-1" data-v-53a825f5></div><div class="line line-2" data-v-53a825f5></div><div class="line line-3" data-v-53a825f5></div><div class="line line-4" data-v-53a825f5></div><div class="line line-5" data-v-53a825f5></div></div><p class="loading-text" data-v-53a825f5>Loading chart data...</p></div>', 1)
       ])])) : (x(), M("div", n0, [
         c.value.labels && c.value.labels.length ? (x(), M("section", i0, [
           dt(ln, {
@@ -12373,7 +12373,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
       ]))
     ]));
   }
-}), d0 = /* @__PURE__ */ it(c0, [["__scopeId", "data-v-1b6d19d4"]]), h0 = { class: "record-locator-card" }, u0 = {
+}), d0 = /* @__PURE__ */ it(c0, [["__scopeId", "data-v-53a825f5"]]), h0 = { class: "record-locator-card" }, u0 = {
   key: 0,
   class: "loading-state"
 }, f0 = {
@@ -12540,7 +12540,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       n.loading ? (x(), M("div", u0, [...p[0] || (p[0] = [
-        tt('<div class="loading-container" data-v-25ddc9d2><div class="chart-flow-loader" data-v-25ddc9d2><div class="flow-line flow-1" data-v-25ddc9d2></div><div class="flow-line flow-2" data-v-25ddc9d2></div><div class="flow-line flow-3" data-v-25ddc9d2></div><div class="flow-line flow-4" data-v-25ddc9d2></div><div class="flow-line flow-5" data-v-25ddc9d2></div></div><p class="loading-text" data-v-25ddc9d2>Loading record locator data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-5230c23e><div class="chart-flow-loader" data-v-5230c23e><div class="flow-line flow-1" data-v-5230c23e></div><div class="flow-line flow-2" data-v-5230c23e></div><div class="flow-line flow-3" data-v-5230c23e></div><div class="flow-line flow-4" data-v-5230c23e></div><div class="flow-line flow-5" data-v-5230c23e></div></div><p class="loading-text" data-v-5230c23e>Loading record locator data...</p></div>', 1)
       ])])) : (x(), M("div", f0, [
         f.value.nodes.length > 0 ? (x(), M("section", g0, [
           u("div", p0, [
@@ -12595,12 +12595,12 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (x(), M("section", B0, [...p[9] || (p[9] = [
-          tt('<div class="empty-state-content" data-v-25ddc9d2><div class="empty-icon-wrapper" data-v-25ddc9d2><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-25ddc9d2><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" data-v-25ddc9d2></path></svg></div><p class="empty-title" data-v-25ddc9d2>No record locator data available</p><p class="empty-description" data-v-25ddc9d2>No record locator data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          tt('<div class="empty-state-content" data-v-5230c23e><div class="empty-icon-wrapper" data-v-5230c23e><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-5230c23e><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" data-v-5230c23e></path></svg></div><p class="empty-title" data-v-5230c23e>No record locator data available</p><p class="empty-description" data-v-5230c23e>No record locator data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), O0 = /* @__PURE__ */ it(L0, [["__scopeId", "data-v-25ddc9d2"]]), E0 = { class: "seller-metrics-card" }, R0 = { class: "card-header" }, I0 = { class: "header-content" }, z0 = {
+}), O0 = /* @__PURE__ */ it(L0, [["__scopeId", "data-v-5230c23e"]]), E0 = { class: "seller-metrics-card" }, R0 = { class: "card-header" }, I0 = { class: "header-content" }, z0 = {
   key: 0,
   class: "stats-badge"
 }, H0 = { class: "badge-value" }, N0 = {
@@ -12798,7 +12798,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ]),
       n.loading ? (x(), M("div", N0, [...y[2] || (y[2] = [
-        tt('<div class="loading-container" data-v-3bb3b5c6><div class="chart-flow-loader" data-v-3bb3b5c6><div class="flow-line flow-1" data-v-3bb3b5c6></div><div class="flow-line flow-2" data-v-3bb3b5c6></div><div class="flow-line flow-3" data-v-3bb3b5c6></div><div class="flow-line flow-4" data-v-3bb3b5c6></div><div class="flow-line flow-5" data-v-3bb3b5c6></div></div><p class="loading-text" data-v-3bb3b5c6>Loading sales data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-e0a96c80><div class="chart-flow-loader" data-v-e0a96c80><div class="flow-line flow-1" data-v-e0a96c80></div><div class="flow-line flow-2" data-v-e0a96c80></div><div class="flow-line flow-3" data-v-e0a96c80></div><div class="flow-line flow-4" data-v-e0a96c80></div><div class="flow-line flow-5" data-v-e0a96c80></div></div><p class="loading-text" data-v-e0a96c80>Loading sales data...</p></div>', 1)
       ])])) : (x(), M("div", W0, [
         d.value.nodes.length > 0 ? (x(), M("section", V0, [
           u("div", j0, [
@@ -12810,7 +12810,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
             }, null, 8, ["data", "node-colors"])
           ])
         ])) : (x(), M("section", Y0, [...y[3] || (y[3] = [
-          tt('<div class="empty-state-content" data-v-3bb3b5c6><div class="empty-icon-wrapper" data-v-3bb3b5c6><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-3bb3b5c6><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-3bb3b5c6></path></svg></div><p class="empty-title" data-v-3bb3b5c6>No sales data available</p><p class="empty-description" data-v-3bb3b5c6>No sales data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          tt('<div class="empty-state-content" data-v-e0a96c80><div class="empty-icon-wrapper" data-v-e0a96c80><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-e0a96c80><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-e0a96c80></path></svg></div><p class="empty-title" data-v-e0a96c80>No sales data available</p><p class="empty-description" data-v-e0a96c80>No sales data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])])),
         r.value && r.value.length > 0 ? (x(), M("section", q0, [
           u("div", U0, [
@@ -12863,7 +12863,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
       ]))
     ]));
   }
-}), cb = /* @__PURE__ */ it(lb, [["__scopeId", "data-v-3bb3b5c6"]]), db = { class: "top-agents-card" }, hb = {
+}), cb = /* @__PURE__ */ it(lb, [["__scopeId", "data-v-e0a96c80"]]), db = { class: "top-agents-card" }, hb = {
   key: 0,
   class: "card-body"
 }, ub = {
@@ -12982,7 +12982,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ], -1)),
       e.loading ? (x(), M("div", mb, [...f[2] || (f[2] = [
-        tt('<div class="loading-container" data-v-d7137caf><div class="chart-lines-loader" data-v-d7137caf><div class="line line-1" data-v-d7137caf></div><div class="line line-2" data-v-d7137caf></div><div class="line line-3" data-v-d7137caf></div><div class="line line-4" data-v-d7137caf></div><div class="line line-5" data-v-d7137caf></div></div><p class="loading-text" data-v-d7137caf>Loading chart data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-501bf4c4><div class="chart-lines-loader" data-v-501bf4c4><div class="line line-1" data-v-501bf4c4></div><div class="line line-2" data-v-501bf4c4></div><div class="line line-3" data-v-501bf4c4></div><div class="line line-4" data-v-501bf4c4></div><div class="line line-5" data-v-501bf4c4></div></div><p class="loading-text" data-v-501bf4c4>Loading chart data...</p></div>', 1)
       ])])) : (x(), M("div", hb, [
         c.value.labels && c.value.labels.length ? (x(), M("section", ub, [
           dt(Wo, {
@@ -13006,7 +13006,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
       ]))
     ]));
   }
-}), vb = /* @__PURE__ */ it(bb, [["__scopeId", "data-v-d7137caf"]]), yb = { class: "nps-daily-card" }, _b = { class: "card-header" }, xb = { class: "header-content" }, kb = {
+}), vb = /* @__PURE__ */ it(bb, [["__scopeId", "data-v-501bf4c4"]]), yb = { class: "nps-daily-card" }, _b = { class: "card-header" }, xb = { class: "header-content" }, kb = {
   key: 0,
   class: "stats-badge"
 }, Mb = { class: "badge-value" }, Sb = {
@@ -13126,7 +13126,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ]),
       o.loading ? (x(), M("div", Sb, [...m[2] || (m[2] = [
-        tt('<div class="loading-container" data-v-dcfd2125><div class="chart-flow-loader" data-v-dcfd2125><div class="flow-line flow-1" data-v-dcfd2125></div><div class="flow-line flow-2" data-v-dcfd2125></div><div class="flow-line flow-3" data-v-dcfd2125></div><div class="flow-line flow-4" data-v-dcfd2125></div><div class="flow-line flow-5" data-v-dcfd2125></div></div><p class="loading-text" data-v-dcfd2125>Loading daily NPS data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-6354e62a><div class="chart-flow-loader" data-v-6354e62a><div class="flow-line flow-1" data-v-6354e62a></div><div class="flow-line flow-2" data-v-6354e62a></div><div class="flow-line flow-3" data-v-6354e62a></div><div class="flow-line flow-4" data-v-6354e62a></div><div class="flow-line flow-5" data-v-6354e62a></div></div><p class="loading-text" data-v-6354e62a>Loading daily NPS data...</p></div>', 1)
       ])])) : r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (x(), M("div", wb, [
         u("div", {
           class: "chart-wrapper",
@@ -13192,11 +13192,11 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
           loading: e.exportLoading
         }, null, 8, ["loading"])) : z("", !0)
       ])) : (x(), M("div", Nb, [...m[10] || (m[10] = [
-        tt('<div class="empty-state-content" data-v-dcfd2125><div class="empty-icon-wrapper" data-v-dcfd2125><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-dcfd2125><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-dcfd2125></path></svg></div><p class="empty-title" data-v-dcfd2125>No daily NPS data available</p><p class="empty-description" data-v-dcfd2125>No daily NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
+        tt('<div class="empty-state-content" data-v-6354e62a><div class="empty-icon-wrapper" data-v-6354e62a><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-6354e62a><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-6354e62a></path></svg></div><p class="empty-title" data-v-6354e62a>No daily NPS data available</p><p class="empty-description" data-v-6354e62a>No daily NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, Yo = /* @__PURE__ */ it(Wb, [["__scopeId", "data-v-dcfd2125"]]), Vb = { class: "nps-overview-card" }, jb = { class: "card-header" }, Yb = { class: "header-content" }, qb = {
+}, Yo = /* @__PURE__ */ it(Wb, [["__scopeId", "data-v-6354e62a"]]), Vb = { class: "nps-overview-card" }, jb = { class: "card-header" }, Yb = { class: "header-content" }, qb = {
   key: 0,
   class: "stats-badge"
 }, Ub = { class: "badge-value" }, Xb = {
@@ -13251,7 +13251,7 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
         ])
       ]),
       o.loading ? (x(), M("div", Xb, [...d[2] || (d[2] = [
-        tt('<div class="loading-container" data-v-65050776><div class="chart-flow-loader" data-v-65050776><div class="flow-line flow-1" data-v-65050776></div><div class="flow-line flow-2" data-v-65050776></div><div class="flow-line flow-3" data-v-65050776></div><div class="flow-line flow-4" data-v-65050776></div><div class="flow-line flow-5" data-v-65050776></div></div><p class="loading-text" data-v-65050776>Loading NPS data...</p></div>', 1)
+        tt('<div class="loading-container" data-v-cf57fba8><div class="chart-flow-loader" data-v-cf57fba8><div class="flow-line flow-1" data-v-cf57fba8></div><div class="flow-line flow-2" data-v-cf57fba8></div><div class="flow-line flow-3" data-v-cf57fba8></div><div class="flow-line flow-4" data-v-cf57fba8></div><div class="flow-line flow-5" data-v-cf57fba8></div></div><p class="loading-text" data-v-cf57fba8>Loading NPS data...</p></div>', 1)
       ])])) : r.value && r.value.total_nps_responses > 0 ? (x(), M("div", Kb, [
         u("div", Gb, [
           dt(jo, {
@@ -13274,11 +13274,11 @@ const Lf = { class: "chart-footer" }, Of = { class: "export-actions" }, Ef = { c
           loading: e.exportLoading
         }, null, 8, ["loading"])) : z("", !0)
       ])) : (x(), M("div", Qb, [...d[3] || (d[3] = [
-        tt('<div class="empty-state-content" data-v-65050776><div class="empty-icon-wrapper" data-v-65050776><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-65050776><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-65050776></path></svg></div><p class="empty-title" data-v-65050776>No NPS data available</p><p class="empty-description" data-v-65050776>No NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
+        tt('<div class="empty-state-content" data-v-cf57fba8><div class="empty-icon-wrapper" data-v-cf57fba8><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-cf57fba8><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-cf57fba8></path></svg></div><p class="empty-title" data-v-cf57fba8>No NPS data available</p><p class="empty-description" data-v-cf57fba8>No NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, qo = /* @__PURE__ */ it(ev, [["__scopeId", "data-v-65050776"]]), sv = { class: "nps-metrics-container" }, nv = {
+}, qo = /* @__PURE__ */ it(ev, [["__scopeId", "data-v-cf57fba8"]]), sv = { class: "nps-metrics-container" }, nv = {
   __name: "npsMetrics",
   props: {
     data: {
