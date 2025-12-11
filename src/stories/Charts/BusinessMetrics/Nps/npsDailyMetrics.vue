@@ -288,6 +288,9 @@ defineExpose({ isDark })
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .nps-daily-card:hover {
@@ -376,6 +379,9 @@ defineExpose({ isDark })
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Chart Wrapper */
@@ -387,6 +393,7 @@ defineExpose({ isDark })
   border: 1px solid var(--kiut-border-light);
   box-shadow: var(--kiut-shadow-chart-wrapper);
   overflow-x: auto;
+  flex: 1;
 }
 
 /* Empty State */

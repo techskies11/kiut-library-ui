@@ -360,6 +360,9 @@ defineExpose({ isDark })
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .record-locator-card:hover {
@@ -403,6 +406,9 @@ defineExpose({ isDark })
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Chart Section */
@@ -422,6 +428,9 @@ defineExpose({ isDark })
 /* Table Section */
 .table-section {
   animation: fadeIn 0.6s ease-out 0.1s backwards;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .table-wrapper {
@@ -430,6 +439,7 @@ defineExpose({ isDark })
   border: 1px solid var(--kiut-border-table);
   box-shadow: var(--kiut-shadow-chart-wrapper);
   background: var(--kiut-bg-table);
+  flex: 1;
 }
 
 .data-table {

@@ -464,13 +464,16 @@
   background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
   border-radius: 20px;
   padding: 28px 32px;
-  box-shadow: 
+  box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.05),
     0 10px 15px -3px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .checkin-metrics-card:hover {
@@ -519,6 +522,9 @@
 .card-body {
   min-height: 300px;
   animation: fadeIn 0.5s ease-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Chart Section */
@@ -558,6 +564,9 @@
 .table-section {
   margin-top: 24px;
   animation: fadeIn 0.6s ease-out 0.1s backwards;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .table-wrapper {
@@ -566,6 +575,7 @@
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   background: white;
+  flex: 1;
 }
 
 .data-table {

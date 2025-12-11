@@ -297,6 +297,9 @@ defineExpose({ isDark })
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .faq-metrics-card:hover {
@@ -340,6 +343,9 @@ defineExpose({ isDark })
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* KPI Grid */
@@ -386,6 +392,10 @@ defineExpose({ isDark })
 /* Chart Section */
 .chart-section {
   animation: fadeIn 0.5s ease-out 0.1s backwards;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Empty State */

@@ -463,6 +463,9 @@ defineExpose({ isDark })
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .checkin-metrics-card:hover {
@@ -507,6 +510,9 @@ defineExpose({ isDark })
 /* Card Body */
 .card-body {
     animation: fadeIn 0.5s ease-out;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Sankey Section */
@@ -517,12 +523,16 @@ defineExpose({ isDark })
 /* Table Section */
 .table-section {
     margin-top: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .table-wrapper {
     overflow-x: auto;
     border-radius: 12px;
     border: 1px solid var(--kiut-border-table);
+    flex: 1;
 }
 
 .data-table {

@@ -237,6 +237,9 @@ defineExpose({ isDark })
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .messages-per-agent-card:hover {
@@ -282,10 +285,17 @@ defineExpose({ isDark })
 /* Card Body */
 .card-body {
     min-height: 300px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .chart-section {
     animation: fadeIn 0.5s ease-out;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* Empty State */
