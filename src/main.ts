@@ -25,6 +25,7 @@ import MessagesPerAgent from './stories/Charts/BusinessMetrics/MessagesPerAgent/
 import RecordLocator from './stories/Charts/BusinessMetrics/RecordLocator/RecordLocator.vue';
 import Seller from './stories/Charts/BusinessMetrics/Seller/Seller.vue';
 import TopAgents from './stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue';
+import PaymentsMetrics from './stories/Charts/BusinessMetrics/PaymentsMetrics/PaymentsMetrics.vue';
 
 // NPS Metrics
 import NpsDailyMetrics from './stories/Charts/BusinessMetrics/Nps/npsDailyMetrics.vue';
@@ -60,6 +61,7 @@ export {
   RecordLocator,
   Seller,
   TopAgents,
+  PaymentsMetrics,
   // NPS Metrics
   NpsDailyMetrics,
   NpsMetrics,
@@ -92,6 +94,7 @@ export const KiutUIPlugin = {
     app.component('KiutRecordLocator', RecordLocator);
     app.component('KiutSeller', Seller);
     app.component('KiutTopAgents', TopAgents);
+    app.component('KiutPaymentsMetrics', PaymentsMetrics);
     app.component('KiutNpsDailyMetrics', NpsDailyMetrics);
     app.component('KiutNpsMetrics', NpsMetrics);
     app.component('KiutNpsOverviewMetrics', NpsOverviewMetrics);
