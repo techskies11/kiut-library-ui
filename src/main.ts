@@ -33,6 +33,12 @@ import NpsMetrics from './stories/Charts/BusinessMetrics/Nps/npsMetrics.vue';
 import NpsOverviewMetrics from './stories/Charts/BusinessMetrics/Nps/npsOverviewMetrics.vue';
 
 // ============================================
+// Cost & Tokens
+// ============================================
+import AWSCostChart from './stories/Charts/AWSCost/AWSCost/AWSCostChart.vue';
+import TokenUsageChart from './stories/Charts/CostTokens/TokenUsage/TokenUsageChart.vue';
+
+// ============================================
 // Estilos
 // ============================================
 import './style.css';
@@ -66,6 +72,9 @@ export {
   NpsDailyMetrics,
   NpsMetrics,
   NpsOverviewMetrics,
+  // Cost & Tokens
+  AWSCostChart,
+  TokenUsageChart,
 };
 
 // ============================================
@@ -98,5 +107,9 @@ export const KiutUIPlugin = {
     app.component('KiutNpsDailyMetrics', NpsDailyMetrics);
     app.component('KiutNpsMetrics', NpsMetrics);
     app.component('KiutNpsOverviewMetrics', NpsOverviewMetrics);
+    
+    // Cost & Tokens
+    app.component('KiutAWSCostChart', AWSCostChart);
+    app.component('KiutTokenUsageChart', TokenUsageChart);
   }
 };
