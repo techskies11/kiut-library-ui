@@ -40,6 +40,7 @@ import CostUsage from './stories/Charts/CostTokens/CostUsage/CostUsage.vue';
 import TokenUsage from './stories/Charts/CostTokens/TokenUsage/TokenUsage.vue';
 import ConversationCount from './stories/Charts/CostTokens/ConversationCount/ConversationCount.vue';
 import TopAgentsAnalysis from './stories/Charts/CostTokens/TopAgentsAnalysis/TopAgentsAnalysis.vue';
+import TopAgentsPie from './stories/Charts/CostTokens/TopAgents/TopAgents.vue';
 
 // ============================================
 // Estilos
@@ -81,6 +82,7 @@ export {
   TokenUsage,
   ConversationCount,
   TopAgentsAnalysis,
+  TopAgentsPie,
 };
 
 // ============================================
@@ -120,5 +122,6 @@ export const KiutUIPlugin = {
     app.component('KiutTokenUsage', TokenUsage);
     app.component('KiutConversationCount', ConversationCount);
     app.component('KiutTopAgentsAnalysis', TopAgentsAnalysis);
+    app.component('KiutTopAgentsPie', TopAgentsPie);
   }
 };
