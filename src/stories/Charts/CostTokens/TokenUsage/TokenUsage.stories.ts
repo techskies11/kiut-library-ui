@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import TokenUsageChart from './TokenUsageChart.vue';
+import TokenUsage from './TokenUsage.vue';
 
-const meta: Meta<typeof TokenUsageChart> = {
-  title: 'Charts/CostTokens/TokenUsageChart',
-  component: TokenUsageChart,
+const meta: Meta<typeof TokenUsage> = {
+  title: 'Charts/CostTokens/TokenUsage',
+  component: TokenUsage,
   tags: ['autodocs'],
   argTypes: {
     data: { control: 'object' },
@@ -16,7 +16,7 @@ const meta: Meta<typeof TokenUsageChart> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof TokenUsageChart>;
+type Story = StoryObj<typeof TokenUsage>;
 
 const mockData = {
   "airline_name": "Aeroméxico",
