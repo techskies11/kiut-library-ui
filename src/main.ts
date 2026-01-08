@@ -43,6 +43,7 @@ import TopAgentsAnalysis from './stories/Charts/CostTokens/TopAgentsAnalysis/Top
 import TopAgentsPie from './stories/Charts/CostTokens/TopAgents/TopAgents.vue';
 import DailyCostTrends from './stories/Charts/CostTokens/DailyCostTrends/DailyCostTrends.vue';
 import ModelUsage from './stories/Charts/CostTokens/ModelUsage/ModelUsage.vue';
+import MessageRoles from './stories/Charts/CostTokens/MessageRoles/MessageRoles.vue';
 
 // ============================================
 // Estilos
@@ -87,6 +88,7 @@ export {
   TopAgentsPie,
   DailyCostTrends,
   ModelUsage,
+  MessageRoles,
 };
 
 // ============================================
@@ -129,5 +131,6 @@ export const KiutUIPlugin = {
     app.component('KiutTopAgentsPie', TopAgentsPie);
     app.component('KiutDailyCostTrends', DailyCostTrends);
     app.component('KiutModelUsage', ModelUsage);
+    app.component('KiutMessageRoles', MessageRoles);
   }
 };
