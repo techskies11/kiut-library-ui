@@ -13173,7 +13173,7 @@ const Wf = { class: "chart-footer" }, Vf = { class: "export-actions" }, jf = { c
         ])
       ]),
       e.loading ? (k(), M("div", Fb, [...x[2] || (x[2] = [
-        J('<div class="loading-container" data-v-5b8c05e8><div class="chart-lines-loader" data-v-5b8c05e8><div class="line line-1" data-v-5b8c05e8></div><div class="line line-2" data-v-5b8c05e8></div><div class="line line-3" data-v-5b8c05e8></div><div class="line line-4" data-v-5b8c05e8></div><div class="line line-5" data-v-5b8c05e8></div></div><p class="loading-text" data-v-5b8c05e8>Loading payment data...</p></div>', 1)
+        J('<div class="loading-container" data-v-e673c051><div class="chart-lines-loader" data-v-e673c051><div class="line line-1" data-v-e673c051></div><div class="line line-2" data-v-e673c051></div><div class="line line-3" data-v-e673c051></div><div class="line line-4" data-v-e673c051></div><div class="line line-5" data-v-e673c051></div></div><p class="loading-text" data-v-e673c051>Loading payment data...</p></div>', 1)
       ])])) : (k(), M("div", Tb, [
         a.value ? (k(), M("section", Bb, [
           x[3] || (x[3] = u("p", { class: "section-label" }, "Sales by Payment Method", -1)),
@@ -13264,7 +13264,7 @@ const Wf = { class: "chart-footer" }, Vf = { class: "export-actions" }, jf = { c
       ]))
     ]));
   }
-}), ev = /* @__PURE__ */ it(tv, [["__scopeId", "data-v-5b8c05e8"]]), sv = { class: "nps-daily-card" }, nv = { class: "card-header" }, iv = { class: "header-content" }, ov = {
+}), ev = /* @__PURE__ */ it(tv, [["__scopeId", "data-v-e673c051"]]), sv = { class: "nps-daily-card" }, nv = { class: "card-header" }, iv = { class: "header-content" }, ov = {
   key: 0,
   class: "stats-badge"
 }, av = { class: "badge-value" }, rv = {
