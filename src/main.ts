@@ -35,8 +35,11 @@ import NpsOverviewMetrics from './stories/Charts/BusinessMetrics/Nps/npsOverview
 // ============================================
 // Cost & Tokens
 // ============================================
-import AWSCostChart from './stories/Charts/AWSCost/AWSCost/AWSCostChart.vue';
-import TokenUsageChart from './stories/Charts/CostTokens/TokenUsage/TokenUsageChart.vue';
+import AWSCost from './stories/Charts/AWSCost/AWSCost/AWSCost.vue';
+import CostUsage from './stories/Charts/CostTokens/CostUsage/CostUsage.vue';
+import TokenUsage from './stories/Charts/CostTokens/TokenUsage/TokenUsage.vue';
+import ConversationCount from './stories/Charts/CostTokens/ConversationCount/ConversationCount.vue';
+import TopAgentsAnalysis from './stories/Charts/CostTokens/TopAgentsAnalysis/TopAgentsAnalysis.vue';
 
 // ============================================
 // Estilos
@@ -73,8 +76,11 @@ export {
   NpsMetrics,
   NpsOverviewMetrics,
   // Cost & Tokens
-  AWSCostChart,
-  TokenUsageChart,
+  AWSCost,
+  CostUsage,
+  TokenUsage,
+  ConversationCount,
+  TopAgentsAnalysis,
 };
 
 // ============================================
@@ -109,7 +115,10 @@ export const KiutUIPlugin = {
     app.component('KiutNpsOverviewMetrics', NpsOverviewMetrics);
     
     // Cost & Tokens
-    app.component('KiutAWSCostChart', AWSCostChart);
-    app.component('KiutTokenUsageChart', TokenUsageChart);
+    app.component('KiutAWSCost', AWSCost);
+    app.component('KiutCostUsage', CostUsage);
+    app.component('KiutTokenUsage', TokenUsage);
+    app.component('KiutConversationCount', ConversationCount);
+    app.component('KiutTopAgentsAnalysis', TopAgentsAnalysis);
   }
 };
