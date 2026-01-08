@@ -61,7 +61,7 @@
     "@vitest/coverage-v8": "^4.0.14",
     "@vue/tsconfig": "^0.8.1",
     "playwright": "^1.57.0",
-    "storybook": "^10.0.8",
+    "storybook": "^10.1.11",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
     "vitest": "^4.0.14",
