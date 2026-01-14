@@ -17,19 +17,7 @@ const mockSinglePaymentData = {
   ],
   payment_method_by_day: [
     {
-      date: '2025-12-12',
-      total_count: 1,
-      total_amount: 177300.0,
-      payment_methods: [
-        {
-          payment_method: 'bank_transfer',
-          count: 1,
-          total_amount: 177300.0,
-        },
-      ],
-    },
-    {
-      date: '2025-12-11',
+      date: '2025-12-03',
       total_count: 1,
       total_amount: 177300.0,
       payment_methods: [
@@ -53,7 +41,19 @@ const mockSinglePaymentData = {
       ],
     },
     {
-      date: '2025-12-03',
+      date: '2025-12-11',
+      total_count: 1,
+      total_amount: 177300.0,
+      payment_methods: [
+        {
+          payment_method: 'bank_transfer',
+          count: 1,
+          total_amount: 177300.0,
+        },
+      ],
+    },
+    {
+      date: '2025-12-12',
       total_count: 1,
       total_amount: 177300.0,
       payment_methods: [
@@ -147,18 +147,35 @@ const mockMultiplePaymentData = {
   ],
 };
 
+// Mock fetch function para simular el fetching de datos
+const createMockFetchFunction = (mockData: any, delay: number = 500) => {
+  return async (_airlineName: string, _startDate: string, _endDate: string) => {
+    await new Promise(resolve => setTimeout(resolve, delay));
+    return mockData;
+  };
+};
+
 const meta = {
   title: 'Charts/BusinessMetrics/PaymentMethod',
   component: PaymentMethod,
   tags: ['autodocs'],
   argTypes: {
-    data: {
+    dates: {
       control: 'object',
-      description: 'Payment method metrics data object',
+      description: 'Array of dates [startDate, endDate] for the date range',
     },
-    loading: {
-      control: 'boolean',
-      description: 'Loading state indicator',
+    airlineName: {
+      control: 'text',
+      description: 'Airline name to fetch data for',
+    },
+    fetchFunction: {
+      control: false,
+      description: 'Function to fetch payment method data. Receives (airlineName, startDate, endDate) and returns Promise<PaymentMethodData>',
+    },
+    theme: {
+      control: { type: 'select' },
+      options: ['light', 'dark', undefined],
+      description: 'Theme override (light/dark/undefined for auto-detection)',
     },
     enableExport: {
       control: 'boolean',
@@ -173,7 +190,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Component to display payment method metrics including a grid of payment method cards with totals and a detailed table with daily breakdown by payment method.',
+          'Component to display payment method metrics including a grid of payment method cards with totals and a detailed table with daily breakdown by payment method. Now supports internal data fetching with dates and airline name props.',
       },
     },
     backgrounds: {
@@ -194,8 +211,9 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {
   args: {
-    data: mockSinglePaymentData,
-    loading: false,
+    dates: [new Date('2025-12-01'), new Date('2025-12-15')],
+    airlineName: 'Clic Air',
+    fetchFunction: createMockFetchFunction(mockSinglePaymentData),
     enableExport: true,
   },
   parameters: {
@@ -213,13 +231,15 @@ export const Default: Story = {
  */
 export const Loading: Story = {
   args: {
-    data: null,
-    loading: true,
+    dates: [new Date('2025-12-01'), new Date('2025-12-15')],
+    airlineName: 'Airline',
+    fetchFunction: createMockFetchFunction(mockSinglePaymentData, 10000), // Long delay to show loading state
+    enableExport: false,
   },
   parameters: {
     docs: {
       description: {
-        story: 'Componente en estado de carga mostrando skeletons animados.',
+        story: 'Componente en estado de carga mostrando el loader animado.',
       },
     },
   },
@@ -230,7 +250,9 @@ export const Loading: Story = {
  */
 export const EmptyData: Story = {
   args: {
-    data: {
+    dates: [new Date('2025-12-01'), new Date('2025-12-15')],
+    airlineName: 'Airline',
+    fetchFunction: createMockFetchFunction({
       airline_name: 'Airline',
       start_date: '2025-12-01',
       end_date: '2025-12-15',
@@ -238,8 +260,8 @@ export const EmptyData: Story = {
       total_amount: 0,
       payment_method_breakdown: [],
       payment_method_by_day: [],
-    },
-    loading: false,
+    }),
+    enableExport: false,
   },
   parameters: {
     docs: {
@@ -256,8 +278,9 @@ export const EmptyData: Story = {
  */
 export const WithMultiplePaymentMethods: Story = {
   args: {
-    data: mockMultiplePaymentData,
-    loading: false,
+    dates: [new Date('2025-11-01'), new Date('2025-11-30')],
+    airlineName: 'Airline Demo',
+    fetchFunction: createMockFetchFunction(mockMultiplePaymentData),
     enableExport: true,
   },
   parameters: {
@@ -275,7 +298,9 @@ export const WithMultiplePaymentMethods: Story = {
  */
 export const WithoutDailyBreakdown: Story = {
   args: {
-    data: {
+    dates: [new Date('2025-12-01'), new Date('2025-12-15')],
+    airlineName: 'Airline',
+    fetchFunction: createMockFetchFunction({
       airline_name: 'Airline',
       start_date: '2025-12-01',
       end_date: '2025-12-15',
@@ -294,8 +319,7 @@ export const WithoutDailyBreakdown: Story = {
         },
       ],
       payment_method_by_day: [],
-    },
-    loading: false,
+    }),
     enableExport: false,
   },
   parameters: {
@@ -313,19 +337,20 @@ export const WithoutDailyBreakdown: Story = {
  */
 export const WithMoreDays: Story = {
   args: {
-    data: {
+    dates: [new Date('2025-11-01'), new Date('2025-11-30')],
+    airlineName: 'Airline Demo',
+    fetchFunction: createMockFetchFunction({
       ...mockMultiplePaymentData,
       payment_method_by_day: [
-        ...mockMultiplePaymentData.payment_method_by_day,
         {
-          date: '2025-11-11',
-          total_count: 25,
-          total_amount: 35000.0,
+          date: '2025-11-09',
+          total_count: 12,
+          total_amount: 15800.0,
           payment_methods: [
-            { payment_method: 'credit_card', count: 8, total_amount: 20000.0 },
-            { payment_method: 'cash', count: 5, total_amount: 5000.0 },
-            { payment_method: 'debit_card', count: 7, total_amount: 7000.0 },
-            { payment_method: 'zelle', count: 5, total_amount: 3000.0 },
+            { payment_method: 'credit_card', count: 4, total_amount: 8000.0 },
+            { payment_method: 'debit_card', count: 3, total_amount: 4000.0 },
+            { payment_method: 'zelle', count: 2, total_amount: 2000.0 },
+            { payment_method: 'cash', count: 3, total_amount: 1800.0 },
           ],
         },
         {
@@ -340,19 +365,19 @@ export const WithMoreDays: Story = {
           ],
         },
         {
-          date: '2025-11-09',
-          total_count: 12,
-          total_amount: 15800.0,
+          date: '2025-11-11',
+          total_count: 25,
+          total_amount: 35000.0,
           payment_methods: [
-            { payment_method: 'credit_card', count: 4, total_amount: 8000.0 },
-            { payment_method: 'debit_card', count: 3, total_amount: 4000.0 },
-            { payment_method: 'zelle', count: 2, total_amount: 2000.0 },
-            { payment_method: 'cash', count: 3, total_amount: 1800.0 },
+            { payment_method: 'credit_card', count: 8, total_amount: 20000.0 },
+            { payment_method: 'cash', count: 5, total_amount: 5000.0 },
+            { payment_method: 'debit_card', count: 7, total_amount: 7000.0 },
+            { payment_method: 'zelle', count: 5, total_amount: 3000.0 },
           ],
         },
+        ...mockMultiplePaymentData.payment_method_by_day,
       ],
-    },
-    loading: false,
+    }),
     enableExport: true,
   },
   parameters: {

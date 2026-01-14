@@ -6,9 +6,9 @@
           <h3 class="card-title">Payment Method Metrics</h3>
           <p class="card-subtitle">Sales breakdown by payment method</p>
         </div>
-        <div class="stats-badge" v-if="!loading && data?.total_amount">
+        <div class="stats-badge" v-if="!loading && metricsData.total_amount">
           <p class="badge-label">Total Amount</p>
-          <p class="badge-value">{{ formatCurrency(data.total_amount) }}</p>
+          <p class="badge-value">{{ formatCurrency(metricsData.total_amount) }}</p>
         </div>
       </div>
     </header>
@@ -34,7 +34,7 @@
         <p class="section-label">Sales by Payment Method</p>
         <div class="payment-methods-grid">
           <div
-            v-for="(pm, index) in data.payment_method_breakdown"
+            v-for="(pm, index) in metricsData.payment_method_breakdown"
             :key="pm.payment_method"
             class="payment-method-card-item"
             :style="getCardStyle(index)"
@@ -48,13 +48,13 @@
                 </span>
               </div>
               <!-- Amount -->
-              <p class="payment-amount" :style="getValueStyle(index)">
+              <p class="payment-amount" :style="[getValueStyle(index), getAmountSizeStyle(pm.total_amount)]">
                 {{ formatCurrency(pm.total_amount) }}
               </p>
               <!-- Count Badge -->
               <div class="payment-badge-wrapper">
                 <span class="payment-badge" :style="getBadgeStyle(index)">
-                  {{ pm.count }} {{ pm.count === 1 ? 'sale' : 'sales' }}
+                  {{ formatCount(pm.count) }} {{ formatCount(pm.count) === 1 ? 'sale' : 'sales' }}
                 </span>
               </div>
             </div>
@@ -88,7 +88,7 @@
             </thead>
             <tbody class="table-body">
               <tr
-                v-for="day in data.payment_method_by_day"
+                v-for="day in sortedPaymentMethodByDay"
                 :key="day.date"
                 class="table-row"
               >
@@ -96,7 +96,7 @@
                   {{ formatDate(day.date) }}
                 </td>
                 <td class="table-cell text-center">
-                  {{ useNumberFormat(day.total_count) }}
+                  {{ useNumberFormat(day.total_count ?? 0) }}
                 </td>
                 <td class="table-cell text-center success-value">
                   {{ formatCurrency(day.total_amount) }}
@@ -104,14 +104,14 @@
                 <td class="table-cell">
                   <div class="payment-tags">
                     <div
-                      v-for="pm in day.payment_methods"
+                      v-for="pm in day.payment_methods || []"
                       :key="pm.payment_method"
                       class="payment-tag"
                     >
                       <span class="tag-name">{{ formatPaymentMethod(pm.payment_method) }}</span>
                       <span class="tag-separator">•</span>
                       <span class="tag-amount">{{ formatCurrency(pm.total_amount) }}</span>
-                      <span class="tag-count">({{ pm.count }})</span>
+                      <span class="tag-count">({{ formatCount(pm.count) }})</span>
                     </div>
                   </div>
                 </td>
@@ -131,7 +131,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { ref, computed, toRef, onMounted, watch } from 'vue'
 import moment from 'moment'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
@@ -143,6 +143,7 @@ import {
   DevicePhoneMobileIcon,
   CurrencyDollarIcon,
   WalletIcon,
+  QuestionMarkCircleIcon,
 } from '@heroicons/vue/24/outline'
 
 // Types
@@ -171,14 +172,16 @@ interface PaymentMethodData {
 
 // Props
 const props = withDefaults(defineProps<{
-  data?: PaymentMethodData | null
-  loading?: boolean
+  dates?: Date[] | string[]
+  airlineName?: string
+  fetchFunction?: (airlineName: string, startDate: string, endDate: string) => Promise<PaymentMethodData>
   theme?: Theme
   enableExport?: boolean
   exportLoading?: boolean
 }>(), {
-  data: null,
-  loading: false,
+  dates: () => [],
+  airlineName: '',
+  fetchFunction: undefined,
   theme: undefined,
   enableExport: false,
   exportLoading: false
@@ -192,14 +195,102 @@ const emit = defineEmits<{
 // Theme detection
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
+// State
+const loading = ref(false)
+const metricsData = ref<PaymentMethodData>({
+  airline_name: '',
+  start_date: '',
+  end_date: '',
+  total_conversations: 0,
+  total_amount: 0,
+  payment_method_breakdown: [],
+  payment_method_by_day: [],
+})
+
+// Constants
+const UNREGISTERED_PAYMENT_LABEL = 'Not Registered'
+
 // Computed
 const hasPaymentMethods = computed(() => {
-  return props.data?.payment_method_breakdown && props.data.payment_method_breakdown.length > 0
+  return metricsData.value.payment_method_breakdown && metricsData.value.payment_method_breakdown.length > 0
 })
 
 const hasDailyBreakdown = computed(() => {
-  return props.data?.payment_method_by_day && props.data.payment_method_by_day.length > 0
+  return metricsData.value.payment_method_by_day && metricsData.value.payment_method_by_day.length > 0
 })
+
+// Sort payment_method_by_day by date ascending
+const sortedPaymentMethodByDay = computed(() => {
+  if (!metricsData.value.payment_method_by_day || metricsData.value.payment_method_by_day.length === 0) {
+    return []
+  }
+  return [...metricsData.value.payment_method_by_day].sort((a, b) => {
+    return moment(a.date).valueOf() - moment(b.date).valueOf()
+  })
+})
+
+// Normalize payment method data to ensure all fields are present
+const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMethodData => {
+  if (!data) {
+    return {
+      airline_name: props.airlineName,
+      start_date: '',
+      end_date: '',
+      total_conversations: 0,
+      total_amount: 0,
+      payment_method_breakdown: [],
+      payment_method_by_day: [],
+    }
+  }
+
+  // Normalize payment_method_breakdown
+  const normalizedBreakdown = (data.payment_method_breakdown || []).map(pm => ({
+    payment_method: pm.payment_method || 'Unknown',
+    total_amount: pm.total_amount ?? 0,
+    count: pm.count ?? 0,
+  }))
+
+  // Normalize payment_method_by_day
+  const normalizedByDay = (data.payment_method_by_day || []).map(day => ({
+    date: day.date || '',
+    total_count: day.total_count ?? 0,
+    total_amount: day.total_amount ?? 0,
+    payment_methods: (day.payment_methods || []).map(pm => ({
+      payment_method: pm.payment_method || 'Unknown',
+      total_amount: pm.total_amount ?? 0,
+      count: pm.count ?? 0,
+    })),
+  }))
+
+  return {
+    airline_name: data.airline_name || props.airlineName,
+    start_date: data.start_date || '',
+    end_date: data.end_date || '',
+    total_conversations: data.total_conversations ?? 0,
+    total_amount: data.total_amount ?? 0,
+    payment_method_breakdown: normalizedBreakdown,
+    payment_method_by_day: normalizedByDay,
+  }
+}
+
+// Fetch data function
+const searchData = async () => {
+  if (!props.fetchFunction || !props.dates || props.dates.length < 2 || !props.airlineName) {
+    return
+  }
+
+  loading.value = true
+  try {
+    const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
+    const response = await props.fetchFunction(props.airlineName, startDate, endDate)
+    metricsData.value = normalizePaymentMethodData(response)
+  } catch (error) {
+    console.error('Error fetching payment method metrics:', error)
+    metricsData.value = normalizePaymentMethodData(null)
+  } finally {
+    loading.value = false
+  }
+}
 
 // Card styling by index
 const cardColors = [
@@ -239,9 +330,22 @@ const getBadgeStyle = (index: number) => {
   return { color: color.badge }
 }
 
+// Get dynamic font size based on amount length
+const getAmountSizeStyle = (amount: number | undefined | null) => {
+  const formatted = formatCurrency(amount)
+  const length = formatted.length
+
+  if (length > 18) return { fontSize: '0.75rem' } // Very long amounts like $1,234,567,890.00
+  if (length > 15) return { fontSize: '0.875rem' } // Long amounts like $123,456,789.00
+  if (length > 12) return { fontSize: '1rem' } // Medium amounts like $1,234,567.00
+  return { fontSize: '1.125rem' } // Normal amounts
+}
+
 // Get appropriate icon for payment method
 const getPaymentIcon = (method: string) => {
   const methodLower = method?.toLowerCase() || ''
+  // Unregistered/Unknown payment methods
+  if (!method || methodLower === 'unknown') return QuestionMarkCircleIcon
   if (methodLower.includes('credit') || methodLower.includes('debit')) return CreditCardIcon
   if (methodLower.includes('cash') || methodLower.includes('efectivo')) return BanknotesIcon
   if (methodLower.includes('bank') || methodLower.includes('transfer')) return BuildingLibraryIcon
@@ -252,8 +356,8 @@ const getPaymentIcon = (method: string) => {
 
 // Format payment method name
 const formatPaymentMethod = (method: string) => {
-  if (!method) return 'Unknown'
-  return method.replace(/_/g, ' ')
+  if (!method || method.toLowerCase() === 'unknown') return UNREGISTERED_PAYMENT_LABEL
+  return method.replaceAll('_', ' ')
 }
 
 // Format currency
@@ -268,10 +372,31 @@ const formatDate = (dateStr: string) => {
   return moment(dateStr).format('DD/MM/YYYY')
 }
 
+// Format count with default value
+const formatCount = (count: number | undefined | null): number => {
+  if (count === null || count === undefined || Number.isNaN(Number(count))) return 0
+  return Number(count)
+}
+
 // Handle export
 const handleExport = (format: ExportFormat) => {
   emit('export', format)
 }
+
+// Lifecycle hooks
+onMounted(() => {
+  searchData()
+})
+
+watch(
+  () => props.dates,
+  (newDates) => {
+    if (newDates && newDates[0] && newDates[1]) {
+      searchData()
+    }
+  },
+  { deep: true }
+)
 
 // Expose for potential use
 defineExpose({ isDark })
