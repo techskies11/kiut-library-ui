@@ -1,32 +1,38 @@
 <template>
-  <article class="total-cost-card glass">
-    <!-- Elemento decorativo de fondo -->
+  <article class="total-tokens-card glass">
     <div class="decorative decorative-circle-top"></div>
     <div class="decorative decorative-circle-bottom"></div>
 
     <header class="header-title">
       <div class="container-title">
-        <span class="title">Total Cost</span>
+        <span class="title">Total Tokens</span>
       </div>
     </header>
 
     <template v-if="!loading">
       <div class="container-value">
         <div class="value">
-          {{ formattedTotalCost }}
+          {{ formattedTotalTokens }}
         </div>
       </div>
 
       <div class="stats-section">
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-label">Daily Average</div>
-            <div class="stat-value">{{ formattedDailyMean }}</div>
+            <div class="stat-label">Input</div>
+            <div class="stat-value">{{ formattedInputTokens }}</div>
           </div>
           <div class="stat-item">
-            <div class="stat-label">Peak Day</div>
-            <div class="stat-date">{{ peakDayDate }}</div>
-            <div class="stat-value">{{ formattedPeakValue }}</div>
+            <div class="stat-label">Output</div>
+            <div class="stat-value">{{ formattedOutputTokens }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Cache Read</div>
+            <div class="stat-value">{{ formattedCacheReadTokens }}</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Cache Write</div>
+            <div class="stat-value">{{ formattedCacheWriteTokens }}</div>
           </div>
         </div>
       </div>
@@ -48,40 +54,48 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useCurrencyFormat } from "../../../../plugins/numberFormat";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
 
 const props = withDefaults(
   defineProps<{
-    totalCost?: number;
-    dailyMean?: number;
-    peakDayDate?: string;
-    peakDayValue?: number;
+    totalTokens?: number;
+    inputTokens?: number;
+    outputTokens?: number;
+    cacheReadTokens?: number;
+    cacheWriteTokens?: number;
     loading?: boolean;
   }>(),
   {
-    totalCost: 0,
-    dailyMean: 0,
-    peakDayDate: "-",
-    peakDayValue: 0,
+    totalTokens: 0,
+    inputTokens: 0,
+    outputTokens: 0,
+    cacheReadTokens: 0,
+    cacheWriteTokens: 0,
     loading: false,
   }
 );
 
-// Formateo de valores monetarios
-const formattedTotalCost = computed(() => useCurrencyFormat(props.totalCost));
-const formattedDailyMean = computed(() => useCurrencyFormat(props.dailyMean));
-const formattedPeakValue = computed(() =>
-  useCurrencyFormat(props.peakDayValue)
+// Formateo de valores numéricos
+const formattedTotalTokens = computed(() => useNumberFormat(props.totalTokens));
+const formattedInputTokens = computed(() => useNumberFormat(props.inputTokens));
+const formattedOutputTokens = computed(() =>
+  useNumberFormat(props.outputTokens)
+);
+const formattedCacheReadTokens = computed(() =>
+  useNumberFormat(props.cacheReadTokens)
+);
+const formattedCacheWriteTokens = computed(() =>
+  useNumberFormat(props.cacheWriteTokens)
 );
 </script>
 
 <style scoped>
-.total-cost-card {
+.total-tokens-card {
   font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   background: white;
   border-radius: 28px;
-  border: 1px solid #ede9fe90;
+  border: 1px solid #dbeafe90;
   padding: 1rem;
   position: relative;
   overflow: hidden;
@@ -93,13 +107,13 @@ const formattedPeakValue = computed(() =>
   height: 100%;
 }
 
-.total-cost-card:hover {
+.total-tokens-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.12);
 }
 
 .glass {
-  background-image: linear-gradient(to bottom right, #f5f3ff, white, #eff6ff);
+  background-image: linear-gradient(to bottom right, #eff6ff, white, #eef2ff);
   backdrop-filter: blur(10px);
 }
 
@@ -113,8 +127,8 @@ const formattedPeakValue = computed(() =>
   right: 0px;
   width: 8rem;
   height: 8rem;
-  background-image: linear-gradient(to bottom right, #ede9fe4c, #ede9fe4e);
-  transform: translateY(-3rem) translateX(4rem);
+  background-image: linear-gradient(to bottom right, #dbeafe4c, #c7d2fe4e);
+  transform: translateY(-4rem) translateX(4rem);
 }
 
 .decorative-circle-bottom {
@@ -122,7 +136,7 @@ const formattedPeakValue = computed(() =>
   left: 0;
   width: 6rem;
   height: 6rem;
-  background-image: linear-gradient(to top right, #ede9fe4c, #ede9fe4e);
+  background-image: linear-gradient(to top right, #dbeafe4c, #c7d2fe4e);
   transform: translateY(3rem) translateX(-3rem);
 }
 
@@ -159,7 +173,7 @@ const formattedPeakValue = computed(() =>
 
 .value {
   font-weight: bold;
-  background-image: linear-gradient(to right, #7f22fe, #155dfc);
+  background-image: linear-gradient(to right, #2563eb, #4f46e5);
   background-clip: text;
   color: transparent;
   font-size: 1.875rem;
@@ -168,19 +182,21 @@ const formattedPeakValue = computed(() =>
 
 .stats-section {
   padding-top: 0.75rem;
+  position: relative;
+  z-index: 10;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  font-weight: 0.875rem;
+  gap: 0.375rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
 .stat-item {
   text-align: center;
-  padding: 0.625rem;
+  padding: 0.375rem;
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 1.125rem;
   backdrop-filter: blur(4px);
@@ -193,20 +209,13 @@ const formattedPeakValue = computed(() =>
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.025em;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.125rem;
 }
 
 .stat-value {
   font-weight: bold;
   font-size: 1rem;
   color: #1e2939;
-}
-
-.stat-date {
-  font-size: 0.75rem;
-  color: #101112;
-  margin-bottom: 0.125rem;
-  font-weight: bold;
 }
 
 /* Loading State */
@@ -236,15 +245,10 @@ const formattedPeakValue = computed(() =>
 
 .line {
   width: 8px;
-  background: linear-gradient(
-    to top,
-    var(--kiut-primary-light) 0%,
-    var(--kiut-primary) 50%,
-    var(--kiut-primary-hover) 100%
-  );
+  background: linear-gradient(to top, #93c5fd 0%, #2563eb 50%, #1d4ed8 100%);
   border-radius: 4px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
+  box-shadow: 0 4px 15px -3px rgba(37, 99, 235, 0.4);
 }
 
 .line-1 {
@@ -281,36 +285,15 @@ const formattedPeakValue = computed(() =>
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-  .total-cost-card {
+  .total-tokens-card {
     min-width: 280px;
     padding: 0.875rem;
     border-radius: 20px;
   }
 
-  .total-cost-card:hover {
+  .total-tokens-card:hover {
     transform: translateY(-3px);
   }
 
@@ -336,11 +319,11 @@ const formattedPeakValue = computed(() =>
   }
 
   .stats-grid {
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
 
   .stat-item {
-    padding: 0.5rem;
+    padding: 0.375rem;
   }
 
   .stat-label {
@@ -349,10 +332,6 @@ const formattedPeakValue = computed(() =>
 
   .stat-value {
     font-size: 0.875rem;
-  }
-
-  .stat-date {
-    font-size: 0.75rem;
   }
 
   .loading-state {
@@ -370,7 +349,7 @@ const formattedPeakValue = computed(() =>
 }
 
 @media (max-width: 480px) {
-  .total-cost-card {
+  .total-tokens-card {
     min-width: 100%;
     padding: 0.75rem;
     border-radius: 16px;
@@ -391,7 +370,7 @@ const formattedPeakValue = computed(() =>
 
   .stats-grid {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
 
   .stat-item {
@@ -399,7 +378,7 @@ const formattedPeakValue = computed(() =>
     justify-content: space-between;
     align-items: center;
     text-align: left;
-    padding: 0.5rem 0.75rem;
+    padding: 0.375rem 0.75rem;
   }
 
   .stat-label {

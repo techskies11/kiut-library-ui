@@ -1,31 +1,31 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import TotalCost from './TotalCost.vue'
+import TotalConversations from './TotalConversations.vue'
 
-const meta: Meta<typeof TotalCost> = {
-  title: 'Charts/CostTokens/TotalCost',
-  component: TotalCost,
+const meta: Meta<typeof TotalConversations> = {
+  title: 'Charts/CostTokens/TotalConversations',
+  component: TotalConversations,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
     docs: {
       description: {
         component: `
-Tarjeta de visualización de costo total.
+Tarjeta de visualización del total de conversaciones.
 
 ## Features
-- Muestra el costo total con formato de moneda
-- Promedio diario de costos
-- Día pico con fecha y valor
+- Muestra el total de conversaciones con formato numérico
+- Mediana diaria de conversaciones
+- Día pico con fecha y cantidad
 - Estado de carga con animación
-- Diseño glassmorphism con gradiantes violeta/azul
+- Diseño glassmorphism con tonos amber/naranja
 
 ## Uso
 \`\`\`vue
-<TotalCost
-  :totalCost="1250.75"
-  :dailyMean="178.68"
-  peakDayDate="October 4, 2023"
-  :peakDayValue="300"
+<TotalConversations
+  :totalConversations="15420"
+  :dailyMedian="523"
+  peakDayDate="January 15, 2024"
+  :peakDayValue="892"
   :loading="false"
 />
 \`\`\`
@@ -34,17 +34,17 @@ Tarjeta de visualización de costo total.
     },
   },
   argTypes: {
-    totalCost: {
+    totalConversations: {
       control: 'number',
-      description: 'El costo total ya calculado',
+      description: 'El total de conversaciones',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
       },
     },
-    dailyMean: {
+    dailyMedian: {
       control: 'number',
-      description: 'El promedio diario ya calculado',
+      description: 'La mediana diaria de conversaciones',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -60,7 +60,7 @@ Tarjeta de visualización de costo total.
     },
     peakDayValue: {
       control: 'number',
-      description: 'Valor del día pico',
+      description: 'Cantidad de conversaciones del día pico',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
@@ -78,17 +78,17 @@ Tarjeta de visualización de costo total.
 }
 
 export default meta
-type Story = StoryObj<typeof TotalCost>
+type Story = StoryObj<typeof TotalConversations>
 
 /**
  * Visualización por defecto con datos de ejemplo
  */
 export const Default: Story = {
   args: {
-    totalCost: 1250.75,
-    dailyMean: 178.68,
-    peakDayDate: 'October 4, 2023',
-    peakDayValue: 300,
+    totalConversations: 15420,
+    dailyMedian: 523,
+    peakDayDate: 'January 15, 2024',
+    peakDayValue: 892,
     loading: false,
   },
 }
@@ -98,8 +98,8 @@ export const Default: Story = {
  */
 export const Loading: Story = {
   args: {
-    totalCost: 0,
-    dailyMean: 0,
+    totalConversations: 0,
+    dailyMedian: 0,
     peakDayDate: '-',
     peakDayValue: 0,
     loading: true,
@@ -111,8 +111,8 @@ export const Loading: Story = {
  */
 export const Empty: Story = {
   args: {
-    totalCost: 0,
-    dailyMean: 0,
+    totalConversations: 0,
+    dailyMedian: 0,
     peakDayDate: '-',
     peakDayValue: 0,
     loading: false,
@@ -120,14 +120,27 @@ export const Empty: Story = {
 }
 
 /**
- * Con valores altos
+ * Con valores altos (alto volumen de conversaciones)
  */
-export const HighValues: Story = {
+export const HighVolume: Story = {
   args: {
-    totalCost: 125750.99,
-    dailyMean: 17964.43,
-    peakDayDate: 'January 15, 2024',
-    peakDayValue: 28500.50,
+    totalConversations: 1542089,
+    dailyMedian: 52345,
+    peakDayDate: 'December 25, 2024',
+    peakDayValue: 89234,
+    loading: false,
+  },
+}
+
+/**
+ * Volumen bajo de conversaciones
+ */
+export const LowVolume: Story = {
+  args: {
+    totalConversations: 127,
+    dailyMedian: 18,
+    peakDayDate: 'January 3, 2024',
+    peakDayValue: 42,
     loading: false,
   },
 }

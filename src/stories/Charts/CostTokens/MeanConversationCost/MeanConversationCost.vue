@@ -1,31 +1,33 @@
 <template>
-  <article class="total-cost-card glass">
+  <article class="mean-conversation-cost-card glass">
     <!-- Elemento decorativo de fondo -->
     <div class="decorative decorative-circle-top"></div>
     <div class="decorative decorative-circle-bottom"></div>
 
     <header class="header-title">
       <div class="container-title">
-        <span class="title">Total Cost</span>
+        <span class="title">Mean Conversation Cost</span>
       </div>
     </header>
 
     <template v-if="!loading">
       <div class="container-value">
-        <div class="value">
-          {{ formattedTotalCost }}
+        <div class="value" :class="getCostColorClass(mean)">
+          {{ meanFormatted }}
         </div>
       </div>
 
       <div class="stats-section">
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-label">Daily Average</div>
-            <div class="stat-value">{{ formattedDailyMean }}</div>
+            <div class="stat-label">Min (daily)</div>
+            <div class="stat-value">
+              {{ minFormatted }}
+            </div>
           </div>
           <div class="stat-item">
             <div class="stat-label">Peak Day</div>
-            <div class="stat-date">{{ peakDayDate }}</div>
+            <div class="stat-value">{{ peakDay }}</div>
             <div class="stat-value">{{ formattedPeakValue }}</div>
           </div>
         </div>
@@ -52,36 +54,42 @@ import { useCurrencyFormat } from "../../../../plugins/numberFormat";
 
 const props = withDefaults(
   defineProps<{
-    totalCost?: number;
-    dailyMean?: number;
-    peakDayDate?: string;
+    mean?: number;
+    minDaily?: number;
+    peakDay?: string;
     peakDayValue?: number;
     loading?: boolean;
   }>(),
   {
-    totalCost: 0,
-    dailyMean: 0,
-    peakDayDate: "-",
+    mean: 0,
+    minDaily: 0,
+    peakDay: "-",
     peakDayValue: 0,
     loading: false,
   }
 );
 
-// Formateo de valores monetarios
-const formattedTotalCost = computed(() => useCurrencyFormat(props.totalCost));
-const formattedDailyMean = computed(() => useCurrencyFormat(props.dailyMean));
+const meanFormatted = computed(() => useCurrencyFormat(props.mean));
+const minFormatted = computed(() => useCurrencyFormat(props.minDaily));
 const formattedPeakValue = computed(() =>
   useCurrencyFormat(props.peakDayValue)
 );
+const getCostColorClass = (value: number) => {
+  if (value === null || value === undefined || isNaN(value))
+    return "cost-neutral";
+  if (value < 0.05) return "cost-low";
+  if (value <= 0.12) return "cost-medium";
+  return "cost-high";
+};
 </script>
 
 <style scoped>
-.total-cost-card {
+.mean-conversation-cost-card {
   font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   background: white;
   border-radius: 28px;
-  border: 1px solid #ede9fe90;
+  border: 1px solid rgba(208, 250, 229, 0.5);
   padding: 1rem;
   position: relative;
   overflow: hidden;
@@ -93,13 +101,13 @@ const formattedPeakValue = computed(() =>
   height: 100%;
 }
 
-.total-cost-card:hover {
+.mean-conversation-cost-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.12);
 }
 
 .glass {
-  background-image: linear-gradient(to bottom right, #f5f3ff, white, #eff6ff);
+  background-image: linear-gradient(to bottom right, #ecfdf5, white, #f0fdfa);
   backdrop-filter: blur(10px);
 }
 
@@ -113,7 +121,11 @@ const formattedPeakValue = computed(() =>
   right: 0px;
   width: 8rem;
   height: 8rem;
-  background-image: linear-gradient(to bottom right, #ede9fe4c, #ede9fe4e);
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(208, 250, 229, 0.3),
+    rgba(203, 251, 241, 0.3)
+  );
   transform: translateY(-3rem) translateX(4rem);
 }
 
@@ -122,7 +134,11 @@ const formattedPeakValue = computed(() =>
   left: 0;
   width: 6rem;
   height: 6rem;
-  background-image: linear-gradient(to top right, #ede9fe4c, #ede9fe4e);
+  background-image: linear-gradient(
+    to top right,
+    rgba(208, 250, 229, 0.2),
+    rgba(203, 251, 241, 0.2)
+  );
   transform: translateY(3rem) translateX(-3rem);
 }
 
@@ -145,7 +161,6 @@ const formattedPeakValue = computed(() =>
   font-weight: 500;
   font-size: 1.125rem;
   line-height: 1.75rem;
-  color: #1e2939;
 }
 
 .container-value {
@@ -159,11 +174,31 @@ const formattedPeakValue = computed(() =>
 
 .value {
   font-weight: bold;
-  background-image: linear-gradient(to right, #7f22fe, #155dfc);
-  background-clip: text;
-  color: transparent;
   font-size: 1.875rem;
   line-height: 2.25rem;
+  color: transparent;
+}
+
+.cost-neutral {
+  color: #9ca3af;
+}
+
+.cost-low {
+  background: linear-gradient(to right, #22c55e, #10b981);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.cost-medium {
+  background: linear-gradient(to right, #facc15, #ca8a04);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.cost-high {
+  background: linear-gradient(to right, #ef4444, #b91c1c);
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 .stats-section {
@@ -238,13 +273,13 @@ const formattedPeakValue = computed(() =>
   width: 8px;
   background: linear-gradient(
     to top,
-    var(--kiut-primary-light) 0%,
-    var(--kiut-primary) 50%,
-    var(--kiut-primary-hover) 100%
+    rgb(0, 212, 146) 0%,
+    rgb(94, 233, 181) 50%,
+    rgb(0, 213, 190) 100%
   );
   border-radius: 4px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
+  box-shadow: 0 4px 15px -3px rgba(11, 245, 93, 0.4);
 }
 
 .line-1 {
@@ -304,13 +339,13 @@ const formattedPeakValue = computed(() =>
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .total-cost-card {
+  .mean-conversation-cost-card {
     min-width: 280px;
     padding: 0.875rem;
     border-radius: 20px;
   }
 
-  .total-cost-card:hover {
+  .mean-conversation-cost-card:hover {
     transform: translateY(-3px);
   }
 
@@ -370,7 +405,7 @@ const formattedPeakValue = computed(() =>
 }
 
 @media (max-width: 480px) {
-  .total-cost-card {
+  .mean-conversation-cost-card {
     min-width: 100%;
     padding: 0.75rem;
     border-radius: 16px;

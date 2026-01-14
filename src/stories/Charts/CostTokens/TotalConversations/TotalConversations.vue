@@ -1,32 +1,32 @@
 <template>
-  <article class="total-cost-card glass">
+  <article class="total-conversations-card glass">
     <!-- Elemento decorativo de fondo -->
     <div class="decorative decorative-circle-top"></div>
     <div class="decorative decorative-circle-bottom"></div>
 
     <header class="header-title">
       <div class="container-title">
-        <span class="title">Total Cost</span>
+        <span class="title">Total Conversations</span>
       </div>
     </header>
 
     <template v-if="!loading">
       <div class="container-value">
         <div class="value">
-          {{ formattedTotalCost }}
+          {{ formattedTotalConversations }}
         </div>
       </div>
 
       <div class="stats-section">
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-label">Daily Average</div>
-            <div class="stat-value">{{ formattedDailyMean }}</div>
+            <div class="stat-label">Daily Median</div>
+            <div class="stat-value">{{ formattedDailyMedian }}</div>
           </div>
           <div class="stat-item">
             <div class="stat-label">Peak Day</div>
             <div class="stat-date">{{ peakDayDate }}</div>
-            <div class="stat-value">{{ formattedPeakValue }}</div>
+            <div class="stat-value">{{ formattedPeakDayValue }}</div>
           </div>
         </div>
       </div>
@@ -48,40 +48,42 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useCurrencyFormat } from "../../../../plugins/numberFormat";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
 
 const props = withDefaults(
   defineProps<{
-    totalCost?: number;
-    dailyMean?: number;
+    totalConversations?: number;
+    dailyMedian?: number;
     peakDayDate?: string;
     peakDayValue?: number;
     loading?: boolean;
   }>(),
   {
-    totalCost: 0,
-    dailyMean: 0,
+    totalConversations: 0,
+    dailyMedian: 0,
     peakDayDate: "-",
     peakDayValue: 0,
     loading: false,
   }
 );
 
-// Formateo de valores monetarios
-const formattedTotalCost = computed(() => useCurrencyFormat(props.totalCost));
-const formattedDailyMean = computed(() => useCurrencyFormat(props.dailyMean));
-const formattedPeakValue = computed(() =>
-  useCurrencyFormat(props.peakDayValue)
+// Formateo de valores numéricos
+const formattedTotalConversations = computed(() =>
+  useNumberFormat(props.totalConversations)
+);
+const formattedDailyMedian = computed(() => useNumberFormat(props.dailyMedian));
+const formattedPeakDayValue = computed(() =>
+  useNumberFormat(props.peakDayValue)
 );
 </script>
 
 <style scoped>
-.total-cost-card {
+.total-conversations-card {
   font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   background: white;
   border-radius: 28px;
-  border: 1px solid #ede9fe90;
+  border: 1px solid #fef3c790;
   padding: 1rem;
   position: relative;
   overflow: hidden;
@@ -93,13 +95,13 @@ const formattedPeakValue = computed(() =>
   height: 100%;
 }
 
-.total-cost-card:hover {
+.total-conversations-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.12);
 }
 
 .glass {
-  background-image: linear-gradient(to bottom right, #f5f3ff, white, #eff6ff);
+  background-image: linear-gradient(to bottom right, #fffbeb, white, #fff7ed);
   backdrop-filter: blur(10px);
 }
 
@@ -113,16 +115,16 @@ const formattedPeakValue = computed(() =>
   right: 0px;
   width: 8rem;
   height: 8rem;
-  background-image: linear-gradient(to bottom right, #ede9fe4c, #ede9fe4e);
-  transform: translateY(-3rem) translateX(4rem);
+  background-image: linear-gradient(to bottom right, #fde68a4c, #fed7aa4e);
+  transform: translateY(-4rem) translateX(4rem);
 }
 
 .decorative-circle-bottom {
-  bottom: 0;
-  left: 0;
+  bottom: 0px;
+  left: 0px;
   width: 6rem;
   height: 6rem;
-  background-image: linear-gradient(to top right, #ede9fe4c, #ede9fe4e);
+  background-image: linear-gradient(to top right, #fde68a4c, #fed7aa4e);
   transform: translateY(3rem) translateX(-3rem);
 }
 
@@ -159,7 +161,7 @@ const formattedPeakValue = computed(() =>
 
 .value {
   font-weight: bold;
-  background-image: linear-gradient(to right, #7f22fe, #155dfc);
+  background-image: linear-gradient(to right, #d97706, #ea580c);
   background-clip: text;
   color: transparent;
   font-size: 1.875rem;
@@ -168,13 +170,15 @@ const formattedPeakValue = computed(() =>
 
 .stats-section {
   padding-top: 0.75rem;
+  position: relative;
+  z-index: 10;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-  font-weight: 0.875rem;
+  font-size: 0.875rem;
   line-height: 1.25rem;
 }
 
@@ -236,15 +240,10 @@ const formattedPeakValue = computed(() =>
 
 .line {
   width: 8px;
-  background: linear-gradient(
-    to top,
-    var(--kiut-primary-light) 0%,
-    var(--kiut-primary) 50%,
-    var(--kiut-primary-hover) 100%
-  );
+  background: linear-gradient(to top, #fcd34d 0%, #f59e0b 50%, #d97706 100%);
   border-radius: 4px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
+  box-shadow: 0 4px 15px -3px rgba(245, 158, 11, 0.4);
 }
 
 .line-1 {
@@ -304,13 +303,13 @@ const formattedPeakValue = computed(() =>
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .total-cost-card {
+  .total-conversations-card {
     min-width: 280px;
     padding: 0.875rem;
     border-radius: 20px;
   }
 
-  .total-cost-card:hover {
+  .total-conversations-card:hover {
     transform: translateY(-3px);
   }
 
@@ -370,7 +369,7 @@ const formattedPeakValue = computed(() =>
 }
 
 @media (max-width: 480px) {
-  .total-cost-card {
+  .total-conversations-card {
     min-width: 100%;
     padding: 0.75rem;
     border-radius: 16px;
