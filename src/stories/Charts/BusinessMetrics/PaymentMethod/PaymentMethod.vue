@@ -357,7 +357,7 @@ const getPaymentIcon = (method: string) => {
 // Format payment method name
 const formatPaymentMethod = (method: string) => {
   if (!method || method.toLowerCase() === 'unknown') return UNREGISTERED_PAYMENT_LABEL
-  return method.replaceAll('_', ' ')
+  return method.replace(/_/g, ' ')
 }
 
 // Format currency
