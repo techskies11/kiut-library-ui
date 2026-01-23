@@ -28,6 +28,7 @@ import TopAgents from './stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue'
 import PaymentMethod from './stories/Charts/BusinessMetrics/PaymentMethod/PaymentMethod.vue';
 import AgentHumanConversations from './stories/Charts/BusinessMetrics/AgentHumanConv/AgentHumanConversations.vue';
 import ChannelMetrics from './stories/Charts/BusinessMetrics/ChannelMetrics/ChannelMetrics.vue';
+import TriageCombinations from './stories/Charts/BusinessMetrics/TriageCombinations/TriageCombinations.vue';
 
 // NPS Metrics
 import NpsDailyMetrics from './stories/Charts/BusinessMetrics/Nps/npsDailyMetrics.vue';
@@ -80,6 +81,7 @@ export {
   PaymentMethod,
   AgentHumanConversations,
   ChannelMetrics,
+  TriageCombinations,
   // NPS Metrics
   NpsDailyMetrics,
   NpsMetrics,
@@ -126,6 +128,7 @@ export const KiutUIPlugin = {
     app.component('KiutPaymentMethod', PaymentMethod);
     app.component('KiutAgentHumanConversations', AgentHumanConversations);
     app.component('KiutChannelMetrics', ChannelMetrics);
+    app.component('KiutTriageCombinations', TriageCombinations);
     app.component('KiutNpsDailyMetrics', NpsDailyMetrics);
     app.component('KiutNpsMetrics', NpsMetrics);
     app.component('KiutNpsOverviewMetrics', NpsOverviewMetrics);
