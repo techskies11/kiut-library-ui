@@ -220,14 +220,17 @@ const processChartData = (data: MetricsData | null) => {
   }
   const categories = Array.from(categoriesSet)
 
-  // Mapa de colores para los canales más comunes
+  // Mapa de colores para los canales más comunes (siguiendo el sistema de diseño)
   const colorMap: { [key: string]: string } = {
-    wsp: '#98FB98',
-    whatsapp: '#98FB98',
-    voice: '#a78bfa',
-    sms: '#fbbf24',
-    web_chat: '#60a5fa',
-    email: '#f472b6',
+    wsp: '#25D366',        // WhatsApp Green oficial
+    whatsapp: '#25D366',   // WhatsApp Green oficial
+    voice: '#8b5cf6',      // Purple-500
+    sms: '#f59e0b',        // Amber-500
+    web_chat: '#06b6d4',   // Cyan-500
+    email: '#ec4899',      // Pink-500
+    messenger: '#0084ff',  // Messenger Blue
+    telegram: '#0088cc',   // Telegram Blue
+    instagram: '#E4405F',  // Instagram Pink
   }
 
   // Crear datasets para cada canal
@@ -239,10 +242,10 @@ const processChartData = (data: MetricsData | null) => {
       label: category.toUpperCase(),
       data: labels.map(date => daysData[date]?.[category] || 0),
       borderColor: color,
-      backgroundColor: `${color}40`, // 40 = 25% opacity in hex
+      backgroundColor: `${color}1A`, // 1A = 10% opacity
       borderWidth: 2,
       fill: true,
-      tension: 0.3,
+      tension: 0.4,
       pointBackgroundColor: color,
       pointBorderColor: color,
       pointBorderWidth: 2,
@@ -359,8 +362,6 @@ defineExpose({ isDark })
 
 .kpi-card.total-card {
   grid-column: 1 / -1;
-  background: var(--kiut-bg-card);
-  border: 2px solid var(--kiut-primary-light);
 }
 
 .kpi-label {
@@ -368,8 +369,6 @@ defineExpose({ isDark })
   font-weight: 500;
   color: var(--kiut-text-secondary);
   line-height: 1.2;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .kpi-value {
