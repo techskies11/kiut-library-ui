@@ -11058,7 +11058,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ])
       ]),
       s.loading ? (_(), x("div", fg, [...h[2] || (h[2] = [
-        V('<div class="loading-container" data-v-dff9dd25><div class="chart-flow-loader" data-v-dff9dd25><div class="flow-line flow-1" data-v-dff9dd25></div><div class="flow-line flow-2" data-v-dff9dd25></div><div class="flow-line flow-3" data-v-dff9dd25></div><div class="flow-line flow-4" data-v-dff9dd25></div><div class="flow-line flow-5" data-v-dff9dd25></div></div><p class="loading-text" data-v-dff9dd25>Loading booking data...</p></div>', 1)
+        V('<div class="loading-container" data-v-5c06c864><div class="chart-flow-loader" data-v-5c06c864><div class="flow-line flow-1" data-v-5c06c864></div><div class="flow-line flow-2" data-v-5c06c864></div><div class="flow-line flow-3" data-v-5c06c864></div><div class="flow-line flow-4" data-v-5c06c864></div><div class="flow-line flow-5" data-v-5c06c864></div></div><p class="loading-text" data-v-5c06c864>Loading booking data...</p></div>', 1)
       ])])) : s.error ? (_(), x("div", gg, [
         d("div", pg, [
           h[3] || (h[3] = d("div", { class: "error-icon-wrapper" }, [
@@ -11142,12 +11142,12 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (_(), x("section", zg, [...h[7] || (h[7] = [
-          V('<div class="empty-state-content" data-v-dff9dd25><div class="empty-icon-wrapper" data-v-dff9dd25><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-dff9dd25><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" data-v-dff9dd25></path></svg></div><p class="empty-title" data-v-dff9dd25>No booking manager data available</p><p class="empty-description" data-v-dff9dd25>No booking manager data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          V('<div class="empty-state-content" data-v-5c06c864><div class="empty-icon-wrapper" data-v-5c06c864><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-5c06c864><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" data-v-5c06c864></path></svg></div><p class="empty-title" data-v-5c06c864>No booking manager data available</p><p class="empty-description" data-v-5c06c864>No booking manager data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Ng = /* @__PURE__ */ G(Wg, [["__scopeId", "data-v-dff9dd25"]]), Hg = { class: "checkin-metrics-card" }, Vg = {
+}), Ng = /* @__PURE__ */ G(Wg, [["__scopeId", "data-v-5c06c864"]]), Hg = { class: "checkin-metrics-card" }, Vg = {
   key: 0,
   class: "loading-state"
 }, jg = {
@@ -12032,7 +12032,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ])
       ]),
       s.loading ? (_(), x("div", p0, [...h[2] || (h[2] = [
-        V('<div class="loading-container" data-v-20b043d3><div class="chart-bars-loader" data-v-20b043d3><div class="bar bar-1" data-v-20b043d3></div><div class="bar bar-2" data-v-20b043d3></div><div class="bar bar-3" data-v-20b043d3></div><div class="bar bar-4" data-v-20b043d3></div><div class="bar bar-5" data-v-20b043d3></div></div><p class="loading-text" data-v-20b043d3>Loading disruption data...</p></div>', 1)
+        V('<div class="loading-container" data-v-d0b738d5><div class="chart-bars-loader" data-v-d0b738d5><div class="bar bar-1" data-v-d0b738d5></div><div class="bar bar-2" data-v-d0b738d5></div><div class="bar bar-3" data-v-d0b738d5></div><div class="bar bar-4" data-v-d0b738d5></div><div class="bar bar-5" data-v-d0b738d5></div></div><p class="loading-text" data-v-d0b738d5>Loading disruption data...</p></div>', 1)
       ])])) : (_(), x("div", b0, [
         d("section", m0, [
           d("div", v0, [
@@ -12047,7 +12047,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
           ])
         ]),
         i.value && i.value.length > 0 ? (_(), x("section", _0, [
-          h[5] || (h[5] = V('<div class="section-header" data-v-20b043d3><h4 class="section-title" data-v-20b043d3>Daily Overview</h4></div><div class="legend-container" data-v-20b043d3><p class="legend-title" data-v-20b043d3>Legend</p><div class="legend-items" data-v-20b043d3><div class="legend-group" data-v-20b043d3><span class="legend-label" data-v-20b043d3>Voluntary:</span><span class="badge badge-vol" data-v-20b043d3>VOL</span></div><div class="legend-group" data-v-20b043d3><span class="legend-label" data-v-20b043d3>Involuntary:</span><span class="badge badge-inv" data-v-20b043d3>INV</span></div><div class="legend-note" data-v-20b043d3><span data-v-20b043d3>Vol=Voluntary</span><span data-v-20b043d3>•</span><span data-v-20b043d3>Inv=Involuntary</span></div></div></div>', 2)),
+          h[5] || (h[5] = V('<div class="section-header" data-v-d0b738d5><h4 class="section-title" data-v-d0b738d5>Daily Overview</h4></div><div class="legend-container" data-v-d0b738d5><p class="legend-title" data-v-d0b738d5>Legend</p><div class="legend-items" data-v-d0b738d5><div class="legend-group" data-v-d0b738d5><span class="legend-label" data-v-d0b738d5>Voluntary:</span><span class="badge badge-vol" data-v-d0b738d5>VOL</span></div><div class="legend-group" data-v-d0b738d5><span class="legend-label" data-v-d0b738d5>Involuntary:</span><span class="badge badge-inv" data-v-d0b738d5>INV</span></div><div class="legend-note" data-v-d0b738d5><span data-v-d0b738d5>Vol=Voluntary</span><span data-v-d0b738d5>•</span><span data-v-d0b738d5>Inv=Involuntary</span></div></div></div>', 2)),
           d("div", x0, [
             d("table", k0, [
               h[4] || (h[4] = d("thead", null, [
@@ -12101,12 +12101,12 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (_(), x("section", V0, [...h[6] || (h[6] = [
-          V('<div class="empty-state-content" data-v-20b043d3><div class="empty-icon-wrapper" data-v-20b043d3><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-20b043d3><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" data-v-20b043d3></path></svg></div><p class="empty-title" data-v-20b043d3>No disruption data available</p><p class="empty-description" data-v-20b043d3>No disruption data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          V('<div class="empty-state-content" data-v-d0b738d5><div class="empty-icon-wrapper" data-v-d0b738d5><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-d0b738d5><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" data-v-d0b738d5></path></svg></div><p class="empty-title" data-v-d0b738d5>No disruption data available</p><p class="empty-description" data-v-d0b738d5>No disruption data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Y0 = /* @__PURE__ */ G(j0, [["__scopeId", "data-v-20b043d3"]]), U0 = { class: "faq-metrics-card" }, q0 = {
+}), Y0 = /* @__PURE__ */ G(j0, [["__scopeId", "data-v-d0b738d5"]]), U0 = { class: "faq-metrics-card" }, q0 = {
   key: 0,
   class: "card-body"
 }, X0 = { class: "kpi-grid" }, K0 = { class: "kpi-card" }, G0 = { class: "kpi-value" }, Z0 = { class: "kpi-card" }, Q0 = { class: "kpi-value" }, J0 = { class: "kpi-card" }, tb = { class: "kpi-value" }, eb = { class: "kpi-card" }, sb = { class: "kpi-value" }, nb = { class: "kpi-card" }, ab = { class: "kpi-value" }, ib = {
@@ -13994,8 +13994,8 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       d("header", u1, [
         d("div", f1, [
           b[1] || (b[1] = d("div", { class: "title-section" }, [
-            d("h3", { class: "card-title" }, "NPS Daily Metrics"),
-            d("p", { class: "card-subtitle" }, "Daily NPS Distribution")
+            d("h3", { class: "card-title" }, "CSAT Daily Metrics"),
+            d("p", { class: "card-subtitle" }, "Daily CSAT Distribution")
           ], -1)),
           r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (_(), x("div", g1, [
             b[0] || (b[0] = d("p", { class: "badge-label" }, "Days", -1)),
@@ -14004,7 +14004,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ])
       ]),
       i.loading ? (_(), x("div", b1, [...b[2] || (b[2] = [
-        V('<div class="loading-container" data-v-6354e62a><div class="chart-flow-loader" data-v-6354e62a><div class="flow-line flow-1" data-v-6354e62a></div><div class="flow-line flow-2" data-v-6354e62a></div><div class="flow-line flow-3" data-v-6354e62a></div><div class="flow-line flow-4" data-v-6354e62a></div><div class="flow-line flow-5" data-v-6354e62a></div></div><p class="loading-text" data-v-6354e62a>Loading daily NPS data...</p></div>', 1)
+        V('<div class="loading-container" data-v-cfc7b91e><div class="chart-flow-loader" data-v-cfc7b91e><div class="flow-line flow-1" data-v-cfc7b91e></div><div class="flow-line flow-2" data-v-cfc7b91e></div><div class="flow-line flow-3" data-v-cfc7b91e></div><div class="flow-line flow-4" data-v-cfc7b91e></div><div class="flow-line flow-5" data-v-cfc7b91e></div></div><p class="loading-text" data-v-cfc7b91e>Loading daily NPS data...</p></div>', 1)
       ])])) : r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (_(), x("div", m1, [
         d("div", {
           class: "chart-wrapper",
@@ -14070,11 +14070,11 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
           loading: e.exportLoading
         }, null, 8, ["loading"])) : z("", !0)
       ])) : (_(), x("div", P1, [...b[10] || (b[10] = [
-        V('<div class="empty-state-content" data-v-6354e62a><div class="empty-icon-wrapper" data-v-6354e62a><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-6354e62a><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-6354e62a></path></svg></div><p class="empty-title" data-v-6354e62a>No daily NPS data available</p><p class="empty-description" data-v-6354e62a>No daily NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
+        V('<div class="empty-state-content" data-v-cfc7b91e><div class="empty-icon-wrapper" data-v-cfc7b91e><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-cfc7b91e><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-cfc7b91e></path></svg></div><p class="empty-title" data-v-cfc7b91e>No daily NPS data available</p><p class="empty-description" data-v-cfc7b91e>No daily NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, Ui = /* @__PURE__ */ G(L1, [["__scopeId", "data-v-6354e62a"]]), O1 = { class: "nps-overview-card" }, E1 = { class: "card-header" }, R1 = { class: "header-content" }, I1 = {
+}, Ui = /* @__PURE__ */ G(L1, [["__scopeId", "data-v-cfc7b91e"]]), O1 = { class: "nps-overview-card" }, E1 = { class: "card-header" }, R1 = { class: "header-content" }, I1 = {
   key: 0,
   class: "stats-badge"
 }, z1 = { class: "badge-value" }, W1 = {
@@ -14119,8 +14119,8 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       d("header", E1, [
         d("div", R1, [
           h[1] || (h[1] = d("div", { class: "title-section" }, [
-            d("h3", { class: "card-title" }, "NPS Overview Metrics"),
-            d("p", { class: "card-subtitle" }, "Overall NPS Distribution")
+            d("h3", { class: "card-title" }, "CSAT Overview Metrics"),
+            d("p", { class: "card-subtitle" }, "Overall CSAT Distribution")
           ], -1)),
           r.value && r.value.total_nps_responses > 0 ? (_(), x("div", I1, [
             h[0] || (h[0] = d("p", { class: "badge-label" }, "Responses", -1)),
@@ -14129,7 +14129,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ])
       ]),
       i.loading ? (_(), x("div", W1, [...h[2] || (h[2] = [
-        V('<div class="loading-container" data-v-cf57fba8><div class="chart-flow-loader" data-v-cf57fba8><div class="flow-line flow-1" data-v-cf57fba8></div><div class="flow-line flow-2" data-v-cf57fba8></div><div class="flow-line flow-3" data-v-cf57fba8></div><div class="flow-line flow-4" data-v-cf57fba8></div><div class="flow-line flow-5" data-v-cf57fba8></div></div><p class="loading-text" data-v-cf57fba8>Loading NPS data...</p></div>', 1)
+        V('<div class="loading-container" data-v-bd3e8a95><div class="chart-flow-loader" data-v-bd3e8a95><div class="flow-line flow-1" data-v-bd3e8a95></div><div class="flow-line flow-2" data-v-bd3e8a95></div><div class="flow-line flow-3" data-v-bd3e8a95></div><div class="flow-line flow-4" data-v-bd3e8a95></div><div class="flow-line flow-5" data-v-bd3e8a95></div></div><p class="loading-text" data-v-bd3e8a95>Loading NPS data...</p></div>', 1)
       ])])) : r.value && r.value.total_nps_responses > 0 ? (_(), x("div", N1, [
         d("div", H1, [
           j(Yi, {
@@ -14152,11 +14152,11 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
           loading: e.exportLoading
         }, null, 8, ["loading"])) : z("", !0)
       ])) : (_(), x("div", V1, [...h[3] || (h[3] = [
-        V('<div class="empty-state-content" data-v-cf57fba8><div class="empty-icon-wrapper" data-v-cf57fba8><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-cf57fba8><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-cf57fba8></path></svg></div><p class="empty-title" data-v-cf57fba8>No NPS data available</p><p class="empty-description" data-v-cf57fba8>No NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
+        V('<div class="empty-state-content" data-v-bd3e8a95><div class="empty-icon-wrapper" data-v-bd3e8a95><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-bd3e8a95><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-bd3e8a95></path></svg></div><p class="empty-title" data-v-bd3e8a95>No NPS data available</p><p class="empty-description" data-v-bd3e8a95>No NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, qi = /* @__PURE__ */ G(q1, [["__scopeId", "data-v-cf57fba8"]]), X1 = { class: "nps-metrics-container" }, K1 = {
+}, qi = /* @__PURE__ */ G(q1, [["__scopeId", "data-v-bd3e8a95"]]), X1 = { class: "nps-metrics-container" }, K1 = {
   __name: "npsMetrics",
   props: {
     data: {
