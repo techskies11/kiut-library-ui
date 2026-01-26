@@ -3,8 +3,8 @@
     <header class="card-header">
       <div class="header-content">
         <div class="title-section">
-          <h3 class="card-title">NPS Overview Metrics</h3>
-          <p class="card-subtitle">Overall NPS Distribution</p>
+          <h3 class="card-title">CSAT Overview Metrics</h3>
+          <p class="card-subtitle">Overall CSAT Distribution</p>
         </div>
         <div v-if="npsData && npsData.total_nps_responses > 0" class="stats-badge">
           <p class="badge-label">Responses</p>

@@ -3,8 +3,8 @@
     <header class="card-header">
       <div class="header-content">
         <div class="title-section">
-          <h3 class="card-title">NPS Daily Metrics</h3>
-          <p class="card-subtitle">Daily NPS Distribution</p>
+          <h3 class="card-title">CSAT Daily Metrics</h3>
+          <p class="card-subtitle">Daily CSAT Distribution</p>
         </div>
         <div v-if="npsData && npsData.nps_by_day && npsData.nps_by_day.length > 0" class="stats-badge">
           <p class="badge-label">Days</p>

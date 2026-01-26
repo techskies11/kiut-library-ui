@@ -473,6 +473,7 @@ const nodeColors: Record<string, string> = {
 
 .title-section {
   flex: 1;
+  text-align: left;
 }
 
 .card-title {

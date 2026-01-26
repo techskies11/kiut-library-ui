@@ -414,6 +414,7 @@ const calculatePercentage = (value: number, total: number): string => {
 
 .title-section {
   flex: 1;
+  text-align: left;
 }
 
 .card-title {
