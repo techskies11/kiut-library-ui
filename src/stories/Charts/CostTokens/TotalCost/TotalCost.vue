@@ -86,7 +86,6 @@ const formattedPeakValue = computed(() =>
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  min-width: 440px;
   box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
