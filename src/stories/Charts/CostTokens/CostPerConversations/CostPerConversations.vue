@@ -72,8 +72,9 @@ import { useThemeDetection, type Theme } from '../../../../composables/useThemeD
 
 // Modelo de datos para cada agente
 interface TopAgent {
-  agent_id: string;
-  agent_name: string;
+  agent_id?: string;
+  agent_name?: string;
+  agent_type?: string; // Nuevo campo del servicio
   avg_cost_per_conversation: number;
   avg_tokens_per_conversation: number;
   conversations: number;
@@ -131,19 +132,38 @@ const agentColorMap: { [key: string]: string } = {
   'support': '#10b981',
 };
 
-// Función para obtener color por agent_id o agent_name
+// Función para normalizar el nombre del agente
+const getAgentIdentifier = (agent: TopAgent): string => {
+  return agent.agent_type || agent.agent_id || agent.agent_name || '';
+};
+
+// Función para obtener el nombre legible del agente
+const getAgentDisplayName = (agent: TopAgent): string => {
+  if (agent.agent_name) return agent.agent_name;
+  
+  // Convertir agent_type o agent_id a formato legible
+  const identifier = getAgentIdentifier(agent);
+  return identifier
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+    .replace(/V\d+$/, '')
+    .trim();
+};
+
+// Función para obtener color por agent_id, agent_name o agent_type
 const getAgentColor = (agent: TopAgent): string => {
-  // Intentar primero con el agent_id
-  const idLower = agent.agent_id?.toLowerCase() || '';
+  // Usar agent_type, agent_id o agent_name
+  const identifier = getAgentIdentifier(agent).toLowerCase();
   
   // Buscar coincidencias en el mapa
   for (const [key, color] of Object.entries(agentColorMap)) {
-    if (idLower.includes(key)) {
+    if (identifier.includes(key)) {
       return color;
     }
   }
   
-  // Si no hay coincidencia, usar color púrpura por defecto
+  // Si no hay coincidencia, usar color gris por defecto
   return '#9ca3af';
 };
 
@@ -175,8 +195,8 @@ const chartData = computed(() => {
     return { labels: [], datasets: [] };
   }
 
-  // Usar agent_name para los labels (más legible que agent_id)
-  const labels = agents.map(agent => agent.agent_name || agent.agent_id);
+  // Usar la función getAgentDisplayName para obtener nombres legibles
+  const labels = agents.map(agent => getAgentDisplayName(agent));
   const costs = agents.map(agent => agent.avg_cost_per_conversation);
   const colors = agents.map(agent => getAgentColor(agent));
 
