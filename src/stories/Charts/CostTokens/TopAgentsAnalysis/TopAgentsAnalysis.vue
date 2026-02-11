@@ -338,12 +338,18 @@ defineExpose({ isDark })
   background: var(--kiut-bg-card-gradient);
   border-radius: 20px;
   padding: 28px 32px;
+  box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.top-agents-card:hover {
+  box-shadow: var(--kiut-shadow-card-hover);
+  transform: translateY(-2px);
 }
 
 /* Header Styles */
@@ -393,11 +399,15 @@ defineExpose({ isDark })
   gap: 24px;
   animation: fadeIn 0.5s ease-out;
   flex: 1;
+  width: 100%;
+  overflow: visible;
 }
 
 .chart-section {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow: visible;
 }
 
 .chart-section-title {
@@ -411,6 +421,8 @@ defineExpose({ isDark })
 .chart-container {
   height: 300px;
   flex: 1;
+  min-height: 250px;
+  width: 100%;
 }
 
 /* Empty State */
@@ -524,10 +536,26 @@ defineExpose({ isDark })
 }
 
 /* Responsive Design */
+@media (max-width: 1280px) {
+  .charts-grid {
+    gap: 20px;
+  }
+  
+  .chart-container {
+    height: 280px;
+    min-height: 240px;
+  }
+}
+
 @media (max-width: 1024px) {
   .charts-grid {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+  
+  .chart-container {
+    height: 300px;
+    min-height: 250px;
   }
 }
 
@@ -541,12 +569,38 @@ defineExpose({ isDark })
   .card-subtitle { font-size: 13px; }
   .card-header { margin-bottom: 24px; }
   
+  .charts-grid {
+    gap: 24px;
+  }
+  
   .chart-container {
     height: 280px;
+    min-height: 220px;
   }
   
   .chart-section-title {
     font-size: 0.8125rem;
+    margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-agents-card {
+    padding: 16px 20px;
+  }
+  
+  .charts-grid {
+    gap: 20px;
+  }
+  
+  .chart-container {
+    height: 240px;
+    min-height: 200px;
+  }
+  
+  .chart-section-title {
+    font-size: 0.75rem;
+    margin-bottom: 10px;
   }
 }
 </style>

@@ -280,12 +280,18 @@ defineExpose({ isDark })
     background: var(--kiut-bg-card-gradient);
     border-radius: 20px;
     padding: 28px 32px;
+    box-shadow: var(--kiut-shadow-card);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+.token-usage-card:hover {
+    box-shadow: var(--kiut-shadow-card-hover);
+    transform: translateY(-2px);
 }
 
 /* Header Styles */
@@ -359,6 +365,7 @@ defineExpose({ isDark })
     border-radius: 10px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
+    min-width: 0;
 }
 
 .kpi-card:hover {
@@ -372,6 +379,7 @@ defineExpose({ isDark })
     font-weight: 500;
     color: var(--kiut-text-secondary);
     line-height: 1.2;
+    word-break: break-word;
 }
 
 .kpi-value {
@@ -381,6 +389,8 @@ defineExpose({ isDark })
     color: var(--kiut-text-primary);
     letter-spacing: -0.02em;
     line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Empty State */
@@ -516,15 +526,34 @@ defineExpose({ isDark })
     }
 
     .kpi-card {
-        padding: 10px 12px;
+        padding: 8px 10px;
     }
 
     .kpi-label {
-        font-size: 0.6875rem;
+        font-size: 0.625rem;
     }
 
     .kpi-value {
-        font-size: 1.125rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+
+    .kpi-card {
+        padding: 6px 8px;
+    }
+
+    .kpi-label {
+        font-size: 0.5625rem;
+    }
+
+    .kpi-value {
+        font-size: 0.75rem;
     }
 }
 </style>

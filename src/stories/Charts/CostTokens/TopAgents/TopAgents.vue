@@ -228,12 +228,18 @@ defineExpose({ isDark })
   background: var(--kiut-bg-card-gradient);
   border-radius: 20px;
   padding: 28px 32px;
+  box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.top-agents-card:hover {
+  box-shadow: var(--kiut-shadow-card-hover);
+  transform: translateY(-2px);
 }
 
 /* Header Styles */
