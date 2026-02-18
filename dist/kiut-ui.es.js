@@ -14572,7 +14572,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ])
       ], -1)),
       e.loading ? (_(), k("div", Yy, [...v[8] || (v[8] = [
-        V('<div class="loading-container" data-v-068c1af5><div class="chart-lines-loader" data-v-068c1af5><div class="line line-1" data-v-068c1af5></div><div class="line line-2" data-v-068c1af5></div><div class="line line-3" data-v-068c1af5></div><div class="line line-4" data-v-068c1af5></div><div class="line line-5" data-v-068c1af5></div></div><p class="loading-text" data-v-068c1af5>Loading chart data...</p></div>', 1)
+        V('<div class="loading-container" data-v-62f96954><div class="chart-lines-loader" data-v-62f96954><div class="line line-1" data-v-62f96954></div><div class="line line-2" data-v-62f96954></div><div class="line line-3" data-v-62f96954></div><div class="line line-4" data-v-62f96954></div><div class="line line-5" data-v-62f96954></div></div><p class="loading-text" data-v-62f96954>Loading chart data...</p></div>', 1)
       ])])) : (_(), k("div", Cy, [
         f.value.labels && f.value.labels.length ? (_(), k("section", $y, [
           d("div", Dy, [
@@ -14620,7 +14620,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), qy = /* @__PURE__ */ G(Uy, [["__scopeId", "data-v-068c1af5"]]), Xy = { class: "token-usage-card" }, Ky = {
+}), qy = /* @__PURE__ */ G(Uy, [["__scopeId", "data-v-62f96954"]]), Xy = { class: "token-usage-card" }, Ky = {
   key: 0,
   class: "card-body"
 }, Gy = {
@@ -14774,7 +14774,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ])
       ], -1)),
       e.loading ? (_(), k("div", u_, [...u[7] || (u[7] = [
-        V('<div class="loading-container" data-v-8196980a><div class="chart-lines-loader" data-v-8196980a><div class="line line-1" data-v-8196980a></div><div class="line line-2" data-v-8196980a></div><div class="line line-3" data-v-8196980a></div><div class="line line-4" data-v-8196980a></div><div class="line line-5" data-v-8196980a></div></div><p class="loading-text" data-v-8196980a>Loading chart data...</p></div>', 1)
+        V('<div class="loading-container" data-v-e9e355be><div class="chart-lines-loader" data-v-e9e355be><div class="line line-1" data-v-e9e355be></div><div class="line line-2" data-v-e9e355be></div><div class="line line-3" data-v-e9e355be></div><div class="line line-4" data-v-e9e355be></div><div class="line line-5" data-v-e9e355be></div></div><p class="loading-text" data-v-e9e355be>Loading chart data...</p></div>', 1)
       ])])) : (_(), k("div", Ky, [
         l.value.labels && l.value.labels.length ? (_(), k("section", Gy, [
           d("div", Zy, [
@@ -14818,7 +14818,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), g_ = /* @__PURE__ */ G(f_, [["__scopeId", "data-v-8196980a"]]), p_ = { class: "conversation-count-card" }, m_ = { class: "card-header" }, b_ = { class: "header-right" }, v_ = { class: "stat-badge" }, y_ = { class: "stat-value" }, __ = {
+}), g_ = /* @__PURE__ */ G(f_, [["__scopeId", "data-v-e9e355be"]]), p_ = { class: "conversation-count-card" }, m_ = { class: "card-header" }, b_ = { class: "header-right" }, v_ = { class: "stat-badge" }, y_ = { class: "stat-value" }, __ = {
   key: 0,
   class: "card-body"
 }, x_ = {
