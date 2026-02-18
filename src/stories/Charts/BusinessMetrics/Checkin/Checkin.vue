@@ -182,8 +182,31 @@
   }
 
   const tableData = ref([])
-  const checkinDataInternal = computed(() => props.checkinData ?? DEFAULT_CHECKIN_DATA)
-  const failedDataInternal = computed(() => props.failedData ?? DEFAULT_FAILED_DATA)
+
+  // Normalize sources: support checkinData+failedData, or data (checkin shape), or data.checkin + data.failed
+  const checkinDataInternal = computed(() => {
+    const d = props.data
+    const checkinFromData = d?.checkin ?? d
+    const hasCheckin = checkinFromData && ((Array.isArray(checkinFromData.checkin_by_day) && checkinFromData.checkin_by_day.length > 0) || (checkinFromData.total_checkin_initiated ?? 0) > 0)
+    if (hasCheckin) {
+      return { ...DEFAULT_CHECKIN_DATA, ...checkinFromData }
+    }
+    return props.checkinData ?? DEFAULT_CHECKIN_DATA
+  })
+
+  const failedDataInternal = computed(() => {
+    const d = props.data
+    const failedFromData = d?.failed ?? d
+    const hasFailed = failedFromData && ((Array.isArray(failedFromData.failed_by_step_by_day) && failedFromData.failed_by_step_by_day.length > 0) || (Array.isArray(failedFromData.unrecovered_by_step) && failedFromData.unrecovered_by_step.length > 0))
+    if (hasFailed) {
+      return {
+        ...DEFAULT_FAILED_DATA,
+        failed_by_step_by_day: failedFromData.failed_by_step_by_day ?? [],
+        unrecovered_by_step: failedFromData.unrecovered_by_step ?? [],
+      }
+    }
+    return props.failedData ?? DEFAULT_FAILED_DATA
+  })
 
   // Computed para colores dinámicos del Sankey (basado en sellerMetrics)
   const sankeyNodeColors = computed(() => {
@@ -271,8 +294,6 @@
     const closed = checkinDataInternal.value.total_checkin_closed
     const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || []
     const totalUnrecovered = unrecoveredSteps.reduce((sum, step) => sum + step.count, 0)
-
-    console.log(JSON.stringify(checkinDataInternal.value))
 
     // Flujo principal: Checkin Init -> Booking retrive (usar initiated como base 100%)
     if (init > 0) {
@@ -414,9 +435,6 @@
         label: `${closed.toLocaleString()} (${percentage}%)`,
       })
     }
-
-    console.log(JSON.stringify(nodes))
-    console.log(JSON.stringify(links))
 
     return { nodes, links }
   })
