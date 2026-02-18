@@ -56,7 +56,7 @@
           <div class="kpi-card">
             <span class="kpi-label">Efficiency</span>
             <span class="kpi-value gradient-text">
-              {{ ((normalizedData.total_airline_conversations / (normalizedData.total_conversations || 1)) * 100).toFixed(1) }}%
+              {{ efficiencyPercent.toFixed(1) }}%
             </span>
           </div>
         </footer>
@@ -136,6 +136,14 @@ const normalizedData = computed(() => {
     total_airline_conversations: d.total_airline_conversations ?? d.totalAirlineConversations ?? 0,
     airline_name: d.airline_name
   }
+})
+
+// Efficiency 0–100%: airline_conversations / total_conversations, clamped
+const efficiencyPercent = computed(() => {
+  const total = normalizedData.value.total_conversations
+  if (!total) return 0
+  const pct = (normalizedData.value.total_airline_conversations / total) * 100
+  return Math.min(100, Math.max(0, pct))
 })
 
 const chartData = computed(() => {
