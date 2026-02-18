@@ -19,16 +19,25 @@
           <span class="kpi-label">Documents Found</span>
           <span class="kpi-value">{{ useNumberFormat(metricsData.total_documents_found) }}</span>
         </div>
-        <div class="kpi-card">
-          <span class="kpi-label">Airline Info</span>
+        <div class="kpi-card kpi-card--airline">
+          <div class="kpi-label-row">
+            <span class="kpi-color-dot" aria-hidden="true"></span>
+            <span class="kpi-label">Airline Info</span>
+          </div>
           <span class="kpi-value">{{ useNumberFormat(metricsData.total_airline_information_retrieved) }}</span>
         </div>
-        <div class="kpi-card">
-          <span class="kpi-label">Booking Info</span>
+        <div class="kpi-card kpi-card--booking">
+          <div class="kpi-label-row">
+            <span class="kpi-color-dot" aria-hidden="true"></span>
+            <span class="kpi-label">Booking Info</span>
+          </div>
           <span class="kpi-value">{{ useNumberFormat(metricsData.total_booking_info_retrieved) }}</span>
         </div>
-        <div class="kpi-card">
-          <span class="kpi-label">Flight Status</span>
+        <div class="kpi-card kpi-card--flight">
+          <div class="kpi-label-row">
+            <span class="kpi-color-dot" aria-hidden="true"></span>
+            <span class="kpi-label">Flight Status</span>
+          </div>
           <span class="kpi-value">{{ useNumberFormat(metricsData.total_flight_status_retrieved) }}</span>
         </div>
       </div>
@@ -366,6 +375,34 @@ defineExpose({ isDark })
   border-radius: 10px;
   transition: all 0.2s ease;
   text-align: center;
+}
+
+/* Label + color dot row (aligned with text) */
+.kpi-label-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto;
+}
+
+.kpi-color-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.kpi-card--airline .kpi-color-dot {
+  background-color: #8b5cf6;
+}
+
+.kpi-card--booking .kpi-color-dot {
+  background-color: #f59e0b;
+}
+
+.kpi-card--flight .kpi-color-dot {
+  background-color: #06b6d4;
 }
 
 .kpi-card:hover {
