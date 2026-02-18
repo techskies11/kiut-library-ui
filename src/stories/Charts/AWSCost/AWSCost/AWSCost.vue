@@ -3,18 +3,18 @@
     <header class="card-header">
       <div class="header-main">
         <div class="header-content">
-          <h3 class="card-title">{{ data.airline_name || 'AWS Cost Analysis' }}</h3>
+          <h3 class="card-title"> AWS Cost</h3>
           <p class="card-subtitle">AWS vs Allocated costs over time</p>
         </div>
         
         <div class="header-stats">
           <div class="stat-badge primary">
             <span class="stat-label">Total Allocated</span>
-            <span class="stat-value">{{ useCurrencyFormat(data.total_allocated_cost) }}</span>
+            <span class="stat-value">{{ useCurrencyFormat(data?.total_allocated_cost ?? 0) }}</span>
           </div>
           <div class="stat-badge secondary">
             <span class="stat-label">Total AWS</span>
-            <span class="stat-value">{{ useCurrencyFormat(data.total_cost) }}</span>
+            <span class="stat-value">{{ useCurrencyFormat(data?.total_cost ?? 0) }}</span>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div v-else-if="data.daily && data.daily.length" class="chart-section">
+      <div v-else-if="(data?.daily?.length ?? 0) > 0" class="chart-section">
         <div class="chart-container">
           <ChartLine :data="chartData" :options="chartOptions" />
         </div>
@@ -43,20 +43,20 @@
         <footer class="kpi-grid">
           <div class="kpi-card">
             <span class="kpi-label">Total Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(data.total_conversations) }}</span>
+            <span class="kpi-value">{{ useNumberFormat(data?.total_conversations ?? 0) }}</span>
           </div>
           <div class="kpi-card">
             <span class="kpi-label">Airline Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(data.total_airline_conversations) }}</span>
+            <span class="kpi-value">{{ useNumberFormat(data?.total_airline_conversations ?? 0) }}</span>
           </div>
           <div class="kpi-card">
             <span class="kpi-label">Avg. Cost / Conv.</span>
-            <span class="kpi-value">{{ useCurrencyFormat(data.total_allocated_cost / (data.total_conversations || 1)) }}</span>
+            <span class="kpi-value">{{ useCurrencyFormat((data?.total_allocated_cost ?? 0) / ((data?.total_conversations) || 1)) }}</span>
           </div>
           <div class="kpi-card">
             <span class="kpi-label">Efficiency</span>
             <span class="kpi-value gradient-text">
-              {{ ((data.total_airline_conversations / (data.total_conversations || 1)) * 100).toFixed(1) }}%
+              {{ (((data?.total_airline_conversations ?? 0) / ((data?.total_conversations) || 1)) * 100).toFixed(1) }}%
             </span>
           </div>
         </footer>
@@ -85,7 +85,6 @@ import { useThemeDetection } from '../../../../composables/useThemeDetection'
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
     default: () => ({
       airline_name: '',
       start_date: '',
@@ -110,13 +109,14 @@ const props = defineProps({
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
 const chartData = computed(() => {
-  const labels = props.data.daily.map(d => d.date)
+  const daily = props.data?.daily ?? []
+  const labels = daily.map(d => d.date)
   return {
     labels,
     datasets: [
       {
         label: 'Allocated Cost',
-        data: props.data.daily.map(d => d.allocated_cost),
+        data: daily.map(d => d.allocated_cost),
         borderColor: colors.value.primaryLight,
         backgroundColor: isDark.value ? 'rgba(198, 125, 255, 0.15)' : 'rgba(198, 125, 255, 0.08)',
         borderWidth: 3,
@@ -128,7 +128,7 @@ const chartData = computed(() => {
       },
       {
         label: 'AWS Cost',
-        data: props.data.daily.map(d => d.aws_cost),
+        data: daily.map(d => d.aws_cost),
         borderColor: '#FF9900', // Amazon Orange/Yellow
         backgroundColor: 'transparent',
         borderWidth: 3,
@@ -139,7 +139,7 @@ const chartData = computed(() => {
       },
       {
         label: 'Airline Conv.',
-        data: props.data.daily.map(d => d.airline_conversations),
+        data: daily.map(d => d.airline_conversations),
         borderColor: colors.value.info,
         backgroundColor: isDark.value ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)',
         borderWidth: 2,
