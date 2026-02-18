@@ -39,27 +39,6 @@
         <div class="chart-container">
           <ChartLine :data="chartData" :options="chartOptions" />
         </div>
-        
-        <footer class="kpi-grid">
-          <div class="kpi-card">
-            <span class="kpi-label">Total Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(normalizedData.total_conversations) }}</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Airline Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(normalizedData.total_airline_conversations) }}</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Avg. Cost / Conv.</span>
-            <span class="kpi-value">{{ useCurrencyFormat(normalizedData.total_allocated_cost / (normalizedData.total_conversations || 1)) }}</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Efficiency</span>
-            <span class="kpi-value gradient-text">
-              {{ efficiencyPercent.toFixed(1) }}%
-            </span>
-          </div>
-        </footer>
       </div>
 
       <section v-else class="empty-state">
@@ -78,7 +57,7 @@
 <script setup>
 import { computed, toRef } from 'vue'
 import ChartLine from '../../Line/ChartLine.vue'
-import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
+import { useCurrencyFormat } from '../../../../plugins/numberFormat'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useThemeDetection } from '../../../../composables/useThemeDetection'
 
@@ -136,14 +115,6 @@ const normalizedData = computed(() => {
     total_airline_conversations: d.total_airline_conversations ?? d.totalAirlineConversations ?? 0,
     airline_name: d.airline_name
   }
-})
-
-// Efficiency 0–100%: airline_conversations / total_conversations, clamped
-const efficiencyPercent = computed(() => {
-  const total = normalizedData.value.total_conversations
-  if (!total) return 0
-  const pct = (normalizedData.value.total_airline_conversations / total) * 100
-  return Math.min(100, Math.max(0, pct))
 })
 
 const chartData = computed(() => {
