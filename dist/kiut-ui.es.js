@@ -11408,7 +11408,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       }), r.value.sort((y, x) => new Date(y.date) - new Date(x.date));
     };
     return Vt(
-      [() => a.checkinData, () => a.failedData],
+      [() => a.data, () => a.checkinData, () => a.failedData],
       () => {
         v();
       },
@@ -11421,7 +11421,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ])
       ], -1)),
       a.loading ? (_(), k("div", Vg, [...m[0] || (m[0] = [
-        V('<div class="loading-container" data-v-b9ee6110><div class="chart-flow-loader" data-v-b9ee6110><div class="flow-line flow-1" data-v-b9ee6110></div><div class="flow-line flow-2" data-v-b9ee6110></div><div class="flow-line flow-3" data-v-b9ee6110></div><div class="flow-line flow-4" data-v-b9ee6110></div><div class="flow-line flow-5" data-v-b9ee6110></div></div><p class="loading-text" data-v-b9ee6110>Loading check-in data...</p></div>', 1)
+        V('<div class="loading-container" data-v-d527da09><div class="chart-flow-loader" data-v-d527da09><div class="flow-line flow-1" data-v-d527da09></div><div class="flow-line flow-2" data-v-d527da09></div><div class="flow-line flow-3" data-v-d527da09></div><div class="flow-line flow-4" data-v-d527da09></div><div class="flow-line flow-5" data-v-d527da09></div></div><p class="loading-text" data-v-d527da09>Loading check-in data...</p></div>', 1)
       ])])) : (_(), k("div", jg, [
         p.value.nodes.length > 0 ? (_(), k("section", Yg, [
           d("div", Ug, [
@@ -11482,12 +11482,12 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
         ])) : (_(), k("section", cp, [...m[2] || (m[2] = [
-          V('<div class="empty-state-content" data-v-b9ee6110><div class="empty-icon-wrapper" data-v-b9ee6110><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-b9ee6110><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-b9ee6110></path></svg></div><p class="empty-title" data-v-b9ee6110>No check-in data available</p><p class="empty-description" data-v-b9ee6110>Try adjusting the date range or check your filters to see check-in performance data.</p></div>', 1)
+          V('<div class="empty-state-content" data-v-d527da09><div class="empty-icon-wrapper" data-v-d527da09><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-d527da09><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-d527da09></path></svg></div><p class="empty-title" data-v-d527da09>No check-in data available</p><p class="empty-description" data-v-d527da09>Try adjusting the date range or check your filters to see check-in performance data.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}, hp = /* @__PURE__ */ G(dp, [["__scopeId", "data-v-b9ee6110"]]), up = { class: "checkin-metrics-card" }, fp = {
+}, hp = /* @__PURE__ */ G(dp, [["__scopeId", "data-v-d527da09"]]), up = { class: "checkin-metrics-card" }, fp = {
   key: 0,
   class: "loading-state"
 }, gp = {
@@ -13735,13 +13735,13 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
 }), Yv = /* @__PURE__ */ G(jv, [["__scopeId", "data-v-ffac363e"]]), Uv = { class: "triage-combinations-card" }, qv = { class: "card-header" }, Xv = { class: "total-badge" }, Kv = {
   key: 0,
   class: "card-body"
-}, Gv = { class: "chart-container" }, Zv = { class: "table-container" }, Qv = { class: "table-row" }, Jv = { class: "table-row" }, t1 = { class: "table-cell text-center count-cell" }, e1 = { class: "table-cell text-center count-cell" }, s1 = { class: "table-cell text-center count-cell" }, n1 = { class: "table-cell text-center count-cell" }, a1 = { class: "table-cell text-center count-cell" }, i1 = {
+}, Gv = { class: "chart-container" }, Zv = { class: "table-container" }, Qv = { class: "table-row" }, Jv = { class: "table-row" }, ty = { class: "table-cell text-center count-cell" }, ey = { class: "table-cell text-center count-cell" }, sy = { class: "table-cell text-center count-cell" }, ny = { class: "table-cell text-center count-cell" }, ay = { class: "table-cell text-center count-cell" }, iy = {
   key: 1,
   class: "empty-state"
-}, o1 = { class: "empty-state-content" }, r1 = { class: "empty-icon-wrapper" }, l1 = {
+}, oy = { class: "empty-state-content" }, ry = { class: "empty-icon-wrapper" }, ly = {
   key: 1,
   class: "loading-state"
-}, c1 = /* @__PURE__ */ Z({
+}, cy = /* @__PURE__ */ Z({
   __name: "TriageCombinations",
   props: {
     data: { default: () => ({ combinations: {} }) },
@@ -13882,7 +13882,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         ], -1)),
         d("span", Xv, " Total: " + S(c.value), 1)
       ]),
-      e.loading ? (_(), k("div", l1, [...y[6] || (y[6] = [
+      e.loading ? (_(), k("div", ly, [...y[6] || (y[6] = [
         V('<div class="loading-container" data-v-7c20c8e0><div class="chart-bars-loader" data-v-7c20c8e0><div class="bar bar-1" data-v-7c20c8e0></div><div class="bar bar-2" data-v-7c20c8e0></div><div class="bar bar-3" data-v-7c20c8e0></div><div class="bar bar-4" data-v-7c20c8e0></div><div class="bar bar-5" data-v-7c20c8e0></div></div><p class="loading-text" data-v-7c20c8e0>Loading intent distribution...</p></div>', 1)
       ])])) : (_(), k("div", Kv, [
         h.value ? (_(), k(X, { key: 0 }, [
@@ -13919,11 +13919,11 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
             ]),
             d("div", Jv, [
               y[2] || (y[2] = d("div", { class: "table-cell row-label" }, "Count", -1)),
-              d("div", t1, S(B(W)(l.value[0])), 1),
-              d("div", e1, S(B(W)(l.value[1])), 1),
-              d("div", s1, S(B(W)(l.value[2])), 1),
-              d("div", n1, S(B(W)(l.value[3])), 1),
-              d("div", a1, S(B(W)(l.value["4p"])), 1)
+              d("div", ty, S(B(W)(l.value[0])), 1),
+              d("div", ey, S(B(W)(l.value[1])), 1),
+              d("div", sy, S(B(W)(l.value[2])), 1),
+              d("div", ny, S(B(W)(l.value[3])), 1),
+              d("div", ay, S(B(W)(l.value["4p"])), 1)
             ])
           ]),
           e.enableExport ? (_(), ht(B(gt), {
@@ -13931,9 +13931,9 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
             onExport: i,
             loading: e.exportLoading
           }, null, 8, ["loading"])) : z("", !0)
-        ], 64)) : (_(), k("div", i1, [
-          d("div", o1, [
-            d("div", r1, [
+        ], 64)) : (_(), k("div", iy, [
+          d("div", oy, [
+            d("div", ry, [
               j(B(wt), { class: "empty-icon" })
             ]),
             y[4] || (y[4] = d("p", { class: "empty-title" }, "No triage combinations data", -1)),
@@ -13943,19 +13943,19 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), d1 = /* @__PURE__ */ G(c1, [["__scopeId", "data-v-7c20c8e0"]]), h1 = { class: "nps-daily-card" }, u1 = { class: "card-header" }, f1 = { class: "header-content" }, g1 = {
+}), dy = /* @__PURE__ */ G(cy, [["__scopeId", "data-v-7c20c8e0"]]), hy = { class: "nps-daily-card" }, uy = { class: "card-header" }, fy = { class: "header-content" }, gy = {
   key: 0,
   class: "stats-badge"
-}, p1 = { class: "badge-value" }, b1 = {
+}, py = { class: "badge-value" }, by = {
   key: 0,
   class: "loading-state"
-}, m1 = {
+}, my = {
   key: 1,
   class: "card-body"
-}, v1 = { class: "tooltip-content" }, y1 = { class: "tooltip-title" }, _1 = { class: "tooltip-stats" }, x1 = { class: "tooltip-stat-row" }, k1 = { class: "tooltip-value" }, M1 = { class: "tooltip-stat-row" }, S1 = { class: "tooltip-value" }, w1 = { class: "tooltip-stat-row" }, C1 = { class: "tooltip-value" }, $1 = { class: "tooltip-stat-row" }, D1 = { class: "tooltip-value" }, A1 = { class: "tooltip-stat-row" }, T1 = { class: "tooltip-value" }, F1 = { class: "tooltip-stat-row" }, B1 = { class: "tooltip-value" }, P1 = {
+}, vy = { class: "tooltip-content" }, yy = { class: "tooltip-title" }, _y = { class: "tooltip-stats" }, xy = { class: "tooltip-stat-row" }, ky = { class: "tooltip-value" }, My = { class: "tooltip-stat-row" }, Sy = { class: "tooltip-value" }, wy = { class: "tooltip-stat-row" }, Cy = { class: "tooltip-value" }, $y = { class: "tooltip-stat-row" }, Dy = { class: "tooltip-value" }, Ay = { class: "tooltip-stat-row" }, Ty = { class: "tooltip-value" }, Fy = { class: "tooltip-stat-row" }, By = { class: "tooltip-value" }, Py = {
   key: 2,
   class: "empty-state"
-}, Wa = 400, Ce = 60, Na = 90, Ha = 120, L1 = {
+}, Wa = 400, Ce = 60, Na = 90, Ha = 120, Ly = {
   __name: "npsDailyMetrics",
   props: {
     data: {
@@ -14049,22 +14049,22 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
     }, v = () => {
       c.value.visible = !1;
     };
-    return t({ isDark: o }), (b, m) => (_(), k("article", h1, [
-      d("header", u1, [
-        d("div", f1, [
+    return t({ isDark: o }), (b, m) => (_(), k("article", hy, [
+      d("header", uy, [
+        d("div", fy, [
           m[1] || (m[1] = d("div", { class: "title-section" }, [
             d("h3", { class: "card-title" }, "CSAT Daily Metrics"),
             d("p", { class: "card-subtitle" }, "Daily CSAT Distribution")
           ], -1)),
-          r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (_(), k("div", g1, [
+          r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (_(), k("div", gy, [
             m[0] || (m[0] = d("p", { class: "badge-label" }, "Days", -1)),
-            d("p", p1, S(r.value.nps_by_day.length), 1)
+            d("p", py, S(r.value.nps_by_day.length), 1)
           ])) : z("", !0)
         ])
       ]),
-      i.loading ? (_(), k("div", b1, [...m[2] || (m[2] = [
+      i.loading ? (_(), k("div", by, [...m[2] || (m[2] = [
         V('<div class="loading-container" data-v-cfc7b91e><div class="chart-flow-loader" data-v-cfc7b91e><div class="flow-line flow-1" data-v-cfc7b91e></div><div class="flow-line flow-2" data-v-cfc7b91e></div><div class="flow-line flow-3" data-v-cfc7b91e></div><div class="flow-line flow-4" data-v-cfc7b91e></div><div class="flow-line flow-5" data-v-cfc7b91e></div></div><p class="loading-text" data-v-cfc7b91e>Loading daily NPS data...</p></div>', 1)
-      ])])) : r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (_(), k("div", m1, [
+      ])])) : r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (_(), k("div", my, [
         d("div", {
           class: "chart-wrapper",
           ref_key: "chartContainerRef",
@@ -14091,33 +14091,33 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
               top: `${c.value.y}px`
             })
           }, [
-            d("div", v1, [
-              d("div", y1, S(c.value.date), 1),
+            d("div", vy, [
+              d("div", yy, S(c.value.date), 1),
               m[9] || (m[9] = d("div", { class: "tooltip-divider" }, null, -1)),
-              d("div", _1, [
-                d("div", x1, [
+              d("div", _y, [
+                d("div", xy, [
                   m[3] || (m[3] = d("span", { class: "tooltip-label tooltip-min" }, "Min:", -1)),
-                  d("span", k1, S(c.value.min), 1)
+                  d("span", ky, S(c.value.min), 1)
                 ]),
-                d("div", M1, [
+                d("div", My, [
                   m[4] || (m[4] = d("span", { class: "tooltip-label tooltip-q1" }, "Q1:", -1)),
-                  d("span", S1, S(c.value.q1), 1)
+                  d("span", Sy, S(c.value.q1), 1)
                 ]),
-                d("div", w1, [
+                d("div", wy, [
                   m[5] || (m[5] = d("span", { class: "tooltip-label tooltip-median" }, "Median:", -1)),
-                  d("span", C1, S(c.value.median), 1)
+                  d("span", Cy, S(c.value.median), 1)
                 ]),
-                d("div", $1, [
+                d("div", $y, [
                   m[6] || (m[6] = d("span", { class: "tooltip-label tooltip-avg" }, "Avg:", -1)),
-                  d("span", D1, S(c.value.avg), 1)
+                  d("span", Dy, S(c.value.avg), 1)
                 ]),
-                d("div", A1, [
+                d("div", Ay, [
                   m[7] || (m[7] = d("span", { class: "tooltip-label tooltip-q3" }, "Q3:", -1)),
-                  d("span", T1, S(c.value.q3), 1)
+                  d("span", Ty, S(c.value.q3), 1)
                 ]),
-                d("div", F1, [
+                d("div", Fy, [
                   m[8] || (m[8] = d("span", { class: "tooltip-label tooltip-max" }, "Max:", -1)),
-                  d("span", B1, S(c.value.max), 1)
+                  d("span", By, S(c.value.max), 1)
                 ])
               ])
             ])
@@ -14128,24 +14128,24 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
           onExport: a,
           loading: e.exportLoading
         }, null, 8, ["loading"])) : z("", !0)
-      ])) : (_(), k("div", P1, [...m[10] || (m[10] = [
+      ])) : (_(), k("div", Py, [...m[10] || (m[10] = [
         V('<div class="empty-state-content" data-v-cfc7b91e><div class="empty-icon-wrapper" data-v-cfc7b91e><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-cfc7b91e><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-cfc7b91e></path></svg></div><p class="empty-title" data-v-cfc7b91e>No daily NPS data available</p><p class="empty-description" data-v-cfc7b91e>No daily NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, Ui = /* @__PURE__ */ G(L1, [["__scopeId", "data-v-cfc7b91e"]]), O1 = { class: "nps-overview-card" }, E1 = { class: "card-header" }, R1 = { class: "header-content" }, I1 = {
+}, Ui = /* @__PURE__ */ G(Ly, [["__scopeId", "data-v-cfc7b91e"]]), Oy = { class: "nps-overview-card" }, Ey = { class: "card-header" }, Ry = { class: "header-content" }, Iy = {
   key: 0,
   class: "stats-badge"
-}, z1 = { class: "badge-value" }, W1 = {
+}, zy = { class: "badge-value" }, Wy = {
   key: 0,
   class: "loading-state"
-}, N1 = {
+}, Ny = {
   key: 1,
   class: "card-body"
-}, H1 = { class: "chart-wrapper" }, V1 = {
+}, Hy = { class: "chart-wrapper" }, Vy = {
   key: 2,
   class: "empty-state"
-}, j1 = 500, Y1 = 60, U1 = 80, q1 = {
+}, jy = 500, Yy = 60, Uy = 80, qy = {
   __name: "npsOverviewMetrics",
   props: {
     data: {
@@ -14174,23 +14174,23 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
     const n = s, a = (c) => {
       n("export", c);
     }, i = e, { isDark: o } = tt(J(i, "theme")), r = F(() => i.data), l = F(() => Math.max(600, window.innerWidth * 0.85));
-    return t({ isDark: o }), (c, h) => (_(), k("article", O1, [
-      d("header", E1, [
-        d("div", R1, [
+    return t({ isDark: o }), (c, h) => (_(), k("article", Oy, [
+      d("header", Ey, [
+        d("div", Ry, [
           h[1] || (h[1] = d("div", { class: "title-section" }, [
             d("h3", { class: "card-title" }, "CSAT Overview Metrics"),
             d("p", { class: "card-subtitle" }, "Overall CSAT Distribution")
           ], -1)),
-          r.value && r.value.total_nps_responses > 0 ? (_(), k("div", I1, [
+          r.value && r.value.total_nps_responses > 0 ? (_(), k("div", Iy, [
             h[0] || (h[0] = d("p", { class: "badge-label" }, "Responses", -1)),
-            d("p", z1, S(r.value.total_nps_responses), 1)
+            d("p", zy, S(r.value.total_nps_responses), 1)
           ])) : z("", !0)
         ])
       ]),
-      i.loading ? (_(), k("div", W1, [...h[2] || (h[2] = [
+      i.loading ? (_(), k("div", Wy, [...h[2] || (h[2] = [
         V('<div class="loading-container" data-v-bd3e8a95><div class="chart-flow-loader" data-v-bd3e8a95><div class="flow-line flow-1" data-v-bd3e8a95></div><div class="flow-line flow-2" data-v-bd3e8a95></div><div class="flow-line flow-3" data-v-bd3e8a95></div><div class="flow-line flow-4" data-v-bd3e8a95></div><div class="flow-line flow-5" data-v-bd3e8a95></div></div><p class="loading-text" data-v-bd3e8a95>Loading NPS data...</p></div>', 1)
-      ])])) : r.value && r.value.total_nps_responses > 0 ? (_(), k("div", N1, [
-        d("div", H1, [
+      ])])) : r.value && r.value.total_nps_responses > 0 ? (_(), k("div", Ny, [
+        d("div", Hy, [
           j(Yi, {
             histogram: r.value.histogram || [],
             "min-score": r.value.min_score || 0,
@@ -14200,9 +14200,9 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
             "q3-score": r.value.q3_score || 0,
             "average-score": r.value.average_score || 0,
             "chart-width": l.value,
-            "chart-height": j1,
-            "chart-margin": Y1,
-            "chart-bottom-margin": U1
+            "chart-height": jy,
+            "chart-margin": Yy,
+            "chart-bottom-margin": Uy
           }, null, 8, ["histogram", "min-score", "max-score", "q1-score", "median-score", "q3-score", "average-score", "chart-width"])
         ]),
         e.enableExport ? (_(), ht(B(gt), {
@@ -14210,12 +14210,12 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
           onExport: a,
           loading: e.exportLoading
         }, null, 8, ["loading"])) : z("", !0)
-      ])) : (_(), k("div", V1, [...h[3] || (h[3] = [
+      ])) : (_(), k("div", Vy, [...h[3] || (h[3] = [
         V('<div class="empty-state-content" data-v-bd3e8a95><div class="empty-icon-wrapper" data-v-bd3e8a95><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-bd3e8a95><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-bd3e8a95></path></svg></div><p class="empty-title" data-v-bd3e8a95>No NPS data available</p><p class="empty-description" data-v-bd3e8a95>No NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, qi = /* @__PURE__ */ G(q1, [["__scopeId", "data-v-bd3e8a95"]]), X1 = { class: "nps-metrics-container" }, K1 = {
+}, qi = /* @__PURE__ */ G(qy, [["__scopeId", "data-v-bd3e8a95"]]), Xy = { class: "nps-metrics-container" }, Ky = {
   __name: "npsMetrics",
   props: {
     data: {
@@ -14236,7 +14236,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
     const s = t, n = (a) => {
       s("export", a);
     };
-    return (a, i) => (_(), k("div", X1, [
+    return (a, i) => (_(), k("div", Xy, [
       j(qi, {
         data: e.data,
         loading: e.loading,
@@ -14251,16 +14251,16 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       }, null, 8, ["data", "loading", "enable-export"])
     ]));
   }
-}, G1 = /* @__PURE__ */ G(K1, [["__scopeId", "data-v-25fe3b80"]]), Z1 = { class: "aws-cost-card" }, Q1 = { class: "card-header" }, J1 = { class: "header-main" }, ty = { class: "header-content" }, ey = { class: "card-title" }, sy = { class: "header-stats" }, ny = { class: "stat-badge primary" }, ay = { class: "stat-value" }, iy = { class: "stat-badge secondary" }, oy = { class: "stat-value" }, ry = { class: "card-body" }, ly = {
+}, Gy = /* @__PURE__ */ G(Ky, [["__scopeId", "data-v-25fe3b80"]]), Zy = { class: "aws-cost-card" }, Qy = { class: "card-header" }, Jy = { class: "header-main" }, t_ = { class: "header-content" }, e_ = { class: "card-title" }, s_ = { class: "header-stats" }, n_ = { class: "stat-badge primary" }, a_ = { class: "stat-value" }, i_ = { class: "stat-badge secondary" }, o_ = { class: "stat-value" }, r_ = { class: "card-body" }, l_ = {
   key: 0,
   class: "loading-state"
-}, cy = {
+}, c_ = {
   key: 1,
   class: "chart-section"
-}, dy = { class: "chart-container" }, hy = {
+}, d_ = { class: "chart-container" }, h_ = {
   key: 2,
   class: "empty-state"
-}, uy = { class: "empty-state-content" }, fy = { class: "empty-icon-wrapper" }, gy = {
+}, u_ = { class: "empty-state-content" }, f_ = { class: "empty-icon-wrapper" }, g_ = {
   __name: "AWSCost",
   props: {
     data: {
@@ -14415,38 +14415,38 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         }
       }
     }));
-    return (r, l) => (_(), k("article", Z1, [
-      d("header", Q1, [
-        d("div", J1, [
-          d("div", ty, [
-            d("h3", ey, S(a.value.airline_name || "AWS Cost"), 1),
+    return (r, l) => (_(), k("article", Zy, [
+      d("header", Qy, [
+        d("div", Jy, [
+          d("div", t_, [
+            d("h3", e_, S(a.value.airline_name || "AWS Cost"), 1),
             l[0] || (l[0] = d("p", { class: "card-subtitle" }, "AWS vs Allocated costs over time", -1))
           ]),
-          d("div", sy, [
-            d("div", ny, [
+          d("div", s_, [
+            d("div", n_, [
               l[1] || (l[1] = d("span", { class: "stat-label" }, "Total Allocated", -1)),
-              d("span", ay, S(B(it)(a.value.total_allocated_cost)), 1)
+              d("span", a_, S(B(it)(a.value.total_allocated_cost)), 1)
             ]),
-            d("div", iy, [
+            d("div", i_, [
               l[2] || (l[2] = d("span", { class: "stat-label" }, "Total AWS", -1)),
-              d("span", oy, S(B(it)(a.value.total_cost)), 1)
+              d("span", o_, S(B(it)(a.value.total_cost)), 1)
             ])
           ])
         ])
       ]),
-      d("div", ry, [
-        e.loading ? (_(), k("div", ly, [...l[3] || (l[3] = [
+      d("div", r_, [
+        e.loading ? (_(), k("div", l_, [...l[3] || (l[3] = [
           V('<div class="loading-container" data-v-c023bd59><div class="chart-lines-loader" data-v-c023bd59><div class="line line-1" data-v-c023bd59></div><div class="line line-2" data-v-c023bd59></div><div class="line line-3" data-v-c023bd59></div><div class="line line-4" data-v-c023bd59></div><div class="line line-5" data-v-c023bd59></div></div><p class="loading-text" data-v-c023bd59>Loading chart data...</p></div>', 1)
-        ])])) : a.value.daily.length > 0 ? (_(), k("div", cy, [
-          d("div", dy, [
+        ])])) : a.value.daily.length > 0 ? (_(), k("div", c_, [
+          d("div", d_, [
             j(re, {
               data: i.value,
               options: o.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (_(), k("section", hy, [
-          d("div", uy, [
-            d("div", fy, [
+        ])) : (_(), k("section", h_, [
+          d("div", u_, [
+            d("div", f_, [
               j(B(wt), { class: "empty-icon" })
             ]),
             l[4] || (l[4] = d("p", { class: "empty-title" }, "Sin datos de costos", -1)),
@@ -14456,19 +14456,19 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ])
     ]));
   }
-}, py = /* @__PURE__ */ G(gy, [["__scopeId", "data-v-c023bd59"]]), by = { class: "cost-usage-card" }, my = {
+}, p_ = /* @__PURE__ */ G(g_, [["__scopeId", "data-v-c023bd59"]]), b_ = { class: "cost-usage-card" }, m_ = {
   key: 0,
   class: "card-body"
-}, vy = {
+}, v_ = {
   key: 0,
   class: "chart-section"
-}, yy = { class: "chart-container" }, _y = { class: "kpi-grid" }, xy = { class: "kpi-card" }, ky = { class: "kpi-value" }, My = { class: "kpi-card" }, Sy = { class: "kpi-value" }, wy = { class: "kpi-card" }, Cy = { class: "kpi-value" }, $y = { class: "kpi-card" }, Dy = { class: "kpi-value" }, Ay = { class: "kpi-card" }, Ty = { class: "kpi-value" }, Fy = { class: "kpi-card highlighted" }, By = { class: "kpi-value gradient-text" }, Py = {
+}, y_ = { class: "chart-container" }, __ = { class: "kpi-grid" }, x_ = { class: "kpi-card" }, k_ = { class: "kpi-value" }, M_ = { class: "kpi-card" }, S_ = { class: "kpi-value" }, w_ = { class: "kpi-card" }, C_ = { class: "kpi-value" }, $_ = { class: "kpi-card" }, D_ = { class: "kpi-value" }, A_ = { class: "kpi-card" }, T_ = { class: "kpi-value" }, F_ = { class: "kpi-card highlighted" }, B_ = { class: "kpi-value gradient-text" }, P_ = {
   key: 1,
   class: "empty-state"
-}, Ly = { class: "empty-state-content" }, Oy = { class: "empty-icon-wrapper" }, Ey = {
+}, L_ = { class: "empty-state-content" }, O_ = { class: "empty-icon-wrapper" }, E_ = {
   key: 1,
   class: "loading-state"
-}, Ry = /* @__PURE__ */ Z({
+}, R_ = /* @__PURE__ */ Z({
   __name: "CostUsage",
   props: {
     data: { default: () => ({}) },
@@ -14623,53 +14623,53 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         }
       }
     });
-    return t({ isDark: a }), (p, v) => (_(), k("article", by, [
+    return t({ isDark: a }), (p, v) => (_(), k("article", b_, [
       v[9] || (v[9] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Cost Usage"),
           d("p", { class: "card-subtitle" }, "Cost breakdown over time (stacked)")
         ])
       ], -1)),
-      e.loading ? (_(), k("div", Ey, [...v[8] || (v[8] = [
+      e.loading ? (_(), k("div", E_, [...v[8] || (v[8] = [
         V('<div class="loading-container" data-v-62f96954><div class="chart-lines-loader" data-v-62f96954><div class="line line-1" data-v-62f96954></div><div class="line line-2" data-v-62f96954></div><div class="line line-3" data-v-62f96954></div><div class="line line-4" data-v-62f96954></div><div class="line line-5" data-v-62f96954></div></div><p class="loading-text" data-v-62f96954>Loading chart data...</p></div>', 1)
-      ])])) : (_(), k("div", my, [
-        f.value.labels && f.value.labels.length ? (_(), k("section", vy, [
-          d("div", yy, [
+      ])])) : (_(), k("div", m_, [
+        f.value.labels && f.value.labels.length ? (_(), k("section", v_, [
+          d("div", y_, [
             j(Gt, {
               data: f.value,
               options: g.value,
               stacked: !0
             }, null, 8, ["data", "options"])
           ]),
-          d("footer", _y, [
-            d("div", xy, [
+          d("footer", __, [
+            d("div", x_, [
               v[0] || (v[0] = d("span", { class: "kpi-label" }, "Total Cost", -1)),
-              d("span", ky, S(B(it)(e.data.total_cost)), 1)
+              d("span", k_, S(B(it)(e.data.total_cost)), 1)
             ]),
-            d("div", My, [
+            d("div", M_, [
               v[1] || (v[1] = d("span", { class: "kpi-label" }, "Input Cost", -1)),
-              d("span", Sy, S(B(it)(l.value)), 1)
+              d("span", S_, S(B(it)(l.value)), 1)
             ]),
-            d("div", wy, [
+            d("div", w_, [
               v[2] || (v[2] = d("span", { class: "kpi-label" }, "Output Cost", -1)),
-              d("span", Cy, S(B(it)(c.value)), 1)
+              d("span", C_, S(B(it)(c.value)), 1)
             ]),
-            d("div", $y, [
+            d("div", $_, [
               v[3] || (v[3] = d("span", { class: "kpi-label" }, "Cache Read", -1)),
-              d("span", Dy, S(B(it)(h.value)), 1)
+              d("span", D_, S(B(it)(h.value)), 1)
             ]),
-            d("div", Ay, [
+            d("div", A_, [
               v[4] || (v[4] = d("span", { class: "kpi-label" }, "Cache Write", -1)),
-              d("span", Ty, S(B(it)(u.value)), 1)
+              d("span", T_, S(B(it)(u.value)), 1)
             ]),
-            d("div", Fy, [
+            d("div", F_, [
               v[5] || (v[5] = d("span", { class: "kpi-label" }, "Avg / Conv.", -1)),
-              d("span", By, S(B(it)(e.data.avg_cost_per_conversation)), 1)
+              d("span", B_, S(B(it)(e.data.avg_cost_per_conversation)), 1)
             ])
           ])
-        ])) : (_(), k("section", Py, [
-          d("div", Ly, [
-            d("div", Oy, [
+        ])) : (_(), k("section", P_, [
+          d("div", L_, [
+            d("div", O_, [
               j(B(wt), { class: "empty-icon" })
             ]),
             v[6] || (v[6] = d("p", { class: "empty-title" }, "No cost usage data", -1)),
@@ -14679,19 +14679,19 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), Iy = /* @__PURE__ */ G(Ry, [["__scopeId", "data-v-62f96954"]]), zy = { class: "token-usage-card" }, Wy = {
+}), I_ = /* @__PURE__ */ G(R_, [["__scopeId", "data-v-62f96954"]]), z_ = { class: "token-usage-card" }, W_ = {
   key: 0,
   class: "card-body"
-}, Ny = {
+}, N_ = {
   key: 0,
   class: "chart-section"
-}, Hy = { class: "chart-container" }, Vy = { class: "kpi-grid" }, jy = { class: "kpi-card" }, Yy = { class: "kpi-value" }, Uy = { class: "kpi-card" }, qy = { class: "kpi-value" }, Xy = { class: "kpi-card" }, Ky = { class: "kpi-value" }, Gy = { class: "kpi-card" }, Zy = { class: "kpi-value" }, Qy = { class: "kpi-card" }, Jy = { class: "kpi-value" }, t_ = {
+}, H_ = { class: "chart-container" }, V_ = { class: "kpi-grid" }, j_ = { class: "kpi-card" }, Y_ = { class: "kpi-value" }, U_ = { class: "kpi-card" }, q_ = { class: "kpi-value" }, X_ = { class: "kpi-card" }, K_ = { class: "kpi-value" }, G_ = { class: "kpi-card" }, Z_ = { class: "kpi-value" }, Q_ = { class: "kpi-card" }, J_ = { class: "kpi-value" }, t1 = {
   key: 1,
   class: "empty-state"
-}, e_ = { class: "empty-state-content" }, s_ = { class: "empty-icon-wrapper" }, n_ = {
+}, e1 = { class: "empty-state-content" }, s1 = { class: "empty-icon-wrapper" }, n1 = {
   key: 1,
   class: "loading-state"
-}, a_ = /* @__PURE__ */ Z({
+}, a1 = /* @__PURE__ */ Z({
   __name: "TokenUsage",
   props: {
     data: { default: () => ({}) },
@@ -14825,49 +14825,49 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         }
       }
     });
-    return t({ isDark: a }), (h, u) => (_(), k("article", zy, [
+    return t({ isDark: a }), (h, u) => (_(), k("article", z_, [
       u[8] || (u[8] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Token Usage"),
           d("p", { class: "card-subtitle" }, "Token consumption over time (stacked)")
         ])
       ], -1)),
-      e.loading ? (_(), k("div", n_, [...u[7] || (u[7] = [
+      e.loading ? (_(), k("div", n1, [...u[7] || (u[7] = [
         V('<div class="loading-container" data-v-e9e355be><div class="chart-lines-loader" data-v-e9e355be><div class="line line-1" data-v-e9e355be></div><div class="line line-2" data-v-e9e355be></div><div class="line line-3" data-v-e9e355be></div><div class="line line-4" data-v-e9e355be></div><div class="line line-5" data-v-e9e355be></div></div><p class="loading-text" data-v-e9e355be>Loading chart data...</p></div>', 1)
-      ])])) : (_(), k("div", Wy, [
-        l.value.labels && l.value.labels.length ? (_(), k("section", Ny, [
-          d("div", Hy, [
+      ])])) : (_(), k("div", W_, [
+        l.value.labels && l.value.labels.length ? (_(), k("section", N_, [
+          d("div", H_, [
             j(Gt, {
               data: l.value,
               options: c.value,
               stacked: !0
             }, null, 8, ["data", "options"])
           ]),
-          d("footer", Vy, [
-            d("div", jy, [
+          d("footer", V_, [
+            d("div", j_, [
               u[0] || (u[0] = d("span", { class: "kpi-label" }, "Total Tokens", -1)),
-              d("span", Yy, S(B(W)(e.data.total_tokens)), 1)
+              d("span", Y_, S(B(W)(e.data.total_tokens)), 1)
             ]),
-            d("div", Uy, [
+            d("div", U_, [
               u[1] || (u[1] = d("span", { class: "kpi-label" }, "Input", -1)),
-              d("span", qy, S(B(W)(e.data.total_input_tokens)), 1)
+              d("span", q_, S(B(W)(e.data.total_input_tokens)), 1)
             ]),
-            d("div", Xy, [
+            d("div", X_, [
               u[2] || (u[2] = d("span", { class: "kpi-label" }, "Output", -1)),
-              d("span", Ky, S(B(W)(e.data.total_output_tokens)), 1)
+              d("span", K_, S(B(W)(e.data.total_output_tokens)), 1)
             ]),
-            d("div", Gy, [
+            d("div", G_, [
               u[3] || (u[3] = d("span", { class: "kpi-label" }, "Cache Read", -1)),
-              d("span", Zy, S(B(W)(e.data.total_cache_read_tokens)), 1)
+              d("span", Z_, S(B(W)(e.data.total_cache_read_tokens)), 1)
             ]),
-            d("div", Qy, [
+            d("div", Q_, [
               u[4] || (u[4] = d("span", { class: "kpi-label" }, "Cache Write", -1)),
-              d("span", Jy, S(B(W)(e.data.total_cache_write_tokens)), 1)
+              d("span", J_, S(B(W)(e.data.total_cache_write_tokens)), 1)
             ])
           ])
-        ])) : (_(), k("section", t_, [
-          d("div", e_, [
-            d("div", s_, [
+        ])) : (_(), k("section", t1, [
+          d("div", e1, [
+            d("div", s1, [
               j(B(wt), { class: "empty-icon" })
             ]),
             u[5] || (u[5] = d("p", { class: "empty-title" }, "No token usage data", -1)),
@@ -14877,19 +14877,19 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), i_ = /* @__PURE__ */ G(a_, [["__scopeId", "data-v-e9e355be"]]), o_ = { class: "conversation-count-card" }, r_ = { class: "card-header" }, l_ = { class: "header-right" }, c_ = { class: "stat-badge" }, d_ = { class: "stat-value" }, h_ = {
+}), i1 = /* @__PURE__ */ G(a1, [["__scopeId", "data-v-e9e355be"]]), o1 = { class: "conversation-count-card" }, r1 = { class: "card-header" }, l1 = { class: "header-right" }, c1 = { class: "stat-badge" }, d1 = { class: "stat-value" }, h1 = {
   key: 0,
   class: "card-body"
-}, u_ = {
+}, u1 = {
   key: 0,
   class: "chart-section"
-}, f_ = { class: "chart-container" }, g_ = {
+}, f1 = { class: "chart-container" }, g1 = {
   key: 1,
   class: "empty-state"
-}, p_ = { class: "empty-state-content" }, b_ = { class: "empty-icon-wrapper" }, m_ = {
+}, p1 = { class: "empty-state-content" }, b1 = { class: "empty-icon-wrapper" }, m1 = {
   key: 1,
   class: "loading-state"
-}, v_ = /* @__PURE__ */ Z({
+}, v1 = /* @__PURE__ */ Z({
   __name: "ConversationCount",
   props: {
     data: { default: () => ({}) },
@@ -15010,34 +15010,34 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         }
       }
     });
-    return t({ isDark: n }), (l, c) => (_(), k("article", o_, [
-      d("header", r_, [
+    return t({ isDark: n }), (l, c) => (_(), k("article", o1, [
+      d("header", r1, [
         c[1] || (c[1] = d("div", { class: "header-left" }, [
           d("div", { class: "header-content" }, [
             d("h3", { class: "card-title" }, "Conversation Count"),
             d("p", { class: "card-subtitle" }, "Conversations over time")
           ])
         ], -1)),
-        d("div", l_, [
-          d("div", c_, [
+        d("div", l1, [
+          d("div", c1, [
             c[0] || (c[0] = d("span", { class: "stat-label" }, "Total", -1)),
-            d("span", d_, S(e.data.total_conversations || 0), 1)
+            d("span", d1, S(e.data.total_conversations || 0), 1)
           ])
         ])
       ]),
-      e.loading ? (_(), k("div", m_, [...c[4] || (c[4] = [
+      e.loading ? (_(), k("div", m1, [...c[4] || (c[4] = [
         V('<div class="loading-container" data-v-96b514f1><div class="chart-lines-loader" data-v-96b514f1><div class="line line-1" data-v-96b514f1></div><div class="line line-2" data-v-96b514f1></div><div class="line line-3" data-v-96b514f1></div><div class="line line-4" data-v-96b514f1></div><div class="line line-5" data-v-96b514f1></div></div><p class="loading-text" data-v-96b514f1>Loading chart data...</p></div>', 1)
-      ])])) : (_(), k("div", h_, [
-        o.value.labels && o.value.labels.length ? (_(), k("section", u_, [
-          d("div", f_, [
+      ])])) : (_(), k("div", h1, [
+        o.value.labels && o.value.labels.length ? (_(), k("section", u1, [
+          d("div", f1, [
             j(re, {
               data: o.value,
               options: r.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (_(), k("section", g_, [
-          d("div", p_, [
-            d("div", b_, [
+        ])) : (_(), k("section", g1, [
+          d("div", p1, [
+            d("div", b1, [
               j(B(wt), { class: "empty-icon" })
             ]),
             c[2] || (c[2] = d("p", { class: "empty-title" }, "No conversation count data", -1)),
@@ -15047,19 +15047,19 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), y_ = /* @__PURE__ */ G(v_, [["__scopeId", "data-v-96b514f1"]]), __ = { class: "top-agents-card" }, x_ = {
+}), y1 = /* @__PURE__ */ G(v1, [["__scopeId", "data-v-96b514f1"]]), _1 = { class: "top-agents-card" }, x1 = {
   key: 0,
   class: "card-body"
-}, k_ = {
+}, k1 = {
   key: 0,
   class: "charts-grid"
-}, M_ = { class: "chart-section" }, S_ = { class: "chart-container" }, w_ = { class: "chart-section" }, C_ = { class: "chart-container" }, $_ = {
+}, M1 = { class: "chart-section" }, S1 = { class: "chart-container" }, w1 = { class: "chart-section" }, C1 = { class: "chart-container" }, $1 = {
   key: 1,
   class: "empty-state"
-}, D_ = { class: "empty-state-content" }, A_ = { class: "empty-icon-wrapper" }, T_ = {
+}, D1 = { class: "empty-state-content" }, A1 = { class: "empty-icon-wrapper" }, T1 = {
   key: 1,
   class: "loading-state"
-}, F_ = /* @__PURE__ */ Z({
+}, F1 = /* @__PURE__ */ Z({
   __name: "TopAgentsAnalysis",
   props: {
     data: { default: () => ({}) },
@@ -15239,38 +15239,38 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         }
       }
     });
-    return t({ isDark: n }), (f, g) => (_(), k("article", __, [
+    return t({ isDark: n }), (f, g) => (_(), k("article", _1, [
       g[5] || (g[5] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Top Agents Analysis"),
           d("p", { class: "card-subtitle" }, "Cost and token usage by agent")
         ])
       ], -1)),
-      e.loading ? (_(), k("div", T_, [...g[4] || (g[4] = [
+      e.loading ? (_(), k("div", T1, [...g[4] || (g[4] = [
         V('<div class="loading-container" data-v-78efa6dc><div class="chart-lines-loader" data-v-78efa6dc><div class="line line-1" data-v-78efa6dc></div><div class="line line-2" data-v-78efa6dc></div><div class="line line-3" data-v-78efa6dc></div><div class="line line-4" data-v-78efa6dc></div><div class="line line-5" data-v-78efa6dc></div></div><p class="loading-text" data-v-78efa6dc>Loading chart data...</p></div>', 1)
-      ])])) : (_(), k("div", x_, [
-        i.value ? (_(), k("div", k_, [
-          d("section", M_, [
+      ])])) : (_(), k("div", x1, [
+        i.value ? (_(), k("div", k1, [
+          d("section", M1, [
             g[0] || (g[0] = d("h4", { class: "chart-section-title" }, "Total cost per agent", -1)),
-            d("div", S_, [
+            d("div", S1, [
               j(Gt, {
                 data: l.value,
                 options: h.value
               }, null, 8, ["data", "options"])
             ])
           ]),
-          d("section", w_, [
+          d("section", w1, [
             g[1] || (g[1] = d("h4", { class: "chart-section-title" }, "Total tokens per agent", -1)),
-            d("div", C_, [
+            d("div", C1, [
               j(Gt, {
                 data: c.value,
                 options: u.value
               }, null, 8, ["data", "options"])
             ])
           ])
-        ])) : (_(), k("section", $_, [
-          d("div", D_, [
-            d("div", A_, [
+        ])) : (_(), k("section", $1, [
+          d("div", D1, [
+            d("div", A1, [
               j(B(wt), { class: "empty-icon" })
             ]),
             g[2] || (g[2] = d("p", { class: "empty-title" }, "No top agents data", -1)),
@@ -15280,19 +15280,19 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), B_ = /* @__PURE__ */ G(F_, [["__scopeId", "data-v-78efa6dc"]]), P_ = { class: "top-agents-card" }, L_ = {
+}), B1 = /* @__PURE__ */ G(F1, [["__scopeId", "data-v-78efa6dc"]]), P1 = { class: "top-agents-card" }, L1 = {
   key: 0,
   class: "card-body"
-}, O_ = {
+}, O1 = {
   key: 0,
   class: "chart-section"
-}, E_ = { class: "chart-container" }, R_ = {
+}, E1 = { class: "chart-container" }, R1 = {
   key: 1,
   class: "empty-state"
-}, I_ = { class: "empty-state-content" }, z_ = { class: "empty-icon-wrapper" }, W_ = {
+}, I1 = { class: "empty-state-content" }, z1 = { class: "empty-icon-wrapper" }, W1 = {
   key: 1,
   class: "loading-state"
-}, N_ = /* @__PURE__ */ Z({
+}, N1 = /* @__PURE__ */ Z({
   __name: "TopAgents",
   props: {
     data: { default: () => ({}) },
@@ -15385,26 +15385,26 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         }
       }
     });
-    return t({ isDark: n }), (u, f) => (_(), k("article", P_, [
+    return t({ isDark: n }), (u, f) => (_(), k("article", P1, [
       f[3] || (f[3] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Top Agents"),
           d("p", { class: "card-subtitle" }, "Interactions by agent (excluding triage)")
         ])
       ], -1)),
-      e.loading ? (_(), k("div", W_, [...f[2] || (f[2] = [
+      e.loading ? (_(), k("div", W1, [...f[2] || (f[2] = [
         V('<div class="loading-container" data-v-05e3e74d><div class="chart-lines-loader" data-v-05e3e74d><div class="line line-1" data-v-05e3e74d></div><div class="line line-2" data-v-05e3e74d></div><div class="line line-3" data-v-05e3e74d></div><div class="line line-4" data-v-05e3e74d></div><div class="line line-5" data-v-05e3e74d></div></div><p class="loading-text" data-v-05e3e74d>Loading chart data...</p></div>', 1)
-      ])])) : (_(), k("div", L_, [
-        r.value ? (_(), k("section", O_, [
-          d("div", E_, [
+      ])])) : (_(), k("div", L1, [
+        r.value ? (_(), k("section", O1, [
+          d("div", E1, [
             j(fn, {
               data: c.value,
               options: h.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (_(), k("section", R_, [
-          d("div", I_, [
-            d("div", z_, [
+        ])) : (_(), k("section", R1, [
+          d("div", I1, [
+            d("div", z1, [
               j(B(wt), { class: "empty-icon" })
             ]),
             f[0] || (f[0] = d("p", { class: "empty-title" }, "No top agents data", -1)),
@@ -15414,19 +15414,19 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), H_ = /* @__PURE__ */ G(N_, [["__scopeId", "data-v-05e3e74d"]]), V_ = { class: "daily-cost-trends-card" }, j_ = {
+}), H1 = /* @__PURE__ */ G(N1, [["__scopeId", "data-v-05e3e74d"]]), V1 = { class: "daily-cost-trends-card" }, j1 = {
   key: 0,
   class: "card-body"
-}, Y_ = {
+}, Y1 = {
   key: 0,
   class: "chart-section"
-}, U_ = { class: "chart-container" }, q_ = {
+}, U1 = { class: "chart-container" }, q1 = {
   key: 1,
   class: "empty-state"
-}, X_ = { class: "empty-state-content" }, K_ = { class: "empty-icon-wrapper" }, G_ = {
+}, X1 = { class: "empty-state-content" }, K1 = { class: "empty-icon-wrapper" }, G1 = {
   key: 1,
   class: "loading-state"
-}, Z_ = /* @__PURE__ */ Z({
+}, Z1 = /* @__PURE__ */ Z({
   __name: "DailyCostTrends",
   props: {
     costData: { default: () => ({}) },
@@ -15550,26 +15550,26 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
         }
       }
     });
-    return t({ isDark: n }), (c, h) => (_(), k("article", V_, [
+    return t({ isDark: n }), (c, h) => (_(), k("article", V1, [
       h[3] || (h[3] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Daily Cost Trends"),
           d("p", { class: "card-subtitle" }, "Mean USD/conversation per day")
         ])
       ], -1)),
-      e.loading ? (_(), k("div", G_, [...h[2] || (h[2] = [
+      e.loading ? (_(), k("div", G1, [...h[2] || (h[2] = [
         V('<div class="loading-container" data-v-4c15653f><div class="chart-lines-loader" data-v-4c15653f><div class="line line-1" data-v-4c15653f></div><div class="line line-2" data-v-4c15653f></div><div class="line line-3" data-v-4c15653f></div><div class="line line-4" data-v-4c15653f></div><div class="line line-5" data-v-4c15653f></div></div><p class="loading-text" data-v-4c15653f>Loading chart data...</p></div>', 1)
-      ])])) : (_(), k("div", j_, [
-        o.value ? (_(), k("section", Y_, [
-          d("div", U_, [
+      ])])) : (_(), k("div", j1, [
+        o.value ? (_(), k("section", Y1, [
+          d("div", U1, [
             j(re, {
               data: r.value,
               options: l.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (_(), k("section", q_, [
-          d("div", X_, [
-            d("div", K_, [
+        ])) : (_(), k("section", q1, [
+          d("div", X1, [
+            d("div", K1, [
               j(B(wt), { class: "empty-icon" })
             ]),
             h[0] || (h[0] = d("p", { class: "empty-title" }, "No daily cost trends data", -1)),
@@ -15579,7 +15579,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
       ]))
     ]));
   }
-}), Q_ = /* @__PURE__ */ G(Z_, [["__scopeId", "data-v-4c15653f"]]), J_ = { class: "model-usage-card" }, t2 = {
+}), Q1 = /* @__PURE__ */ G(Z1, [["__scopeId", "data-v-4c15653f"]]), J1 = { class: "model-usage-card" }, t2 = {
   key: 0,
   class: "loading-state"
 }, e2 = {
@@ -15611,7 +15611,7 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
     const n = e, a = s, i = (u) => {
       a("export", u);
     }, { isDark: o } = tt(J(n, "theme")), r = xt("by_model"), l = F(() => r.value === "by_model" ? n.data?.total_by_model || {} : n.data?.total_by_provider || {}), c = (u) => u == null ? "0" : W(u), h = (u) => u == null ? "$0.00" : it(u);
-    return t({ isDark: o }), (u, f) => (_(), k("article", J_, [
+    return t({ isDark: o }), (u, f) => (_(), k("article", J1, [
       f[10] || (f[10] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Model Usage"),
@@ -15953,11 +15953,11 @@ const Vf = { class: "chart-footer" }, jf = { class: "export-actions" }, Yf = { c
   }
 }), ix = /* @__PURE__ */ G(ax, [["__scopeId", "data-v-49791bad"]]), fx = {
   install(e) {
-    e.component("KiutChartBar", Gt), e.component("KiutChartLine", re), e.component("KiutPieChart", fn), e.component("KiutBoxplotChart", Jh), e.component("KiutCandlestickChart", ji), e.component("KiutHistogramChart", Yi), e.component("KiutSankeyChart", le), e.component("KiutAgentsPerDay", rg), e.component("KiutBookingManager", Ng), e.component("KiutCheckin", hp), e.component("KiutCheckinMetrics", Ep), e.component("KiutCheckinSegments", c0), e.component("KiutDisruption", Y0), e.component("KiutFAQ", cb), e.component("KiutMessagesPerAgent", vb), e.component("KiutRecordLocator", Vb), e.component("KiutSeller", mm), e.component("KiutTopAgents", Cm), e.component("KiutPaymentMethod", nv), e.component("KiutAgentHumanConversations", Pv), e.component("KiutChannelMetrics", Yv), e.component("KiutTriageCombinations", d1), e.component("KiutNpsDailyMetrics", Ui), e.component("KiutNpsMetrics", G1), e.component("KiutNpsOverviewMetrics", qi), e.component("KiutAWSCost", py), e.component("KiutCostUsage", Iy), e.component("KiutTokenUsage", i_), e.component("KiutConversationCount", y_), e.component("KiutTopAgentsAnalysis", B_), e.component("KiutTopAgentsPie", H_), e.component("KiutDailyCostTrends", Q_), e.component("KiutModelUsage", k2), e.component("KiutMessageRoles", W2), e.component("KiutCostPerConversations", ix);
+    e.component("KiutChartBar", Gt), e.component("KiutChartLine", re), e.component("KiutPieChart", fn), e.component("KiutBoxplotChart", Jh), e.component("KiutCandlestickChart", ji), e.component("KiutHistogramChart", Yi), e.component("KiutSankeyChart", le), e.component("KiutAgentsPerDay", rg), e.component("KiutBookingManager", Ng), e.component("KiutCheckin", hp), e.component("KiutCheckinMetrics", Ep), e.component("KiutCheckinSegments", c0), e.component("KiutDisruption", Y0), e.component("KiutFAQ", cb), e.component("KiutMessagesPerAgent", vb), e.component("KiutRecordLocator", Vb), e.component("KiutSeller", mm), e.component("KiutTopAgents", Cm), e.component("KiutPaymentMethod", nv), e.component("KiutAgentHumanConversations", Pv), e.component("KiutChannelMetrics", Yv), e.component("KiutTriageCombinations", dy), e.component("KiutNpsDailyMetrics", Ui), e.component("KiutNpsMetrics", Gy), e.component("KiutNpsOverviewMetrics", qi), e.component("KiutAWSCost", p_), e.component("KiutCostUsage", I_), e.component("KiutTokenUsage", i1), e.component("KiutConversationCount", y1), e.component("KiutTopAgentsAnalysis", B1), e.component("KiutTopAgentsPie", H1), e.component("KiutDailyCostTrends", Q1), e.component("KiutModelUsage", k2), e.component("KiutMessageRoles", W2), e.component("KiutCostPerConversations", ix);
   }
 };
 export {
-  py as AWSCost,
+  p_ as AWSCost,
   Pv as AgentHumanConversations,
   rg as AgentsPerDay,
   Ng as BookingManager,
@@ -15969,10 +15969,10 @@ export {
   hp as Checkin,
   Ep as CheckinMetrics,
   c0 as CheckinSegments,
-  y_ as ConversationCount,
+  y1 as ConversationCount,
   ix as CostPerConversations,
-  Iy as CostUsage,
-  Q_ as DailyCostTrends,
+  I_ as CostUsage,
+  Q1 as DailyCostTrends,
   Y0 as Disruption,
   cb as FAQ,
   Yi as HistogramChart,
@@ -15981,17 +15981,17 @@ export {
   vb as MessagesPerAgent,
   k2 as ModelUsage,
   Ui as NpsDailyMetrics,
-  G1 as NpsMetrics,
+  Gy as NpsMetrics,
   qi as NpsOverviewMetrics,
   nv as PaymentMethod,
   fn as PieChart,
   Vb as RecordLocator,
   le as SankeyChart,
   mm as Seller,
-  i_ as TokenUsage,
+  i1 as TokenUsage,
   Cm as TopAgents,
-  B_ as TopAgentsAnalysis,
-  H_ as TopAgentsPie,
-  d1 as TriageCombinations
+  B1 as TopAgentsAnalysis,
+  H1 as TopAgentsPie,
+  dy as TriageCombinations
 };
 //# sourceMappingURL=kiut-ui.es.js.map
