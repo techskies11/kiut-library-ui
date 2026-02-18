@@ -473,9 +473,9 @@
     tableData.value.sort((a, b) => new Date(a.date) - new Date(b.date))
   }
 
-  // Watch para procesar datos cuando cambien los props
+  // Watch para procesar datos cuando cambien los props (incluye data para cuando se pasa la respuesta unida)
   watch(
-    [() => props.checkinData, () => props.failedData],
+    [() => props.data, () => props.checkinData, () => props.failedData],
     () => {
       processTableData()
     },
