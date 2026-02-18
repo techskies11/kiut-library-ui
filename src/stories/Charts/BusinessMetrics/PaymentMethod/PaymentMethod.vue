@@ -172,6 +172,8 @@ interface PaymentMethodData {
 
 // Props
 const props = withDefaults(defineProps<{
+  /** Optional: pass API response directly instead of using fetchFunction */
+  data?: PaymentMethodData | null
   dates?: Date[] | string[]
   airlineName?: string
   fetchFunction?: (airlineName: string, startDate: string, endDate: string) => Promise<PaymentMethodData>
@@ -179,6 +181,7 @@ const props = withDefaults(defineProps<{
   enableExport?: boolean
   exportLoading?: boolean
 }>(), {
+  data: undefined,
   dates: () => [],
   airlineName: '',
   fetchFunction: undefined,
@@ -383,14 +386,42 @@ const handleExport = (format: ExportFormat) => {
   emit('export', format)
 }
 
+// Sync metricsData when data prop is provided (no fetch)
+function applyDataProp() {
+  const d = props.data
+  const hasData = d && (
+    (Array.isArray(d.payment_method_breakdown) && d.payment_method_breakdown.length > 0) ||
+    (Array.isArray(d.payment_method_by_day) && d.payment_method_by_day.length > 0)
+  )
+  if (hasData) {
+    loading.value = false
+    metricsData.value = normalizePaymentMethodData(d)
+  }
+}
+
 // Lifecycle hooks
 onMounted(() => {
-  searchData()
+  if (props.data) {
+    applyDataProp()
+  } else {
+    searchData()
+  }
 })
+
+watch(
+  () => props.data,
+  (newData) => {
+    if (newData) {
+      applyDataProp()
+    }
+  },
+  { deep: true }
+)
 
 watch(
   () => props.dates,
   (newDates) => {
+    if (props.data) return
     if (newDates && newDates[0] && newDates[1]) {
       searchData()
     }

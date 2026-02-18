@@ -141,6 +141,11 @@
       type: Boolean,
       default: false,
     },
+    /** Single API response (checkin shape). If passed, used as checkinData. */
+    data: {
+      type: Object,
+      default: undefined,
+    },
     checkinData: {
       type: Object,
       default: () => ({
@@ -160,6 +165,7 @@
         total_checkin_failed: 0,
         failed_by_step_by_day: [],
         unrecovered_by_step: [],
+        unrecovered_by_day: [],
       }),
     },
   })
@@ -179,30 +185,32 @@
     total_checkin_failed: 0,
     failed_by_step_by_day: [],
     unrecovered_by_step: [],
+    unrecovered_by_day: [],
   }
 
   const tableData = ref([])
 
-  // Normalize sources: support checkinData+failedData, or data (checkin shape), or data.checkin + data.failed
+  // data = merged object (checkin + failed). Use it for both when it has the right keys.
   const checkinDataInternal = computed(() => {
     const d = props.data
-    const checkinFromData = d?.checkin ?? d
-    const hasCheckin = checkinFromData && ((Array.isArray(checkinFromData.checkin_by_day) && checkinFromData.checkin_by_day.length > 0) || (checkinFromData.total_checkin_initiated ?? 0) > 0)
+    const hasCheckin = d && ((Array.isArray(d.checkin_by_day) && d.checkin_by_day.length > 0) || (d.total_checkin_initiated ?? 0) > 0)
     if (hasCheckin) {
-      return { ...DEFAULT_CHECKIN_DATA, ...checkinFromData }
+      return { ...DEFAULT_CHECKIN_DATA, ...d }
     }
     return props.checkinData ?? DEFAULT_CHECKIN_DATA
   })
 
   const failedDataInternal = computed(() => {
     const d = props.data
-    const failedFromData = d?.failed ?? d
-    const hasFailed = failedFromData && ((Array.isArray(failedFromData.failed_by_step_by_day) && failedFromData.failed_by_step_by_day.length > 0) || (Array.isArray(failedFromData.unrecovered_by_step) && failedFromData.unrecovered_by_step.length > 0))
+    const hasFailed = d && ((Array.isArray(d.failed_by_step_by_day) && d.failed_by_step_by_day.length > 0) || (Array.isArray(d.unrecovered_by_step) && d.unrecovered_by_step.length > 0))
     if (hasFailed) {
       return {
         ...DEFAULT_FAILED_DATA,
-        failed_by_step_by_day: failedFromData.failed_by_step_by_day ?? [],
-        unrecovered_by_step: failedFromData.unrecovered_by_step ?? [],
+        total_checkin_failed: d.total_checkin_failed ?? 0,
+        total_checkin_unrecovered: d.total_checkin_unrecovered ?? 0,
+        failed_by_step_by_day: d.failed_by_step_by_day ?? [],
+        unrecovered_by_step: d.unrecovered_by_step ?? [],
+        unrecovered_by_day: d.unrecovered_by_day ?? [],
       }
     }
     return props.failedData ?? DEFAULT_FAILED_DATA
