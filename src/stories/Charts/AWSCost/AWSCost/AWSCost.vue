@@ -3,18 +3,18 @@
     <header class="card-header">
       <div class="header-main">
         <div class="header-content">
-          <h3 class="card-title"> AWS Cost</h3>
+          <h3 class="card-title">{{ normalizedData.airline_name || 'AWS Cost' }}</h3>
           <p class="card-subtitle">AWS vs Allocated costs over time</p>
         </div>
         
         <div class="header-stats">
           <div class="stat-badge primary">
             <span class="stat-label">Total Allocated</span>
-            <span class="stat-value">{{ useCurrencyFormat(data?.total_allocated_cost ?? 0) }}</span>
+            <span class="stat-value">{{ useCurrencyFormat(normalizedData.total_allocated_cost) }}</span>
           </div>
           <div class="stat-badge secondary">
             <span class="stat-label">Total AWS</span>
-            <span class="stat-value">{{ useCurrencyFormat(data?.total_cost ?? 0) }}</span>
+            <span class="stat-value">{{ useCurrencyFormat(normalizedData.total_cost) }}</span>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div v-else-if="(data?.daily?.length ?? 0) > 0" class="chart-section">
+      <div v-else-if="normalizedData.daily.length > 0" class="chart-section">
         <div class="chart-container">
           <ChartLine :data="chartData" :options="chartOptions" />
         </div>
@@ -43,20 +43,20 @@
         <footer class="kpi-grid">
           <div class="kpi-card">
             <span class="kpi-label">Total Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(data?.total_conversations ?? 0) }}</span>
+            <span class="kpi-value">{{ useNumberFormat(normalizedData.total_conversations) }}</span>
           </div>
           <div class="kpi-card">
             <span class="kpi-label">Airline Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(data?.total_airline_conversations ?? 0) }}</span>
+            <span class="kpi-value">{{ useNumberFormat(normalizedData.total_airline_conversations) }}</span>
           </div>
           <div class="kpi-card">
             <span class="kpi-label">Avg. Cost / Conv.</span>
-            <span class="kpi-value">{{ useCurrencyFormat((data?.total_allocated_cost ?? 0) / ((data?.total_conversations) || 1)) }}</span>
+            <span class="kpi-value">{{ useCurrencyFormat(normalizedData.total_allocated_cost / (normalizedData.total_conversations || 1)) }}</span>
           </div>
           <div class="kpi-card">
             <span class="kpi-label">Efficiency</span>
             <span class="kpi-value gradient-text">
-              {{ (((data?.total_airline_conversations ?? 0) / ((data?.total_conversations) || 1)) * 100).toFixed(1) }}%
+              {{ ((normalizedData.total_airline_conversations / (normalizedData.total_conversations || 1)) * 100).toFixed(1) }}%
             </span>
           </div>
         </footer>
@@ -108,8 +108,38 @@ const props = defineProps({
 
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
+// Normalize data: support both API shape (daily[]) and flattened shape (days + *Series)
+const normalizedData = computed(() => {
+  const d = props.data ?? {}
+  const daily = d.daily
+  const days = d.days
+  const hasDaily = Array.isArray(daily) && daily.length > 0
+  const hasSeries = Array.isArray(days) && days.length > 0 && Array.isArray(d.allocatedCostSeries) && d.allocatedCostSeries.length === days.length
+
+  let dailyList = []
+  if (hasDaily) {
+    dailyList = daily
+  } else if (hasSeries) {
+    dailyList = days.map((date, i) => ({
+      date,
+      allocated_cost: d.allocatedCostSeries[i] ?? 0,
+      aws_cost: d.awsCostSeries[i] ?? 0,
+      airline_conversations: d.airlineConversationsSeries[i] ?? 0
+    }))
+  }
+
+  return {
+    daily: dailyList,
+    total_allocated_cost: d.total_allocated_cost ?? d.totalAllocated ?? 0,
+    total_cost: d.total_cost ?? d.total ?? 0,
+    total_conversations: d.total_conversations ?? d.totalConversations ?? 0,
+    total_airline_conversations: d.total_airline_conversations ?? d.totalAirlineConversations ?? 0,
+    airline_name: d.airline_name
+  }
+})
+
 const chartData = computed(() => {
-  const daily = props.data?.daily ?? []
+  const daily = normalizedData.value.daily
   const labels = daily.map(d => d.date)
   return {
     labels,
