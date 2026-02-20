@@ -2,8 +2,8 @@
   <div class="chart-container">
     <svg 
       :viewBox="`0 0 ${chartWidth} ${chartHeight}`" 
-      class="w-full candlestick-svg"
-      :style="`min-height: ${chartHeight}px;`" 
+      class="candlestick-svg"
+      :style="`min-height: ${chartHeight}px; min-width: ${chartWidth}px;`" 
       @mousemove="handleMouseMove" 
       @mouseleave="handleMouseLeave"
     >
@@ -148,9 +148,9 @@
           <!-- Body (Q1-Q3 rectangle) -->
           <rect
             :x="-candleWidth / 2"
-            :y="Math.min(candle.q1Y, candle.q3Y)"
+            :y="Math.min(candle.q1Y, candle.q3Y) - (Math.abs(candle.q3Y - candle.q1Y) < 4 ? 4 : 0)"
             :width="candleWidth"
-            :height="Math.abs(candle.q3Y - candle.q1Y)"
+            :height="Math.max(8, Math.abs(candle.q3Y - candle.q1Y))"
             :fill="candle.isTotal ? 'rgba(139, 92, 246, 0.15)' : 'rgba(198, 125, 255, 0.15)'"
             :stroke="candle.isTotal ? '#8b5cf6' : '#C67DFF'"
             stroke-width="2.5"
@@ -476,7 +476,6 @@ defineExpose({ isDark });
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   height: 100%;
   min-height: 400px;
-  max-height: 500px;
   background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   position: relative;

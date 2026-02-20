@@ -3,7 +3,7 @@
     <header class="card-header">
       <div class="header-content">
         <div class="title-section">
-          <h3 class="card-title">Disruption Metrics</h3>
+          <h3 class="card-title">Disruption Manager Metrics</h3>
           <p class="card-subtitle">Disruption workflow performance and completion tracking</p>
         </div>
         <div class="payment-success-badge" v-if="!props.loading">

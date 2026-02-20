@@ -484,7 +484,8 @@ const barWidth = computed(() => plotWidth.value / 10 * 0.6);
 const maxCount = computed(() => {
   if (!props.histogram || props.histogram.length === 0) return 1;
   const actualMax = Math.max(...props.histogram.map(item => item.count || 0), 1);
-  return actualMax + 30;
+  const padding = Math.max(1, Math.ceil(actualMax * 0.2));
+  return actualMax + padding;
 });
 
 // Calculate standard deviation from histogram data
@@ -516,54 +517,40 @@ const gaussianFunction = (x: number, mean: number, stdDev: number) => {
   return coefficient * Math.exp(exponent);
 };
 
-// Generate Gaussian bell curve path
+// Generate Gaussian bell curve path scaled to match tallest bar
 const gaussianPath = computed(() => {
   if (!props.histogram || props.histogram.length === 0) return null;
   if (props.averageScore === 0 && standardDeviation.value === 0) return null;
-  
+
   const mean = props.averageScore;
   const stdDev = standardDeviation.value;
-  
-  const points = [];
   const numPoints = 100;
-  const minX = 1;
-  const maxX = 10;
-  
-  const totalCount = props.histogram.reduce((sum, item) => sum + (item.count || 0), 0);
-  if (totalCount === 0) return null;
-  
+
+  const actualMax = Math.max(...props.histogram.map(item => item.count || 0), 1);
+  const tallestBarHeight = (actualMax / maxCount.value) * plotHeight.value;
+  if (tallestBarHeight <= 0) return null;
+
   let maxGaussianValue = 0;
   for (let i = 0; i <= numPoints; i++) {
-    const x = minX + (maxX - minX) * (i / numPoints);
-    const gaussianValue = gaussianFunction(x, mean, stdDev);
-    if (gaussianValue > maxGaussianValue) {
-      maxGaussianValue = gaussianValue;
-    }
+    const x = 1 + 9 * (i / numPoints);
+    const g = gaussianFunction(x, mean, stdDev);
+    if (g > maxGaussianValue) maxGaussianValue = g;
   }
-  
-  // Calcular el factor de escala para que la curva no exceda el área disponible
-  // Usamos el 75% del área disponible para dar margen a las etiquetas
-  const availableHeight = plotHeight.value * 0.75;
-  const scaleFactor = (availableHeight / maxGaussianValue) * totalCount * 0.006;
-  
-  // Límite mínimo de Y para no exceder el área del gráfico
-  const minYLimit = props.chartMargin;
-  
+  if (maxGaussianValue <= 0) return null;
+
+  const scaleFactor = tallestBarHeight / maxGaussianValue;
+
+  const points: string[] = [];
   for (let i = 0; i <= numPoints; i++) {
-    const x = minX + (maxX - minX) * (i / numPoints);
-    const gaussianValue = gaussianFunction(x, mean, stdDev);
-    const scaledValue = gaussianValue * scaleFactor;
-    
+    const x = 1 + 9 * (i / numPoints);
+    const scaledValue = gaussianFunction(x, mean, stdDev) * scaleFactor;
     const xCoord = valueToX(x);
     if (xCoord !== null) {
-      // Calcular Y y asegurar que no exceda el límite superior
-      let yCoord = props.chartHeight - props.chartBottomMargin - scaledValue;
-      yCoord = Math.max(yCoord, minYLimit); // No permitir que suba más allá del margen
-      
+      const yCoord = props.chartHeight - props.chartBottomMargin - scaledValue;
       points.push(`${i === 0 ? 'M' : 'L'} ${xCoord} ${yCoord}`);
     }
   }
-  
+
   return points.join(' ');
 });
 

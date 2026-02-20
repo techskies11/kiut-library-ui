@@ -29,6 +29,9 @@ import PaymentMethod from './stories/Charts/BusinessMetrics/PaymentMethod/Paymen
 import AgentHumanConversations from './stories/Charts/BusinessMetrics/AgentHumanConv/AgentHumanConversations.vue';
 import ChannelMetrics from './stories/Charts/BusinessMetrics/ChannelMetrics/ChannelMetrics.vue';
 import TriageCombinations from './stories/Charts/BusinessMetrics/TriageCombinations/TriageCombinations.vue';
+import SelectLanguage from './stories/Charts/BusinessMetrics/SelectLanguage/SelectLanguage.vue';
+import Guardrails from './stories/Charts/BusinessMetrics/Guardrails/Guardrails.vue';
+import DisruptionNotifier from './stories/Charts/BusinessMetrics/DisruptionNotifier/DisruptionNotifier.vue';
 
 // NPS Metrics
 import NpsDailyMetrics from './stories/Charts/BusinessMetrics/Nps/npsDailyMetrics.vue';
@@ -82,6 +85,9 @@ export {
   AgentHumanConversations,
   ChannelMetrics,
   TriageCombinations,
+  SelectLanguage,
+  Guardrails,
+  DisruptionNotifier,
   // NPS Metrics
   NpsDailyMetrics,
   NpsMetrics,
@@ -129,6 +135,9 @@ export const KiutUIPlugin = {
     app.component('KiutAgentHumanConversations', AgentHumanConversations);
     app.component('KiutChannelMetrics', ChannelMetrics);
     app.component('KiutTriageCombinations', TriageCombinations);
+    app.component('KiutSelectLanguage', SelectLanguage);
+    app.component('KiutGuardrails', Guardrails);
+    app.component('KiutDisruptionNotifier', DisruptionNotifier);
     app.component('KiutNpsDailyMetrics', NpsDailyMetrics);
     app.component('KiutNpsMetrics', NpsMetrics);
     app.component('KiutNpsOverviewMetrics', NpsOverviewMetrics);

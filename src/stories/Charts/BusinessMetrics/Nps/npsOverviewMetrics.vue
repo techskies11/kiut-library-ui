@@ -6,9 +6,17 @@
           <h3 class="card-title">CSAT Overview Metrics</h3>
           <p class="card-subtitle">Overall CSAT Distribution</p>
         </div>
-        <div v-if="npsData && npsData.total_nps_responses > 0" class="stats-badge">
-          <p class="badge-label">Responses</p>
-          <p class="badge-value">{{ npsData.total_nps_responses }}</p>
+        <div class="header-badges">
+          <div v-if="npsData && npsData.total_nps_responses > 0" class="stats-badge">
+            <p class="badge-label">Responses</p>
+            <p class="badge-value">{{ npsData.total_nps_responses }}</p>
+          </div>
+          <!-- TODO: re-enable when p95_score is available in production API
+          <div v-if="npsData && npsData.p95_score > 0" class="stats-badge">
+            <p class="badge-label">Percentile 95</p>
+            <p class="badge-value">{{ npsData.p95_score || 0 }}</p>
+          </div>
+          -->
         </div>
       </div>
     </header>
@@ -175,6 +183,8 @@ defineExpose({ isDark })
   margin: 0px;
   line-height: 1.25rem;
 }
+
+.header-badges { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
 
 /* Stats Badge - KPI Style */
 .stats-badge {

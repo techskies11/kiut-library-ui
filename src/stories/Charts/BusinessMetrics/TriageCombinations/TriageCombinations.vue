@@ -359,6 +359,12 @@ defineExpose({ isDark })
   margin-bottom: 4px;
 }
 
+.chart-container :deep(.chart-container) {
+  min-height: unset;
+  max-height: unset;
+  height: 100%;
+}
+
 /* Table Container */
 .table-container {
   overflow: hidden;

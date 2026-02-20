@@ -228,7 +228,7 @@ const chartOptions = computed(() => {
     scales: {
       x: {
         border: { display: false },
-        grid: { display: false },
+        grid: { color: colors.value.gridLines, lineWidth: 1, drawTicks: false },
         ticks: {
           font: { family: "'DM Sans', sans-serif", size: 12, weight: 500 as any },
           color: colors.value.textSecondary,
