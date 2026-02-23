@@ -182,7 +182,9 @@ const lineOptions = computed(() => ({
     x: {
       display: true,
       grid: {
-        display: false,
+        color: colors.value.gridLines,
+        lineWidth: 1,
+        drawTicks: false,
       },
       ticks: {
         font: {

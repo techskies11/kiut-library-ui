@@ -9,6 +9,7 @@ const mockNpsData = {
   q1_score: 6,
   median_score: 8,
   q3_score: 9,
+  p95_score: 10,
   average_score: 7.5,
   histogram: [
     { score: 1, count: 25 },
@@ -31,6 +32,7 @@ const mockNpsData = {
       q1_score: 6,
       median_score: 8,
       q3_score: 9,
+      p95_score: 10,
       average_score: 7.6,
     },
     {
@@ -41,6 +43,7 @@ const mockNpsData = {
       q1_score: 5,
       median_score: 7,
       q3_score: 9,
+      p95_score: 10,
       average_score: 7.2,
     },
     {
@@ -51,6 +54,7 @@ const mockNpsData = {
       q1_score: 6,
       median_score: 8,
       q3_score: 9,
+      p95_score: 10,
       average_score: 7.8,
     },
   ],
@@ -120,7 +124,7 @@ export const Default: Story = {
  */
 export const Loading: Story = {
   args: {
-    data: null,
+    data: {},
     loading: true,
   },
   parameters: {
@@ -144,6 +148,7 @@ export const EmptyData: Story = {
       q1_score: 0,
       median_score: 0,
       q3_score: 0,
+      p95_score: 0,
       average_score: 0,
       histogram: [],
       nps_by_day: [],
@@ -176,6 +181,7 @@ export const WithMoreDays: Story = {
           q1_score: 6,
           median_score: 8,
           q3_score: 9,
+          p95_score: 10,
           average_score: 7.9,
         },
         {
@@ -186,6 +192,7 @@ export const WithMoreDays: Story = {
           q1_score: 5,
           median_score: 7,
           q3_score: 9,
+          p95_score: 10,
           average_score: 7.1,
         },
       ],

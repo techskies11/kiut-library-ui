@@ -223,7 +223,7 @@ const setOptions = () => {
           label: {
             show: true,
             position: 'inside',
-            color: '#ffffff',
+            color: '#000000',
             fontWeight: 600,
             fontSize: 12,
             fontFamily: "'DM Sans', sans-serif",

@@ -201,21 +201,20 @@ const dailyCandlestickData = computed(() => {
     const max = day.max_score || 0
     const average = day.average_score || 0
     
-    // Candlestick: open=Q1, high=Max, low=Min, close=Q3
     data.push({
       label: formatDateShort(day.date),
       responseCount: day.nps_responses_count || 0,
       isTotal: false,
-      open: q1,      // Q1 as open
-      high: max,     // Max as high
-      low: min,      // Min as low
-      close: q3,     // Q3 as close
+      low: min,
+      q1,
       median,
+      q3,
+      high: max,
       average,
-      openY: valueToY(q1, plotHeight),
       highY: valueToY(max, plotHeight),
       lowY: valueToY(min, plotHeight),
-      closeY: valueToY(q3, plotHeight),
+      q1Y: valueToY(q1, plotHeight),
+      q3Y: valueToY(q3, plotHeight),
       medianY: valueToY(median, plotHeight),
       averageY: average > 0 ? valueToY(average, plotHeight) : null,
       centerX: chartMargin + (index + 1) * boxplotSpacing,

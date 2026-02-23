@@ -170,7 +170,9 @@ const computedOptions = computed(() => {
           display: false,
         },
         grid: {
-          display: false,
+          color: colors.value.gridLines,
+          lineWidth: 1,
+          drawTicks: false,
         },
         ticks: {
           font: {

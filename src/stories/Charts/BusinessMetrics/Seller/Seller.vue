@@ -6,7 +6,7 @@
           <h3 class="card-title">Seller Metrics</h3>
           <p class="card-subtitle">Sales performance and failure analysis</p>
         </div>
-        <div class="stats-badge" v-if="!props.loading">
+        <div class="payment-success-badge" v-if="!props.loading">
           <p class="badge-label">Total Sales Value</p>
           <p class="badge-value">{{ formatCurrencyValue(props.sellerData.total_value_sell_success) }}</p>
         </div>
@@ -492,40 +492,38 @@ defineExpose({ isDark })
   line-height: 1.25rem;
 }
 
-/* Stats Badge - KPI Style */
-.stats-badge {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
-  background: var(--kiut-bg-stats-badge);
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 10px;
-  transition: all 0.2s ease;
+/* Payment Success Badge - aligned with Disruption */
+.payment-success-badge {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 16px;
+  padding: 16px 24px;
+  min-width: 140px;
   text-align: center;
-  min-width: 80px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.stats-badge:hover {
-  background: var(--kiut-bg-card);
-  border-color: var(--kiut-border-color);
+.payment-success-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
 }
 
 .badge-label {
   font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  line-height: 1.2;
-  margin: 0;
+  font-weight: 600;
+  color: #047857;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 4px 0;
 }
 
 .badge-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--kiut-text-primary);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #065f46;
   letter-spacing: -0.02em;
-  line-height: 1.2;
   margin: 0;
 }
 
@@ -824,7 +822,7 @@ defineExpose({ isDark })
     gap: 16px;
   }
 
-  .stats-badge {
+  .payment-success-badge {
     min-width: auto;
   }
 
