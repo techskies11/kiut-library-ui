@@ -141,6 +141,11 @@
       type: Boolean,
       default: false,
     },
+    /** Single API response (checkin shape). If passed, used as checkinData. */
+    data: {
+      type: Object,
+      default: undefined,
+    },
     checkinData: {
       type: Object,
       default: () => ({
@@ -160,6 +165,7 @@
         total_checkin_failed: 0,
         failed_by_step_by_day: [],
         unrecovered_by_step: [],
+        unrecovered_by_day: [],
       }),
     },
   })
@@ -179,11 +185,36 @@
     total_checkin_failed: 0,
     failed_by_step_by_day: [],
     unrecovered_by_step: [],
+    unrecovered_by_day: [],
   }
 
   const tableData = ref([])
-  const checkinDataInternal = computed(() => props.checkinData ?? DEFAULT_CHECKIN_DATA)
-  const failedDataInternal = computed(() => props.failedData ?? DEFAULT_FAILED_DATA)
+
+  // data = merged object (checkin + failed). Use it for both when it has the right keys.
+  const checkinDataInternal = computed(() => {
+    const d = props.data
+    const hasCheckin = d && ((Array.isArray(d.checkin_by_day) && d.checkin_by_day.length > 0) || (d.total_checkin_initiated ?? 0) > 0)
+    if (hasCheckin) {
+      return { ...DEFAULT_CHECKIN_DATA, ...d }
+    }
+    return props.checkinData ?? DEFAULT_CHECKIN_DATA
+  })
+
+  const failedDataInternal = computed(() => {
+    const d = props.data
+    const hasFailed = d && ((Array.isArray(d.failed_by_step_by_day) && d.failed_by_step_by_day.length > 0) || (Array.isArray(d.unrecovered_by_step) && d.unrecovered_by_step.length > 0))
+    if (hasFailed) {
+      return {
+        ...DEFAULT_FAILED_DATA,
+        total_checkin_failed: d.total_checkin_failed ?? 0,
+        total_checkin_unrecovered: d.total_checkin_unrecovered ?? 0,
+        failed_by_step_by_day: d.failed_by_step_by_day ?? [],
+        unrecovered_by_step: d.unrecovered_by_step ?? [],
+        unrecovered_by_day: d.unrecovered_by_day ?? [],
+      }
+    }
+    return props.failedData ?? DEFAULT_FAILED_DATA
+  })
 
   // Computed para colores dinámicos del Sankey (basado en sellerMetrics)
   const sankeyNodeColors = computed(() => {
@@ -271,8 +302,6 @@
     const closed = checkinDataInternal.value.total_checkin_closed
     const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || []
     const totalUnrecovered = unrecoveredSteps.reduce((sum, step) => sum + step.count, 0)
-
-    console.log(JSON.stringify(checkinDataInternal.value))
 
     // Flujo principal: Checkin Init -> Booking retrive (usar initiated como base 100%)
     if (init > 0) {
@@ -415,9 +444,6 @@
       })
     }
 
-    console.log(JSON.stringify(nodes))
-    console.log(JSON.stringify(links))
-
     return { nodes, links }
   })
 
@@ -447,9 +473,9 @@
     tableData.value.sort((a, b) => new Date(a.date) - new Date(b.date))
   }
 
-  // Watch para procesar datos cuando cambien los props
+  // Watch para procesar datos cuando cambien los props (incluye data para cuando se pasa la respuesta unida)
   watch(
-    [() => props.checkinData, () => props.failedData],
+    [() => props.data, () => props.checkinData, () => props.failedData],
     () => {
       processTableData()
     },

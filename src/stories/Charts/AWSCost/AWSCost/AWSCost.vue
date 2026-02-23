@@ -3,18 +3,18 @@
     <header class="card-header">
       <div class="header-main">
         <div class="header-content">
-          <h3 class="card-title">{{ data.airline_name || 'AWS Cost Analysis' }}</h3>
+          <h3 class="card-title">{{ normalizedData.airline_name || 'AWS Cost' }}</h3>
           <p class="card-subtitle">AWS vs Allocated costs over time</p>
         </div>
         
         <div class="header-stats">
           <div class="stat-badge primary">
             <span class="stat-label">Total Allocated</span>
-            <span class="stat-value">{{ useCurrencyFormat(data.total_allocated_cost) }}</span>
+            <span class="stat-value">{{ useCurrencyFormat(normalizedData.total_allocated_cost) }}</span>
           </div>
           <div class="stat-badge secondary">
             <span class="stat-label">Total AWS</span>
-            <span class="stat-value">{{ useCurrencyFormat(data.total_cost) }}</span>
+            <span class="stat-value">{{ useCurrencyFormat(normalizedData.total_cost) }}</span>
           </div>
         </div>
       </div>
@@ -35,31 +35,10 @@
         </div>
       </div>
 
-      <div v-else-if="data.daily && data.daily.length" class="chart-section">
+      <div v-else-if="normalizedData.daily.length > 0" class="chart-section">
         <div class="chart-container">
           <ChartLine :data="chartData" :options="chartOptions" />
         </div>
-        
-        <footer class="kpi-grid">
-          <div class="kpi-card">
-            <span class="kpi-label">Total Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(data.total_conversations) }}</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Airline Conv.</span>
-            <span class="kpi-value">{{ useNumberFormat(data.total_airline_conversations) }}</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Avg. Cost / Conv.</span>
-            <span class="kpi-value">{{ useCurrencyFormat(data.total_allocated_cost / (data.total_conversations || 1)) }}</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-label">Efficiency</span>
-            <span class="kpi-value gradient-text">
-              {{ ((data.total_airline_conversations / (data.total_conversations || 1)) * 100).toFixed(1) }}%
-            </span>
-          </div>
-        </footer>
       </div>
 
       <section v-else class="empty-state">
@@ -78,14 +57,13 @@
 <script setup>
 import { computed, toRef } from 'vue'
 import ChartLine from '../../Line/ChartLine.vue'
-import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
+import { useCurrencyFormat } from '../../../../plugins/numberFormat'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useThemeDetection } from '../../../../composables/useThemeDetection'
 
 const props = defineProps({
   data: {
     type: Object,
-    required: true,
     default: () => ({
       airline_name: '',
       start_date: '',
@@ -109,14 +87,45 @@ const props = defineProps({
 
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
+// Normalize data: support both API shape (daily[]) and flattened shape (days + *Series)
+const normalizedData = computed(() => {
+  const d = props.data ?? {}
+  const daily = d.daily
+  const days = d.days
+  const hasDaily = Array.isArray(daily) && daily.length > 0
+  const hasSeries = Array.isArray(days) && days.length > 0 && Array.isArray(d.allocatedCostSeries) && d.allocatedCostSeries.length === days.length
+
+  let dailyList = []
+  if (hasDaily) {
+    dailyList = daily
+  } else if (hasSeries) {
+    dailyList = days.map((date, i) => ({
+      date,
+      allocated_cost: d.allocatedCostSeries[i] ?? 0,
+      aws_cost: d.awsCostSeries[i] ?? 0,
+      airline_conversations: d.airlineConversationsSeries[i] ?? 0
+    }))
+  }
+
+  return {
+    daily: dailyList,
+    total_allocated_cost: d.total_allocated_cost ?? d.totalAllocated ?? 0,
+    total_cost: d.total_cost ?? d.total ?? 0,
+    total_conversations: d.total_conversations ?? d.totalConversations ?? 0,
+    total_airline_conversations: d.total_airline_conversations ?? d.totalAirlineConversations ?? 0,
+    airline_name: d.airline_name
+  }
+})
+
 const chartData = computed(() => {
-  const labels = props.data.daily.map(d => d.date)
+  const daily = normalizedData.value.daily
+  const labels = daily.map(d => d.date)
   return {
     labels,
     datasets: [
       {
         label: 'Allocated Cost',
-        data: props.data.daily.map(d => d.allocated_cost),
+        data: daily.map(d => d.allocated_cost),
         borderColor: colors.value.primaryLight,
         backgroundColor: isDark.value ? 'rgba(198, 125, 255, 0.15)' : 'rgba(198, 125, 255, 0.08)',
         borderWidth: 3,
@@ -128,7 +137,7 @@ const chartData = computed(() => {
       },
       {
         label: 'AWS Cost',
-        data: props.data.daily.map(d => d.aws_cost),
+        data: daily.map(d => d.aws_cost),
         borderColor: '#FF9900', // Amazon Orange/Yellow
         backgroundColor: 'transparent',
         borderWidth: 3,
@@ -139,7 +148,7 @@ const chartData = computed(() => {
       },
       {
         label: 'Airline Conv.',
-        data: props.data.daily.map(d => d.airline_conversations),
+        data: daily.map(d => d.airline_conversations),
         borderColor: colors.value.info,
         backgroundColor: isDark.value ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)',
         borderWidth: 2,

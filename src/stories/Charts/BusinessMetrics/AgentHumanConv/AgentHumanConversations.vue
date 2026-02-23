@@ -100,6 +100,7 @@
             </table>
           </div>
         </div>
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </div>
 
       <!-- Empty State -->
@@ -127,6 +128,7 @@
 import { computed, toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 
 // Types
 interface AgentDayData {
@@ -150,6 +152,8 @@ const props = withDefaults(defineProps<{
   data?: AgentHumanConvData;
   loading?: boolean;
   theme?: Theme;
+  enableExport?: boolean;
+  exportLoading?: boolean;
 }>(), {
   data: () => ({
     total_assigned: 0,
@@ -158,7 +162,17 @@ const props = withDefaults(defineProps<{
   }),
   loading: false,
   theme: undefined,
+  enableExport: false,
+  exportLoading: false,
 });
+
+const emit = defineEmits<{
+  export: [format: ExportFormat]
+}>()
+
+const handleExport = (format: ExportFormat) => {
+  emit('export', format)
+}
 
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
