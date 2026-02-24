@@ -11,12 +11,10 @@
             <p class="badge-label">Responses</p>
             <p class="badge-value">{{ npsData.total_nps_responses }}</p>
           </div>
-          <!-- TODO: re-enable when p95_score is available in production API
           <div v-if="npsData && npsData.p95_score > 0" class="stats-badge">
             <p class="badge-label">Percentile 95</p>
             <p class="badge-value">{{ npsData.p95_score || 0 }}</p>
           </div>
-          -->
         </div>
       </div>
     </header>
