@@ -8,7 +8,7 @@
         </div>
         <div class="payment-success-badge" v-if="!props.loading">
           <p class="badge-label">Payment Success</p>
-          <p class="badge-value">{{ useNumberFormat(props.data.total_payment_success || 0) }}</p>
+          <p class="badge-value">{{ useCurrencyFormat(getPaymentSuccessTotal(props.data?.total_payment_success)) }}</p>
         </div>
       </div>
     </header>
@@ -130,12 +130,12 @@
                       ({{ calculatePercentage(row.sell_failed_count, row.disruption_conversations) }})
                     </span>
                     <span class="badge badge-not-paid">
-                      Not Paid {{ useNumberFormat(Math.max(0, row.confirmed_count - row.sell_success_count - row.sell_failed_count)) }}
-                      ({{ calculatePercentage(Math.max(0, row.confirmed_count - row.sell_success_count - row.sell_failed_count), row.disruption_conversations) }})
+                      Not Paid {{ useNumberFormat(Math.max(0, row.confirmed_count - getSellSuccessCount(row) - row.sell_failed_count)) }}
+                      ({{ calculatePercentage(Math.max(0, row.confirmed_count - getSellSuccessCount(row) - row.sell_failed_count), row.disruption_conversations) }})
                     </span>
                     <span class="badge badge-success">
-                      Finish {{ useNumberFormat(row.sell_success_count) }}
-                      ({{ calculatePercentage(row.sell_success_count, row.disruption_conversations) }})
+                      Finish {{ useNumberFormat(getSellSuccessCount(row)) }}
+                      ({{ calculatePercentage(getSellSuccessCount(row), row.disruption_conversations) }})
                     </span>
                   </div>
                 </td>
@@ -183,7 +183,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import moment from 'moment'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 
@@ -195,8 +195,15 @@ interface DisruptionDayData {
   involuntary_count: number;
   accepted_count: number;
   confirmed_count: number;
-  sell_success_count: number;
+  sell_success_count?: number;
   sell_failed_count: number;
+  payment_success_total?: TotalPaymentSuccess[];
+}
+
+interface TotalPaymentSuccess {
+  total_value: number;
+  currency: string;
+  count: number;
 }
 
 interface DisruptionData {
@@ -206,10 +213,10 @@ interface DisruptionData {
   total_involuntary: number;
   total_accepted: number;
   total_confirmed: number;
-  total_sell_success: number;
+  total_sell_success?: number;
   total_sell_failed: number;
   total_finished: number;
-  total_payment_success: number;
+  total_payment_success?: TotalPaymentSuccess[];
   disruption_by_day: DisruptionDayData[];
 }
 
@@ -229,7 +236,7 @@ const props = withDefaults(defineProps<{
     total_sell_success: 0,
     total_sell_failed: 0,
     total_finished: 0,
-    total_payment_success: 0,
+    total_payment_success: [],
     disruption_by_day: [],
   }),
   loading: false,
@@ -258,6 +265,22 @@ const calculatePercentage = (value: number, total: number): string => {
   return `${Math.round((value / total) * 100)}%`
 }
 
+const getPaymentSuccessTotal = (payments?: TotalPaymentSuccess[]): number => {
+  return (payments ?? []).reduce((total, item) => total + item.total_value, 0)
+}
+
+const getPaymentSuccessCount = (payments?: TotalPaymentSuccess[]): number => {
+  return (payments ?? []).reduce((total, item) => total + (item.count ?? 0), 0)
+}
+
+const getSellSuccessCount = (row: DisruptionDayData): number => {
+  if (typeof row.sell_success_count === 'number') {
+    return row.sell_success_count
+  }
+
+  return getPaymentSuccessCount(row.payment_success_total)
+}
+
 const sankeyData = computed(() => {
   const data = props.data
   const conversations = data.total_disruption_conversations || 0
@@ -266,7 +289,9 @@ const sankeyData = computed(() => {
   const involuntary = data.total_involuntary || 0
   const accepted = data.total_accepted || 0
   const confirmed = data.total_confirmed || 0
-  const sellSuccess = data.total_sell_success || 0
+  const sellSuccess = typeof data.total_sell_success === 'number'
+    ? data.total_sell_success
+    : getPaymentSuccessCount(data.total_payment_success)
   const sellFailed = data.total_sell_failed || 0
 
   // Calculate abandoned and other derived values
