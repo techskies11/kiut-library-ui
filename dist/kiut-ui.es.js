@@ -16079,22 +16079,47 @@ const zf = { class: "chart-footer" }, Wf = { class: "export-actions" }, Nf = { c
       const h = new Date(d), f = String(h.getDate()).padStart(2, "0");
       return `${String(h.getMonth() + 1).padStart(2, "0")}-${f}`;
     }, o = A(() => {
-      const d = s.costData?.costs_by_day || {}, h = s.conversationData?.conversations_by_day || {};
-      return Object.keys(d).length > 0 && Object.keys(h).length > 0;
+      const d = s.costData?.daily_mean_cost_per_conversation || [];
+      if (Array.isArray(d) && d.length > 0)
+        return !0;
+      const h = s.costData?.costs_by_day || {}, f = s.conversationData?.conversations_by_day || {};
+      return Object.keys(h).length > 0 && Object.keys(f).length > 0;
     }), r = A(() => {
-      const d = s.costData?.costs_by_day || {}, h = s.conversationData?.conversations_by_day || {}, g = Object.keys(d).filter((b) => h[b]).sort();
-      if (g.length === 0)
+      const d = s.costData?.daily_mean_cost_per_conversation || [];
+      if (d.length > 0) {
+        const m = [...d].sort((v, _) => v.date.localeCompare(_.date));
+        return {
+          labels: m.map((v) => i(v.date)),
+          datasets: [
+            {
+              label: "Mean USD/conv",
+              data: m.map((v) => Number(v.value) || 0),
+              backgroundColor: "#a78bfa80",
+              borderColor: "#a78bfa",
+              borderWidth: 2,
+              tension: 0.4,
+              fill: !1,
+              pointRadius: 5,
+              pointHoverRadius: 7,
+              pointBackgroundColor: "#ffffff",
+              pointBorderWidth: 2
+            }
+          ]
+        };
+      }
+      const h = s.costData?.costs_by_day || {}, f = s.conversationData?.conversations_by_day || {}, p = Object.keys(h).filter((m) => f[m]).sort();
+      if (p.length === 0)
         return { labels: [], datasets: [] };
-      const p = g.map((b) => i(b)), u = g.map((b) => {
-        const m = d[b]?.total_cost || 0, v = h[b] || 0;
-        return v > 0 ? m / v : 0;
+      const u = p.map((m) => i(m)), b = p.map((m) => {
+        const v = h[m]?.total_cost || 0, _ = f[m] || 0;
+        return _ > 0 ? v / _ : 0;
       });
       return {
-        labels: p,
+        labels: u,
         datasets: [
           {
             label: "Mean USD/conv",
-            data: u,
+            data: b,
             backgroundColor: "#a78bfa80",
             borderColor: "#a78bfa",
             borderWidth: 2,
@@ -16197,7 +16222,7 @@ const zf = { class: "chart-footer" }, Wf = { class: "export-actions" }, Nf = { c
         ])
       ], -1)),
       e.loading ? (y(), x("div", Bx, [...h[2] || (h[2] = [
-        j('<div class="loading-container" data-v-3b293f0c><div class="chart-lines-loader" data-v-3b293f0c><div class="line line-1" data-v-3b293f0c></div><div class="line line-2" data-v-3b293f0c></div><div class="line line-3" data-v-3b293f0c></div><div class="line line-4" data-v-3b293f0c></div><div class="line line-5" data-v-3b293f0c></div></div><p class="loading-text" data-v-3b293f0c>Loading chart data...</p></div>', 1)
+        j('<div class="loading-container" data-v-e5bac1c5><div class="chart-lines-loader" data-v-e5bac1c5><div class="line line-1" data-v-e5bac1c5></div><div class="line line-2" data-v-e5bac1c5></div><div class="line line-3" data-v-e5bac1c5></div><div class="line line-4" data-v-e5bac1c5></div><div class="line line-5" data-v-e5bac1c5></div></div><p class="loading-text" data-v-e5bac1c5>Loading chart data...</p></div>', 1)
       ])])) : (y(), x("div", wx, [
         o.value ? (y(), x("section", Cx, [
           c("div", $x, [
@@ -16218,7 +16243,7 @@ const zf = { class: "chart-footer" }, Wf = { class: "export-actions" }, Nf = { c
       ]))
     ]));
   }
-}), Px = /* @__PURE__ */ K(Fx, [["__scopeId", "data-v-3b293f0c"]]), Lx = { class: "model-usage-card" }, Ex = {
+}), Px = /* @__PURE__ */ K(Fx, [["__scopeId", "data-v-e5bac1c5"]]), Lx = { class: "model-usage-card" }, Ex = {
   key: 0,
   class: "loading-state"
 }, Ox = {
@@ -16448,11 +16473,7 @@ const zf = { class: "chart-footer" }, Wf = { class: "export-actions" }, Nf = { c
         if (k.includes(S))
           return M;
       return "#9ca3af";
-    }, g = A(() => [...a.data?.top_agents || []].sort((k, S) => S.avg_cost_per_conversation - k.avg_cost_per_conversation)), p = A(
-      () => g.value.reduce((_, k) => _ + k.conversations, 0)
-    ), u = A(
-      () => g.value.reduce((_, k) => _ + k.total_cost, 0)
-    ), b = A(() => p.value === 0 ? 0 : u.value / p.value), m = A(() => {
+    }, g = A(() => [...a.data?.top_agents || []].sort((k, S) => S.avg_cost_per_conversation - k.avg_cost_per_conversation)), p = A(() => a.data?.total_conversations !== void 0 ? Number(a.data.total_conversations) || 0 : g.value.reduce((_, k) => _ + k.conversations, 0)), u = A(() => a.data?.total_cost !== void 0 ? Number(a.data.total_cost) || 0 : g.value.reduce((_, k) => _ + k.total_cost, 0)), b = A(() => a.data?.overall_avg_cost_per_conversation !== void 0 ? Number(a.data.overall_avg_cost_per_conversation) || 0 : p.value === 0 ? 0 : u.value / p.value), m = A(() => {
       const _ = g.value;
       if (_.length === 0)
         return { labels: [], datasets: [] };
@@ -16546,7 +16567,7 @@ const zf = { class: "chart-footer" }, Wf = { class: "export-actions" }, Nf = { c
         ])
       ], -1)),
       e.loading ? (y(), x("div", Ik, [...k[6] || (k[6] = [
-        j('<div class="loading-container" data-v-ad9364d0><div class="chart-bars-loader" data-v-ad9364d0><div class="bar bar-1" data-v-ad9364d0></div><div class="bar bar-2" data-v-ad9364d0></div><div class="bar bar-3" data-v-ad9364d0></div><div class="bar bar-4" data-v-ad9364d0></div><div class="bar bar-5" data-v-ad9364d0></div></div><p class="loading-text" data-v-ad9364d0>Loading agent costs...</p></div>', 1)
+        j('<div class="loading-container" data-v-17f6615c><div class="chart-bars-loader" data-v-17f6615c><div class="bar bar-1" data-v-17f6615c></div><div class="bar bar-2" data-v-17f6615c></div><div class="bar bar-3" data-v-17f6615c></div><div class="bar bar-4" data-v-17f6615c></div><div class="bar bar-5" data-v-17f6615c></div></div><p class="loading-text" data-v-17f6615c>Loading agent costs...</p></div>', 1)
       ])])) : (y(), x("div", Mk, [
         m.value.labels && m.value.labels.length ? (y(), x("section", Sk, [
           c("div", wk, [
@@ -16590,7 +16611,7 @@ const zf = { class: "chart-footer" }, Wf = { class: "export-actions" }, Nf = { c
       ]))
     ]));
   }
-}), Wk = /* @__PURE__ */ K(zk, [["__scopeId", "data-v-ad9364d0"]]), Kk = {
+}), Wk = /* @__PURE__ */ K(zk, [["__scopeId", "data-v-17f6615c"]]), Kk = {
   install(e) {
     e.component("KiutChartBar", Gt), e.component("KiutChartLine", Zt), e.component("KiutPieChart", xs), e.component("KiutBoxplotChart", Xh), e.component("KiutCandlestickChart", Wi), e.component("KiutHistogramChart", Ni), e.component("KiutSankeyChart", Qt), e.component("KiutAgentsPerDay", ag), e.component("KiutBookingManager", Rg), e.component("KiutCheckin", rp), e.component("KiutCheckinMetrics", Fp), e.component("KiutCheckinSegments", i0), e.component("KiutDisruption", N0), e.component("KiutFAQ", ib), e.component("KiutMessagesPerAgent", gb), e.component("KiutRecordLocator", zb), e.component("KiutSeller", fm), e.component("KiutTopAgents", km), e.component("KiutPaymentMethod", Jm), e.component("KiutAgentHumanConversations", Av), e.component("KiutChannelMetrics", Nv), e.component("KiutTriageCombinations", o1), e.component("KiutSelectLanguage", m1), e.component("KiutGuardrails", Y1), e.component("KiutDisruptionNotifier", H_), e.component("KiutNpsDailyMetrics", Hi), e.component("KiutNpsMetrics", By), e.component("KiutNpsOverviewMetrics", ji), e.component("KiutAWSCost", Gy), e.component("KiutCostUsage", _2), e.component("KiutTokenUsage", W2), e.component("KiutConversationCount", tx), e.component("KiutTopAgentsAnalysis", fx), e.component("KiutTopAgentsPie", Mx), e.component("KiutDailyCostTrends", Px), e.component("KiutModelUsage", ak), e.component("KiutMessageRoles", xk), e.component("KiutCostPerConversations", Wk);
   }

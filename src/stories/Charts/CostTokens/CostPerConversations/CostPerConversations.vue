@@ -88,6 +88,9 @@ interface CostPerConversationData {
   start_date?: string;
   end_date?: string;
   top_agents: TopAgent[];
+  total_conversations?: number;
+  total_cost?: number;
+  overall_avg_cost_per_conversation?: number;
 }
 
 const props = withDefaults(defineProps<{
@@ -174,15 +177,24 @@ const topAgents = computed(() => {
 });
 
 // Computed para calcular totales
-const totalConversations = computed(() => 
-  topAgents.value.reduce((sum, agent) => sum + agent.conversations, 0)
-);
+const totalConversations = computed(() => {
+  if (props.data?.total_conversations !== undefined) {
+    return Number(props.data.total_conversations) || 0;
+  }
+  return topAgents.value.reduce((sum, agent) => sum + agent.conversations, 0);
+});
 
-const totalCost = computed(() => 
-  topAgents.value.reduce((sum, agent) => sum + agent.total_cost, 0)
-);
+const totalCost = computed(() => {
+  if (props.data?.total_cost !== undefined) {
+    return Number(props.data.total_cost) || 0;
+  }
+  return topAgents.value.reduce((sum, agent) => sum + agent.total_cost, 0);
+});
 
 const avgCostPerConversation = computed(() => {
+  if (props.data?.overall_avg_cost_per_conversation !== undefined) {
+    return Number(props.data.overall_avg_cost_per_conversation) || 0;
+  }
   if (totalConversations.value === 0) return 0;
   return totalCost.value / totalConversations.value;
 });
