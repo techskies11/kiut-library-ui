@@ -27,7 +27,7 @@
           </div>
           <div class="stat-item">
             <div class="stat-label">Peak Day</div>
-            <div class="stat-value">{{ peakDay }}</div>
+            <div class="stat-date">{{ peakDay }}</div>
             <div class="stat-value">{{ formattedPeakValue }}</div>
           </div>
         </div>

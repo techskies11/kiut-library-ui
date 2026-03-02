@@ -74,6 +74,7 @@ interface CostUsageData {
   costs_by_day?: CostsByDay;
   total_cost?: number;
   avg_cost_per_conversation?: number;
+  daily_mean_cost_per_conversation?: Array<{ date: string; value: number }>;
 }
 
 // Modelo de datos para conversations_by_day
@@ -116,6 +117,10 @@ const formatDate = (dateStr: string): string => {
 
 // Check if we have data
 const hasData = computed(() => {
+  const backendSeries = props.costData?.daily_mean_cost_per_conversation || [];
+  if (Array.isArray(backendSeries) && backendSeries.length > 0) {
+    return true;
+  }
   const costsData = props.costData?.costs_by_day || {};
   const conversationsData = props.conversationData?.conversations_by_day || {};
   return Object.keys(costsData).length > 0 && Object.keys(conversationsData).length > 0;
@@ -123,6 +128,29 @@ const hasData = computed(() => {
 
 // Calculate mean USD per conversation per day
 const chartData = computed(() => {
+  const backendSeries = props.costData?.daily_mean_cost_per_conversation || [];
+  if (backendSeries.length > 0) {
+    const sortedSeries = [...backendSeries].sort((a, b) => a.date.localeCompare(b.date));
+    return {
+      labels: sortedSeries.map((point) => formatDate(point.date)),
+      datasets: [
+        {
+          label: 'Mean USD/conv',
+          data: sortedSeries.map((point) => Number(point.value) || 0),
+          backgroundColor: '#a78bfa80',
+          borderColor: '#a78bfa',
+          borderWidth: 2,
+          tension: 0.4,
+          fill: false,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBackgroundColor: '#ffffff',
+          pointBorderWidth: 2,
+        }
+      ]
+    };
+  }
+
   const costsData = props.costData?.costs_by_day || {};
   const conversationsData = props.conversationData?.conversations_by_day || {};
   
