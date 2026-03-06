@@ -99,12 +99,12 @@ import { useThemeDetection, type Theme } from '../../../../composables/useThemeD
 // Types
 interface CheckinByDay {
     date: string;
+    checkin_initiated_count: number;
     checkin_init_count: number;
     checkin_started_count: number;
     checkin_completed_count: number;
     checkin_closed_count: number;
     checkin_init_abandoned_count: number;
-    checkin_initiated_count: number;
 }
 
 interface CheckinData {
@@ -118,6 +118,10 @@ interface CheckinData {
     total_checkin_init_abandoned?: number;
     total_checkin_initiated?: number;
     total_checkin_unrecovered?: number;
+    total_checkin_init_abandoned_error?: number | null;
+    total_checkin_init_abandoned_voluntary?: number | null;
+    total_checkin_pre_init_abandoned_error?: number | null;
+    total_checkin_pre_init_abandoned_voluntary?: number | null;
     checkin_by_day?: CheckinByDay[];
 }
 
@@ -167,6 +171,10 @@ const props = withDefaults(defineProps<{
         total_checkin_completed: 0,
         total_checkin_closed: 0,
         total_checkin_unrecovered: 0,
+        total_checkin_init_abandoned_error: null,
+        total_checkin_init_abandoned_voluntary: null,
+        total_checkin_pre_init_abandoned_error: null,
+        total_checkin_pre_init_abandoned_voluntary: null,
         checkin_by_day: [],
     }),
     failedData: () => ({
@@ -236,9 +244,11 @@ const sankeyNodeColors = computed(() => {
         'Number of Passengers': '#8B8CF6',
         'Completed': '#A7F3D0',
         'Closed with BP': '#7BE39E',
-        'Abandoned (Init)': '#FCA5A5',
-        'Abandoned (Started)': '#F87171',
-        'Abandoned (Flow)': '#EF4444',
+        'Abandoned (Init)': '#FACC15',
+        'Booking not retreived': '#F87171',
+        'Abandoned (Started)': '#FACC15',
+        'Error': '#F87171',
+        'Abandoned (Flow)': '#FACC15',
         'BP Error': '#EF4444',
         'Unrecovered': '#F87171',
     };
@@ -285,23 +295,51 @@ const tableData = computed((): TableRow[] => {
 const sankeyData = computed(() => {
     const nodes: { name: string }[] = [];
     const links: { source: string; target: string; value: number; label: string }[] = [];
+    const nodeNames = new Set<string>();
+    const addNode = (name: string): void => {
+        if (!nodeNames.has(name)) {
+            nodes.push({ name });
+            nodeNames.add(name);
+        }
+    };
 
     if (!props.checkinData?.total_checkin_initiated) {
         return { nodes, links };
     }
 
     // Nodos principales del flujo
-    nodes.push({ name: 'Checkin Init' });
-    nodes.push({ name: 'Booking retrive' });
-    nodes.push({ name: 'Booking retrive success' });
-    nodes.push({ name: 'Number of Passengers' });
-    nodes.push({ name: 'Completed' });
-    nodes.push({ name: 'Closed with BP' });
+    addNode('Checkin Init');
+    addNode('Booking retrive');
+    addNode('Booking retrive success');
+    addNode('Number of Passengers');
+    addNode('Completed');
+    addNode('Closed with BP');
 
     // Valores
     const initiated = props.checkinData.total_checkin_initiated || 0;
     const init = props.checkinData.total_checkin_init || 0;
     const abandonedInit = props.checkinData.total_checkin_init_abandoned || 0;
+    const preInitAbandonedErrorRaw = props.checkinData.total_checkin_pre_init_abandoned_error;
+    const preInitAbandonedVoluntaryRaw = props.checkinData.total_checkin_pre_init_abandoned_voluntary;
+    const hasPreInitAbandonedSplit =
+        (preInitAbandonedErrorRaw !== null && preInitAbandonedErrorRaw !== undefined) ||
+        (preInitAbandonedVoluntaryRaw !== null && preInitAbandonedVoluntaryRaw !== undefined);
+    const preInitAbandonedError = hasPreInitAbandonedSplit
+        ? Math.max(Number(preInitAbandonedErrorRaw) || 0, 0)
+        : 0;
+    const preInitAbandonedVoluntary = hasPreInitAbandonedSplit
+        ? Math.max(Number(preInitAbandonedVoluntaryRaw) || 0, 0)
+        : 0;
+    const abandonedErrorRaw = props.checkinData.total_checkin_init_abandoned_error;
+    const abandonedVoluntaryRaw = props.checkinData.total_checkin_init_abandoned_voluntary;
+    const hasAbandonedSplit =
+        (abandonedErrorRaw !== null && abandonedErrorRaw !== undefined) ||
+        (abandonedVoluntaryRaw !== null && abandonedVoluntaryRaw !== undefined);
+    const abandonedError = hasAbandonedSplit ? Math.max(Number(abandonedErrorRaw) || 0, 0) : 0;
+    const abandonedVoluntary = hasAbandonedSplit ? Math.max(Number(abandonedVoluntaryRaw) || 0, 0) : 0;
+    const abandonedStartedFallback = hasAbandonedSplit
+        ? Math.max(abandonedInit - abandonedError - abandonedVoluntary, 0)
+        : abandonedInit;
     const bookingSuccess = init - abandonedInit;
     const started = props.checkinData.total_checkin_started || 0;
     const completed = props.checkinData.total_checkin_completed || 0;
@@ -322,9 +360,31 @@ const sankeyData = computed(() => {
 
     // Abandono 1: Checkin Init -> Abandonados (antes de Booking retrive)
     const abandonedBeforeInit = initiated - init;
-    if (abandonedBeforeInit > 0) {
+    if (hasPreInitAbandonedSplit) {
+        if (preInitAbandonedVoluntary > 0) {
+            const percentage = Math.round((preInitAbandonedVoluntary / initiated) * 100);
+            addNode('Abandoned (Init)');
+            links.push({
+                source: 'Checkin Init',
+                target: 'Abandoned (Init)',
+                value: preInitAbandonedVoluntary,
+                label: `${preInitAbandonedVoluntary.toLocaleString()} (${percentage}%)`,
+            });
+        }
+
+        if (preInitAbandonedError > 0) {
+            const percentage = Math.round((preInitAbandonedError / initiated) * 100);
+            addNode('Booking not retreived');
+            links.push({
+                source: 'Checkin Init',
+                target: 'Booking not retreived',
+                value: preInitAbandonedError,
+                label: `${preInitAbandonedError.toLocaleString()} (${percentage}%)`,
+            });
+        }
+    } else if (abandonedBeforeInit > 0) {
         const percentage = Math.round((abandonedBeforeInit / initiated) * 100);
-        nodes.push({ name: 'Abandoned (Init)' });
+        addNode('Abandoned (Init)');
         links.push({
             source: 'Checkin Init',
             target: 'Abandoned (Init)',
@@ -334,9 +394,42 @@ const sankeyData = computed(() => {
     }
 
     // Abandono 2: Booking retrive -> Abandonados
-    if (abandonedInit > 0) {
+    if (hasAbandonedSplit) {
+        if (abandonedError > 0) {
+            const percentage = Math.round((abandonedError / initiated) * 100);
+            addNode('Error');
+            links.push({
+                source: 'Booking retrive',
+                target: 'Error',
+                value: abandonedError,
+                label: `${abandonedError.toLocaleString()} (${percentage}%)`,
+            });
+        }
+
+        if (abandonedVoluntary > 0) {
+            const percentage = Math.round((abandonedVoluntary / initiated) * 100);
+            addNode('Abandoned (Started)');
+            links.push({
+                source: 'Booking retrive',
+                target: 'Abandoned (Started)',
+                value: abandonedVoluntary,
+                label: `${abandonedVoluntary.toLocaleString()} (${percentage}%)`,
+            });
+        }
+
+        if (abandonedStartedFallback > 0) {
+            const percentage = Math.round((abandonedStartedFallback / initiated) * 100);
+            addNode('Abandoned (Started)');
+            links.push({
+                source: 'Booking retrive',
+                target: 'Abandoned (Started)',
+                value: abandonedStartedFallback,
+                label: `${abandonedStartedFallback.toLocaleString()} (${percentage}%)`,
+            });
+        }
+    } else if (abandonedInit > 0) {
         const percentage = Math.round((abandonedInit / initiated) * 100);
-        nodes.push({ name: 'Abandoned (Started)' });
+        addNode('Abandoned (Started)');
         links.push({
             source: 'Booking retrive',
             target: 'Abandoned (Started)',
@@ -380,7 +473,7 @@ const sankeyData = computed(() => {
 
     // Errores no recuperables por paso
     if (unrecoveredSteps.length > 0 && totalUnrecovered > 0) {
-        nodes.push({ name: 'Unrecovered' });
+        addNode('Unrecovered');
 
         const percentage = Math.round((totalUnrecovered / started) * 100);
         links.push({
@@ -398,7 +491,7 @@ const sankeyData = computed(() => {
                 .join(' ');
 
             const stepPercentage = Math.round((step.count / started) * 100);
-            nodes.push({ name: capitalizedStepName });
+            addNode(capitalizedStepName);
             links.push({
                 source: 'Unrecovered',
                 target: capitalizedStepName,
@@ -412,7 +505,7 @@ const sankeyData = computed(() => {
     const abandonedFlow = started - (completed + totalUnrecovered);
     if (abandonedFlow > 0) {
         const percentage = Math.round((abandonedFlow / started) * 100);
-        nodes.push({ name: 'Abandoned (Flow)' });
+        addNode('Abandoned (Flow)');
         links.push({
             source: 'Number of Passengers',
             target: 'Abandoned (Flow)',
@@ -425,7 +518,7 @@ const sankeyData = computed(() => {
     const bpError = completed - closed;
     if (bpError > 0) {
         const percentage = Math.round((bpError / started) * 100);
-        nodes.push({ name: 'BP Error' });
+        addNode('BP Error');
         links.push({
             source: 'Completed',
             target: 'BP Error',

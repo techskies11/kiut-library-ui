@@ -8,7 +8,12 @@
         </div>
         <div class="stats-badge" v-if="!loading && metricsData.total_amount">
           <p class="badge-label">Total Amount</p>
-          <p class="badge-value">{{ formatCurrency(metricsData.total_amount) }}</p>
+          <div v-if="metricsData.total_amount_by_currency && metricsData.total_amount_by_currency.length > 0" class="currency-breakdown-list">
+            <p v-for="item in metricsData.total_amount_by_currency" :key="item.currency" class="currency-breakdown-item">
+              {{ item.currency }} {{ formatCurrency(item.total_value) }}
+            </p>
+          </div>
+          <p v-else class="badge-value">{{ formatCurrency(metricsData.total_amount) }}</p>
         </div>
       </div>
     </header>
@@ -51,6 +56,11 @@
               <p class="payment-amount" :style="[getValueStyle(index), getAmountSizeStyle(pm.total_amount)]">
                 {{ formatCurrency(pm.total_amount) }}
               </p>
+              <div v-if="pm.total_amount_by_currency && pm.total_amount_by_currency.length > 0" class="currency-cell-list">
+                <span v-for="item in pm.total_amount_by_currency" :key="`${pm.payment_method}-${item.currency}`">
+                  {{ item.currency }} {{ formatCurrency(item.total_value) }}
+                </span>
+              </div>
               <!-- Count Badge -->
               <div class="payment-badge-wrapper">
                 <span class="payment-badge" :style="getBadgeStyle(index)">
@@ -99,7 +109,12 @@
                   {{ useNumberFormat(day.total_count ?? 0) }}
                 </td>
                 <td class="table-cell text-center success-value">
-                  {{ formatCurrency(day.total_amount) }}
+                  <div v-if="day.total_amount_by_currency && day.total_amount_by_currency.length > 0" class="currency-cell-list">
+                    <span v-for="item in day.total_amount_by_currency" :key="`${day.date}-${item.currency}`">
+                      {{ item.currency }} {{ formatCurrency(item.total_value) }}
+                    </span>
+                  </div>
+                  <span v-else>{{ formatCurrency(day.total_amount) }}</span>
                 </td>
                 <td class="table-cell">
                   <div class="payment-tags">
@@ -110,7 +125,12 @@
                     >
                       <span class="tag-name">{{ formatPaymentMethod(pm.payment_method) }}</span>
                       <span class="tag-separator">•</span>
-                      <span class="tag-amount">{{ formatCurrency(pm.total_amount) }}</span>
+                      <span class="tag-amount" v-if="!pm.total_amount_by_currency || pm.total_amount_by_currency.length === 0">
+                        {{ formatCurrency(pm.total_amount) }}
+                      </span>
+                      <span v-else class="tag-amount">
+                        {{ pm.total_amount_by_currency.map(c => `${c.currency} ${formatCurrency(c.total_value)}`).join(' / ') }}
+                      </span>
                       <span class="tag-count">({{ formatCount(pm.count) }})</span>
                     </div>
                   </div>
@@ -151,12 +171,14 @@ interface PaymentMethodItem {
   payment_method: string
   count: number
   total_amount: number
+  total_amount_by_currency?: CurrencyBreakdown[]
 }
 
 interface DayBreakdown {
   date: string
   total_count: number
   total_amount: number
+  total_amount_by_currency?: CurrencyBreakdown[]
   payment_methods: PaymentMethodItem[]
 }
 
@@ -166,8 +188,15 @@ interface PaymentMethodData {
   end_date?: string
   total_conversations?: number
   total_amount?: number
+  total_amount_by_currency?: CurrencyBreakdown[]
   payment_method_breakdown?: PaymentMethodItem[]
   payment_method_by_day?: DayBreakdown[]
+}
+
+interface CurrencyBreakdown {
+  currency: string
+  total_value: number
+  count: number
 }
 
 // Props
@@ -206,6 +235,7 @@ const metricsData = ref<PaymentMethodData>({
   end_date: '',
   total_conversations: 0,
   total_amount: 0,
+  total_amount_by_currency: [],
   payment_method_breakdown: [],
   payment_method_by_day: [],
 })
@@ -241,6 +271,7 @@ const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMeth
       end_date: '',
       total_conversations: 0,
       total_amount: 0,
+      total_amount_by_currency: [],
       payment_method_breakdown: [],
       payment_method_by_day: [],
     }
@@ -251,6 +282,7 @@ const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMeth
     payment_method: pm.payment_method || 'Unknown',
     total_amount: pm.total_amount ?? 0,
     count: pm.count ?? 0,
+    total_amount_by_currency: pm.total_amount_by_currency ?? [],
   }))
 
   // Normalize payment_method_by_day
@@ -258,10 +290,12 @@ const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMeth
     date: day.date || '',
     total_count: day.total_count ?? 0,
     total_amount: day.total_amount ?? 0,
+    total_amount_by_currency: day.total_amount_by_currency ?? [],
     payment_methods: (day.payment_methods || []).map(pm => ({
       payment_method: pm.payment_method || 'Unknown',
       total_amount: pm.total_amount ?? 0,
       count: pm.count ?? 0,
+      total_amount_by_currency: pm.total_amount_by_currency ?? [],
     })),
   }))
 
@@ -271,6 +305,7 @@ const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMeth
     end_date: data.end_date || '',
     total_conversations: data.total_conversations ?? 0,
     total_amount: data.total_amount ?? 0,
+    total_amount_by_currency: data.total_amount_by_currency ?? [],
     payment_method_breakdown: normalizedBreakdown,
     payment_method_by_day: normalizedByDay,
   }
@@ -532,6 +567,20 @@ defineExpose({ isDark })
   margin: 0;
 }
 
+.currency-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.currency-breakdown-item {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--kiut-text-primary);
+  margin: 0;
+}
+
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -615,6 +664,14 @@ defineExpose({ isDark })
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
+}
+
+.currency-cell-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.72rem;
+  color: var(--kiut-text-secondary);
 }
 
 .payment-badge-wrapper {

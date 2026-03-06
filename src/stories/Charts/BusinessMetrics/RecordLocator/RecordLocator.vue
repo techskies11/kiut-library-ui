@@ -143,6 +143,10 @@ interface RecordLocatorData {
   total_record_locator_failed: number;
   total_record_locator_abandoned: number;
   total_record_locator_init_abandoned: number;
+  total_record_locator_init_abandoned_error?: number | null;
+  total_record_locator_init_abandoned_voluntary?: number | null;
+  total_checkin_pre_init_abandoned_error?: number | null;
+  total_checkin_pre_init_abandoned_voluntary?: number | null;
   record_locator_by_day: RecordLocatorDayData[];
 }
 
@@ -163,6 +167,10 @@ const props = withDefaults(defineProps<{
     total_record_locator_failed: 0,
     total_record_locator_abandoned: 0,
     total_record_locator_init_abandoned: 0,
+    total_record_locator_init_abandoned_error: null,
+    total_record_locator_init_abandoned_voluntary: null,
+    total_checkin_pre_init_abandoned_error: null,
+    total_checkin_pre_init_abandoned_voluntary: null,
     record_locator_by_day: [],
   }),
   loading: false,
@@ -202,10 +210,12 @@ const sankeyNodeColors = computed(() => ({
   'Checkin Completed': '#A7F3D0', // Light green
   'Checkin Closed': '#7BE39E', // Green for success
 
-  // Abandoned states - progressive red
-  'Abandoned (Init)': '#FCA5A5', // Light red
-  'Abandoned (Started)': '#F87171', // Medium red
-  'Abandoned (Flow)': '#EF4444', // Darker red
+  // Abandoned states
+  'Abandoned (Init)': '#FACC15',
+  'Booking not retreived': '#F87171',
+  'Abandoned (Started)': '#FACC15',
+  'Error': '#F87171',
+  'Abandoned (Flow)': '#FACC15',
 
   // Failed states
   'Checkin Failed': '#F87171', // Medium red for main failed node
@@ -227,17 +237,24 @@ const formatValueWithPercentage = (value: number, total: number): string => {
 const sankeyData = computed(() => {
   const nodes: { name: string }[] = []
   const links: { source: string; target: string; value: number; label: string }[] = []
+  const nodeNames = new Set<string>()
+  const addNode = (name: string): void => {
+    if (!nodeNames.has(name)) {
+      nodes.push({ name })
+      nodeNames.add(name)
+    }
+  }
 
   if (!recordLocatorData.value.total_checkin_initiated) {
     return { nodes, links }
   }
 
   // Nodos principales del flujo
-  nodes.push({ name: 'Checkin Init' })
-  nodes.push({ name: 'Booking retrive' })
-  nodes.push({ name: 'Checkin Started' })
-  nodes.push({ name: 'Checkin Completed' })
-  nodes.push({ name: 'Checkin Closed' })
+  addNode('Checkin Init')
+  addNode('Booking retrive')
+  addNode('Checkin Started')
+  addNode('Checkin Completed')
+  addNode('Checkin Closed')
 
   // Enlaces del flujo feliz
   const initiated = recordLocatorData.value.total_checkin_initiated
@@ -248,6 +265,28 @@ const sankeyData = computed(() => {
   const recordLocatorFailed = recordLocatorData.value.total_record_locator_failed
   const recordLocatorAbandoned = recordLocatorData.value.total_record_locator_abandoned
   const recordLocatorInitAbandoned = recordLocatorData.value.total_record_locator_init_abandoned
+  const preInitAbandonedErrorRaw = recordLocatorData.value.total_checkin_pre_init_abandoned_error
+  const preInitAbandonedVoluntaryRaw = recordLocatorData.value.total_checkin_pre_init_abandoned_voluntary
+  const hasPreInitAbandonedSplit =
+    (preInitAbandonedErrorRaw !== null && preInitAbandonedErrorRaw !== undefined) ||
+    (preInitAbandonedVoluntaryRaw !== null && preInitAbandonedVoluntaryRaw !== undefined)
+  const preInitAbandonedError = hasPreInitAbandonedSplit
+    ? Math.max(Number(preInitAbandonedErrorRaw) || 0, 0)
+    : 0
+  const preInitAbandonedVoluntary = hasPreInitAbandonedSplit
+    ? Math.max(Number(preInitAbandonedVoluntaryRaw) || 0, 0)
+    : 0
+  const initAbandonedErrorRaw = recordLocatorData.value.total_record_locator_init_abandoned_error
+  const initAbandonedVoluntaryRaw = recordLocatorData.value.total_record_locator_init_abandoned_voluntary
+  const hasInitAbandonedSplit =
+    (initAbandonedErrorRaw !== null && initAbandonedErrorRaw !== undefined) ||
+    (initAbandonedVoluntaryRaw !== null && initAbandonedVoluntaryRaw !== undefined)
+  const initAbandonedError = hasInitAbandonedSplit
+    ? Math.max(Number(initAbandonedErrorRaw) || 0, 0)
+    : 0
+  const initAbandonedVoluntary = hasInitAbandonedSplit
+    ? Math.max(Number(initAbandonedVoluntaryRaw) || 0, 0)
+    : 0
 
   // Flujo principal: Checkin Init -> Booking retrive
   if (recordLocatorInit > 0) {
@@ -262,9 +301,31 @@ const sankeyData = computed(() => {
 
   // Abandono 1: Checkin Init -> Abandonados (antes de Booking retrive)
   const abandonedBeforeInit = initiated - recordLocatorInit
-  if (abandonedBeforeInit > 0) {
+  if (hasPreInitAbandonedSplit) {
+    if (preInitAbandonedVoluntary > 0) {
+      const percentage = Math.round((preInitAbandonedVoluntary / initiated) * 100)
+      addNode('Abandoned (Init)')
+      links.push({
+        source: 'Checkin Init',
+        target: 'Abandoned (Init)',
+        value: preInitAbandonedVoluntary,
+        label: `${preInitAbandonedVoluntary.toLocaleString()} (${percentage}%)`,
+      })
+    }
+
+    if (preInitAbandonedError > 0) {
+      const percentage = Math.round((preInitAbandonedError / initiated) * 100)
+      addNode('Booking not retreived')
+      links.push({
+        source: 'Checkin Init',
+        target: 'Booking not retreived',
+        value: preInitAbandonedError,
+        label: `${preInitAbandonedError.toLocaleString()} (${percentage}%)`,
+      })
+    }
+  } else if (abandonedBeforeInit > 0) {
     const percentage = Math.round((abandonedBeforeInit / initiated) * 100)
-    nodes.push({ name: 'Abandoned (Init)' })
+    addNode('Abandoned (Init)')
     links.push({
       source: 'Checkin Init',
       target: 'Abandoned (Init)',
@@ -285,9 +346,31 @@ const sankeyData = computed(() => {
   }
 
   // Abandono 2: Booking retrive -> Abandonados
-  if (recordLocatorInitAbandoned > 0) {
+  if (hasInitAbandonedSplit) {
+    if (initAbandonedError > 0) {
+      const percentage = Math.round((initAbandonedError / initiated) * 100)
+      addNode('Error')
+      links.push({
+        source: 'Booking retrive',
+        target: 'Error',
+        value: initAbandonedError,
+        label: `${initAbandonedError.toLocaleString()} (${percentage}%)`,
+      })
+    }
+
+    if (initAbandonedVoluntary > 0) {
+      const percentage = Math.round((initAbandonedVoluntary / initiated) * 100)
+      addNode('Abandoned (Started)')
+      links.push({
+        source: 'Booking retrive',
+        target: 'Abandoned (Started)',
+        value: initAbandonedVoluntary,
+        label: `${initAbandonedVoluntary.toLocaleString()} (${percentage}%)`,
+      })
+    }
+  } else if (recordLocatorInitAbandoned > 0) {
     const percentage = Math.round((recordLocatorInitAbandoned / initiated) * 100)
-    nodes.push({ name: 'Abandoned (Started)' })
+    addNode('Abandoned (Started)')
     links.push({
       source: 'Booking retrive',
       target: 'Abandoned (Started)',
@@ -321,7 +404,7 @@ const sankeyData = computed(() => {
   // Failed: Checkin Started -> Checkin Failed
   if (recordLocatorFailed > 0) {
     const percentage = Math.round((recordLocatorFailed / recordLocatorStarted) * 100)
-    nodes.push({ name: 'Checkin Failed' })
+    addNode('Checkin Failed')
     links.push({
       source: 'Checkin Started',
       target: 'Checkin Failed',
@@ -333,7 +416,7 @@ const sankeyData = computed(() => {
   // Abandoned: Checkin Started -> Abandoned
   if (recordLocatorAbandoned > 0) {
     const percentage = Math.round((recordLocatorAbandoned / recordLocatorStarted) * 100)
-    nodes.push({ name: 'Abandoned (Flow)' })
+    addNode('Abandoned (Flow)')
     links.push({
       source: 'Checkin Started',
       target: 'Abandoned (Flow)',

@@ -7,8 +7,13 @@
           <p class="card-subtitle">Disruption workflow performance and completion tracking</p>
         </div>
         <div class="payment-success-badge" v-if="!props.loading">
-          <p class="badge-label">Payment Success</p>
-          <p class="badge-value">{{ useCurrencyFormat(getPaymentSuccessTotal(props.data?.total_payment_success)) }}</p>
+          <p class="badge-label">Payment Success Value</p>
+          <div v-if="totalPaymentSuccessByCurrency.length > 0" class="currency-breakdown-list">
+            <p v-for="item in totalPaymentSuccessByCurrency" :key="item.currency" class="currency-breakdown-item">
+              {{ item.currency }} {{ formatCurrency(item.total_value) }}
+            </p>
+          </div>
+          <p v-else class="badge-value">{{ formatCurrency(0) }}</p>
         </div>
       </div>
     </header>
@@ -137,6 +142,13 @@
                       Finish {{ useNumberFormat(getSellSuccessCount(row)) }}
                       ({{ calculatePercentage(getSellSuccessCount(row), row.disruption_conversations) }})
                     </span>
+                    <span
+                      v-for="item in row.payment_success_total || []"
+                      :key="`${row.date}-${item.currency}`"
+                      class="badge badge-currency"
+                    >
+                      {{ item.currency }} {{ formatCurrency(item.total_value) }}
+                    </span>
                   </div>
                 </td>
 
@@ -260,13 +272,17 @@ const tableData = computed(() => {
   )
 })
 
+const totalPaymentSuccessByCurrency = computed(() => {
+  return props.data?.total_payment_success || []
+})
+
 const calculatePercentage = (value: number, total: number): string => {
   if (!total || total === 0) return '0%'
   return `${Math.round((value / total) * 100)}%`
 }
 
-const getPaymentSuccessTotal = (payments?: TotalPaymentSuccess[]): number => {
-  return (payments ?? []).reduce((total, item) => total + item.total_value, 0)
+const formatCurrency = (value: number): string => {
+  return useCurrencyFormat(value)
 }
 
 const getPaymentSuccessCount = (payments?: TotalPaymentSuccess[]): number => {
@@ -785,6 +801,11 @@ const nodeColors: Record<string, string> = {
   color: #047857;
 }
 
+.badge-currency {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1d4ed8;
+}
+
 .badge-human {
   background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
   color: #b91c1c;
@@ -793,6 +814,20 @@ const nodeColors: Record<string, string> = {
 .badge-accept {
   background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
   color: #047857;
+}
+
+.currency-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.currency-breakdown-item {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #065f46;
+  margin: 0;
 }
 
 /* Empty State */
