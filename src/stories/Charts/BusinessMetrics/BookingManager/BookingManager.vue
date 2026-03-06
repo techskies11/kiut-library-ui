@@ -7,8 +7,13 @@
           <p class="card-subtitle">Booking manager workflow tracking and analysis</p>
         </div>
         <div class="payment-success-badge" v-if="!props.loading">
-          <p class="badge-label">Payment Success</p>
-          <p class="badge-value">{{ useNumberFormat(props.data.total_payment_success || 0) }}</p>
+          <p class="badge-label">Payment Success Value</p>
+          <div v-if="totalPaymentSuccessValueByCurrency.length > 0" class="currency-breakdown-list">
+            <p v-for="item in totalPaymentSuccessValueByCurrency" :key="item.currency" class="currency-breakdown-item">
+              {{ item.currency }} {{ formatCurrency(item.total_value) }}
+            </p>
+          </div>
+          <p v-else class="badge-value">{{ formatCurrency(0) }}</p>
         </div>
       </div>
     </header>
@@ -68,6 +73,7 @@
                 <th class="table-header">Started</th>
                 <th class="table-header">Payment Initiated</th>
                 <th class="table-header">Payment Results</th>
+                <th class="table-header">Payment Value</th>
                 <th class="table-header">Outcomes</th>
               </tr>
             </thead>
@@ -95,12 +101,24 @@
                 <td class="table-cell">
                   <div class="badges-container">
                     <span class="badge badge-success">
-                      Success: {{ day.payment_success_count ? useNumberFormat(day.payment_success_count) : 'N/A' }}
+                      Success: {{ useNumberFormat(getPaymentSuccessCount(day)) }}
                     </span>
                     <span class="badge badge-error">
-                      Failed: {{ day.payment_failed_count ? useNumberFormat(day.payment_failed_count) : 'N/A' }}
+                      Failed: {{ useNumberFormat(day.payment_failed_count || 0) }}
                     </span>
                   </div>
+                </td>
+                <td class="table-cell">
+                  <div v-if="getPaymentSuccessValueByCurrency(day).length > 0" class="badges-container">
+                    <span
+                      v-for="item in getPaymentSuccessValueByCurrency(day)"
+                      :key="`${day.date}-${item.currency}`"
+                      class="badge badge-currency"
+                    >
+                      {{ item.currency }} {{ formatCurrency(item.total_value) }}
+                    </span>
+                  </div>
+                  <span v-else class="percentage-text">N/A</span>
                 </td>
                 <td class="table-cell">
                   <div class="badges-container">
@@ -146,7 +164,7 @@ import { computed } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
 
 interface BookingDayData {
   date: string;
@@ -157,8 +175,9 @@ interface BookingDayData {
   cancelled_count: number;
   no_pending_balance_count: number;
   error_count: number;
-  payment_success_count: number;
+  payment_success_count?: number;
   payment_failed_count: number;
+  payment_success_value?: BookingManagerCurrencyBreakdown[];
 }
 
 interface BookingData {
@@ -169,9 +188,16 @@ interface BookingData {
   total_cancelled: number;
   total_no_pending_balance: number;
   total_errors: number;
-  total_payment_success: number;
+  total_payment_success?: number;
   total_payment_failed: number;
+  total_payment_success_value?: BookingManagerCurrencyBreakdown[];
   booking_manager_by_day: BookingDayData[];
+}
+
+interface BookingManagerCurrencyBreakdown {
+  currency: string;
+  total_value: number;
+  count: number;
 }
 
 const props = withDefaults(defineProps<{
@@ -191,6 +217,7 @@ const props = withDefaults(defineProps<{
     total_errors: 0,
     total_payment_success: 0,
     total_payment_failed: 0,
+    total_payment_success_value: [],
     booking_manager_by_day: [],
   }),
   loading: false,
@@ -215,6 +242,25 @@ const sortedDayData = computed(() => {
   )
 })
 
+const totalPaymentSuccessValueByCurrency = computed(() => {
+  return props.data?.total_payment_success_value || []
+})
+
+const getPaymentSuccessValueByCurrency = (day: BookingDayData): BookingManagerCurrencyBreakdown[] => {
+  return day.payment_success_value || []
+}
+
+const getPaymentSuccessCount = (day: BookingDayData): number => {
+  if (typeof day.payment_success_count === 'number') {
+    return day.payment_success_count
+  }
+  return (day.payment_success_value || []).reduce((total, item) => total + (item.count || 0), 0)
+}
+
+const formatCurrency = (value: number): string => {
+  return useCurrencyFormat(value)
+}
+
 const sankeyData = computed(() => {
   const data = props.data
   const initiated = data.total_booking_initiated || 0
@@ -224,7 +270,10 @@ const sankeyData = computed(() => {
   const cancelled = data.total_cancelled || 0
   const noPendingBalance = data.total_no_pending_balance || 0
   const errors = data.total_errors || 0
-  const paymentSuccess = data.total_payment_success || 0
+  const paymentSuccess =
+    typeof data.total_payment_success === 'number'
+      ? data.total_payment_success
+      : (data.total_payment_success_value || []).reduce((total, item) => total + (item.count || 0), 0)
   const paymentFailed = data.total_payment_failed || 0
 
   // Calculate abandoned values
@@ -620,6 +669,25 @@ const calculatePercentage = (value: number, total: number): string => {
 .badge-yellow {
   background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
   color: #854d0e;
+}
+
+.badge-currency {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1d4ed8;
+}
+
+.currency-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.currency-breakdown-item {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #065f46;
+  margin: 0;
 }
 
 /* Empty State */

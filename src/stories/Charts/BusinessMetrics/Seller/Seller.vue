@@ -8,7 +8,12 @@
         </div>
         <div class="payment-success-badge" v-if="!props.loading">
           <p class="badge-label">Total Sales Value</p>
-          <p class="badge-value">{{ formatCurrencyValue(props.sellerData.total_value_sell_success) }}</p>
+          <div v-if="totalSalesByCurrency.length > 0" class="currency-breakdown-list">
+            <p v-for="item in totalSalesByCurrency" :key="item.currency" class="currency-breakdown-item">
+              {{ item.currency }} {{ useCurrencyFormat(item.total_value) }}
+            </p>
+          </div>
+          <p v-else class="badge-value">{{ formatCurrencyValue(props.sellerData.total_value_sell_success) }}</p>
         </div>
       </div>
     </header>
@@ -95,7 +100,18 @@
                   {{ formatValueWithPercentage(row.sell_success_count, row.seller_conversations || row.sell_started_count) }}
                 </td>
                 <td class="table-cell text-center success-value">
-                  {{ formatCurrencyValue(row.daily_value_sell_success) }}
+                  <div
+                    v-if="Array.isArray(row.daily_value_sell_success) && row.daily_value_sell_success.length > 0"
+                    class="currency-cell-list"
+                  >
+                    <span
+                      v-for="item in row.daily_value_sell_success"
+                      :key="`${row.date}-${item.currency}`"
+                    >
+                      {{ item.currency }} {{ useCurrencyFormat(item.total_value) }}
+                    </span>
+                  </div>
+                  <span v-else>{{ formatCurrencyValue(row.daily_value_sell_success) }}</span>
                 </td>
                 <td class="table-cell text-left">
                   <div v-if="row.reasons && row.reasons.length > 0" class="failed-reasons">
@@ -239,6 +255,9 @@ const tableData = computed(() => {
 
 const sellerData = computed(() => props.sellerData)
 const failedData = computed(() => props.failedData)
+const totalSalesByCurrency = computed(() =>
+  Array.isArray(props.sellerData.total_value_sell_success) ? props.sellerData.total_value_sell_success : [],
+)
 
 const sankeyData = computed(() => {
   const {
@@ -527,6 +546,21 @@ defineExpose({ isDark })
   margin: 0;
 }
 
+.currency-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.currency-breakdown-item {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #065f46;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -623,6 +657,12 @@ defineExpose({ isDark })
 .success-value {
   font-weight: 600;
   color: var(--kiut-success);
+}
+
+.currency-cell-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .failed-reasons {
