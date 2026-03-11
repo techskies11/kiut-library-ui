@@ -28,18 +28,30 @@
         <!-- Total Assigned Card -->
         <div class="summary-card assigned-card">
           <div class="card-decoration"></div>
-          <div class="card-content">
-            <p class="card-label">Total Assigned</p>
-            <p class="card-value assigned-value">{{ formatNumber(data.total_assigned) }}</p>
+          <div class="summary-card-content">
+            <div class="card-content">
+              <p class="card-label">Total Assigned</p>
+              <p class="card-value assigned-value">{{ formatNumber(data.total_assigned) }}</p>
+            </div>
+            <div class="card-content">
+              <p class="card-label">AVG time to assign</p>
+              <p class="card-value assigned-value">{{ formatDurationSeconds(data.avg_time_to_assign_seconds) }}</p>
+            </div>
           </div>
         </div>
 
         <!-- Total Closed Card -->
         <div class="summary-card closed-card">
           <div class="card-decoration"></div>
-          <div class="card-content">
-            <p class="card-label">Total Closed</p>
-            <p class="card-value closed-value">{{ formatNumber(data.total_closed) }}</p>
+          <div class="summary-card-content">
+            <div class="card-content">
+              <p class="card-label">Total Closed</p>
+              <p class="card-value closed-value">{{ formatNumber(data.total_closed) }}</p>
+            </div>
+            <div class="card-content">
+              <p class="card-label">AVG time to close</p>
+              <p class="card-value closed-value">{{ formatDurationSeconds(data.avg_conversation_duration_seconds) }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -56,12 +68,14 @@
             <h4 class="date-title">{{ formatDate(date) }}</h4>
             <div class="date-stats">
               <span class="stat-item assigned-stat">
-                <span class="stat-value">{{ formatNumber(getTotalAssignedForDate(agents)) }}</span>
+                <span class="stat-value">{{ formatNumber(getDailyTotalAssigned(agents)) }}</span>
                 Assigned
+                <span class="stat-value">{{ formatDurationSeconds(getDailyAvgTimeToAssign(agents)) }}</span>
               </span>
               <span class="stat-item closed-stat">
-                <span class="stat-value">{{ formatNumber(getTotalClosedForDate(agents)) }}</span>
+                <span class="stat-value">{{ formatNumber(getDailyTotalClosed(agents)) }}</span>
                 Closed
+                <span class="stat-value">{{ formatDurationSeconds(getDailyAvgTimeToClose(agents)) }}</span>
               </span>
             </div>
           </div>
@@ -73,8 +87,8 @@
                 <tr class="table-header-row">
                   <th class="table-header">Agent Name</th>
                   <th class="table-header">Email</th>
-                  <th class="table-header">Assigned</th>
-                  <th class="table-header">Closed</th>
+                  <th class="table-header">Assigned (AVG time to assign)</th>
+                  <th class="table-header">Closed (AVG time to close)</th>
                 </tr>
               </thead>
               <tbody class="table-body">
@@ -86,14 +100,24 @@
                   <td class="table-cell name-cell">{{ agent.agent_name || '-' }}</td>
                   <td class="table-cell email-cell">{{ agent.agent_email }}</td>
                   <td class="table-cell text-center">
-                    <span class="badge assigned-badge">
-                      {{ formatNumber(agent.assigned_count) }}
-                    </span>
+                    <div class="metric-cell-content">
+                      <span class="badge assigned-badge">
+                        {{ formatNumber(agent.assigned_count) }}
+                      </span>
+                      <span class="metric-cell-avg">
+                        {{ formatDurationSeconds(agent.avg_time_to_assign_seconds) }}
+                      </span>
+                    </div>
                   </td>
                   <td class="table-cell text-center">
-                    <span class="badge closed-badge">
-                      {{ formatNumber(agent.closed_count) }}
-                    </span>
+                    <div class="metric-cell-content">
+                      <span class="badge closed-badge">
+                        {{ formatNumber(agent.closed_count) }}
+                      </span>
+                      <span class="metric-cell-avg">
+                        {{ formatDurationSeconds(agent.avg_conversation_duration_seconds) }}
+                      </span>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -137,6 +161,12 @@ interface AgentDayData {
   agent_email: string;
   assigned_count: number;
   closed_count: number;
+  avg_time_to_assign_seconds?: number | null;
+  avg_conversation_duration_seconds?: number | null;
+  day_total_assigned?: number;
+  day_total_closed?: number;
+  day_avg_time_to_assign_seconds?: number | null;
+  day_avg_conversation_duration_seconds?: number | null;
 }
 
 interface AgentHumanConvData {
@@ -145,6 +175,8 @@ interface AgentHumanConvData {
   end_date?: string;
   total_assigned?: number;
   total_closed?: number;
+  avg_time_to_assign_seconds?: number | null;
+  avg_conversation_duration_seconds?: number | null;
   agents_by_day?: AgentDayData[];
 }
 
@@ -158,6 +190,8 @@ const props = withDefaults(defineProps<{
   data: () => ({
     total_assigned: 0,
     total_closed: 0,
+    avg_time_to_assign_seconds: null,
+    avg_conversation_duration_seconds: null,
     agents_by_day: [],
   }),
   loading: false,
@@ -182,7 +216,7 @@ const hasData = computed(() => {
   return props.data?.agents_by_day && props.data.agents_by_day.length > 0;
 });
 
-// Group agents by date (sorted descending)
+// Group agents by date (sorted ascending)
 const groupedByDate = computed(() => {
   if (!hasData.value) return {};
 
@@ -195,9 +229,9 @@ const groupedByDate = computed(() => {
     grouped[agent.date].push(agent);
   }
 
-  // Sort dates descending
+  // Sort dates ascending
   const sortedDates = Object.keys(grouped).sort((a, b) => {
-    return new Date(b).getTime() - new Date(a).getTime();
+    return new Date(a).getTime() - new Date(b).getTime();
   });
 
   const sortedGrouped: Record<string, AgentDayData[]> = {};
@@ -214,6 +248,26 @@ const formatNumber = (value: number | undefined): string => {
   return useNumberFormat(value);
 };
 
+const formatDurationSeconds = (value: number | null | undefined): string => {
+  if (value === undefined || value === null) {
+    return 'AVG';
+  }
+  if (value < 60) {
+    return `${Math.round(value)}s`;
+  }
+
+  const totalSeconds = Math.round(value);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  if (minutes < 60) {
+    return `${minutes}m ${seconds}s`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${hours}h ${remainingMinutes}m`;
+};
+
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
   const options: Intl.DateTimeFormatOptions = { 
@@ -224,12 +278,24 @@ const formatDate = (dateStr: string): string => {
   return date.toLocaleDateString('en-US', options);
 };
 
-const getTotalAssignedForDate = (agents: AgentDayData[]): number => {
-  return agents.reduce((sum, agent) => sum + (agent.assigned_count || 0), 0);
+const getDailyTotalAssigned = (agents: AgentDayData[]): number => {
+  const firstAgent = agents[0];
+  return firstAgent?.day_total_assigned ?? 0;
 };
 
-const getTotalClosedForDate = (agents: AgentDayData[]): number => {
-  return agents.reduce((sum, agent) => sum + (agent.closed_count || 0), 0);
+const getDailyTotalClosed = (agents: AgentDayData[]): number => {
+  const firstAgent = agents[0];
+  return firstAgent?.day_total_closed ?? 0;
+};
+
+const getDailyAvgTimeToAssign = (agents: AgentDayData[]): number | null => {
+  const firstAgent = agents[0];
+  return firstAgent?.day_avg_time_to_assign_seconds ?? null;
+};
+
+const getDailyAvgTimeToClose = (agents: AgentDayData[]): number | null => {
+  const firstAgent = agents[0];
+  return firstAgent?.day_avg_conversation_duration_seconds ?? null;
 };
 
 // Expose isDark for potential use in templates
@@ -309,11 +375,17 @@ defineExpose({ isDark })
 
 .summary-card {
   position: relative;
-  padding: 16px 20px;
+  padding: 0;
   border-radius: 12px;
   border: 1px solid var(--kiut-border-light);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.summary-card-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
 }
 
 .summary-card:hover {
@@ -351,6 +423,46 @@ defineExpose({ isDark })
 .card-content {
   position: relative;
   z-index: 10;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.summary-avg-box {
+  min-width: 168px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 14px;
+  border-left: 1px solid var(--kiut-border-light);
+}
+
+.assigned-avg-box {
+  background: rgba(168, 85, 247, 0.18);
+}
+
+.closed-avg-box {
+  background: rgba(16, 185, 129, 0.16);
+}
+
+.summary-avg-label {
+  margin: 0;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--kiut-text-secondary);
+}
+
+.summary-avg-value {
+  margin: 2px 0 0 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--kiut-text-primary);
 }
 
 .card-label {
@@ -497,6 +609,20 @@ defineExpose({ isDark })
 
 .text-center {
   text-align: center;
+}
+
+.metric-cell-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-cell-avg {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--kiut-text-secondary);
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .badge {
@@ -663,6 +789,17 @@ defineExpose({ isDark })
 
   .summary-cards {
     grid-template-columns: 1fr;
+  }
+
+  .summary-card-content {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-avg-box {
+    border-left: none;
+    border-top: 1px solid var(--kiut-border-light);
+    min-width: 0;
+    width: 100%;
   }
 
   .date-header {
