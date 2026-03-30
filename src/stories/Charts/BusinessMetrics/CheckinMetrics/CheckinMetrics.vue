@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
                         <tbody class="table-body">
-                            <tr v-for="row in tableData" :key="row.date" class="table-row">
+                            <tr v-for="row in visibleTableData" :key="row.date" class="table-row">
                                 <td class="table-cell date-cell">{{ formatDate(row.date) }}</td>
                                 <td class="table-cell text-center">{{ formatNumber(row.checkin_initiated_count) }}</td>
                                 <td class="table-cell text-center">{{ formatValueWithPercentage(row.checkin_init_count, row.checkin_initiated_count) }}</td>
@@ -72,6 +72,19 @@
                         </tbody>
                     </table>
                 </div>
+                <button
+                    v-if="hasMoreRows"
+                    class="view-more-btn"
+                    @click="showAllRows = !showAllRows"
+                >
+                    {{ showAllRows ? 'View less' : `View more (${tableData.length - MAX_VISIBLE_ROWS} more rows)` }}
+                    <svg
+                        :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
                 <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
             </div>
 
@@ -90,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
@@ -274,6 +287,9 @@ const sankeyNodeColors = computed(() => {
     return baseColors;
 });
 
+const MAX_VISIBLE_ROWS = 3
+const showAllRows = ref(false)
+
 // Computed: Datos combinados para la tabla
 const tableData = computed((): TableRow[] => {
     const checkinByDay = props.checkinData?.checkin_by_day || [];
@@ -290,6 +306,13 @@ const tableData = computed((): TableRow[] => {
     // Sort by date ascending
     return combined.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 });
+
+const visibleTableData = computed(() => {
+    if (showAllRows.value) return tableData.value;
+    return tableData.value.slice(0, MAX_VISIBLE_ROWS);
+});
+
+const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS);
 
 // Computed: Datos del Sankey
 const sankeyData = computed(() => {
@@ -710,6 +733,40 @@ defineExpose({ isDark })
 .no-reasons {
     color: var(--kiut-text-muted);
     text-align: center;
+}
+
+/* View More Button */
+.view-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 10px 16px;
+    margin-top: 8px;
+    background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #6366f1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-more-btn:hover {
+    background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
+    color: #4f46e5;
+}
+
+.view-more-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.view-more-icon-rotated {
+    transform: rotate(180deg);
 }
 
 /* Empty State */

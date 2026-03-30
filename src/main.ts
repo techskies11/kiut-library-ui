@@ -23,6 +23,7 @@ import Disruption from './stories/Charts/BusinessMetrics/Disruption/Disruption.v
 import FAQ from './stories/Charts/BusinessMetrics/FAQ/FAQ.vue';
 import MessagesPerAgent from './stories/Charts/BusinessMetrics/MessagesPerAgent/MessagesPerAgent.vue';
 import RecordLocator from './stories/Charts/BusinessMetrics/RecordLocator/RecordLocator.vue';
+import SalesByChannel from './stories/Charts/BusinessMetrics/SalesByChannel/SalesByChannel.vue';
 import Seller from './stories/Charts/BusinessMetrics/Seller/Seller.vue';
 import TopAgents from './stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue';
 import PaymentMethod from './stories/Charts/BusinessMetrics/PaymentMethod/PaymentMethod.vue';
@@ -79,6 +80,7 @@ export {
   FAQ,
   MessagesPerAgent,
   RecordLocator,
+  SalesByChannel,
   Seller,
   TopAgents,
   PaymentMethod,
@@ -129,6 +131,7 @@ export const KiutUIPlugin = {
     app.component('KiutFAQ', FAQ);
     app.component('KiutMessagesPerAgent', MessagesPerAgent);
     app.component('KiutRecordLocator', RecordLocator);
+    app.component('KiutSalesByChannel', SalesByChannel);
     app.component('KiutSeller', Seller);
     app.component('KiutTopAgents', TopAgents);
     app.component('KiutPaymentMethod', PaymentMethod);
