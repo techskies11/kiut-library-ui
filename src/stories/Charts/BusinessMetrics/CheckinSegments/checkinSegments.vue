@@ -39,7 +39,7 @@
               </tr>
             </thead>
             <tbody class="table-body">
-              <tr v-for="(row, idx) in props.data" :key="idx" class="table-row">
+              <tr v-for="(row, idx) in visibleData" :key="idx" class="table-row">
                 <td class="table-cell font-medium text-center">
                   <span class="airport-badge">{{ formatAirport(row.departure_airport) }}</span>
                 </td>
@@ -82,6 +82,19 @@
             </tbody>
           </table>
         </div>
+        <button
+          v-if="hasMoreRows"
+          class="view-more-btn"
+          @click="showAllRows = !showAllRows"
+        >
+          {{ showAllRows ? 'View less' : `View more (${props.data.length - MAX_VISIBLE_ROWS} more rows)` }}
+          <svg
+            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
         <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
@@ -102,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
@@ -141,6 +154,16 @@ const handleExport = (format: ExportFormat) => {
 
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
+
+const MAX_VISIBLE_ROWS = 3
+const showAllRows = ref(false)
+
+const visibleData = computed(() => {
+  if (showAllRows.value) return props.data
+  return props.data.slice(0, MAX_VISIBLE_ROWS)
+})
+
+const hasMoreRows = computed(() => props.data.length > MAX_VISIBLE_ROWS)
 
 const calculatePercentage = (value: number, total: number): string => {
   if (!total || total === 0 || !value) return '0%'
@@ -357,6 +380,40 @@ defineExpose({ isDark })
 .percentage-value.success {
   color: var(--kiut-success);
   font-weight: 600;
+}
+
+/* View More Button */
+.view-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 16px;
+  margin-top: 8px;
+  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #6366f1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-more-btn:hover {
+  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
+  color: #4f46e5;
+}
+
+.view-more-icon {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.view-more-icon-rotated {
+  transform: rotate(180deg);
 }
 
 /* Empty State */
