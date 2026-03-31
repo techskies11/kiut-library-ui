@@ -1,0 +1,4 @@
+@import "tailwindcss";
+
+/* Modo oscuro por clase en <html> (Storybook y apps) */
+@custom-variant dark (&:where(.dark, .dark *));

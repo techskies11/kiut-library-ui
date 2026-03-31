@@ -53,9 +53,27 @@ import MessageRoles from './stories/Charts/CostTokens/MessageRoles/MessageRoles.
 import CostPerConversations from './stories/Charts/CostTokens/CostPerConversations/CostPerConversations.vue';
 
 // ============================================
+// Componentes UI
+// ============================================
+import Tabs from './components/Tabs/Tabs.vue';
+export type { TabItem } from './components/Tabs/Tabs.vue';
+import Table from './components/Table/Table.vue';
+export type { TableColumn, TableColumnAlign } from './components/Table/Table.vue';
+import Filters from './components/Filters/Filters.vue';
+export type {
+  FilterDefinition,
+  FilterDefinitionDateRange,
+  FilterDefinitionSelect,
+  FilterDefinitionText,
+  FilterOption,
+  FiltersModelValue,
+} from './components/Filters/Filters.vue';
+
+// ============================================
 // Estilos
 // ============================================
 import './style.css';
+import './tailwind.css';
 
 // ============================================
 // Exports nombrados para importación directa
@@ -103,6 +121,10 @@ export {
   ModelUsage,
   MessageRoles,
   CostPerConversations,
+  // UI
+  Tabs,
+  Table,
+  Filters,
 };
 
 // ============================================
@@ -153,5 +175,8 @@ export const KiutUIPlugin = {
     app.component('KiutModelUsage', ModelUsage);
     app.component('KiutMessageRoles', MessageRoles);
     app.component('KiutCostPerConversations', CostPerConversations);
+    app.component('Tabs', Tabs);
+    app.component('Table', Table);
+    app.component('Filters', Filters);
   }
 };

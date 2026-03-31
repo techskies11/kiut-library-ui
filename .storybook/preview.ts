@@ -2,6 +2,7 @@ import type { Preview } from '@storybook/vue3';
 
 // Import global styles with CSS variables for theming
 import '../src/style.css';
+import '../src/tailwind.css';
 
 const preview: Preview = {
   parameters: {
