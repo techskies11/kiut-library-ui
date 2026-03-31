@@ -68,7 +68,7 @@
                 </tr>
               </thead>
               <tbody class="table-body">
-                <tr v-for="row in groupedTableData" :key="row.date" class="table-row">
+                <tr v-for="row in visibleGroupedData" :key="row.date" class="table-row">
                   <td class="table-cell font-medium text-center">
                     {{ moment(row.date).format('DD/MM') }}
                   </td>
@@ -90,6 +90,19 @@
               </tbody>
             </table>
           </div>
+          <button
+            v-if="hasMoreRows"
+            class="view-more-btn"
+            @click="showAllRows = !showAllRows"
+          >
+            {{ showAllRows ? 'View less' : `View more (${groupedTableData.length - MAX_VISIBLE_ROWS} more rows)` }}
+            <svg
+              :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
           <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
         </section>
       </template>
@@ -111,7 +124,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import moment from 'moment'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
@@ -197,6 +210,16 @@ const groupedTableData = computed(() => {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 })
 
+const MAX_VISIBLE_ROWS = 3
+const showAllRows = ref(false)
+
+const visibleGroupedData = computed(() => {
+  if (showAllRows.value) return groupedTableData.value
+  return groupedTableData.value.slice(0, MAX_VISIBLE_ROWS)
+})
+
+const hasMoreRows = computed(() => groupedTableData.value.length > MAX_VISIBLE_ROWS)
+
 defineExpose({ isDark })
 </script>
 
@@ -264,6 +287,31 @@ defineExpose({ isDark })
 .table-row:hover { background: var(--kiut-bg-stats-badge, #fafafa); }
 .table-row:last-child { border-bottom: none; }
 .table-cell { padding: 12px 10px; font-size: 0.8125rem; color: var(--kiut-text-primary, #1e293b); }
+
+/* View More Button */
+.view-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 16px;
+  margin-top: 8px;
+  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #6366f1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.view-more-btn:hover {
+  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
+  color: #4f46e5;
+}
+.view-more-icon { width: 16px; height: 16px; transition: transform 0.3s ease; }
+.view-more-icon-rotated { transform: rotate(180deg); }
 
 /* Empty State */
 .empty-state { display: flex; align-items: center; justify-content: center; min-height: 280px; }
