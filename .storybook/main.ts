@@ -25,6 +25,11 @@ const config: StorybookConfig = {
       config.base = '/kiut-library-ui/';
     }
     config.plugins = [tailwindcss(), ...(config.plugins ?? [])];
+    // Evita fallos intermitentes "Failed to fetch dynamically imported module" con deps CJS
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      include: [...(config.optimizeDeps?.include ?? []), '@heroicons/vue'],
+    };
     return config;
   },
 };

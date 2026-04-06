@@ -70,6 +70,26 @@ export type {
   FiltersModelValue,
 } from './components/Filters/Filters.vue';
 
+import InputText from './components/Inputs/InputText.vue';
+import InputNumber from './components/Inputs/InputNumber.vue';
+import Select from './components/Inputs/Select.vue';
+export type { KiutSelectOption, KiutSelectValue } from './components/Inputs/Select.vue';
+import Toggle from './components/Inputs/Toggle.vue';
+import InputPhone from './components/Inputs/InputPhone.vue';
+export type { KiutPhoneValue } from './components/Inputs/InputPhone.vue';
+import SelectablePills from './components/Inputs/SelectablePills.vue';
+export type { KiutPillItem } from './components/Inputs/SelectablePills.vue';
+import SegmentedControl from './components/Inputs/SegmentedControl.vue';
+export type { SegmentedItem } from './components/Inputs/SegmentedControl.vue';
+import DateRangePicker from './components/Inputs/DateRangePicker.vue';
+export type { KiutDateRange } from './components/Inputs/DateRangePicker.vue';
+import Tag from './components/Tag/Tag.vue';
+export type { KiutTagColor } from './components/Tag/Tag.vue';
+import Button from './components/Button/Button.vue';
+export type { KiutButtonVariant, KiutButtonActionTone } from './components/Button/Button.vue';
+import Modal from './components/Modal/Modal.vue';
+import Section from './components/Section/Section.vue';
+
 // ============================================
 // Estilos
 // ============================================
@@ -127,6 +147,18 @@ export {
   Tabs,
   Table,
   Filters,
+  InputText,
+  InputNumber,
+  Select,
+  Toggle,
+  InputPhone,
+  SelectablePills,
+  SegmentedControl,
+  DateRangePicker,
+  Tag,
+  Button,
+  Modal,
+  Section,
 };
 
 // ============================================
@@ -181,5 +213,17 @@ export const KiutUIPlugin = {
     app.component('Tabs', Tabs);
     app.component('Table', Table);
     app.component('Filters', Filters);
+    app.component('InputText', InputText);
+    app.component('InputNumber', InputNumber);
+    app.component('Select', Select);
+    app.component('Toggle', Toggle);
+    app.component('InputPhone', InputPhone);
+    app.component('SelectablePills', SelectablePills);
+    app.component('SegmentedControl', SegmentedControl);
+    app.component('DateRangePicker', DateRangePicker);
+    app.component('Tag', Tag);
+    app.component('Button', Button);
+    app.component('Modal', Modal);
+    app.component('Section', Section);
   }
 };
