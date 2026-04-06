@@ -11,7 +11,7 @@
             <th
               v-if="selectable"
               scope="col"
-              class="w-12 px-3 py-3.5 text-center align-middle"
+              class="w-12 px-2 py-1.5 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -27,7 +27,7 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-3 py-3.5 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                'px-2 py-1.5 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 alignClass(col.align),
                 col.headerClass ?? '',
               ]"
@@ -44,7 +44,7 @@
           >
             <td
               v-if="selectable"
-              class="w-12 px-3 py-3.5 text-center align-middle"
+              class="w-12 px-2 py-1.5 text-center align-middle"
             >
               <input
                 type="checkbox"
@@ -58,7 +58,7 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'px-3 py-3.5 align-middle text-[color:var(--kiut-text-secondary)]',
+                'px-2 py-1.5 align-middle text-[color:var(--kiut-text-secondary)]',
                 alignClass(col.align),
                 col.cellClass ?? '',
               ]"
