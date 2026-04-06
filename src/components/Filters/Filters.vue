@@ -187,6 +187,7 @@ import {
   useSlots,
   watch,
 } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 
 defineOptions({ name: 'Filters' });
 
@@ -245,7 +246,7 @@ const emit = defineEmits<{
 
 const slots = useSlots();
 
-const uid = `kiut-filters-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-filters-${randomInstanceSuffix()}`;
 const panelId = `${uid}-panel`;
 
 const panelRef = ref<HTMLElement | null>(null);

@@ -25,6 +25,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 
 defineOptions({ name: 'SegmentedControl' });
 
@@ -49,7 +50,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
-const uid = `kiut-seg-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-seg-${randomInstanceSuffix()}`;
 const segmentId = (value: string) => `${uid}-seg-${value}`;
 const segmentRefs = ref<(HTMLButtonElement | null)[]>([]);
 

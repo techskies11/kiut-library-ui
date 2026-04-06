@@ -1,6 +1,6 @@
 <template>
   <section
-    class="font-sans"
+    class="text-left font-['Inter',system-ui,sans-serif]"
     :aria-labelledby="titleId"
   >
     <header
@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { computed, useSlots, type Component } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 
 defineOptions({ name: 'Section' });
 
@@ -64,7 +65,7 @@ const props = defineProps<{
 }>();
 
 const slots = useSlots();
-const uid = `kiut-section-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-section-${randomInstanceSuffix()}`;
 const titleId = `${uid}-title`;
 
 const hasIcon = computed(() => Boolean(slots.icon || props.icon));

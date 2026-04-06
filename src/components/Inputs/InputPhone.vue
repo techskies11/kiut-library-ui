@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 import Select from './Select.vue';
 import type { KiutSelectOption, KiutSelectValue } from './Select.vue';
 import {
@@ -73,7 +74,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: KiutPhoneValue];
 }>();
 
-const uid = `kiut-phone-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-phone-${randomInstanceSuffix()}`;
 const numberId = computed(() => props.id ?? `${uid}-num`);
 const errorId = computed(() => `${numberId.value}-err`);
 

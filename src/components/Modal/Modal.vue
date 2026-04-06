@@ -70,6 +70,7 @@
 <script setup lang="ts">
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 import Button from '../Button/Button.vue';
 
 defineOptions({ name: 'Modal' });
@@ -95,7 +96,7 @@ const emit = defineEmits<{
   confirm: [];
 }>();
 
-const uid = `kiut-modal-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-modal-${randomInstanceSuffix()}`;
 const titleId = `${uid}-title`;
 const panelRef = ref<HTMLElement | null>(null);
 

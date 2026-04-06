@@ -28,6 +28,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 import {
   kiutFieldErrorTextClass,
   kiutInputControlClass,
@@ -61,7 +62,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: number | null];
 }>();
 
-const uid = `kiut-input-number-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-input-number-${randomInstanceSuffix()}`;
 const inputId = computed(() => props.id ?? uid);
 const errorId = computed(() => `${inputId.value}-err`);
 

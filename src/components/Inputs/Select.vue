@@ -66,6 +66,7 @@
 import { ChevronDownIcon } from '@heroicons/vue/24/outline';
 import { CheckIcon } from '@heroicons/vue/24/solid';
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 import { kiutInputControlClass, kiutLabelClass } from './inputFieldStyles';
 
 defineOptions({ name: 'Select' });
@@ -97,7 +98,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: KiutSelectValue];
 }>();
 
-const uid = `kiut-select-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-select-${randomInstanceSuffix()}`;
 const labelId = `${uid}-label`;
 const buttonId = `${uid}-btn`;
 const listboxId = `${uid}-listbox`;

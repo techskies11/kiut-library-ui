@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref, type Component } from 'vue';
+import { randomInstanceSuffix } from '../../utils/randomId';
 
 defineOptions({ name: 'Tabs' });
 
@@ -69,7 +70,7 @@ const emit = defineEmits<{
 
 const tabRefs = ref<HTMLButtonElement[]>([]);
 
-const uid = `tabs-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `tabs-${randomInstanceSuffix()}`;
 const tabId = (value: string) => `${uid}-tab-${value}`;
 
 const enabledIndices = computed(() =>

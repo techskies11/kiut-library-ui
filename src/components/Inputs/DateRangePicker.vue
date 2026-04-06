@@ -106,6 +106,7 @@ import {
   startOfMonth,
   toISODate,
 } from './dateRangeUtils';
+import { randomInstanceSuffix } from '../../utils/randomId';
 import { kiutInputControlClass, kiutLabelClass } from './inputFieldStyles';
 
 defineOptions({ name: 'DateRangePicker' });
@@ -133,7 +134,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: KiutDateRange];
 }>();
 
-const uid = `kiut-drp-${Math.random().toString(36).slice(2, 9)}`;
+const uid = `kiut-drp-${randomInstanceSuffix()}`;
 const labelId = `${uid}-lbl`;
 
 const rootRef = ref<HTMLElement | null>(null);
