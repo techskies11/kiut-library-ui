@@ -17330,13 +17330,13 @@ const Mw = { class: "tabs text-sm" }, Sw = ["aria-label"], Cw = ["id", "aria-sel
       })) : O("", !0)
     ]));
   }
-}), Bw = /* @__PURE__ */ nt(Tw, [["__scopeId", "data-v-2a5561d3"]]), Lw = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-white/[0.06]" }, Fw = { class: "overflow-x-auto" }, Pw = { class: "kiut-table w-full min-w-[640px] border-collapse text-left text-sm" }, Ew = { class: "border-b border-[color:var(--kiut-border-table)] bg-slate-50 dark:bg-[#252528]" }, Rw = {
+}), Bw = /* @__PURE__ */ nt(Tw, [["__scopeId", "data-v-2a5561d3"]]), Lw = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-white/[0.06]" }, Fw = { class: "overflow-x-auto" }, Pw = { class: "kiut-table w-full min-w-[640px] border-collapse text-left text-sm" }, Ew = { class: "h-12 border-b border-[color:var(--kiut-border-table)] bg-slate-50 dark:bg-[#252528]" }, Rw = {
   key: 0,
   scope: "col",
-  class: "w-12 px-2 py-1.5 text-center align-middle"
+  class: "w-12 px-4 py-3 text-center align-middle"
 }, Ow = ["checked", "aria-label"], Iw = {
   key: 0,
-  class: "w-12 px-2 py-1.5 text-center align-middle"
+  class: "w-12 px-4 py-3 text-center align-middle"
 }, zw = ["checked", "aria-label", "onChange"], Vw = /* @__PURE__ */ J({
   name: "Table",
   __name: "Table",
@@ -17434,7 +17434,7 @@ const Mw = { class: "tabs text-sm" }, Sw = ["aria-label"], Cw = ["id", "aria-sel
                 key: k.key,
                 scope: "col",
                 class: at([
-                  "px-2 py-1.5 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]",
+                  "px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]",
                   i(k.align),
                   k.headerClass ?? ""
                 ])
@@ -17444,7 +17444,7 @@ const Mw = { class: "tabs text-sm" }, Sw = ["aria-label"], Cw = ["id", "aria-sel
           c("tbody", null, [
             (y(!0), x(q, null, Z(e.rows, (k, w) => (y(), x("tr", {
               key: u(k, w),
-              class: "border-b border-[color:var(--kiut-border-table-row)] bg-[color:var(--kiut-bg-table)] transition-colors hover:[background:var(--kiut-bg-table-hover)]"
+              class: "h-14 border-b border-[color:var(--kiut-border-table-row)] bg-[color:var(--kiut-bg-table)] transition-colors hover:[background:var(--kiut-bg-table-hover)]"
             }, [
               e.selectable ? (y(), x("td", Iw, [
                 c("input", {
@@ -17458,7 +17458,7 @@ const Mw = { class: "tabs text-sm" }, Sw = ["aria-label"], Cw = ["id", "aria-sel
               (y(!0), x(q, null, Z(e.columns, (S) => (y(), x("td", {
                 key: S.key,
                 class: at([
-                  "px-2 py-1.5 align-middle text-[color:var(--kiut-text-secondary)]",
+                  "px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]",
                   i(S.align),
                   S.cellClass ?? ""
                 ])
@@ -17477,7 +17477,7 @@ const Mw = { class: "tabs text-sm" }, Sw = ["aria-label"], Cw = ["id", "aria-sel
       ])
     ]));
   }
-}), Nw = /* @__PURE__ */ nt(Vw, [["__scopeId", "data-v-b3330b15"]]);
+}), Nw = /* @__PURE__ */ nt(Vw, [["__scopeId", "data-v-5f9248cd"]]);
 function Ww(e, t) {
   return y(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -17506,7 +17506,7 @@ const jw = ["aria-label"], Yw = { class: "flex flex-wrap items-center gap-x-2 ga
 }, t$ = ["for"], e$ = ["id", "placeholder", "onKeydown"], s$ = ["for"], a$ = ["id"], n$ = {
   value: "",
   disabled: ""
-}, o$ = ["value"], i$ = { class: "text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, r$ = { class: "flex flex-wrap items-end gap-2" }, l$ = { class: "min-w-[120px] flex-1" }, c$ = ["for"], d$ = ["id"], u$ = { class: "min-w-[120px] flex-1" }, h$ = ["for"], f$ = ["id"], g$ = /* @__PURE__ */ J({
+}, o$ = ["value"], i$ = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, r$ = { class: "flex flex-wrap items-end gap-2" }, l$ = { class: "min-w-[120px] flex-1" }, c$ = ["for"], d$ = ["id"], u$ = { class: "min-w-[120px] flex-1" }, h$ = ["for"], f$ = ["id"], g$ = /* @__PURE__ */ J({
   name: "Filters",
   __name: "Filters",
   props: {
@@ -17698,7 +17698,7 @@ const jw = ["aria-label"], Yw = { class: "flex flex-wrap items-center gap-x-2 ga
       },
       { deep: !0 }
     ), (L, U) => (y(), x("div", {
-      class: "kiut-filters font-sans text-xs",
+      class: "kiut-filters font-[Inter] text-sm",
       role: "region",
       "aria-label": e.regionAriaLabel
     }, [
@@ -17787,13 +17787,13 @@ const jw = ["aria-label"], Yw = { class: "flex flex-wrap items-center gap-x-2 ga
               g.value.type === "text" ? (y(), x(q, { key: 0 }, [
                 c("label", {
                   for: `${i}-text`,
-                  class: "block text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+                  class: "block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 }, M(g.value.label), 9, t$),
                 Xt(c("input", {
                   id: `${i}-text`,
                   "onUpdate:modelValue": U[0] || (U[0] = (G) => v.value = G),
                   type: "text",
-                  class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500",
+                  class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500",
                   placeholder: g.value.placeholder ?? "…",
                   onKeydown: Cs(ue(V, ["prevent"]), ["enter"])
                 }, null, 40, e$), [
@@ -17802,12 +17802,12 @@ const jw = ["aria-label"], Yw = { class: "flex flex-wrap items-center gap-x-2 ga
               ], 64)) : g.value.type === "select" ? (y(), x(q, { key: 1 }, [
                 c("label", {
                   for: `${i}-select`,
-                  class: "block text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+                  class: "block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 }, M(g.value.label), 9, s$),
                 Xt(c("select", {
                   id: `${i}-select`,
                   "onUpdate:modelValue": U[1] || (U[1] = (G) => p.value = G),
-                  class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                  class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
                 }, [
                   c("option", n$, M(g.value.placeholder ?? "Seleccionar…"), 1),
                   (y(!0), x(q, null, Z(g.value.options, (G) => (y(), x("option", {
@@ -17823,13 +17823,13 @@ const jw = ["aria-label"], Yw = { class: "flex flex-wrap items-center gap-x-2 ga
                   c("div", l$, [
                     c("label", {
                       for: `${i}-start`,
-                      class: "mb-0.5 block text-[10px] leading-tight text-[color:var(--kiut-text-muted)]"
+                      class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     }, " Desde ", 8, c$),
                     Xt(c("input", {
                       id: `${i}-start`,
                       "onUpdate:modelValue": U[2] || (U[2] = (G) => _.value = G),
                       type: "date",
-                      class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                      class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
                     }, null, 8, d$), [
                       [Ue, _.value]
                     ])
@@ -17837,13 +17837,13 @@ const jw = ["aria-label"], Yw = { class: "flex flex-wrap items-center gap-x-2 ga
                   c("div", u$, [
                     c("label", {
                       for: `${i}-end`,
-                      class: "mb-0.5 block text-[10px] leading-tight text-[color:var(--kiut-text-muted)]"
+                      class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     }, " Hasta ", 8, h$),
                     Xt(c("input", {
                       id: `${i}-end`,
                       "onUpdate:modelValue": U[3] || (U[3] = (G) => m.value = G),
                       type: "date",
-                      class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                      class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
                     }, null, 8, f$), [
                       [Ue, m.value]
                     ])
@@ -18917,11 +18917,11 @@ const aM = ["aria-expanded", "aria-labelledby", "aria-label"], nM = ["onKeydown"
       })
     ]));
   }
-}), AM = /* @__PURE__ */ nt(DM, [["__scopeId", "data-v-afa16f89"]]), TM = { class: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" }, BM = { class: "flex min-w-0 flex-1 gap-3 sm:items-start" }, LM = {
+}), AM = /* @__PURE__ */ nt(DM, [["__scopeId", "data-v-afa16f89"]]), TM = { class: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" }, BM = { class: "flex min-w-0 flex-1 flex-col gap-1.5" }, LM = { class: "flex min-w-0 items-center gap-2.5" }, FM = {
   key: 0,
-  class: "mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] text-[color:var(--kiut-primary)] shadow-[0_1px_2px_rgba(0,0,0,0.04)] dark:border-white/[0.08] dark:bg-[color:var(--kiut-bg-card)] dark:shadow-black/20 [&>svg]:h-5 [&>svg]:w-5",
+  class: "inline-flex shrink-0 items-center text-[color:var(--kiut-text-primary)] dark:text-slate-100 [&>svg]:h-5 [&>svg]:w-5",
   "aria-hidden": "true"
-}, FM = { class: "min-w-0 space-y-1" }, PM = {
+}, PM = {
   key: 0,
   class: "text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
 }, EM = {
@@ -18941,23 +18941,23 @@ const aM = ["aria-expanded", "aria-labelledby", "aria-label"], nM = ["onKeydown"
   setup(e) {
     const t = e, s = To(), n = `${`kiut-section-${Zt()}`}-title`, o = D(() => !!(s.icon || t.icon));
     return (i, r) => (y(), x("section", {
-      class: "text-left font-['Inter',system-ui,sans-serif]",
+      class: "mb-6 text-left font-['Inter',system-ui,sans-serif]",
       "aria-labelledby": n
     }, [
       c("header", TM, [
         c("div", BM, [
-          o.value ? (y(), x("div", LM, [
-            zt(i.$slots, "icon", {}, () => [
-              e.icon ? (y(), ct(Ma(e.icon), { key: 0 })) : O("", !0)
-            ])
-          ])) : O("", !0),
-          c("div", FM, [
+          c("div", LM, [
+            o.value ? (y(), x("span", FM, [
+              zt(i.$slots, "icon", {}, () => [
+                e.icon ? (y(), ct(Ma(e.icon), { key: 0 })) : O("", !0)
+              ])
+            ])) : O("", !0),
             c("h2", {
               id: n,
-              class: "text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
-            }, M(e.title), 1),
-            e.subtitle ? (y(), x("p", PM, M(e.subtitle), 1)) : O("", !0)
-          ])
+              class: "min-w-0 text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
+            }, M(e.title), 1)
+          ]),
+          e.subtitle ? (y(), x("p", PM, M(e.subtitle), 1)) : O("", !0)
         ]),
         i.$slots.actions ? (y(), x("div", EM, [
           zt(i.$slots, "actions")
