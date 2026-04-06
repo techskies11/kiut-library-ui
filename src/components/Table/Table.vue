@@ -6,12 +6,12 @@
       <table class="kiut-table w-full min-w-[640px] border-collapse text-left text-sm">
         <thead>
           <tr
-            class="border-b border-[color:var(--kiut-border-table)] bg-slate-50 dark:bg-[#252528]"
+            class="h-12 border-b border-[color:var(--kiut-border-table)] bg-slate-50 dark:bg-[#252528]"
           >
             <th
               v-if="selectable"
               scope="col"
-              class="w-12 px-2 py-1.5 text-center align-middle"
+              class="w-12 px-4 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -27,7 +27,7 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-2 py-1.5 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 alignClass(col.align),
                 col.headerClass ?? '',
               ]"
@@ -40,11 +40,11 @@
           <tr
             v-for="(row, rowIndex) in rows"
             :key="rowKeyAt(row, rowIndex)"
-            class="border-b border-[color:var(--kiut-border-table-row)] bg-[color:var(--kiut-bg-table)] transition-colors hover:[background:var(--kiut-bg-table-hover)]"
+            class="h-14 border-b border-[color:var(--kiut-border-table-row)] bg-[color:var(--kiut-bg-table)] transition-colors hover:[background:var(--kiut-bg-table-hover)]"
           >
             <td
               v-if="selectable"
-              class="w-12 px-2 py-1.5 text-center align-middle"
+              class="w-12 px-4 py-3 text-center align-middle"
             >
               <input
                 type="checkbox"
@@ -58,7 +58,7 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'px-2 py-1.5 align-middle text-[color:var(--kiut-text-secondary)]',
+                'px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
                 alignClass(col.align),
                 col.cellClass ?? '',
               ]"

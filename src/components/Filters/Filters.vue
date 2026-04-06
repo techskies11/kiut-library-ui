@@ -1,6 +1,6 @@
 <template>
   <div
-    class="kiut-filters font-sans text-xs"
+    class="kiut-filters font-[Inter] text-sm"
     role="region"
     :aria-label="regionAriaLabel"
   >
@@ -95,32 +95,32 @@
               <template v-if="openDefinition.type === 'text'">
                 <label
                   :for="`${panelId}-text`"
-                  class="block text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+                  class="block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 >
                   {{ openDefinition.label }}
                 </label>
-                <input
-                  :id="`${panelId}-text`"
-                  v-model="draftText"
-                  type="text"
-                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500"
-                  :placeholder="openDefinition.placeholder ?? '…'"
-                  @keydown.enter.prevent="applyDraft"
-                />
+                  <input
+                    :id="`${panelId}-text`"
+                    v-model="draftText"
+                    type="text"
+                    class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500"
+                    :placeholder="openDefinition.placeholder ?? '…'"
+                    @keydown.enter.prevent="applyDraft"
+                  />
               </template>
 
               <template v-else-if="openDefinition.type === 'select'">
                 <label
                   :for="`${panelId}-select`"
-                  class="block text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+                  class="block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 >
                   {{ openDefinition.label }}
                 </label>
-                <select
-                  :id="`${panelId}-select`"
-                  v-model="draftSelect"
-                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
-                >
+                  <select
+                    :id="`${panelId}-select`"
+                    v-model="draftSelect"
+                    class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                  >
                   <option value="" disabled>{{ openDefinition.placeholder ?? 'Seleccionar…' }}</option>
                   <option
                     v-for="opt in openDefinition.options"
@@ -133,14 +133,14 @@
               </template>
 
               <template v-else-if="openDefinition.type === 'dateRange'">
-                <p class="text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400">
+                <p class="text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400">
                   {{ openDefinition.label }}
                 </p>
                 <div class="flex flex-wrap items-end gap-2">
                   <div class="min-w-[120px] flex-1">
                     <label
                       :for="`${panelId}-start`"
-                      class="mb-0.5 block text-[10px] leading-tight text-[color:var(--kiut-text-muted)]"
+                      class="mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     >
                       Desde
                     </label>
@@ -148,13 +148,13 @@
                       :id="`${panelId}-start`"
                       v-model="draftRangeStart"
                       type="date"
-                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
                   <div class="min-w-[120px] flex-1">
                     <label
                       :for="`${panelId}-end`"
-                      class="mb-0.5 block text-[10px] leading-tight text-[color:var(--kiut-text-muted)]"
+                      class="mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     >
                       Hasta
                     </label>
@@ -162,7 +162,7 @@
                       :id="`${panelId}-end`"
                       v-model="draftRangeEnd"
                       type="date"
-                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
                 </div>
