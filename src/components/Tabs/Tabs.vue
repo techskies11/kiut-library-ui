@@ -3,7 +3,10 @@
     <div
       role="tablist"
       :aria-label="ariaLabel"
-      class="flex flex-wrap gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:border-white/[0.06] dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none"
+      :class="[
+        'flex-wrap gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:border-white/[0.06] dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none',
+        fullWidth ? 'flex w-full' : 'inline-flex w-fit max-w-full',
+      ]"
     >
       <button
         v-for="(item, index) in items"
@@ -19,7 +22,10 @@
         @click="onTabClick(item, $event)"
         @keydown="onKeydown($event, index)"
       >
-        <span class="flex min-h-9 min-w-0 flex-1 items-center justify-center gap-2 px-3 py-1.5">
+        <span
+          class="flex min-h-9 min-w-0 items-center justify-center gap-2 px-3 py-1.5"
+          :class="{ 'min-w-0 flex-1': fullWidth }"
+        >
           <component
             :is="item.icon"
             v-if="item.icon"
@@ -56,9 +62,12 @@ const props = withDefaults(
     items: TabItem[];
     modelValue: string;
     ariaLabel?: string;
+    /** Si es true, la barra y cada pestaña reparten el ancho completo del contenedor (comportamiento tipo segmented control). */
+    fullWidth?: boolean;
   }>(),
   {
     ariaLabel: 'Tabs',
+    fullWidth: false,
   }
 );
 
@@ -83,8 +92,11 @@ function isActive(item: TabItem): boolean {
 
 function tabButtonClass(item: TabItem): string {
   const active = isActive(item);
-  const base =
-    'relative flex min-w-0 flex-1 cursor-pointer rounded-lg border border-transparent text-center outline-none transition-[background-color,color,box-shadow,opacity,transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100';
+  const width =
+    props.fullWidth
+      ? 'relative flex min-w-0 flex-1'
+      : 'relative inline-flex max-w-full shrink-0';
+  const base = `${width} cursor-pointer rounded-lg border border-transparent text-center outline-none transition-[background-color,color,box-shadow,opacity,transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100`;
   if (item.disabled) {
     return `${base} cursor-not-allowed opacity-40`;
   }

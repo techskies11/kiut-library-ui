@@ -44,7 +44,7 @@
 
     <div
       v-if="$slots.default"
-      class="mt-8"
+      class="mt-6"
     >
       <slot />
     </div>

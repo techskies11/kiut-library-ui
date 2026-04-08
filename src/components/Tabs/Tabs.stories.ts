@@ -27,6 +27,11 @@ const meta: Meta<typeof Tabs> = {
     modelValue: { control: 'text', description: 'Valor de la pestaña activa (v-model)' },
     ariaLabel: { control: 'text' },
     items: { control: 'object' },
+    fullWidth: {
+      control: 'boolean',
+      description:
+        'Si es true, la barra ocupa todo el ancho y las pestañas se reparten (segmented control a ancho completo). Por defecto la barra solo es tan ancha como el contenido.',
+    },
   },
 };
 
@@ -60,6 +65,31 @@ export const Default: Story = {
                 },
                 `Contenido asociado al valor activo: ${model.value}`
               ),
+          }),
+        ]);
+    },
+  }),
+};
+
+export const FullWidth: Story = {
+  args: {
+    modelValue: 'a',
+    items: baseItems,
+    fullWidth: true,
+    ariaLabel: 'Pestañas repartidas en todo el ancho',
+  },
+  render: (args) => ({
+    components: { Tabs },
+    setup() {
+      const model = ref(args.modelValue);
+      return () =>
+        h('div', { class: 'w-full max-w-2xl' }, [
+          h(Tabs, {
+            ...args,
+            modelValue: model.value,
+            'onUpdate:modelValue': (v: string) => {
+              model.value = v;
+            },
           }),
         ]);
     },
