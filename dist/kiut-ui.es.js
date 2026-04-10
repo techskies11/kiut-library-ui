@@ -8045,7 +8045,7 @@ function Ta(e, t, a) {
   const d = i - o;
   return d ? r + (l - r) * (t - o) / d : r;
 }
-class o3 extends xo {
+class n3 extends xo {
   static id = "timeseries";
   static defaults = xo.defaults;
   constructor(t) {
@@ -19494,10 +19494,10 @@ const pM = ["aria-expanded", "aria-labelledby", "aria-label"], vM = ["onKeydown"
   key: 0,
   class: "fixed inset-0 z-[200] flex items-center justify-center p-4 [font-family:'Inter',sans-serif]",
   "aria-hidden": "false"
-}, EM = { class: "flex shrink-0 items-start justify-between gap-4 border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.02]" }, RM = { class: "min-w-0 flex-1 space-y-1" }, IM = {
+}, EM = { class: "min-w-0 flex-1 space-y-1" }, RM = {
   key: 0,
   class: "text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-}, OM = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, zM = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, VM = /* @__PURE__ */ Q({
+}, IM = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, OM = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, zM = /* @__PURE__ */ Q({
   name: "Modal",
   __name: "Modal",
   props: {
@@ -19550,13 +19550,15 @@ const pM = ["aria-expanded", "aria-labelledby", "aria-label"], vM = ["onKeydown"
               onClick: h[0] || (h[0] = Qt(() => {
               }, ["stop"]))
             }, [
-              c("header", EM, [
-                c("div", RM, [
+              c("header", {
+                class: U(["flex shrink-0 justify-between gap-4 border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.02]", e.subtitle ? "items-start" : "items-center"])
+              }, [
+                c("div", EM, [
                   c("h2", {
                     id: o,
                     class: "text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
                   }, M(e.title), 1),
-                  e.subtitle ? (y(), _("p", IM, M(e.subtitle), 1)) : I("", !0)
+                  e.subtitle ? (y(), _("p", RM, M(e.subtitle), 1)) : I("", !0)
                 ]),
                 Z(Fa, {
                   variant: "action",
@@ -19569,11 +19571,11 @@ const pM = ["aria-expanded", "aria-labelledby", "aria-label"], vM = ["onKeydown"
                   ]),
                   _: 1
                 })
-              ]),
-              c("div", OM, [
+              ], 2),
+              c("div", IM, [
                 Nt(u.$slots, "default", {}, void 0, !0)
               ]),
-              c("footer", zM, [
+              c("footer", OM, [
                 Z(Fa, {
                   variant: "secondary",
                   type: "button",
@@ -19602,20 +19604,20 @@ const pM = ["aria-expanded", "aria-labelledby", "aria-label"], vM = ["onKeydown"
       })
     ]));
   }
-}), NM = /* @__PURE__ */ st(VM, [["__scopeId", "data-v-07e9b094"]]), WM = { class: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" }, HM = { class: "flex min-w-0 flex-1 flex-col gap-1.5" }, jM = { class: "flex min-w-0 items-center gap-2.5" }, YM = {
+}), VM = /* @__PURE__ */ st(zM, [["__scopeId", "data-v-4ed7bb14"]]), NM = { class: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" }, WM = { class: "flex min-w-0 flex-1 flex-col gap-1.5" }, HM = { class: "flex min-w-0 items-center gap-2.5" }, jM = {
   key: 0,
   class: "inline-flex shrink-0 items-center text-[color:var(--kiut-text-primary)] dark:text-slate-100 [&>svg]:size-6",
   "aria-hidden": "true"
-}, KM = {
+}, YM = {
   key: 0,
   class: "text-base leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-}, qM = {
+}, KM = {
   key: 0,
   class: "flex shrink-0 flex-wrap items-center justify-end gap-2 sm:pt-0.5"
-}, UM = {
+}, qM = {
   key: 0,
   class: "mt-6"
-}, XM = /* @__PURE__ */ Q({
+}, UM = /* @__PURE__ */ Q({
   name: "Section",
   __name: "Section",
   props: {
@@ -19629,10 +19631,10 @@ const pM = ["aria-expanded", "aria-labelledby", "aria-label"], vM = ["onKeydown"
       class: "mb-6 text-left font-['Inter',system-ui,sans-serif]",
       "aria-labelledby": n
     }, [
-      c("header", WM, [
-        c("div", HM, [
-          c("div", jM, [
-            o.value ? (y(), _("span", YM, [
+      c("header", NM, [
+        c("div", WM, [
+          c("div", HM, [
+            o.value ? (y(), _("span", jM, [
               Nt(i.$slots, "icon", {}, () => [
                 e.icon ? (y(), ht(Ls(e.icon), { key: 0 })) : I("", !0)
               ])
@@ -19642,20 +19644,20 @@ const pM = ["aria-expanded", "aria-labelledby", "aria-label"], vM = ["onKeydown"
               class: "min-w-0 text-3xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
             }, M(e.title), 1)
           ]),
-          e.subtitle ? (y(), _("p", KM, M(e.subtitle), 1)) : I("", !0)
+          e.subtitle ? (y(), _("p", YM, M(e.subtitle), 1)) : I("", !0)
         ]),
-        i.$slots.actions ? (y(), _("div", qM, [
+        i.$slots.actions ? (y(), _("div", KM, [
           Nt(i.$slots, "actions")
         ])) : I("", !0)
       ]),
-      i.$slots.default ? (y(), _("div", UM, [
+      i.$slots.default ? (y(), _("div", qM, [
         Nt(i.$slots, "default")
       ])) : I("", !0)
     ]));
   }
-}), i3 = {
+}), o3 = {
   install(e) {
-    e.component("KiutChartBar", oe), e.component("KiutChartLine", be), e.component("KiutPieChart", Ga), e.component("KiutBoxplotChart", Uh), e.component("KiutCandlestickChart", Ei), e.component("KiutHistogramChart", Ri), e.component("KiutSankeyChart", me), e.component("KiutAgentsPerDay", op), e.component("KiutBookingManager", Hp), e.component("KiutCheckin", f0), e.component("KiutCheckinMetrics", O0), e.component("KiutCheckinSegments", uv), e.component("KiutDisruption", Uv), e.component("KiutFAQ", hb), e.component("KiutMessagesPerAgent", xb), e.component("KiutRecordLocator", Kb), e.component("KiutSalesByChannel", dm), e.component("KiutSeller", Nm), e.component("KiutTopAgents", Gm), e.component("KiutPaymentMethod", L1), e.component("KiutAgentHumanConversations", _y), e.component("KiutChannelMetrics", Ly), e.component("KiutTriageCombinations", Zy), e.component("KiutSelectLanguage", l_), e.component("KiutGuardrails", R_), e.component("KiutDisruptionNotifier", F2), e.component("KiutTotalConversationsCard", z2), e.component("KiutCsatP95Card", Y2), e.component("KiutAiGeneratedRevenueCard", Z2), e.component("KiutNpsDailyMetrics", Vi), e.component("KiutNpsMetrics", Vx), e.component("KiutNpsOverviewMetrics", Ni), e.component("KiutAWSCost", ok), e.component("KiutCostUsage", Dk), e.component("KiutTokenUsage", Xk), e.component("KiutConversationCount", c5), e.component("KiutTopAgentsAnalysis", k5), e.component("KiutTopAgentsPie", L5), e.component("KiutDailyCostTrends", W5), e.component("KiutModelUsage", hw), e.component("KiutMessageRoles", Tw), e.component("KiutCostPerConversations", Xw), e.component("Tabs", e$), e.component("Table", u$), e.component("Filters", j$), e.component("InputText", X$), e.component("InputFile", s4), e.component("InputDateTime", c4), e.component("InputRange", w4), e.component("InputNumber", D4), e.component("Select", Hi), e.component("MultiSelect", N4), e.component("Toggle", j4), e.component("InputPhone", Q4), e.component("SelectablePills", oM), e.component("SegmentedControl", cM), e.component("DateRangePicker", MM), e.component("Tag", CM), e.component("Button", Fa), e.component("Modal", NM), e.component("Section", XM);
+    e.component("KiutChartBar", oe), e.component("KiutChartLine", be), e.component("KiutPieChart", Ga), e.component("KiutBoxplotChart", Uh), e.component("KiutCandlestickChart", Ei), e.component("KiutHistogramChart", Ri), e.component("KiutSankeyChart", me), e.component("KiutAgentsPerDay", op), e.component("KiutBookingManager", Hp), e.component("KiutCheckin", f0), e.component("KiutCheckinMetrics", O0), e.component("KiutCheckinSegments", uv), e.component("KiutDisruption", Uv), e.component("KiutFAQ", hb), e.component("KiutMessagesPerAgent", xb), e.component("KiutRecordLocator", Kb), e.component("KiutSalesByChannel", dm), e.component("KiutSeller", Nm), e.component("KiutTopAgents", Gm), e.component("KiutPaymentMethod", L1), e.component("KiutAgentHumanConversations", _y), e.component("KiutChannelMetrics", Ly), e.component("KiutTriageCombinations", Zy), e.component("KiutSelectLanguage", l_), e.component("KiutGuardrails", R_), e.component("KiutDisruptionNotifier", F2), e.component("KiutTotalConversationsCard", z2), e.component("KiutCsatP95Card", Y2), e.component("KiutAiGeneratedRevenueCard", Z2), e.component("KiutNpsDailyMetrics", Vi), e.component("KiutNpsMetrics", Vx), e.component("KiutNpsOverviewMetrics", Ni), e.component("KiutAWSCost", ok), e.component("KiutCostUsage", Dk), e.component("KiutTokenUsage", Xk), e.component("KiutConversationCount", c5), e.component("KiutTopAgentsAnalysis", k5), e.component("KiutTopAgentsPie", L5), e.component("KiutDailyCostTrends", W5), e.component("KiutModelUsage", hw), e.component("KiutMessageRoles", Tw), e.component("KiutCostPerConversations", Xw), e.component("Tabs", e$), e.component("Table", u$), e.component("Filters", j$), e.component("InputText", X$), e.component("InputFile", s4), e.component("InputDateTime", c4), e.component("InputRange", w4), e.component("InputNumber", D4), e.component("Select", Hi), e.component("MultiSelect", N4), e.component("Toggle", j4), e.component("InputPhone", Q4), e.component("SelectablePills", oM), e.component("SegmentedControl", cM), e.component("DateRangePicker", MM), e.component("Tag", CM), e.component("Button", Fa), e.component("Modal", VM), e.component("Section", UM);
   }
 };
 export {
@@ -19691,10 +19693,10 @@ export {
   Q4 as InputPhone,
   w4 as InputRange,
   X$ as InputText,
-  i3 as KiutUIPlugin,
+  o3 as KiutUIPlugin,
   Tw as MessageRoles,
   xb as MessagesPerAgent,
-  NM as Modal,
+  VM as Modal,
   hw as ModelUsage,
   N4 as MultiSelect,
   Vi as NpsDailyMetrics,
@@ -19705,7 +19707,7 @@ export {
   Kb as RecordLocator,
   dm as SalesByChannel,
   me as SankeyChart,
-  XM as Section,
+  UM as Section,
   cM as SegmentedControl,
   Hi as Select,
   l_ as SelectLanguage,
