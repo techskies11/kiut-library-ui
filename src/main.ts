@@ -82,6 +82,7 @@ export type { InputRangeOrientation } from './components/Inputs/InputRange.vue';
 import InputNumber from './components/Inputs/InputNumber.vue';
 import Select from './components/Inputs/Select.vue';
 export type { KiutSelectOption, KiutSelectValue } from './components/Inputs/Select.vue';
+import MultiSelect from './components/Inputs/MultiSelect.vue';
 import Toggle from './components/Inputs/Toggle.vue';
 import InputPhone from './components/Inputs/InputPhone.vue';
 export type { KiutPhoneValue } from './components/Inputs/InputPhone.vue';
@@ -164,6 +165,7 @@ export {
   InputRange,
   InputNumber,
   Select,
+  MultiSelect,
   Toggle,
   InputPhone,
   SelectablePills,
@@ -236,6 +238,7 @@ export const KiutUIPlugin = {
     app.component('InputRange', InputRange);
     app.component('InputNumber', InputNumber);
     app.component('Select', Select);
+    app.component('MultiSelect', MultiSelect);
     app.component('Toggle', Toggle);
     app.component('InputPhone', InputPhone);
     app.component('SelectablePills', SelectablePills);
