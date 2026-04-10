@@ -43,7 +43,7 @@
       v-if="hasActiveFilters"
       class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5"
     >
-      <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+      <div class="flex min-w-0 flex-wrap items-center gap-1.5">
         <div
           v-for="item in chipItems"
           :key="item.key"
@@ -434,6 +434,16 @@ function syncDraftFromValue(def: FilterDefinition) {
   draftRangeEnd.value = r?.end?.trim() ?? '';
 }
 
+function emitSelectFromDraft() {
+  const def = openDefinition.value;
+  if (!def || def.type !== 'select') return;
+  const next = { ...props.modelValue };
+  if (draftSelectValues.value.length === 0) delete next[def.id];
+  else next[def.id] = [...draftSelectValues.value];
+  emit('update:modelValue', next);
+  emit('change', next);
+}
+
 function toggleDraftSelect(value: string) {
   const i = draftSelectValues.value.indexOf(value);
   if (i >= 0) {
@@ -441,6 +451,7 @@ function toggleDraftSelect(value: string) {
   } else {
     draftSelectValues.value = [...draftSelectValues.value, value];
   }
+  emitSelectFromDraft();
 }
 
 function positionPanel(triggerEl: HTMLElement | null) {
@@ -546,11 +557,7 @@ function applyDraft() {
   }
 
   if (def.type === 'select') {
-    const next = { ...props.modelValue };
-    if (draftSelectValues.value.length === 0) delete next[def.id];
-    else next[def.id] = [...draftSelectValues.value];
-    emit('update:modelValue', next);
-    emit('change', next);
+    emitSelectFromDraft();
     closePanel();
     return;
   }
