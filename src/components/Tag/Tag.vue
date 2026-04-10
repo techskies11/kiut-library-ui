@@ -2,7 +2,7 @@
   <span
     v-if="isLiveMode"
     role="status"
-    class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-['Inter',system-ui,sans-serif]"
+    class="inline-flex h-[22px] items-center gap-2 rounded-full px-3 text-xs font-['Inter',system-ui,sans-serif] leading-none"
     :class="liveContainerClass"
   >
     <span
@@ -21,7 +21,7 @@
   </span>
   <span
     v-else
-    class="inline-flex items-center justify-center rounded-full px-3 py-1.5 text-xs font-['Inter',system-ui,sans-serif] font-semibold tracking-tight"
+    class="inline-flex h-[22px] items-center justify-center rounded-full px-3 text-xs font-['Inter',system-ui,sans-serif] font-semibold leading-none tracking-tight"
     :class="semanticClass"
   >
     <slot>{{ label }}</slot>

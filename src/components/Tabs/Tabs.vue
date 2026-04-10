@@ -23,7 +23,7 @@
         @keydown="onKeydown($event, index)"
       >
         <span
-          class="flex min-h-9 min-w-0 items-center justify-center gap-2 px-3 py-1.5"
+          class="flex h-10 min-w-0 items-center justify-center gap-2 px-3"
           :class="{ 'min-w-0 flex-1': fullWidth }"
         >
           <component

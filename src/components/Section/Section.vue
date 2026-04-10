@@ -10,7 +10,7 @@
         <div class="flex min-w-0 items-center gap-2.5">
           <span
             v-if="hasIcon"
-            class="inline-flex shrink-0 items-center text-[color:var(--kiut-text-primary)] dark:text-slate-100 [&>svg]:h-5 [&>svg]:w-5"
+            class="inline-flex shrink-0 items-center text-[color:var(--kiut-text-primary)] dark:text-slate-100 [&>svg]:size-6"
             aria-hidden="true"
           >
             <slot name="icon">
@@ -22,14 +22,14 @@
           </span>
           <h2
             :id="titleId"
-            class="min-w-0 text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
+            class="min-w-0 text-3xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
           >
             {{ title }}
           </h2>
         </div>
         <p
           v-if="subtitle"
-          class="text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+          class="text-base leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
         >
           {{ subtitle }}
         </p>

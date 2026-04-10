@@ -1,12 +1,12 @@
 <template>
   <div
-    class="kiut-table-wrap overflow-hidden rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-white/[0.06]"
+    class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[#838395]"
   >
     <div class="overflow-x-auto">
       <table class="kiut-table w-full min-w-[640px] border-collapse text-left text-sm">
         <thead>
           <tr
-            class="h-12 border-b border-[color:var(--kiut-border-table)] bg-slate-50 dark:bg-[#252528]"
+            class="h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[#838395] dark:bg-[#23232f80]"
           >
             <th
               v-if="selectable"
@@ -27,8 +27,7 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
-                alignClass(col.align),
+                'px-4 py-3 text-left font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 col.headerClass ?? '',
               ]"
             >
@@ -40,7 +39,7 @@
           <tr
             v-for="(row, rowIndex) in rows"
             :key="rowKeyAt(row, rowIndex)"
-            class="h-14 border-b border-[color:var(--kiut-border-table-row)] bg-[color:var(--kiut-bg-table)] transition-colors hover:[background:var(--kiut-bg-table-hover)]"
+            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[#838395]"
           >
             <td
               v-if="selectable"
@@ -232,7 +231,7 @@ function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
   cursor: pointer;
   border-radius: 9999px;
   border: 2px solid var(--kiut-primary);
-  background-color: var(--kiut-bg-table);
+  background-color: transparent;
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,

@@ -14,7 +14,7 @@
       <span
         v-if="$slots.icon"
         class="inline-flex shrink-0"
-        :class="isAction ? '[&>svg]:h-5 [&>svg]:w-5' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
+        :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
         aria-hidden="true"
       >
         <slot name="icon" />
@@ -46,7 +46,7 @@
     <span
       v-if="$slots.icon"
       class="inline-flex shrink-0"
-      :class="isAction ? '[&>svg]:h-5 [&>svg]:w-5' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
+      :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
       aria-hidden="true"
     >
       <slot name="icon" />

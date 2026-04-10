@@ -33,7 +33,7 @@ const meta: Meta<typeof Filters> = {
     docs: {
       description: {
         component:
-          'Barra de filtros con pastillas para añadir, chips activos y acción de limpiar. Estado controlado con `v-model`. Prueba el tema **Theme** en Storybook para modo claro y oscuro (clase `dark`).',
+          'Barra de filtros: pastillas para cada definición (selección múltiple en `type: "select"` con valor `string[]`), chips en una segunda fila y «Limpiar» al lado. Estado con `v-model`. Prueba **Theme** en Storybook (clase `dark`).',
       },
     },
   },
@@ -88,7 +88,7 @@ export const WithActiveFilters: Story = {
     filterDefinitions: baseDefinitions,
     modelValue: {
       code: 'SUmmer',
-      discount: '10',
+      discount: ['10', '20'],
       travel: { start: '2025-06-01', end: '2025-06-15' },
     } as FiltersModelValue,
     label: 'Filtros:',
