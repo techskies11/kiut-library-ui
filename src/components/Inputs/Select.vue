@@ -41,7 +41,7 @@
       ref="listRef"
       role="listbox"
       tabindex="-1"
-      class="absolute left-0 right-0 z-50 mt-[-3px] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-white/[0.12]"
+      class="absolute left-0 right-0 z-50 mt-[-3px] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-[color:var(--kiut-border-light)]"
       @keydown.stop="onListKeydown"
     >
       <li

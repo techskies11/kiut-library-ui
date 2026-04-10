@@ -1,9 +1,10 @@
 <template>
   <div
-    class="kiut-filters font-sans text-xs"
+    class="kiut-filters font-[Inter] text-sm"
     role="region"
     :aria-label="regionAriaLabel"
   >
+    <!-- Fila 1: etiqueta + pastillas de todos los filtros -->
     <div class="flex flex-wrap items-center gap-x-2 gap-y-1.5">
       <span
         class="shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
@@ -12,54 +13,70 @@
       </span>
 
       <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
-        <!-- Chips activos -->
-        <div
-          v-for="def in activeDefinitions"
-          :key="`chip-${def.id}`"
-          data-kiut-filter-chip
-          class="inline-flex max-w-full items-center gap-1 rounded-full border border-[color:var(--kiut-border-light)] bg-slate-100/90 py-0.5 pl-2 pr-1 text-[color:var(--kiut-text-primary)] dark:border-white/[0.08] dark:bg-white/[0.08] dark:text-slate-100"
-        >
-          <button
-            type="button"
-            class="min-w-0 flex-1 truncate text-left transition hover:opacity-90"
-            :aria-label="chipAriaEdit(def)"
-            @click="openChipPanel(def, $event)"
-          >
-            <slot name="formatChip" :filter="def" :value="valueFor(def.id)">
-              {{ formatChipText(def) }}
-            </slot>
-          </button>
-          <button
-            type="button"
-            class="shrink-0 rounded p-0.5 text-[color:var(--kiut-text-muted)] transition hover:bg-black/5 hover:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/10 dark:hover:text-slate-100"
-            :aria-label="removeAriaLabel(def)"
-            @click="removeFilter(def.id)"
-          >
-            <XMarkIcon class="h-3.5 w-3.5" aria-hidden="true" />
-          </button>
-        </div>
-
-        <!-- Pills para añadir -->
         <button
-          v-for="def in availableDefinitions"
-          :key="`add-${def.id}`"
+          v-for="def in filterDefinitions"
+          :key="`pill-${def.id}`"
           :ref="(el) => setTriggerRef(def.id, el)"
           type="button"
-          class="inline-flex items-center gap-0.5 rounded-full border-1 border-dashed px-2 py-1 font-medium text-[color:var(--kiut-text-secondary)] transition-colors dark:text-slate-400"
-          :class="addPillClass(def.id)"
-          :aria-label="addFilterAriaLabel(def)"
+          class="inline-flex h-[26px] max-w-full shrink-0 items-center gap-0.5 rounded-full px-2 font-medium transition-colors"
+          :class="filterPillClass(def)"
+          :aria-label="filterPillAriaLabel(def)"
           :aria-expanded="openFilterId === def.id"
           :aria-haspopup="true"
           :aria-controls="openFilterId === def.id ? panelId : undefined"
           @click="toggleAddPanel(def, $event)"
         >
           <PlusIcon class="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          <span>{{ def.label }}</span>
+          <span class="truncate">{{ def.label }}</span>
+          <span
+            v-if="def.type === 'select' && selectCount(def) > 0"
+            class="ml-0.5 inline-flex min-h-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full bg-[color:var(--kiut-primary)]/20 px-1 text-[10px] font-semibold tabular-nums text-[color:var(--kiut-primary-default)] dark:bg-[color:var(--kiut-primary)]/25 dark:text-[color:var(--kiut-primary-light)]"
+          >
+            {{ selectCount(def) }}
+          </span>
         </button>
+      </div>
+    </div>
+
+    <!-- Fila 2: chips de valores + limpiar -->
+    <div
+      v-if="hasActiveFilters"
+      class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5"
+    >
+      <div class="flex min-w-0 flex-wrap items-center gap-1.5">
+        <div
+          v-for="item in chipItems"
+          :key="item.key"
+          data-kiut-filter-chip
+          class="inline-flex h-[26px] max-w-full items-center gap-1 rounded-full border border-[color:var(--kiut-border-light)] bg-slate-100/90 pl-2 pr-1 text-[color:var(--kiut-text-primary)] dark:bg-white/[0.08] dark:text-slate-100"
+        >
+          <button
+            type="button"
+            class="min-w-0 flex-1 truncate text-left transition hover:opacity-90"
+            :aria-label="chipAriaEdit(item)"
+            @click="openChipPanel(item.def, $event)"
+          >
+            <slot
+              name="formatChip"
+              :filter="item.def"
+              :value="valueFor(item.def.id)"
+              :option-value="item.kind === 'select' ? item.optionValue : undefined"
+            >
+              {{ formatChipDisplay(item) }}
+            </slot>
+          </button>
+          <button
+            type="button"
+            class="shrink-0 rounded p-0.5 text-[color:var(--kiut-text-muted)] transition hover:bg-black/5 hover:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/10 dark:hover:text-slate-100"
+            :aria-label="removeChipAriaLabel(item)"
+            @click="removeChipItem(item)"
+          >
+            <XMarkIcon class="h-3.5 w-3.5" aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
       <button
-        v-if="hasActiveFilters"
         type="button"
         class="shrink-0 text-[color:var(--kiut-text-secondary)] underline-offset-2 transition hover:text-[color:var(--kiut-primary)] hover:underline dark:text-slate-400 dark:hover:text-[color:var(--kiut-primary-light)]"
         :aria-label="clearAriaLabel"
@@ -77,7 +94,7 @@
         role="dialog"
         :aria-modal="true"
         :aria-label="panelAriaLabel"
-        class="fixed z-[100] rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-3 shadow-lg dark:border-white/[0.08] dark:bg-[#252528]"
+        class="fixed z-[100] rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-3 shadow-lg dark:bg-[#252528]"
         :style="panelStyle"
         @keydown.stop
       >
@@ -95,7 +112,7 @@
               <template v-if="openDefinition.type === 'text'">
                 <label
                   :for="`${panelId}-text`"
-                  class="block text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+                  class="block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 >
                   {{ openDefinition.label }}
                 </label>
@@ -103,44 +120,52 @@
                   :id="`${panelId}-text`"
                   v-model="draftText"
                   type="text"
-                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500"
+                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500"
                   :placeholder="openDefinition.placeholder ?? '…'"
                   @keydown.enter.prevent="applyDraft"
                 />
               </template>
 
               <template v-else-if="openDefinition.type === 'select'">
-                <label
-                  :for="`${panelId}-select`"
-                  class="block text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+                <p
+                  class="text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 >
                   {{ openDefinition.label }}
-                </label>
-                <select
-                  :id="`${panelId}-select`"
-                  v-model="draftSelect"
-                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                </p>
+                <ul
+                  class="max-h-[min(280px,50vh)] space-y-0.5 overflow-y-auto"
+                  role="listbox"
+                  :aria-label="openDefinition.label"
+                  :aria-multiselectable="true"
                 >
-                  <option value="" disabled>{{ openDefinition.placeholder ?? 'Seleccionar…' }}</option>
-                  <option
+                  <li
                     v-for="opt in openDefinition.options"
                     :key="opt.value"
-                    :value="opt.value"
                   >
-                    {{ opt.label }}
-                  </option>
-                </select>
+                    <label
+                      class="flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]"
+                    >
+                      <input
+                        type="checkbox"
+                        class="kiut-filter-ms-checkbox shrink-0"
+                        :checked="draftSelectValues.includes(opt.value)"
+                        @change="toggleDraftSelect(opt.value)"
+                      />
+                      <span class="min-w-0 flex-1">{{ opt.label }}</span>
+                    </label>
+                  </li>
+                </ul>
               </template>
 
               <template v-else-if="openDefinition.type === 'dateRange'">
-                <p class="text-[11px] font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400">
+                <p class="text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400">
                   {{ openDefinition.label }}
                 </p>
                 <div class="flex flex-wrap items-end gap-2">
                   <div class="min-w-[120px] flex-1">
                     <label
                       :for="`${panelId}-start`"
-                      class="mb-0.5 block text-[10px] leading-tight text-[color:var(--kiut-text-muted)]"
+                      class="mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     >
                       Desde
                     </label>
@@ -148,13 +173,13 @@
                       :id="`${panelId}-start`"
                       v-model="draftRangeStart"
                       type="date"
-                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
                   <div class="min-w-[120px] flex-1">
                     <label
                       :for="`${panelId}-end`"
-                      class="mb-0.5 block text-[10px] leading-tight text-[color:var(--kiut-text-muted)]"
+                      class="mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     >
                       Hasta
                     </label>
@@ -162,7 +187,7 @@
                       :id="`${panelId}-end`"
                       v-model="draftRangeEnd"
                       type="date"
-                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:border-white/[0.12] dark:bg-[#1e1e20] dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
                 </div>
@@ -224,6 +249,16 @@ export type FilterDefinition =
 
 export type FiltersModelValue = Record<string, unknown>;
 
+type ChipItem =
+  | { kind: 'text'; def: FilterDefinitionText; key: string }
+  | { kind: 'dateRange'; def: FilterDefinitionDateRange; key: string }
+  | {
+      kind: 'select';
+      def: FilterDefinitionSelect;
+      optionValue: string;
+      key: string;
+    };
+
 const props = withDefaults(
   defineProps<{
     filterDefinitions: FilterDefinition[];
@@ -257,7 +292,7 @@ const panelStyle = ref<Record<string, string>>({});
 const panelAnchorEl = ref<HTMLElement | null>(null);
 
 const draftText = ref('');
-const draftSelect = ref('');
+const draftSelectValues = ref<string[]>([]);
 const draftRangeStart = ref('');
 const draftRangeEnd = ref('');
 
@@ -270,7 +305,7 @@ const draftValue = computed(() => {
   const def = openDefinition.value;
   if (!def) return undefined;
   if (def.type === 'text') return draftText.value;
-  if (def.type === 'select') return draftSelect.value;
+  if (def.type === 'select') return draftSelectValues.value;
   return { start: draftRangeStart.value, end: draftRangeEnd.value };
 });
 
@@ -283,10 +318,23 @@ function valueFor(id: string): unknown {
   return props.modelValue[id];
 }
 
+/** Valor de `select`: `string[]` (multi). Acepta `string` heredado como un solo ítem. */
+function normalizeSelectValue(v: unknown): string[] {
+  if (v === undefined || v === null) return [];
+  if (Array.isArray(v)) {
+    return v.filter((x): x is string => typeof x === 'string' && x.trim() !== '');
+  }
+  if (typeof v === 'string') {
+    const t = v.trim();
+    return t ? [t] : [];
+  }
+  return [];
+}
+
 function isEmptyForDefinition(def: FilterDefinition, v: unknown): boolean {
   if (v === undefined || v === null) return true;
   if (def.type === 'text') return String(v).trim() === '';
-  if (def.type === 'select') return String(v).trim() === '';
+  if (def.type === 'select') return normalizeSelectValue(v).length === 0;
   if (def.type === 'dateRange') {
     const o = v as { start?: string; end?: string };
     return !o?.start?.trim() || !o?.end?.trim();
@@ -298,27 +346,56 @@ const hasActiveFilters = computed(() =>
   props.filterDefinitions.some((d) => !isEmptyForDefinition(d, valueFor(d.id)))
 );
 
-const activeDefinitions = computed(() =>
-  props.filterDefinitions.filter((d) => !isEmptyForDefinition(d, valueFor(d.id)))
-);
+const chipItems = computed((): ChipItem[] => {
+  const items: ChipItem[] = [];
+  for (const def of props.filterDefinitions) {
+    const v = valueFor(def.id);
+    if (isEmptyForDefinition(def, v)) continue;
+    if (def.type === 'text') {
+      items.push({ kind: 'text', def, key: def.id });
+    } else if (def.type === 'dateRange') {
+      items.push({ kind: 'dateRange', def, key: def.id });
+    } else if (def.type === 'select') {
+      for (const optVal of normalizeSelectValue(v)) {
+        items.push({
+          kind: 'select',
+          def,
+          optionValue: optVal,
+          key: `${def.id}::${optVal}`,
+        });
+      }
+    }
+  }
+  return items;
+});
 
-const availableDefinitions = computed(() =>
-  props.filterDefinitions.filter((d) => isEmptyForDefinition(d, valueFor(d.id)))
-);
+function selectCount(def: FilterDefinition): number {
+  if (def.type !== 'select') return 0;
+  return normalizeSelectValue(valueFor(def.id)).length;
+}
 
 function formatChipText(def: FilterDefinition): string {
   const v = valueFor(def.id);
   const base = def.label.replace(/^\+\s*/, '');
   if (def.type === 'text') return `${base}: ${String(v ?? '').trim()}`;
   if (def.type === 'select') {
-    const s = String(v ?? '');
-    const opt = def.options.find((o) => o.value === s);
-    return `${base}: ${opt?.label ?? s}`;
+    const arr = normalizeSelectValue(v);
+    const labels = arr.map((val) => {
+      const opt = def.options.find((o) => o.value === val);
+      return opt?.label ?? val;
+    });
+    return `${base}: ${labels.join(', ')}`;
   }
   const r = v as { start: string; end: string };
   const a = formatDateShort(r.start);
   const b = formatDateShort(r.end);
   return `${base}: ${a} – ${b}`;
+}
+
+function formatChipDisplay(item: ChipItem): string {
+  if (item.kind === 'text' || item.kind === 'dateRange') return formatChipText(item.def);
+  const opt = item.def.options.find((o) => o.value === item.optionValue);
+  return opt?.label ?? item.optionValue;
 }
 
 function formatDateShort(iso: string): string {
@@ -327,11 +404,19 @@ function formatDateShort(iso: string): string {
   return m.isValid() ? m.format('L') : iso;
 }
 
-function addPillClass(id: string): string {
-  if (openFilterId.value === id && panelOpen.value) {
-    return 'border-solid border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)] dark:bg-[color:var(--kiut-primary)]/15 dark:text-[color:var(--kiut-primary-light)]';
+function filterPillClass(def: FilterDefinition): string {
+  const open = openFilterId.value === def.id && panelOpen.value;
+  const has = !isEmptyForDefinition(def, valueFor(def.id));
+  if (open || has) {
+    return 'border border-solid border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)] dark:bg-[color:var(--kiut-primary)]/15 dark:text-[color:var(--kiut-primary-light)]';
   }
-  return 'border-slate-400/90 hover:border-[color:var(--kiut-primary)]/50 hover:bg-slate-50 dark:border-slate-500 dark:hover:border-[color:var(--kiut-primary-light)]/40 dark:hover:bg-white/[0.04]';
+  return 'border border-dashed border-slate-400/90 text-[color:var(--kiut-text-secondary)] hover:border-[color:var(--kiut-primary)]/50 hover:bg-slate-50 dark:border-slate-500 dark:text-slate-400 dark:hover:border-[color:var(--kiut-primary-light)]/40 dark:hover:bg-white/[0.04]';
+}
+
+function filterPillAriaLabel(def: FilterDefinition): string {
+  return isEmptyForDefinition(def, valueFor(def.id))
+    ? addFilterAriaLabel(def)
+    : `Editar filtro ${def.label.replace(/^\+\s*/, '')}`;
 }
 
 function syncDraftFromValue(def: FilterDefinition) {
@@ -341,12 +426,32 @@ function syncDraftFromValue(def: FilterDefinition) {
     return;
   }
   if (def.type === 'select') {
-    draftSelect.value = v !== undefined && v !== null ? String(v) : '';
+    draftSelectValues.value = [...normalizeSelectValue(v)];
     return;
   }
   const r = v as { start?: string; end?: string } | undefined;
   draftRangeStart.value = r?.start?.trim() ?? '';
   draftRangeEnd.value = r?.end?.trim() ?? '';
+}
+
+function emitSelectFromDraft() {
+  const def = openDefinition.value;
+  if (!def || def.type !== 'select') return;
+  const next = { ...props.modelValue };
+  if (draftSelectValues.value.length === 0) delete next[def.id];
+  else next[def.id] = [...draftSelectValues.value];
+  emit('update:modelValue', next);
+  emit('change', next);
+}
+
+function toggleDraftSelect(value: string) {
+  const i = draftSelectValues.value.indexOf(value);
+  if (i >= 0) {
+    draftSelectValues.value = draftSelectValues.value.filter((_, j) => j !== i);
+  } else {
+    draftSelectValues.value = [...draftSelectValues.value, value];
+  }
+  emitSelectFromDraft();
 }
 
 function positionPanel(triggerEl: HTMLElement | null) {
@@ -407,7 +512,7 @@ function focusPanelFirstControl() {
   const root = panelRef.value;
   if (!root) return;
   const focusable = root.querySelector<HTMLElement>(
-    'input, select, button, [href], textarea, [tabindex]:not([tabindex="-1"])'
+    'input[type="text"], input[type="date"], input[type="checkbox"], select, button, [href], textarea, [tabindex]:not([tabindex="-1"])'
   );
   focusable?.focus();
 }
@@ -426,7 +531,9 @@ function updateDraft(v: unknown) {
     return;
   }
   if (def.type === 'select') {
-    draftSelect.value = v !== undefined && v !== null ? String(v) : '';
+    draftSelectValues.value = Array.isArray(v)
+      ? v.filter((x): x is string => typeof x === 'string')
+      : normalizeSelectValue(v);
     return;
   }
   const o = v as { start?: string; end?: string };
@@ -450,12 +557,7 @@ function applyDraft() {
   }
 
   if (def.type === 'select') {
-    const s = draftSelect.value.trim();
-    const next = { ...props.modelValue };
-    if (s === '') delete next[def.id];
-    else next[def.id] = s;
-    emit('update:modelValue', next);
-    emit('change', next);
+    emitSelectFromDraft();
     closePanel();
     return;
   }
@@ -481,6 +583,21 @@ function removeFilter(id: string) {
   if (openFilterId.value === id) closePanel();
 }
 
+function removeChipItem(item: ChipItem) {
+  if (item.kind === 'text' || item.kind === 'dateRange') {
+    removeFilter(item.def.id);
+    return;
+  }
+  const next = { ...props.modelValue };
+  const cur = normalizeSelectValue(next[item.def.id]);
+  const filtered = cur.filter((v) => v !== item.optionValue);
+  if (filtered.length === 0) delete next[item.def.id];
+  else next[item.def.id] = filtered;
+  emit('update:modelValue', next);
+  emit('change', next);
+  if (openFilterId.value === item.def.id) syncDraftFromValue(item.def);
+}
+
 function clearAll() {
   const next: FiltersModelValue = {};
   emit('update:modelValue', next);
@@ -493,12 +610,24 @@ const panelAriaLabel = computed(() => {
   return d ? `Editar filtro: ${d.label}` : 'Filtro';
 });
 
-function removeAriaLabel(def: FilterDefinition): string {
-  return `Quitar filtro ${def.label.replace(/^\+\s*/, '')}`;
+function removeChipAriaLabel(item: ChipItem): string {
+  const base = item.def.label.replace(/^\+\s*/, '');
+  if (item.kind === 'select') {
+    const opt = item.def.options.find((o) => o.value === item.optionValue);
+    const name = opt?.label ?? item.optionValue;
+    return `Quitar ${name} del filtro ${base}`;
+  }
+  return `Quitar filtro ${base}`;
 }
 
-function chipAriaEdit(def: FilterDefinition): string {
-  return `Editar filtro ${def.label.replace(/^\+\s*/, '')}`;
+function chipAriaEdit(item: ChipItem): string {
+  const base = item.def.label.replace(/^\+\s*/, '');
+  if (item.kind === 'select') {
+    const opt = item.def.options.find((o) => o.value === item.optionValue);
+    const name = opt?.label ?? item.optionValue;
+    return `Editar filtro ${base}: ${name}`;
+  }
+  return `Editar filtro ${base}`;
 }
 
 function addFilterAriaLabel(def: FilterDefinition): string {
@@ -552,3 +681,43 @@ watch(
   { deep: true }
 );
 </script>
+
+<style scoped>
+/* Multi-select: checkbox circular acorde a Kiut */
+.kiut-filter-ms-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 9999px;
+  border: 2px solid var(--kiut-primary);
+  background-color: transparent;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.kiut-filter-ms-checkbox:checked {
+  background-color: var(--kiut-primary);
+  border-color: var(--kiut-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  background-size: 0.65rem;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.kiut-filter-ms-checkbox:focus-visible {
+  outline: 2px solid var(--kiut-primary-light);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kiut-filter-ms-checkbox {
+    transition: none;
+  }
+}
+</style>

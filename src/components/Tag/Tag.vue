@@ -2,7 +2,7 @@
   <span
     v-if="isLiveMode"
     role="status"
-    class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-['Inter',system-ui,sans-serif]"
+    class="inline-flex w-min max-w-full min-h-[22px] items-center gap-2 rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] leading-snug"
     :class="liveContainerClass"
   >
     <span
@@ -17,11 +17,11 @@
         class="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--kiut-success)]"
       />
     </span>
-    <span :class="liveTextClass">{{ liveLabel }}</span>
+    <span class="min-w-0 flex-1 text-center" :class="liveTextClass">{{ liveLabel }}</span>
   </span>
   <span
     v-else
-    class="inline-flex items-center justify-center rounded-full px-3 py-1.5 text-xs font-['Inter',system-ui,sans-serif] font-semibold tracking-tight"
+    class="inline-flex w-min max-w-full min-h-[22px] items-center justify-center rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] font-semibold leading-snug tracking-tight"
     :class="semanticClass"
   >
     <slot>{{ label }}</slot>

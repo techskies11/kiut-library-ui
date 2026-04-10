@@ -1,17 +1,17 @@
 <template>
   <div
-    class="kiut-table-wrap overflow-hidden rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-white/[0.06]"
+    class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
     <div class="overflow-x-auto">
       <table class="kiut-table w-full min-w-[640px] border-collapse text-left text-sm">
         <thead>
           <tr
-            class="border-b border-[color:var(--kiut-border-table)] bg-slate-50 dark:bg-[#252528]"
+            class="h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]"
           >
             <th
               v-if="selectable"
               scope="col"
-              class="w-12 px-2 py-1.5 text-center align-middle"
+              class="w-12 px-4 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -27,9 +27,9 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-2 py-1.5 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
-                alignClass(col.align),
+                'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 col.headerClass ?? '',
+                '!text-left',
               ]"
             >
               {{ col.label }}
@@ -40,11 +40,11 @@
           <tr
             v-for="(row, rowIndex) in rows"
             :key="rowKeyAt(row, rowIndex)"
-            class="border-b border-[color:var(--kiut-border-table-row)] bg-[color:var(--kiut-bg-table)] transition-colors hover:[background:var(--kiut-bg-table-hover)]"
+            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)]"
           >
             <td
               v-if="selectable"
-              class="w-12 px-2 py-1.5 text-center align-middle"
+              class="w-12 px-4 py-3 text-center align-middle"
             >
               <input
                 type="checkbox"
@@ -58,7 +58,7 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'px-2 py-1.5 align-middle text-[color:var(--kiut-text-secondary)]',
+                'px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
                 alignClass(col.align),
                 col.cellClass ?? '',
               ]"
@@ -232,7 +232,7 @@ function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
   cursor: pointer;
   border-radius: 9999px;
   border: 2px solid var(--kiut-primary);
-  background-color: var(--kiut-bg-table);
+  background-color: transparent;
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease,

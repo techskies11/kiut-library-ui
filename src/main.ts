@@ -74,6 +74,11 @@ export type {
 } from './components/Filters/Filters.vue';
 
 import InputText from './components/Inputs/InputText.vue';
+import InputFile from './components/Inputs/InputFile.vue';
+import InputDateTime from './components/Inputs/InputDateTime.vue';
+export type { KiutDateTimeValue } from './components/Inputs/InputDateTime.vue';
+import InputRange from './components/Inputs/InputRange.vue';
+export type { InputRangeOrientation } from './components/Inputs/InputRange.vue';
 import InputNumber from './components/Inputs/InputNumber.vue';
 import Select from './components/Inputs/Select.vue';
 export type { KiutSelectOption, KiutSelectValue } from './components/Inputs/Select.vue';
@@ -154,6 +159,9 @@ export {
   Table,
   Filters,
   InputText,
+  InputFile,
+  InputDateTime,
+  InputRange,
   InputNumber,
   Select,
   Toggle,
@@ -223,6 +231,9 @@ export const KiutUIPlugin = {
     app.component('Table', Table);
     app.component('Filters', Filters);
     app.component('InputText', InputText);
+    app.component('InputFile', InputFile);
+    app.component('InputDateTime', InputDateTime);
+    app.component('InputRange', InputRange);
     app.component('InputNumber', InputNumber);
     app.component('Select', Select);
     app.component('Toggle', Toggle);

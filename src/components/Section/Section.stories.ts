@@ -33,7 +33,7 @@ export const Default: Story = {
       return { args };
     },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:border-white/[0.08] dark:bg-[#1a1a1d]">
+      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
         <Section v-bind="args">
           <template #actions>
             <Button variant="primary" type="button">
@@ -43,7 +43,7 @@ export const Default: Story = {
               Agregar punto de venta
             </Button>
           </template>
-          <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:border-white/[0.08] dark:bg-black/20 dark:text-slate-400">
+          <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
             Slot de contenido: filtros, tablas, formularios, etc.
           </div>
         </Section>
@@ -63,7 +63,7 @@ export const IconSlot: Story = {
       return { args };
     },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:border-white/[0.08] dark:bg-[#1a1a1d]">
+      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
         <Section v-bind="args">
           <template #icon>
             <BuildingStorefrontIcon />
@@ -86,7 +86,7 @@ export const SinIcono: Story = {
       return { args };
     },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:border-white/[0.08] dark:bg-[#1a1a1d]">
+      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
         <Section v-bind="args">
           <p class="text-sm text-[color:var(--kiut-text-secondary)] dark:text-slate-400">Contenido.</p>
         </Section>

@@ -97,10 +97,10 @@
   --kiut-text-table-header: #d1d5db;
   
   /* Borders */
-  --kiut-border-color: rgba(198, 125, 255, 0.15);
-  --kiut-border-light: rgba(198, 125, 255, 0.08);
-  --kiut-border-table: rgba(198, 125, 255, 0.15);
-  --kiut-border-table-row: rgba(198, 125, 255, 0.08);
+  --kiut-border-color: #2d2d39;
+  --kiut-border-light: #2d2d39;
+  --kiut-border-table: #2d2d39;
+  --kiut-border-table-row: #2d2d39;
   
   /* Grid Lines (Charts) */
   --kiut-grid-lines: rgba(198, 125, 255, 0.12);
@@ -109,11 +109,11 @@
   --kiut-shadow-card: 
     0 1px 3px rgba(0, 0, 0, 0.3),
     0 10px 15px -3px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(198, 125, 255, 0.1);
+    0 0 0 1px #2d2d39;
   --kiut-shadow-card-hover: 
     0 4px 6px rgba(0, 0, 0, 0.3),
     0 20px 25px -5px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(198, 125, 255, 0.15);
+    0 0 0 1px #2d2d39;
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
   --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
   --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
@@ -122,7 +122,7 @@
   --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
   --kiut-tooltip-text: #f8f9fa;
   --kiut-tooltip-text-secondary: #d1d5db;
-  --kiut-tooltip-border: rgba(198, 125, 255, 0.2);
+  --kiut-tooltip-border: #2d2d39;
   
   /* Chart Specific */
   --kiut-chart-legend-color: #d1d5db;
@@ -177,10 +177,10 @@
   --kiut-text-table-header: #d1d5db;
   
   /* Borders */
-  --kiut-border-color: rgba(198, 125, 255, 0.15);
-  --kiut-border-light: rgba(198, 125, 255, 0.08);
-  --kiut-border-table: rgba(198, 125, 255, 0.15);
-  --kiut-border-table-row: rgba(198, 125, 255, 0.08);
+  --kiut-border-color: #2d2d39;
+  --kiut-border-light: #2d2d39;
+  --kiut-border-table: #2d2d39;
+  --kiut-border-table-row: #2d2d39;
   
   /* Grid Lines (Charts) */
   --kiut-grid-lines: rgba(198, 125, 255, 0.12);
@@ -189,11 +189,11 @@
   --kiut-shadow-card: 
     0 1px 3px rgba(0, 0, 0, 0.3),
     0 10px 15px -3px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(198, 125, 255, 0.1);
+    0 0 0 1px #2d2d39;
   --kiut-shadow-card-hover: 
     0 4px 6px rgba(0, 0, 0, 0.3),
     0 20px 25px -5px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(198, 125, 255, 0.15);
+    0 0 0 1px #2d2d39;
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
   --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
   --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
@@ -202,7 +202,7 @@
   --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
   --kiut-tooltip-text: #f8f9fa;
   --kiut-tooltip-text-secondary: #d1d5db;
-  --kiut-tooltip-border: rgba(198, 125, 255, 0.2);
+  --kiut-tooltip-border: #2d2d39;
   
   /* Chart Specific */
   --kiut-chart-legend-color: #d1d5db;

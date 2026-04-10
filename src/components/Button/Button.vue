@@ -14,7 +14,7 @@
       <span
         v-if="$slots.icon"
         class="inline-flex shrink-0"
-        :class="isAction ? '[&>svg]:h-5 [&>svg]:w-5' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
+        :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
         aria-hidden="true"
       >
         <slot name="icon" />
@@ -46,7 +46,7 @@
     <span
       v-if="$slots.icon"
       class="inline-flex shrink-0"
-      :class="isAction ? '[&>svg]:h-5 [&>svg]:w-5' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
+      :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
       aria-hidden="true"
     >
       <slot name="icon" />
@@ -125,7 +125,7 @@ const variantClass = computed(() => {
       'border border-slate-200 bg-slate-50 text-[color:var(--kiut-text-primary)]',
       'hover:border-slate-300 hover:bg-slate-100',
       'active:bg-slate-200/80',
-      'dark:border-white/[0.12] dark:bg-slate-800/80 dark:text-slate-100',
+      'dark:border-[color:var(--kiut-border-light)] dark:bg-slate-800/80 dark:text-slate-100',
       'dark:hover:border-white/[0.18] dark:hover:bg-slate-800',
       'dark:active:bg-slate-700/90',
     ];
