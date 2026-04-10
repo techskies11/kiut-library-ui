@@ -90,7 +90,7 @@ function pillClass(item: KiutPillItem) {
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--kiut-primary)]',
     on
       ? 'border-[color:var(--kiut-primary)]/50 bg-violet-50/80 dark:bg-violet-950/30'
-      : 'border-gray-300 bg-white dark:border-white/[0.12] dark:bg-[color:var(--kiut-bg-secondary)]',
+      : 'border-gray-300 bg-white dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]',
   ];
 }
 

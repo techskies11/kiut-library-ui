@@ -2,7 +2,7 @@
   <div
     role="tablist"
     :aria-label="ariaLabel"
-    class="inline-flex w-full max-w-full rounded-lg border border-gray-300 bg-transparent p-0.5 font-sans dark:border-white/[0.12]"
+    class="inline-flex w-full max-w-full rounded-lg border border-gray-300 bg-transparent p-0.5 font-sans dark:border-[color:var(--kiut-border-light)]"
   >
     <button
       v-for="(item, index) in items"

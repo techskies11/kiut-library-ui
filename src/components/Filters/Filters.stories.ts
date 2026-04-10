@@ -74,7 +74,7 @@ export const Default: Story = {
             'pre',
             {
               class:
-                'overflow-x-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-slate-50 p-3 font-mono text-xs text-[color:var(--kiut-text-secondary)] dark:border-white/[0.08] dark:bg-[#1a1a1c]',
+                'overflow-x-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-slate-50 p-3 font-mono text-xs text-[color:var(--kiut-text-secondary)] dark:bg-[#1a1a1c]',
             },
             JSON.stringify(model.value, null, 2)
           ),
@@ -113,7 +113,7 @@ export const WithActiveFilters: Story = {
             'pre',
             {
               class:
-                'overflow-x-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-slate-50 p-3 font-mono text-xs text-[color:var(--kiut-text-secondary)] dark:border-white/[0.08] dark:bg-[#1a1a1c]',
+                'overflow-x-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-slate-50 p-3 font-mono text-xs text-[color:var(--kiut-text-secondary)] dark:bg-[#1a1a1c]',
             },
             JSON.stringify(model.value, null, 2)
           ),

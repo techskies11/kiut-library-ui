@@ -26,7 +26,7 @@
       />
       <label
         :for="inputId"
-        class="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-[color:var(--kiut-text-primary)] transition hover:bg-gray-100 dark:border-white/[0.12] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]"
+        class="inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-[color:var(--kiut-text-primary)] transition hover:bg-gray-100 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]"
         :class="disabled ? 'cursor-not-allowed opacity-50' : ''"
       >
         <ArrowUpTrayIcon class="h-4 w-4 shrink-0 text-[color:var(--kiut-primary)]" aria-hidden="true" />

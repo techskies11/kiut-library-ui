@@ -1,12 +1,12 @@
 <template>
   <div
-    class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[#838395]"
+    class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
     <div class="overflow-x-auto">
       <table class="kiut-table w-full min-w-[640px] border-collapse text-left text-sm">
         <thead>
           <tr
-            class="h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[#838395] dark:bg-[#23232f80]"
+            class="h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]"
           >
             <th
               v-if="selectable"
@@ -27,8 +27,9 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-4 py-3 text-left font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 col.headerClass ?? '',
+                '!text-left',
               ]"
             >
               {{ col.label }}
@@ -39,7 +40,7 @@
           <tr
             v-for="(row, rowIndex) in rows"
             :key="rowKeyAt(row, rowIndex)"
-            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[#838395]"
+            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)]"
           >
             <td
               v-if="selectable"
