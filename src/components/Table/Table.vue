@@ -44,7 +44,7 @@
           >
             <td
               v-if="selectable"
-              class="w-12 px-4 py-3 text-center align-middle"
+              class="w-12 bg-transparent px-4 py-3 text-center align-middle"
             >
               <input
                 type="checkbox"
@@ -58,7 +58,7 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
+                'bg-transparent px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
                 alignClass(col.align),
                 col.cellClass ?? '',
               ]"

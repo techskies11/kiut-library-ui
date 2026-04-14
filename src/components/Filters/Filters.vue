@@ -1,6 +1,6 @@
 <template>
   <div
-    class="kiut-filters font-[Inter] text-sm"
+    class="kiut-filters font-[Inter] text-xs"
     role="region"
     :aria-label="regionAriaLabel"
   >
@@ -120,7 +120,7 @@
                   :id="`${panelId}-text`"
                   v-model="draftText"
                   type="text"
-                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500"
+                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500"
                   :placeholder="openDefinition.placeholder ?? '…'"
                   @keydown.enter.prevent="applyDraft"
                 />
@@ -143,7 +143,7 @@
                     :key="opt.value"
                   >
                     <label
-                      class="flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-sm text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]"
+                      class="flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]"
                     >
                       <input
                         type="checkbox"
@@ -173,7 +173,7 @@
                       :id="`${panelId}-start`"
                       v-model="draftRangeStart"
                       type="date"
-                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
                   <div class="min-w-[120px] flex-1">
@@ -187,7 +187,7 @@
                       :id="`${panelId}-end`"
                       v-model="draftRangeEnd"
                       type="date"
-                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
                 </div>

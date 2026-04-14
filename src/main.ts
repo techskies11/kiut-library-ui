@@ -77,9 +77,12 @@ import InputText from './components/Inputs/InputText.vue';
 import InputFile from './components/Inputs/InputFile.vue';
 import InputDateTime from './components/Inputs/InputDateTime.vue';
 export type { KiutDateTimeValue } from './components/Inputs/InputDateTime.vue';
+import InputTime from './components/Inputs/InputTime.vue';
+export type { KiutTimeValue } from './components/Inputs/InputTime.vue';
 import InputRange from './components/Inputs/InputRange.vue';
 export type { InputRangeOrientation } from './components/Inputs/InputRange.vue';
 import InputNumber from './components/Inputs/InputNumber.vue';
+import InputColorPicker from './components/Inputs/InputColorPicker.vue';
 import Select from './components/Inputs/Select.vue';
 export type { KiutSelectOption, KiutSelectValue } from './components/Inputs/Select.vue';
 import MultiSelect from './components/Inputs/MultiSelect.vue';
@@ -162,8 +165,10 @@ export {
   InputText,
   InputFile,
   InputDateTime,
+  InputTime,
   InputRange,
   InputNumber,
+  InputColorPicker,
   Select,
   MultiSelect,
   Toggle,
@@ -235,8 +240,10 @@ export const KiutUIPlugin = {
     app.component('InputText', InputText);
     app.component('InputFile', InputFile);
     app.component('InputDateTime', InputDateTime);
+    app.component('InputTime', InputTime);
     app.component('InputRange', InputRange);
     app.component('InputNumber', InputNumber);
+    app.component('InputColorPicker', InputColorPicker);
     app.component('Select', Select);
     app.component('MultiSelect', MultiSelect);
     app.component('Toggle', Toggle);

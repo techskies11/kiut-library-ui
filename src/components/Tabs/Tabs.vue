@@ -4,7 +4,7 @@
       role="tablist"
       :aria-label="ariaLabel"
       :class="[
-        'flex-wrap gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none',
+        'box-border h-10 flex-wrap items-stretch gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-0.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none',
         fullWidth ? 'flex w-full' : 'inline-flex w-fit max-w-full',
       ]"
     >
@@ -23,7 +23,7 @@
         @keydown="onKeydown($event, index)"
       >
         <span
-          class="flex h-10 min-w-0 items-center justify-center gap-2 px-3"
+          class="flex h-full min-h-0 min-w-0 items-center justify-center gap-2 px-3"
           :class="{ 'min-w-0 flex-1': fullWidth }"
         >
           <component
@@ -96,7 +96,7 @@ function tabButtonClass(item: TabItem): string {
     props.fullWidth
       ? 'relative flex min-w-0 flex-1'
       : 'relative inline-flex max-w-full shrink-0';
-  const base = `${width} cursor-pointer rounded-lg border border-transparent text-center outline-none transition-[background-color,color,box-shadow,opacity,transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100`;
+  const base = `${width} h-full min-h-0 cursor-pointer rounded-lg border border-transparent text-center outline-none transition-[background-color,color,box-shadow,opacity,transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100`;
   if (item.disabled) {
     return `${base} cursor-not-allowed opacity-40`;
   }
