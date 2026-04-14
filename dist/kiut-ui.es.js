@@ -17650,7 +17650,7 @@ const Zw = { class: "tabs text-sm" }, Qw = ["aria-label"], Jw = ["id", "aria-sel
           c("tbody", null, [
             (y(!0), x(q, null, J(e.rows, (k, w) => (y(), x("tr", {
               key: u(k, w),
-              class: "h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)]"
+              class: "h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]"
             }, [
               e.selectable ? (y(), x("td", c$, [
                 c("input", {
@@ -17683,7 +17683,7 @@ const Zw = { class: "tabs text-sm" }, Qw = ["aria-label"], Jw = ["id", "aria-sel
       ])
     ]));
   }
-}), h$ = /* @__PURE__ */ st(u$, [["__scopeId", "data-v-52d12802"]]);
+}), h$ = /* @__PURE__ */ st(u$, [["__scopeId", "data-v-1928de95"]]);
 function f$(e, t) {
   return y(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
