@@ -2,6 +2,7 @@
   <div ref="rootRef" class="relative font-sans">
     <label v-if="label" :id="labelId" :class="kiutLabelClass">{{ label }}</label>
     <button
+      ref="buttonRef"
       :id="buttonId"
       type="button"
       :disabled="disabled"
@@ -35,34 +36,37 @@
       />
     </button>
 
-    <ul
-      v-show="open"
-      :id="listboxId"
-      ref="listRef"
-      role="listbox"
-      tabindex="-1"
-      class="absolute left-0 right-0 z-50 mt-[-3px] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-[color:var(--kiut-border-light)]"
-      @keydown.stop="onListKeydown"
-    >
-      <li
-        v-for="(opt, index) in enabledOptions"
-        :key="optionKey(opt)"
-        role="option"
-        :aria-selected="isSelected(opt)"
-        :class="optionClass(opt, index)"
-        @click.stop="choose(opt)"
-        @mouseenter="highlightIndex = index"
+    <Teleport to="body">
+      <ul
+        v-show="open"
+        :id="listboxId"
+        ref="listRef"
+        role="listbox"
+        tabindex="-1"
+        :style="floatingStyle"
+        class="fixed z-[300] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-[color:var(--kiut-border-light)]"
+        @keydown.stop="onListKeydown"
       >
-        <span
-          v-if="showOptionCheck"
-          class="flex w-5 shrink-0 justify-center"
-          aria-hidden="true"
+        <li
+          v-for="(opt, index) in enabledOptions"
+          :key="optionKey(opt)"
+          role="option"
+          :aria-selected="isSelected(opt)"
+          :class="optionClass(opt, index)"
+          @click.stop="choose(opt)"
+          @mouseenter="highlightIndex = index"
         >
-          <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
-        </span>
-        <span class="min-w-0 flex-1">{{ opt.label }}</span>
-      </li>
-    </ul>
+          <span
+            v-if="showOptionCheck"
+            class="flex w-5 shrink-0 justify-center"
+            aria-hidden="true"
+          >
+            <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
+          </span>
+          <span class="min-w-0 flex-1">{{ opt.label }}</span>
+        </li>
+      </ul>
+    </Teleport>
   </div>
 </template>
 
@@ -111,9 +115,22 @@ const buttonId = `${uid}-btn`;
 const listboxId = `${uid}-listbox`;
 
 const rootRef = ref<HTMLElement | null>(null);
+const buttonRef = ref<HTMLElement | null>(null);
 const listRef = ref<HTMLElement | null>(null);
 const open = ref(false);
 const highlightIndex = ref(0);
+const floatingStyle = ref<Record<string, string>>({});
+
+function updatePosition() {
+  const btn = buttonRef.value;
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  floatingStyle.value = {
+    top: `${rect.bottom - 3}px`,
+    left: `${rect.left}px`,
+    width: `${rect.width}px`,
+  };
+}
 
 const enabledOptions = computed(() => props.options.filter((o) => !o.disabled));
 
@@ -164,6 +181,7 @@ function onTriggerClick(e: MouseEvent) {
   if (props.disabled) return;
   toggle();
   if (open.value) {
+    updatePosition();
     const i = Math.max(
       0,
       enabledOptions.value.findIndex((o) => o.value === props.modelValue)
@@ -175,8 +193,10 @@ function onTriggerClick(e: MouseEvent) {
 
 function onDocumentClick(e: MouseEvent) {
   if (!open.value) return;
+  const target = e.target as Node;
   const el = rootRef.value;
-  if (el && !el.contains(e.target as Node)) {
+  const list = listRef.value;
+  if (el && !el.contains(target) && (!list || !list.contains(target))) {
     open.value = false;
   }
 }
@@ -187,6 +207,7 @@ function onTriggerKeydown(e: KeyboardEvent) {
     e.preventDefault();
     if (!open.value) {
       open.value = true;
+      updatePosition();
       highlightIndex.value = Math.max(
         0,
         enabledOptions.value.findIndex((o) => o.value === props.modelValue)
