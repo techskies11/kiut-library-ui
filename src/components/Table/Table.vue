@@ -40,7 +40,7 @@
           <tr
             v-for="(row, rowIndex) in rows"
             :key="rowKeyAt(row, rowIndex)"
-            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)]"
+            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]"
           >
             <td
               v-if="selectable"
