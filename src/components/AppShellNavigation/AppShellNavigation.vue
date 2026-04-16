@@ -9,7 +9,7 @@
     <div class="flex flex-1 min-h-0">
       <!-- ── Primary rail ── -->
       <div
-        class="primary-rail w-[3.4rem] flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)]"
+        class="primary-rail w-[3.4rem] flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light)"
         :style="{
           '--expanded-width': expandedPrimaryWidth,
         }"
@@ -37,7 +37,7 @@
               selectedSectionId === section.id ? 'true' : undefined
             "
             :title="section.label"
-            class="group relative flex flex-row items-center justify-start gap-1 px-2 py-2 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/20"
+            class="group relative flex flex-row items-center justify-start gap-1 px-2 py-2 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--kiut-primary)/20"
             :class="sectionButtonClass(section)"
             @click="selectSection(section)"
           >
@@ -58,7 +58,7 @@
         <!-- ── Footer slot – spans full width ── -->
         <div
           v-if="$slots.footer"
-          class="shrink-0 border-t border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)]"
+          class="shrink-0 border-t border-(--kiut-border-light) bg-(--kiut-bg-secondary)"
         >
           <slot name="footer" :expanded="isHoveringRail" />
         </div>
@@ -69,13 +69,13 @@
         <div
           v-if="activeSection"
           key="secondary"
-          class="secondary-panel flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)] overflow-hidden"
+          class="secondary-panel flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light) overflow-hidden"
           :style="{ width: secondaryWidth }"
         >
           <!-- Section title -->
           <div class="px-4 pt-4 pb-2 shrink-0">
             <p
-              class="text-[12px] font-bold uppercase tracking-widest text-[color:var(--kiut-text-muted)]"
+              class="text-[12px] font-bold uppercase tracking-widest text-(--kiut-text-muted)"
             >
               {{ activeSection.label }}
             </p>
@@ -92,7 +92,7 @@
               type="button"
               :data-nav-id="item.id"
               :aria-current="isItemActive(item) ? 'page' : undefined"
-              class="group flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/20"
+              class="group flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--kiut-primary)/20"
               :class="itemButtonClass(item)"
               @click="navigateToItem(activeSection!, item)"
             >
@@ -230,10 +230,10 @@ function sectionButtonClass(section: NavSection): string[] {
     ];
   }
   if (hasSectionActiveItem(section)) {
-    return ["text-[color:var(--kiut-primary)]", "text-purple-800/90 dark:text-purple-400"];
+    return ["text-(--kiut-primary)", "text-purple-800/90 dark:text-purple-400"];
   }
   return [
-    "text-[color:var(--kiut-text-secondary)]",
+    "text-(--kiut-text-secondary)",
     "hover:bg-purple-100/50 hover:text-purple-900",
     "dark:hover:bg-purple-400/20 dark:hover:text-purple-50",
   ];
@@ -247,7 +247,7 @@ function itemButtonClass(item: NavItem): string[] {
     ];
   }
   return [
-    "text-[color:var(--kiut-text-primary)]",
+    "text-(--kiut-text-primary)",
     "hover:bg-purple-50 hover:text-purple-900",
     "dark:hover:bg-purple-500/30 dark:hover:text-purple-50",
   ];
