@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 
 const props = withDefaults(defineProps<{
   totalRevenue?: number;
@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<{
 
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-const formattedRevenue = computed(() => `${props.currencyCode} ${useNumberFormat(Math.round(props.totalRevenue))}`)
+const formattedRevenue = computed(() => `${props.currencyCode} ${useCompactCurrencyFormat(props.totalRevenue)}`)
 
 const hasPreviousData = computed(() =>
   props.previousTotalRevenue !== null && props.previousTotalRevenue !== undefined

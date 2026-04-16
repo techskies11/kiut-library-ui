@@ -6,14 +6,32 @@
           <h3 class="card-title">Seller Metrics</h3>
           <p class="card-subtitle">Sales performance and failure analysis</p>
         </div>
-        <div class="payment-success-badge" v-if="!props.loading">
-          <p class="badge-label">Total Sales Value</p>
-          <div v-if="totalSalesByCurrency.length > 0" class="currency-breakdown-list">
+        <div class="header-badges">
+          <div class="payment-success-badge" v-if="!props.loading">
+            <p class="badge-label">Total Sales Value</p>
+            <div v-if="totalSalesByCurrency.length > 0" class="currency-breakdown-list">
             <p v-for="item in totalSalesByCurrency" :key="item.currency" class="currency-breakdown-item">
-              {{ item.currency }} {{ useCurrencyFormat(item.total_value) }}
+              {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
             </p>
+            </div>
+            <p v-else class="badge-value">{{ formatCurrencyValue(props.sellerData.total_value_sell_success) }}</p>
           </div>
-          <p v-else class="badge-value">{{ formatCurrencyValue(props.sellerData.total_value_sell_success) }}</p>
+          <div class="payment-warning-badge" v-if="!props.loading && bankTransferByCurrency.length > 0">
+            <p class="badge-label-warning">Bank Transfer Value</p>
+            <div class="currency-breakdown-list">
+              <p v-for="item in bankTransferByCurrency" :key="'bt-' + item.currency" class="currency-breakdown-item-warning">
+                {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
+              </p>
+            </div>
+          </div>
+          <div class="payment-warning-badge" v-if="!props.loading && cashOptionByCurrency.length > 0">
+            <p class="badge-label-warning">Cash Option Value</p>
+            <div class="currency-breakdown-list">
+              <p v-for="item in cashOptionByCurrency" :key="'co-' + item.currency" class="currency-breakdown-item-warning">
+                {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -70,6 +88,10 @@
                 <th class="table-header">Sell Started</th>
                 <th class="table-header">Get Quote</th>
                 <th class="table-header">Booking Created</th>
+                <th class="table-header">Bank Transfer</th>
+                <th class="table-header">BT Value</th>
+                <th class="table-header">Cash Option</th>
+                <th class="table-header">CO Value</th>
                 <th class="table-header">Sell Success</th>
                 <th class="table-header">Total Sales Value</th>
                 <th class="table-header">Failed</th>
@@ -97,6 +119,40 @@
                   {{ formatValueWithPercentage(row.sell_booking_created_count, row.seller_conversations || row.sell_started_count) }}
                 </td>
                 <td class="table-cell text-center">
+                  {{ useNumberFormat(row.sell_bank_transfer_count || 0) }}
+                </td>
+                <td class="table-cell text-center warning-value">
+                  <div
+                    v-if="Array.isArray(row.daily_value_sell_bank_transfer) && row.daily_value_sell_bank_transfer.length > 0"
+                    class="currency-cell-list"
+                  >
+                    <span
+                      v-for="item in row.daily_value_sell_bank_transfer"
+                      :key="`${row.date}-bt-${item.currency}`"
+                    >
+                      {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
+                    </span>
+                  </div>
+                  <span v-else class="empty-cell">-</span>
+                </td>
+                <td class="table-cell text-center">
+                  {{ useNumberFormat(row.sell_cash_option_count || 0) }}
+                </td>
+                <td class="table-cell text-center warning-value">
+                  <div
+                    v-if="Array.isArray(row.daily_value_sell_cash_option) && row.daily_value_sell_cash_option.length > 0"
+                    class="currency-cell-list"
+                  >
+                    <span
+                      v-for="item in row.daily_value_sell_cash_option"
+                      :key="`${row.date}-co-${item.currency}`"
+                    >
+                      {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
+                    </span>
+                  </div>
+                  <span v-else class="empty-cell">-</span>
+                </td>
+                <td class="table-cell text-center">
                   {{ formatValueWithPercentage(row.sell_success_count, row.seller_conversations || row.sell_started_count) }}
                 </td>
                 <td class="table-cell text-center success-value">
@@ -108,7 +164,7 @@
                       v-for="item in row.daily_value_sell_success"
                       :key="`${row.date}-${item.currency}`"
                     >
-                      {{ item.currency }} {{ useCurrencyFormat(item.total_value) }}
+                      {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
                     </span>
                   </div>
                   <span v-else>{{ formatCurrencyValue(row.daily_value_sell_success) }}</span>
@@ -154,7 +210,7 @@ import { computed, ref, toRef } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
+import { useNumberFormat, useCurrencyFormat, useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 interface FailedReason {
@@ -175,7 +231,11 @@ interface SellerDayData {
   sell_get_quote_count: number;
   sell_booking_created_count: number;
   sell_success_count: number;
+  sell_bank_transfer_count: number;
+  sell_cash_option_count: number;
   daily_value_sell_success: number | CurrencyValue[];
+  daily_value_sell_bank_transfer: CurrencyValue[];
+  daily_value_sell_cash_option: CurrencyValue[];
   reasons?: FailedReason[];
 }
 
@@ -185,7 +245,11 @@ interface SellerData {
   total_sell_get_quote: number;
   total_sell_booking_created: number;
   total_sell_success: number;
+  total_sell_bank_transfer: number;
+  total_sell_cash_option: number;
   total_value_sell_success: number | CurrencyValue[];
+  total_value_sell_bank_transfer: CurrencyValue[];
+  total_value_sell_cash_option: CurrencyValue[];
   seller_by_day: SellerDayData[];
 }
 
@@ -211,7 +275,11 @@ const props = withDefaults(defineProps<{
     total_sell_get_quote: 0,
     total_sell_booking_created: 0,
     total_sell_success: 0,
+    total_sell_bank_transfer: 0,
+    total_sell_cash_option: 0,
     total_value_sell_success: 0,
+    total_value_sell_bank_transfer: [],
+    total_value_sell_cash_option: [],
     seller_by_day: [],
   }),
   failedData: () => ({
@@ -258,7 +326,11 @@ const tableData = computed(() => {
           sell_get_quote_count: 0,
           sell_booking_created_count: 0,
           sell_success_count: 0,
+          sell_bank_transfer_count: 0,
+          sell_cash_option_count: 0,
           daily_value_sell_success: 0,
+          daily_value_sell_bank_transfer: [],
+          daily_value_sell_cash_option: [],
           reasons: failedItem.reasons,
         })
       }
@@ -281,6 +353,12 @@ const failedData = computed(() => props.failedData)
 const totalSalesByCurrency = computed(() =>
   Array.isArray(props.sellerData.total_value_sell_success) ? props.sellerData.total_value_sell_success : [],
 )
+const bankTransferByCurrency = computed(() =>
+  Array.isArray(props.sellerData.total_value_sell_bank_transfer) ? props.sellerData.total_value_sell_bank_transfer : [],
+)
+const cashOptionByCurrency = computed(() =>
+  Array.isArray(props.sellerData.total_value_sell_cash_option) ? props.sellerData.total_value_sell_cash_option : [],
+)
 
 const sankeyData = computed(() => {
   const {
@@ -288,6 +366,8 @@ const sankeyData = computed(() => {
     total_sell_started: started = 0,
     total_sell_booking_created: bookingCreated = 0,
     total_sell_success: success = 0,
+    total_sell_bank_transfer: bankTransfer = 0,
+    total_sell_cash_option: cashOption = 0,
   } = sellerData.value
   const { failed_by_reason_by_day = [] } = failedData.value
 
@@ -349,6 +429,29 @@ const sankeyData = computed(() => {
     })
   }
 
+  // From Booking Created: independent branches for payment methods, success, and failure
+  if (bankTransfer > 0) {
+    const percentage = Math.round((bankTransfer / conversations) * 100)
+    nodes.push({ name: 'Bank Transfer', value: bankTransfer })
+    links.push({
+      source: 'Booking Created',
+      target: 'Bank Transfer',
+      value: bankTransfer,
+      label: `${bankTransfer.toLocaleString()} (${percentage}%)`,
+    })
+  }
+
+  if (cashOption > 0) {
+    const percentage = Math.round((cashOption / conversations) * 100)
+    nodes.push({ name: 'Cash Option', value: cashOption })
+    links.push({
+      source: 'Booking Created',
+      target: 'Cash Option',
+      value: cashOption,
+      label: `${cashOption.toLocaleString()} (${percentage}%)`,
+    })
+  }
+
   if (success > 0) {
     const percentage = Math.round((success / conversations) * 100)
     links.push({
@@ -359,7 +462,19 @@ const sankeyData = computed(() => {
     })
   }
 
-  // Failed flows
+  const failedAtCompletion = bookingCreated - success - bankTransfer - cashOption
+  if (failedAtCompletion > 0) {
+    const percentage = Math.round((failedAtCompletion / conversations) * 100)
+    nodes.push({ name: 'Failed at Completion', value: failedAtCompletion })
+    links.push({
+      source: 'Booking Created',
+      target: 'Failed at Completion',
+      value: failedAtCompletion,
+      label: `${failedAtCompletion.toLocaleString()} (${percentage}%)`,
+    })
+  }
+
+  // Failed flows from Sell Started
   const failedAtBooking = started - bookingCreated
   if (failedAtBooking > 0) {
     const percentage = Math.round((failedAtBooking / conversations) * 100)
@@ -403,18 +518,6 @@ const sankeyData = computed(() => {
     }
   }
 
-  const failedAtCompletion = bookingCreated - success
-  if (failedAtCompletion > 0) {
-    const percentage = Math.round((failedAtCompletion / conversations) * 100)
-    nodes.push({ name: 'Failed at Completion', value: failedAtCompletion })
-    links.push({
-      source: 'Booking Created',
-      target: 'Failed at Completion',
-      value: failedAtCompletion,
-      label: `${failedAtCompletion.toLocaleString()} (${percentage}%)`,
-    })
-  }
-
   return { nodes, links }
 })
 
@@ -424,6 +527,9 @@ const SANKEY_SELLER_COLORS: Record<string, string> = {
   'Sell Started': '#93C5FD',
   'Get Quote': '#C7D2FE',
   'Booking Created': '#8B8CF6',
+  'Bank Transfer': '#fde68a',
+  'Cash Option': '#fde68a',
+  'Other Payment': '#818CF8',
   'Sell Success': '#7BE39E',
   'Sell Failed': '#FCA5A5',
   'Failed at Quote': '#FCA5A5',
@@ -465,7 +571,7 @@ const getTotalValue = (value: number | CurrencyValue[] | undefined): number => {
 
 // Format currency value handling both number and array formats
 const formatCurrencyValue = (value: number | CurrencyValue[] | undefined): string => {
-  return useCurrencyFormat(getTotalValue(value))
+  return useCompactCurrencyFormat(getTotalValue(value))
 }
 
 // Expose isDark for potential use in templates
@@ -584,6 +690,49 @@ defineExpose({ isDark })
   margin: 0;
 }
 
+/* Header Badges Container */
+.header-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Yellow Warning Badge for Bank Transfer / Cash Option */
+.payment-warning-badge {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 16px;
+  padding: 16px 24px;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-warning-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+}
+
+.badge-label-warning {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #92400e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 4px 0;
+}
+
+.currency-breakdown-item-warning {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #78350f;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -680,6 +829,11 @@ defineExpose({ isDark })
 .success-value {
   font-weight: 600;
   color: var(--kiut-success);
+}
+
+.warning-value {
+  font-weight: 600;
+  color: #92400e;
 }
 
 .currency-cell-list {
