@@ -9,7 +9,7 @@
     <div class="flex flex-1 min-h-0">
       <!-- ── Primary rail ── -->
       <div
-        class="primary-rail w-[3.4rem] flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light)"
+        class="primary-rail w-[3.4rem] flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)]"
         :style="{
           '--expanded-width': expandedPrimaryWidth,
         }"
@@ -58,7 +58,7 @@
         <!-- ── Footer slot – spans full width ── -->
         <div
           v-if="$slots.footer"
-          class="shrink-0 border-t border-(--kiut-border-light) bg-(--kiut-bg-secondary)"
+          class="shrink-0 border-t border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)]"
         >
           <slot name="footer" :expanded="isHoveringRail" />
         </div>
@@ -69,7 +69,7 @@
         <div
           v-if="activeSection"
           key="secondary"
-          class="secondary-panel flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light) overflow-hidden"
+          class="secondary-panel flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)] overflow-hidden"
           :style="{ width: secondaryWidth }"
         >
           <!-- Section title -->
