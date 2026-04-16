@@ -19858,7 +19858,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
   "aria-label": "Sections"
 }, gS = ["aria-current", "title", "onClick"], pS = {
   key: 1,
-  class: "shrink-0 border-t border-(--kiut-border-light) bg-(--kiut-bg-secondary)"
+  class: "shrink-0 border-t border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)]"
 }, vS = { class: "px-4 pt-4 pb-2 shrink-0" }, bS = { class: "text-[12px] font-bold uppercase tracking-widest text-(--kiut-text-muted)" }, mS = {
   class: "flex-1 overflow-y-auto px-2 pb-3 flex flex-col gap-1",
   "aria-label": "Section items"
@@ -19927,7 +19927,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
     }, r), [
       c("div", uS, [
         c("div", {
-          class: "primary-rail w-[3.4rem] flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light)",
+          class: "primary-rail w-[3.4rem] flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)]",
           style: mt({
             "--expanded-width": e.expandedPrimaryWidth
           }),
@@ -19965,7 +19965,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
           default: Ee(() => [
             l.value ? (y(), x("div", {
               key: "secondary",
-              class: "secondary-panel flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light) overflow-hidden",
+              class: "secondary-panel flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)] overflow-hidden",
               style: mt({ width: e.secondaryWidth })
             }, [
               c("div", vS, [
@@ -19997,7 +19997,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
       ])
     ], 16));
   }
-}), xS = /* @__PURE__ */ st(_S, [["__scopeId", "data-v-aa09134c"]]), LS = {
+}), xS = /* @__PURE__ */ st(_S, [["__scopeId", "data-v-0b25dfb2"]]), LS = {
   install(e) {
     e.component("KiutChartBar", ie), e.component("KiutChartLine", me), e.component("KiutPieChart", Za), e.component("KiutBoxplotChart", qh), e.component("KiutCandlestickChart", Ei), e.component("KiutHistogramChart", Ri), e.component("KiutSankeyChart", ye), e.component("KiutAgentsPerDay", ip), e.component("KiutBookingManager", jp), e.component("KiutCheckin", g0), e.component("KiutCheckinMetrics", V0), e.component("KiutCheckinSegments", hv), e.component("KiutDisruption", Xv), e.component("KiutFAQ", fb), e.component("KiutMessagesPerAgent", kb), e.component("KiutRecordLocator", Ub), e.component("KiutSalesByChannel", um), e.component("KiutSeller", Wm), e.component("KiutTopAgents", Zm), e.component("KiutPaymentMethod", F1), e.component("KiutAgentHumanConversations", xy), e.component("KiutChannelMetrics", Fy), e.component("KiutTriageCombinations", Qy), e.component("KiutSelectLanguage", c_), e.component("KiutGuardrails", R_), e.component("KiutDisruptionNotifier", P2), e.component("KiutTotalConversationsCard", z2), e.component("KiutCsatP95Card", K2), e.component("KiutAiGeneratedRevenueCard", Q2), e.component("KiutNpsDailyMetrics", Ni), e.component("KiutNpsMetrics", Nx), e.component("KiutNpsOverviewMetrics", Wi), e.component("KiutAWSCost", ik), e.component("KiutCostUsage", Ak), e.component("KiutTokenUsage", Gk), e.component("KiutConversationCount", d5), e.component("KiutTopAgentsAnalysis", w5), e.component("KiutTopAgentsPie", F5), e.component("KiutDailyCostTrends", H5), e.component("KiutModelUsage", fw), e.component("KiutMessageRoles", Bw), e.component("KiutCostPerConversations", Gw), e.component("Tabs", a$), e.component("Table", h$), e.component("Filters", Y$), e.component("InputText", G$), e.component("InputFile", n4), e.component("InputDateTime", d4), e.component("InputTime", v4), e.component("InputRange", T4), e.component("InputNumber", I4), e.component("InputColorPicker", j4), e.component("Select", ji), e.component("MultiSelect", sM), e.component("Toggle", iM), e.component("InputPhone", gM), e.component("SelectablePills", xM), e.component("SegmentedControl", MM), e.component("DateRangePicker", NM), e.component("Tag", HM), e.component("Button", Pa), e.component("Modal", aS), e.component("Section", dS), e.component("KiutAppShellNavigation", xS);
   }
