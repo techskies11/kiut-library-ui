@@ -101,6 +101,8 @@ import Button from './components/Button/Button.vue';
 export type { KiutButtonVariant, KiutButtonActionTone } from './components/Button/Button.vue';
 import Modal from './components/Modal/Modal.vue';
 import Section from './components/Section/Section.vue';
+import AppShellNavigation from './components/AppShellNavigation/AppShellNavigation.vue';
+export type { NavSection, NavItem } from './components/AppShellNavigation/AppShellNavigation.vue';
 
 // ============================================
 // Estilos
@@ -180,6 +182,7 @@ export {
   Button,
   Modal,
   Section,
+  AppShellNavigation,
 };
 
 // ============================================
@@ -255,5 +258,6 @@ export const KiutUIPlugin = {
     app.component('Button', Button);
     app.component('Modal', Modal);
     app.component('Section', Section);
+    app.component('KiutAppShellNavigation', AppShellNavigation);
   }
 };
