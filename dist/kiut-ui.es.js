@@ -19859,7 +19859,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
 }, gS = ["aria-current", "title", "onClick"], pS = {
   key: 1,
   class: "shrink-0 border-t border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)]"
-}, vS = { class: "px-4 pt-4 pb-2 shrink-0" }, bS = { class: "text-[12px] font-bold uppercase tracking-widest text-(--kiut-text-muted)" }, mS = {
+}, vS = { class: "px-4 pt-4 pb-2 shrink-0" }, bS = { class: "text-[12px] font-bold uppercase tracking-widest text-[color:var(--kiut-text-muted)]" }, mS = {
   class: "flex-1 overflow-y-auto px-2 pb-3 flex flex-col gap-1",
   "aria-label": "Section items"
 }, yS = ["data-nav-id", "aria-current", "onClick"], _S = /* @__PURE__ */ Q({
@@ -19904,8 +19904,8 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
     function v(_) {
       return s.selectedSectionId === _.id ? [
         "bg-purple-100 text-purple-900 shadow-sm dark:bg-purple-500/30 dark:text-purple-50"
-      ] : u(_) ? ["text-(--kiut-primary)", "text-purple-800/90 dark:text-purple-400"] : [
-        "text-(--kiut-text-secondary)",
+      ] : u(_) ? ["text-[color:var(--kiut-primary)]", "text-purple-800/90 dark:text-purple-400"] : [
+        "text-[color:var(--kiut-text-secondary)]",
         "hover:bg-purple-100/50 hover:text-purple-900",
         "dark:hover:bg-purple-400/20 dark:hover:text-purple-50"
       ];
@@ -19915,7 +19915,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
         "bg-purple-100 text-purple-700",
         "dark:bg-purple-600/19 dark:text-purple-500"
       ] : [
-        "text-(--kiut-text-primary)",
+        "text-[color:var(--kiut-text-primary)]",
         "hover:bg-purple-50 hover:text-purple-900",
         "dark:hover:bg-purple-500/30 dark:hover:text-purple-50"
       ];
@@ -19943,7 +19943,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
               type: "button",
               "aria-current": e.selectedSectionId === g.id ? "true" : void 0,
               title: g.label,
-              class: Y(["group relative flex flex-row items-center justify-start gap-1 px-2 py-2 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--kiut-primary)/20", v(g)]),
+              class: Y(["group relative flex flex-row items-center justify-start gap-1 px-2 py-2 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/20", v(g)]),
               onClick: (m) => h(g)
             }, [
               g.icon ? (y(), ct(la(g.icon), {
@@ -19977,7 +19977,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
                   type: "button",
                   "data-nav-id": g.id,
                   "aria-current": d(g) ? "page" : void 0,
-                  class: Y(["group flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--kiut-primary)/20", f(g)]),
+                  class: Y(["group flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/20", f(g)]),
                   onClick: (m) => p(l.value, g)
                 }, [
                   g.icon ? (y(), ct(la(g.icon), {
@@ -19997,7 +19997,7 @@ const BM = ["aria-expanded", "aria-labelledby", "aria-label"], LM = ["onKeydown"
       ])
     ], 16));
   }
-}), xS = /* @__PURE__ */ st(_S, [["__scopeId", "data-v-0b25dfb2"]]), LS = {
+}), xS = /* @__PURE__ */ st(_S, [["__scopeId", "data-v-d917d117"]]), LS = {
   install(e) {
     e.component("KiutChartBar", ie), e.component("KiutChartLine", me), e.component("KiutPieChart", Za), e.component("KiutBoxplotChart", qh), e.component("KiutCandlestickChart", Ei), e.component("KiutHistogramChart", Ri), e.component("KiutSankeyChart", ye), e.component("KiutAgentsPerDay", ip), e.component("KiutBookingManager", jp), e.component("KiutCheckin", g0), e.component("KiutCheckinMetrics", V0), e.component("KiutCheckinSegments", hv), e.component("KiutDisruption", Xv), e.component("KiutFAQ", fb), e.component("KiutMessagesPerAgent", kb), e.component("KiutRecordLocator", Ub), e.component("KiutSalesByChannel", um), e.component("KiutSeller", Wm), e.component("KiutTopAgents", Zm), e.component("KiutPaymentMethod", F1), e.component("KiutAgentHumanConversations", xy), e.component("KiutChannelMetrics", Fy), e.component("KiutTriageCombinations", Qy), e.component("KiutSelectLanguage", c_), e.component("KiutGuardrails", R_), e.component("KiutDisruptionNotifier", P2), e.component("KiutTotalConversationsCard", z2), e.component("KiutCsatP95Card", K2), e.component("KiutAiGeneratedRevenueCard", Q2), e.component("KiutNpsDailyMetrics", Ni), e.component("KiutNpsMetrics", Nx), e.component("KiutNpsOverviewMetrics", Wi), e.component("KiutAWSCost", ik), e.component("KiutCostUsage", Ak), e.component("KiutTokenUsage", Gk), e.component("KiutConversationCount", d5), e.component("KiutTopAgentsAnalysis", w5), e.component("KiutTopAgentsPie", F5), e.component("KiutDailyCostTrends", H5), e.component("KiutModelUsage", fw), e.component("KiutMessageRoles", Bw), e.component("KiutCostPerConversations", Gw), e.component("Tabs", a$), e.component("Table", h$), e.component("Filters", Y$), e.component("InputText", G$), e.component("InputFile", n4), e.component("InputDateTime", d4), e.component("InputTime", v4), e.component("InputRange", T4), e.component("InputNumber", I4), e.component("InputColorPicker", j4), e.component("Select", ji), e.component("MultiSelect", sM), e.component("Toggle", iM), e.component("InputPhone", gM), e.component("SelectablePills", xM), e.component("SegmentedControl", MM), e.component("DateRangePicker", NM), e.component("Tag", HM), e.component("Button", Pa), e.component("Modal", aS), e.component("Section", dS), e.component("KiutAppShellNavigation", xS);
   }
