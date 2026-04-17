@@ -35,6 +35,78 @@ const meta: Meta<typeof AppShellNavigation> = {
       },
     },
   },
+  argTypes: {
+    primaryRailWidth: {
+      description:
+        "Base width of the primary rail in its collapsed state (no hover). Accepts any valid CSS length value.",
+      control: { type: "text" },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "3.4rem" },
+        category: "Layout",
+      },
+    },
+    expandedPrimaryWidth: {
+      description:
+        "Width of the primary rail when hovered/expanded. Accepts any valid CSS length value.",
+      control: { type: "text" },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "8rem" },
+        category: "Layout",
+      },
+    },
+    secondaryWidth: {
+      description:
+        "Width of the secondary panel. Accepts any valid CSS length value.",
+      control: { type: "text" },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "12.5rem" },
+        category: "Layout",
+      },
+    },
+    primaryIconSize: {
+      description:
+        "Size (width and height) of icons rendered inside the primary rail buttons. Accepts any valid CSS length value.",
+      control: { type: "text" },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "24px" },
+        category: "Typography & Icons",
+      },
+    },
+    secondaryIconSize: {
+      description:
+        "Size (width and height) of icons rendered inside the secondary panel item buttons. Accepts any valid CSS length value.",
+      control: { type: "text" },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "14px" },
+        category: "Typography & Icons",
+      },
+    },
+    primaryFontSize: {
+      description:
+        "Font size for the section labels in the primary rail (visible on hover). Accepts any valid CSS length value.",
+      control: { type: "text" },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "11px" },
+        category: "Typography & Icons",
+      },
+    },
+    secondaryFontSize: {
+      description:
+        "Font size for the item labels in the secondary panel. Accepts any valid CSS length value.",
+      control: { type: "text" },
+      table: {
+        type: { summary: "string" },
+        defaultValue: { summary: "14px" },
+        category: "Typography & Icons",
+      },
+    },
+  },
 };
 
 export default meta;
@@ -375,6 +447,72 @@ export const DarkMode: Story = {
         </AppShellNavigation>
         <main class="flex-1 p-6">
           <p class="text-sm text-[color:var(--kiut-text-secondary)]">Dark mode preview</p>
+        </main>
+      </div>
+    `,
+  }),
+};
+
+// ──────────────────────────────────────────────────────────────────
+// Custom icon sizes + collapsed rail width
+// ──────────────────────────────────────────────────────────────────
+
+export const CustomSizes: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Demonstrates `primaryRailWidth` (collapsed width without hover), `primaryIconSize` (icons in the primary rail), and `secondaryIconSize` (icons in the secondary panel). All three accept any valid CSS length.",
+      },
+    },
+  },
+  render: () => ({
+    components: { AppShellNavigation },
+    setup() {
+      const selectedSectionId = ref<string | null>("aiAgents");
+      const activePath = ref("/documents");
+      function onNavigate({ item }: { item: { path: string } }) {
+        activePath.value = item.path;
+      }
+      return { demoSections, selectedSectionId, activePath, onNavigate };
+    },
+    template: `
+      <div class="flex h-screen bg-[color:var(--kiut-bg-primary)]">
+        <AppShellNavigation
+          :sections="demoSections"
+          v-model:selectedSectionId="selectedSectionId"
+          :activePath="activePath"
+          @navigate="onNavigate"
+          primaryRailWidth="4.5rem"
+          expandedPrimaryWidth="13rem"
+          secondaryWidth="14rem"
+          primaryIconSize="20px"
+          secondaryIconSize="12px"
+          primaryFontSize="11px"
+          secondaryFontSize="13px"
+          class="h-full rounded-xl m-3"
+          style="box-shadow: var(--kiut-shadow-card)"
+        >
+          <template #logo>
+            <div class="w-9 h-9 rounded-xl bg-[color:var(--kiut-primary)] flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+          </template>
+        </AppShellNavigation>
+        <main class="flex-1 p-6">
+          <p class="text-sm text-[color:var(--kiut-text-secondary)]">
+            Props used in this story:
+          </p>
+          <ul class="mt-2 space-y-1 text-xs text-[color:var(--kiut-text-muted)] list-disc list-inside">
+            <li><code>primaryRailWidth="4.5rem"</code> — wider collapsed rail</li>
+            <li><code>primaryIconSize="20px"</code> — slightly smaller section icons</li>
+            <li><code>secondaryIconSize="12px"</code> — smaller item icons</li>
+          </ul>
+          <p class="mt-4 text-xs text-[color:var(--kiut-text-muted)]">
+            Active path: <strong>{{ activePath }}</strong>
+          </p>
         </main>
       </div>
     `,

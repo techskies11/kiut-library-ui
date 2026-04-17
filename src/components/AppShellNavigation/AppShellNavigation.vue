@@ -9,9 +9,10 @@
     <div class="flex flex-1 min-h-0">
       <!-- ── Primary rail ── -->
       <div
-        class="primary-rail w-[3.4rem] flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)]"
+        class="primary-rail flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)]"
         :style="{
           '--expanded-width': expandedPrimaryWidth,
+          width: primaryRailWidth,
         }"
         @mouseenter="isHoveringRail = true"
         @mouseleave="isHoveringRail = false"
@@ -44,7 +45,8 @@
             <component
               :is="section.icon"
               v-if="section.icon"
-              class="w-[24px] h-[24px] shrink-0"
+              class="shrink-0"
+              :style="{ width: primaryIconSize, height: primaryIconSize }"
               aria-hidden="true"
             />
             <span
@@ -99,7 +101,7 @@
               <component
                 :is="item.icon"
                 v-if="item.icon"
-                class="w-[14px] h-[14px]"
+                :style="{ width: secondaryIconSize, height: secondaryIconSize }"
               />
               <span class="truncate" :style="{ fontSize: secondaryFontSize }">{{
                 item.label
@@ -158,6 +160,15 @@ const props = withDefaults(
 
     /** Font Size of the Items Panel */
     secondaryFontSize?: string;
+
+    /** Icon size for the primary rail buttons */
+    primaryIconSize?: string;
+
+    /** Icon size for the secondary panel items */
+    secondaryIconSize?: string;
+
+    /** Base width of the primary rail (collapsed, no hover) */
+    primaryRailWidth?: string;
   }>(),
   {
     /* Default value of the props */
@@ -167,6 +178,9 @@ const props = withDefaults(
     secondaryWidth: "12.5rem",
     primaryFontSize: "11px",
     secondaryFontSize: "14px",
+    primaryIconSize: "24px",
+    secondaryIconSize: "14px",
+    primaryRailWidth: "3.4rem",
   },
 );
 
@@ -243,7 +257,7 @@ function itemButtonClass(item: NavItem): string[] {
   if (isItemActive(item)) {
     return [
       "bg-purple-100 text-purple-700",
-      "dark:bg-purple-600/19 dark:text-purple-500",
+      "dark:bg-purple-600/20 dark:text-purple-400",
     ];
   }
   return [
