@@ -19920,7 +19920,7 @@ const Y3 = ["aria-expanded", "aria-labelledby", "aria-label"], K3 = ["onKeydown"
   setup(e) {
     const t = e, a = Oo(), n = `${`kiut-section-${Ft()}`}-title`, o = S(() => !!(a.icon || t.icon));
     return (i, r) => (m(), x("section", {
-      class: "mb-6 text-left font-['Inter',system-ui,sans-serif]",
+      class: "text-left font-['Inter',system-ui,sans-serif]",
       "aria-labelledby": n
     }, [
       l("header", bM, [
