@@ -1,6 +1,6 @@
 <template>
   <section
-    class="mb-6 text-left font-['Inter',system-ui,sans-serif]"
+    class="text-left font-['Inter',system-ui,sans-serif]"
     :aria-labelledby="titleId"
   >
     <header
