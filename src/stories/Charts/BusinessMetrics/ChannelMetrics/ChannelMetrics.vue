@@ -9,6 +9,13 @@
 
     <!-- Content when loaded -->
     <div class="card-body" v-if="!props.loading">
+      <!-- Chart Section -->
+      <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
+        <LineChart :data="dataChart" :options="lineOptions" />
+
+        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
+      </section>
+
       <!-- KPI Cards -->
       <div class="kpi-grid" v-if="channelTotals.length">
         <div
@@ -18,19 +25,12 @@
         >
           <div class="kpi-label-row">
             <span class="kpi-color-dot" :style="{ backgroundColor: ch.color }" aria-hidden="true"></span>
-            <span class="kpi-label">{{ ch.label }}</span>
+            <span class="kpi-label" :title="ch.label">{{ ch.label }}</span>
           </div>
           <span class="kpi-value">{{ ch.percentage }}%</span>
           <span class="kpi-secondary">{{ useNumberFormat(ch.total) }} msgs</span>
         </div>
       </div>
-
-      <!-- Chart Section -->
-      <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
-        <LineChart :data="dataChart" :options="lineOptions" />
-
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
-      </section>
 
       <!-- Empty State -->
       <section v-else class="empty-state">
@@ -354,21 +354,22 @@ defineExpose({ isDark })
 /* KPI Grid */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .kpi-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
+  gap: 2px;
+  padding: 8px 10px;
   background: var(--kiut-bg-stats-badge);
   border: 1px solid var(--kiut-border-light);
-  border-radius: 10px;
+  border-radius: 8px;
   transition: all 0.2s ease;
   text-align: center;
+  min-width: 0;
 }
 
 .kpi-card:hover {
@@ -380,8 +381,10 @@ defineExpose({ isDark })
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .kpi-color-dot {
@@ -392,15 +395,19 @@ defineExpose({ isDark })
 }
 
 .kpi-label {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   color: var(--kiut-text-secondary);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .kpi-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--kiut-text-primary);
   letter-spacing: -0.02em;
@@ -408,7 +415,7 @@ defineExpose({ isDark })
 }
 
 .kpi-secondary {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 400;
   color: var(--kiut-text-secondary);
   line-height: 1.2;
@@ -566,20 +573,16 @@ defineExpose({ isDark })
   }
 
   .kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
   }
 
   .kpi-card {
-    padding: 10px 12px;
-  }
-
-  .kpi-label {
-    font-size: 0.6875rem;
+    padding: 6px 8px;
   }
 
   .kpi-value {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 }
 </style>
