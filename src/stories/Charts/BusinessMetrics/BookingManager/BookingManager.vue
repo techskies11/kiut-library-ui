@@ -10,10 +10,10 @@
           <p class="badge-label">Payment Success Value</p>
           <div v-if="totalPaymentSuccessValueByCurrency.length > 0" class="currency-breakdown-list">
             <p v-for="item in totalPaymentSuccessValueByCurrency" :key="item.currency" class="currency-breakdown-item">
-              {{ item.currency }} {{ formatCurrency(item.total_value) }}
+              {{ item.currency }} {{ formatCompactCurrency(item.total_value) }}
             </p>
           </div>
-          <p v-else class="badge-value">{{ formatCurrency(0) }}</p>
+          <p v-else class="badge-value">{{ formatCompactCurrency(0) }}</p>
         </div>
       </div>
     </header>
@@ -177,7 +177,7 @@ import { computed, ref } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
+import { useCurrencyFormat, useCompactCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
 
 interface BookingDayData {
   date: string;
@@ -204,6 +204,7 @@ interface BookingData {
   total_payment_success?: number;
   total_payment_failed: number;
   total_payment_success_value?: BookingManagerCurrencyBreakdown[];
+  total_sell_usd?: number;
   booking_manager_by_day: BookingDayData[];
 }
 
@@ -284,6 +285,16 @@ const formatCurrency = (value: number): string => {
   return useCurrencyFormat(value)
 }
 
+const formatCompactCurrency = (value: number | undefined | null): string => {
+  if (value === null || value === undefined) return '0'
+  return useCompactCurrencyFormat(value)
+}
+
+const totalPaymentSuccessUsd = computed(() => {
+  return (props.data?.total_payment_success_value || [])
+    .reduce((sum, item) => sum + (item.total_value || 0), 0)
+})
+
 const sankeyData = computed(() => {
   const data = props.data
   const initiated = data.total_booking_initiated || 0
@@ -306,7 +317,7 @@ const sankeyData = computed(() => {
   // Helper function to format label with percentage
   const formatLabel = (value: number, total: number): string => {
     const percentage = total > 0 ? Math.round((value / total) * 100) : 0
-    return `${value.toLocaleString()} (${percentage}%)`
+    return `${useNumberFormat(value)} (${percentage}%)`
   }
 
   // Define nodes

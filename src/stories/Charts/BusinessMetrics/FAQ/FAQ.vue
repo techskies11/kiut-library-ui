@@ -3,42 +3,25 @@
     <header class="card-header">
       <div class="header-content">
         <h3 class="card-title">FAQ Metrics</h3>
-        <p class="card-subtitle">Daily FAQ consultation and retrieval metrics</p>
+        <p class="card-subtitle">FAQ volume by category</p>
       </div>
     </header>
 
     <!-- Content when loaded -->
     <div class="card-body" v-if="!props.loading">
       <!-- KPI Cards -->
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <span class="kpi-label">Total FAQ</span>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_faq_events) }}</span>
-        </div>
-        <div class="kpi-card">
-          <span class="kpi-label">Documents Found</span>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_documents_found) }}</span>
-        </div>
-        <div class="kpi-card kpi-card--airline">
+      <div class="kpi-grid" v-if="faqCategoryTotals.length">
+        <div
+          class="kpi-card"
+          v-for="cat in faqCategoryTotals"
+          :key="cat.name"
+        >
           <div class="kpi-label-row">
-            <span class="kpi-color-dot" aria-hidden="true"></span>
-            <span class="kpi-label">Airline Info</span>
+            <span class="kpi-color-dot" :style="{ backgroundColor: cat.color }" aria-hidden="true"></span>
+            <span class="kpi-label">{{ cat.label }}</span>
           </div>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_airline_information_retrieved) }}</span>
-        </div>
-        <div class="kpi-card kpi-card--booking">
-          <div class="kpi-label-row">
-            <span class="kpi-color-dot" aria-hidden="true"></span>
-            <span class="kpi-label">Booking Info</span>
-          </div>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_booking_info_retrieved) }}</span>
-        </div>
-        <div class="kpi-card kpi-card--flight">
-          <div class="kpi-label-row">
-            <span class="kpi-color-dot" aria-hidden="true"></span>
-            <span class="kpi-label">Flight Status</span>
-          </div>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_flight_status_retrieved) }}</span>
+          <span class="kpi-value">{{ useNumberFormat(cat.total) }}</span>
+          <span class="kpi-secondary">{{ cat.percentage }}%</span>
         </div>
       </div>
 
@@ -130,6 +113,12 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
+const faqColorMap: Record<string, string> = {
+  airline_information: '#8b5cf6',
+  booking_info: '#f59e0b',
+  flight_status: '#06b6d4',
+}
+
 const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
 const metricsData = computed<MetricsData>(() => props.data ?? {
   total_faq_events: 0,
@@ -138,6 +127,23 @@ const metricsData = computed<MetricsData>(() => props.data ?? {
   total_booking_info_retrieved: 0,
   total_flight_status_retrieved: 0,
   faq_by_day: [],
+})
+
+const faqCategoryTotals = computed(() => {
+  const categories = [
+    { name: 'airline_information', label: 'Airline Info', total: metricsData.value.total_airline_information_retrieved },
+    { name: 'booking_info', label: 'Booking Info', total: metricsData.value.total_booking_info_retrieved },
+    { name: 'flight_status', label: 'Flight Status', total: metricsData.value.total_flight_status_retrieved },
+  ]
+
+  const grandTotal = categories.reduce((sum, c) => sum + c.total, 0)
+  if (grandTotal === 0) return []
+
+  return categories.map(c => ({
+    ...c,
+    percentage: ((c.total / grandTotal) * 100).toFixed(1),
+    color: faqColorMap[c.name] || '#9ca3af',
+  }))
 })
 
 const lineOptions = computed(() => ({
@@ -362,7 +368,7 @@ defineExpose({ isDark })
 /* KPI Grid */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 12px;
   margin-bottom: 24px;
 }
@@ -395,18 +401,6 @@ defineExpose({ isDark })
   border-radius: 50%;
 }
 
-.kpi-card--airline .kpi-color-dot {
-  background-color: #8b5cf6;
-}
-
-.kpi-card--booking .kpi-color-dot {
-  background-color: #f59e0b;
-}
-
-.kpi-card--flight .kpi-color-dot {
-  background-color: #06b6d4;
-}
-
 .kpi-card:hover {
   background: var(--kiut-bg-card);
   border-color: var(--kiut-border-color);
@@ -425,6 +419,13 @@ defineExpose({ isDark })
   font-weight: 600;
   color: var(--kiut-text-primary);
   letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.kpi-secondary {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--kiut-text-secondary);
   line-height: 1.2;
 }
 
