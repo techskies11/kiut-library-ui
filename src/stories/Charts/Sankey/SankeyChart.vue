@@ -119,7 +119,10 @@ const responsiveConfig = computed(() => {
       labelFontSize: 10,
       edgeLabelShow: true,
       edgeLabelFontSize: 8,
-      labelMaxChars: 8,
+      labelWrap: true as const,
+      labelCharsPerLine: 10,
+      labelLineHeight: 12,
+      labelMaxChars: 0,
     };
   }
   if (bp === 'tablet') {
@@ -131,6 +134,9 @@ const responsiveConfig = computed(() => {
       labelFontSize: 11,
       edgeLabelShow: false,
       edgeLabelFontSize: 10,
+      labelWrap: false as const,
+      labelCharsPerLine: 0,
+      labelLineHeight: 0,
       labelMaxChars: 12,
     };
   }
@@ -142,9 +148,44 @@ const responsiveConfig = computed(() => {
     labelFontSize: 12,
     edgeLabelShow: true,
     edgeLabelFontSize: 11,
+    labelWrap: false as const,
+    labelCharsPerLine: 0,
+    labelLineHeight: 0,
     labelMaxChars: 15,
   };
 });
+
+/**
+ * Salto de línea real (`\\n`) para etiquetas; sin "...".
+ * Respeta palabras; si no caben, recorta por longitud fija.
+ */
+const wrapLabelName = (name: string, maxCharsPerLine: number): string => {
+  const t = name.trim();
+  if (!t || maxCharsPerLine < 1) return name;
+  if (t.length <= maxCharsPerLine) return t;
+
+  const lines: string[] = [];
+  let i = 0;
+  while (i < t.length) {
+    const hardEnd = Math.min(i + maxCharsPerLine, t.length);
+    if (hardEnd >= t.length) {
+      const rest = t.slice(i).trim();
+      if (rest) lines.push(rest);
+      break;
+    }
+    const slice = t.slice(i, hardEnd);
+    const lastSpace = slice.lastIndexOf(' ');
+    if (lastSpace > 0) {
+      lines.push(t.slice(i, i + lastSpace).trim());
+      i += lastSpace;
+      while (i < t.length && t[i] === ' ') i += 1;
+    } else {
+      lines.push(slice);
+      i = hardEnd;
+    }
+  }
+  return lines.join('\n');
+};
 
 // Default purple colors from design system
 const DEFAULT_COLORS = [
@@ -275,9 +316,15 @@ const setOptions = () => {
             color: '#000000',
             fontWeight: 600,
             fontSize: cfg.labelFontSize,
+            ...(cfg.labelWrap && cfg.labelLineHeight > 0
+              ? { lineHeight: cfg.labelLineHeight }
+              : {}),
             fontFamily: "'DM Sans', sans-serif",
             formatter: (params: any) => {
               const name = params.name || '';
+              if (cfg.labelWrap) {
+                return wrapLabelName(name, Math.max(4, cfg.labelCharsPerLine));
+              }
               const max = cfg.labelMaxChars;
               return name.length > max ? `${name.substring(0, max)}...` : name;
             },
