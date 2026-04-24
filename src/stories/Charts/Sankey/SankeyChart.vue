@@ -117,7 +117,8 @@ const responsiveConfig = computed(() => {
       nodeGap: 12,
       labelPosition: 'top' as const,
       labelFontSize: 10,
-      edgeLabelShow: false,
+      edgeLabelShow: true,
+      edgeLabelFontSize: 8,
       labelMaxChars: 8,
     };
   }
@@ -129,6 +130,7 @@ const responsiveConfig = computed(() => {
       labelPosition: 'inside' as const,
       labelFontSize: 11,
       edgeLabelShow: false,
+      edgeLabelFontSize: 10,
       labelMaxChars: 12,
     };
   }
@@ -139,6 +141,7 @@ const responsiveConfig = computed(() => {
     labelPosition: 'inside' as const,
     labelFontSize: 12,
     edgeLabelShow: true,
+    edgeLabelFontSize: 11,
     labelMaxChars: 15,
   };
 });
@@ -282,7 +285,7 @@ const setOptions = () => {
           edgeLabel: cfg.edgeLabelShow
             ? {
                 show: true,
-                fontSize: 11,
+                fontSize: cfg.edgeLabelFontSize,
                 color: colors.value.textSecondary,
                 fontWeight: 600,
                 fontFamily: "'DM Sans', sans-serif",
