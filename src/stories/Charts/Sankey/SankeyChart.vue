@@ -115,14 +115,19 @@ const responsiveConfig = computed(() => {
       orient: 'vertical' as const,
       nodeWidth: 18,
       nodeGap: 12,
-      labelPosition: 'top' as const,
+      // "top" recorta (clip interno) la etiqueta del nodo raíz; "right" deja el texto al lado de la franja
+      labelPosition: 'right' as const,
       labelFontSize: 10,
       edgeLabelShow: true,
       edgeLabelFontSize: 8,
       labelWrap: true as const,
       labelCharsPerLine: 10,
       labelLineHeight: 12,
+      labelTextWidth: 200,
       labelMaxChars: 0,
+      labelDistance: 6,
+      // Márgenes en px: más fiables que % para dejar aire a etiquetas/fluos
+      contentMargins: { left: 10, right: 10, top: 28, bottom: 20 },
     };
   }
   if (bp === 'tablet') {
@@ -137,7 +142,10 @@ const responsiveConfig = computed(() => {
       labelWrap: false as const,
       labelCharsPerLine: 0,
       labelLineHeight: 0,
+      labelTextWidth: 0,
       labelMaxChars: 12,
+      labelDistance: 0,
+      contentMargins: { ...CHART_CONFIG.margins },
     };
   }
   return {
@@ -151,7 +159,10 @@ const responsiveConfig = computed(() => {
     labelWrap: false as const,
     labelCharsPerLine: 0,
     labelLineHeight: 0,
+    labelTextWidth: 0,
     labelMaxChars: 15,
+    labelDistance: 0,
+    contentMargins: { ...CHART_CONFIG.margins },
   };
 });
 
@@ -319,6 +330,10 @@ const setOptions = () => {
             ...(cfg.labelWrap && cfg.labelLineHeight > 0
               ? { lineHeight: cfg.labelLineHeight }
               : {}),
+            ...(cfg.labelWrap && cfg.labelTextWidth > 0
+              ? { width: cfg.labelTextWidth, overflow: 'none' as const }
+              : {}),
+            ...(cfg.labelDistance > 0 ? { distance: cfg.labelDistance } : {}),
             fontFamily: "'DM Sans', sans-serif",
             formatter: (params: any) => {
               const name = params.name || '';
@@ -348,7 +363,7 @@ const setOptions = () => {
           layoutIterations: CHART_CONFIG.node.iterations,
           orient: cfg.orient,
           draggable: false,
-          ...CHART_CONFIG.margins,
+          ...cfg.contentMargins,
         },
       ],
       backgroundColor: 'transparent',
@@ -420,6 +435,13 @@ defineExpose({ isDark });
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   position: relative;
   overflow: hidden;
+}
+
+/* Móvil: evita que el padre recorte sombras o bordes; el clip del canvas lo hace ECharts */
+@media (max-width: 639px) {
+  .chart-container {
+    overflow: visible;
+  }
 }
 
 .chart-content {

@@ -10321,14 +10321,19 @@ const Fg = { class: "chart-container" }, Pg = {
         orient: "vertical",
         nodeWidth: 18,
         nodeGap: 12,
-        labelPosition: "top",
+        // "top" recorta (clip interno) la etiqueta del nodo raíz; "right" deja el texto al lado de la franja
+        labelPosition: "right",
         labelFontSize: 10,
         edgeLabelShow: !0,
         edgeLabelFontSize: 8,
         labelWrap: !0,
         labelCharsPerLine: 10,
         labelLineHeight: 12,
-        labelMaxChars: 0
+        labelTextWidth: 200,
+        labelMaxChars: 0,
+        labelDistance: 6,
+        // Márgenes en px: más fiables que % para dejar aire a etiquetas/fluos
+        contentMargins: { left: 10, right: 10, top: 28, bottom: 20 }
       } : S === "tablet" ? {
         orient: "horizontal",
         nodeWidth: 40,
@@ -10340,7 +10345,10 @@ const Fg = { class: "chart-container" }, Pg = {
         labelWrap: !1,
         labelCharsPerLine: 0,
         labelLineHeight: 0,
-        labelMaxChars: 12
+        labelTextWidth: 0,
+        labelMaxChars: 12,
+        labelDistance: 0,
+        contentMargins: { ...u.margins }
       } : {
         orient: "horizontal",
         nodeWidth: u.node.width,
@@ -10352,7 +10360,10 @@ const Fg = { class: "chart-container" }, Pg = {
         labelWrap: !1,
         labelCharsPerLine: 0,
         labelLineHeight: 0,
-        labelMaxChars: 15
+        labelTextWidth: 0,
+        labelMaxChars: 15,
+        labelDistance: 0,
+        contentMargins: { ...u.margins }
       };
     }), p = (S, D) => {
       const A = S.trim();
@@ -10475,6 +10486,8 @@ const Fg = { class: "chart-container" }, Pg = {
                 fontWeight: 600,
                 fontSize: S.labelFontSize,
                 ...S.labelWrap && S.labelLineHeight > 0 ? { lineHeight: S.labelLineHeight } : {},
+                ...S.labelWrap && S.labelTextWidth > 0 ? { width: S.labelTextWidth, overflow: "none" } : {},
+                ...S.labelDistance > 0 ? { distance: S.labelDistance } : {},
                 fontFamily: "'DM Sans', sans-serif",
                 formatter: (F) => {
                   const R = F.name || "";
@@ -10501,7 +10514,7 @@ const Fg = { class: "chart-container" }, Pg = {
               layoutIterations: u.node.iterations,
               orient: S.orient,
               draggable: !1,
-              ...u.margins
+              ...S.contentMargins
             }
           ],
           backgroundColor: "transparent",
@@ -10539,7 +10552,7 @@ const Fg = { class: "chart-container" }, Pg = {
         class: "error-state",
         style: ft({ height: e.height })
       }, [...D[0] || (D[0] = [
-        st('<div class="error-content" data-v-36cc613e><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-36cc613e><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-36cc613e></path></svg><p class="error-title" data-v-36cc613e>Chart could not be loaded</p><p class="error-description" data-v-36cc613e>Please check the data format.</p></div>', 1)
+        st('<div class="error-content" data-v-3c2ea95f><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-3c2ea95f><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-3c2ea95f></path></svg><p class="error-title" data-v-3c2ea95f>Chart could not be loaded</p><p class="error-description" data-v-3c2ea95f>Please check the data format.</p></div>', 1)
       ])], 4)) : (y(), x("div", Pg, [
         Ut(l("div", {
           ref_key: "chartEl",
@@ -10553,14 +10566,14 @@ const Fg = { class: "chart-container" }, Pg = {
           class: "loading-state",
           style: ft({ height: e.height })
         }, [...D[1] || (D[1] = [
-          st('<div class="loading-container" data-v-36cc613e><div class="sankey-loader" data-v-36cc613e><div class="flow flow-1" data-v-36cc613e></div><div class="flow flow-2" data-v-36cc613e></div><div class="flow flow-3" data-v-36cc613e></div><div class="flow flow-4" data-v-36cc613e></div></div><p class="loading-text" data-v-36cc613e>Loading Sankey diagram...</p></div>', 1)
+          st('<div class="loading-container" data-v-3c2ea95f><div class="sankey-loader" data-v-3c2ea95f><div class="flow flow-1" data-v-3c2ea95f></div><div class="flow flow-2" data-v-3c2ea95f></div><div class="flow flow-3" data-v-3c2ea95f></div><div class="flow flow-4" data-v-3c2ea95f></div></div><p class="loading-text" data-v-3c2ea95f>Loading Sankey diagram...</p></div>', 1)
         ])], 4), [
           [la, r.value]
         ])
       ]))
     ]));
   }
-}), _e = /* @__PURE__ */ nt(Ig, [["__scopeId", "data-v-36cc613e"]]);
+}), _e = /* @__PURE__ */ nt(Ig, [["__scopeId", "data-v-3c2ea95f"]]);
 function Eg(e, t) {
   return y(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
