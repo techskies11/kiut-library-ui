@@ -41,6 +41,7 @@ import { TooltipComponent, TitleComponent } from 'echarts/components';
 import { SankeyChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
+import { useBreakpoint, type Breakpoint } from '../../../composables/useBreakpoint';
 
 echarts.use([TooltipComponent, TitleComponent, SankeyChart, CanvasRenderer]);
 
@@ -66,6 +67,10 @@ interface SankeyData {
 const props = withDefaults(defineProps<{
   data: SankeyData;
   title?: string;
+  /**
+   * Altura del chart (cualquier valor CSS válido).
+   * Ej. `500px` o `clamp(360px, 70vh, 600px)` para altura fluida.
+   */
   height?: string;
   nodeColors?: Record<string, string>;
   useGradient?: boolean;
@@ -84,6 +89,8 @@ const props = withDefaults(defineProps<{
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'));
 
+const { breakpoint } = useBreakpoint();
+
 const chartEl = ref<HTMLElement | null>(null);
 const isLoading = ref(true);
 const loadError = ref(false);
@@ -99,6 +106,42 @@ const CHART_CONFIG = {
     shadowColor: 'rgba(139, 92, 246, 0.15)',
   },
 };
+
+/** Opciones de layout/labels según viewport (mobile: vertical, tablet: compacto, desktop: actual). */
+const responsiveConfig = computed(() => {
+  const bp: Breakpoint = breakpoint.value;
+  if (bp === 'mobile') {
+    return {
+      orient: 'vertical' as const,
+      nodeWidth: 18,
+      nodeGap: 12,
+      labelPosition: 'top' as const,
+      labelFontSize: 10,
+      edgeLabelShow: false,
+      labelMaxChars: 8,
+    };
+  }
+  if (bp === 'tablet') {
+    return {
+      orient: 'horizontal' as const,
+      nodeWidth: 40,
+      nodeGap: 16,
+      labelPosition: 'inside' as const,
+      labelFontSize: 11,
+      edgeLabelShow: false,
+      labelMaxChars: 12,
+    };
+  }
+  return {
+    orient: 'horizontal' as const,
+    nodeWidth: CHART_CONFIG.node.width,
+    nodeGap: props.nodeGap,
+    labelPosition: 'inside' as const,
+    labelFontSize: 12,
+    edgeLabelShow: true,
+    labelMaxChars: 15,
+  };
+});
 
 // Default purple colors from design system
 const DEFAULT_COLORS = [
@@ -167,6 +210,8 @@ const createTooltipFormatter = (validLinks: SankeyLink[]) => (params: any) => {
 const setOptions = () => {
   if (!chartInstance || !props.data.nodes?.length || !props.data.links?.length) return;
 
+  const cfg = responsiveConfig.value;
+
   try {
     const { nodes: validNodes, links: validLinks } = validateData();
     const nodesWithColors = createNodesWithColors(validNodes);
@@ -174,7 +219,8 @@ const setOptions = () => {
     const chartOptions = {
       tooltip: {
         trigger: 'item',
-        triggerOn: 'mousemove',
+        triggerOn: 'mousemove|click',
+        confine: true,
         formatter: createTooltipFormatter(validLinks),
         backgroundColor: colors.value.tooltipBg,
         borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
@@ -222,32 +268,35 @@ const setOptions = () => {
           itemStyle: CHART_CONFIG.style,
           label: {
             show: true,
-            position: 'inside',
+            position: cfg.labelPosition,
             color: '#000000',
             fontWeight: 600,
-            fontSize: 12,
+            fontSize: cfg.labelFontSize,
             fontFamily: "'DM Sans', sans-serif",
             formatter: (params: any) => {
               const name = params.name || '';
-              return name.length > 15 ? `${name.substring(0, 15)}...` : name;
+              const max = cfg.labelMaxChars;
+              return name.length > max ? `${name.substring(0, max)}...` : name;
             },
           },
-          edgeLabel: {
-            show: true,
-            fontSize: 11,
-            color: colors.value.textSecondary,
-            fontWeight: 600,
-            fontFamily: "'DM Sans', sans-serif",
-            formatter: (params: any) => {
-              const originalValue = params.data?.originalValue || params.value || 0;
-              return params.data?.label || `${originalValue.toLocaleString()}`;
-            },
-          },
+          edgeLabel: cfg.edgeLabelShow
+            ? {
+                show: true,
+                fontSize: 11,
+                color: colors.value.textSecondary,
+                fontWeight: 600,
+                fontFamily: "'DM Sans', sans-serif",
+                formatter: (params: any) => {
+                  const originalValue = params.data?.originalValue || params.value || 0;
+                  return params.data?.label || `${originalValue.toLocaleString()}`;
+                },
+              }
+            : { show: false },
           nodeAlign: CHART_CONFIG.node.align,
-          nodeGap: props.nodeGap,
-          nodeWidth: CHART_CONFIG.node.width,
+          nodeGap: cfg.nodeGap,
+          nodeWidth: cfg.nodeWidth,
           layoutIterations: CHART_CONFIG.node.iterations,
-          orient: 'horizontal',
+          orient: cfg.orient,
           draggable: false,
           ...CHART_CONFIG.margins,
         },
@@ -259,6 +308,7 @@ const setOptions = () => {
     };
 
     chartInstance.setOption(chartOptions);
+    chartInstance.resize();
   } catch (error) {
     console.error('Error setting Sankey chart options:', error);
     loadError.value = true;
@@ -309,6 +359,7 @@ onMounted(() => chartEl.value && waitForContainerAndInit());
 onBeforeUnmount(cleanup);
 watch(() => props.data, setOptions, { deep: true });
 watch(isDark, setOptions); // Re-render when theme changes
+watch(breakpoint, setOptions); // Re-render when viewport category changes
 
 // Expose isDark for potential use in templates
 defineExpose({ isDark });
@@ -481,16 +532,6 @@ defineExpose({ isDark });
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .chart-container {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .chart-title {
-    font-size: 1rem;
-    margin-bottom: 16px;
-  }
-
   .sankey-loader {
     gap: 6px;
     height: 60px;
