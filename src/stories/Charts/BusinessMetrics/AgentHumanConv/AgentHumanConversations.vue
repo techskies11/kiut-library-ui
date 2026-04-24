@@ -25,6 +25,17 @@
     <div v-else class="card-body">
       <!-- Summary Cards -->
       <div class="summary-cards">
+        <!-- Total Enqueued Card -->
+        <div v-if="data.total_enqueued" class="summary-card enqueued-card">
+          <div class="card-decoration"></div>
+          <div class="summary-card-content">
+            <div class="card-content enqueued-content">
+              <p class="card-label">Total Enqueued</p>
+              <p class="card-value enqueued-value">{{ formatNumber(data.total_enqueued) }}</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Total Assigned Card -->
         <div class="summary-card assigned-card">
           <div class="card-decoration"></div>
@@ -67,6 +78,10 @@
           <div class="date-header">
             <h4 class="date-title">{{ formatDate(date) }}</h4>
             <div class="date-stats">
+              <span v-if="getDailyTotalEnqueued(agents)" class="stat-item enqueued-stat">
+                <span class="stat-value">{{ formatNumber(getDailyTotalEnqueued(agents)) }}</span>
+                Enqueued
+              </span>
               <span class="stat-item assigned-stat">
                 <span class="stat-value">{{ formatNumber(getDailyTotalAssigned(agents)) }}</span>
                 Assigned
@@ -165,6 +180,7 @@ interface AgentDayData {
   avg_conversation_duration_seconds?: number | null;
   day_total_assigned?: number;
   day_total_closed?: number;
+  day_total_enqueued?: number;
   day_avg_time_to_assign_seconds?: number | null;
   day_avg_conversation_duration_seconds?: number | null;
 }
@@ -175,6 +191,7 @@ interface AgentHumanConvData {
   end_date?: string;
   total_assigned?: number;
   total_closed?: number;
+  total_enqueued?: number;
   avg_time_to_assign_seconds?: number | null;
   avg_conversation_duration_seconds?: number | null;
   agents_by_day?: AgentDayData[];
@@ -211,9 +228,11 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-// Check if we have data
+// Check if we have data (including enqueued-only scenarios)
 const hasData = computed(() => {
-  return props.data?.agents_by_day && props.data.agents_by_day.length > 0;
+  const hasAgents = props.data?.agents_by_day && props.data.agents_by_day.length > 0;
+  const hasEnqueued = (props.data?.total_enqueued ?? 0) > 0;
+  return hasAgents || hasEnqueued;
 });
 
 // Group agents by date (sorted ascending)
@@ -276,6 +295,11 @@ const formatDate = (dateStr: string): string => {
     day: 'numeric' 
   };
   return date.toLocaleDateString('en-US', options);
+};
+
+const getDailyTotalEnqueued = (agents: AgentDayData[]): number => {
+  const firstAgent = agents[0];
+  return firstAgent?.day_total_enqueued ?? 0;
 };
 
 const getDailyTotalAssigned = (agents: AgentDayData[]): number => {
@@ -367,10 +391,24 @@ defineExpose({ isDark })
 
 /* Summary Cards */
 .summary-cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 16px;
   margin-bottom: 24px;
+}
+
+.enqueued-card {
+  flex: 0 0 20%;
+}
+
+.enqueued-content {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.assigned-card,
+.closed-card {
+  flex: 1 1 40%;
 }
 
 .summary-card {
@@ -393,6 +431,10 @@ defineExpose({ isDark })
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
+.enqueued-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%);
+}
+
 .assigned-card {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
 }
@@ -410,6 +452,10 @@ defineExpose({ isDark })
   border-radius: 50%;
   transform: translate(32px, -32px);
   opacity: 0.3;
+}
+
+.enqueued-card .card-decoration {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(251, 191, 36, 0.3) 100%);
 }
 
 .assigned-card .card-decoration {
@@ -482,6 +528,13 @@ defineExpose({ isDark })
   letter-spacing: -0.02em;
 }
 
+.enqueued-value {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .assigned-value {
   background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
   -webkit-background-clip: text;
@@ -540,6 +593,10 @@ defineExpose({ isDark })
 
 .stat-value {
   font-weight: 600;
+}
+
+.enqueued-stat .stat-value {
+  color: #f59e0b;
 }
 
 .assigned-stat .stat-value {
@@ -788,7 +845,13 @@ defineExpose({ isDark })
   }
 
   .summary-cards {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .enqueued-card,
+  .assigned-card,
+  .closed-card {
+    flex: 1 1 100%;
   }
 
   .summary-card-content {

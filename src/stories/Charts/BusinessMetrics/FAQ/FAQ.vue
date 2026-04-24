@@ -3,51 +3,34 @@
     <header class="card-header">
       <div class="header-content">
         <h3 class="card-title">FAQ Metrics</h3>
-        <p class="card-subtitle">Daily FAQ consultation and retrieval metrics</p>
+        <p class="card-subtitle">FAQ volume by category</p>
       </div>
     </header>
 
     <!-- Content when loaded -->
     <div class="card-body" v-if="!props.loading">
-      <!-- KPI Cards -->
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <span class="kpi-label">Total FAQ</span>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_faq_events) }}</span>
-        </div>
-        <div class="kpi-card">
-          <span class="kpi-label">Documents Found</span>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_documents_found) }}</span>
-        </div>
-        <div class="kpi-card kpi-card--airline">
-          <div class="kpi-label-row">
-            <span class="kpi-color-dot" aria-hidden="true"></span>
-            <span class="kpi-label">Airline Info</span>
-          </div>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_airline_information_retrieved) }}</span>
-        </div>
-        <div class="kpi-card kpi-card--booking">
-          <div class="kpi-label-row">
-            <span class="kpi-color-dot" aria-hidden="true"></span>
-            <span class="kpi-label">Booking Info</span>
-          </div>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_booking_info_retrieved) }}</span>
-        </div>
-        <div class="kpi-card kpi-card--flight">
-          <div class="kpi-label-row">
-            <span class="kpi-color-dot" aria-hidden="true"></span>
-            <span class="kpi-label">Flight Status</span>
-          </div>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_flight_status_retrieved) }}</span>
-        </div>
-      </div>
-
       <!-- Chart Section -->
       <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
         <LineChart :data="dataChart" :options="lineOptions" />
 
         <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid" v-if="faqCategoryTotals.length">
+        <div
+          class="kpi-card"
+          v-for="cat in faqCategoryTotals"
+          :key="cat.name"
+        >
+          <div class="kpi-label-row">
+            <span class="kpi-color-dot" :style="{ backgroundColor: cat.color }" aria-hidden="true"></span>
+            <span class="kpi-label" :title="cat.label">{{ cat.label }}</span>
+          </div>
+          <span class="kpi-value">{{ useNumberFormat(cat.total) }}</span>
+          <span class="kpi-secondary">{{ cat.percentage }}%</span>
+        </div>
+      </div>
 
       <!-- Empty State -->
       <section v-else class="empty-state">
@@ -130,6 +113,12 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
+const faqColorMap: Record<string, string> = {
+  airline_information: '#8b5cf6',
+  booking_info: '#f59e0b',
+  flight_status: '#06b6d4',
+}
+
 const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
 const metricsData = computed<MetricsData>(() => props.data ?? {
   total_faq_events: 0,
@@ -138,6 +127,23 @@ const metricsData = computed<MetricsData>(() => props.data ?? {
   total_booking_info_retrieved: 0,
   total_flight_status_retrieved: 0,
   faq_by_day: [],
+})
+
+const faqCategoryTotals = computed(() => {
+  const categories = [
+    { name: 'airline_information', label: 'Airline Info', total: metricsData.value.total_airline_information_retrieved },
+    { name: 'booking_info', label: 'Booking Info', total: metricsData.value.total_booking_info_retrieved },
+    { name: 'flight_status', label: 'Flight Status', total: metricsData.value.total_flight_status_retrieved },
+  ]
+
+  const grandTotal = categories.reduce((sum, c) => sum + c.total, 0)
+  if (grandTotal === 0) return []
+
+  return categories.map(c => ({
+    ...c,
+    percentage: ((c.total / grandTotal) * 100).toFixed(1),
+    color: faqColorMap[c.name] || '#9ca3af',
+  }))
 })
 
 const lineOptions = computed(() => ({
@@ -363,20 +369,21 @@ defineExpose({ isDark })
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .kpi-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
+  gap: 2px;
+  padding: 8px 10px;
   background: var(--kiut-bg-stats-badge);
   border: 1px solid var(--kiut-border-light);
-  border-radius: 10px;
+  border-radius: 8px;
   transition: all 0.2s ease;
   text-align: center;
+  min-width: 0;
 }
 
 /* Label + color dot row (aligned with text) */
@@ -384,8 +391,10 @@ defineExpose({ isDark })
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .kpi-color-dot {
@@ -395,36 +404,35 @@ defineExpose({ isDark })
   border-radius: 50%;
 }
 
-.kpi-card--airline .kpi-color-dot {
-  background-color: #8b5cf6;
-}
-
-.kpi-card--booking .kpi-color-dot {
-  background-color: #f59e0b;
-}
-
-.kpi-card--flight .kpi-color-dot {
-  background-color: #06b6d4;
-}
-
 .kpi-card:hover {
   background: var(--kiut-bg-card);
   border-color: var(--kiut-border-color);
 }
 
 .kpi-label {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   color: var(--kiut-text-secondary);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .kpi-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--kiut-text-primary);
   letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.kpi-secondary {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  color: var(--kiut-text-secondary);
   line-height: 1.2;
 }
 
@@ -581,19 +589,15 @@ defineExpose({ isDark })
 
   .kpi-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    gap: 6px;
   }
 
   .kpi-card {
-    padding: 10px 12px;
-  }
-
-  .kpi-label {
-    font-size: 0.6875rem;
+    padding: 6px 8px;
   }
 
   .kpi-value {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   .chart-wrapper {

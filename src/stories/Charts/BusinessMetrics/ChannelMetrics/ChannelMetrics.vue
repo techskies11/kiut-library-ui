@@ -2,35 +2,35 @@
   <article class="channel-metrics-card">
     <header class="card-header">
       <div class="header-content">
-        <h3 class="card-title">Channel Metrics</h3>
-        <p class="card-subtitle">Communication channels performance</p>
+        <h3 class="card-title">Interactions by Channel</h3>
+        <p class="card-subtitle">Responses sent by AI agents</p>
       </div>
     </header>
 
     <!-- Content when loaded -->
     <div class="card-body" v-if="!props.loading">
-      <!-- KPI Cards -->
-      <div class="kpi-grid" v-if="Object.keys(metricsData.total_by_channel).length">
-        <div
-          class="kpi-card"
-          v-for="channel in Object.keys(metricsData.total_by_channel)"
-          :key="channel"
-        >
-          <span class="kpi-label">{{ channel.toUpperCase() }}</span>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_by_channel[channel]) }}</span>
-        </div>
-        <div class="kpi-card total-card">
-          <span class="kpi-label">Total Conversations</span>
-          <span class="kpi-value">{{ useNumberFormat(metricsData.total_conversations) }}</span>
-        </div>
-      </div>
-
       <!-- Chart Section -->
       <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
         <LineChart :data="dataChart" :options="lineOptions" />
 
         <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid" v-if="channelTotals.length">
+        <div
+          class="kpi-card"
+          v-for="ch in channelTotals"
+          :key="ch.name"
+        >
+          <div class="kpi-label-row">
+            <span class="kpi-color-dot" :style="{ backgroundColor: ch.color }" aria-hidden="true"></span>
+            <span class="kpi-label" :title="ch.label">{{ ch.label }}</span>
+          </div>
+          <span class="kpi-value">{{ ch.percentage }}%</span>
+          <span class="kpi-secondary">{{ useNumberFormat(ch.total) }} msgs</span>
+        </div>
+      </div>
 
       <!-- Empty State -->
       <section v-else class="empty-state">
@@ -114,11 +114,39 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
+const channelColorMap: Record<string, string> = {
+  wsp: '#25D366',
+  whatsapp: '#25D366',
+  voice: '#8b5cf6',
+  sms: '#f59e0b',
+  web_chat: '#06b6d4',
+  email: '#ec4899',
+  messenger: '#0084ff',
+  telegram: '#0088cc',
+  instagram: '#E4405F',
+}
+
 const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
 const metricsData = computed<MetricsData>(() => props.data ?? {
   channels_by_day: {},
   total_by_channel: {},
   total_conversations: 0,
+})
+
+const channelTotals = computed(() => {
+  const totalByChannel = metricsData.value.total_by_channel || {}
+  const grandTotal = Object.values(totalByChannel).reduce((sum, v) => sum + v, 0)
+  if (grandTotal === 0) return []
+
+  return Object.entries(totalByChannel)
+    .sort(([, a], [, b]) => b - a)
+    .map(([name, total]) => ({
+      name,
+      label: name.toUpperCase(),
+      total,
+      percentage: ((total / grandTotal) * 100).toFixed(1),
+      color: channelColorMap[name.toLowerCase()] || '#9ca3af',
+    }))
 })
 
 const lineOptions = computed(() => ({
@@ -222,23 +250,9 @@ const processChartData = (data: MetricsData | null) => {
   }
   const categories = Array.from(categoriesSet)
 
-  // Mapa de colores para los canales más comunes (siguiendo el sistema de diseño)
-  const colorMap: { [key: string]: string } = {
-    wsp: '#25D366',        // WhatsApp Green oficial
-    whatsapp: '#25D366',   // WhatsApp Green oficial
-    voice: '#8b5cf6',      // Purple-500
-    sms: '#f59e0b',        // Amber-500
-    web_chat: '#06b6d4',   // Cyan-500
-    email: '#ec4899',      // Pink-500
-    messenger: '#0084ff',  // Messenger Blue
-    telegram: '#0088cc',   // Telegram Blue
-    instagram: '#E4405F',  // Instagram Pink
-  }
-
-  // Crear datasets para cada canal
   const datasets = categories.map(category => {
     const normalizedCategory = category.toLowerCase()
-    const color = colorMap[normalizedCategory] || '#9ca3af'
+    const color = channelColorMap[normalizedCategory] || '#9ca3af'
     
     return {
       label: category.toUpperCase(),
@@ -340,21 +354,22 @@ defineExpose({ isDark })
 /* KPI Grid */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .kpi-card {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
+  gap: 2px;
+  padding: 8px 10px;
   background: var(--kiut-bg-stats-badge);
   border: 1px solid var(--kiut-border-light);
-  border-radius: 10px;
+  border-radius: 8px;
   transition: all 0.2s ease;
   text-align: center;
+  min-width: 0;
 }
 
 .kpi-card:hover {
@@ -362,23 +377,47 @@ defineExpose({ isDark })
   border-color: var(--kiut-border-color);
 }
 
-.kpi-card.total-card {
-  grid-column: 1 / -1;
+.kpi-label-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.kpi-color-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
 }
 
 .kpi-label {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   color: var(--kiut-text-secondary);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .kpi-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--kiut-text-primary);
   letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.kpi-secondary {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  color: var(--kiut-text-secondary);
   line-height: 1.2;
 }
 
@@ -534,20 +573,16 @@ defineExpose({ isDark })
   }
 
   .kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
   }
 
   .kpi-card {
-    padding: 10px 12px;
-  }
-
-  .kpi-label {
-    font-size: 0.6875rem;
+    padding: 6px 8px;
   }
 
   .kpi-value {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 }
 </style>

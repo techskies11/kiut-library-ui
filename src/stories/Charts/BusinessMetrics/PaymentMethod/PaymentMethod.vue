@@ -6,15 +6,7 @@
           <h3 class="card-title">Payment Method Metrics</h3>
           <p class="card-subtitle">Sales breakdown by payment method</p>
         </div>
-        <div class="stats-badge" v-if="!loading && metricsData.total_amount">
-          <p class="badge-label">Total Amount</p>
-          <div v-if="metricsData.total_amount_by_currency && metricsData.total_amount_by_currency.length > 0" class="currency-breakdown-list">
-            <p v-for="item in metricsData.total_amount_by_currency" :key="item.currency" class="currency-breakdown-item">
-              {{ item.currency }} {{ formatCurrency(item.total_value) }}
-            </p>
-          </div>
-          <p v-else class="badge-value">{{ formatCurrency(metricsData.total_amount) }}</p>
-        </div>
+        
       </div>
     </header>
 
@@ -52,15 +44,21 @@
                   {{ formatPaymentMethod(pm.payment_method) }}
                 </span>
               </div>
-              <!-- Amount -->
-              <p class="payment-amount" :style="[getValueStyle(index), getAmountSizeStyle(pm.total_amount)]">
+              <!-- Currency Breakdown -->
+              <div v-if="pm.total_amount_by_currency && pm.total_amount_by_currency.length > 0" class="currency-breakdown-card">
+                <p
+                  v-for="item in pm.total_amount_by_currency"
+                  :key="`${pm.payment_method}-${item.currency}`"
+                  class="currency-card-item"
+                  :style="getValueStyle(index)"
+                >
+                  <span class="currency-label">{{ item.currency }}</span>
+                  <span class="currency-value" :style="getAmountSizeStyle(item.total_value)">{{ formatCompactCurrency(item.total_value) }}</span>
+                </p>
+              </div>
+              <p v-else class="payment-amount" :style="[getValueStyle(index), getAmountSizeStyle(pm.total_amount)]">
                 {{ formatCurrency(pm.total_amount) }}
               </p>
-              <div v-if="pm.total_amount_by_currency && pm.total_amount_by_currency.length > 0" class="currency-cell-list">
-                <span v-for="item in pm.total_amount_by_currency" :key="`${pm.payment_method}-${item.currency}`">
-                  {{ item.currency }} {{ formatCurrency(item.total_value) }}
-                </span>
-              </div>
               <!-- Count Badge -->
               <div class="payment-badge-wrapper">
                 <span class="payment-badge" :style="getBadgeStyle(index)">
@@ -167,7 +165,7 @@
 import { ref, computed, toRef, onMounted, watch } from 'vue'
 import moment from 'moment'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
+import { useNumberFormat, useCurrencyFormat, useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 import {
   CreditCardIcon,
@@ -201,6 +199,7 @@ interface PaymentMethodData {
   end_date?: string
   total_conversations?: number
   total_amount?: number
+  total_sell_usd?: number
   total_amount_by_currency?: CurrencyBreakdown[]
   payment_method_breakdown?: PaymentMethodItem[]
   payment_method_by_day?: DayBreakdown[]
@@ -209,6 +208,7 @@ interface PaymentMethodData {
 interface CurrencyBreakdown {
   currency: string
   total_value: number
+  total_sell_usd?: number
   count: number
 }
 
@@ -328,6 +328,7 @@ const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMeth
     end_date: data.end_date || '',
     total_conversations: data.total_conversations ?? 0,
     total_amount: data.total_amount ?? 0,
+    total_sell_usd: data.total_sell_usd,
     total_amount_by_currency: data.total_amount_by_currency ?? [],
     payment_method_breakdown: normalizedBreakdown,
     payment_method_by_day: normalizedByDay,
@@ -425,6 +426,11 @@ const formatPaymentMethod = (method: string) => {
 const formatCurrency = (value: number | undefined | null) => {
   if (value === null || value === undefined) return '$0.00'
   return useCurrencyFormat(value)
+}
+
+const formatCompactCurrency = (value: number | undefined | null) => {
+  if (value === null || value === undefined) return '0'
+  return useCompactCurrencyFormat(value)
 }
 
 // Format date
@@ -687,6 +693,30 @@ defineExpose({ isDark })
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
+}
+
+.currency-breakdown-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.currency-card-item {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.currency-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.currency-value {
+  font-weight: 700;
 }
 
 .currency-cell-list {

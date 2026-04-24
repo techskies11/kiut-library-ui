@@ -2,8 +2,8 @@
     <article class="messages-per-agent-card">
         <header class="card-header">
             <div class="header-content">
-                <h3 class="card-title">Messages per Agent</h3>
-                <p class="card-subtitle">Agent interaction trends over time</p>
+                <h3 class="card-title">Interactions by Agent</h3>
+                <p class="card-subtitle">Responses sent by AI agents</p>
             </div>
         </header>
 
@@ -12,6 +12,21 @@
                 <LineChart :data="chartData" :options="chartOptions" />
                 <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
             </section>
+
+            <div class="kpi-grid" v-if="agentTotals.length">
+                <div
+                    class="kpi-card"
+                    v-for="agent in agentTotals"
+                    :key="agent.name"
+                >
+                    <div class="kpi-label-row">
+                        <span class="kpi-color-dot" :style="{ backgroundColor: agent.color }" aria-hidden="true"></span>
+                        <span class="kpi-label" :title="agent.label">{{ agent.label }}</span>
+                    </div>
+                    <span class="kpi-value">{{ agent.percentage }}%</span>
+                    <span class="kpi-secondary">{{ useNumberFormat(agent.total) }} msgs</span>
+                </div>
+            </div>
             <section v-else class="empty-state">
                 <div class="empty-state-content">
                     <div class="empty-icon-wrapper">
@@ -41,10 +56,12 @@
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
+import moment from 'moment'
 import LineChart from '../../Line/ChartLine.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { useNumberFormat } from '../../../../plugins/numberFormat'
 
 // Tipo para los datos por día (clave: categoría, valor: cantidad)
 interface AgentsByDay {
@@ -140,9 +157,33 @@ const chartData = computed(() => {
     });
 
     return {
-        labels,
+        labels: labels.map(date => moment(date).format('MMM DD')),
         datasets
     };
+});
+
+const agentTotals = computed(() => {
+    const daysData = props.data?.agents_by_day || {};
+    const totalsMap: Record<string, number> = {};
+
+    for (const dayData of Object.values(daysData)) {
+        for (const [agent, count] of Object.entries(dayData)) {
+            totalsMap[agent] = (totalsMap[agent] || 0) + count;
+        }
+    }
+
+    const grandTotal = Object.values(totalsMap).reduce((sum, v) => sum + v, 0);
+    if (grandTotal === 0) return [];
+
+    return Object.entries(totalsMap)
+        .sort(([, a], [, b]) => b - a)
+        .map(([name, total]) => ({
+            name,
+            label: name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, ' '),
+            total,
+            percentage: ((total / grandTotal) * 100).toFixed(1),
+            color: colorMap[name] || '#94a3b8',
+        }));
 });
 
 const chartOptions = computed(() => {
@@ -290,6 +331,76 @@ defineExpose({ isDark })
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+/* KPI Grid */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.kpi-card {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 10px;
+    background: var(--kiut-bg-stats-badge);
+    border: 1px solid var(--kiut-border-light);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-align: center;
+    min-width: 0;
+}
+
+.kpi-card:hover {
+    background: var(--kiut-bg-card);
+    border-color: var(--kiut-border-color);
+}
+
+.kpi-label-row {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 0 auto;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.kpi-color-dot {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.kpi-label {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--kiut-text-secondary);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.kpi-value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--kiut-text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.kpi-secondary {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    color: var(--kiut-text-secondary);
+    line-height: 1.2;
 }
 
 .chart-section {
@@ -440,6 +551,19 @@ defineExpose({ isDark })
 
     .card-header {
         margin-bottom: 24px;
+    }
+
+    .kpi-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+
+    .kpi-card {
+        padding: 6px 8px;
+    }
+
+    .kpi-value {
+        font-size: 1rem;
     }
     
     .chart-section {
