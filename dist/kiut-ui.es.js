@@ -10323,7 +10323,8 @@ const Fg = { class: "chart-container" }, Pg = {
         nodeGap: 12,
         labelPosition: "top",
         labelFontSize: 10,
-        edgeLabelShow: !1,
+        edgeLabelShow: !0,
+        edgeLabelFontSize: 8,
         labelMaxChars: 8
       } : $ === "tablet" ? {
         orient: "horizontal",
@@ -10332,6 +10333,7 @@ const Fg = { class: "chart-container" }, Pg = {
         labelPosition: "inside",
         labelFontSize: 11,
         edgeLabelShow: !1,
+        edgeLabelFontSize: 10,
         labelMaxChars: 12
       } : {
         orient: "horizontal",
@@ -10340,6 +10342,7 @@ const Fg = { class: "chart-container" }, Pg = {
         labelPosition: "inside",
         labelFontSize: 12,
         edgeLabelShow: !0,
+        edgeLabelFontSize: 11,
         labelMaxChars: 15
       };
     }), p = [
@@ -10449,7 +10452,7 @@ const Fg = { class: "chart-container" }, Pg = {
               },
               edgeLabel: $.edgeLabelShow ? {
                 show: !0,
-                fontSize: 11,
+                fontSize: $.edgeLabelFontSize,
                 color: n.value.textSecondary,
                 fontWeight: 600,
                 fontFamily: "'DM Sans', sans-serif",
@@ -10502,7 +10505,7 @@ const Fg = { class: "chart-container" }, Pg = {
         class: "error-state",
         style: ft({ height: e.height })
       }, [...S[0] || (S[0] = [
-        st('<div class="error-content" data-v-e64494c9><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-e64494c9><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-e64494c9></path></svg><p class="error-title" data-v-e64494c9>Chart could not be loaded</p><p class="error-description" data-v-e64494c9>Please check the data format.</p></div>', 1)
+        st('<div class="error-content" data-v-ab446fb7><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-ab446fb7><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-ab446fb7></path></svg><p class="error-title" data-v-ab446fb7>Chart could not be loaded</p><p class="error-description" data-v-ab446fb7>Please check the data format.</p></div>', 1)
       ])], 4)) : (y(), x("div", Pg, [
         Ut(l("div", {
           ref_key: "chartEl",
@@ -10516,14 +10519,14 @@ const Fg = { class: "chart-container" }, Pg = {
           class: "loading-state",
           style: ft({ height: e.height })
         }, [...S[1] || (S[1] = [
-          st('<div class="loading-container" data-v-e64494c9><div class="sankey-loader" data-v-e64494c9><div class="flow flow-1" data-v-e64494c9></div><div class="flow flow-2" data-v-e64494c9></div><div class="flow flow-3" data-v-e64494c9></div><div class="flow flow-4" data-v-e64494c9></div></div><p class="loading-text" data-v-e64494c9>Loading Sankey diagram...</p></div>', 1)
+          st('<div class="loading-container" data-v-ab446fb7><div class="sankey-loader" data-v-ab446fb7><div class="flow flow-1" data-v-ab446fb7></div><div class="flow flow-2" data-v-ab446fb7></div><div class="flow flow-3" data-v-ab446fb7></div><div class="flow flow-4" data-v-ab446fb7></div></div><p class="loading-text" data-v-ab446fb7>Loading Sankey diagram...</p></div>', 1)
         ])], 4), [
           [la, r.value]
         ])
       ]))
     ]));
   }
-}), _e = /* @__PURE__ */ nt(Ig, [["__scopeId", "data-v-e64494c9"]]);
+}), _e = /* @__PURE__ */ nt(Ig, [["__scopeId", "data-v-ab446fb7"]]);
 function Eg(e, t) {
   return y(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -19760,6 +19763,7 @@ const GM = ["aria-expanded", "aria-labelledby", "aria-label"], ZM = ["onKeydown"
           return r ? "border border-red-500 bg-transparent text-red-800 dark:border-red-400 dark:text-red-200" : "border border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/35 dark:text-red-200";
         case "orange":
           return r ? "border border-orange-500 bg-transparent text-orange-800 dark:border-orange-400 dark:text-orange-200" : "border border-orange-200 bg-orange-50 text-orange-800 dark:border-orange-800 dark:bg-orange-950/35 dark:text-orange-200";
+        case "neutral":
         default:
           return r ? "border border-slate-400 bg-transparent text-[color:var(--kiut-text-primary)] dark:border-slate-500 dark:text-slate-200" : "border border-slate-200 bg-slate-100 text-[color:var(--kiut-text-primary)] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200";
       }
