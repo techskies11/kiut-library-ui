@@ -14205,7 +14205,7 @@ const Hg = { class: "chart-footer" }, jg = { class: "export-actions" }, Yg = { c
         ])
       ], -1)),
       e.loading ? (y(), x("div", j1, [...b[0] || (b[0] = [
-        st('<div class="loading-container" data-v-82c295d7><div class="chart-bars-loader" data-v-82c295d7><div class="bar bar-1" data-v-82c295d7></div><div class="bar bar-2" data-v-82c295d7></div><div class="bar bar-3" data-v-82c295d7></div><div class="bar bar-4" data-v-82c295d7></div><div class="bar bar-5" data-v-82c295d7></div></div><p class="loading-text" data-v-82c295d7>Loading agent data...</p></div>', 1)
+        st('<div class="loading-container" data-v-e0afa502><div class="chart-bars-loader" data-v-e0afa502><div class="bar bar-1" data-v-e0afa502></div><div class="bar bar-2" data-v-e0afa502></div><div class="bar bar-3" data-v-e0afa502></div><div class="bar bar-4" data-v-e0afa502></div><div class="bar bar-5" data-v-e0afa502></div></div><p class="loading-text" data-v-e0afa502>Loading agent data...</p></div>', 1)
       ])])) : (y(), x("div", Y1, [
         l("div", q1, [
           e.data.total_enqueued ? (y(), x("div", U1, [
@@ -14308,12 +14308,12 @@ const Hg = { class: "chart-footer" }, jg = { class: "export-actions" }, Yg = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : E("", !0)
         ])) : (y(), x("div", Py, [...b[13] || (b[13] = [
-          st('<div class="empty-state-content" data-v-82c295d7><div class="empty-icon-wrapper" data-v-82c295d7><svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-82c295d7><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" data-v-82c295d7></path></svg></div><p class="empty-title" data-v-82c295d7>No agent human conversation data available</p><p class="empty-description" data-v-82c295d7>Try adjusting the date range or check your filters.</p></div>', 1)
+          st('<div class="empty-state-content" data-v-e0afa502><div class="empty-icon-wrapper" data-v-e0afa502><svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-e0afa502><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" data-v-e0afa502></path></svg></div><p class="empty-title" data-v-e0afa502>No agent human conversation data available</p><p class="empty-description" data-v-e0afa502>Try adjusting the date range or check your filters.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Ey = /* @__PURE__ */ nt(Iy, [["__scopeId", "data-v-82c295d7"]]), Ry = { class: "channel-metrics-card" }, Oy = {
+}), Ey = /* @__PURE__ */ nt(Iy, [["__scopeId", "data-v-e0afa502"]]), Ry = { class: "channel-metrics-card" }, Oy = {
   key: 0,
   class: "card-body"
 }, Vy = {
@@ -19705,6 +19705,7 @@ const qM = ["aria-expanded", "aria-labelledby", "aria-label"], UM = ["onKeydown"
           return r ? "border border-red-500 bg-transparent text-red-800 dark:border-red-400 dark:text-red-200" : "border border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/35 dark:text-red-200";
         case "orange":
           return r ? "border border-orange-500 bg-transparent text-orange-800 dark:border-orange-400 dark:text-orange-200" : "border border-orange-200 bg-orange-50 text-orange-800 dark:border-orange-800 dark:bg-orange-950/35 dark:text-orange-200";
+        case "neutral":
         default:
           return r ? "border border-slate-400 bg-transparent text-[color:var(--kiut-text-primary)] dark:border-slate-500 dark:text-slate-200" : "border border-slate-200 bg-slate-100 text-[color:var(--kiut-text-primary)] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200";
       }
