@@ -74,6 +74,7 @@ export type {
 } from './components/Filters/Filters.vue';
 
 import InputText from './components/Inputs/InputText.vue';
+import InputTextarea from './components/Inputs/InputTextarea.vue';
 import InputFile from './components/Inputs/InputFile.vue';
 import InputDateTime from './components/Inputs/InputDateTime.vue';
 export type { KiutDateTimeValue } from './components/Inputs/InputDateTime.vue';
@@ -165,6 +166,7 @@ export {
   Table,
   Filters,
   InputText,
+  InputTextarea,
   InputFile,
   InputDateTime,
   InputTime,
@@ -241,6 +243,7 @@ export const KiutUIPlugin = {
     app.component('Table', Table);
     app.component('Filters', Filters);
     app.component('InputText', InputText);
+    app.component('InputTextarea', InputTextarea);
     app.component('InputFile', InputFile);
     app.component('InputDateTime', InputDateTime);
     app.component('InputTime', InputTime);
