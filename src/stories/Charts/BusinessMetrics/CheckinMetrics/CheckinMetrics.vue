@@ -42,23 +42,23 @@
                             <tr class="table-header-row">
                                 <th class="table-header">Date</th>
                                 <th class="table-header">Checkin Init</th>
-                                <th class="table-header">Booking Retrieve (%)</th>
-                                <th class="table-header">Number of Passengers</th>
+                                <th class="table-header">Booking Retrieval (%)</th>
+                                <th class="table-header">Booking Retrieved</th>
                                 <th class="table-header">Completed (%)</th>
                                 <th class="table-header">Closed with BP (%)</th>
-                                <th class="table-header">Failed (%)</th>
+                                <th class="table-header">Checkin Failed (%)</th>
                                 <th class="table-header">Failed (Reasons)</th>
                             </tr>
                         </thead>
                         <tbody class="table-body">
                             <tr v-for="row in visibleTableData" :key="row.date" class="table-row">
                                 <td class="table-cell date-cell">{{ formatDate(row.date) }}</td>
-                                <td class="table-cell text-center">{{ formatNumber(row.checkin_initiated_count) }}</td>
-                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.checkin_init_count, row.checkin_initiated_count) }}</td>
-                                <td class="table-cell text-center">{{ formatNumber(row.checkin_started_count) }}</td>
-                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}</td>
-                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</td>
-                                <td class="table-cell text-center">{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</td>
+                                <td class="table-cell text-center">{{ formatNumber(row.checkin_initiated) }}</td>
+                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.record_locator_init_count, row.checkin_initiated) }}</td>
+                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.record_locator_started_count, row.record_locator_init_count) }}</td>
+                                <td class="table-cell text-center">{{ formatValueWithPercentage(row.record_locator_completed_count, row.record_locator_started_count) }}</td>
+                                <td class="table-cell text-center cell-success">{{ formatValueWithPercentage(row.record_locator_closed_count, row.record_locator_started_count) }}</td>
+                                <td class="table-cell text-center cell-danger">{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.record_locator_started_count) }}</td>
                                 <td class="table-cell reasons-cell">
                                     <div v-if="row.failed_steps && row.failed_steps.length > 0" class="reasons-list">
                                         <div v-for="step in row.failed_steps" :key="step.step_name" class="reason-item">
@@ -112,30 +112,30 @@ import { useThemeDetection, type Theme } from '../../../../composables/useThemeD
 // Types
 interface CheckinByDay {
     date: string;
-    checkin_initiated_count: number;
-    checkin_init_count: number;
-    checkin_started_count: number;
-    checkin_completed_count: number;
-    checkin_closed_count: number;
-    checkin_init_abandoned_count: number;
+    checkin_initiated: number;
+    record_locator_init_count: number;
+    record_locator_started_count: number;
+    record_locator_completed_count: number;
+    record_locator_closed_count: number;
+    record_locator_abandoned_count: number;
 }
 
 interface CheckinData {
     airline_name?: string;
     start_date?: string;
     end_date?: string;
-    total_checkin_init?: number;
-    total_checkin_started?: number;
-    total_checkin_completed?: number;
-    total_checkin_closed?: number;
-    total_checkin_init_abandoned?: number;
+    total_record_locator_init?: number;
+    total_record_locator_started?: number;
+    total_record_locator_completed?: number;
+    total_record_locator_closed?: number;
+    total_record_locator_init_abandoned?: number;
     total_checkin_initiated?: number;
-    total_checkin_unrecovered?: number;
-    total_checkin_init_abandoned_error?: number | null;
-    total_checkin_init_abandoned_voluntary?: number | null;
+    total_record_locator_unrecovered?: number;
+    total_record_locator_init_abandoned_error?: number | null;
+    total_record_locator_init_abandoned_voluntary?: number | null;
     total_checkin_pre_init_abandoned_error?: number | null;
     total_checkin_pre_init_abandoned_voluntary?: number | null;
-    checkin_by_day?: CheckinByDay[];
+    record_locator_by_day?: CheckinByDay[];
 }
 
 interface FailedStep {
@@ -177,18 +177,18 @@ const props = withDefaults(defineProps<{
     exportLoading?: boolean;
 }>(), {
     checkinData: () => ({
-        total_checkin_init: 0,
+        total_record_locator_init: 0,
         total_checkin_initiated: 0,
-        total_checkin_init_abandoned: 0,
-        total_checkin_started: 0,
-        total_checkin_completed: 0,
-        total_checkin_closed: 0,
-        total_checkin_unrecovered: 0,
-        total_checkin_init_abandoned_error: null,
-        total_checkin_init_abandoned_voluntary: null,
+        total_record_locator_init_abandoned: 0,
+        total_record_locator_started: 0,
+        total_record_locator_completed: 0,
+        total_record_locator_closed: 0,
+        total_record_locator_unrecovered: 0,
+        total_record_locator_init_abandoned_error: null,
+        total_record_locator_init_abandoned_voluntary: null,
         total_checkin_pre_init_abandoned_error: null,
         total_checkin_pre_init_abandoned_voluntary: null,
-        checkin_by_day: [],
+        record_locator_by_day: [],
     }),
     failedData: () => ({
         total_checkin_failed: 0,
@@ -252,9 +252,8 @@ const getTotalFailedSteps = (failedSteps: FailedStep[] | undefined): number => {
 const sankeyNodeColors = computed(() => {
     const baseColors: Record<string, string> = {
         'Checkin Init': '#93C5FD',
-        'Booking retrive': '#C7D2FE',
-        'Booking retrive success': '#A5B4FC',
-        'Number of Passengers': '#8B8CF6',
+        'Booking Retrieval': '#C7D2FE',
+        'Booking Retrieved': '#A5B4FC',
         'Completed': '#A7F3D0',
         'Closed with BP': '#7BE39E',
         'Abandoned (Init)': '#FACC15',
@@ -292,7 +291,7 @@ const showAllRows = ref(false)
 
 // Computed: Datos combinados para la tabla
 const tableData = computed((): TableRow[] => {
-    const checkinByDay = props.checkinData?.checkin_by_day || [];
+    const checkinByDay = props.checkinData?.record_locator_by_day || [];
     const failedByDay = props.failedData?.failed_by_step_by_day || [];
 
     const combined = checkinByDay.map(dayData => {
@@ -303,7 +302,6 @@ const tableData = computed((): TableRow[] => {
         };
     });
 
-    // Sort by date ascending
     return combined.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 });
 
@@ -330,18 +328,15 @@ const sankeyData = computed(() => {
         return { nodes, links };
     }
 
-    // Nodos principales del flujo
     addNode('Checkin Init');
-    addNode('Booking retrive');
-    addNode('Booking retrive success');
-    addNode('Number of Passengers');
+    addNode('Booking Retrieval');
+    addNode('Booking Retrieved');
     addNode('Completed');
     addNode('Closed with BP');
 
-    // Valores
     const initiated = props.checkinData.total_checkin_initiated || 0;
-    const init = props.checkinData.total_checkin_init || 0;
-    const abandonedInit = props.checkinData.total_checkin_init_abandoned || 0;
+    const init = props.checkinData.total_record_locator_init || 0;
+    const abandonedInit = props.checkinData.total_record_locator_init_abandoned || 0;
     const preInitAbandonedErrorRaw = props.checkinData.total_checkin_pre_init_abandoned_error;
     const preInitAbandonedVoluntaryRaw = props.checkinData.total_checkin_pre_init_abandoned_voluntary;
     const hasPreInitAbandonedSplit =
@@ -353,8 +348,8 @@ const sankeyData = computed(() => {
     const preInitAbandonedVoluntary = hasPreInitAbandonedSplit
         ? Math.max(Number(preInitAbandonedVoluntaryRaw) || 0, 0)
         : 0;
-    const abandonedErrorRaw = props.checkinData.total_checkin_init_abandoned_error;
-    const abandonedVoluntaryRaw = props.checkinData.total_checkin_init_abandoned_voluntary;
+    const abandonedErrorRaw = props.checkinData.total_record_locator_init_abandoned_error;
+    const abandonedVoluntaryRaw = props.checkinData.total_record_locator_init_abandoned_voluntary;
     const hasAbandonedSplit =
         (abandonedErrorRaw !== null && abandonedErrorRaw !== undefined) ||
         (abandonedVoluntaryRaw !== null && abandonedVoluntaryRaw !== undefined);
@@ -364,18 +359,18 @@ const sankeyData = computed(() => {
         ? Math.max(abandonedInit - abandonedError - abandonedVoluntary, 0)
         : abandonedInit;
     const bookingSuccess = init - abandonedInit;
-    const started = props.checkinData.total_checkin_started || 0;
-    const completed = props.checkinData.total_checkin_completed || 0;
-    const closed = props.checkinData.total_checkin_closed || 0;
+    const started = props.checkinData.total_record_locator_started || 0;
+    const completed = props.checkinData.total_record_locator_completed || 0;
+    const closed = props.checkinData.total_record_locator_closed || 0;
     const unrecoveredSteps = props.failedData?.unrecovered_by_step || [];
     const totalUnrecovered = unrecoveredSteps.reduce((sum, step) => sum + step.count, 0);
 
-    // Flujo principal: Checkin Init -> Booking retrive
+    // Flujo principal: Checkin Init -> Booking Retrieval
     if (init > 0) {
         const percentage = Math.round((init / initiated) * 100);
         links.push({
             source: 'Checkin Init',
-            target: 'Booking retrive',
+            target: 'Booking Retrieval',
             value: init,
             label: `${init.toLocaleString()} (${percentage}%)`,
         });
@@ -416,13 +411,13 @@ const sankeyData = computed(() => {
         });
     }
 
-    // Abandono 2: Booking retrive -> Abandonados
+    // Abandono 2: Booking Retrieval -> Abandonados
     if (hasAbandonedSplit) {
         if (abandonedError > 0) {
             const percentage = Math.round((abandonedError / initiated) * 100);
             addNode('Error');
             links.push({
-                source: 'Booking retrive',
+                source: 'Booking Retrieval',
                 target: 'Error',
                 value: abandonedError,
                 label: `${abandonedError.toLocaleString()} (${percentage}%)`,
@@ -433,7 +428,7 @@ const sankeyData = computed(() => {
             const percentage = Math.round((abandonedVoluntary / initiated) * 100);
             addNode('Abandoned (Started)');
             links.push({
-                source: 'Booking retrive',
+                source: 'Booking Retrieval',
                 target: 'Abandoned (Started)',
                 value: abandonedVoluntary,
                 label: `${abandonedVoluntary.toLocaleString()} (${percentage}%)`,
@@ -444,7 +439,7 @@ const sankeyData = computed(() => {
             const percentage = Math.round((abandonedStartedFallback / initiated) * 100);
             addNode('Abandoned (Started)');
             links.push({
-                source: 'Booking retrive',
+                source: 'Booking Retrieval',
                 target: 'Abandoned (Started)',
                 value: abandonedStartedFallback,
                 label: `${abandonedStartedFallback.toLocaleString()} (${percentage}%)`,
@@ -454,40 +449,29 @@ const sankeyData = computed(() => {
         const percentage = Math.round((abandonedInit / initiated) * 100);
         addNode('Abandoned (Started)');
         links.push({
-            source: 'Booking retrive',
+            source: 'Booking Retrieval',
             target: 'Abandoned (Started)',
             value: abandonedInit,
             label: `${abandonedInit.toLocaleString()} (${percentage}%)`,
         });
     }
 
-    // Flujo principal: Booking retrive -> Booking retrive success
+    // Flujo principal: Booking Retrieval -> Booking Retrieved
     if (bookingSuccess > 0) {
         const percentage = Math.round((bookingSuccess / initiated) * 100);
         links.push({
-            source: 'Booking retrive',
-            target: 'Booking retrive success',
+            source: 'Booking Retrieval',
+            target: 'Booking Retrieved',
             value: bookingSuccess,
             label: `${bookingSuccess.toLocaleString()} (${percentage}%)`,
         });
     }
 
-    // Flujo principal: Booking retrive success -> Number of Passengers
-    if (started > 0) {
-        const percentage = Math.round((started / initiated) * 100);
-        links.push({
-            source: 'Booking retrive success',
-            target: 'Number of Passengers',
-            value: started,
-            label: `${started.toLocaleString()} (${percentage}%)`,
-        });
-    }
-
-    // Flujo principal: Number of Passengers -> Completed
+    // Flujo principal: Booking Retrieved -> Completed
     if (completed > 0) {
         const percentage = Math.round((completed / started) * 100);
         links.push({
-            source: 'Number of Passengers',
+            source: 'Booking Retrieved',
             target: 'Completed',
             value: completed,
             label: `${completed.toLocaleString()} (${percentage}%)`,
@@ -500,7 +484,7 @@ const sankeyData = computed(() => {
 
         const percentage = Math.round((totalUnrecovered / started) * 100);
         links.push({
-            source: 'Number of Passengers',
+            source: 'Booking Retrieved',
             target: 'Unrecovered',
             value: totalUnrecovered,
             label: `${totalUnrecovered.toLocaleString()} (${percentage}%)`,
@@ -524,13 +508,13 @@ const sankeyData = computed(() => {
         });
     }
 
-    // Abandono 3: Number of Passengers -> Abandonados (en flujo)
+    // Abandono 3: Booking Retrieved -> Abandonados (en flujo)
     const abandonedFlow = started - (completed + totalUnrecovered);
     if (abandonedFlow > 0) {
         const percentage = Math.round((abandonedFlow / started) * 100);
         addNode('Abandoned (Flow)');
         links.push({
-            source: 'Number of Passengers',
+            source: 'Booking Retrieved',
             target: 'Abandoned (Flow)',
             value: abandonedFlow,
             label: `${abandonedFlow.toLocaleString()} (${percentage}%)`,
@@ -733,6 +717,16 @@ defineExpose({ isDark })
 .no-reasons {
     color: var(--kiut-text-muted);
     text-align: center;
+}
+
+.cell-success {
+    color: #059669 !important;
+    font-weight: 600;
+}
+
+.cell-danger {
+    color: #DC2626 !important;
+    font-weight: 600;
 }
 
 /* View More Button */
