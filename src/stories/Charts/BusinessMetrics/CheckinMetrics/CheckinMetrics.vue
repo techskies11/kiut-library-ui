@@ -60,7 +60,7 @@
                             <span class="cm-cell text-center cell-success">{{ formatValueWithPercentage(row.record_locator_closed_count as number, row.record_locator_started_count as number) }}</span>
                         </template>
                         <template #cell-failed="{ row }">
-                            <span class="cm-cell text-center cell-danger">{{ formatValueWithPercentage(getTotalFailedSteps(Array.isArray(row.failed_steps) ? row.failed_steps : []), Number(row.record_locator_started_count)) }}</span>
+                            <span class="cm-cell text-center cell-danger">{{ formatValueWithPercentage(row.unrecovered_count as number, row.record_locator_started_count as number) }}</span>
                         </template>
                         <template #cell-reasons="{ row }">
                             <div v-if="Array.isArray(row.failed_steps) && row.failed_steps.length > 0" class="reasons-list">
@@ -156,6 +156,16 @@ interface UnrecoveredByStep {
     count: number;
 }
 
+interface UnrecoveredByStepByDay {
+    date: string;
+    steps: { step_name: string; count: number }[];
+}
+
+interface UnrecoveredByDay {
+    date: string;
+    unrecovered_count: number;
+}
+
 interface FailedData {
     airline_name?: string;
     start_date?: string;
@@ -164,11 +174,14 @@ interface FailedData {
     total_checkin_unrecovered?: number;
     total_checkin_init_abandoned?: number;
     failed_by_step_by_day?: FailedByDay[];
+    unrecovered_by_step_by_day?: UnrecoveredByStepByDay[];
+    unrecovered_by_day?: UnrecoveredByDay[];
     unrecovered_by_step?: UnrecoveredByStep[];
 }
 
 interface TableRow extends CheckinByDay {
     failed_steps: FailedStep[];
+    unrecovered_count: number;
 }
 
 const props = withDefaults(defineProps<{
@@ -224,11 +237,10 @@ const formatNumber = (value: number | undefined): string => {
 };
 
 const formatDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    // Parse as local time to avoid UTC midnight → previous day shift in negative-offset timezones
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
 };
 
 const formatStepName = (stepName: string): string => {
@@ -248,11 +260,6 @@ const formatValueWithPercentage = (value: number | undefined, total: number | un
     return `${formattedValue} (${percentage})`;
 };
 
-const getTotalFailedSteps = (failedSteps: FailedStep[] | undefined): number => {
-    if (!failedSteps) return 0;
-    return failedSteps.reduce((acc, step) => acc + step.failed_count, 0);
-};
-
 // Computed: Colores dinámicos del Sankey
 const sankeyNodeColors = computed(() => {
     const baseColors: Record<string, string> = {
@@ -267,26 +274,8 @@ const sankeyNodeColors = computed(() => {
         'Error': '#F87171',
         'Abandoned (Flow)': '#FACC15',
         'BP Error': '#EF4444',
-        'Unrecovered': '#F87171',
+        'Errors': '#F87171',
     };
-
-    const unrecoveredSteps = props.failedData?.unrecovered_by_step || [];
-    unrecoveredSteps.forEach(step => {
-        const stepName = step.step_name.replace(/_/g, ' ');
-        const capitalizedStepName = stepName
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-
-        const errorColors: Record<string, string> = {
-            'Get Seatmap': '#DC2626',
-            'Save Missing Info': '#F87171',
-            'Checkin Segments': '#EF4444',
-            'Assign Seat': '#F87171',
-        };
-
-        baseColors[capitalizedStepName] = errorColors[capitalizedStepName] || '#DC2626';
-    });
 
     return baseColors;
 });
@@ -298,12 +287,15 @@ const showAllRows = ref(false)
 const tableData = computed((): TableRow[] => {
     const checkinByDay = props.checkinData?.record_locator_by_day || [];
     const failedByDay = props.failedData?.failed_by_step_by_day || [];
+    const unrecoveredByDay = props.failedData?.unrecovered_by_day || [];
 
     const combined = checkinByDay.map(dayData => {
-        const failedDayData = failedByDay.find(failedDay => failedDay.date === dayData.date);
+        const failedDayData = failedByDay.find(d => d.date === dayData.date);
+        const unrecoveredDayData = unrecoveredByDay.find(d => d.date === dayData.date);
         return {
             ...dayData,
             failed_steps: failedDayData?.steps || [],
+            unrecovered_count: unrecoveredDayData?.unrecovered_count || 0,
         };
     });
 
@@ -328,7 +320,7 @@ const checkinMetricsTableColumns: TableColumn[] = [
     { key: 'bookingRetrieved', label: 'Booking Retrieved', align: 'center' },
     { key: 'completed', label: 'Completed (%)', align: 'center' },
     { key: 'closed', label: 'Closed with BP (%)', align: 'center' },
-    { key: 'failed', label: 'Checkin Failed (%)', align: 'center' },
+    { key: 'failed', label: 'Errors (%)', align: 'center' },
     { key: 'reasons', label: 'Failed (Reasons)', align: 'left' },
 ];
 
@@ -341,6 +333,7 @@ const checkinMetricsTableRows = computed((): Record<string, unknown>[] =>
         record_locator_started_count: row.record_locator_started_count,
         record_locator_completed_count: row.record_locator_completed_count,
         record_locator_closed_count: row.record_locator_closed_count,
+        unrecovered_count: row.unrecovered_count,
         failed_steps: row.failed_steps,
     }))
 );
@@ -395,8 +388,7 @@ const sankeyData = computed(() => {
     const started = props.checkinData.total_record_locator_started || 0;
     const completed = props.checkinData.total_record_locator_completed || 0;
     const closed = props.checkinData.total_record_locator_closed || 0;
-    const unrecoveredSteps = props.failedData?.unrecovered_by_step || [];
-    const totalUnrecovered = unrecoveredSteps.reduce((sum, step) => sum + step.count, 0);
+    const totalUnrecovered = props.checkinData.total_record_locator_unrecovered || 0;
 
     // Flujo principal: Checkin Init -> Booking Retrieval
     if (init > 0) {
@@ -511,33 +503,16 @@ const sankeyData = computed(() => {
         });
     }
 
-    // Errores no recuperables por paso
-    if (unrecoveredSteps.length > 0 && totalUnrecovered > 0) {
-        addNode('Unrecovered');
+    // Unrecovered conversations (single node, no step sub-breakdown)
+    if (totalUnrecovered > 0) {
+        addNode('Errors');
 
-        const percentage = Math.round((totalUnrecovered / started) * 100);
+        const unrecoveredPct = Math.round((totalUnrecovered / started) * 100);
         links.push({
             source: 'Booking Retrieved',
-            target: 'Unrecovered',
+            target: 'Errors',
             value: totalUnrecovered,
-            label: `${totalUnrecovered.toLocaleString()} (${percentage}%)`,
-        });
-
-        unrecoveredSteps.forEach(step => {
-            const stepName = step.step_name.replace(/_/g, ' ');
-            const capitalizedStepName = stepName
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-
-            const stepPercentage = Math.round((step.count / started) * 100);
-            addNode(capitalizedStepName);
-            links.push({
-                source: 'Unrecovered',
-                target: capitalizedStepName,
-                value: step.count,
-                label: `${step.count.toLocaleString()} (${stepPercentage}%)`,
-            });
+            label: `${totalUnrecovered.toLocaleString()} (${unrecoveredPct}%)`,
         });
     }
 
