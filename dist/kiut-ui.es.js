@@ -14300,7 +14300,7 @@ const Ug = { class: "chart-footer" }, Kg = { class: "export-actions" }, Xg = { c
         ])
       ], -1)),
       e.loading ? (y(), x("div", K1, [...b[0] || (b[0] = [
-        st('<div class="loading-container" data-v-e0afa502><div class="chart-bars-loader" data-v-e0afa502><div class="bar bar-1" data-v-e0afa502></div><div class="bar bar-2" data-v-e0afa502></div><div class="bar bar-3" data-v-e0afa502></div><div class="bar bar-4" data-v-e0afa502></div><div class="bar bar-5" data-v-e0afa502></div></div><p class="loading-text" data-v-e0afa502>Loading agent data...</p></div>', 1)
+        st('<div class="loading-container" data-v-a8cbfebf><div class="chart-bars-loader" data-v-a8cbfebf><div class="bar bar-1" data-v-a8cbfebf></div><div class="bar bar-2" data-v-a8cbfebf></div><div class="bar bar-3" data-v-a8cbfebf></div><div class="bar bar-4" data-v-a8cbfebf></div><div class="bar bar-5" data-v-a8cbfebf></div></div><p class="loading-text" data-v-a8cbfebf>Loading agent data...</p></div>', 1)
       ])])) : (y(), x("div", X1, [
         l("div", G1, [
           e.data.total_enqueued ? (y(), x("div", Z1, [
@@ -14403,12 +14403,12 @@ const Ug = { class: "chart-footer" }, Kg = { class: "export-actions" }, Xg = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : I("", !0)
         ])) : (y(), x("div", Oy, [...b[13] || (b[13] = [
-          st('<div class="empty-state-content" data-v-e0afa502><div class="empty-icon-wrapper" data-v-e0afa502><svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-e0afa502><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" data-v-e0afa502></path></svg></div><p class="empty-title" data-v-e0afa502>No agent human conversation data available</p><p class="empty-description" data-v-e0afa502>Try adjusting the date range or check your filters.</p></div>', 1)
+          st('<div class="empty-state-content" data-v-a8cbfebf><div class="empty-icon-wrapper" data-v-a8cbfebf><svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-a8cbfebf><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" data-v-a8cbfebf></path></svg></div><p class="empty-title" data-v-a8cbfebf>No agent human conversation data available</p><p class="empty-description" data-v-a8cbfebf>Try adjusting the date range or check your filters.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Vy = /* @__PURE__ */ nt(zy, [["__scopeId", "data-v-e0afa502"]]), Ny = { class: "channel-metrics-card" }, Wy = {
+}), Vy = /* @__PURE__ */ nt(zy, [["__scopeId", "data-v-a8cbfebf"]]), Ny = { class: "channel-metrics-card" }, Wy = {
   key: 0,
   class: "card-body"
 }, Hy = {
