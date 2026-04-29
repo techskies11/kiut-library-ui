@@ -46,7 +46,7 @@
                                 <th class="table-header">Booking Retrieved</th>
                                 <th class="table-header">Completed (%)</th>
                                 <th class="table-header">Closed with BP (%)</th>
-                                <th class="table-header">Unrecovered (%)</th>
+                                <th class="table-header">Errors (%)</th>
                                 <th class="table-header">Failed (Retries)</th>
                             </tr>
                         </thead>
@@ -280,7 +280,7 @@ const sankeyNodeColors = computed(() => {
         'Error': '#F87171',
         'Abandoned (Flow)': '#FACC15',
         'BP Error': '#EF4444',
-        'Unrecovered': '#F87171',
+        'Errors': '#F87171',
     };
 
     return baseColors;
@@ -482,12 +482,12 @@ const sankeyData = computed(() => {
 
     // Unrecovered conversations (single node, no step sub-breakdown)
     if (totalUnrecovered > 0) {
-        addNode('Unrecovered');
+        addNode('Errors');
 
         const unrecoveredPct = Math.round((totalUnrecovered / started) * 100);
         links.push({
             source: 'Booking Retrieved',
-            target: 'Unrecovered',
+            target: 'Errors',
             value: totalUnrecovered,
             label: `${totalUnrecovered.toLocaleString()} (${unrecoveredPct}%)`,
         });
