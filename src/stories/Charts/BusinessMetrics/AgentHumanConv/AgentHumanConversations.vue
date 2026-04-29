@@ -336,10 +336,14 @@ defineExpose({ isDark })
   box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  overflow: hidden;
+  /* Avoid clipping tall tables / inner charts when parent grid stretches row height */
+  overflow-x: clip;
+  overflow-y: visible;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  width: 100%;
+  align-self: start;
+  min-height: 0;
 }
 
 .agent-human-conv-card:hover {
@@ -384,9 +388,10 @@ defineExpose({ isDark })
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
-  flex: 1;
+  flex: 0 1 auto;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 /* Summary Cards */
