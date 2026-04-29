@@ -1,11 +1,14 @@
 <template>
-  <article class="agent-human-conv-card">
-    <header class="card-header">
+  <details class="agent-human-conv-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <h3 class="card-title">Agent Human Conversations</h3>
         <p class="card-subtitle">Human conversation assignments and closures by agent</p>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State -->
     <div v-if="loading" class="loading-state">
@@ -97,47 +100,49 @@
 
           <!-- Agents Table -->
           <div class="table-wrapper">
-            <table class="data-table">
-              <thead>
-                <tr class="table-header-row">
-                  <th class="table-header">Agent Name</th>
-                  <th class="table-header">Email</th>
-                  <th class="table-header">Assigned (AVG time to assign)</th>
-                  <th class="table-header">Closed (AVG time to close)</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr
-                  v-for="agent in agents"
-                  :key="`${date}-${agent.agent_email}`"
-                  class="table-row"
-                >
-                  <td class="table-cell name-cell">{{ agent.agent_name || '-' }}</td>
-                  <td class="table-cell email-cell">{{ agent.agent_email }}</td>
-                  <td class="table-cell text-center">
-                    <div class="metric-cell-content">
-                      <span class="badge assigned-badge">
-                        {{ formatNumber(agent.assigned_count) }}
-                      </span>
-                      <span class="metric-cell-avg">
-                        {{ formatDurationSeconds(agent.avg_time_to_assign_seconds) }}
-                      </span>
-                    </div>
-                  </td>
-                  <td class="table-cell text-center">
-                    <div class="metric-cell-content">
-                      <span class="badge closed-badge">
-                        {{ formatNumber(agent.closed_count) }}
-                      </span>
-                      <span class="metric-cell-avg">
-                        {{ formatDurationSeconds(agent.avg_conversation_duration_seconds) }}
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <Table :columns="agentTableColumns" :rows="agentRowsForTable(String(date), agents)" row-key="id">
+              <template #cell-agentName="{ row }">
+                <span class="ah-cell name-cell">{{ row.agent_name || '-' }}</span>
+              </template>
+              <template #cell-email="{ row }">
+                <span class="ah-cell email-cell">{{ row.agent_email }}</span>
+              </template>
+              <template #cell-assigned="{ row }">
+                <div class="metric-cell-content">
+                  <span class="badge assigned-badge">
+                    {{ formatNumber(Number(row.assigned_count)) }}
+                  </span>
+                  <span class="metric-cell-avg">
+                    {{ formatDurationSeconds(Number(row.avg_time_to_assign_seconds)) }}
+                  </span>
+                </div>
+              </template>
+              <template #cell-closed="{ row }">
+                <div class="metric-cell-content">
+                  <span class="badge closed-badge">
+                    {{ formatNumber(Number(row.closed_count)) }}
+                  </span>
+                  <span class="metric-cell-avg">
+                    {{ formatDurationSeconds(Number(row.avg_conversation_duration_seconds)) }}
+                  </span>
+                </div>
+              </template>
+            </Table>
           </div>
+          <button
+            v-if="agentsMoreThanMax(agents)"
+            type="button"
+            class="view-more-btn"
+            @click="toggleAgentsDate(String(date))"
+          >
+            {{ showAllAgentsByDate[date] ? 'View less' : `View more (${agentRemainingForDate(agents)} rows)` }}
+            <svg
+              :class="['view-more-icon', { 'view-more-icon-rotated': showAllAgentsByDate[date] }]"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
         </div>
         <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </div>
@@ -160,14 +165,15 @@
         </div>
       </div>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 // Types
 interface AgentDayData {
@@ -261,6 +267,48 @@ const groupedByDate = computed(() => {
   return sortedGrouped;
 });
 
+const MAX_AGENT_ROWS = 3
+const showAllAgentsByDate = ref<Record<string, boolean>>({})
+
+function toggleAgentsDate(date: string): void {
+  showAllAgentsByDate.value = {
+    ...showAllAgentsByDate.value,
+    [date]: !showAllAgentsByDate.value[date],
+  }
+}
+
+function visibleAgentsForDate(date: string, agents: AgentDayData[]): AgentDayData[] {
+  if (showAllAgentsByDate.value[date]) return agents
+  return agents.slice(0, MAX_AGENT_ROWS)
+}
+
+function agentRemainingForDate(agents: AgentDayData[]): number {
+  return Math.max(0, agents.length - MAX_AGENT_ROWS)
+}
+
+function agentsMoreThanMax(agents: AgentDayData[]): boolean {
+  return agents.length > MAX_AGENT_ROWS
+}
+
+const agentTableColumns: TableColumn[] = [
+  { key: 'agentName', label: 'Agent Name', align: 'left' },
+  { key: 'email', label: 'Email', align: 'left' },
+  { key: 'assigned', label: 'Assigned (AVG time to assign)', align: 'center' },
+  { key: 'closed', label: 'Closed (AVG time to close)', align: 'center' },
+]
+
+function agentRowsForTable(date: string, agents: AgentDayData[]): Record<string, unknown>[] {
+  return visibleAgentsForDate(date, agents).map((agent, idx) => ({
+    id: `${date}-${agent.agent_email}-${idx}`,
+    agent_name: agent.agent_name,
+    agent_email: agent.agent_email,
+    assigned_count: agent.assigned_count,
+    closed_count: agent.closed_count,
+    avg_time_to_assign_seconds: agent.avg_time_to_assign_seconds,
+    avg_conversation_duration_seconds: agent.avg_conversation_duration_seconds,
+  }))
+}
+
 // Utility functions
 const formatNumber = (value: number | undefined): string => {
   if (value === undefined || value === null) return '0';
@@ -327,6 +375,9 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .agent-human-conv-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -557,6 +608,8 @@ defineExpose({ isDark })
 }
 
 .date-group {
+  display: flex;
+  flex-direction: column;
   border-radius: 12px;
   border: 1px solid var(--kiut-border-table);
   overflow: hidden;
@@ -609,44 +662,14 @@ defineExpose({ isDark })
 
 /* Table Styles */
 .table-wrapper {
-  overflow-x: auto;
+  flex: 1;
 }
 
-.data-table {
+.ah-cell {
+  display: inline-block;
   width: 100%;
-  border-collapse: collapse;
   font-size: 0.875rem;
-  background: var(--kiut-bg-table);
-}
-
-.table-header-row {
-  background: var(--kiut-bg-table-header);
-}
-
-.table-header {
-  padding: 10px 12px;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--kiut-text-table-header);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.table-header:first-child,
-.table-header:nth-child(2) {
-  text-align: left;
-}
-
-.table-cell {
-  padding: 10px 12px;
-  text-align: center;
   color: var(--kiut-text-primary);
-  border-top: 1px solid var(--kiut-border-table-row);
-}
-
-.table-row:hover {
-  background: var(--kiut-bg-table-hover);
 }
 
 .name-cell {

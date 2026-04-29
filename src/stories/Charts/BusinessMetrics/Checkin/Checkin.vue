@@ -1,11 +1,14 @@
 <template>
-  <article class="checkin-metrics-card">
-    <header class="card-header">
+  <details :open="initiallyOpen" class="checkin-metrics-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <h3 class="card-title">Check-in Metrics</h3>
         <p class="card-subtitle">Check-in performance and failure analysis</p>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -39,63 +42,57 @@
       <!-- Table Data -->
       <section v-if="tableData && tableData.length > 0" class="table-section">
         <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr class="table-header-row">
-                <th class="table-header">Date</th>
-                <th class="table-header">Checkin Init</th>
-                <th class="table-header">Booking Retrieve (%)</th>
-                <th class="table-header">Number of Passengers</th>
-                <th class="table-header">Completed (%)</th>
-                <th class="table-header">Closed with BP (%)</th>
-                <th class="table-header">Failed (%)</th>
-                <th class="table-header">Failed (Reasons)</th>
-              </tr>
-            </thead>
-            <tbody class="table-body">
-              <tr
-                v-for="row in tableData"
-                :key="row.date"
-                class="table-row"
-              >
-                <td class="table-cell font-medium">
-                  {{ moment(row.date).format('DD/MM/YYYY') }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.checkin_initiated_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.checkin_init_count, row.checkin_initiated_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.checkin_started_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}
-                </td>
-                <td class="table-cell text-left">
-                  <div v-if="row.failed_steps && row.failed_steps.length > 0" class="failed-steps">
-                    <div
-                      v-for="step in row.failed_steps"
-                      :key="step.step_name"
-                      class="failed-step-item"
-                    >
-                      <span class="step-name">{{ step.step_name.replace(/_/g, ' ') }}:</span>
-                      <span class="step-count">{{ step.failed_count }}</span>
-                    </div>
-                  </div>
-                  <div v-else class="empty-cell">-</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Table :columns="checkinTableColumns" :rows="checkinTableRows" row-key="id">
+            <template #cell-date="{ row }">
+              <span class="ci-cell font-medium">{{ moment(String(row.date)).format('DD/MM/YYYY') }}</span>
+            </template>
+            <template #cell-checkinInit="{ row }">
+              <span class="ci-cell text-center">{{ useNumberFormat(row.checkin_initiated_count) }}</span>
+            </template>
+            <template #cell-bookingRetrieve="{ row }">
+              <span class="ci-cell text-center">{{ formatValueWithPercentage(row.checkin_init_count, row.checkin_initiated_count) }}</span>
+            </template>
+            <template #cell-passengers="{ row }">
+              <span class="ci-cell text-center">{{ useNumberFormat(row.checkin_started_count) }}</span>
+            </template>
+            <template #cell-completed="{ row }">
+              <span class="ci-cell text-center">{{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}</span>
+            </template>
+            <template #cell-closed="{ row }">
+              <span class="ci-cell text-center">{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</span>
+            </template>
+            <template #cell-failed="{ row }">
+              <span class="ci-cell text-center">{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</span>
+            </template>
+            <template #cell-reasons="{ row }">
+              <div v-if="row.failed_steps && row.failed_steps.length > 0" class="failed-steps">
+                <div
+                  v-for="step in row.failed_steps"
+                  :key="step.step_name"
+                  class="failed-step-item"
+                >
+                  <span class="step-name">{{ step.step_name.replace(/_/g, ' ') }}:</span>
+                  <span class="step-count">{{ step.failed_count }}</span>
+                </div>
+              </div>
+              <div v-else class="empty-cell">-</div>
+            </template>
+          </Table>
         </div>
+        <button
+          v-if="checkinHasMoreRows"
+          type="button"
+          class="view-more-btn"
+          @click="showAllRows = !showAllRows"
+        >
+          {{ showAllRows ? 'View less' : `View more (${checkinRemainingRows} rows)` }}
+          <svg
+            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
         <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
@@ -112,7 +109,7 @@
         </div>
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup>
@@ -121,6 +118,7 @@
   import { useNumberFormat } from '../../../../plugins/numberFormat'
   import SankeyChart from '../../Sankey/SankeyChart.vue'
   import { FooterExport } from '../../Utils/FooterExport'
+  import Table from '../../../../components/Table/Table.vue'
 
   const emit = defineEmits(['export'])
 
@@ -129,6 +127,10 @@
   }
 
   const props = defineProps({
+    initiallyOpen: {
+      type: Boolean,
+      default: false,
+    },
     loading: {
       type: Boolean,
       default: false,
@@ -189,6 +191,43 @@
   }
 
   const tableData = ref([])
+  const MAX_VISIBLE_ROWS = 3
+  const showAllRows = ref(false)
+
+  const visibleCheckinTableData = computed(() => {
+    if (!tableData.value?.length) return []
+    if (showAllRows.value) return tableData.value
+    return tableData.value.slice(0, MAX_VISIBLE_ROWS)
+  })
+
+  const checkinHasMoreRows = computed(() => (tableData.value?.length || 0) > MAX_VISIBLE_ROWS)
+  const checkinRemainingRows = computed(() =>
+    Math.max(0, (tableData.value?.length || 0) - MAX_VISIBLE_ROWS)
+  )
+
+  const checkinTableColumns = [
+    { key: 'date', label: 'Date', align: 'center' },
+    { key: 'checkinInit', label: 'Checkin Init', align: 'center' },
+    { key: 'bookingRetrieve', label: 'Booking Retrieve (%)', align: 'center' },
+    { key: 'passengers', label: 'Number of Passengers', align: 'center' },
+    { key: 'completed', label: 'Completed (%)', align: 'center' },
+    { key: 'closed', label: 'Closed with BP (%)', align: 'center' },
+    { key: 'failed', label: 'Failed (%)', align: 'center' },
+    { key: 'reasons', label: 'Failed (Reasons)', align: 'left' },
+  ]
+
+  const checkinTableRows = computed(() =>
+    visibleCheckinTableData.value.map((row) => ({
+      id: row.date,
+      date: row.date,
+      checkin_initiated_count: row.checkin_initiated_count,
+      checkin_init_count: row.checkin_init_count,
+      checkin_started_count: row.checkin_started_count,
+      checkin_completed_count: row.checkin_completed_count,
+      checkin_closed_count: row.checkin_closed_count,
+      failed_steps: row.failed_steps,
+    }))
+  )
 
   // data = merged object (checkin + failed). Use it for both when it has the right keys.
   const checkinDataInternal = computed(() => {
@@ -484,6 +523,9 @@
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .checkin-metrics-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -596,66 +638,19 @@
 }
 
 .table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  background: white;
   flex: 1;
 }
 
-.data-table {
+.ci-cell {
+  display: inline-block;
   width: 100%;
-  font-size: 0.875rem;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-header-row {
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-}
-
-.table-header {
-  padding: 16px 12px;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #374151;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.table-header:first-child {
-  border-top-left-radius: 16px;
-}
-
-.table-header:last-child {
-  border-top-right-radius: 16px;
-}
-
-.table-body {
-  background: white;
-}
-
-.table-row {
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.table-row:hover {
-  background: linear-gradient(to right, #fafafa 0%, #f9fafb 100%);
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-cell {
-  padding: 16px 12px;
   font-size: 0.875rem;
   color: #1e293b;
   white-space: nowrap;
+}
+
+.ci-cell.text-center {
+  text-align: center;
 }
 
 .failed-steps {
@@ -838,8 +833,7 @@
     overflow-x: scroll;
   }
   
-  .table-cell {
-    padding: 12px 8px;
+  .ci-cell {
     font-size: 0.8125rem;
   }
 }
@@ -874,13 +868,7 @@
     padding: 16px;
   }
 
-  .table-header {
-    padding: 12px 8px;
-    font-size: 0.7rem;
-  }
-
-  .table-cell {
-    padding: 12px 8px;
+  .ci-cell {
     font-size: 0.8125rem;
   }
 }

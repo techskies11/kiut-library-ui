@@ -1,6 +1,6 @@
 <template>
-  <article class="seller-metrics-card">
-    <header class="card-header">
+  <details class="seller-metrics-card metric-collapsible" :open="initiallyOpen">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <div class="title-section">
           <h3 class="card-title">Seller Metrics</h3>
@@ -34,7 +34,10 @@
           </div>
         </div>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -80,118 +83,101 @@
       <!-- Table Data -->
       <section v-if="tableData && tableData.length > 0" class="table-section">
         <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr class="table-header-row">
-                <th class="table-header">Date</th>
-                <th class="table-header">Sell Initiated</th>
-                <th class="table-header">Sell Started</th>
-                <th class="table-header">Get Quote</th>
-                <th class="table-header">Booking Created</th>
-                <th class="table-header">Bank Transfer</th>
-                <th class="table-header">BT Value</th>
-                <th class="table-header">Cash Option</th>
-                <th class="table-header">CO Value</th>
-                <th class="table-header">Sell Success</th>
-                <th class="table-header">Total Sales Value</th>
-                <th class="table-header">Failed</th>
-              </tr>
-            </thead>
-            <tbody class="table-body">
-              <tr
-                v-for="row in visibleTableData"
-                :key="row.date"
-                class="table-row"
-              >
-                <td class="table-cell font-medium">
-                  {{ moment(row.date).format('DD/MM/YYYY') }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.seller_conversations || 0) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.sell_started_count, row.seller_conversations || row.sell_started_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.sell_get_quote_count, row.seller_conversations || row.sell_started_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.sell_booking_created_count, row.seller_conversations || row.sell_started_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.sell_bank_transfer_count || 0) }}
-                </td>
-                <td class="table-cell text-center warning-value">
-                  <div
-                    v-if="Array.isArray(row.daily_value_sell_bank_transfer) && row.daily_value_sell_bank_transfer.length > 0"
-                    class="currency-cell-list"
+          <Table :columns="sellerTableColumns" :rows="sellerTableRows" row-key="id">
+            <template #cell-date="{ row }">
+              <span class="sl-cell font-medium">{{ moment(String(row.date)).format('DD/MM/YYYY') }}</span>
+            </template>
+            <template #cell-sellInitiated="{ row }">
+              <span class="sl-cell text-center">{{ useNumberFormat(Number(row.seller_conversations) || 0) }}</span>
+            </template>
+            <template #cell-sellStarted="{ row }">
+              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_started_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+            </template>
+            <template #cell-getQuote="{ row }">
+              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_get_quote_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+            </template>
+            <template #cell-bookingCreated="{ row }">
+              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_booking_created_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+            </template>
+            <template #cell-bankTransfer="{ row }">
+              <span class="sl-cell text-center">{{ useNumberFormat(Number(row.sell_bank_transfer_count) || 0) }}</span>
+            </template>
+            <template #cell-btValue="{ row }">
+              <span class="sl-cell text-center warning-value">
+                <div
+                  v-if="Array.isArray(row.daily_value_sell_bank_transfer) && row.daily_value_sell_bank_transfer.length > 0"
+                  class="currency-cell-list"
+                >
+                  <span
+                    v-for="item in row.daily_value_sell_bank_transfer"
+                    :key="`${row.date}-bt-${item.currency}`"
                   >
-                    <span
-                      v-for="item in row.daily_value_sell_bank_transfer"
-                      :key="`${row.date}-bt-${item.currency}`"
-                    >
-                      {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
-                    </span>
-                  </div>
-                  <span v-else class="empty-cell">-</span>
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.sell_cash_option_count || 0) }}
-                </td>
-                <td class="table-cell text-center warning-value">
-                  <div
-                    v-if="Array.isArray(row.daily_value_sell_cash_option) && row.daily_value_sell_cash_option.length > 0"
-                    class="currency-cell-list"
+                    {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
+                  </span>
+                </div>
+                <span v-else class="empty-cell">-</span>
+              </span>
+            </template>
+            <template #cell-cashOption="{ row }">
+              <span class="sl-cell text-center">{{ useNumberFormat(Number(row.sell_cash_option_count) || 0) }}</span>
+            </template>
+            <template #cell-coValue="{ row }">
+              <span class="sl-cell text-center warning-value">
+                <div
+                  v-if="Array.isArray(row.daily_value_sell_cash_option) && row.daily_value_sell_cash_option.length > 0"
+                  class="currency-cell-list"
+                >
+                  <span
+                    v-for="item in row.daily_value_sell_cash_option"
+                    :key="`${row.date}-co-${item.currency}`"
                   >
-                    <span
-                      v-for="item in row.daily_value_sell_cash_option"
-                      :key="`${row.date}-co-${item.currency}`"
-                    >
-                      {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
-                    </span>
-                  </div>
-                  <span v-else class="empty-cell">-</span>
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.sell_success_count, row.seller_conversations || row.sell_started_count) }}
-                </td>
-                <td class="table-cell text-center success-value">
-                  <div
-                    v-if="Array.isArray(row.daily_value_sell_success) && row.daily_value_sell_success.length > 0"
-                    class="currency-cell-list"
+                    {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
+                  </span>
+                </div>
+                <span v-else class="empty-cell">-</span>
+              </span>
+            </template>
+            <template #cell-sellSuccess="{ row }">
+              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_success_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+            </template>
+            <template #cell-totalSalesValue="{ row }">
+              <span class="sl-cell text-center success-value">
+                <div
+                  v-if="Array.isArray(row.daily_value_sell_success) && row.daily_value_sell_success.length > 0"
+                  class="currency-cell-list"
+                >
+                  <span
+                    v-for="item in row.daily_value_sell_success"
+                    :key="`${row.date}-${item.currency}`"
                   >
-                    <span
-                      v-for="item in row.daily_value_sell_success"
-                      :key="`${row.date}-${item.currency}`"
-                    >
-                      {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
-                    </span>
-                  </div>
-                  <span v-else>{{ formatCurrencyValue(row.daily_value_sell_success) }}</span>
-                </td>
-                <td class="table-cell text-left">
-                  <div v-if="row.reasons && row.reasons.length > 0" class="failed-reasons">
-                    <div
-                      v-for="reason in row.reasons"
-                      :key="reason.reason"
-                      class="failed-reason-item"
-                    >
-                      <span class="reason-name">{{ reason.reason }}:</span>
-                      <span class="reason-count">{{ reason.failed_count }}</span>
-                    </div>
-                  </div>
-                  <div v-else class="empty-cell">-</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
+                  </span>
+                </div>
+                <span v-else>{{ formatCurrencyValue(sellerDayFromRow(row).daily_value_sell_success) }}</span>
+              </span>
+            </template>
+            <template #cell-failed="{ row }">
+              <div v-if="(sellerDayFromRow(row).reasons || []).length > 0" class="failed-reasons">
+                <div
+                  v-for="reason in (sellerDayFromRow(row).reasons || [])"
+                  :key="reason.reason"
+                  class="failed-reason-item"
+                >
+                  <span class="reason-name">{{ reason.reason }}:</span>
+                  <span class="reason-count">{{ reason.failed_count }}</span>
+                </div>
+              </div>
+              <div v-else class="empty-cell">-</div>
+            </template>
+          </Table>
         </div>
         <button
           v-if="hasMoreRows"
+          type="button"
           class="view-more-btn"
           @click="showAllRows = !showAllRows"
         >
-          {{ showAllRows ? 'View less' : `View more (${tableData.length - MAX_VISIBLE_ROWS} more rows)` }}
+          {{ showAllRows ? 'View less' : `View more (${sellerRemainingRows} rows)` }}
           <svg
             :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -202,7 +188,7 @@
         <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -212,6 +198,7 @@ import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat, useCurrencyFormat, useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 interface FailedReason {
   reason: string;
@@ -237,6 +224,10 @@ interface SellerDayData {
   daily_value_sell_bank_transfer: CurrencyValue[];
   daily_value_sell_cash_option: CurrencyValue[];
   reasons?: FailedReason[];
+}
+
+function sellerDayFromRow(r: Record<string, unknown>): SellerDayData {
+  return r as unknown as SellerDayData
 }
 
 interface SellerData {
@@ -268,6 +259,7 @@ const props = withDefaults(defineProps<{
   theme?: Theme;
   enableExport?: boolean;
   exportLoading?: boolean;
+  initiallyOpen?: boolean;
 }>(), {
   sellerData: () => ({
     total_seller_conversations: 0,
@@ -289,7 +281,8 @@ const props = withDefaults(defineProps<{
   loading: false,
   theme: undefined,
   enableExport: false,
-  exportLoading: false
+  exportLoading: false,
+  initiallyOpen: true
 })
 
 const emit = defineEmits<{
@@ -347,6 +340,32 @@ const visibleTableData = computed(() => {
 })
 
 const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS)
+
+const sellerRemainingRows = computed(() =>
+  Math.max(0, tableData.value.length - MAX_VISIBLE_ROWS)
+)
+
+const sellerTableColumns: TableColumn[] = [
+  { key: 'date', label: 'Date', align: 'center' },
+  { key: 'sellInitiated', label: 'Sell Initiated', align: 'center' },
+  { key: 'sellStarted', label: 'Sell Started', align: 'center' },
+  { key: 'getQuote', label: 'Get Quote', align: 'center' },
+  { key: 'bookingCreated', label: 'Booking Created', align: 'center' },
+  { key: 'bankTransfer', label: 'Bank Transfer', align: 'center' },
+  { key: 'btValue', label: 'BT Value', align: 'center' },
+  { key: 'cashOption', label: 'Cash Option', align: 'center' },
+  { key: 'coValue', label: 'CO Value', align: 'center' },
+  { key: 'sellSuccess', label: 'Sell Success', align: 'center' },
+  { key: 'totalSalesValue', label: 'Total Sales Value', align: 'center' },
+  { key: 'failed', label: 'Failed', align: 'left' },
+]
+
+const sellerTableRows = computed((): Record<string, unknown>[] =>
+  visibleTableData.value.map((row) => ({
+    id: row.date,
+    ...row,
+  }))
+)
 
 const sellerData = computed(() => props.sellerData)
 const failedData = computed(() => props.failedData)
@@ -579,6 +598,9 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .seller-metrics-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -698,6 +720,10 @@ defineExpose({ isDark })
   align-items: flex-start;
 }
 
+.seller-metrics-card:not([open]) .header-badges {
+  display: none;
+}
+
 /* Yellow Warning Badge for Bank Transfer / Cash Option */
 .payment-warning-badge {
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
@@ -772,60 +798,6 @@ defineExpose({ isDark })
   flex: 1;
 }
 
-.data-table {
-  width: 100%;
-  font-size: 0.875rem;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-header-row {
-  background: var(--kiut-bg-table-header);
-}
-
-.table-header {
-  padding: 16px 12px;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--kiut-text-table-header);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid var(--kiut-border-table);
-}
-
-.table-header:first-child {
-  border-top-left-radius: 16px;
-}
-
-.table-header:last-child {
-  border-top-right-radius: 16px;
-}
-
-.table-body {
-  background: var(--kiut-bg-table);
-}
-
-.table-row {
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid var(--kiut-border-table-row);
-}
-
-.table-row:hover {
-  background: var(--kiut-bg-table-hover);
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-cell {
-  padding: 16px 12px;
-  font-size: 0.875rem;
-  color: var(--kiut-text-primary);
-  white-space: nowrap;
-}
-
 .success-value {
   font-weight: 600;
   color: var(--kiut-success);
@@ -868,40 +840,6 @@ defineExpose({ isDark })
 .empty-cell {
   text-align: center;
   color: var(--kiut-text-muted);
-}
-
-/* View More Button */
-.view-more-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6366f1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-more-btn:hover {
-  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4f46e5;
-}
-
-.view-more-icon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
-}
-
-.view-more-icon-rotated {
-  transform: rotate(180deg);
 }
 
 /* Empty State */
@@ -1055,11 +993,6 @@ defineExpose({ isDark })
   .table-wrapper {
     overflow-x: scroll;
   }
-  
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.8125rem;
-  }
 }
 
 @media (max-width: 768px) {
@@ -1091,16 +1024,6 @@ defineExpose({ isDark })
 
   .chart-wrapper {
     padding: 16px;
-  }
-
-  .table-header {
-    padding: 12px 8px;
-    font-size: 0.7rem;
-  }
-
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.8125rem;
   }
 }
 </style>

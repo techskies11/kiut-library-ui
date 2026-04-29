@@ -1,6 +1,6 @@
 <template>
-  <article class="payment-method-card">
-    <header class="card-header">
+  <details class="payment-method-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <div class="title-section">
           <h3 class="card-title">Payment Method Metrics</h3>
@@ -8,7 +8,10 @@
         </div>
         
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State -->
     <div class="loading-state" v-if="loading">
@@ -85,64 +88,56 @@
       <section v-if="hasDailyBreakdown" class="table-section">
         <p class="section-label">Daily Breakdown</p>
         <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr class="table-header-row">
-                <th class="table-header text-left">Date</th>
-                <th class="table-header text-center">Total Sales</th>
-                <th class="table-header text-center">Total Amount</th>
-                <th class="table-header text-left">Payment Methods</th>
-              </tr>
-            </thead>
-            <tbody class="table-body">
-              <tr
-                v-for="day in visiblePaymentMethodByDay"
-                :key="day.date"
-                class="table-row"
-              >
-                <td class="table-cell font-medium">
-                  {{ formatDate(day.date) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(day.total_count ?? 0) }}
-                </td>
-                <td class="table-cell text-center success-value">
-                  <div v-if="day.total_amount_by_currency && day.total_amount_by_currency.length > 0" class="currency-cell-list">
-                    <span v-for="item in day.total_amount_by_currency" :key="`${day.date}-${item.currency}`">
+          <Table :columns="paymentDailyColumns" :rows="paymentDailyTableRows" row-key="id">
+            <template #cell-date="{ row }">
+              <span class="pm-cell font-medium">{{ formatDate(String(row.date)) }}</span>
+            </template>
+            <template #cell-totalSales="{ row }">
+              <span class="pm-cell text-center">{{ useNumberFormat((row.total_count as number) ?? 0) }}</span>
+            </template>
+            <template #cell-totalAmount="{ row }">
+              <span class="pm-cell text-center success-value">
+                <template v-if="Array.isArray(row.total_amount_by_currency) && row.total_amount_by_currency.length > 0">
+                  <div class="currency-cell-list">
+                    <span
+                      v-for="item in row.total_amount_by_currency"
+                      :key="`${row.date}-${item.currency}`"
+                    >
                       {{ item.currency }} {{ formatCurrency(item.total_value) }}
                     </span>
                   </div>
-                  <span v-else>{{ formatCurrency(day.total_amount) }}</span>
-                </td>
-                <td class="table-cell">
-                  <div class="payment-tags">
-                    <div
-                      v-for="pm in day.payment_methods || []"
-                      :key="pm.payment_method"
-                      class="payment-tag"
-                    >
-                      <span class="tag-name">{{ formatPaymentMethod(pm.payment_method) }}</span>
-                      <span class="tag-separator">•</span>
-                      <span class="tag-amount" v-if="!pm.total_amount_by_currency || pm.total_amount_by_currency.length === 0">
-                        {{ formatCurrency(pm.total_amount) }}
-                      </span>
-                      <span v-else class="tag-amount">
-                        {{ pm.total_amount_by_currency.map(c => `${c.currency} ${formatCurrency(c.total_value)}`).join(' / ') }}
-                      </span>
-                      <span class="tag-count">({{ formatCount(pm.count) }})</span>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </template>
+                <template v-else>{{ formatCurrency(Number(row.total_amount ?? 0)) }}</template>
+              </span>
+            </template>
+            <template #cell-paymentMethods="{ row }">
+              <div class="payment-tags">
+                <div
+                  v-for="pm in (Array.isArray(row.payment_methods) ? row.payment_methods : [])"
+                  :key="pm.payment_method"
+                  class="payment-tag"
+                >
+                  <span class="tag-name">{{ formatPaymentMethod(pm.payment_method) }}</span>
+                  <span class="tag-separator">•</span>
+                  <span class="tag-amount" v-if="!pm.total_amount_by_currency || pm.total_amount_by_currency.length === 0">
+                    {{ formatCurrency(pm.total_amount) }}
+                  </span>
+                  <span v-else class="tag-amount">
+                    {{ pm.total_amount_by_currency.map(c => `${c.currency} ${formatCurrency(c.total_value)}`).join(' / ') }}
+                  </span>
+                  <span class="tag-count">({{ formatCount(pm.count) }})</span>
+                </div>
+              </div>
+            </template>
+          </Table>
         </div>
         <button
           v-if="hasMoreRows"
+          type="button"
           class="view-more-btn"
           @click="showAllRows = !showAllRows"
         >
-          {{ showAllRows ? 'View less' : `View more (${sortedPaymentMethodByDay.length - MAX_VISIBLE_ROWS} more rows)` }}
+          {{ showAllRows ? 'View less' : `View more (${paymentRemainingRows} rows)` }}
           <svg
             :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -158,7 +153,7 @@
         <p class="empty-table-text">No daily breakdown available</p>
       </div>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -176,6 +171,7 @@ import {
   WalletIcon,
   QuestionMarkCircleIcon,
 } from '@heroicons/vue/24/outline'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 // Types
 interface PaymentMethodItem {
@@ -284,6 +280,28 @@ const visiblePaymentMethodByDay = computed(() => {
 })
 
 const hasMoreRows = computed(() => sortedPaymentMethodByDay.value.length > MAX_VISIBLE_ROWS)
+
+const paymentRemainingRows = computed(() =>
+  Math.max(0, sortedPaymentMethodByDay.value.length - MAX_VISIBLE_ROWS)
+)
+
+const paymentDailyColumns: TableColumn[] = [
+  { key: 'date', label: 'Date', align: 'left' },
+  { key: 'totalSales', label: 'Total Sales', align: 'center' },
+  { key: 'totalAmount', label: 'Total Amount', align: 'center' },
+  { key: 'paymentMethods', label: 'Payment Methods', align: 'left' },
+]
+
+const paymentDailyTableRows = computed((): Record<string, unknown>[] =>
+  visiblePaymentMethodByDay.value.map((day) => ({
+    id: day.date,
+    date: day.date,
+    total_count: day.total_count,
+    total_amount: day.total_amount,
+    total_amount_by_currency: day.total_amount_by_currency,
+    payment_methods: day.payment_methods,
+  }))
+)
 
 // Normalize payment method data to ensure all fields are present
 const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMethodData => {
@@ -498,6 +516,9 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .payment-method-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -750,65 +771,19 @@ defineExpose({ isDark })
 }
 
 .table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid var(--kiut-border-table);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  background: var(--kiut-bg-table);
   flex: 1;
 }
 
-.data-table {
+.pm-cell {
+  display: inline-block;
   width: 100%;
-  font-size: 0.875rem;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-header-row {
-  background: var(--kiut-bg-table-header);
-}
-
-.table-header {
-  padding: 16px 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--kiut-text-table-header);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid var(--kiut-border-table);
-}
-
-.table-header:first-child {
-  border-top-left-radius: 16px;
-}
-
-.table-header:last-child {
-  border-top-right-radius: 16px;
-}
-
-.table-body {
-  background: var(--kiut-bg-table);
-}
-
-.table-row {
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid var(--kiut-border-table-row);
-}
-
-.table-row:hover {
-  background: var(--kiut-bg-table-hover);
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-cell {
-  padding: 16px 12px;
   font-size: 0.875rem;
   color: var(--kiut-text-primary);
   white-space: nowrap;
+}
+
+.pm-cell.text-center {
+  text-align: center;
 }
 
 .text-left {
@@ -863,40 +838,6 @@ defineExpose({ isDark })
 .tag-count {
   font-size: 0.75rem;
   color: var(--kiut-text-muted);
-}
-
-/* View More Button */
-.view-more-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6366f1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-more-btn:hover {
-  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4f46e5;
-}
-
-.view-more-icon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
-}
-
-.view-more-icon-rotated {
-  transform: rotate(180deg);
 }
 
 /* Empty State */
@@ -1044,8 +985,7 @@ defineExpose({ isDark })
     overflow-x: scroll;
   }
   
-  .table-cell {
-    padding: 12px 8px;
+  .pm-cell {
     font-size: 0.8125rem;
   }
 }
@@ -1077,13 +1017,7 @@ defineExpose({ isDark })
     margin-bottom: 24px;
   }
 
-  .table-header {
-    padding: 12px 8px;
-    font-size: 0.7rem;
-  }
-
-  .table-cell {
-    padding: 12px 8px;
+  .pm-cell {
     font-size: 0.8125rem;
   }
 }

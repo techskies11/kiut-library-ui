@@ -1,6 +1,6 @@
 <template>
-  <article class="disruption-metrics-card">
-    <header class="card-header">
+  <details class="disruption-metrics-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <div class="title-section">
           <h3 class="card-title">Disruption Manager Metrics</h3>
@@ -16,7 +16,10 @@
           <p v-else class="badge-value">{{ formatCurrency(0) }}</p>
         </div>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -76,109 +79,93 @@
         </div>
 
         <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr class="table-header-row">
-                <th class="table-header">Date</th>
-                <th class="table-header">Initiated</th>
-                <th class="table-header">Started</th>
-                <th class="table-header">Abandoned (%)</th>
-                <th class="table-header">Voluntary</th>
-                <th class="table-header">Involuntary</th>
-              </tr>
-            </thead>
-            <tbody class="table-body">
-              <tr v-for="row in visibleTableData" :key="row.date" class="table-row">
-                <!-- Date -->
-                <td class="table-cell font-medium text-center">
-                  {{ moment(row.date).format('DD/MM') }}
-                </td>
-
-                <!-- Initiated -->
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.disruption_conversations) }}
-                </td>
-
-                <!-- Started -->
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.disruption_initiated_count) }}
-                  <span class="percentage-text">
-                    ({{ calculatePercentage(row.disruption_initiated_count, row.disruption_conversations) }})
+          <Table :columns="disruptionTableColumns" :rows="disruptionTableRows" row-key="id">
+            <template #cell-date="{ row }">
+              <span class="d-cell font-medium text-center">{{ moment(String(row.date)).format('DD/MM') }}</span>
+            </template>
+            <template #cell-initiated="{ row }">
+              <span class="d-cell text-center">{{ useNumberFormat(Number(row.disruption_conversations)) }}</span>
+            </template>
+            <template #cell-started="{ row }">
+              <span class="d-cell text-center">
+                {{ useNumberFormat(Number(row.disruption_initiated_count)) }}
+                <span class="percentage-text">
+                  ({{ calculatePercentage(Number(row.disruption_initiated_count), Number(row.disruption_conversations)) }})
+                </span>
+              </span>
+            </template>
+            <template #cell-abandoned="{ row }">
+              <span class="d-cell text-center">
+                <span class="abandoned-value">
+                  {{ useNumberFormat(Number(row.disruption_initiated_count) - Number(row.voluntary_count) - Number(row.involuntary_count)) }}
+                  ({{ calculatePercentage(Number(row.disruption_initiated_count) - Number(row.voluntary_count) - Number(row.involuntary_count), Number(row.disruption_conversations)) }})
+                </span>
+              </span>
+            </template>
+            <template #cell-voluntary="{ row }">
+              <div class="badges-container badges-wrap">
+                <template v-for="(r, i) in [disruptionDayFromRow(row)]" :key="i">
+                  <span class="badge badge-vol">
+                    VOL {{ useNumberFormat(r.voluntary_count) }}
+                    ({{ calculatePercentage(r.voluntary_count, r.disruption_conversations) }})
                   </span>
-                </td>
-
-                <!-- Abandoned -->
-                <td class="table-cell text-center">
-                  <span class="abandoned-value">
-                    {{ useNumberFormat(row.disruption_initiated_count - row.voluntary_count - row.involuntary_count) }}
-                    ({{ calculatePercentage(row.disruption_initiated_count - row.voluntary_count - row.involuntary_count, row.disruption_conversations) }})
+                  <span class="badge badge-confirm">
+                    Confirm {{ useNumberFormat(r.confirmed_count) }}
+                    ({{ calculatePercentage(r.confirmed_count, r.disruption_conversations) }})
                   </span>
-                </td>
-
-                <!-- Voluntary badges -->
-                <td class="table-cell">
-                  <div class="badges-container badges-wrap">
-                    <span class="badge badge-vol">
-                      VOL {{ useNumberFormat(row.voluntary_count) }}
-                      ({{ calculatePercentage(row.voluntary_count, row.disruption_conversations) }})
-                    </span>
-                    <span class="badge badge-confirm">
-                      Confirm {{ useNumberFormat(row.confirmed_count) }}
-                      ({{ calculatePercentage(row.confirmed_count, row.disruption_conversations) }})
-                    </span>
-                    <span class="badge badge-not-confirm">
-                      Not Confirm {{ useNumberFormat(row.voluntary_count - row.confirmed_count) }}
-                      ({{ calculatePercentage(row.voluntary_count - row.confirmed_count, row.disruption_conversations) }})
-                    </span>
-                    <span class="badge badge-reject">
-                      Reject {{ useNumberFormat(row.sell_failed_count) }}
-                      ({{ calculatePercentage(row.sell_failed_count, row.disruption_conversations) }})
-                    </span>
-                    <span class="badge badge-not-paid">
-                      Not Paid {{ useNumberFormat(Math.max(0, row.confirmed_count - getSellSuccessCount(row) - row.sell_failed_count)) }}
-                      ({{ calculatePercentage(Math.max(0, row.confirmed_count - getSellSuccessCount(row) - row.sell_failed_count), row.disruption_conversations) }})
-                    </span>
-                    <span class="badge badge-success">
-                      Finish {{ useNumberFormat(getSellSuccessCount(row)) }}
-                      ({{ calculatePercentage(getSellSuccessCount(row), row.disruption_conversations) }})
-                    </span>
-                    <span
-                      v-for="item in row.payment_success_total || []"
-                      :key="`${row.date}-${item.currency}`"
-                      class="badge badge-currency"
-                    >
-                      {{ item.currency }} {{ formatCurrency(item.total_value) }}
-                    </span>
-                  </div>
-                </td>
-
-                <!-- Involuntary badges -->
-                <td class="table-cell">
-                  <div class="badges-container badges-wrap">
-                    <span class="badge badge-inv">
-                      INV {{ useNumberFormat(row.involuntary_count) }}
-                      ({{ calculatePercentage(row.involuntary_count, row.disruption_conversations) }})
-                    </span>
-                    <span class="badge badge-human">
-                      Human {{ useNumberFormat(row.involuntary_count - row.accepted_count) }}
-                      ({{ calculatePercentage(row.involuntary_count - row.accepted_count, row.disruption_conversations) }})
-                    </span>
-                    <span class="badge badge-accept">
-                      Accept {{ useNumberFormat(row.accepted_count) }}
-                      ({{ calculatePercentage(row.accepted_count, row.disruption_conversations) }})
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  <span class="badge badge-not-confirm">
+                    Not Confirm {{ useNumberFormat(r.voluntary_count - r.confirmed_count) }}
+                    ({{ calculatePercentage(r.voluntary_count - r.confirmed_count, r.disruption_conversations) }})
+                  </span>
+                  <span class="badge badge-reject">
+                    Reject {{ useNumberFormat(r.sell_failed_count) }}
+                    ({{ calculatePercentage(r.sell_failed_count, r.disruption_conversations) }})
+                  </span>
+                  <span class="badge badge-not-paid">
+                    Not Paid {{ useNumberFormat(Math.max(0, r.confirmed_count - getSellSuccessCount(r) - r.sell_failed_count)) }}
+                    ({{ calculatePercentage(Math.max(0, r.confirmed_count - getSellSuccessCount(r) - r.sell_failed_count), r.disruption_conversations) }})
+                  </span>
+                  <span class="badge badge-success">
+                    Finish {{ useNumberFormat(getSellSuccessCount(r)) }}
+                    ({{ calculatePercentage(getSellSuccessCount(r), r.disruption_conversations) }})
+                  </span>
+                  <span
+                    v-for="item in r.payment_success_total || []"
+                    :key="`${r.date}-${item.currency}`"
+                    class="badge badge-currency"
+                  >
+                    {{ item.currency }} {{ formatCurrency(item.total_value) }}
+                  </span>
+                </template>
+              </div>
+            </template>
+            <template #cell-involuntary="{ row }">
+              <div class="badges-container badges-wrap">
+                <template v-for="(r, i) in [disruptionDayFromRow(row)]" :key="i">
+                  <span class="badge badge-inv">
+                    INV {{ useNumberFormat(r.involuntary_count) }}
+                    ({{ calculatePercentage(r.involuntary_count, r.disruption_conversations) }})
+                  </span>
+                  <span class="badge badge-human">
+                    Human {{ useNumberFormat(r.involuntary_count - r.accepted_count) }}
+                    ({{ calculatePercentage(r.involuntary_count - r.accepted_count, r.disruption_conversations) }})
+                  </span>
+                  <span class="badge badge-accept">
+                    Accept {{ useNumberFormat(r.accepted_count) }}
+                    ({{ calculatePercentage(r.accepted_count, r.disruption_conversations) }})
+                  </span>
+                </template>
+              </div>
+            </template>
+          </Table>
         </div>
         <button
           v-if="hasMoreRows"
+          type="button"
           class="view-more-btn"
           @click="showAllRows = !showAllRows"
         >
-          {{ showAllRows ? 'View less' : `View more (${tableData.length - MAX_VISIBLE_ROWS} more rows)` }}
+          {{ showAllRows ? 'View less' : `View more (${disruptionRemainingRows} rows)` }}
           <svg
             :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -202,7 +189,7 @@
         </div>
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -211,6 +198,7 @@ import moment from 'moment'
 import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 interface DisruptionDayData {
   date: string;
@@ -243,6 +231,10 @@ interface DisruptionData {
   total_finished: number;
   total_payment_success?: TotalPaymentSuccess[];
   disruption_by_day: DisruptionDayData[];
+}
+
+function disruptionDayFromRow(r: Record<string, unknown>): DisruptionDayData {
+  return r as unknown as DisruptionDayData
 }
 
 const props = withDefaults(defineProps<{
@@ -294,6 +286,26 @@ const visibleTableData = computed(() => {
 })
 
 const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS)
+
+const disruptionRemainingRows = computed(() =>
+  Math.max(0, tableData.value.length - MAX_VISIBLE_ROWS)
+)
+
+const disruptionTableColumns: TableColumn[] = [
+  { key: 'date', label: 'Date', align: 'center' },
+  { key: 'initiated', label: 'Initiated', align: 'center' },
+  { key: 'started', label: 'Started', align: 'center' },
+  { key: 'abandoned', label: 'Abandoned (%)', align: 'center' },
+  { key: 'voluntary', label: 'Voluntary', align: 'left' },
+  { key: 'involuntary', label: 'Involuntary', align: 'left' },
+]
+
+const disruptionTableRows = computed((): Record<string, unknown>[] =>
+  visibleTableData.value.map((row) => ({
+    id: row.date,
+    ...row,
+  }))
+)
 
 const totalPaymentSuccessByCurrency = computed(() => {
   return props.data?.total_payment_success || []
@@ -495,6 +507,9 @@ const nodeColors: Record<string, string> = {
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .disruption-metrics-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -706,59 +721,6 @@ const nodeColors: Record<string, string> = {
   flex: 1;
 }
 
-.data-table {
-  width: 100%;
-  font-size: 0.8125rem;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-header-row {
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-}
-
-.table-header {
-  padding: 14px 10px;
-  text-align: center;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #374151;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.table-header:first-child {
-  border-top-left-radius: 16px;
-}
-
-.table-header:last-child {
-  border-top-right-radius: 16px;
-}
-
-.table-body {
-  background: white;
-}
-
-.table-row {
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.table-row:hover {
-  background: linear-gradient(to right, #fafafa 0%, #f9fafb 100%);
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-cell {
-  padding: 14px 10px;
-  font-size: 0.8125rem;
-  color: #1e293b;
-}
-
 .percentage-text {
   color: #64748b;
   font-size: 0.75rem;
@@ -851,40 +813,6 @@ const nodeColors: Record<string, string> = {
   font-weight: 600;
   color: #065f46;
   margin: 0;
-}
-
-/* View More Button */
-.view-more-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6366f1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-more-btn:hover {
-  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4f46e5;
-}
-
-.view-more-icon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
-}
-
-.view-more-icon-rotated {
-  transform: rotate(180deg);
 }
 
 /* Empty State */
@@ -1038,11 +966,6 @@ const nodeColors: Record<string, string> = {
   .table-wrapper {
     overflow-x: scroll;
   }
-  
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.75rem;
-  }
 
   .badges-container {
     min-width: 280px;
@@ -1078,16 +1001,6 @@ const nodeColors: Record<string, string> = {
 
   .chart-wrapper {
     padding: 16px;
-  }
-
-  .table-header {
-    padding: 12px 8px;
-    font-size: 0.65rem;
-  }
-
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.75rem;
   }
 
   .badge {

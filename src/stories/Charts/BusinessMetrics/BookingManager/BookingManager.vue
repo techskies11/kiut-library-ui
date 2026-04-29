@@ -1,6 +1,6 @@
 <template>
-  <article class="booking-manager-card">
-    <header class="card-header">
+  <details class="booking-manager-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <div class="title-section">
           <h3 class="card-title">Booking Manager Metrics</h3>
@@ -16,7 +16,10 @@
           <p v-else class="badge-value">{{ formatCompactCurrency(0) }}</p>
         </div>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -65,87 +68,73 @@
           <h4 class="section-title">Daily Overview</h4>
         </div>
         <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr class="table-header-row">
-                <th class="table-header">Date</th>
-                <th class="table-header">Initiated</th>
-                <th class="table-header">Started</th>
-                <th class="table-header">Payment Initiated</th>
-                <th class="table-header">Payment Results</th>
-                <th class="table-header">Payment Value</th>
-                <th class="table-header">Outcomes</th>
-              </tr>
-            </thead>
-            <tbody class="table-body">
-              <tr
-                v-for="day in visibleDayData"
-                :key="day.date"
-                class="table-row"
-              >
-                <td class="table-cell font-medium">
-                  {{ moment(day.date).format('DD/MM/YYYY') }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(day.booking_initiated_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(day.booking_started_count) }}
-                  <span class="percentage-text">
-                    ({{ calculatePercentage(day.booking_started_count, day.booking_initiated_count) }})
+          <Table :columns="bookingManagerColumns" :rows="bookingManagerTableRows" row-key="id">
+            <template #cell-date="{ row }">
+              <span class="bm-cell font-medium">{{ moment(String(row.date)).format('DD/MM/YYYY') }}</span>
+            </template>
+            <template #cell-initiated="{ row }">
+              <span class="bm-cell text-center">{{ useNumberFormat(Number(row.booking_initiated_count)) }}</span>
+            </template>
+            <template #cell-started="{ row }">
+              <span class="bm-cell text-center">
+                {{ useNumberFormat(Number(row.booking_started_count)) }}
+                <span class="percentage-text">
+                  ({{ calculatePercentage(Number(row.booking_started_count), Number(row.booking_initiated_count)) }})
+                </span>
+              </span>
+            </template>
+            <template #cell-paymentInitiated="{ row }">
+              <span class="bm-cell text-center">{{ useNumberFormat(Number(row.payment_initiated_count)) }}</span>
+            </template>
+            <template #cell-paymentResults="{ row }">
+              <div class="badges-container">
+                <span class="badge badge-success">
+                  Success: {{ useNumberFormat(getPaymentSuccessCount(bookingDayFromRow(row))) }}
+                </span>
+                <span class="badge badge-error">
+                  Failed: {{ useNumberFormat(Number(row.payment_failed_count) || 0) }}
+                </span>
+              </div>
+            </template>
+            <template #cell-paymentValue="{ row }">
+              <template v-if="getPaymentSuccessValueByCurrency(bookingDayFromRow(row)).length > 0">
+                <div class="badges-container">
+                  <span
+                    v-for="item in getPaymentSuccessValueByCurrency(bookingDayFromRow(row))"
+                    :key="`${row.date}-${item.currency}`"
+                    class="badge badge-currency"
+                  >
+                    {{ item.currency }} {{ formatCurrency(item.total_value) }}
                   </span>
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(day.payment_initiated_count) }}
-                </td>
-                <td class="table-cell">
-                  <div class="badges-container">
-                    <span class="badge badge-success">
-                      Success: {{ useNumberFormat(getPaymentSuccessCount(day)) }}
-                    </span>
-                    <span class="badge badge-error">
-                      Failed: {{ useNumberFormat(day.payment_failed_count || 0) }}
-                    </span>
-                  </div>
-                </td>
-                <td class="table-cell">
-                  <div v-if="getPaymentSuccessValueByCurrency(day).length > 0" class="badges-container">
-                    <span
-                      v-for="item in getPaymentSuccessValueByCurrency(day)"
-                      :key="`${day.date}-${item.currency}`"
-                      class="badge badge-currency"
-                    >
-                      {{ item.currency }} {{ formatCurrency(item.total_value) }}
-                    </span>
-                  </div>
-                  <span v-else class="percentage-text">N/A</span>
-                </td>
-                <td class="table-cell">
-                  <div class="badges-container">
-                    <span class="badge badge-error">
-                      Not Found: {{ day.not_found_count ? useNumberFormat(day.not_found_count) : 'N/A' }}
-                    </span>
-                    <span class="badge badge-warning">
-                      Cancelled: {{ day.cancelled_count ? useNumberFormat(day.cancelled_count) : 'N/A' }}
-                    </span>
-                    <span class="badge badge-yellow">
-                      No Balance: {{ day.no_pending_balance_count ? useNumberFormat(day.no_pending_balance_count) : 'N/A' }}
-                    </span>
-                    <span class="badge badge-error">
-                      Errors: {{ day.error_count ? useNumberFormat(day.error_count) : 'N/A' }}
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </template>
+              <span v-else class="percentage-text">N/A</span>
+            </template>
+            <template #cell-outcomes="{ row }">
+              <div class="badges-container">
+                <span class="badge badge-error">
+                  Not Found: {{ row.not_found_count ? useNumberFormat(Number(row.not_found_count)) : 'N/A' }}
+                </span>
+                <span class="badge badge-warning">
+                  Cancelled: {{ row.cancelled_count ? useNumberFormat(Number(row.cancelled_count)) : 'N/A' }}
+                </span>
+                <span class="badge badge-yellow">
+                  No Balance: {{ row.no_pending_balance_count ? useNumberFormat(Number(row.no_pending_balance_count)) : 'N/A' }}
+                </span>
+                <span class="badge badge-error">
+                  Errors: {{ row.error_count ? useNumberFormat(Number(row.error_count)) : 'N/A' }}
+                </span>
+              </div>
+            </template>
+          </Table>
         </div>
         <button
           v-if="hasMoreRows"
+          type="button"
           class="view-more-btn"
           @click="showAllRows = !showAllRows"
         >
-          {{ showAllRows ? 'View less' : `View more (${sortedDayData.length - MAX_VISIBLE_ROWS} more rows)` }}
+          {{ showAllRows ? 'View less' : `View more (${bookingRemainingRows} rows)` }}
           <svg
             :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -169,7 +158,7 @@
         </div>
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -178,6 +167,7 @@ import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useCurrencyFormat, useCompactCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 interface BookingDayData {
   date: string;
@@ -191,6 +181,10 @@ interface BookingDayData {
   payment_success_count?: number;
   payment_failed_count: number;
   payment_success_value?: BookingManagerCurrencyBreakdown[];
+}
+
+function bookingDayFromRow(row: Record<string, unknown>): BookingDayData {
+  return row as unknown as BookingDayData
 }
 
 interface BookingData {
@@ -265,6 +259,27 @@ const visibleDayData = computed(() => {
 })
 
 const hasMoreRows = computed(() => sortedDayData.value.length > MAX_VISIBLE_ROWS)
+
+const bookingRemainingRows = computed(() =>
+  Math.max(0, sortedDayData.value.length - MAX_VISIBLE_ROWS)
+)
+
+const bookingManagerColumns: TableColumn[] = [
+  { key: 'date', label: 'Date', align: 'center' },
+  { key: 'initiated', label: 'Initiated', align: 'center' },
+  { key: 'started', label: 'Started', align: 'center' },
+  { key: 'paymentInitiated', label: 'Payment Initiated', align: 'center' },
+  { key: 'paymentResults', label: 'Payment Results', align: 'left' },
+  { key: 'paymentValue', label: 'Payment Value', align: 'left' },
+  { key: 'outcomes', label: 'Outcomes', align: 'left' },
+]
+
+const bookingManagerTableRows = computed((): Record<string, unknown>[] =>
+  visibleDayData.value.map((day) => ({
+    id: day.date,
+    ...day,
+  }))
+)
 
 const totalPaymentSuccessValueByCurrency = computed(() => {
   return props.data?.total_payment_success_value || []
@@ -455,6 +470,9 @@ const calculatePercentage = (value: number, total: number): string => {
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .booking-manager-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -609,60 +627,6 @@ const calculatePercentage = (value: number, total: number): string => {
   flex: 1;
 }
 
-.data-table {
-  width: 100%;
-  font-size: 0.875rem;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-header-row {
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-}
-
-.table-header {
-  padding: 16px 12px;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #374151;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.table-header:first-child {
-  border-top-left-radius: 16px;
-}
-
-.table-header:last-child {
-  border-top-right-radius: 16px;
-}
-
-.table-body {
-  background: white;
-}
-
-.table-row {
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid #f3f4f6;
-}
-
-.table-row:hover {
-  background: linear-gradient(to right, #fafafa 0%, #f9fafb 100%);
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-cell {
-  padding: 16px 12px;
-  font-size: 0.875rem;
-  color: #1e293b;
-  white-space: nowrap;
-}
-
 .percentage-text {
   color: #64748b;
   font-size: 0.8125rem;
@@ -722,40 +686,6 @@ const calculatePercentage = (value: number, total: number): string => {
   font-weight: 600;
   color: #065f46;
   margin: 0;
-}
-
-/* View More Button */
-.view-more-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6366f1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-more-btn:hover {
-  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4f46e5;
-}
-
-.view-more-icon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
-}
-
-.view-more-icon-rotated {
-  transform: rotate(180deg);
 }
 
 /* Empty State */
@@ -975,11 +905,6 @@ const calculatePercentage = (value: number, total: number): string => {
   .table-wrapper {
     overflow-x: scroll;
   }
-  
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.8125rem;
-  }
 
   .badges-container {
     min-width: 200px;
@@ -1015,16 +940,6 @@ const calculatePercentage = (value: number, total: number): string => {
 
   .chart-wrapper {
     padding: 16px;
-  }
-
-  .table-header {
-    padding: 12px 8px;
-    font-size: 0.7rem;
-  }
-
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.8125rem;
   }
 }
 </style>

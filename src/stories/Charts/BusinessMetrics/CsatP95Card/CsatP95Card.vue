@@ -1,24 +1,40 @@
 <template>
-  <article :class="['highlight-card', { 'highlight-card--dark': isDark }]">
-    <header class="card-header">
-      <div class="icon-wrapper">
-        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.41a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345l2.125-5.11z" />
-        </svg>
+  <details :class="['highlight-card', 'metric-collapsible', { 'highlight-card--dark': isDark }]">
+    <summary class="metric-collapsible__summary csat-collapsible-summary">
+      <div class="csat-collapsible-summary__main">
+        <span class="csat-collapsible-title">CSAT Metrics</span>
+        <template v-if="!loading">
+          <span class="csat-collapsible-value">{{ formattedCsat }}</span>
+          <span class="csat-collapsible-label">CSAT P95</span>
+        </template>
+        <span v-else class="csat-collapsible-loading">Loading…</span>
       </div>
-      <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
-    <div v-if="loading" class="loading-state">
-      <div class="shimmer shimmer-value"></div>
-      <div class="shimmer shimmer-label"></div>
-    </div>
+    <div class="csat-collapsible-panel">
+      <header class="card-header">
+        <div class="icon-wrapper">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.41a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345l2.125-5.11z" />
+          </svg>
+        </div>
+        <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
+      </header>
 
-    <div v-else class="card-body">
-      <span class="metric-value">{{ formattedCsat }}</span>
-      <span class="metric-label">CSAT P95</span>
+      <div v-if="loading" class="loading-state">
+        <div class="shimmer shimmer-value"></div>
+        <div class="shimmer shimmer-label"></div>
+      </div>
+
+      <div v-else class="card-body">
+        <span class="metric-value">{{ formattedCsat }}</span>
+        <span class="metric-label">CSAT P95</span>
+      </div>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -67,6 +83,60 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+
+.csat-collapsible-summary {
+  align-items: center;
+}
+
+.csat-collapsible-summary__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  text-align: left;
+}
+
+.csat-collapsible-title {
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  letter-spacing: -0.02em;
+}
+
+.highlight-card--dark .csat-collapsible-title {
+  color: #f1f5f9;
+}
+
+.csat-collapsible-value {
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #1e293b;
+}
+
+.highlight-card--dark .csat-collapsible-value {
+  color: #f1f5f9;
+}
+
+.csat-collapsible-label,
+.csat-collapsible-loading {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.highlight-card--dark .csat-collapsible-label,
+.highlight-card--dark .csat-collapsible-loading {
+  color: #9ca3af;
+}
+
+.csat-collapsible-panel {
+  margin-top: 4px;
+}
+
 .highlight-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #ffffff 0%, #faf8ff 50%, #f5f0ff 100%);

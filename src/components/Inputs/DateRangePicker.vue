@@ -8,7 +8,8 @@
       aria-haspopup="dialog"
       :aria-labelledby="label ? labelId : undefined"
       :aria-label="!label ? resolvedAria : undefined"
-      @click="onTriggerClick"
+      @focus="openCalendar"
+      @click="openCalendar"
     >
       <CalendarDaysIcon
         class="h-5 w-5 shrink-0 text-gray-500 dark:text-slate-400"
@@ -231,20 +232,20 @@ function close() {
   open.value = false;
 }
 
-function onTriggerClick(e: MouseEvent) {
-  e.stopPropagation();
-  open.value = !open.value;
-  if (open.value) {
-    pendingAnchor.value = null;
-    if (props.modelValue.start) {
-      try {
-        viewMonth.value = startOfMonth(parseISODate(props.modelValue.start));
-      } catch {
-        /* ignore */
-      }
+function openCalendar(e?: MouseEvent | FocusEvent) {
+  e?.stopPropagation();
+  if (open.value) return;
+
+  open.value = true;
+  pendingAnchor.value = null;
+  if (props.modelValue.start) {
+    try {
+      viewMonth.value = startOfMonth(parseISODate(props.modelValue.start));
+    } catch {
+      /* ignore */
     }
-    void nextTick(() => panelRef.value?.focus());
   }
+  void nextTick(() => panelRef.value?.focus());
 }
 
 function onDocumentClick(e: MouseEvent) {

@@ -1,0 +1,46 @@
+/* Shared collapsible header for BusinessMetrics cards (<details>/<summary>). */
+.metric-collapsible__summary {
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.metric-collapsible__summary::-webkit-details-marker {
+  display: none;
+}
+
+.metric-collapsible__chevron {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 4px;
+  color: var(--kiut-text-secondary);
+  transition: transform 0.25s ease;
+}
+
+.metric-collapsible[open] .metric-collapsible__chevron {
+  transform: rotate(180deg);
+}
+
+/* Sin hueco bajo el resumen cuando está colapsado (el margin lo pone cada card en .card-header). */
+.metric-collapsible:not([open]) .card-header {
+  margin-bottom: 0;
+}
+
+/* Collapsed: solo título (sin subtítulo ni métricas extra en el resumen). */
+.metric-collapsible:not([open]) .card-subtitle {
+  display: none;
+}
+
+.metric-collapsible:not([open]) .header-badges,
+.metric-collapsible:not([open]) .payment-success-badge,
+.metric-collapsible:not([open]) .payment-warning-badge,
+.metric-collapsible:not([open]) .total-docs-badge,
+.metric-collapsible:not([open]) .csat-collapsible-value,
+.metric-collapsible:not([open]) .csat-collapsible-label,
+.metric-collapsible:not([open]) .csat-collapsible-loading {
+  display: none;
+}

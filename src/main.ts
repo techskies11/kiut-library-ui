@@ -18,6 +18,7 @@ import AgentsPerDay from './stories/Charts/BusinessMetrics/AgentsPerDay/AgentsPe
 import BookingManager from './stories/Charts/BusinessMetrics/BookingManager/BookingManager.vue';
 import Checkin from './stories/Charts/BusinessMetrics/Checkin/Checkin.vue';
 import CheckinMetrics from './stories/Charts/BusinessMetrics/CheckinMetrics/CheckinMetrics.vue';
+import CheckinContainer from './stories/Charts/BusinessMetrics/CheckinContainer/CheckinContainer.vue';
 import CheckinSegments from './stories/Charts/BusinessMetrics/CheckinSegments/checkinSegments.vue';
 import Disruption from './stories/Charts/BusinessMetrics/Disruption/Disruption.vue';
 import FAQ from './stories/Charts/BusinessMetrics/FAQ/FAQ.vue';
@@ -25,6 +26,7 @@ import MessagesPerAgent from './stories/Charts/BusinessMetrics/MessagesPerAgent/
 import RecordLocator from './stories/Charts/BusinessMetrics/RecordLocator/RecordLocator.vue';
 import SalesByChannel from './stories/Charts/BusinessMetrics/SalesByChannel/SalesByChannel.vue';
 import Seller from './stories/Charts/BusinessMetrics/Seller/Seller.vue';
+import SellerContainer from './stories/Charts/BusinessMetrics/SellerContainer/SellerContainer.vue';
 import TopAgents from './stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue';
 import PaymentMethod from './stories/Charts/BusinessMetrics/PaymentMethod/PaymentMethod.vue';
 import AgentHumanConversations from './stories/Charts/BusinessMetrics/AgentHumanConv/AgentHumanConversations.vue';
@@ -35,6 +37,7 @@ import Guardrails from './stories/Charts/BusinessMetrics/Guardrails/Guardrails.v
 import DisruptionNotifier from './stories/Charts/BusinessMetrics/DisruptionNotifier/DisruptionNotifier.vue';
 import TotalConversationsCard from './stories/Charts/BusinessMetrics/TotalConversationsCard/TotalConversationsCard.vue';
 import CsatP95Card from './stories/Charts/BusinessMetrics/CsatP95Card/CsatP95Card.vue';
+import CSATContainer from './stories/Charts/BusinessMetrics/CSATContainer/CSATContainer.vue';
 import AiGeneratedRevenueCard from './stories/Charts/BusinessMetrics/AiGeneratedRevenueCard/AiGeneratedRevenueCard.vue';
 
 // NPS Metrics
@@ -127,6 +130,7 @@ export {
   AgentsPerDay,
   BookingManager,
   Checkin,
+  CheckinContainer,
   CheckinMetrics,
   CheckinSegments,
   Disruption,
@@ -135,6 +139,7 @@ export {
   RecordLocator,
   SalesByChannel,
   Seller,
+  SellerContainer,
   TopAgents,
   PaymentMethod,
   AgentHumanConversations,
@@ -145,6 +150,7 @@ export {
   DisruptionNotifier,
   TotalConversationsCard,
   CsatP95Card,
+  CSATContainer,
   AiGeneratedRevenueCard,
   // NPS Metrics
   NpsDailyMetrics,
@@ -205,6 +211,7 @@ export const KiutUIPlugin = {
     app.component('KiutAgentsPerDay', AgentsPerDay);
     app.component('KiutBookingManager', BookingManager);
     app.component('KiutCheckin', Checkin);
+    app.component('KiutCheckinContainer', CheckinContainer);
     app.component('KiutCheckinMetrics', CheckinMetrics);
     app.component('KiutCheckinSegments', CheckinSegments);
     app.component('KiutDisruption', Disruption);
@@ -213,6 +220,7 @@ export const KiutUIPlugin = {
     app.component('KiutRecordLocator', RecordLocator);
     app.component('KiutSalesByChannel', SalesByChannel);
     app.component('KiutSeller', Seller);
+    app.component('KiutSellerContainer', SellerContainer);
     app.component('KiutTopAgents', TopAgents);
     app.component('KiutPaymentMethod', PaymentMethod);
     app.component('KiutAgentHumanConversations', AgentHumanConversations);
@@ -223,6 +231,7 @@ export const KiutUIPlugin = {
     app.component('KiutDisruptionNotifier', DisruptionNotifier);
     app.component('KiutTotalConversationsCard', TotalConversationsCard);
     app.component('KiutCsatP95Card', CsatP95Card);
+    app.component('KiutCSATContainer', CSATContainer);
     app.component('KiutAiGeneratedRevenueCard', AiGeneratedRevenueCard);
     app.component('KiutNpsDailyMetrics', NpsDailyMetrics);
     app.component('KiutNpsMetrics', NpsMetrics);

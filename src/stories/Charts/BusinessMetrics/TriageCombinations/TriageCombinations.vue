@@ -16,46 +16,52 @@
           <BarChart :data="barData" :options="barOptions" />
         </div>
 
-        <div class="table-container">
-          <!-- Header de la tabla -->
-          <div class="table-header">
-            <div class="table-cell header-cell">Number of intentions</div>
-            <div class="table-cell header-cell text-center">0</div>
-            <div class="table-cell header-cell text-center">1</div>
-            <div class="table-cell header-cell text-center">2</div>
-            <div class="table-cell header-cell text-center">3</div>
-            <div class="table-cell header-cell text-center">4 or more</div>
-          </div>
-
-          <!-- Fila de porcentajes -->
-          <div class="table-row">
-            <div class="table-cell row-label">% of total</div>
-            <div class="table-cell text-center percentage-cell" :style="{ color: borderFromBg(colors.c0) }">
-              {{ formatPercent(buckets.pct0) }}%
-            </div>
-            <div class="table-cell text-center percentage-cell" :style="{ color: borderFromBg(colors.c1) }">
-              {{ formatPercent(buckets.pct1) }}%
-            </div>
-            <div class="table-cell text-center percentage-cell" :style="{ color: borderFromBg(colors.c2) }">
-              {{ formatPercent(buckets.pct2) }}%
-            </div>
-            <div class="table-cell text-center percentage-cell" :style="{ color: borderFromBg(colors.c3) }">
-              {{ formatPercent(buckets.pct3) }}%
-            </div>
-            <div class="table-cell text-center percentage-cell" :style="{ color: borderFromBg(colors.c4p) }">
-              {{ formatPercent(buckets.pct4p) }}%
-            </div>
-          </div>
-
-          <!-- Fila de conteos -->
-          <div class="table-row">
-            <div class="table-cell row-label">Count</div>
-            <div class="table-cell text-center count-cell">{{ useNumberFormat(countsByIntentions[0]) }}</div>
-            <div class="table-cell text-center count-cell">{{ useNumberFormat(countsByIntentions[1]) }}</div>
-            <div class="table-cell text-center count-cell">{{ useNumberFormat(countsByIntentions[2]) }}</div>
-            <div class="table-cell text-center count-cell">{{ useNumberFormat(countsByIntentions[3]) }}</div>
-            <div class="table-cell text-center count-cell">{{ useNumberFormat(countsByIntentions['4p']) }}</div>
-          </div>
+        <div class="triage-table-wrap">
+          <Table :columns="triageTableColumns" :rows="triageTableRows" row-key="id">
+            <template #cell-metric="{ row }">
+              <span class="triage-row-label">{{ row.metric }}</span>
+            </template>
+            <template #cell-b0="{ row }">
+              <span
+                v-if="row.id === 'pct'"
+                class="triage-pct"
+                :style="{ color: borderFromBg(colors.c0) }"
+              >{{ formatPercent(Number(row.b0)) }}%</span>
+              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b0)) }}</span>
+            </template>
+            <template #cell-b1="{ row }">
+              <span
+                v-if="row.id === 'pct'"
+                class="triage-pct"
+                :style="{ color: borderFromBg(colors.c1) }"
+              >{{ formatPercent(Number(row.b1)) }}%</span>
+              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b1)) }}</span>
+            </template>
+            <template #cell-b2="{ row }">
+              <span
+                v-if="row.id === 'pct'"
+                class="triage-pct"
+                :style="{ color: borderFromBg(colors.c2) }"
+              >{{ formatPercent(Number(row.b2)) }}%</span>
+              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b2)) }}</span>
+            </template>
+            <template #cell-b3="{ row }">
+              <span
+                v-if="row.id === 'pct'"
+                class="triage-pct"
+                :style="{ color: borderFromBg(colors.c3) }"
+              >{{ formatPercent(Number(row.b3)) }}%</span>
+              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b3)) }}</span>
+            </template>
+            <template #cell-b4p="{ row }">
+              <span
+                v-if="row.id === 'pct'"
+                class="triage-pct"
+                :style="{ color: borderFromBg(colors.c4p) }"
+              >{{ formatPercent(Number(row.b4p)) }}%</span>
+              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b4p)) }}</span>
+            </template>
+          </Table>
         </div>
 
         <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
@@ -97,6 +103,7 @@ import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 // Modelo de datos que recibe el componente
 interface TriageCombinationsData {
@@ -171,6 +178,40 @@ const buckets = computed(() => {
     pct3: (c[3] / total) * 100,
     pct4p: (c['4p'] / total) * 100,
   }
+})
+
+const triageTableColumns: TableColumn[] = [
+  { key: 'metric', label: 'Number of intentions', align: 'left' },
+  { key: 'b0', label: '0', align: 'center' },
+  { key: 'b1', label: '1', align: 'center' },
+  { key: 'b2', label: '2', align: 'center' },
+  { key: 'b3', label: '3', align: 'center' },
+  { key: 'b4p', label: '4 or more', align: 'center' },
+]
+
+const triageTableRows = computed((): Record<string, unknown>[] => {
+  const b = buckets.value
+  const c = countsByIntentions.value
+  return [
+    {
+      id: 'pct',
+      metric: '% of total',
+      b0: b.pct0,
+      b1: b.pct1,
+      b2: b.pct2,
+      b3: b.pct3,
+      b4p: b.pct4p,
+    },
+    {
+      id: 'count',
+      metric: 'Count',
+      b0: c[0],
+      b1: c[1],
+      b2: c[2],
+      b3: c[3],
+      b4p: c['4p'],
+    },
+  ]
 })
 
 // Colores para cada bucket
@@ -365,63 +406,28 @@ defineExpose({ isDark })
   height: 100%;
 }
 
-/* Table Container */
-.table-container {
-  overflow: hidden;
-  border-radius: 12px;
-  border: 1px solid var(--kiut-border-light);
-  background: var(--kiut-bg-card);
+/* Tabla (Table.vue) */
+.triage-table-wrap {
+  margin-top: 4px;
 }
 
-.table-header {
-  display: grid;
-  grid-template-columns: 1.5fr repeat(5, 1fr);
-  background: var(--kiut-bg-stats-badge);
-  border-bottom: 1px solid var(--kiut-border-light);
-}
-
-.table-row {
-  display: grid;
-  grid-template-columns: 1.5fr repeat(5, 1fr);
-  transition: background-color 0.2s ease;
-}
-
-.table-row:not(:last-child) {
-  border-bottom: 1px solid var(--kiut-border-light);
-}
-
-.table-row:hover {
-  background: var(--kiut-bg-stats-badge);
-}
-
-.table-cell {
-  padding: 12px 16px;
+.triage-row-label {
+  font-weight: 500;
+  color: var(--kiut-text-primary);
   font-size: 0.875rem;
 }
 
-.header-cell {
-  font-weight: 600;
-  color: var(--kiut-text-primary);
-}
-
-.row-label {
-  font-weight: 500;
-  color: var(--kiut-text-primary);
-}
-
-.percentage-cell {
+.triage-pct {
   font-weight: 700;
   font-family: 'Space Grotesk', sans-serif;
   letter-spacing: -0.01em;
+  font-size: 0.875rem;
 }
 
-.count-cell {
+.triage-count {
   font-weight: 500;
   color: var(--kiut-text-secondary);
-}
-
-.text-center {
-  text-align: center;
+  font-size: 0.875rem;
 }
 
 /* Empty State */
@@ -570,20 +576,6 @@ defineExpose({ isDark })
 
   .total-badge {
     align-self: flex-start;
-  }
-
-  .table-container {
-    overflow-x: auto;
-  }
-
-  .table-header,
-  .table-row {
-    grid-template-columns: 1.2fr repeat(5, 0.8fr);
-  }
-
-  .table-cell {
-    padding: 10px 8px;
-    font-size: 0.8125rem;
   }
 
   .chart-container {

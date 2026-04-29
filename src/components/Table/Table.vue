@@ -28,8 +28,8 @@
               scope="col"
               :class="[
                 'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                alignClass(col.align),
                 col.headerClass ?? '',
-                '!text-left',
               ]"
             >
               {{ col.label }}

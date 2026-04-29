@@ -1,11 +1,14 @@
 <template>
-  <article class="record-locator-card">
-    <header class="card-header">
+  <details class="record-locator-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <h3 class="card-title">Checkin by Record Locator Metrics</h3>
         <p class="card-subtitle">Checkin by record locator retrieval and completion analysis</p>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -39,67 +42,46 @@
       <!-- Table Data -->
       <section v-if="tableData && tableData.length > 0" class="table-section">
         <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr class="table-header-row">
-                <th class="table-header">Date</th>
-                <th class="table-header">Checkin Init</th>
-                <th class="table-header">Booking Retrieve (%)</th>
-                <th class="table-header">Checkin Started</th>
-                <th class="table-header">Checkin Completed (%)</th>
-                <th class="table-header">Checkin Closed (%)</th>
-                <th class="table-header">Checkin Failed (%)</th>
-                <th class="table-header">Abandoned (%)</th>
-                <th class="table-header" v-if="props.isAvianca">Create Payment</th>
-                <th class="table-header" v-if="props.isAvianca">Failed Payment</th>
-              </tr>
-            </thead>
-            <tbody class="table-body">
-              <tr
-                v-for="row in visibleTableData"
-                :key="row.date"
-                class="table-row"
-              >
-                <td class="table-cell font-medium">
-                  {{ moment(row.date).format('DD/MM/YYYY') }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.checkin_initiated) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.record_locator_init_count, row.checkin_initiated) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.record_locator_started_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  {{ formatValueWithPercentage(row.record_locator_completed_count, row.record_locator_started_count) }}
-                </td>
-                <td class="table-cell text-center success-value">
-                  {{ formatValueWithPercentage(row.record_locator_closed_count, row.record_locator_started_count) }}
-                </td>
-                <td class="table-cell text-center failed-value">
-                  {{ formatValueWithPercentage(row.record_locator_failed_count, row.record_locator_started_count) }}
-                </td>
-                <td class="table-cell text-center warning-value">
-                  {{ formatValueWithPercentage(row.record_locator_abandoned_count, row.record_locator_started_count) }}
-                </td>
-                <td class="table-cell text-center" v-if="props.isAvianca">
-                  {{ useNumberFormat(row.record_locator_create_payment_count) }}
-                </td>
-                <td class="table-cell text-center failed-value" v-if="props.isAvianca">
-                  {{ useNumberFormat(row.record_locator_create_payment_failed_count) }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Table :columns="recordLocatorColumns" :rows="recordLocatorTableRows" row-key="id">
+            <template #cell-date="{ row }">
+              <span class="cell-plain font-medium">{{ moment(String(row.date)).format('DD/MM/YYYY') }}</span>
+            </template>
+            <template #cell-checkinInit="{ row }">
+              <span class="cell-plain text-center">{{ useNumberFormat(row.checkin_initiated as number) }}</span>
+            </template>
+            <template #cell-bookingRetrieve="{ row }">
+              <span class="cell-plain text-center">{{ formatValueWithPercentage(row.record_locator_init_count as number, row.checkin_initiated as number) }}</span>
+            </template>
+            <template #cell-checkinStarted="{ row }">
+              <span class="cell-plain text-center">{{ useNumberFormat(row.record_locator_started_count as number) }}</span>
+            </template>
+            <template #cell-checkinCompleted="{ row }">
+              <span class="cell-plain text-center">{{ formatValueWithPercentage(row.record_locator_completed_count as number, row.record_locator_started_count as number) }}</span>
+            </template>
+            <template #cell-checkinClosed="{ row }">
+              <span class="cell-plain text-center success-value">{{ formatValueWithPercentage(row.record_locator_closed_count as number, row.record_locator_started_count as number) }}</span>
+            </template>
+            <template #cell-checkinFailed="{ row }">
+              <span class="cell-plain text-center failed-value">{{ formatValueWithPercentage(row.record_locator_failed_count as number, row.record_locator_started_count as number) }}</span>
+            </template>
+            <template #cell-abandoned="{ row }">
+              <span class="cell-plain text-center warning-value">{{ formatValueWithPercentage(row.record_locator_abandoned_count as number, row.record_locator_started_count as number) }}</span>
+            </template>
+            <template #cell-createPayment="{ row }">
+              <span class="cell-plain text-center">{{ useNumberFormat((row.record_locator_create_payment_count as number) ?? 0) }}</span>
+            </template>
+            <template #cell-failedPayment="{ row }">
+              <span class="cell-plain text-center failed-value">{{ useNumberFormat((row.record_locator_create_payment_failed_count as number) ?? 0) }}</span>
+            </template>
+          </Table>
         </div>
         <button
           v-if="hasMoreRows"
+          type="button"
           class="view-more-btn"
           @click="showAllRows = !showAllRows"
         >
-          {{ showAllRows ? 'View less' : `View more (${tableData.length - MAX_VISIBLE_ROWS} more rows)` }}
+          {{ showAllRows ? 'View less' : `View more (${remainingRows} rows)` }}
           <svg
             :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -123,7 +105,7 @@
         </div>
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -133,6 +115,7 @@ import { useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 interface RecordLocatorDayData {
   date: string;
@@ -221,6 +204,46 @@ const visibleTableData = computed(() => {
 })
 
 const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS)
+
+const remainingRows = computed(() =>
+  Math.max(0, tableData.value.length - MAX_VISIBLE_ROWS)
+)
+
+const baseRecordLocatorColumns: TableColumn[] = [
+  { key: 'date', label: 'Date', align: 'center' },
+  { key: 'checkinInit', label: 'Checkin Init', align: 'center' },
+  { key: 'bookingRetrieve', label: 'Booking Retrieve (%)', align: 'center' },
+  { key: 'checkinStarted', label: 'Checkin Started', align: 'center' },
+  { key: 'checkinCompleted', label: 'Checkin Completed (%)', align: 'center' },
+  { key: 'checkinClosed', label: 'Checkin Closed (%)', align: 'center' },
+  { key: 'checkinFailed', label: 'Checkin Failed (%)', align: 'center' },
+  { key: 'abandoned', label: 'Abandoned (%)', align: 'center' },
+]
+
+const aviancaExtraColumns: TableColumn[] = [
+  { key: 'createPayment', label: 'Create Payment', align: 'center' },
+  { key: 'failedPayment', label: 'Failed Payment', align: 'center' },
+]
+
+const recordLocatorColumns = computed(() =>
+  props.isAvianca ? [...baseRecordLocatorColumns, ...aviancaExtraColumns] : baseRecordLocatorColumns
+)
+
+const recordLocatorTableRows = computed((): Record<string, unknown>[] =>
+  visibleTableData.value.map((row) => ({
+    id: row.date,
+    date: row.date,
+    checkin_initiated: row.checkin_initiated,
+    record_locator_init_count: row.record_locator_init_count,
+    record_locator_started_count: row.record_locator_started_count,
+    record_locator_completed_count: row.record_locator_completed_count,
+    record_locator_closed_count: row.record_locator_closed_count,
+    record_locator_failed_count: row.record_locator_failed_count,
+    record_locator_abandoned_count: row.record_locator_abandoned_count,
+    record_locator_create_payment_count: row.record_locator_create_payment_count,
+    record_locator_create_payment_failed_count: row.record_locator_create_payment_failed_count,
+  }))
+)
 
 const recordLocatorData = computed(() => props.data)
 
@@ -456,6 +479,9 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .record-locator-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -540,66 +566,19 @@ defineExpose({ isDark })
 }
 
 .table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid var(--kiut-border-table);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  background: var(--kiut-bg-table);
   flex: 1;
 }
 
-.data-table {
+.cell-plain {
+  display: inline-block;
   width: 100%;
-  font-size: 0.875rem;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-header-row {
-  background: var(--kiut-bg-table-header);
-}
-
-.table-header {
-  padding: 16px 12px;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--kiut-text-table-header);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid var(--kiut-border-table);
-}
-
-.table-header:first-child {
-  border-top-left-radius: 16px;
-}
-
-.table-header:last-child {
-  border-top-right-radius: 16px;
-}
-
-.table-body {
-  background: var(--kiut-bg-table);
-}
-
-.table-row {
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid var(--kiut-border-table-row);
-}
-
-.table-row:hover {
-  background: var(--kiut-bg-table-hover);
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-cell {
-  padding: 16px 12px;
   font-size: 0.875rem;
   color: var(--kiut-text-primary);
   white-space: nowrap;
+}
+
+.cell-plain.text-center {
+  text-align: center;
 }
 
 .success-value {
@@ -615,40 +594,6 @@ defineExpose({ isDark })
 .warning-value {
   color: var(--kiut-warning);
   font-weight: 500;
-}
-
-/* View More Button */
-.view-more-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6366f1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-more-btn:hover {
-  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4f46e5;
-}
-
-.view-more-icon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
-}
-
-.view-more-icon-rotated {
-  transform: rotate(180deg);
 }
 
 /* Empty State */
@@ -780,8 +725,8 @@ defineExpose({ isDark })
     overflow-x: scroll;
   }
   
-  .table-cell {
-    padding: 12px 8px;
+  .cell-plain {
+    padding: 0;
     font-size: 0.8125rem;
   }
 }
@@ -808,13 +753,7 @@ defineExpose({ isDark })
     padding: 16px;
   }
 
-  .table-header {
-    padding: 12px 8px;
-    font-size: 0.7rem;
-  }
-
-  .table-cell {
-    padding: 12px 8px;
+  .cell-plain {
     font-size: 0.8125rem;
   }
 }

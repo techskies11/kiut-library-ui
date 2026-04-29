@@ -1,11 +1,14 @@
 <template>
-  <article class="checkin-segments-card">
-    <header class="card-header">
+  <details class="checkin-segments-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <h3 class="card-title">Checkin Segments</h3>
         <p class="card-subtitle">Breakdown by flight segment with connection when applicable</p>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -25,69 +28,54 @@
     <div v-else class="card-body">
       <section v-if="props.data.length > 0" class="table-section">
         <div class="table-wrapper">
-          <table class="data-table">
-            <thead>
-              <tr class="table-header-row">
-                <th class="table-header">Departure</th>
-                <th class="table-header">Connection</th>
-                <th class="table-header">Arrival</th>
-                <th class="table-header">Trip</th>
-                <th class="table-header">Init</th>
-                <th class="table-header">Started (%)</th>
-                <th class="table-header">Completed (%)</th>
-                <th class="table-header">Closed (%)</th>
-              </tr>
-            </thead>
-            <tbody class="table-body">
-              <tr v-for="(row, idx) in visibleData" :key="idx" class="table-row">
-                <td class="table-cell font-medium text-center">
-                  <span class="airport-badge">{{ formatAirport(row.departure_airport) }}</span>
-                </td>
-                <td class="table-cell text-center">
-                  <span v-if="formatAirport(row.conexion_airport) !== '-'" class="airport-badge connection">
-                    {{ formatAirport(row.conexion_airport) }}
-                  </span>
-                  <span v-else class="empty-connection">-</span>
-                </td>
-                <td class="table-cell text-center">
-                  <span class="airport-badge">{{ formatAirport(row.arrival_airport) }}</span>
-                </td>
-                <td class="table-cell text-center">
-                  <span v-if="isRoundtrip(row)" class="trip-badge roundtrip">
-                    <svg class="trip-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    Roundtrip
-                  </span>
-                  <span v-else class="trip-badge oneway">
-                    <svg class="trip-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                    One way
-                  </span>
-                </td>
-                <td class="table-cell text-center">
-                  {{ useNumberFormat(row.segment_init_count) }}
-                </td>
-                <td class="table-cell text-center">
-                  <span class="percentage-value">{{ calculatePercentage(row.segment_started_count, row.segment_init_count) }}</span>
-                </td>
-                <td class="table-cell text-center">
-                  <span class="percentage-value">{{ calculatePercentage(row.segment_completed_count, row.segment_init_count) }}</span>
-                </td>
-                <td class="table-cell text-center">
-                  <span class="percentage-value success">{{ calculatePercentage(row.segment_closed_count, row.segment_init_count) }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Table :columns="tableColumns" :rows="tableRows" row-key="id">
+            <template #cell-departure="{ row }">
+              <span class="airport-badge">{{ formatAirport(row.departure_airport as string) }}</span>
+            </template>
+            <template #cell-connection="{ row }">
+              <span v-if="formatAirport(row.conexion_airport as string) !== '-'" class="airport-badge connection">
+                {{ formatAirport(row.conexion_airport as string) }}
+              </span>
+              <span v-else class="empty-connection">-</span>
+            </template>
+            <template #cell-arrival="{ row }">
+              <span class="airport-badge">{{ formatAirport(row.arrival_airport as string) }}</span>
+            </template>
+            <template #cell-trip="{ row }">
+              <span v-if="isRoundtrip(row as unknown as SegmentData)" class="trip-badge roundtrip">
+                <svg class="trip-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Roundtrip
+              </span>
+              <span v-else class="trip-badge oneway">
+                <svg class="trip-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+                One way
+              </span>
+            </template>
+            <template #cell-init="{ row }">
+              {{ useNumberFormat(row.segment_init_count as number) }}
+            </template>
+            <template #cell-started="{ row }">
+              <span class="percentage-value">{{ calculatePercentage(row.segment_started_count as number, row.segment_init_count as number) }}</span>
+            </template>
+            <template #cell-completed="{ row }">
+              <span class="percentage-value">{{ calculatePercentage(row.segment_completed_count as number, row.segment_init_count as number) }}</span>
+            </template>
+            <template #cell-closed="{ row }">
+              <span class="percentage-value success">{{ calculatePercentage(row.segment_closed_count as number, row.segment_init_count as number) }}</span>
+            </template>
+          </Table>
         </div>
         <button
           v-if="hasMoreRows"
+          type="button"
           class="view-more-btn"
           @click="showAllRows = !showAllRows"
         >
-          {{ showAllRows ? 'View less' : `View more (${props.data.length - MAX_VISIBLE_ROWS} more rows)` }}
+          {{ showAllRows ? 'View less' : `View more (${remainingRows} rows)` }}
           <svg
             :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -111,7 +99,7 @@
         </div>
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -119,6 +107,7 @@ import { computed, ref, toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 interface SegmentData {
   departure_airport: string;
@@ -163,7 +152,33 @@ const visibleData = computed(() => {
   return props.data.slice(0, MAX_VISIBLE_ROWS)
 })
 
+const tableColumns: TableColumn[] = [
+  { key: 'departure', label: 'Departure', align: 'center' },
+  { key: 'connection', label: 'Connection', align: 'center' },
+  { key: 'arrival', label: 'Arrival', align: 'center' },
+  { key: 'trip', label: 'Trip', align: 'center' },
+  { key: 'init', label: 'Init', align: 'center' },
+  { key: 'started', label: 'Started (%)', align: 'center' },
+  { key: 'completed', label: 'Completed (%)', align: 'center' },
+  { key: 'closed', label: 'Closed (%)', align: 'center' },
+]
+
+const tableRows = computed((): Record<string, unknown>[] =>
+  visibleData.value.map((row, idx) => ({
+    id: `segment-${idx}-${row.departure_airport}-${row.arrival_airport}-${row.segment_init_count}-${row.segment_started_count}`,
+    departure_airport: row.departure_airport,
+    conexion_airport: row.conexion_airport,
+    arrival_airport: row.arrival_airport,
+    segment_init_count: row.segment_init_count,
+    segment_started_count: row.segment_started_count,
+    segment_completed_count: row.segment_completed_count,
+    segment_closed_count: row.segment_closed_count,
+  }))
+)
+
 const hasMoreRows = computed(() => props.data.length > MAX_VISIBLE_ROWS)
+
+const remainingRows = computed(() => Math.max(0, props.data.length - MAX_VISIBLE_ROWS))
 
 const calculatePercentage = (value: number, total: number): string => {
   if (!total || total === 0 || !value) return '0%'
@@ -189,6 +204,9 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 /* Main Card Styles */
 .checkin-segments-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -259,66 +277,8 @@ defineExpose({ isDark })
 }
 
 .table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid var(--kiut-border-table);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  background: var(--kiut-bg-table);
   flex: 1;
-}
-
-.data-table {
-  width: 100%;
-  font-size: 0.875rem;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-header-row {
-  background: var(--kiut-bg-table-header);
-}
-
-.table-header {
-  padding: 16px 12px;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--kiut-text-table-header);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid var(--kiut-border-table);
-}
-
-.table-header:first-child {
-  border-top-left-radius: 16px;
-}
-
-.table-header:last-child {
-  border-top-right-radius: 16px;
-}
-
-.table-body {
-  background: var(--kiut-bg-table);
-}
-
-.table-row {
-  transition: background-color 0.2s ease;
-  border-bottom: 1px solid var(--kiut-border-table-row);
-}
-
-.table-row:hover {
-  background: var(--kiut-bg-table-hover);
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-cell {
-  padding: 16px 12px;
-  font-size: 0.875rem;
-  color: var(--kiut-text-primary);
-  white-space: nowrap;
+  overflow-x: auto;
 }
 
 /* Airport Badge */
@@ -380,40 +340,6 @@ defineExpose({ isDark })
 .percentage-value.success {
   color: var(--kiut-success);
   font-weight: 600;
-}
-
-/* View More Button */
-.view-more-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6366f1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.view-more-btn:hover {
-  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4f46e5;
-}
-
-.view-more-icon {
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
-}
-
-.view-more-icon-rotated {
-  transform: rotate(180deg);
 }
 
 /* Empty State */
@@ -544,11 +470,6 @@ defineExpose({ isDark })
   .table-wrapper {
     overflow-x: scroll;
   }
-  
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.8125rem;
-  }
 }
 
 @media (max-width: 768px) {
@@ -567,16 +488,6 @@ defineExpose({ isDark })
 
   .card-header {
     margin-bottom: 24px;
-  }
-
-  .table-header {
-    padding: 12px 8px;
-    font-size: 0.7rem;
-  }
-
-  .table-cell {
-    padding: 12px 8px;
-    font-size: 0.8125rem;
   }
 
   .airport-badge {

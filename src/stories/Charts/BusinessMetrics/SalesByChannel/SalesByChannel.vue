@@ -1,13 +1,16 @@
 <template>
-  <article class="sales-channel-card">
-    <header class="card-header">
+  <details class="sales-channel-card metric-collapsible" :open="initiallyOpen">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <div class="title-section">
           <h3 class="card-title">Sales by Channel</h3>
           <p class="card-subtitle">Successful sales breakdown by communication channel</p>
         </div>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State -->
     <div class="loading-state" v-if="props.loading">
@@ -73,7 +76,7 @@
         </div>
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
@@ -134,6 +137,7 @@ const props = withDefaults(defineProps<{
   enableExport?: boolean;
   exportLoading?: boolean;
   channelComparison?: ChannelComparisonItem[];
+  initiallyOpen?: boolean;
 }>(), {
   data: () => ({
     total_sell_success: 0,
@@ -145,6 +149,7 @@ const props = withDefaults(defineProps<{
   enableExport: false,
   exportLoading: false,
   channelComparison: () => [],
+  initiallyOpen: true,
 })
 
 const emit = defineEmits<{
@@ -192,6 +197,8 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+
 .sales-channel-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--kiut-bg-card-gradient);

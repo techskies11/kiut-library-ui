@@ -59,43 +59,33 @@
             <h4 class="section-title">Daily Overview</h4>
           </div>
           <div class="table-wrapper">
-            <table class="data-table">
-              <thead>
-                <tr class="table-header-row">
-                  <th class="table-header">Date</th>
-                  <th class="table-header text-center">Count</th>
-                  <th class="table-header">Types</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr v-for="row in visibleGroupedData" :key="row.date" class="table-row">
-                  <td class="table-cell font-medium text-center">
-                    {{ moment(row.date).format('DD/MM') }}
-                  </td>
-                  <td class="table-cell text-center font-semibold">
-                    {{ useNumberFormat(row.total) }}
-                  </td>
-                  <td class="table-cell">
-                    <div class="type-badges-row">
-                      <span
-                        v-for="t in row.types"
-                        :key="t.type"
-                        class="type-count-badge"
-                      >
-                        {{ t.type }} ({{ t.count }})
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <Table :columns="guardrailsTableColumns" :rows="guardrailsTableRows" row-key="id">
+              <template #cell-date="{ row }">
+                <span class="table-cell-inner font-medium">{{ moment(String(row.date)).format('DD/MM') }}</span>
+              </template>
+              <template #cell-count="{ row }">
+                <span class="table-cell-inner text-center font-semibold">{{ useNumberFormat(row.total as number) }}</span>
+              </template>
+              <template #cell-types="{ row }">
+                <div class="type-badges-row">
+                  <span
+                    v-for="t in (row.types as { type: string; count: number }[])"
+                    :key="t.type"
+                    class="type-count-badge"
+                  >
+                    {{ t.type }} ({{ t.count }})
+                  </span>
+                </div>
+              </template>
+            </Table>
           </div>
           <button
             v-if="hasMoreRows"
+            type="button"
             class="view-more-btn"
             @click="showAllRows = !showAllRows"
           >
-            {{ showAllRows ? 'View less' : `View more (${groupedTableData.length - MAX_VISIBLE_ROWS} more rows)` }}
+            {{ showAllRows ? 'View less' : `View more (${remainingRows} rows)` }}
             <svg
               :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
               fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -129,6 +119,7 @@ import moment from 'moment'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 interface GuardrailItem {
   date: string;
@@ -220,10 +211,31 @@ const visibleGroupedData = computed(() => {
 
 const hasMoreRows = computed(() => groupedTableData.value.length > MAX_VISIBLE_ROWS)
 
+const remainingRows = computed(() =>
+  Math.max(0, groupedTableData.value.length - MAX_VISIBLE_ROWS)
+)
+
+const guardrailsTableColumns: TableColumn[] = [
+  { key: 'date', label: 'Date', align: 'center' },
+  { key: 'count', label: 'Count', align: 'center' },
+  { key: 'types', label: 'Types', align: 'left' },
+]
+
+const guardrailsTableRows = computed((): Record<string, unknown>[] =>
+  visibleGroupedData.value.map((row) => ({
+    id: row.date,
+    date: row.date,
+    total: row.total,
+    types: row.types,
+  }))
+)
+
 defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../view-more-cta.css';
+
 .guardrails-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--kiut-bg-card-gradient, linear-gradient(to bottom, #ffffff 0%, #fafafa 100%));
@@ -278,40 +290,8 @@ defineExpose({ isDark })
 .table-section { animation: fadeIn 0.6s ease-out 0.1s backwards; flex: 1; display: flex; flex-direction: column; }
 .section-header { margin-bottom: 16px; }
 .section-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0; }
-.table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.08)); background: var(--kiut-bg-card, white); }
-.data-table { width: 100%; font-size: 0.8125rem; border-collapse: separate; border-spacing: 0; }
-.table-header-row { background: var(--kiut-bg-stats-badge, linear-gradient(to bottom, #f9fafb, #f3f4f6)); }
-.table-header { padding: 12px 10px; text-align: center; font-size: 0.7rem; font-weight: 600; color: var(--kiut-text-primary, #374151); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--kiut-border-light, #e5e7eb); }
-.table-body { background: var(--kiut-bg-card, white); }
-.table-row { transition: background-color 0.2s ease; border-bottom: 1px solid var(--kiut-border-light, #f3f4f6); }
-.table-row:hover { background: var(--kiut-bg-stats-badge, #fafafa); }
-.table-row:last-child { border-bottom: none; }
-.table-cell { padding: 12px 10px; font-size: 0.8125rem; color: var(--kiut-text-primary, #1e293b); }
-
-/* View More Button */
-.view-more-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 10px 16px;
-  margin-top: 8px;
-  background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6366f1;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.view-more-btn:hover {
-  background: linear-gradient(to bottom, #f3f4f6 0%, #e5e7eb 100%);
-  color: #4f46e5;
-}
-.view-more-icon { width: 16px; height: 16px; transition: transform 0.3s ease; }
-.view-more-icon-rotated { transform: rotate(180deg); }
+.table-wrapper { flex: 1; }
+.table-cell-inner { font-size: 0.8125rem; color: var(--kiut-text-primary, #1e293b); display: inline-block; width: 100%; }
 
 /* Empty State */
 .empty-state { display: flex; align-items: center; justify-content: center; min-height: 280px; }

@@ -1,6 +1,6 @@
 <template>
-  <article class="dn-metrics-card">
-    <header class="card-header">
+  <details class="dn-metrics-card metric-collapsible">
+    <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <div class="title-section">
           <h3 class="card-title">Disruption Notifier</h3>
@@ -11,7 +11,10 @@
           <p class="badge-value">{{ useNumberFormat(docTotals.row_count_total) }}</p>
         </div>
       </div>
-    </header>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
 
     <!-- Loading State -->
     <div class="loading-state" v-if="props.loading">
@@ -78,28 +81,35 @@
             <h4 class="section-title">Why Passengers Were Not Notified</h4>
           </div>
           <div class="table-wrapper">
-            <table class="data-table">
-              <thead>
-                <tr class="table-header-row">
-                  <th class="table-header text-left">Reason</th>
-                  <th class="table-header text-center">Count</th>
-                  <th class="table-header text-center">Impact</th>
-                </tr>
-              </thead>
-              <tbody class="table-body">
-                <tr v-for="row in failureRows" :key="row.reason" class="table-row">
-                  <td class="table-cell text-left font-medium">{{ row.reason }}</td>
-                  <td class="table-cell text-center font-semibold">{{ useNumberFormat(row.count) }}</td>
-                  <td class="table-cell text-center">
-                    <div class="impact-bar-container">
-                      <div class="impact-bar" :style="{ width: row.impactPct + '%' }"></div>
-                      <span class="impact-label">{{ row.impactPct }}%</span>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <Table :columns="failureTableColumns" :rows="visibleFailureTableRows" row-key="id">
+              <template #cell-reason="{ row }">
+                <span class="failure-reason">{{ row.reason }}</span>
+              </template>
+              <template #cell-count="{ row }">
+                <span class="failure-count">{{ useNumberFormat(row.count as number) }}</span>
+              </template>
+              <template #cell-impact="{ row }">
+                <div class="impact-bar-container">
+                  <div class="impact-bar" :style="{ width: (row.impactPct as number) + '%' }"></div>
+                  <span class="impact-label">{{ row.impactPct }}%</span>
+                </div>
+              </template>
+            </Table>
           </div>
+          <button
+            v-if="failureHasMoreRows"
+            type="button"
+            class="view-more-btn"
+            @click="showAllFailureRows = !showAllFailureRows"
+          >
+            {{ showAllFailureRows ? 'View less' : `View more (${failureRemainingRows} rows)` }}
+            <svg
+              :class="['view-more-icon', { 'view-more-icon-rotated': showAllFailureRows }]"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
         </section>
 
         <!-- 4. TREND: Notification Success Rate by Day -->
@@ -149,17 +159,18 @@
         </div>
       </section>
     </div>
-  </article>
+  </details>
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import LineChart from '../../Line/ChartLine.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
 interface DocumentCountItem {
   date: string;
@@ -264,6 +275,9 @@ const topFailure = computed(() => {
   return reasons.length > 0 ? reasons[0] : { reason: 'None', count: 0 }
 })
 
+const MAX_FAILURE_VISIBLE = 3
+const showAllFailureRows = ref(false)
+
 const failureRows = computed(() => {
   const total = affected.value
   return [
@@ -277,6 +291,32 @@ const failureRows = computed(() => {
     impactPct: total > 0 ? Math.round((r.count / total) * 100) : 0,
   }))
 })
+
+const failureTableColumns: TableColumn[] = [
+  { key: 'reason', label: 'Reason', align: 'left' },
+  { key: 'count', label: 'Count', align: 'center' },
+  { key: 'impact', label: 'Impact', align: 'center' },
+]
+
+const visibleFailureRows = computed(() => {
+  if (showAllFailureRows.value) return failureRows.value
+  return failureRows.value.slice(0, MAX_FAILURE_VISIBLE)
+})
+
+const failureHasMoreRows = computed(() => failureRows.value.length > MAX_FAILURE_VISIBLE)
+
+const failureRemainingRows = computed(() =>
+  Math.max(0, failureRows.value.length - MAX_FAILURE_VISIBLE)
+)
+
+const visibleFailureTableRows = computed((): Record<string, unknown>[] =>
+  visibleFailureRows.value.map((r) => ({
+    id: r.reason,
+    reason: r.reason,
+    count: r.count,
+    impactPct: r.impactPct,
+  }))
+)
 
 // Funnel: Records detected → Valid reservations → Contactable → Notified
 const funnelData = computed(() => {
@@ -423,6 +463,9 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
+@import '../metric-collapsible.css';
+@import '../view-more-cta.css';
+
 .dn-metrics-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--kiut-bg-card-gradient, linear-gradient(to bottom, #ffffff 0%, #fafafa 100%));
@@ -469,19 +512,9 @@ defineExpose({ isDark })
 .table-section { display: flex; flex-direction: column; }
 .section-header { margin-bottom: 12px; }
 .section-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0; }
-.table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.08)); background: var(--kiut-bg-card, white); }
-.data-table { width: 100%; font-size: 0.8125rem; border-collapse: separate; border-spacing: 0; }
-.table-header-row { background: var(--kiut-bg-stats-badge, linear-gradient(to bottom, #f9fafb, #f3f4f6)); }
-.table-header { padding: 12px 16px; font-size: 0.7rem; font-weight: 600; color: var(--kiut-text-primary, #374151); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 2px solid var(--kiut-border-light, #e5e7eb); }
-.table-body { background: var(--kiut-bg-card, white); }
-.table-row { transition: background-color 0.2s ease; border-bottom: 1px solid var(--kiut-border-light, #f3f4f6); }
-.table-row:hover { background: var(--kiut-bg-stats-badge, #fafafa); }
-.table-row:last-child { border-bottom: none; }
-.table-cell { padding: 12px 16px; font-size: 0.8125rem; color: var(--kiut-text-primary, #1e293b); }
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.font-medium { font-weight: 500; }
-.font-semibold { font-weight: 600; }
+.table-wrapper { flex: 1; }
+.failure-reason { font-size: 0.8125rem; font-weight: 500; color: var(--kiut-text-primary, #1e293b); }
+.failure-count { font-size: 0.8125rem; font-weight: 600; display: inline-block; width: 100%; text-align: center; }
 
 /* Impact Bar */
 .impact-bar-container { display: flex; align-items: center; gap: 8px; min-width: 120px; }

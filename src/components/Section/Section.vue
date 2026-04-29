@@ -29,7 +29,7 @@
         </div>
         <p
           v-if="subtitle"
-          class="text-base leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+          class="text-base leading-snug text-[color:var(--kiut-text-secondary)] dark:text-[#838395]"
         >
           {{ subtitle }}
         </p>

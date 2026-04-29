@@ -1,0 +1,243 @@
+<template>
+  <details class="seller-container-card metric-collapsible" :open="containerInitiallyOpen">
+    <summary class="card-header metric-collapsible__summary seller-container__summary">
+      <div class="header-content">
+        <h2 class="seller-container__title font-sans">Seller</h2>
+        <p class="seller-container__subtitle font-sans">
+          Sales funnel performance and successful sales by communication channel.
+        </p>
+      </div>
+      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </summary>
+
+    <div class="seller-container__body">
+      <Seller
+        :initially-open="childrenInitiallyOpen"
+        :seller-data="sellerData"
+        :failed-data="failedData"
+        :loading="effectiveSellerLoading"
+        :theme="theme"
+        :enable-export="enableExport"
+        :export-loading="effectiveSellerExportLoading"
+        @export="(fmt) => handleChildExport('seller', fmt)"
+      />
+      <SalesByChannel
+        :initially-open="childrenInitiallyOpen"
+        :data="salesByChannelData"
+        :channel-comparison="channelComparison"
+        :loading="effectiveSalesByChannelLoading"
+        :theme="theme"
+        :enable-export="enableExport"
+        :export-loading="effectiveSalesByChannelExportLoading"
+        @export="(fmt) => handleChildExport('salesByChannel', fmt)"
+      />
+    </div>
+  </details>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import Seller from '../Seller/Seller.vue'
+import SalesByChannel from '../SalesByChannel/SalesByChannel.vue'
+import type { Theme } from '../../../../composables/useThemeDetection'
+import type { ExportFormat } from '../../Utils/FooterExport'
+
+export type SellerContainerExportSource = 'seller' | 'salesByChannel'
+
+export interface SellerContainerExportPayload {
+  source: SellerContainerExportSource
+  format: ExportFormat
+}
+
+interface FailedReason {
+  reason: string;
+  failed_count: number;
+}
+
+interface CurrencyValue {
+  currency: string;
+  total_value: number;
+  count: number;
+}
+
+interface SellerDayData {
+  date: string;
+  seller_conversations: number;
+  sell_started_count: number;
+  sell_get_quote_count: number;
+  sell_booking_created_count: number;
+  sell_success_count: number;
+  sell_bank_transfer_count: number;
+  sell_cash_option_count: number;
+  daily_value_sell_success: number | CurrencyValue[];
+  daily_value_sell_bank_transfer: CurrencyValue[];
+  daily_value_sell_cash_option: CurrencyValue[];
+  reasons?: FailedReason[];
+}
+
+interface SellerData {
+  total_seller_conversations: number;
+  total_sell_started: number;
+  total_sell_get_quote: number;
+  total_sell_booking_created: number;
+  total_sell_success: number;
+  total_sell_bank_transfer: number;
+  total_sell_cash_option: number;
+  total_value_sell_success: number | CurrencyValue[];
+  total_value_sell_bank_transfer: CurrencyValue[];
+  total_value_sell_cash_option: CurrencyValue[];
+  seller_by_day: SellerDayData[];
+}
+
+interface FailedData {
+  total_sell_failed: number;
+  failed_by_reason_by_day: {
+    date: string;
+    reasons: FailedReason[];
+  }[];
+}
+
+interface DailySalesByChannel {
+  date: string;
+  channels: Record<string, number>;
+}
+
+interface SalesByChannelData {
+  airline_name?: string;
+  start_date?: string;
+  end_date?: string;
+  total_sell_success: number;
+  total_by_currency: CurrencyValue[];
+  sales_by_channel_by_day: DailySalesByChannel[];
+}
+
+interface ChannelComparisonItem {
+  channel: string;
+  current: number;
+  previous: number;
+  delta: number | null;
+}
+
+const props = withDefaults(
+  defineProps<{
+    containerInitiallyOpen?: boolean
+    childrenInitiallyOpen?: boolean
+    /** Si es true, aplica loading a todas las vistas hijas. */
+    loading?: boolean
+    sellerLoading?: boolean
+    salesByChannelLoading?: boolean
+    enableExport?: boolean
+    exportLoading?: boolean
+    sellerExportLoading?: boolean
+    salesByChannelExportLoading?: boolean
+    theme?: Theme
+    /** Shape Seller.vue */
+    sellerData?: SellerData
+    /** Shape Seller.vue failedData */
+    failedData?: FailedData
+    /** Shape SalesByChannel.vue */
+    salesByChannelData?: SalesByChannelData
+    /** Shape SalesByChannel.vue channelComparison */
+    channelComparison?: ChannelComparisonItem[]
+  }>(),
+  {
+    containerInitiallyOpen: true,
+    childrenInitiallyOpen: true,
+    loading: false,
+    sellerLoading: false,
+    salesByChannelLoading: false,
+    enableExport: false,
+    exportLoading: false,
+    sellerExportLoading: false,
+    salesByChannelExportLoading: false,
+    theme: undefined,
+    channelComparison: () => [],
+  }
+)
+
+const emit = defineEmits<{
+  export: [payload: SellerContainerExportPayload]
+}>()
+
+const effectiveSellerLoading = computed(() => props.loading || props.sellerLoading)
+const effectiveSalesByChannelLoading = computed(() => props.loading || props.salesByChannelLoading)
+const effectiveSellerExportLoading = computed(() => props.exportLoading || props.sellerExportLoading)
+const effectiveSalesByChannelExportLoading = computed(() => props.exportLoading || props.salesByChannelExportLoading)
+
+function handleChildExport(source: SellerContainerExportSource, format: ExportFormat) {
+  emit('export', { source, format })
+}
+</script>
+
+<style scoped>
+@import '../metric-collapsible.css';
+
+.seller-container-card {
+  font-family: var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), 'Inter', sans-serif;
+  background: var(--kiut-bg-card-gradient);
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow: var(--kiut-shadow-card);
+  transition:
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.seller-container-card:hover {
+  box-shadow: var(--kiut-shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.seller-container__summary {
+  margin-bottom: 0;
+}
+
+.metric-collapsible[open] .seller-container__summary {
+  margin-bottom: 20px;
+}
+
+.seller-container__title {
+  margin: 0;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  font-size: 1.375rem;
+  background: linear-gradient(135deg, var(--kiut-primary-light, #818cf8), var(--kiut-primary-default, #6366f1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.seller-container__subtitle {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--kiut-text-secondary);
+  margin: 4px 0 0 0;
+  line-height: 1.25rem;
+}
+
+.seller-container__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.45s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
