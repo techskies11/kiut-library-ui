@@ -1,6 +1,14 @@
 /* Shared collapsible header for BusinessMetrics cards (<details>/<summary>). */
 details.metric-collapsible {
   box-sizing: border-box;
+  width: 100%;
+  min-width: 0; /* evita que flex/grid encoja el card por debajo del contenido */
+  /* Abierto: padding estándar del card. Colapsado: menos padding vertical para caber en 54px totales. */
+  --mc-pad-block: 28px;
+  /* 14px arriba/abajo + borde 2px + ~24px fila título/chevron ≈ 54px (border-box). */
+  --mc-pad-block-collapsed: 14px;
+  --mc-pad-inline: 32px;
+  padding: var(--mc-pad-block) var(--mc-pad-inline);
   font-family:
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
     'Inter',
@@ -16,13 +24,15 @@ details.metric-collapsible {
   border-color: #2d2d39;
 }
 
-/* Estado colapsado: altura compacta; padding sobrescribe el del card cuando aplica mismo elemento */
+/*
+ * Colapsado: alto ~54px. Sin padding en `<details>`: el inset horizontal y vertical va solo en
+ * `<summary>` (evita margin-inline negativo + padding-inline duplicado y choques con estilos scoped).
+ */
 details.metric-collapsible:not([open]) {
   display: flex;
   flex-direction: column;
   min-height: 54px;
-  padding-block: 15px;
-  padding-inline: 32px;
+  padding: 0;
 }
 
 .metric-collapsible__summary {
@@ -36,10 +46,14 @@ details.metric-collapsible:not([open]) {
   gap: 12px;
 }
 
-/* Toda la franja visible (header) es toggle: summary crece dentro del alto colapsado */
 details.metric-collapsible:not([open]) .metric-collapsible__summary {
+  box-sizing: border-box;
   flex: 1 1 auto;
   align-items: center;
+  margin: 0;
+  min-height: calc(54px - 2px); /* alto total menos borde superior e inferior del details */
+  padding-block: var(--mc-pad-block-collapsed);
+  padding-inline: var(--mc-pad-inline);
 }
 
 .metric-collapsible__summary::-webkit-details-marker {
@@ -52,6 +66,21 @@ details.metric-collapsible:not([open]) .metric-collapsible__summary {
   height: 20px;
   color: var(--kiut-text-secondary, #73737c);
   transition: transform 0.25s ease;
+}
+
+/*
+ * Muchos cards usan `.header-content { width: 100% }`; en flex + chevron como hermano, eso ocupa todo
+ * el ancho y la flecha deja de alinearse al extremo derecho cuando está colapsado.
+ */
+details.metric-collapsible:not([open]) .header-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  max-width: none;
+}
+
+details.metric-collapsible:not([open]) .metric-collapsible__chevron {
+  margin-inline-start: auto;
 }
 
 .dark details.metric-collapsible .metric-collapsible__chevron {
@@ -77,6 +106,11 @@ details.metric-collapsible .card-title {
   -webkit-background-clip: unset;
   background-clip: unset;
   -webkit-text-fill-color: unset;
+}
+
+/* Fila compacta en colapsado para respetar 54px con títulos más grandes en algunos cards */
+details.metric-collapsible:not([open]) .card-title {
+  line-height: 1.2;
 }
 
 details.metric-collapsible .card-subtitle {
