@@ -1,11 +1,45 @@
 /* Shared collapsible header for BusinessMetrics cards (<details>/<summary>). */
+details.metric-collapsible {
+  box-sizing: border-box;
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    sans-serif;
+  color: #17171c;
+  background-color: #ffffff;
+  border: 1px solid #d9d9dd;
+}
+
+.dark details.metric-collapsible {
+  color: #e3e3e8;
+  background-color: #1a1a23;
+  border-color: #2d2d39;
+}
+
+/* Estado colapsado: altura compacta; padding sobrescribe el del card cuando aplica mismo elemento */
+details.metric-collapsible:not([open]) {
+  display: flex;
+  flex-direction: column;
+  min-height: 54px;
+  padding-block: 15px;
+  padding-inline: 32px;
+}
+
 .metric-collapsible__summary {
   list-style: none;
+  margin: 0;
+  width: 100%;
+  cursor: pointer;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  cursor: pointer;
+}
+
+/* Toda la franja visible (header) es toggle: summary crece dentro del alto colapsado */
+details.metric-collapsible:not([open]) .metric-collapsible__summary {
+  flex: 1 1 auto;
+  align-items: center;
 }
 
 .metric-collapsible__summary::-webkit-details-marker {
@@ -14,15 +48,39 @@
 
 .metric-collapsible__chevron {
   flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  margin-top: 4px;
-  color: var(--kiut-text-secondary);
+  width: 20px;
+  height: 20px;
+  color: var(--kiut-text-secondary, #73737c);
   transition: transform 0.25s ease;
+}
+
+.dark details.metric-collapsible .metric-collapsible__chevron {
+  color: var(--kiut-text-secondary, rgba(227, 227, 232, 0.65));
 }
 
 .metric-collapsible[open] .metric-collapsible__chevron {
   transform: rotate(180deg);
+}
+
+/* Inter + colores sólidos (reemplazan Grotesk / gradient sobre el texto del título) */
+details.metric-collapsible .card-title,
+details.metric-collapsible .card-subtitle {
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    sans-serif;
+}
+
+details.metric-collapsible .card-title {
+  color: inherit;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: unset;
+}
+
+details.metric-collapsible .card-subtitle {
+  color: inherit;
 }
 
 /* Sin hueco bajo el resumen cuando está colapsado (el margin lo pone cada card en .card-header). */
