@@ -475,10 +475,10 @@ defineExpose({ isDark })
   position: relative; overflow: hidden; display: flex; flex-direction: column; height: 100%;
 }
 .dn-metrics-card:hover { box-shadow: var(--kiut-shadow-card-hover, 0 4px 6px rgba(0,0,0,0.05), 0 20px 25px -5px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)); transform: translateY(-2px); }
-.card-header { margin-bottom: 28px; }
-.header-content { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.card-header { margin-bottom: 24px; position: relative; text-align: left; }
+.header-content { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; width: 100%; text-align: left; }
 .title-section { flex: 1; text-align: left; }
-.card-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; margin: 0; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--kiut-primary-light, #c67dff), var(--kiut-primary-default, #5d4b93)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; font-size: 1.125rem; line-height: 1.75rem; }
+.card-title { font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; line-height: 1.3; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; font-size: 1.125rem; line-height: 1.75rem; }
 .card-subtitle { font-size: .875rem; font-weight: 400; color: var(--kiut-text-secondary, #64748b); margin: 0; line-height: 1.25rem; }
 .total-docs-badge { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 16px; padding: 12px 20px; min-width: 120px; text-align: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .total-docs-badge:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2); }
@@ -566,5 +566,6 @@ defineExpose({ isDark })
   .sys-kpi-grid { grid-template-columns: 1fr 1fr; }
   .card-title { font-size: 1rem; }
   .header-content { flex-direction: column; gap: 16px; }
+  .card-header { margin-bottom: 20px; }
 }
 </style>

@@ -541,7 +541,7 @@ defineExpose({ isDark })
 
 /* Header Styles */
 .card-header {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   position: relative;
   text-align: left;
 }
@@ -552,10 +552,13 @@ defineExpose({ isDark })
   align-items: flex-start;
   gap: 24px;
   flex-wrap: wrap;
+  width: 100%;
+  text-align: left;
 }
 
 .title-section {
   flex: 1;
+  text-align: left;
 }
 
 .card-title {
@@ -1006,7 +1009,7 @@ defineExpose({ isDark })
   }
 
   .card-title {
-    font-size: 20px;
+    font-size: 1rem;
   }
 
   .card-subtitle {
@@ -1014,7 +1017,7 @@ defineExpose({ isDark })
   }
 
   .card-header {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .pm-cell {

@@ -476,13 +476,10 @@ const calculatePercentage = (value: number, total: number): string => {
 /* Main Card Styles */
 .booking-manager-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  background: var(--kiut-bg-card-gradient);
   border-radius: 20px;
   padding: 28px 32px;
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -492,17 +489,15 @@ const calculatePercentage = (value: number, total: number): string => {
 }
 
 .booking-manager-card:hover {
-  box-shadow: 
-    0 4px 6px rgba(0, 0, 0, 0.05),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--kiut-shadow-card-hover);
   transform: translateY(-2px);
 }
 
 /* Header Styles */
 .card-header {
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   position: relative;
+  text-align: left;
 }
 
 .header-content {
@@ -511,6 +506,8 @@ const calculatePercentage = (value: number, total: number): string => {
   align-items: flex-start;
   gap: 24px;
   flex-wrap: wrap;
+  width: 100%;
+  text-align: left;
 }
 
 .title-section {
@@ -523,7 +520,7 @@ const calculatePercentage = (value: number, total: number): string => {
   margin: 0;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #c67dff, #5d4b93);
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -535,7 +532,7 @@ const calculatePercentage = (value: number, total: number): string => {
 .card-subtitle {
   font-size: .875rem;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0px;
   line-height: 1.25rem;
 }
@@ -556,6 +553,16 @@ const calculatePercentage = (value: number, total: number): string => {
   box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
 }
 
+:global(.dark) .payment-success-badge {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.22) 100%);
+  border-color: rgba(110, 231, 183, 0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+}
+
+:global(.dark) .payment-success-badge:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36);
+}
+
 .badge-label {
   font-size: 0.75rem;
   font-weight: 600;
@@ -574,6 +581,15 @@ const calculatePercentage = (value: number, total: number): string => {
   letter-spacing: -0.02em;
 }
 
+:global(.dark) .badge-label {
+  color: #86efac;
+}
+
+:global(.dark) .badge-value,
+:global(.dark) .currency-breakdown-item {
+  color: #bbf7d0;
+}
+
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -589,11 +605,11 @@ const calculatePercentage = (value: number, total: number): string => {
 }
 
 .chart-wrapper {
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   padding: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--kiut-border-light);
+  box-shadow: var(--kiut-shadow-chart-wrapper);
 }
 
 /* Section Header */
@@ -605,7 +621,7 @@ const calculatePercentage = (value: number, total: number): string => {
   font-family: 'Space Grotesk', 'DM Sans', sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0;
   letter-spacing: -0.01em;
 }
@@ -621,14 +637,14 @@ const calculatePercentage = (value: number, total: number): string => {
 .table-wrapper {
   overflow-x: auto;
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  background: white;
+  border: 1px solid var(--kiut-border-table);
+  box-shadow: var(--kiut-shadow-chart-wrapper);
+  background: var(--kiut-bg-table);
   flex: 1;
 }
 
 .percentage-text {
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   font-size: 0.8125rem;
 }
 
@@ -723,7 +739,7 @@ const calculatePercentage = (value: number, total: number): string => {
 .empty-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -731,7 +747,7 @@ const calculatePercentage = (value: number, total: number): string => {
 .empty-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -771,7 +787,7 @@ const calculatePercentage = (value: number, total: number): string => {
 .error-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -779,7 +795,7 @@ const calculatePercentage = (value: number, total: number): string => {
 .error-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0 0 16px 0;
 }
@@ -863,7 +879,7 @@ const calculatePercentage = (value: number, total: number): string => {
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -927,7 +943,7 @@ const calculatePercentage = (value: number, total: number): string => {
   }
 
   .card-title {
-    font-size: 20px;
+    font-size: 1rem;
   }
 
   .card-subtitle {
@@ -935,7 +951,7 @@ const calculatePercentage = (value: number, total: number): string => {
   }
 
   .card-header {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .chart-wrapper {
