@@ -143,7 +143,7 @@ const props = withDefaults(
     channelComparison?: ChannelComparisonItem[]
   }>(),
   {
-    containerInitiallyOpen: true,
+    containerInitiallyOpen: false,
     childrenInitiallyOpen: true,
     loading: false,
     sellerLoading: false,

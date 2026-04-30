@@ -125,7 +125,7 @@ const props = withDefaults(
     segmentsData?: SegmentDatum[];
   }>(),
   {
-    containerInitiallyOpen: true,
+    containerInitiallyOpen: false,
     childrenInitiallyOpen: true,
     loading: false,
     checkinLoading: false,

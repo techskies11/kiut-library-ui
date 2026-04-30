@@ -41,7 +41,7 @@ withDefaults(
     data?: object
   }>(),
   {
-    containerInitiallyOpen: true,
+    containerInitiallyOpen: false,
     loading: false,
     enableExport: false,
     data: undefined,
