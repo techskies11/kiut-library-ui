@@ -83,6 +83,21 @@ details.metric-collapsible:not([open]) .metric-collapsible__chevron {
   margin-inline-start: auto;
 }
 
+/*
+ * Abierto: misma corrección que en colapsado; sin esto, `.header-content { width: 100% }`
+ * en estilos scoped empuja el chevron fuera de la esquina superior derecha.
+ */
+details.metric-collapsible[open] .header-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+  max-width: none;
+}
+
+details.metric-collapsible[open] .metric-collapsible__chevron {
+  margin-inline-start: auto;
+}
+
 .dark details.metric-collapsible .metric-collapsible__chevron {
   color: var(--kiut-text-secondary, rgba(227, 227, 232, 0.65));
 }

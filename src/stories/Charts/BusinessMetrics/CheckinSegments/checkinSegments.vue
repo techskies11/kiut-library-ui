@@ -1,5 +1,5 @@
 <template>
-  <details class="checkin-segments-card metric-collapsible">
+  <details :open="initiallyOpen" class="checkin-segments-card metric-collapsible">
     <summary class="card-header metric-collapsible__summary">
       <div class="header-content">
         <h3 class="card-title">Checkin Segments</h3>
@@ -122,12 +122,15 @@ interface SegmentData {
 const props = withDefaults(defineProps<{
   data?: SegmentData[];
   loading?: boolean;
+  /** Initial expanded state for the collapsible card */
+  initiallyOpen?: boolean;
   theme?: Theme;
   enableExport?: boolean;
   exportLoading?: boolean;
 }>(), {
   data: () => [],
   loading: false,
+  initiallyOpen: false,
   theme: undefined,
   enableExport: false,
   exportLoading: false
