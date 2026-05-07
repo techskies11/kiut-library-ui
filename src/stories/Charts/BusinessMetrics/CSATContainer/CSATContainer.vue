@@ -2,8 +2,8 @@
   <details class="csat-container-card metric-collapsible" :open="containerInitiallyOpen">
     <summary class="card-header metric-collapsible__summary csat-container__summary">
       <div class="header-content">
-        <h2 class="csat-container__title font-sans">CSAT</h2>
-        <p class="csat-container__subtitle font-sans">
+        <h2 class="card-title font-sans">CSAT</h2>
+        <p class="card-subtitle font-sans">
           Customer satisfaction score distribution and daily trend metrics.
         </p>
       </div>
@@ -41,7 +41,7 @@ withDefaults(
     data?: object
   }>(),
   {
-    containerInitiallyOpen: true,
+    containerInitiallyOpen: false,
     loading: false,
     enableExport: false,
     data: undefined,
@@ -89,23 +89,35 @@ function handleExport(format: ExportFormat) {
   margin-bottom: 20px;
 }
 
-.csat-container__title {
+.card-header {
+  position: relative;
+  text-align: left;
+}
+
+.header-content {
+  width: 100%;
+  text-align: left;
+}
+
+.card-title {
+  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   margin: 0;
-  line-height: 1.35;
+  line-height: 1.3;
   letter-spacing: -0.02em;
-  font-weight: 600;
-  font-size: 1.375rem;
-  background: linear-gradient(135deg, var(--kiut-primary-light, #818cf8), var(--kiut-primary-default, #6366f1));
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
-.csat-container__subtitle {
+.card-subtitle {
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--kiut-text-secondary);
-  margin: 4px 0 0 0;
+  margin: 0;
   line-height: 1.25rem;
 }
 

@@ -178,7 +178,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    containerInitiallyOpen: true,
+    containerInitiallyOpen: false,
     childrenInitiallyOpen: true,
     loading: false,
     checkinLoading: false,

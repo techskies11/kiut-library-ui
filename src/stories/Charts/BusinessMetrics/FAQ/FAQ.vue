@@ -1,14 +1,11 @@
 <template>
-  <details class="faq-metrics-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
+  <div class="faq-metrics-card">
+    <header class="card-header">
       <div class="header-content">
         <h3 class="card-title">FAQ Metrics</h3>
         <p class="card-subtitle">FAQ volume by category</p>
       </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
+    </header>
 
     <!-- Content when loaded -->
     <div class="card-body" v-if="!props.loading">
@@ -62,7 +59,7 @@
         <p class="loading-text">Loading FAQ metrics...</p>
       </div>
     </div>
-  </details>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -307,8 +304,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-
 /* Main Card Styles */
 .faq-metrics-card {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

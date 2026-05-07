@@ -8045,7 +8045,7 @@ function Ta(e, t, a) {
   const c = i - o;
   return c ? r + (l - r) * (t - o) / c : r;
 }
-class BM extends So {
+class $M extends So {
   static id = "timeseries";
   static defaults = So.defaults;
   constructor(t) {
@@ -11494,7 +11494,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         ], -1))
       ]),
       n.loading ? (v(), b("div", Ip, [...x[4] || (x[4] = [
-        et('<div class="loading-container" data-v-b906deef><div class="chart-flow-loader" data-v-b906deef><div class="flow-line flow-1" data-v-b906deef></div><div class="flow-line flow-2" data-v-b906deef></div><div class="flow-line flow-3" data-v-b906deef></div><div class="flow-line flow-4" data-v-b906deef></div><div class="flow-line flow-5" data-v-b906deef></div></div><p class="loading-text" data-v-b906deef>Loading booking data...</p></div>', 1)
+        at('<div class="loading-container" data-v-20afb7e7><div class="chart-flow-loader" data-v-20afb7e7><div class="flow-line flow-1" data-v-20afb7e7></div><div class="flow-line flow-2" data-v-20afb7e7></div><div class="flow-line flow-3" data-v-20afb7e7></div><div class="flow-line flow-4" data-v-20afb7e7></div><div class="flow-line flow-5" data-v-20afb7e7></div></div><p class="loading-text" data-v-20afb7e7>Loading booking data...</p></div>', 1)
       ])])) : n.error ? (v(), b("div", Ep, [
         d("div", Op, [
           x[5] || (x[5] = d("div", { class: "error-icon-wrapper" }, [
@@ -11603,12 +11603,12 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : V("", !0)
         ])) : (v(), b("section", i0, [...x[9] || (x[9] = [
-          et('<div class="empty-state-content" data-v-b906deef><div class="empty-icon-wrapper" data-v-b906deef><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-b906deef><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" data-v-b906deef></path></svg></div><p class="empty-title" data-v-b906deef>No booking manager data available</p><p class="empty-description" data-v-b906deef>No booking manager data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          at('<div class="empty-state-content" data-v-20afb7e7><div class="empty-icon-wrapper" data-v-20afb7e7><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-20afb7e7><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" data-v-20afb7e7></path></svg></div><p class="empty-title" data-v-20afb7e7>No booking manager data available</p><p class="empty-description" data-v-20afb7e7>No booking manager data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), l0 = /* @__PURE__ */ st(r0, [["__scopeId", "data-v-b906deef"]]), c0 = ["open"], d0 = {
+}), l0 = /* @__PURE__ */ it(r0, [["__scopeId", "data-v-20afb7e7"]]), c0 = ["open"], d0 = {
   key: 0,
   class: "loading-state"
 }, u0 = {
@@ -12645,7 +12645,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), Ki = /* @__PURE__ */ st(vv, [["__scopeId", "data-v-daf490ad"]]), mv = { class: "checkin-segments-card metric-collapsible" }, bv = {
+}), Ki = /* @__PURE__ */ it(vv, [["__scopeId", "data-v-daf490ad"]]), mv = ["open"], bv = {
   key: 0,
   class: "loading-state"
 }, yv = {
@@ -12674,6 +12674,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
   props: {
     data: { default: () => [] },
     loading: { type: Boolean, default: !1 },
+    initiallyOpen: { type: Boolean, default: !1 },
     theme: { default: void 0 },
     enableExport: { type: Boolean, default: !1 },
     exportLoading: { type: Boolean, default: !1 }
@@ -12706,10 +12707,13 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       const _ = h(y?.departure_airport), $ = h(y?.arrival_airport);
       return _ === "-" || $ === "-" ? !1 : _ === $;
     };
-    return t({ isDark: i }), (y, _) => (v(), b("details", mv, [
-      _[6] || (_[6] = et('<summary class="card-header metric-collapsible__summary" data-v-fefbd9d0><div class="header-content" data-v-fefbd9d0><h3 class="card-title" data-v-fefbd9d0>Checkin Segments</h3><p class="card-subtitle" data-v-fefbd9d0>Breakdown by flight segment with connection when applicable</p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-fefbd9d0><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-fefbd9d0></path></svg></summary>', 1)),
+    return t({ isDark: i }), (y, _) => (v(), b("details", {
+      open: e.initiallyOpen,
+      class: "checkin-segments-card metric-collapsible"
+    }, [
+      _[6] || (_[6] = at('<summary class="card-header metric-collapsible__summary" data-v-0249f61d><div class="header-content" data-v-0249f61d><h3 class="card-title" data-v-0249f61d>Checkin Segments</h3><p class="card-subtitle" data-v-0249f61d>Breakdown by flight segment with connection when applicable</p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-0249f61d><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-0249f61d></path></svg></summary>', 1)),
       n.loading ? (v(), b("div", bv, [..._[1] || (_[1] = [
-        et('<div class="loading-container" data-v-fefbd9d0><div class="chart-flow-loader" data-v-fefbd9d0><div class="flow-line flow-1" data-v-fefbd9d0></div><div class="flow-line flow-2" data-v-fefbd9d0></div><div class="flow-line flow-3" data-v-fefbd9d0></div><div class="flow-line flow-4" data-v-fefbd9d0></div><div class="flow-line flow-5" data-v-fefbd9d0></div></div><p class="loading-text" data-v-fefbd9d0>Loading segment data...</p></div>', 1)
+        at('<div class="loading-container" data-v-0249f61d><div class="chart-flow-loader" data-v-0249f61d><div class="flow-line flow-1" data-v-0249f61d></div><div class="flow-line flow-2" data-v-0249f61d></div><div class="flow-line flow-3" data-v-0249f61d></div><div class="flow-line flow-4" data-v-0249f61d></div><div class="flow-line flow-5" data-v-0249f61d></div></div><p class="loading-text" data-v-0249f61d>Loading segment data...</p></div>', 1)
       ])])) : (v(), b("div", yv, [
         n.data.length > 0 ? (v(), b("section", _v, [
           d("div", xv, [
@@ -12802,15 +12806,15 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : V("", !0)
         ])) : (v(), b("section", Bv, [..._[5] || (_[5] = [
-          et('<div class="empty-state-content" data-v-fefbd9d0><div class="empty-icon-wrapper" data-v-fefbd9d0><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-fefbd9d0><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-fefbd9d0></path></svg></div><p class="empty-title" data-v-fefbd9d0>No segment data available</p><p class="empty-description" data-v-fefbd9d0>No flight segment data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          at('<div class="empty-state-content" data-v-0249f61d><div class="empty-icon-wrapper" data-v-0249f61d><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-0249f61d><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-0249f61d></path></svg></div><p class="empty-title" data-v-0249f61d>No segment data available</p><p class="empty-description" data-v-0249f61d>No flight segment data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
-    ]));
+    ], 8, mv));
   }
-}), Ui = /* @__PURE__ */ st(Lv, [["__scopeId", "data-v-fefbd9d0"]]), Fv = ["open"], Pv = { class: "checkin-container__body" }, Rv = /* @__PURE__ */ tt({
+}), Ui = /* @__PURE__ */ it(Lv, [["__scopeId", "data-v-0249f61d"]]), Fv = ["open"], Pv = { class: "checkin-container__body" }, Rv = /* @__PURE__ */ et({
   __name: "CheckinContainer",
   props: {
-    containerInitiallyOpen: { type: Boolean, default: !0 },
+    containerInitiallyOpen: { type: Boolean, default: !1 },
     childrenInitiallyOpen: { type: Boolean, default: !0 },
     loading: { type: Boolean, default: !1 },
     checkinLoading: { type: Boolean, default: !1 },
@@ -12850,7 +12854,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       class: "checkin-container-card metric-collapsible",
       open: e.containerInitiallyOpen
     }, [
-      p[1] || (p[1] = et('<summary class="card-header metric-collapsible__summary checkin-container__summary" data-v-e9a6573b><div class="header-content" data-v-e9a6573b><h2 class="checkin-container__title font-sans" data-v-e9a6573b>Check in</h2><p class="checkin-container__subtitle font-sans" data-v-e9a6573b>Check-in flows, metrics by record locator and segment breakdown.</p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-e9a6573b><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-e9a6573b></path></svg></summary>', 1)),
+      p[1] || (p[1] = at('<summary class="card-header metric-collapsible__summary checkin-container__summary" data-v-14c09674><div class="header-content" data-v-14c09674><h2 class="card-title font-sans" data-v-14c09674>Check in</h2><p class="card-subtitle font-sans" data-v-14c09674>Check-in flows, metrics by record locator and segment breakdown.</p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-14c09674><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-14c09674></path></svg></summary>', 1)),
       d("div", Pv, [
         X(Ki, {
           loading: i.value,
@@ -12881,7 +12885,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ])
     ], 8, Fv));
   }
-}), Iv = /* @__PURE__ */ st(Rv, [["__scopeId", "data-v-e9a6573b"]]), Ev = { class: "disruption-metrics-card metric-collapsible" }, Ov = { class: "card-header metric-collapsible__summary" }, Vv = { class: "header-content" }, zv = {
+}), Iv = /* @__PURE__ */ it(Rv, [["__scopeId", "data-v-14c09674"]]), Ev = { class: "disruption-metrics-card metric-collapsible" }, Ov = { class: "card-header metric-collapsible__summary" }, Vv = { class: "header-content" }, zv = {
   key: 0,
   class: "payment-success-badge"
 }, Nv = {
@@ -13076,7 +13080,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         ], -1))
       ]),
       n.loading ? (v(), b("div", Hv, [...w[4] || (w[4] = [
-        et('<div class="loading-container" data-v-849e00e4><div class="chart-bars-loader" data-v-849e00e4><div class="bar bar-1" data-v-849e00e4></div><div class="bar bar-2" data-v-849e00e4></div><div class="bar bar-3" data-v-849e00e4></div><div class="bar bar-4" data-v-849e00e4></div><div class="bar bar-5" data-v-849e00e4></div></div><p class="loading-text" data-v-849e00e4>Loading disruption data...</p></div>', 1)
+        at('<div class="loading-container" data-v-e6a79620><div class="chart-bars-loader" data-v-e6a79620><div class="bar bar-1" data-v-e6a79620></div><div class="bar bar-2" data-v-e6a79620></div><div class="bar bar-3" data-v-e6a79620></div><div class="bar bar-4" data-v-e6a79620></div><div class="bar bar-5" data-v-e6a79620></div></div><p class="loading-text" data-v-e6a79620>Loading disruption data...</p></div>', 1)
       ])])) : (v(), b("div", jv, [
         d("section", Yv, [
           d("div", qv, [
@@ -13091,7 +13095,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
           ])
         ]),
         r.value && r.value.length > 0 ? (v(), b("section", Uv, [
-          w[7] || (w[7] = et('<div class="section-header" data-v-849e00e4><h4 class="section-title" data-v-849e00e4>Daily Overview</h4></div><div class="legend-container" data-v-849e00e4><p class="legend-title" data-v-849e00e4>Legend</p><div class="legend-items" data-v-849e00e4><div class="legend-group" data-v-849e00e4><span class="legend-label" data-v-849e00e4>Voluntary:</span><span class="badge badge-vol" data-v-849e00e4>VOL</span></div><div class="legend-group" data-v-849e00e4><span class="legend-label" data-v-849e00e4>Involuntary:</span><span class="badge badge-inv" data-v-849e00e4>INV</span></div><div class="legend-note" data-v-849e00e4><span data-v-849e00e4>Vol=Voluntary</span><span data-v-849e00e4>•</span><span data-v-849e00e4>Inv=Involuntary</span></div></div></div>', 2)),
+          w[7] || (w[7] = at('<div class="section-header" data-v-e6a79620><h4 class="section-title" data-v-e6a79620>Daily Overview</h4></div><div class="legend-container" data-v-e6a79620><p class="legend-title" data-v-e6a79620>Legend</p><div class="legend-items" data-v-e6a79620><div class="legend-group" data-v-e6a79620><span class="legend-label" data-v-e6a79620>Voluntary:</span><span class="badge badge-vol" data-v-e6a79620>VOL</span></div><div class="legend-group" data-v-e6a79620><span class="legend-label" data-v-e6a79620>Involuntary:</span><span class="badge badge-inv" data-v-e6a79620>INV</span></div><div class="legend-note" data-v-e6a79620><span data-v-e6a79620>Vol=Voluntary</span><span data-v-e6a79620>•</span><span data-v-e6a79620>Inv=Involuntary</span></div></div></div>', 2)),
           d("div", Xv, [
             X(qt, {
               columns: f,
@@ -13170,12 +13174,12 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             loading: e.exportLoading
           }, null, 8, ["loading"])) : V("", !0)
         ])) : (v(), b("section", fm, [...w[8] || (w[8] = [
-          et('<div class="empty-state-content" data-v-849e00e4><div class="empty-icon-wrapper" data-v-849e00e4><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-849e00e4><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" data-v-849e00e4></path></svg></div><p class="empty-title" data-v-849e00e4>No disruption data available</p><p class="empty-description" data-v-849e00e4>No disruption data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          at('<div class="empty-state-content" data-v-e6a79620><div class="empty-icon-wrapper" data-v-e6a79620><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-e6a79620><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" data-v-e6a79620></path></svg></div><p class="empty-title" data-v-e6a79620>No disruption data available</p><p class="empty-description" data-v-e6a79620>No disruption data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), pm = /* @__PURE__ */ st(gm, [["__scopeId", "data-v-849e00e4"]]), vm = { class: "faq-metrics-card metric-collapsible" }, mm = {
+}), pm = /* @__PURE__ */ it(gm, [["__scopeId", "data-v-e6a79620"]]), vm = { class: "faq-metrics-card" }, mm = {
   key: 0,
   class: "card-body"
 }, bm = {
@@ -13365,10 +13369,15 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         p(h ?? null);
       },
       { deep: !0, immediate: !0 }
-    ), t({ isDark: i }), (h, m) => (v(), b("details", vm, [
-      m[2] || (m[2] = et('<summary class="card-header metric-collapsible__summary" data-v-465c97e3><div class="header-content" data-v-465c97e3><h3 class="card-title" data-v-465c97e3>FAQ Metrics</h3><p class="card-subtitle" data-v-465c97e3>FAQ volume by category</p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-465c97e3><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-465c97e3></path></svg></summary>', 1)),
+    ), t({ isDark: i }), (h, m) => (v(), b("div", vm, [
+      m[2] || (m[2] = d("header", { class: "card-header" }, [
+        d("div", { class: "header-content" }, [
+          d("h3", { class: "card-title" }, "FAQ Metrics"),
+          d("p", { class: "card-subtitle" }, "FAQ volume by category")
+        ])
+      ], -1)),
       n.loading ? (v(), b("div", Cm, [...m[1] || (m[1] = [
-        et('<div class="loading-container" data-v-465c97e3><div class="chart-bars-loader" data-v-465c97e3><div class="bar bar-1" data-v-465c97e3></div><div class="bar bar-2" data-v-465c97e3></div><div class="bar bar-3" data-v-465c97e3></div><div class="bar bar-4" data-v-465c97e3></div><div class="bar bar-5" data-v-465c97e3></div></div><p class="loading-text" data-v-465c97e3>Loading FAQ metrics...</p></div>', 1)
+        at('<div class="loading-container" data-v-52bf990c><div class="chart-bars-loader" data-v-52bf990c><div class="bar bar-1" data-v-52bf990c></div><div class="bar bar-2" data-v-52bf990c></div><div class="bar bar-3" data-v-52bf990c></div><div class="bar bar-4" data-v-52bf990c></div><div class="bar bar-5" data-v-52bf990c></div></div><p class="loading-text" data-v-52bf990c>Loading FAQ metrics...</p></div>', 1)
       ])])) : (v(), b("div", mm, [
         c.value.labels && c.value.labels.length ? (v(), b("section", bm, [
           X(ke, {
@@ -13401,12 +13410,12 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             d("span", wm, C(y.percentage) + "%", 1)
           ]))), 128))
         ])) : (v(), b("section", $m, [...m[0] || (m[0] = [
-          et('<div class="empty-state-content" data-v-465c97e3><div class="empty-icon-wrapper" data-v-465c97e3><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-465c97e3><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" data-v-465c97e3></path></svg></div><p class="empty-title" data-v-465c97e3>No FAQ data available</p><p class="empty-description" data-v-465c97e3>No FAQ consultation data found for the selected period. Try adjusting the date range.</p></div>', 1)
+          at('<div class="empty-state-content" data-v-52bf990c><div class="empty-icon-wrapper" data-v-52bf990c><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-52bf990c><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" data-v-52bf990c></path></svg></div><p class="empty-title" data-v-52bf990c>No FAQ data available</p><p class="empty-description" data-v-52bf990c>No FAQ consultation data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Sm = /* @__PURE__ */ st(Mm, [["__scopeId", "data-v-465c97e3"]]), Dm = { class: "messages-per-agent-card" }, Am = {
+}), Sm = /* @__PURE__ */ it(Mm, [["__scopeId", "data-v-52bf990c"]]), Dm = { class: "messages-per-agent-card" }, Am = {
   key: 0,
   class: "card-body"
 }, Tm = {
@@ -14236,7 +14245,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
 }), Gi = /* @__PURE__ */ st(qb, [["__scopeId", "data-v-339a91a8"]]), Kb = ["open"], Ub = { class: "seller-container__body" }, Xb = /* @__PURE__ */ tt({
   __name: "SellerContainer",
   props: {
-    containerInitiallyOpen: { type: Boolean, default: !0 },
+    containerInitiallyOpen: { type: Boolean, default: !1 },
     childrenInitiallyOpen: { type: Boolean, default: !0 },
     loading: { type: Boolean, default: !1 },
     sellerLoading: { type: Boolean, default: !1 },
@@ -14261,9 +14270,9 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       class: "seller-container-card metric-collapsible",
       open: e.containerInitiallyOpen
     }, [
-      u[2] || (u[2] = et('<summary class="card-header metric-collapsible__summary seller-container__summary" data-v-836a46a1><div class="header-content" data-v-836a46a1><h2 class="seller-container__title font-sans" data-v-836a46a1>Seller</h2><p class="seller-container__subtitle font-sans" data-v-836a46a1> Sales funnel performance and successful sales by communication channel. </p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-836a46a1><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-836a46a1></path></svg></summary>', 1)),
-      d("div", Ub, [
-        X(Gi, {
+      u[2] || (u[2] = at('<summary class="card-header metric-collapsible__summary seller-container__summary" data-v-9e2c5121><div class="header-content" data-v-9e2c5121><h2 class="card-title font-sans" data-v-9e2c5121>Seller</h2><p class="card-subtitle font-sans" data-v-9e2c5121> Sales funnel performance and successful sales by communication channel. </p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-9e2c5121><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-9e2c5121></path></svg></summary>', 1)),
+      d("div", qb, [
+        U(Gi, {
           "initially-open": e.childrenInitiallyOpen,
           "seller-data": e.sellerData,
           "failed-data": e.failedData,
@@ -14286,7 +14295,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ])
     ], 8, Kb));
   }
-}), Gb = /* @__PURE__ */ st(Xb, [["__scopeId", "data-v-836a46a1"]]), Zb = { class: "top-agents-card" }, Qb = {
+}), Ub = /* @__PURE__ */ it(Kb, [["__scopeId", "data-v-9e2c5121"]]), Xb = { class: "top-agents-card" }, Gb = {
   key: 0,
   class: "card-body"
 }, Jb = {
@@ -14589,15 +14598,15 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         n.data || E && E[0] && E[1] && $();
       },
       { deep: !0 }
-    ), t({ isDark: o }), (E, I) => (v(), b("details", i1, [
-      I[9] || (I[9] = et('<summary class="card-header metric-collapsible__summary" data-v-c8897e46><div class="header-content" data-v-c8897e46><div class="title-section" data-v-c8897e46><h3 class="card-title" data-v-c8897e46>Payment Method Metrics</h3><p class="card-subtitle" data-v-c8897e46>Sales breakdown by payment method</p></div></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-c8897e46><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-c8897e46></path></svg></summary>', 1)),
-      i.value ? (v(), b("div", r1, [...I[1] || (I[1] = [
-        et('<div class="loading-container" data-v-c8897e46><div class="chart-lines-loader" data-v-c8897e46><div class="line line-1" data-v-c8897e46></div><div class="line line-2" data-v-c8897e46></div><div class="line line-3" data-v-c8897e46></div><div class="line line-4" data-v-c8897e46></div><div class="line line-5" data-v-c8897e46></div></div><p class="loading-text" data-v-c8897e46>Loading payment data...</p></div>', 1)
-      ])])) : (v(), b("div", l1, [
-        l.value ? (v(), b("section", c1, [
-          I[2] || (I[2] = d("p", { class: "section-label" }, "Sales by Payment Method", -1)),
-          d("div", d1, [
-            (v(!0), b(Q, null, nt(r.value.payment_method_breakdown, (z, N) => (v(), b("div", {
+    ), t({ isDark: o }), (I, R) => (v(), b("details", s1, [
+      R[9] || (R[9] = at('<summary class="card-header metric-collapsible__summary" data-v-aff613d5><div class="header-content" data-v-aff613d5><div class="title-section" data-v-aff613d5><h3 class="card-title" data-v-aff613d5>Payment Method Metrics</h3><p class="card-subtitle" data-v-aff613d5>Sales breakdown by payment method</p></div></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-aff613d5><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-aff613d5></path></svg></summary>', 1)),
+      i.value ? (v(), b("div", o1, [...R[1] || (R[1] = [
+        at('<div class="loading-container" data-v-aff613d5><div class="chart-lines-loader" data-v-aff613d5><div class="line line-1" data-v-aff613d5></div><div class="line line-2" data-v-aff613d5></div><div class="line line-3" data-v-aff613d5></div><div class="line line-4" data-v-aff613d5></div><div class="line line-5" data-v-aff613d5></div></div><p class="loading-text" data-v-aff613d5>Loading payment data...</p></div>', 1)
+      ])])) : (v(), b("div", i1, [
+        l.value ? (v(), b("section", r1, [
+          R[2] || (R[2] = d("p", { class: "section-label" }, "Sales by Payment Method", -1)),
+          d("div", l1, [
+            (v(!0), b(Q, null, st(r.value.payment_method_breakdown, (z, N) => (v(), b("div", {
               key: z.payment_method,
               class: "payment-method-card-item",
               style: bt(T(N))
@@ -14721,7 +14730,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), F1 = /* @__PURE__ */ st(L1, [["__scopeId", "data-v-c8897e46"]]), P1 = { class: "agent-human-conv-card metric-collapsible" }, R1 = {
+}), B1 = /* @__PURE__ */ it(T1, [["__scopeId", "data-v-aff613d5"]]), L1 = { class: "agent-human-conv-card metric-collapsible" }, F1 = {
   key: 0,
   class: "loading-state"
 }, I1 = {
@@ -15733,19 +15742,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
 }, H_ = {
   key: 1,
   class: "card-body"
-}, j_ = { class: "kpi-grid" }, Y_ = { class: "kpi-card kpi-neutral" }, q_ = { class: "kpi-value" }, K_ = { class: "kpi-card kpi-success" }, U_ = { class: "kpi-value kpi-value-success" }, X_ = { class: "kpi-pct" }, G_ = { class: "kpi-card kpi-danger" }, Z_ = { class: "kpi-value kpi-value-error" }, Q_ = { class: "kpi-pct" }, J_ = { class: "kpi-card kpi-warning" }, tx = { class: "kpi-value kpi-value-reason" }, ex = { class: "kpi-pct" }, ax = { class: "chart-section" }, nx = { class: "chart-wrapper" }, sx = {
+}, W_ = { class: "kpi-grid" }, H_ = { class: "kpi-card kpi-neutral" }, j_ = { class: "kpi-value" }, Y_ = { class: "kpi-card kpi-success" }, q_ = { class: "kpi-value kpi-value-success" }, K_ = { class: "kpi-pct" }, U_ = { class: "kpi-card kpi-danger" }, X_ = { class: "kpi-value kpi-value-error" }, G_ = { class: "kpi-pct" }, Z_ = { class: "kpi-card kpi-warning" }, Q_ = { class: "kpi-value kpi-value-reason" }, J_ = { class: "kpi-pct" }, t2 = { class: "chart-section" }, e2 = { class: "chart-wrapper" }, a2 = {
   key: 1,
   class: "empty-chart"
-}, ox = {
+}, n2 = {
   key: 0,
   class: "table-section"
-}, ix = { class: "table-wrapper" }, rx = { class: "failure-reason" }, lx = { class: "failure-count" }, cx = { class: "impact-bar-container" }, dx = { class: "impact-label" }, ux = {
+}, s2 = { class: "table-wrapper" }, o2 = { class: "failure-reason" }, i2 = { class: "failure-count" }, r2 = { class: "impact-bar-container" }, l2 = { class: "impact-label" }, c2 = {
   key: 1,
   class: "chart-section"
-}, hx = { class: "chart-wrapper" }, fx = { class: "system-health" }, gx = { class: "system-health-content" }, px = { class: "sys-kpi-grid" }, vx = { class: "sys-kpi" }, mx = { class: "sys-value" }, bx = { class: "sys-kpi" }, yx = { class: "sys-value" }, _x = { class: "sys-kpi" }, xx = { class: "sys-value sys-error" }, kx = { class: "sys-kpi" }, wx = { class: "sys-value" }, $x = { class: "sys-kpi" }, Cx = { class: "sys-value" }, Mx = { class: "sys-kpi" }, Sx = { class: "sys-value sys-error" }, Dx = {
+}, d2 = { class: "chart-wrapper" }, u2 = { class: "system-health" }, h2 = { class: "system-health-content" }, f2 = { class: "sys-kpi-grid" }, g2 = { class: "sys-kpi" }, p2 = { class: "sys-value" }, v2 = { class: "sys-kpi" }, m2 = { class: "sys-value" }, b2 = { class: "sys-kpi" }, y2 = { class: "sys-value sys-error" }, _2 = { class: "sys-kpi" }, x2 = { class: "sys-value" }, k2 = { class: "sys-kpi" }, w2 = { class: "sys-value" }, $2 = { class: "sys-kpi" }, C2 = { class: "sys-value sys-error" }, M2 = {
   key: 1,
   class: "empty-state"
-}, wn = 3, Ax = /* @__PURE__ */ tt({
+}, wn = 3, S2 = /* @__PURE__ */ et({
   __name: "DisruptionNotifier",
   props: {
     data: { default: () => ({
@@ -15958,9 +15967,9 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
           })
         ], -1))
       ]),
-      n.loading ? (v(), b("div", W_, [...M[4] || (M[4] = [
-        et('<div class="loading-container" data-v-0f5bb8fc><div class="chart-bars-loader" data-v-0f5bb8fc><div class="bar bar-1" data-v-0f5bb8fc></div><div class="bar bar-2" data-v-0f5bb8fc></div><div class="bar bar-3" data-v-0f5bb8fc></div><div class="bar bar-4" data-v-0f5bb8fc></div><div class="bar bar-5" data-v-0f5bb8fc></div></div><p class="loading-text" data-v-0f5bb8fc>Loading disruption notifier data...</p></div>', 1)
-      ])])) : (v(), b("div", H_, [
+      n.loading ? (v(), b("div", z_, [...M[4] || (M[4] = [
+        at('<div class="loading-container" data-v-01c3ba9c><div class="chart-bars-loader" data-v-01c3ba9c><div class="bar bar-1" data-v-01c3ba9c></div><div class="bar bar-2" data-v-01c3ba9c></div><div class="bar bar-3" data-v-01c3ba9c></div><div class="bar bar-4" data-v-01c3ba9c></div><div class="bar bar-5" data-v-01c3ba9c></div></div><p class="loading-text" data-v-01c3ba9c>Loading disruption notifier data...</p></div>', 1)
+      ])])) : (v(), b("div", N_, [
         l.value ? (v(), b(Q, { key: 0 }, [
           d("div", j_, [
             d("div", Y_, [
@@ -15983,44 +15992,44 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
               d("span", ex, C(P(G)(h.value.count)) + " cases", 1)
             ])
           ]),
-          d("section", ax, [
+          d("section", t2, [
             M[10] || (M[10] = d("div", { class: "chart-header" }, [
               d("h4", { class: "section-title" }, "Passenger Disruption Funnel")
             ], -1)),
-            d("div", nx, [
-              x.value.nodes.length > 0 && x.value.links.length > 0 ? (v(), pt(we, {
+            d("div", e2, [
+              x.value.nodes.length > 0 && x.value.links.length > 0 ? (v(), ft(we, {
                 key: 0,
                 data: x.value,
                 "node-colors": k,
                 height: "350px"
-              }, null, 8, ["data"])) : (v(), b("div", sx, [...M[9] || (M[9] = [
+              }, null, 8, ["data"])) : (v(), b("div", a2, [...M[9] || (M[9] = [
                 d("p", { class: "empty-chart-text" }, "No processing data available for visualization", -1)
               ])]))
             ])
           ]),
-          y.value.length > 0 ? (v(), b("section", ox, [
+          y.value.length > 0 ? (v(), b("section", n2, [
             M[12] || (M[12] = d("div", { class: "section-header" }, [
               d("h4", { class: "section-title" }, "Why Passengers Were Not Notified")
             ], -1)),
-            d("div", ix, [
-              X(qt, {
+            d("div", s2, [
+              U(jt, {
                 columns: _,
                 rows: w.value,
                 "row-key": "id"
               }, {
                 "cell-reason": Y(({ row: L }) => [
-                  d("span", rx, C(L.reason), 1)
+                  d("span", o2, C(L.reason), 1)
                 ]),
                 "cell-count": Y(({ row: L }) => [
-                  d("span", lx, C(P(G)(L.count)), 1)
+                  d("span", i2, C(P(Z)(L.count)), 1)
                 ]),
                 "cell-impact": Y(({ row: L }) => [
-                  d("div", cx, [
+                  d("div", r2, [
                     d("div", {
                       class: "impact-bar",
                       style: bt({ width: L.impactPct + "%" })
                     }, null, 4),
-                    d("span", dx, C(L.impactPct) + "%", 1)
+                    d("span", l2, C(L.impactPct) + "%", 1)
                   ])
                 ]),
                 _: 1
@@ -16048,18 +16057,18 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
               ])], 2))
             ])) : V("", !0)
           ])) : V("", !0),
-          S.value.labels.length > 0 ? (v(), b("section", ux, [
+          S.value.labels.length > 0 ? (v(), b("section", c2, [
             M[13] || (M[13] = d("div", { class: "chart-header" }, [
               d("h4", { class: "section-title" }, "Notification Success Rate by Day")
             ], -1)),
-            d("div", hx, [
-              X(ke, {
+            d("div", d2, [
+              U(ke, {
                 data: S.value,
                 options: F.value
               }, null, 8, ["data", "options"])
             ])
           ])) : V("", !0),
-          d("details", fx, [
+          d("details", u2, [
             M[20] || (M[20] = d("summary", { class: "system-health-toggle" }, [
               d("svg", {
                 class: "toggle-icon",
@@ -16082,31 +16091,31 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
               ]),
               wt(" System Health Details ")
             ], -1)),
-            d("div", gx, [
-              d("div", px, [
-                d("div", vx, [
+            d("div", h2, [
+              d("div", f2, [
+                d("div", g2, [
                   M[14] || (M[14] = d("span", { class: "sys-label" }, "Docs Started", -1)),
-                  d("span", mx, C(P(G)(c.value.processing_started)), 1)
+                  d("span", p2, C(P(Z)(c.value.processing_started)), 1)
                 ]),
-                d("div", bx, [
+                d("div", v2, [
                   M[15] || (M[15] = d("span", { class: "sys-label" }, "Docs Completed", -1)),
-                  d("span", yx, C(P(G)(c.value.processing_completed)), 1)
+                  d("span", m2, C(P(Z)(c.value.processing_completed)), 1)
                 ]),
-                d("div", _x, [
+                d("div", b2, [
                   M[16] || (M[16] = d("span", { class: "sys-label" }, "Docs Failed", -1)),
-                  d("span", xx, C(P(G)(c.value.processing_failed)), 1)
+                  d("span", y2, C(P(Z)(c.value.processing_failed)), 1)
                 ]),
-                d("div", kx, [
+                d("div", _2, [
                   M[17] || (M[17] = d("span", { class: "sys-label" }, "Processing Started", -1)),
-                  d("span", wx, C(P(G)(u.value.processing_started)), 1)
+                  d("span", x2, C(P(Z)(u.value.processing_started)), 1)
                 ]),
-                d("div", $x, [
+                d("div", k2, [
                   M[18] || (M[18] = d("span", { class: "sys-label" }, "Processing Success", -1)),
-                  d("span", Cx, C(P(G)(u.value.processing_success)), 1)
+                  d("span", w2, C(P(Z)(u.value.processing_success)), 1)
                 ]),
-                d("div", Mx, [
+                d("div", $2, [
                   M[19] || (M[19] = d("span", { class: "sys-label" }, "Notification Failed", -1)),
-                  d("span", Sx, C(P(G)(u.value.notification_failed)), 1)
+                  d("span", C2, C(P(Z)(u.value.notification_failed)), 1)
                 ])
               ])
             ])
@@ -16116,19 +16125,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             onExport: o,
             loading: e.exportLoading
           }, null, 8, ["loading"])) : V("", !0)
-        ], 64)) : (v(), b("section", Dx, [...M[21] || (M[21] = [
-          et('<div class="empty-state-content" data-v-0f5bb8fc><div class="empty-icon-wrapper" data-v-0f5bb8fc><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-0f5bb8fc><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" data-v-0f5bb8fc></path></svg></div><p class="empty-title" data-v-0f5bb8fc>No disruption notifier data</p><p class="empty-description" data-v-0f5bb8fc>No disruption notification data found for the selected period. Try adjusting the date range.</p></div>', 1)
+        ], 64)) : (v(), b("section", M2, [...M[21] || (M[21] = [
+          at('<div class="empty-state-content" data-v-01c3ba9c><div class="empty-icon-wrapper" data-v-01c3ba9c><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-01c3ba9c><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" data-v-01c3ba9c></path></svg></div><p class="empty-title" data-v-01c3ba9c>No disruption notifier data</p><p class="empty-description" data-v-01c3ba9c>No disruption notification data found for the selected period. Try adjusting the date range.</p></div>', 1)
         ])]))
       ]))
     ]));
   }
-}), Tx = /* @__PURE__ */ st(Ax, [["__scopeId", "data-v-0f5bb8fc"]]), Bx = { class: "card-header" }, Lx = {
+}), D2 = /* @__PURE__ */ it(S2, [["__scopeId", "data-v-01c3ba9c"]]), A2 = { class: "card-header" }, T2 = {
   key: 0,
   class: "loading-state"
-}, Fx = {
+}, B2 = {
   key: 1,
   class: "card-body"
-}, Px = { class: "metric-value" }, Rx = /* @__PURE__ */ tt({
+}, L2 = { class: "metric-value" }, F2 = /* @__PURE__ */ et({
   __name: "TotalConversationsCard",
   props: {
     totalConversations: { default: 0 },
@@ -16147,7 +16156,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
     return t({ isDark: n, changePercent: i }), (c, u) => (v(), b("article", {
       class: q(["highlight-card", { "highlight-card--dark": P(n) }])
     }, [
-      d("header", Bx, [
+      d("header", A2, [
         u[0] || (u[0] = d("div", { class: "icon-wrapper" }, [
           d("svg", {
             class: "card-icon",
@@ -16168,25 +16177,22 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
           class: q(["change-badge", l.value])
         }, C(r.value), 3)) : V("", !0)
       ]),
-      e.loading ? (v(), b("div", Lx, [...u[1] || (u[1] = [
+      e.loading ? (v(), b("div", T2, [...u[1] || (u[1] = [
         d("div", { class: "shimmer shimmer-value" }, null, -1),
         d("div", { class: "shimmer shimmer-label" }, null, -1)
-      ])])) : (v(), b("div", Fx, [
-        d("span", Px, C(s.value), 1),
+      ])])) : (v(), b("div", B2, [
+        d("span", L2, C(s.value), 1),
         u[2] || (u[2] = d("span", { class: "metric-label" }, "Total Conversations", -1))
       ]))
     ], 2));
   }
-}), Ix = /* @__PURE__ */ st(Rx, [["__scopeId", "data-v-cd9dd1ba"]]), Ex = { class: "metric-collapsible__summary csat-collapsible-summary" }, Ox = { class: "csat-collapsible-summary__main" }, Vx = { class: "csat-collapsible-value" }, zx = {
-  key: 1,
-  class: "csat-collapsible-loading"
-}, Nx = { class: "csat-collapsible-panel" }, Wx = { class: "card-header" }, Hx = {
+}), P2 = /* @__PURE__ */ it(F2, [["__scopeId", "data-v-cd9dd1ba"]]), R2 = { class: "card-header" }, I2 = {
   key: 0,
   class: "loading-state"
-}, jx = {
+}, E2 = {
   key: 1,
   class: "card-body"
-}, Yx = { class: "metric-value" }, qx = /* @__PURE__ */ tt({
+}, O2 = { class: "metric-value" }, V2 = /* @__PURE__ */ et({
   __name: "CsatP95Card",
   props: {
     csatP95: { default: 0 },
@@ -16202,80 +16208,41 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       const c = a.previousCsatP95;
       return c === 0 ? a.csatP95 > 0 ? 100 : 0 : (a.csatP95 - c) / c * 100;
     }), r = D(() => `${i.value > 0 ? "+" : ""}${i.value.toFixed(1)}% vs prev.`), l = D(() => i.value > 0 ? "change-badge--up" : i.value < 0 ? "change-badge--down" : "change-badge--neutral");
-    return t({ isDark: n, changePercent: i }), (c, u) => (v(), b("details", {
-      class: q(["highlight-card", "metric-collapsible", { "highlight-card--dark": P(n) }])
+    return t({ isDark: n, changePercent: i }), (c, u) => (v(), b("div", {
+      class: q(["highlight-card", { "highlight-card--dark": P(n) }])
     }, [
-      d("summary", Ex, [
-        d("div", Ox, [
-          u[1] || (u[1] = d("span", { class: "csat-collapsible-title" }, "CSAT Metrics", -1)),
-          e.loading ? (v(), b("span", zx, "Loading…")) : (v(), b(Q, { key: 0 }, [
-            d("span", Vx, C(s.value), 1),
-            u[0] || (u[0] = d("span", { class: "csat-collapsible-label" }, "CSAT P95", -1))
-          ], 64))
-        ]),
-        u[2] || (u[2] = d("svg", {
-          class: "metric-collapsible__chevron",
-          fill: "none",
-          viewBox: "0 0 24 24",
-          stroke: "currentColor",
-          "aria-hidden": "true"
-        }, [
-          d("path", {
-            "stroke-linecap": "round",
-            "stroke-linejoin": "round",
-            "stroke-width": "2",
-            d: "M19 9l-7 7-7-7"
-          })
-        ], -1))
+      d("header", R2, [
+        u[0] || (u[0] = at('<div class="header-title-group" data-v-af9887a6><div class="icon-wrapper" data-v-af9887a6><svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-v-af9887a6><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.41a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345l2.125-5.11z" data-v-af9887a6></path></svg></div><span class="card-title" data-v-af9887a6>CSAT Metrics</span></div>', 1)),
+        !e.loading && o.value ? (v(), b("div", {
+          key: 0,
+          class: q(["change-badge", l.value])
+        }, C(r.value), 3)) : V("", !0)
       ]),
-      d("div", Nx, [
-        d("header", Wx, [
-          u[3] || (u[3] = d("div", { class: "icon-wrapper" }, [
-            d("svg", {
-              class: "card-icon",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "1.5"
-            }, [
-              d("path", {
-                "stroke-linecap": "round",
-                "stroke-linejoin": "round",
-                d: "M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.41a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345l2.125-5.11z"
-              })
-            ])
-          ], -1)),
-          !e.loading && o.value ? (v(), b("div", {
-            key: 0,
-            class: q(["change-badge", l.value])
-          }, C(r.value), 3)) : V("", !0)
-        ]),
-        e.loading ? (v(), b("div", Hx, [...u[4] || (u[4] = [
-          d("div", { class: "shimmer shimmer-value" }, null, -1),
-          d("div", { class: "shimmer shimmer-label" }, null, -1)
-        ])])) : (v(), b("div", jx, [
-          d("span", Yx, C(s.value), 1),
-          u[5] || (u[5] = d("span", { class: "metric-label" }, "CSAT P95", -1))
-        ]))
-      ])
+      e.loading ? (v(), b("div", I2, [...u[1] || (u[1] = [
+        d("div", { class: "shimmer shimmer-value" }, null, -1),
+        d("div", { class: "shimmer shimmer-label" }, null, -1)
+      ])])) : (v(), b("div", E2, [
+        d("span", O2, C(s.value), 1),
+        u[2] || (u[2] = d("span", { class: "metric-label" }, "CSAT P95", -1))
+      ]))
     ], 2));
   }
-}), Kx = /* @__PURE__ */ st(qx, [["__scopeId", "data-v-7d329eb1"]]), Ux = { class: "nps-overview-card" }, Xx = { class: "card-header" }, Gx = { class: "header-content" }, Zx = { class: "header-badges" }, Qx = {
+}), z2 = /* @__PURE__ */ it(V2, [["__scopeId", "data-v-af9887a6"]]), N2 = { class: "nps-overview-card" }, W2 = { class: "card-header" }, H2 = { class: "header-content" }, j2 = { class: "header-badges" }, Y2 = {
   key: 0,
   class: "stats-badge"
-}, Jx = { class: "badge-value" }, t2 = {
+}, q2 = { class: "badge-value" }, K2 = {
   key: 1,
   class: "stats-badge"
-}, e2 = { class: "badge-value" }, a2 = {
+}, U2 = { class: "badge-value" }, X2 = {
   key: 0,
   class: "loading-state"
-}, n2 = {
+}, G2 = {
   key: 1,
   class: "card-body"
-}, s2 = { class: "chart-wrapper" }, o2 = {
+}, Z2 = { class: "chart-wrapper" }, Q2 = {
   key: 2,
   class: "empty-state"
-}, i2 = 500, r2 = 60, l2 = 80, c2 = {
+}, J2 = 500, tx = 60, ex = 80, ax = {
   __name: "npsOverviewMetrics",
   props: {
     data: {
@@ -16303,31 +16270,31 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
   setup(e, { expose: t, emit: a }) {
     const n = a, s = (c) => {
       n("export", c);
-    }, o = e, { isDark: i } = ft(ht(o, "theme")), r = D(() => o.data), l = D(() => Math.max(600, window.innerWidth * 0.85));
-    return t({ isDark: i }), (c, u) => (v(), b("article", Ux, [
-      d("header", Xx, [
-        d("div", Gx, [
+    }, o = e, { isDark: i } = ht(ut(o, "theme")), r = D(() => o.data), l = D(() => Math.max(600, window.innerWidth * 0.85));
+    return t({ isDark: i }), (c, u) => (v(), b("article", N2, [
+      d("header", W2, [
+        d("div", H2, [
           u[2] || (u[2] = d("div", { class: "title-section" }, [
             d("h3", { class: "card-title" }, "CSAT Overview Metrics"),
             d("p", { class: "card-subtitle" }, "Overall CSAT Distribution")
           ], -1)),
-          d("div", Zx, [
-            r.value && r.value.total_nps_responses > 0 ? (v(), b("div", Qx, [
+          d("div", j2, [
+            r.value && r.value.total_nps_responses > 0 ? (v(), b("div", Y2, [
               u[0] || (u[0] = d("p", { class: "badge-label" }, "Responses", -1)),
-              d("p", Jx, C(r.value.total_nps_responses), 1)
+              d("p", q2, C(r.value.total_nps_responses), 1)
             ])) : V("", !0),
-            r.value && r.value.p95_score > 0 ? (v(), b("div", t2, [
+            r.value && r.value.p95_score > 0 ? (v(), b("div", K2, [
               u[1] || (u[1] = d("p", { class: "badge-label" }, "Percentile 95", -1)),
-              d("p", e2, C(r.value.p95_score || 0), 1)
+              d("p", U2, C(r.value.p95_score || 0), 1)
             ])) : V("", !0)
           ])
         ])
       ]),
-      o.loading ? (v(), b("div", a2, [...u[3] || (u[3] = [
-        et('<div class="loading-container" data-v-30fe5f88><div class="chart-flow-loader" data-v-30fe5f88><div class="flow-line flow-1" data-v-30fe5f88></div><div class="flow-line flow-2" data-v-30fe5f88></div><div class="flow-line flow-3" data-v-30fe5f88></div><div class="flow-line flow-4" data-v-30fe5f88></div><div class="flow-line flow-5" data-v-30fe5f88></div></div><p class="loading-text" data-v-30fe5f88>Loading NPS data...</p></div>', 1)
-      ])])) : r.value && r.value.total_nps_responses > 0 ? (v(), b("div", n2, [
-        d("div", s2, [
-          X(Wi, {
+      o.loading ? (v(), b("div", X2, [...u[3] || (u[3] = [
+        at('<div class="loading-container" data-v-30fe5f88><div class="chart-flow-loader" data-v-30fe5f88><div class="flow-line flow-1" data-v-30fe5f88></div><div class="flow-line flow-2" data-v-30fe5f88></div><div class="flow-line flow-3" data-v-30fe5f88></div><div class="flow-line flow-4" data-v-30fe5f88></div><div class="flow-line flow-5" data-v-30fe5f88></div></div><p class="loading-text" data-v-30fe5f88>Loading NPS data...</p></div>', 1)
+      ])])) : r.value && r.value.total_nps_responses > 0 ? (v(), b("div", G2, [
+        d("div", Z2, [
+          U(Wi, {
             histogram: r.value.histogram || [],
             "min-score": r.value.min_score || 0,
             "max-score": r.value.max_score || 0,
@@ -16336,9 +16303,9 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             "q3-score": r.value.q3_score || 0,
             "average-score": r.value.average_score || 0,
             "chart-width": l.value,
-            "chart-height": i2,
-            "chart-margin": r2,
-            "chart-bottom-margin": l2
+            "chart-height": J2,
+            "chart-margin": tx,
+            "chart-bottom-margin": ex
           }, null, 8, ["histogram", "min-score", "max-score", "q1-score", "median-score", "q3-score", "average-score", "chart-width"])
         ]),
         e.enableExport ? (v(), pt(P(St), {
@@ -16346,24 +16313,24 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
           onExport: s,
           loading: e.exportLoading
         }, null, 8, ["loading"])) : V("", !0)
-      ])) : (v(), b("div", o2, [...u[4] || (u[4] = [
-        et('<div class="empty-state-content" data-v-30fe5f88><div class="empty-icon-wrapper" data-v-30fe5f88><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-30fe5f88><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-30fe5f88></path></svg></div><p class="empty-title" data-v-30fe5f88>No NPS data available</p><p class="empty-description" data-v-30fe5f88>No NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
+      ])) : (v(), b("div", Q2, [...u[4] || (u[4] = [
+        at('<div class="empty-state-content" data-v-30fe5f88><div class="empty-icon-wrapper" data-v-30fe5f88><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-30fe5f88><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-30fe5f88></path></svg></div><p class="empty-title" data-v-30fe5f88>No NPS data available</p><p class="empty-description" data-v-30fe5f88>No NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, Zi = /* @__PURE__ */ st(c2, [["__scopeId", "data-v-30fe5f88"]]), d2 = { class: "nps-daily-card" }, u2 = { class: "card-header" }, h2 = { class: "header-content" }, f2 = {
+}, Zi = /* @__PURE__ */ it(ax, [["__scopeId", "data-v-30fe5f88"]]), nx = { class: "nps-daily-card" }, sx = { class: "card-header" }, ox = { class: "header-content" }, ix = {
   key: 0,
   class: "stats-badge"
-}, g2 = { class: "badge-value" }, p2 = {
+}, rx = { class: "badge-value" }, lx = {
   key: 0,
   class: "loading-state"
-}, v2 = {
+}, cx = {
   key: 1,
   class: "card-body"
-}, m2 = { class: "tooltip-content" }, b2 = { class: "tooltip-title" }, y2 = { class: "tooltip-stats" }, _2 = { class: "tooltip-stat-row" }, x2 = { class: "tooltip-value" }, k2 = { class: "tooltip-stat-row" }, w2 = { class: "tooltip-value" }, $2 = { class: "tooltip-stat-row" }, C2 = { class: "tooltip-value" }, M2 = { class: "tooltip-stat-row" }, S2 = { class: "tooltip-value" }, D2 = { class: "tooltip-stat-row" }, A2 = { class: "tooltip-value" }, T2 = { class: "tooltip-stat-row" }, B2 = { class: "tooltip-value" }, L2 = {
+}, dx = { class: "tooltip-content" }, ux = { class: "tooltip-title" }, hx = { class: "tooltip-stats" }, fx = { class: "tooltip-stat-row" }, gx = { class: "tooltip-value" }, px = { class: "tooltip-stat-row" }, vx = { class: "tooltip-value" }, mx = { class: "tooltip-stat-row" }, bx = { class: "tooltip-value" }, yx = { class: "tooltip-stat-row" }, _x = { class: "tooltip-value" }, xx = { class: "tooltip-stat-row" }, kx = { class: "tooltip-value" }, wx = { class: "tooltip-stat-row" }, $x = { class: "tooltip-value" }, Cx = {
   key: 2,
   class: "empty-state"
-}, Lo = 400, Qe = 60, Fo = 90, Po = 120, F2 = {
+}, Lo = 400, Qe = 60, Fo = 90, Po = 120, Mx = {
   __name: "npsDailyMetrics",
   props: {
     data: {
@@ -16453,22 +16420,22 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
     }, m = () => {
       c.value.visible = !1;
     };
-    return t({ isDark: i }), (y, _) => (v(), b("article", d2, [
-      d("header", u2, [
-        d("div", h2, [
+    return t({ isDark: i }), (y, _) => (v(), b("article", nx, [
+      d("header", sx, [
+        d("div", ox, [
           _[1] || (_[1] = d("div", { class: "title-section" }, [
             d("h3", { class: "card-title" }, "CSAT Daily Metrics"),
             d("p", { class: "card-subtitle" }, "Daily CSAT Distribution")
           ], -1)),
-          r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (v(), b("div", f2, [
+          r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (v(), b("div", ix, [
             _[0] || (_[0] = d("p", { class: "badge-label" }, "Days", -1)),
-            d("p", g2, C(r.value.nps_by_day.length), 1)
+            d("p", rx, C(r.value.nps_by_day.length), 1)
           ])) : V("", !0)
         ])
       ]),
-      o.loading ? (v(), b("div", p2, [..._[2] || (_[2] = [
-        et('<div class="loading-container" data-v-b20112a7><div class="chart-flow-loader" data-v-b20112a7><div class="flow-line flow-1" data-v-b20112a7></div><div class="flow-line flow-2" data-v-b20112a7></div><div class="flow-line flow-3" data-v-b20112a7></div><div class="flow-line flow-4" data-v-b20112a7></div><div class="flow-line flow-5" data-v-b20112a7></div></div><p class="loading-text" data-v-b20112a7>Loading daily NPS data...</p></div>', 1)
-      ])])) : r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (v(), b("div", v2, [
+      o.loading ? (v(), b("div", lx, [..._[2] || (_[2] = [
+        at('<div class="loading-container" data-v-b20112a7><div class="chart-flow-loader" data-v-b20112a7><div class="flow-line flow-1" data-v-b20112a7></div><div class="flow-line flow-2" data-v-b20112a7></div><div class="flow-line flow-3" data-v-b20112a7></div><div class="flow-line flow-4" data-v-b20112a7></div><div class="flow-line flow-5" data-v-b20112a7></div></div><p class="loading-text" data-v-b20112a7>Loading daily NPS data...</p></div>', 1)
+      ])])) : r.value && r.value.nps_by_day && r.value.nps_by_day.length > 0 ? (v(), b("div", cx, [
         d("div", {
           class: "chart-wrapper",
           ref_key: "chartContainerRef",
@@ -16495,33 +16462,33 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
               top: `${c.value.y}px`
             })
           }, [
-            d("div", m2, [
-              d("div", b2, C(c.value.date), 1),
+            d("div", dx, [
+              d("div", ux, C(c.value.date), 1),
               _[9] || (_[9] = d("div", { class: "tooltip-divider" }, null, -1)),
-              d("div", y2, [
-                d("div", _2, [
+              d("div", hx, [
+                d("div", fx, [
                   _[3] || (_[3] = d("span", { class: "tooltip-label tooltip-min" }, "Min:", -1)),
-                  d("span", x2, C(c.value.min), 1)
+                  d("span", gx, C(c.value.min), 1)
                 ]),
-                d("div", k2, [
+                d("div", px, [
                   _[4] || (_[4] = d("span", { class: "tooltip-label tooltip-q1" }, "Q1:", -1)),
-                  d("span", w2, C(c.value.q1), 1)
+                  d("span", vx, C(c.value.q1), 1)
                 ]),
-                d("div", $2, [
+                d("div", mx, [
                   _[5] || (_[5] = d("span", { class: "tooltip-label tooltip-median" }, "Median:", -1)),
-                  d("span", C2, C(c.value.median), 1)
+                  d("span", bx, C(c.value.median), 1)
                 ]),
-                d("div", M2, [
+                d("div", yx, [
                   _[6] || (_[6] = d("span", { class: "tooltip-label tooltip-avg" }, "Avg:", -1)),
-                  d("span", S2, C(c.value.avg), 1)
+                  d("span", _x, C(c.value.avg), 1)
                 ]),
-                d("div", D2, [
+                d("div", xx, [
                   _[7] || (_[7] = d("span", { class: "tooltip-label tooltip-q3" }, "Q3:", -1)),
-                  d("span", A2, C(c.value.q3), 1)
+                  d("span", kx, C(c.value.q3), 1)
                 ]),
-                d("div", T2, [
+                d("div", wx, [
                   _[8] || (_[8] = d("span", { class: "tooltip-label tooltip-max" }, "Max:", -1)),
-                  d("span", B2, C(c.value.max), 1)
+                  d("span", $x, C(c.value.max), 1)
                 ])
               ])
             ])
@@ -16532,12 +16499,12 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
           onExport: s,
           loading: e.exportLoading
         }, null, 8, ["loading"])) : V("", !0)
-      ])) : (v(), b("div", L2, [..._[10] || (_[10] = [
-        et('<div class="empty-state-content" data-v-b20112a7><div class="empty-icon-wrapper" data-v-b20112a7><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-b20112a7><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-b20112a7></path></svg></div><p class="empty-title" data-v-b20112a7>No daily NPS data available</p><p class="empty-description" data-v-b20112a7>No daily NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
+      ])) : (v(), b("div", Cx, [..._[10] || (_[10] = [
+        at('<div class="empty-state-content" data-v-b20112a7><div class="empty-icon-wrapper" data-v-b20112a7><svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-v-b20112a7><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" data-v-b20112a7></path></svg></div><p class="empty-title" data-v-b20112a7>No daily NPS data available</p><p class="empty-description" data-v-b20112a7>No daily NPS data found for the selected period. Try adjusting the date range.</p></div>', 1)
       ])]))
     ]));
   }
-}, Qi = /* @__PURE__ */ st(F2, [["__scopeId", "data-v-b20112a7"]]), P2 = { class: "nps-metrics-container" }, R2 = {
+}, Qi = /* @__PURE__ */ it(Mx, [["__scopeId", "data-v-b20112a7"]]), Sx = { class: "nps-metrics-container" }, Dx = {
   __name: "npsMetrics",
   props: {
     data: {
@@ -16558,8 +16525,8 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
     const a = t, n = (s) => {
       a("export", s);
     };
-    return (s, o) => (v(), b("div", P2, [
-      X(Zi, {
+    return (s, o) => (v(), b("div", Sx, [
+      U(Zi, {
         data: e.data,
         loading: e.loading,
         "enable-export": e.enableExport,
@@ -16573,10 +16540,10 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       }, null, 8, ["data", "loading", "enable-export"])
     ]));
   }
-}, Ji = /* @__PURE__ */ st(R2, [["__scopeId", "data-v-25fe3b80"]]), I2 = ["open"], E2 = { class: "csat-container__body" }, O2 = /* @__PURE__ */ tt({
+}, Ji = /* @__PURE__ */ it(Dx, [["__scopeId", "data-v-25fe3b80"]]), Ax = ["open"], Tx = { class: "csat-container__body" }, Bx = /* @__PURE__ */ et({
   __name: "CSATContainer",
   props: {
-    containerInitiallyOpen: { type: Boolean, default: !0 },
+    containerInitiallyOpen: { type: Boolean, default: !1 },
     loading: { type: Boolean, default: !1 },
     enableExport: { type: Boolean, default: !1 },
     data: { default: void 0 }
@@ -16591,24 +16558,24 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       class: "csat-container-card metric-collapsible",
       open: e.containerInitiallyOpen
     }, [
-      o[0] || (o[0] = et('<summary class="card-header metric-collapsible__summary csat-container__summary" data-v-0b2ba321><div class="header-content" data-v-0b2ba321><h2 class="csat-container__title font-sans" data-v-0b2ba321>CSAT</h2><p class="csat-container__subtitle font-sans" data-v-0b2ba321> Customer satisfaction score distribution and daily trend metrics. </p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-0b2ba321><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-0b2ba321></path></svg></summary>', 1)),
-      d("div", E2, [
-        X(Ji, {
+      o[0] || (o[0] = at('<summary class="card-header metric-collapsible__summary csat-container__summary" data-v-7a1e42dd><div class="header-content" data-v-7a1e42dd><h2 class="card-title font-sans" data-v-7a1e42dd>CSAT</h2><p class="card-subtitle font-sans" data-v-7a1e42dd> Customer satisfaction score distribution and daily trend metrics. </p></div><svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" data-v-7a1e42dd><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" data-v-7a1e42dd></path></svg></summary>', 1)),
+      d("div", Tx, [
+        U(Ji, {
           data: e.data,
           loading: e.loading,
           "enable-export": e.enableExport,
           onExport: n
         }, null, 8, ["data", "loading", "enable-export"])
       ])
-    ], 8, I2));
+    ], 8, Ax));
   }
-}), V2 = /* @__PURE__ */ st(O2, [["__scopeId", "data-v-0b2ba321"]]), z2 = { class: "card-header" }, N2 = {
+}), Lx = /* @__PURE__ */ it(Bx, [["__scopeId", "data-v-7a1e42dd"]]), Fx = { class: "card-header" }, Px = {
   key: 0,
   class: "loading-state"
-}, W2 = {
+}, Rx = {
   key: 1,
   class: "card-body"
-}, H2 = { class: "metric-value" }, j2 = /* @__PURE__ */ tt({
+}, Ix = { class: "metric-value" }, Ex = /* @__PURE__ */ et({
   __name: "AiGeneratedRevenueCard",
   props: {
     totalRevenue: { default: 0 },
@@ -16628,7 +16595,7 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
     return t({ isDark: n, changePercent: i }), (c, u) => (v(), b("article", {
       class: q(["highlight-card", { "highlight-card--dark": P(n) }])
     }, [
-      d("header", z2, [
+      d("header", Fx, [
         u[0] || (u[0] = d("div", { class: "icon-wrapper" }, [
           d("svg", {
             class: "card-icon",
@@ -16649,25 +16616,25 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
           class: q(["change-badge", l.value])
         }, C(r.value), 3)) : V("", !0)
       ]),
-      e.loading ? (v(), b("div", N2, [...u[1] || (u[1] = [
+      e.loading ? (v(), b("div", Px, [...u[1] || (u[1] = [
         d("div", { class: "shimmer shimmer-value" }, null, -1),
         d("div", { class: "shimmer shimmer-label" }, null, -1)
-      ])])) : (v(), b("div", W2, [
-        d("span", H2, C(s.value), 1),
+      ])])) : (v(), b("div", Rx, [
+        d("span", Ix, C(s.value), 1),
         u[2] || (u[2] = d("span", { class: "metric-label" }, "AI-Generated Revenue", -1))
       ]))
     ], 2));
   }
-}), Y2 = /* @__PURE__ */ st(j2, [["__scopeId", "data-v-a642a31c"]]), q2 = { class: "aws-cost-card" }, K2 = { class: "card-header" }, U2 = { class: "header-main" }, X2 = { class: "header-content" }, G2 = { class: "card-title" }, Z2 = { class: "header-stats" }, Q2 = { class: "stat-badge primary" }, J2 = { class: "stat-value" }, tk = { class: "stat-badge secondary" }, ek = { class: "stat-value" }, ak = { class: "card-body" }, nk = {
+}), Ox = /* @__PURE__ */ it(Ex, [["__scopeId", "data-v-a642a31c"]]), Vx = { class: "aws-cost-card" }, zx = { class: "card-header" }, Nx = { class: "header-main" }, Wx = { class: "header-content" }, Hx = { class: "card-title" }, jx = { class: "header-stats" }, Yx = { class: "stat-badge primary" }, qx = { class: "stat-value" }, Kx = { class: "stat-badge secondary" }, Ux = { class: "stat-value" }, Xx = { class: "card-body" }, Gx = {
   key: 0,
   class: "loading-state"
-}, sk = {
+}, Zx = {
   key: 1,
   class: "chart-section"
-}, ok = { class: "chart-container" }, ik = {
+}, Qx = { class: "chart-container" }, Jx = {
   key: 2,
   class: "empty-state"
-}, rk = { class: "empty-state-content" }, lk = { class: "empty-icon-wrapper" }, ck = {
+}, tk = { class: "empty-state-content" }, ek = { class: "empty-icon-wrapper" }, ak = {
   __name: "AWSCost",
   props: {
     data: {
@@ -16822,39 +16789,39 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     }));
-    return (r, l) => (v(), b("article", q2, [
-      d("header", K2, [
-        d("div", U2, [
-          d("div", X2, [
-            d("h3", G2, C(s.value.airline_name || "AWS Cost"), 1),
+    return (r, l) => (v(), b("article", Vx, [
+      d("header", zx, [
+        d("div", Nx, [
+          d("div", Wx, [
+            d("h3", Hx, C(s.value.airline_name || "AWS Cost"), 1),
             l[0] || (l[0] = d("p", { class: "card-subtitle" }, "AWS vs Allocated costs over time", -1))
           ]),
-          d("div", Z2, [
-            d("div", Q2, [
+          d("div", jx, [
+            d("div", Yx, [
               l[1] || (l[1] = d("span", { class: "stat-label" }, "Total Allocated", -1)),
-              d("span", J2, C(P(xt)(s.value.total_allocated_cost)), 1)
+              d("span", qx, C(P(xt)(s.value.total_allocated_cost)), 1)
             ]),
-            d("div", tk, [
+            d("div", Kx, [
               l[2] || (l[2] = d("span", { class: "stat-label" }, "Total AWS", -1)),
-              d("span", ek, C(P(xt)(s.value.total_cost)), 1)
+              d("span", Ux, C(P(xt)(s.value.total_cost)), 1)
             ])
           ])
         ])
       ]),
-      d("div", ak, [
-        e.loading ? (v(), b("div", nk, [...l[3] || (l[3] = [
-          et('<div class="loading-container" data-v-c023bd59><div class="chart-lines-loader" data-v-c023bd59><div class="line line-1" data-v-c023bd59></div><div class="line line-2" data-v-c023bd59></div><div class="line line-3" data-v-c023bd59></div><div class="line line-4" data-v-c023bd59></div><div class="line line-5" data-v-c023bd59></div></div><p class="loading-text" data-v-c023bd59>Loading chart data...</p></div>', 1)
-        ])])) : s.value.daily.length > 0 ? (v(), b("div", sk, [
-          d("div", ok, [
-            X(ke, {
+      d("div", Xx, [
+        e.loading ? (v(), b("div", Gx, [...l[3] || (l[3] = [
+          at('<div class="loading-container" data-v-c023bd59><div class="chart-lines-loader" data-v-c023bd59><div class="line line-1" data-v-c023bd59></div><div class="line line-2" data-v-c023bd59></div><div class="line line-3" data-v-c023bd59></div><div class="line line-4" data-v-c023bd59></div><div class="line line-5" data-v-c023bd59></div></div><p class="loading-text" data-v-c023bd59>Loading chart data...</p></div>', 1)
+        ])])) : s.value.daily.length > 0 ? (v(), b("div", Zx, [
+          d("div", Qx, [
+            U(ke, {
               data: o.value,
               options: i.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (v(), b("section", ik, [
-          d("div", rk, [
-            d("div", lk, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", Jx, [
+          d("div", tk, [
+            d("div", ek, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             l[4] || (l[4] = d("p", { class: "empty-title" }, "Sin datos de costos", -1)),
             l[5] || (l[5] = d("p", { class: "empty-description" }, "No se encontró información para el periodo seleccionado. Intenta ajustar el rango de fechas.", -1))
@@ -16863,19 +16830,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ])
     ]));
   }
-}, dk = /* @__PURE__ */ st(ck, [["__scopeId", "data-v-c023bd59"]]), uk = { class: "cost-usage-card" }, hk = {
+}, nk = /* @__PURE__ */ it(ak, [["__scopeId", "data-v-c023bd59"]]), sk = { class: "cost-usage-card" }, ok = {
   key: 0,
   class: "card-body"
-}, fk = {
+}, ik = {
   key: 0,
   class: "chart-section"
-}, gk = { class: "chart-container" }, pk = { class: "kpi-grid" }, vk = { class: "kpi-card" }, mk = { class: "kpi-value" }, bk = { class: "kpi-card" }, yk = { class: "kpi-value" }, _k = { class: "kpi-card" }, xk = { class: "kpi-value" }, kk = { class: "kpi-card" }, wk = { class: "kpi-value" }, $k = { class: "kpi-card" }, Ck = { class: "kpi-value" }, Mk = { class: "kpi-card highlighted" }, Sk = { class: "kpi-value gradient-text" }, Dk = {
+}, rk = { class: "chart-container" }, lk = { class: "kpi-grid" }, ck = { class: "kpi-card" }, dk = { class: "kpi-value" }, uk = { class: "kpi-card" }, hk = { class: "kpi-value" }, fk = { class: "kpi-card" }, gk = { class: "kpi-value" }, pk = { class: "kpi-card" }, vk = { class: "kpi-value" }, mk = { class: "kpi-card" }, bk = { class: "kpi-value" }, yk = { class: "kpi-card highlighted" }, _k = { class: "kpi-value gradient-text" }, xk = {
   key: 1,
   class: "empty-state"
-}, Ak = { class: "empty-state-content" }, Tk = { class: "empty-icon-wrapper" }, Bk = {
+}, kk = { class: "empty-state-content" }, wk = { class: "empty-icon-wrapper" }, $k = {
   key: 1,
   class: "loading-state"
-}, Lk = /* @__PURE__ */ tt({
+}, Ck = /* @__PURE__ */ et({
   __name: "CostUsage",
   props: {
     data: { default: () => ({}) },
@@ -17030,54 +16997,54 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     });
-    return t({ isDark: s }), (h, m) => (v(), b("article", uk, [
+    return t({ isDark: s }), (h, m) => (v(), b("article", sk, [
       m[9] || (m[9] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Cost Usage"),
           d("p", { class: "card-subtitle" }, "Cost breakdown over time (stacked)")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", Bk, [...m[8] || (m[8] = [
-        et('<div class="loading-container" data-v-62f96954><div class="chart-lines-loader" data-v-62f96954><div class="line line-1" data-v-62f96954></div><div class="line line-2" data-v-62f96954></div><div class="line line-3" data-v-62f96954></div><div class="line line-4" data-v-62f96954></div><div class="line line-5" data-v-62f96954></div></div><p class="loading-text" data-v-62f96954>Loading chart data...</p></div>', 1)
-      ])])) : (v(), b("div", hk, [
-        g.value.labels && g.value.labels.length ? (v(), b("section", fk, [
-          d("div", gk, [
-            X(ue, {
+      e.loading ? (v(), b("div", $k, [...m[8] || (m[8] = [
+        at('<div class="loading-container" data-v-62f96954><div class="chart-lines-loader" data-v-62f96954><div class="line line-1" data-v-62f96954></div><div class="line line-2" data-v-62f96954></div><div class="line line-3" data-v-62f96954></div><div class="line line-4" data-v-62f96954></div><div class="line line-5" data-v-62f96954></div></div><p class="loading-text" data-v-62f96954>Loading chart data...</p></div>', 1)
+      ])])) : (v(), b("div", ok, [
+        g.value.labels && g.value.labels.length ? (v(), b("section", ik, [
+          d("div", rk, [
+            U(de, {
               data: g.value,
               options: p.value,
               stacked: !0
             }, null, 8, ["data", "options"])
           ]),
-          d("footer", pk, [
-            d("div", vk, [
+          d("footer", lk, [
+            d("div", ck, [
               m[0] || (m[0] = d("span", { class: "kpi-label" }, "Total Cost", -1)),
-              d("span", mk, C(P(xt)(e.data.total_cost)), 1)
+              d("span", dk, C(P(xt)(e.data.total_cost)), 1)
             ]),
-            d("div", bk, [
+            d("div", uk, [
               m[1] || (m[1] = d("span", { class: "kpi-label" }, "Input Cost", -1)),
-              d("span", yk, C(P(xt)(l.value)), 1)
+              d("span", hk, C(P(xt)(l.value)), 1)
             ]),
-            d("div", _k, [
+            d("div", fk, [
               m[2] || (m[2] = d("span", { class: "kpi-label" }, "Output Cost", -1)),
-              d("span", xk, C(P(xt)(c.value)), 1)
+              d("span", gk, C(P(xt)(c.value)), 1)
             ]),
-            d("div", kk, [
+            d("div", pk, [
               m[3] || (m[3] = d("span", { class: "kpi-label" }, "Cache Read", -1)),
-              d("span", wk, C(P(xt)(u.value)), 1)
+              d("span", vk, C(P(xt)(u.value)), 1)
             ]),
-            d("div", $k, [
+            d("div", mk, [
               m[4] || (m[4] = d("span", { class: "kpi-label" }, "Cache Write", -1)),
-              d("span", Ck, C(P(xt)(f.value)), 1)
+              d("span", bk, C(P(xt)(f.value)), 1)
             ]),
-            d("div", Mk, [
+            d("div", yk, [
               m[5] || (m[5] = d("span", { class: "kpi-label" }, "Avg / Conv.", -1)),
-              d("span", Sk, C(P(xt)(e.data.avg_cost_per_conversation)), 1)
+              d("span", _k, C(P(xt)(e.data.avg_cost_per_conversation)), 1)
             ])
           ])
-        ])) : (v(), b("section", Dk, [
-          d("div", Ak, [
-            d("div", Tk, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", xk, [
+          d("div", kk, [
+            d("div", wk, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             m[6] || (m[6] = d("p", { class: "empty-title" }, "No cost usage data", -1)),
             m[7] || (m[7] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters to see cost breakdown trends.", -1))
@@ -17086,19 +17053,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), Fk = /* @__PURE__ */ st(Lk, [["__scopeId", "data-v-62f96954"]]), Pk = { class: "token-usage-card" }, Rk = {
+}), Mk = /* @__PURE__ */ it(Ck, [["__scopeId", "data-v-62f96954"]]), Sk = { class: "token-usage-card" }, Dk = {
   key: 0,
   class: "card-body"
-}, Ik = {
+}, Ak = {
   key: 0,
   class: "chart-section"
-}, Ek = { class: "chart-container" }, Ok = { class: "kpi-grid" }, Vk = { class: "kpi-card" }, zk = { class: "kpi-value" }, Nk = { class: "kpi-card" }, Wk = { class: "kpi-value" }, Hk = { class: "kpi-card" }, jk = { class: "kpi-value" }, Yk = { class: "kpi-card" }, qk = { class: "kpi-value" }, Kk = { class: "kpi-card" }, Uk = { class: "kpi-value" }, Xk = {
+}, Tk = { class: "chart-container" }, Bk = { class: "kpi-grid" }, Lk = { class: "kpi-card" }, Fk = { class: "kpi-value" }, Pk = { class: "kpi-card" }, Rk = { class: "kpi-value" }, Ik = { class: "kpi-card" }, Ek = { class: "kpi-value" }, Ok = { class: "kpi-card" }, Vk = { class: "kpi-value" }, zk = { class: "kpi-card" }, Nk = { class: "kpi-value" }, Wk = {
   key: 1,
   class: "empty-state"
-}, Gk = { class: "empty-state-content" }, Zk = { class: "empty-icon-wrapper" }, Qk = {
+}, Hk = { class: "empty-state-content" }, jk = { class: "empty-icon-wrapper" }, Yk = {
   key: 1,
   class: "loading-state"
-}, Jk = /* @__PURE__ */ tt({
+}, qk = /* @__PURE__ */ et({
   __name: "TokenUsage",
   props: {
     data: { default: () => ({}) },
@@ -17232,50 +17199,50 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     });
-    return t({ isDark: s }), (u, f) => (v(), b("article", Pk, [
+    return t({ isDark: s }), (u, f) => (v(), b("article", Sk, [
       f[8] || (f[8] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Token Usage"),
           d("p", { class: "card-subtitle" }, "Token consumption over time (stacked)")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", Qk, [...f[7] || (f[7] = [
-        et('<div class="loading-container" data-v-e9e355be><div class="chart-lines-loader" data-v-e9e355be><div class="line line-1" data-v-e9e355be></div><div class="line line-2" data-v-e9e355be></div><div class="line line-3" data-v-e9e355be></div><div class="line line-4" data-v-e9e355be></div><div class="line line-5" data-v-e9e355be></div></div><p class="loading-text" data-v-e9e355be>Loading chart data...</p></div>', 1)
-      ])])) : (v(), b("div", Rk, [
-        l.value.labels && l.value.labels.length ? (v(), b("section", Ik, [
-          d("div", Ek, [
-            X(ue, {
+      e.loading ? (v(), b("div", Yk, [...f[7] || (f[7] = [
+        at('<div class="loading-container" data-v-e9e355be><div class="chart-lines-loader" data-v-e9e355be><div class="line line-1" data-v-e9e355be></div><div class="line line-2" data-v-e9e355be></div><div class="line line-3" data-v-e9e355be></div><div class="line line-4" data-v-e9e355be></div><div class="line line-5" data-v-e9e355be></div></div><p class="loading-text" data-v-e9e355be>Loading chart data...</p></div>', 1)
+      ])])) : (v(), b("div", Dk, [
+        l.value.labels && l.value.labels.length ? (v(), b("section", Ak, [
+          d("div", Tk, [
+            U(de, {
               data: l.value,
               options: c.value,
               stacked: !0
             }, null, 8, ["data", "options"])
           ]),
-          d("footer", Ok, [
-            d("div", Vk, [
+          d("footer", Bk, [
+            d("div", Lk, [
               f[0] || (f[0] = d("span", { class: "kpi-label" }, "Total Tokens", -1)),
-              d("span", zk, C(P(G)(e.data.total_tokens)), 1)
+              d("span", Fk, C(P(Z)(e.data.total_tokens)), 1)
             ]),
-            d("div", Nk, [
+            d("div", Pk, [
               f[1] || (f[1] = d("span", { class: "kpi-label" }, "Input", -1)),
-              d("span", Wk, C(P(G)(e.data.total_input_tokens)), 1)
+              d("span", Rk, C(P(Z)(e.data.total_input_tokens)), 1)
             ]),
-            d("div", Hk, [
+            d("div", Ik, [
               f[2] || (f[2] = d("span", { class: "kpi-label" }, "Output", -1)),
-              d("span", jk, C(P(G)(e.data.total_output_tokens)), 1)
+              d("span", Ek, C(P(Z)(e.data.total_output_tokens)), 1)
             ]),
-            d("div", Yk, [
+            d("div", Ok, [
               f[3] || (f[3] = d("span", { class: "kpi-label" }, "Cache Read", -1)),
-              d("span", qk, C(P(G)(e.data.total_cache_read_tokens)), 1)
+              d("span", Vk, C(P(Z)(e.data.total_cache_read_tokens)), 1)
             ]),
-            d("div", Kk, [
+            d("div", zk, [
               f[4] || (f[4] = d("span", { class: "kpi-label" }, "Cache Write", -1)),
-              d("span", Uk, C(P(G)(e.data.total_cache_write_tokens)), 1)
+              d("span", Nk, C(P(Z)(e.data.total_cache_write_tokens)), 1)
             ])
           ])
-        ])) : (v(), b("section", Xk, [
-          d("div", Gk, [
-            d("div", Zk, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", Wk, [
+          d("div", Hk, [
+            d("div", jk, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             f[5] || (f[5] = d("p", { class: "empty-title" }, "No token usage data", -1)),
             f[6] || (f[6] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters to see token consumption trends.", -1))
@@ -17284,19 +17251,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), t5 = /* @__PURE__ */ st(Jk, [["__scopeId", "data-v-e9e355be"]]), e5 = { class: "conversation-count-card" }, a5 = { class: "card-header" }, n5 = { class: "header-right" }, s5 = { class: "stat-badge" }, o5 = { class: "stat-value" }, i5 = {
+}), Kk = /* @__PURE__ */ it(qk, [["__scopeId", "data-v-e9e355be"]]), Uk = { class: "conversation-count-card" }, Xk = { class: "card-header" }, Gk = { class: "header-right" }, Zk = { class: "stat-badge" }, Qk = { class: "stat-value" }, Jk = {
   key: 0,
   class: "card-body"
-}, r5 = {
+}, t5 = {
   key: 0,
   class: "chart-section"
-}, l5 = { class: "chart-container" }, c5 = {
+}, e5 = { class: "chart-container" }, a5 = {
   key: 1,
   class: "empty-state"
-}, d5 = { class: "empty-state-content" }, u5 = { class: "empty-icon-wrapper" }, h5 = {
+}, n5 = { class: "empty-state-content" }, s5 = { class: "empty-icon-wrapper" }, o5 = {
   key: 1,
   class: "loading-state"
-}, f5 = /* @__PURE__ */ tt({
+}, i5 = /* @__PURE__ */ et({
   __name: "ConversationCount",
   props: {
     data: { default: () => ({}) },
@@ -17417,35 +17384,35 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     });
-    return t({ isDark: n }), (l, c) => (v(), b("article", e5, [
-      d("header", a5, [
+    return t({ isDark: n }), (l, c) => (v(), b("article", Uk, [
+      d("header", Xk, [
         c[1] || (c[1] = d("div", { class: "header-left" }, [
           d("div", { class: "header-content" }, [
             d("h3", { class: "card-title" }, "Conversation Count"),
             d("p", { class: "card-subtitle" }, "Conversations over time")
           ])
         ], -1)),
-        d("div", n5, [
-          d("div", s5, [
+        d("div", Gk, [
+          d("div", Zk, [
             c[0] || (c[0] = d("span", { class: "stat-label" }, "Total", -1)),
-            d("span", o5, C(e.data.total_conversations || 0), 1)
+            d("span", Qk, C(e.data.total_conversations || 0), 1)
           ])
         ])
       ]),
-      e.loading ? (v(), b("div", h5, [...c[4] || (c[4] = [
-        et('<div class="loading-container" data-v-846f24b1><div class="chart-lines-loader" data-v-846f24b1><div class="line line-1" data-v-846f24b1></div><div class="line line-2" data-v-846f24b1></div><div class="line line-3" data-v-846f24b1></div><div class="line line-4" data-v-846f24b1></div><div class="line line-5" data-v-846f24b1></div></div><p class="loading-text" data-v-846f24b1>Loading chart data...</p></div>', 1)
-      ])])) : (v(), b("div", i5, [
-        i.value.labels && i.value.labels.length ? (v(), b("section", r5, [
-          d("div", l5, [
-            X(ke, {
+      e.loading ? (v(), b("div", o5, [...c[4] || (c[4] = [
+        at('<div class="loading-container" data-v-846f24b1><div class="chart-lines-loader" data-v-846f24b1><div class="line line-1" data-v-846f24b1></div><div class="line line-2" data-v-846f24b1></div><div class="line line-3" data-v-846f24b1></div><div class="line line-4" data-v-846f24b1></div><div class="line line-5" data-v-846f24b1></div></div><p class="loading-text" data-v-846f24b1>Loading chart data...</p></div>', 1)
+      ])])) : (v(), b("div", Jk, [
+        i.value.labels && i.value.labels.length ? (v(), b("section", t5, [
+          d("div", e5, [
+            U(ke, {
               data: i.value,
               options: r.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (v(), b("section", c5, [
-          d("div", d5, [
-            d("div", u5, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", a5, [
+          d("div", n5, [
+            d("div", s5, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             c[2] || (c[2] = d("p", { class: "empty-title" }, "No conversation count data", -1)),
             c[3] || (c[3] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters.", -1))
@@ -17454,19 +17421,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), g5 = /* @__PURE__ */ st(f5, [["__scopeId", "data-v-846f24b1"]]), p5 = { class: "top-agents-card" }, v5 = {
+}), r5 = /* @__PURE__ */ it(i5, [["__scopeId", "data-v-846f24b1"]]), l5 = { class: "top-agents-card" }, c5 = {
   key: 0,
   class: "card-body"
-}, m5 = {
+}, d5 = {
   key: 0,
   class: "charts-grid"
-}, b5 = { class: "chart-section" }, y5 = { class: "chart-container" }, _5 = { class: "chart-section" }, x5 = { class: "chart-container" }, k5 = {
+}, u5 = { class: "chart-section" }, h5 = { class: "chart-container" }, f5 = { class: "chart-section" }, g5 = { class: "chart-container" }, p5 = {
   key: 1,
   class: "empty-state"
-}, w5 = { class: "empty-state-content" }, $5 = { class: "empty-icon-wrapper" }, C5 = {
+}, v5 = { class: "empty-state-content" }, m5 = { class: "empty-icon-wrapper" }, b5 = {
   key: 1,
   class: "loading-state"
-}, M5 = /* @__PURE__ */ tt({
+}, y5 = /* @__PURE__ */ et({
   __name: "TopAgentsAnalysis",
   props: {
     data: { default: () => ({}) },
@@ -17646,39 +17613,39 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     });
-    return t({ isDark: n }), (g, p) => (v(), b("article", p5, [
+    return t({ isDark: n }), (g, p) => (v(), b("article", l5, [
       p[5] || (p[5] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Top Agents Analysis"),
           d("p", { class: "card-subtitle" }, "Cost and token usage by agent")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", C5, [...p[4] || (p[4] = [
-        et('<div class="loading-container" data-v-78efa6dc><div class="chart-lines-loader" data-v-78efa6dc><div class="line line-1" data-v-78efa6dc></div><div class="line line-2" data-v-78efa6dc></div><div class="line line-3" data-v-78efa6dc></div><div class="line line-4" data-v-78efa6dc></div><div class="line line-5" data-v-78efa6dc></div></div><p class="loading-text" data-v-78efa6dc>Loading chart data...</p></div>', 1)
-      ])])) : (v(), b("div", v5, [
-        o.value ? (v(), b("div", m5, [
-          d("section", b5, [
+      e.loading ? (v(), b("div", b5, [...p[4] || (p[4] = [
+        at('<div class="loading-container" data-v-78efa6dc><div class="chart-lines-loader" data-v-78efa6dc><div class="line line-1" data-v-78efa6dc></div><div class="line line-2" data-v-78efa6dc></div><div class="line line-3" data-v-78efa6dc></div><div class="line line-4" data-v-78efa6dc></div><div class="line line-5" data-v-78efa6dc></div></div><p class="loading-text" data-v-78efa6dc>Loading chart data...</p></div>', 1)
+      ])])) : (v(), b("div", c5, [
+        o.value ? (v(), b("div", d5, [
+          d("section", u5, [
             p[0] || (p[0] = d("h4", { class: "chart-section-title" }, "Total cost per agent", -1)),
-            d("div", y5, [
-              X(ue, {
+            d("div", h5, [
+              U(de, {
                 data: l.value,
                 options: u.value
               }, null, 8, ["data", "options"])
             ])
           ]),
-          d("section", _5, [
+          d("section", f5, [
             p[1] || (p[1] = d("h4", { class: "chart-section-title" }, "Total tokens per agent", -1)),
-            d("div", x5, [
-              X(ue, {
+            d("div", g5, [
+              U(de, {
                 data: c.value,
                 options: f.value
               }, null, 8, ["data", "options"])
             ])
           ])
-        ])) : (v(), b("section", k5, [
-          d("div", w5, [
-            d("div", $5, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", p5, [
+          d("div", v5, [
+            d("div", m5, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             p[2] || (p[2] = d("p", { class: "empty-title" }, "No top agents data", -1)),
             p[3] || (p[3] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters to see agent analysis.", -1))
@@ -17687,19 +17654,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), S5 = /* @__PURE__ */ st(M5, [["__scopeId", "data-v-78efa6dc"]]), D5 = { class: "top-agents-card" }, A5 = {
+}), _5 = /* @__PURE__ */ it(y5, [["__scopeId", "data-v-78efa6dc"]]), x5 = { class: "top-agents-card" }, k5 = {
   key: 0,
   class: "card-body"
-}, T5 = {
+}, w5 = {
   key: 0,
   class: "chart-section"
-}, B5 = { class: "chart-container" }, L5 = {
+}, $5 = { class: "chart-container" }, C5 = {
   key: 1,
   class: "empty-state"
-}, F5 = { class: "empty-state-content" }, P5 = { class: "empty-icon-wrapper" }, R5 = {
+}, M5 = { class: "empty-state-content" }, S5 = { class: "empty-icon-wrapper" }, D5 = {
   key: 1,
   class: "loading-state"
-}, I5 = /* @__PURE__ */ tt({
+}, A5 = /* @__PURE__ */ et({
   __name: "TopAgents",
   props: {
     data: { default: () => ({}) },
@@ -17792,27 +17759,27 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     });
-    return t({ isDark: n }), (f, g) => (v(), b("article", D5, [
+    return t({ isDark: n }), (f, g) => (v(), b("article", x5, [
       g[3] || (g[3] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Top Agents"),
           d("p", { class: "card-subtitle" }, "Interactions by agent (excluding triage)")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", R5, [...g[2] || (g[2] = [
-        et('<div class="loading-container" data-v-05e3e74d><div class="chart-lines-loader" data-v-05e3e74d><div class="line line-1" data-v-05e3e74d></div><div class="line line-2" data-v-05e3e74d></div><div class="line line-3" data-v-05e3e74d></div><div class="line line-4" data-v-05e3e74d></div><div class="line line-5" data-v-05e3e74d></div></div><p class="loading-text" data-v-05e3e74d>Loading chart data...</p></div>', 1)
-      ])])) : (v(), b("div", A5, [
-        r.value ? (v(), b("section", T5, [
-          d("div", B5, [
-            X(Ga, {
+      e.loading ? (v(), b("div", D5, [...g[2] || (g[2] = [
+        at('<div class="loading-container" data-v-05e3e74d><div class="chart-lines-loader" data-v-05e3e74d><div class="line line-1" data-v-05e3e74d></div><div class="line line-2" data-v-05e3e74d></div><div class="line line-3" data-v-05e3e74d></div><div class="line line-4" data-v-05e3e74d></div><div class="line line-5" data-v-05e3e74d></div></div><p class="loading-text" data-v-05e3e74d>Loading chart data...</p></div>', 1)
+      ])])) : (v(), b("div", k5, [
+        r.value ? (v(), b("section", w5, [
+          d("div", $5, [
+            U(Ga, {
               data: c.value,
               options: u.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (v(), b("section", L5, [
-          d("div", F5, [
-            d("div", P5, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", C5, [
+          d("div", M5, [
+            d("div", S5, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             g[0] || (g[0] = d("p", { class: "empty-title" }, "No top agents data", -1)),
             g[1] || (g[1] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters.", -1))
@@ -17821,19 +17788,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), E5 = /* @__PURE__ */ st(I5, [["__scopeId", "data-v-05e3e74d"]]), O5 = { class: "daily-cost-trends-card" }, V5 = {
+}), T5 = /* @__PURE__ */ it(A5, [["__scopeId", "data-v-05e3e74d"]]), B5 = { class: "daily-cost-trends-card" }, L5 = {
   key: 0,
   class: "card-body"
-}, z5 = {
+}, F5 = {
   key: 0,
   class: "chart-section"
-}, N5 = { class: "chart-container" }, W5 = {
+}, P5 = { class: "chart-container" }, R5 = {
   key: 1,
   class: "empty-state"
-}, H5 = { class: "empty-state-content" }, j5 = { class: "empty-icon-wrapper" }, Y5 = {
+}, I5 = { class: "empty-state-content" }, E5 = { class: "empty-icon-wrapper" }, O5 = {
   key: 1,
   class: "loading-state"
-}, q5 = /* @__PURE__ */ tt({
+}, V5 = /* @__PURE__ */ et({
   __name: "DailyCostTrends",
   props: {
     costData: { default: () => ({}) },
@@ -17982,27 +17949,27 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     });
-    return t({ isDark: n }), (c, u) => (v(), b("article", O5, [
+    return t({ isDark: n }), (c, u) => (v(), b("article", B5, [
       u[3] || (u[3] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Daily Cost Trends"),
           d("p", { class: "card-subtitle" }, "Mean USD/conversation per day")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", Y5, [...u[2] || (u[2] = [
-        et('<div class="loading-container" data-v-e5bac1c5><div class="chart-lines-loader" data-v-e5bac1c5><div class="line line-1" data-v-e5bac1c5></div><div class="line line-2" data-v-e5bac1c5></div><div class="line line-3" data-v-e5bac1c5></div><div class="line line-4" data-v-e5bac1c5></div><div class="line line-5" data-v-e5bac1c5></div></div><p class="loading-text" data-v-e5bac1c5>Loading chart data...</p></div>', 1)
-      ])])) : (v(), b("div", V5, [
-        i.value ? (v(), b("section", z5, [
-          d("div", N5, [
-            X(ke, {
+      e.loading ? (v(), b("div", O5, [...u[2] || (u[2] = [
+        at('<div class="loading-container" data-v-e5bac1c5><div class="chart-lines-loader" data-v-e5bac1c5><div class="line line-1" data-v-e5bac1c5></div><div class="line line-2" data-v-e5bac1c5></div><div class="line line-3" data-v-e5bac1c5></div><div class="line line-4" data-v-e5bac1c5></div><div class="line line-5" data-v-e5bac1c5></div></div><p class="loading-text" data-v-e5bac1c5>Loading chart data...</p></div>', 1)
+      ])])) : (v(), b("div", L5, [
+        i.value ? (v(), b("section", F5, [
+          d("div", P5, [
+            U(ke, {
               data: r.value,
               options: l.value
             }, null, 8, ["data", "options"])
           ])
-        ])) : (v(), b("section", W5, [
-          d("div", H5, [
-            d("div", j5, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", R5, [
+          d("div", I5, [
+            d("div", E5, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             u[0] || (u[0] = d("p", { class: "empty-title" }, "No daily cost trends data", -1)),
             u[1] || (u[1] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters.", -1))
@@ -18011,22 +17978,22 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), K5 = /* @__PURE__ */ st(q5, [["__scopeId", "data-v-e5bac1c5"]]), U5 = { class: "model-usage-card" }, X5 = {
+}), z5 = /* @__PURE__ */ it(V5, [["__scopeId", "data-v-e5bac1c5"]]), N5 = { class: "model-usage-card" }, W5 = {
   key: 0,
   class: "loading-state"
-}, G5 = {
+}, H5 = {
   key: 1,
   class: "card-body"
-}, Z5 = { class: "tabs-container" }, Q5 = {
+}, j5 = { class: "tabs-container" }, Y5 = {
   class: "tabs-nav",
   "aria-label": "Model Usage Tabs"
-}, J5 = ["aria-selected"], tw = ["aria-selected"], ew = {
+}, q5 = ["aria-selected"], K5 = ["aria-selected"], U5 = {
   key: 0,
   class: "table-section"
-}, aw = { class: "table-wrapper" }, nw = { class: "data-table" }, sw = { class: "table-header-row" }, ow = { class: "table-header" }, iw = { class: "table-body" }, rw = { class: "table-cell name-cell" }, lw = { class: "table-cell text-center" }, cw = { class: "table-cell text-center" }, dw = { class: "table-cell text-center" }, uw = { class: "table-cell text-center cost-cell" }, hw = { class: "table-cell text-center" }, fw = {
+}, X5 = { class: "table-wrapper" }, G5 = { class: "data-table" }, Z5 = { class: "table-header-row" }, Q5 = { class: "table-header" }, J5 = { class: "table-body" }, tw = { class: "table-cell name-cell" }, ew = { class: "table-cell text-center" }, aw = { class: "table-cell text-center" }, nw = { class: "table-cell text-center" }, sw = { class: "table-cell text-center cost-cell" }, ow = { class: "table-cell text-center" }, iw = {
   key: 1,
   class: "empty-state"
-}, gw = { class: "empty-state-content" }, pw = { class: "empty-icon-wrapper" }, vw = /* @__PURE__ */ tt({
+}, rw = { class: "empty-state-content" }, lw = { class: "empty-icon-wrapper" }, cw = /* @__PURE__ */ et({
   __name: "ModelUsage",
   props: {
     data: { default: () => ({
@@ -18042,39 +18009,39 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
   setup(e, { expose: t, emit: a }) {
     const n = e, s = a, o = (f) => {
       s("export", f);
-    }, { isDark: i } = ft(ht(n, "theme")), r = at("by_model"), l = D(() => r.value === "by_model" ? n.data?.total_by_model || {} : n.data?.total_by_provider || {}), c = (f) => f == null ? "0" : G(f), u = (f) => f == null ? "$0.00" : xt(f);
-    return t({ isDark: i }), (f, g) => (v(), b("article", U5, [
+    }, { isDark: i } = ht(ut(n, "theme")), r = nt("by_model"), l = D(() => r.value === "by_model" ? n.data?.total_by_model || {} : n.data?.total_by_provider || {}), c = (f) => f == null ? "0" : Z(f), u = (f) => f == null ? "$0.00" : xt(f);
+    return t({ isDark: i }), (f, g) => (v(), b("article", N5, [
       g[10] || (g[10] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Model Usage"),
           d("p", { class: "card-subtitle" }, "AI model performance and costs")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", X5, [...g[2] || (g[2] = [
-        et('<div class="loading-container" data-v-a7bf2d7b><div class="chart-bars-loader" data-v-a7bf2d7b><div class="bar bar-1" data-v-a7bf2d7b></div><div class="bar bar-2" data-v-a7bf2d7b></div><div class="bar bar-3" data-v-a7bf2d7b></div><div class="bar bar-4" data-v-a7bf2d7b></div><div class="bar bar-5" data-v-a7bf2d7b></div></div><p class="loading-text" data-v-a7bf2d7b>Loading model usage data...</p></div>', 1)
-      ])])) : (v(), b("div", G5, [
-        d("div", Z5, [
-          d("nav", Q5, [
+      e.loading ? (v(), b("div", W5, [...g[2] || (g[2] = [
+        at('<div class="loading-container" data-v-a7bf2d7b><div class="chart-bars-loader" data-v-a7bf2d7b><div class="bar bar-1" data-v-a7bf2d7b></div><div class="bar bar-2" data-v-a7bf2d7b></div><div class="bar bar-3" data-v-a7bf2d7b></div><div class="bar bar-4" data-v-a7bf2d7b></div><div class="bar bar-5" data-v-a7bf2d7b></div></div><p class="loading-text" data-v-a7bf2d7b>Loading model usage data...</p></div>', 1)
+      ])])) : (v(), b("div", H5, [
+        d("div", j5, [
+          d("nav", Y5, [
             d("button", {
               onClick: g[0] || (g[0] = (p) => r.value = "by_model"),
               class: q(["tab-button", { "tab-active": r.value === "by_model" }]),
               "aria-selected": r.value === "by_model",
               role: "tab"
-            }, " Model ", 10, J5),
+            }, " Model ", 10, q5),
             d("button", {
               onClick: g[1] || (g[1] = (p) => r.value = "by_provider"),
               class: q(["tab-button", { "tab-active": r.value === "by_provider" }]),
               "aria-selected": r.value === "by_provider",
               role: "tab"
-            }, " Provider ", 10, tw)
+            }, " Provider ", 10, K5)
           ])
         ]),
-        l.value && Object.keys(l.value).length > 0 ? (v(), b("div", ew, [
-          d("div", aw, [
-            d("table", nw, [
+        l.value && Object.keys(l.value).length > 0 ? (v(), b("div", U5, [
+          d("div", X5, [
+            d("table", G5, [
               d("thead", null, [
-                d("tr", sw, [
-                  d("th", ow, C(r.value === "by_model" ? "Model" : "Provider"), 1),
+                d("tr", Z5, [
+                  d("th", Q5, C(r.value === "by_model" ? "Model" : "Provider"), 1),
                   g[3] || (g[3] = d("th", { class: "table-header" }, "Avg cost per message", -1)),
                   g[4] || (g[4] = d("th", { class: "table-header" }, "Avg tokens per message", -1)),
                   g[5] || (g[5] = d("th", { class: "table-header" }, "Message count", -1)),
@@ -18082,17 +18049,17 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
                   g[7] || (g[7] = d("th", { class: "table-header" }, "Total tokens", -1))
                 ])
               ]),
-              d("tbody", iw, [
-                (v(!0), b(Q, null, nt(l.value, (p, h) => (v(), b("tr", {
+              d("tbody", J5, [
+                (v(!0), b(Q, null, st(l.value, (p, h) => (v(), b("tr", {
                   key: h,
                   class: "table-row"
                 }, [
-                  d("td", rw, C(h), 1),
-                  d("td", lw, C(u(p.avg_cost_per_message)), 1),
-                  d("td", cw, C(c(p.avg_tokens_per_message)), 1),
-                  d("td", dw, C(c(p.message_count)), 1),
-                  d("td", uw, C(u(p.total_cost)), 1),
-                  d("td", hw, C(c(p.total_tokens)), 1)
+                  d("td", tw, C(h), 1),
+                  d("td", ew, C(u(p.avg_cost_per_message)), 1),
+                  d("td", aw, C(c(p.avg_tokens_per_message)), 1),
+                  d("td", nw, C(c(p.message_count)), 1),
+                  d("td", sw, C(u(p.total_cost)), 1),
+                  d("td", ow, C(c(p.total_tokens)), 1)
                 ]))), 128))
               ])
             ])
@@ -18102,10 +18069,10 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             onExport: o,
             loading: e.exportLoading
           }, null, 8, ["loading"])) : V("", !0)
-        ])) : (v(), b("div", fw, [
-          d("div", gw, [
-            d("div", pw, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("div", iw, [
+          d("div", rw, [
+            d("div", lw, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             g[8] || (g[8] = d("p", { class: "empty-title" }, "No model usage data available", -1)),
             g[9] || (g[9] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters to see model performance metrics.", -1))
@@ -18114,19 +18081,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), mw = /* @__PURE__ */ st(vw, [["__scopeId", "data-v-a7bf2d7b"]]), bw = { class: "message-roles-card" }, yw = {
+}), dw = /* @__PURE__ */ it(cw, [["__scopeId", "data-v-a7bf2d7b"]]), uw = { class: "message-roles-card" }, hw = {
   key: 0,
   class: "loading-state"
-}, _w = {
+}, fw = {
   key: 1,
   class: "card-body"
-}, xw = {
+}, gw = {
   key: 0,
   class: "table-section"
-}, kw = { class: "table-wrapper" }, ww = { class: "data-table" }, $w = { class: "table-body" }, Cw = { class: "table-cell name-cell" }, Mw = { class: "table-cell text-center" }, Sw = { class: "table-cell text-center" }, Dw = { class: "table-cell text-center" }, Aw = { class: "table-cell text-center cost-cell" }, Tw = { class: "table-cell text-center" }, Bw = {
+}, pw = { class: "table-wrapper" }, vw = { class: "data-table" }, mw = { class: "table-body" }, bw = { class: "table-cell name-cell" }, yw = { class: "table-cell text-center" }, _w = { class: "table-cell text-center" }, xw = { class: "table-cell text-center" }, kw = { class: "table-cell text-center cost-cell" }, ww = { class: "table-cell text-center" }, $w = {
   key: 1,
   class: "empty-state"
-}, Lw = { class: "empty-state-content" }, Fw = { class: "empty-icon-wrapper" }, Pw = /* @__PURE__ */ tt({
+}, Cw = { class: "empty-state-content" }, Mw = { class: "empty-icon-wrapper" }, Sw = /* @__PURE__ */ et({
   __name: "MessageRoles",
   props: {
     data: { default: () => ({
@@ -18141,20 +18108,20 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
   setup(e, { expose: t, emit: a }) {
     const n = e, s = a, o = (p) => {
       s("export", p);
-    }, { isDark: i } = ft(ht(n, "theme")), r = ["assistant", "system", "user"], l = D(() => n.data?.total_by_role || {}), c = D(() => Object.keys(l.value).length > 0), u = (p) => p == null ? "0" : G(p), f = (p) => p == null ? "$0.00" : xt(p), g = (p) => p.charAt(0).toUpperCase() + p.slice(1);
-    return t({ isDark: i }), (p, h) => (v(), b("article", bw, [
+    }, { isDark: i } = ht(ut(n, "theme")), r = ["assistant", "system", "user"], l = D(() => n.data?.total_by_role || {}), c = D(() => Object.keys(l.value).length > 0), u = (p) => p == null ? "0" : Z(p), f = (p) => p == null ? "$0.00" : xt(p), g = (p) => p.charAt(0).toUpperCase() + p.slice(1);
+    return t({ isDark: i }), (p, h) => (v(), b("article", uw, [
       h[4] || (h[4] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Message Roles"),
           d("p", { class: "card-subtitle" }, "Performance by message role")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", yw, [...h[0] || (h[0] = [
-        et('<div class="loading-container" data-v-6a953cfc><div class="chart-bars-loader" data-v-6a953cfc><div class="bar bar-1" data-v-6a953cfc></div><div class="bar bar-2" data-v-6a953cfc></div><div class="bar bar-3" data-v-6a953cfc></div><div class="bar bar-4" data-v-6a953cfc></div><div class="bar bar-5" data-v-6a953cfc></div></div><p class="loading-text" data-v-6a953cfc>Loading message role data...</p></div>', 1)
-      ])])) : (v(), b("div", _w, [
-        c.value ? (v(), b("div", xw, [
-          d("div", kw, [
-            d("table", ww, [
+      e.loading ? (v(), b("div", hw, [...h[0] || (h[0] = [
+        at('<div class="loading-container" data-v-6a953cfc><div class="chart-bars-loader" data-v-6a953cfc><div class="bar bar-1" data-v-6a953cfc></div><div class="bar bar-2" data-v-6a953cfc></div><div class="bar bar-3" data-v-6a953cfc></div><div class="bar bar-4" data-v-6a953cfc></div><div class="bar bar-5" data-v-6a953cfc></div></div><p class="loading-text" data-v-6a953cfc>Loading message role data...</p></div>', 1)
+      ])])) : (v(), b("div", fw, [
+        c.value ? (v(), b("div", gw, [
+          d("div", pw, [
+            d("table", vw, [
               h[1] || (h[1] = d("thead", null, [
                 d("tr", { class: "table-header-row" }, [
                   d("th", { class: "table-header" }, "Role"),
@@ -18165,17 +18132,17 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
                   d("th", { class: "table-header" }, "Total tokens")
                 ])
               ], -1)),
-              d("tbody", $w, [
-                (v(), b(Q, null, nt(r, (m) => d("tr", {
+              d("tbody", mw, [
+                (v(), b(Q, null, st(r, (m) => d("tr", {
                   key: m,
                   class: "table-row"
                 }, [
-                  d("td", Cw, C(g(m)), 1),
-                  d("td", Mw, C(f(l.value[m]?.avg_cost_per_message)), 1),
-                  d("td", Sw, C(u(l.value[m]?.avg_tokens_per_message)), 1),
-                  d("td", Dw, C(u(l.value[m]?.message_count)), 1),
-                  d("td", Aw, C(f(l.value[m]?.total_cost)), 1),
-                  d("td", Tw, C(u(l.value[m]?.total_tokens)), 1)
+                  d("td", bw, C(g(m)), 1),
+                  d("td", yw, C(f(l.value[m]?.avg_cost_per_message)), 1),
+                  d("td", _w, C(u(l.value[m]?.avg_tokens_per_message)), 1),
+                  d("td", xw, C(u(l.value[m]?.message_count)), 1),
+                  d("td", kw, C(f(l.value[m]?.total_cost)), 1),
+                  d("td", ww, C(u(l.value[m]?.total_tokens)), 1)
                 ])), 64))
               ])
             ])
@@ -18185,10 +18152,10 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             onExport: o,
             loading: e.exportLoading
           }, null, 8, ["loading"])) : V("", !0)
-        ])) : (v(), b("div", Bw, [
-          d("div", Lw, [
-            d("div", Fw, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("div", $w, [
+          d("div", Cw, [
+            d("div", Mw, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             h[2] || (h[2] = d("p", { class: "empty-title" }, "No message role data available", -1)),
             h[3] || (h[3] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters to see message role metrics.", -1))
@@ -18197,19 +18164,19 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), Rw = /* @__PURE__ */ st(Pw, [["__scopeId", "data-v-6a953cfc"]]), Iw = { class: "cost-per-conversation-card" }, Ew = {
+}), Dw = /* @__PURE__ */ it(Sw, [["__scopeId", "data-v-6a953cfc"]]), Aw = { class: "cost-per-conversation-card" }, Tw = {
   key: 0,
   class: "card-body"
-}, Ow = {
+}, Bw = {
   key: 0,
   class: "chart-section"
-}, Vw = { class: "chart-container" }, zw = { class: "kpi-grid" }, Nw = { class: "kpi-card" }, Ww = { class: "kpi-value" }, Hw = { class: "kpi-card" }, jw = { class: "kpi-value" }, Yw = { class: "kpi-card" }, qw = { class: "kpi-value" }, Kw = { class: "kpi-card highlighted" }, Uw = { class: "kpi-value gradient-text" }, Xw = {
+}, Lw = { class: "chart-container" }, Fw = { class: "kpi-grid" }, Pw = { class: "kpi-card" }, Rw = { class: "kpi-value" }, Iw = { class: "kpi-card" }, Ew = { class: "kpi-value" }, Ow = { class: "kpi-card" }, Vw = { class: "kpi-value" }, zw = { class: "kpi-card highlighted" }, Nw = { class: "kpi-value gradient-text" }, Ww = {
   key: 1,
   class: "empty-state"
-}, Gw = { class: "empty-state-content" }, Zw = { class: "empty-icon-wrapper" }, Qw = {
+}, Hw = { class: "empty-state-content" }, jw = { class: "empty-icon-wrapper" }, Yw = {
   key: 1,
   class: "loading-state"
-}, Jw = /* @__PURE__ */ tt({
+}, qw = /* @__PURE__ */ et({
   __name: "CostPerConversations",
   props: {
     data: { default: () => ({ top_agents: [] }) },
@@ -18327,39 +18294,39 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
         }
       }
     });
-    return t({ isDark: i }), ($, A) => (v(), b("article", Iw, [
+    return t({ isDark: i }), ($, A) => (v(), b("article", Aw, [
       A[7] || (A[7] = d("header", { class: "card-header" }, [
         d("div", { class: "header-content" }, [
           d("h3", { class: "card-title" }, "Cost Per Conversation"),
           d("p", { class: "card-subtitle" }, "USD per conversation by agent")
         ])
       ], -1)),
-      e.loading ? (v(), b("div", Qw, [...A[6] || (A[6] = [
-        et('<div class="loading-container" data-v-17f6615c><div class="chart-bars-loader" data-v-17f6615c><div class="bar bar-1" data-v-17f6615c></div><div class="bar bar-2" data-v-17f6615c></div><div class="bar bar-3" data-v-17f6615c></div><div class="bar bar-4" data-v-17f6615c></div><div class="bar bar-5" data-v-17f6615c></div></div><p class="loading-text" data-v-17f6615c>Loading agent costs...</p></div>', 1)
-      ])])) : (v(), b("div", Ew, [
-        y.value.labels && y.value.labels.length ? (v(), b("section", Ow, [
-          d("div", Vw, [
-            X(ue, {
+      e.loading ? (v(), b("div", Yw, [...A[6] || (A[6] = [
+        at('<div class="loading-container" data-v-17f6615c><div class="chart-bars-loader" data-v-17f6615c><div class="bar bar-1" data-v-17f6615c></div><div class="bar bar-2" data-v-17f6615c></div><div class="bar bar-3" data-v-17f6615c></div><div class="bar bar-4" data-v-17f6615c></div><div class="bar bar-5" data-v-17f6615c></div></div><p class="loading-text" data-v-17f6615c>Loading agent costs...</p></div>', 1)
+      ])])) : (v(), b("div", Tw, [
+        y.value.labels && y.value.labels.length ? (v(), b("section", Bw, [
+          d("div", Lw, [
+            U(de, {
               data: y.value,
               options: _.value
             }, null, 8, ["data", "options"])
           ]),
-          d("footer", zw, [
-            d("div", Nw, [
+          d("footer", Fw, [
+            d("div", Pw, [
               A[0] || (A[0] = d("span", { class: "kpi-label" }, "Total Agents", -1)),
-              d("span", Ww, C(g.value.length), 1)
+              d("span", Rw, C(g.value.length), 1)
             ]),
-            d("div", Hw, [
+            d("div", Iw, [
               A[1] || (A[1] = d("span", { class: "kpi-label" }, "Total Conversations", -1)),
-              d("span", jw, C(P(G)(p.value)), 1)
+              d("span", Ew, C(P(Z)(p.value)), 1)
             ]),
-            d("div", Yw, [
+            d("div", Ow, [
               A[2] || (A[2] = d("span", { class: "kpi-label" }, "Total Cost", -1)),
-              d("span", qw, C(P(xt)(h.value)), 1)
+              d("span", Vw, C(P(xt)(h.value)), 1)
             ]),
-            d("div", Kw, [
+            d("div", zw, [
               A[3] || (A[3] = d("span", { class: "kpi-label" }, "Avg Cost / Conv.", -1)),
-              d("span", Uw, C(P(xt)(m.value)), 1)
+              d("span", Nw, C(P(xt)(m.value)), 1)
             ])
           ]),
           e.enableExport ? (v(), pt(P(St), {
@@ -18367,10 +18334,10 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
             onExport: o,
             loading: e.exportLoading
           }, null, 8, ["loading"])) : V("", !0)
-        ])) : (v(), b("section", Xw, [
-          d("div", Gw, [
-            d("div", Zw, [
-              X(P(Ht), { class: "empty-icon" })
+        ])) : (v(), b("section", Ww, [
+          d("div", Hw, [
+            d("div", jw, [
+              U(P(Nt), { class: "empty-icon" })
             ]),
             A[4] || (A[4] = d("p", { class: "empty-title" }, "No cost per conversation data", -1)),
             A[5] || (A[5] = d("p", { class: "empty-description" }, "No agent data found for the selected period. Try adjusting the date range.", -1))
@@ -18379,12 +18346,12 @@ const ap = { class: "chart-footer" }, np = { class: "export-actions" }, sp = { c
       ]))
     ]));
   }
-}), t$ = /* @__PURE__ */ st(Jw, [["__scopeId", "data-v-17f6615c"]]);
-function Pt() {
+}), Kw = /* @__PURE__ */ it(qw, [["__scopeId", "data-v-17f6615c"]]);
+function Lt() {
   const e = new Uint8Array(8);
   return globalThis.crypto.getRandomValues(e), Array.from(e, (t) => t.toString(16).padStart(2, "0")).join("");
 }
-const e$ = { class: "tabs text-sm" }, a$ = ["aria-label"], n$ = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], s$ = { class: "truncate whitespace-nowrap font-medium tracking-tight" }, o$ = /* @__PURE__ */ tt({
+const Uw = { class: "tabs text-sm" }, Xw = ["aria-label"], Gw = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], Zw = { class: "truncate whitespace-nowrap font-medium tracking-tight" }, Qw = /* @__PURE__ */ et({
   name: "Tabs",
   __name: "Tabs",
   props: {
@@ -18429,7 +18396,7 @@ const e$ = { class: "tabs text-sm" }, a$ = ["aria-label"], n$ = ["id", "aria-sel
       const $ = a.items[_];
       !$ || $.disabled || (u($.value, a.modelValue), await Bt(), s.value[_]?.focus());
     }
-    return (h, m) => (v(), b("div", e$, [
+    return (h, m) => (v(), b("div", Uw, [
       d("div", {
         role: "tablist",
         "aria-label": e.ariaLabel,
@@ -18461,11 +18428,11 @@ const e$ = { class: "tabs text-sm" }, a$ = ["aria-label"], n$ = ["id", "aria-sel
               class: "h-[1.125rem] w-[1.125rem] shrink-0",
               "aria-hidden": "true"
             })) : V("", !0),
-            d("span", s$, C(y.label), 1)
+            d("span", Zw, C(y.label), 1)
           ], 2)
-        ], 42, n$))), 128))
-      ], 10, a$),
-      h.$slots.default ? (v(), pt(En, {
+        ], 42, Gw))), 128))
+      ], 10, Xw),
+      h.$slots.default ? (v(), ft(En, {
         key: 0,
         name: "tabs-panel",
         mode: "out-in"
@@ -18482,8 +18449,8 @@ const e$ = { class: "tabs text-sm" }, a$ = ["aria-label"], n$ = ["id", "aria-sel
       })) : V("", !0)
     ]));
   }
-}), i$ = /* @__PURE__ */ st(o$, [["__scopeId", "data-v-0cc67b12"]]);
-function r$(e, t) {
+}), Jw = /* @__PURE__ */ it(Qw, [["__scopeId", "data-v-0cc67b12"]]);
+function t$(e, t) {
   return v(), b("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
@@ -18494,7 +18461,7 @@ function r$(e, t) {
     d("path", { d: "M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" })
   ]);
 }
-function l$(e, t) {
+function e$(e, t) {
   return v(), b("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
@@ -18505,16 +18472,16 @@ function l$(e, t) {
     d("path", { d: "M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" })
   ]);
 }
-const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, u$ = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, h$ = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, f$ = ["aria-label", "aria-expanded", "aria-controls", "onClick"], g$ = { class: "truncate" }, p$ = {
+const a$ = ["aria-label"], n$ = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, s$ = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, o$ = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, i$ = ["aria-label", "aria-expanded", "aria-controls", "onClick"], r$ = { class: "truncate" }, l$ = {
   key: 0,
   class: "ml-0.5 inline-flex min-h-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full bg-[color:var(--kiut-primary)]/20 px-1 text-[10px] font-semibold tabular-nums text-[color:var(--kiut-primary-default)] dark:bg-[color:var(--kiut-primary)]/25 dark:text-[color:var(--kiut-primary-light)]"
-}, v$ = {
+}, c$ = {
   key: 0,
   class: "mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5"
-}, m$ = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, b$ = ["aria-label", "onClick"], y$ = ["aria-label", "onClick"], _$ = ["aria-label"], x$ = ["aria-label"], k$ = {
+}, d$ = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, u$ = ["aria-label", "onClick"], h$ = ["aria-label", "onClick"], f$ = ["aria-label"], g$ = ["aria-label"], p$ = {
   key: 1,
   class: "space-y-2"
-}, w$ = ["for"], $$ = ["id", "placeholder", "onKeydown"], C$ = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, M$ = ["aria-label"], S$ = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, D$ = ["checked", "onChange"], A$ = { class: "min-w-0 flex-1" }, T$ = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, B$ = { class: "flex flex-wrap items-end gap-2" }, L$ = { class: "min-w-[120px] flex-1" }, F$ = ["for"], P$ = ["id"], R$ = { class: "min-w-[120px] flex-1" }, I$ = ["for"], E$ = ["id"], O$ = /* @__PURE__ */ tt({
+}, v$ = ["for"], m$ = ["id", "placeholder", "onKeydown"], b$ = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, y$ = ["aria-label"], _$ = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, x$ = ["checked", "onChange"], k$ = { class: "min-w-0 flex-1" }, w$ = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, $$ = { class: "flex flex-wrap items-end gap-2" }, C$ = { class: "min-w-[120px] flex-1" }, M$ = ["for"], S$ = ["id"], D$ = { class: "min-w-[120px] flex-1" }, A$ = ["for"], T$ = ["id"], B$ = /* @__PURE__ */ et({
   name: "Filters",
   __name: "Filters",
   props: {
@@ -18601,9 +18568,9 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       const W = Ft(O, "YYYY-MM-DD", !0);
       return W.isValid() ? W.format("L") : O;
     }
-    function R(O) {
-      const W = c.value === O.id && u.value, J = !x(O, T(O.id));
-      return W || J ? "border border-solid border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)] dark:bg-[color:var(--kiut-primary)]/15 dark:text-[color:var(--kiut-primary-light)]" : "border border-dashed border-slate-400/90 text-[color:var(--kiut-text-secondary)] hover:border-[color:var(--kiut-primary)]/50 hover:bg-slate-50 dark:border-slate-500 dark:text-slate-400 dark:hover:border-[color:var(--kiut-primary-light)]/40 dark:hover:bg-white/[0.04]";
+    function E(O) {
+      const W = c.value === O.id && u.value, tt = !x(O, T(O.id));
+      return W || tt ? "border border-solid border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)] dark:bg-[color:var(--kiut-primary)]/15 dark:text-[color:var(--kiut-primary-light)]" : "border border-dashed border-[#838395] text-[color:var(--kiut-text-secondary)] hover:border-[#838395] hover:bg-slate-50 dark:border-[#838395] dark:text-slate-400 dark:hover:border-[#838395] dark:hover:bg-white/[0.04]";
     }
     function j(O) {
       return x(O, T(O.id)) ? gt(O) : `Editar filtro ${O.label.replace(/^\+\s*/, "")}`;
@@ -18770,11 +18737,11 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       role: "region",
       "aria-label": e.regionAriaLabel
     }, [
-      d("div", d$, [
-        d("span", u$, C(e.label), 1),
-        d("div", h$, [
-          (v(!0), b(Q, null, nt(e.filterDefinitions, (J) => (v(), b("button", {
-            key: `pill-${J.id}`,
+      d("div", n$, [
+        d("span", s$, C(e.label), 1),
+        d("div", o$, [
+          (v(!0), b(Q, null, st(e.filterDefinitions, (tt) => (v(), b("button", {
+            key: `pill-${tt.id}`,
             ref_for: !0,
             ref: (vt) => A(J.id, vt),
             type: "button",
@@ -18785,19 +18752,19 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-controls": c.value === J.id ? i : void 0,
             onClick: (vt) => z(J, vt)
           }, [
-            X(P(r$), {
-              class: "h-3.5 w-3.5 shrink-0",
+            U(P(t$), {
+              class: "h-2.5 w-2.5 shrink-0",
               "aria-hidden": "true"
             }),
-            d("span", g$, C(J.label), 1),
-            J.type === "select" && F(J) > 0 ? (v(), b("span", p$, C(F(J)), 1)) : V("", !0)
-          ], 10, f$))), 128))
+            d("span", r$, C(tt.label), 1),
+            tt.type === "select" && F(tt) > 0 ? (v(), b("span", l$, C(F(tt)), 1)) : V("", !0)
+          ], 10, i$))), 128))
         ])
       ]),
-      k.value ? (v(), b("div", v$, [
-        d("div", m$, [
-          (v(!0), b(Q, null, nt(S.value, (J) => (v(), b("div", {
-            key: J.key,
+      k.value ? (v(), b("div", c$, [
+        d("div", d$, [
+          (v(!0), b(Q, null, st(S.value, (tt) => (v(), b("div", {
+            key: tt.key,
             "data-kiut-filter-chip": "",
             class: "inline-flex h-[26px] max-w-full items-center gap-1 rounded-full border border-[color:var(--kiut-border-light)] bg-slate-100/90 pl-2 pr-1 text-[color:var(--kiut-text-primary)] dark:bg-white/[0.08] dark:text-slate-100"
           }, [
@@ -18814,26 +18781,26 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
               }, () => [
                 wt(C(M(J)), 1)
               ], !0)
-            ], 8, b$),
+            ], 8, u$),
             d("button", {
               type: "button",
               class: "shrink-0 rounded p-0.5 text-[color:var(--kiut-text-muted)] transition hover:bg-black/5 hover:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/10 dark:hover:text-slate-100",
               "aria-label": $t(J),
               onClick: (vt) => ct(J)
             }, [
-              X(P(l$), {
+              U(P(e$), {
                 class: "h-3.5 w-3.5",
                 "aria-hidden": "true"
               })
-            ], 8, y$)
+            ], 8, h$)
           ]))), 128))
         ]),
         d("button", {
           type: "button",
           class: "shrink-0 text-[color:var(--kiut-text-secondary)] underline-offset-2 transition hover:text-[color:var(--kiut-primary)] hover:underline dark:text-slate-400 dark:hover:text-[color:var(--kiut-primary-light)]",
           "aria-label": ar.value,
-          onClick: lt
-        }, C(e.clearLabel), 9, _$)
+          onClick: mt
+        }, C(e.clearLabel), 9, f$)
       ])) : V("", !0),
       (v(), pt(On, { to: "body" }, [
         c.value && u.value ? (v(), b("div", {
@@ -18856,24 +18823,24 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
               close: rt,
               value: $.value,
               updateValue: ot
-            }, void 0, !0) : (v(), b("div", k$, [
+            }, void 0, !0) : (v(), b("div", p$, [
               _.value.type === "text" ? (v(), b(Q, { key: 0 }, [
                 d("label", {
                   for: `${i}-text`,
                   class: "block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-                }, C(_.value.label), 9, w$),
-                Xt(d("input", {
+                }, C(_.value.label), 9, v$),
+                Kt(d("input", {
                   id: `${i}-text`,
                   "onUpdate:modelValue": W[0] || (W[0] = (J) => p.value = J),
                   type: "text",
                   class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500",
                   placeholder: _.value.placeholder ?? "…",
-                  onKeydown: Pa(ne(rt, ["prevent"]), ["enter"])
-                }, null, 40, $$), [
+                  onKeydown: Pa(ae(J, ["prevent"]), ["enter"])
+                }, null, 40, m$), [
                   [Le, p.value]
                 ])
               ], 64)) : _.value.type === "select" ? (v(), b(Q, { key: 1 }, [
-                d("p", C$, C(_.value.label), 1),
+                d("p", b$, C(_.value.label), 1),
                 d("ul", {
                   class: "max-h-[min(280px,50vh)] space-y-0.5 overflow-y-auto",
                   role: "listbox",
@@ -18883,45 +18850,45 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
                   (v(!0), b(Q, null, nt(_.value.options, (J) => (v(), b("li", {
                     key: J.value
                   }, [
-                    d("label", S$, [
+                    d("label", _$, [
                       d("input", {
                         type: "checkbox",
                         class: "kiut-filter-ms-checkbox shrink-0",
-                        checked: h.value.includes(J.value),
-                        onChange: (vt) => H(J.value)
-                      }, null, 40, D$),
-                      d("span", A$, C(J.label), 1)
+                        checked: h.value.includes(tt.value),
+                        onChange: (gt) => j(tt.value)
+                      }, null, 40, x$),
+                      d("span", k$, C(tt.label), 1)
                     ])
                   ]))), 128))
-                ], 8, M$)
+                ], 8, y$)
               ], 64)) : _.value.type === "dateRange" ? (v(), b(Q, { key: 2 }, [
-                d("p", T$, C(_.value.label), 1),
-                d("div", B$, [
-                  d("div", L$, [
+                d("p", w$, C(_.value.label), 1),
+                d("div", $$, [
+                  d("div", C$, [
                     d("label", {
                       for: `${i}-start`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Desde ", 8, F$),
-                    Xt(d("input", {
+                    }, " Desde ", 8, M$),
+                    Kt(d("input", {
                       id: `${i}-start`,
                       "onUpdate:modelValue": W[1] || (W[1] = (J) => m.value = J),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
-                    }, null, 8, P$), [
+                    }, null, 8, S$), [
                       [Le, m.value]
                     ])
                   ]),
-                  d("div", R$, [
+                  d("div", D$, [
                     d("label", {
                       for: `${i}-end`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Hasta ", 8, I$),
-                    Xt(d("input", {
+                    }, " Hasta ", 8, A$),
+                    Kt(d("input", {
                       id: `${i}-end`,
                       "onUpdate:modelValue": W[2] || (W[2] = (J) => y.value = J),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
-                    }, null, 8, E$), [
+                    }, null, 8, T$), [
                       [Le, y.value]
                     ])
                   ])
@@ -18929,11 +18896,11 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
               ], 64)) : V("", !0)
             ]))
           ], 64)) : V("", !0)
-        ], 44, x$)) : V("", !0)
+        ], 44, g$)) : V("", !0)
       ]))
-    ], 8, c$));
+    ], 8, a$));
   }
-}), V$ = /* @__PURE__ */ st(O$, [["__scopeId", "data-v-4403df66"]]), Zt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100", fe = "min-h-[2.75rem] w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", z$ = "min-h-[5.5rem] w-full resize-y rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans leading-normal text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", $e = "border-red-500 focus:border-red-500 focus:ring-red-500/25 dark:border-red-400", ge = "mt-1 text-xs font-medium text-red-600 dark:text-red-400", N$ = { class: "font-sans" }, W$ = ["for"], H$ = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], j$ = ["id"], Y$ = /* @__PURE__ */ tt({
+}), L$ = /* @__PURE__ */ it(B$, [["__scopeId", "data-v-f38e0100"]]), Xt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100", he = "min-h-[2.75rem] w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", F$ = "min-h-[5.5rem] w-full resize-y rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans leading-normal text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", $e = "border-red-500 focus:border-red-500 focus:ring-red-500/25 dark:border-red-400", fe = "mt-1 text-xs font-medium text-red-600 dark:text-red-400", P$ = { class: "font-sans" }, R$ = ["for"], I$ = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], E$ = ["id"], O$ = /* @__PURE__ */ et({
   name: "InputText",
   __name: "InputText",
   props: {
@@ -18951,13 +18918,13 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       get: () => a.modelValue,
       set: (l) => n("update:modelValue", l)
     });
-    return (l, c) => (v(), b("div", N$, [
+    return (l, c) => (v(), b("div", P$, [
       e.label ? (v(), b("label", {
         key: 0,
         for: o.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, W$)) : V("", !0),
-      Xt(d("input", {
+        class: q(P(Xt))
+      }, C(e.label), 11, R$)) : V("", !0),
+      Kt(d("input", {
         id: o.value,
         "onUpdate:modelValue": c[0] || (c[0] = (u) => r.value = u),
         type: "text",
@@ -18967,7 +18934,7 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
         disabled: e.disabled,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 10, H$), [
+      }, null, 10, I$), [
         [Le, r.value]
       ]),
       e.errorText ? (v(), b("p", {
@@ -18975,10 +18942,10 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
         id: i.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, j$)) : V("", !0)
+      }, C(e.errorText), 11, E$)) : V("", !0)
     ]));
   }
-}), q$ = { class: "font-sans" }, K$ = ["for"], U$ = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], X$ = ["id"], G$ = /* @__PURE__ */ tt({
+}), V$ = { class: "font-sans" }, z$ = ["for"], N$ = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], W$ = ["id"], H$ = /* @__PURE__ */ et({
   name: "InputTextarea",
   __name: "InputTextarea",
   props: {
@@ -18997,23 +18964,23 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       get: () => a.modelValue,
       set: (l) => n("update:modelValue", l)
     });
-    return (l, c) => (v(), b("div", q$, [
+    return (l, c) => (v(), b("div", V$, [
       e.label ? (v(), b("label", {
         key: 0,
         for: o.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, K$)) : V("", !0),
-      Xt(d("textarea", {
+        class: q(P(Xt))
+      }, C(e.label), 11, z$)) : V("", !0),
+      Kt(d("textarea", {
         id: o.value,
         "onUpdate:modelValue": c[0] || (c[0] = (u) => r.value = u),
         rows: e.rows,
         autocomplete: "off",
-        class: q([P(z$), e.invalid ? P($e) : ""]),
+        class: q([P(F$), e.invalid ? P($e) : ""]),
         placeholder: e.placeholder,
         disabled: e.disabled,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 10, U$), [
+      }, null, 10, N$), [
         [Le, r.value]
       ]),
       e.errorText ? (v(), b("p", {
@@ -19021,10 +18988,10 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
         id: i.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, X$)) : V("", !0)
+      }, C(e.errorText), 11, W$)) : V("", !0)
     ]));
   }
-}), Z$ = { class: "font-sans" }, Q$ = ["for"], J$ = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], t4 = ["for"], e4 = ["title"], a4 = ["aria-label"], n4 = ["id"], s4 = /* @__PURE__ */ tt({
+}), j$ = { class: "font-sans" }, Y$ = ["for"], q$ = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], K$ = ["for"], U$ = ["title"], X$ = ["aria-label"], G$ = ["id"], Z$ = /* @__PURE__ */ et({
   name: "InputFile",
   __name: "InputFile",
   props: {
@@ -19050,12 +19017,12 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
     function u() {
       n("update:modelValue", null), r.value && (r.value.value = "");
     }
-    return (f, g) => (v(), b("div", Z$, [
+    return (f, g) => (v(), b("div", j$, [
       e.label ? (v(), b("label", {
         key: 0,
         for: o.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, Q$)) : V("", !0),
+        class: q(P(Xt))
+      }, C(e.label), 11, Y$)) : V("", !0),
       d("div", {
         class: q([
           P(fe),
@@ -19077,7 +19044,7 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? i.value : void 0,
           onChange: c
-        }, null, 40, J$),
+        }, null, 40, q$),
         d("label", {
           for: o.value,
           class: q(["inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-[color:var(--kiut-text-primary)] transition hover:bg-gray-100 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]", e.disabled ? "cursor-not-allowed opacity-50" : ""])
@@ -19087,11 +19054,11 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-hidden": "true"
           }),
           wt(" " + C(e.chooseLabel), 1)
-        ], 10, t4),
+        ], 10, K$),
         d("span", {
           class: "min-w-0 flex-1 truncate text-sm text-[color:var(--kiut-text-primary)] dark:text-slate-100",
           title: l.value || void 0
-        }, C(l.value), 9, e4),
+        }, C(l.value), 9, U$),
         e.modelValue && !e.disabled ? (v(), b("button", {
           key: 0,
           type: "button",
@@ -19103,17 +19070,17 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
             class: "h-4 w-4",
             "aria-hidden": "true"
           })
-        ], 8, a4)) : V("", !0)
+        ], 8, X$)) : V("", !0)
       ], 2),
       e.errorText ? (v(), b("p", {
         key: 1,
         id: i.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, n4)) : V("", !0)
+      }, C(e.errorText), 11, G$)) : V("", !0)
     ]));
   }
-}), o4 = { class: "font-sans" }, i4 = ["for"], r4 = { class: "relative" }, l4 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], c4 = ["id"], d4 = /* @__PURE__ */ tt({
+}), Q$ = { class: "font-sans" }, J$ = ["for"], t4 = { class: "relative" }, e4 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], a4 = ["id"], n4 = /* @__PURE__ */ et({
   name: "InputDateTime",
   __name: "InputDateTime",
   props: {
@@ -19135,14 +19102,14 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       const u = c.target.value;
       n("update:modelValue", u === "" ? null : u);
     }
-    return (c, u) => (v(), b("div", o4, [
+    return (c, u) => (v(), b("div", Q$, [
       e.label ? (v(), b("label", {
         key: 0,
         for: o.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, i4)) : V("", !0),
-      d("div", r4, [
-        X(P(ji), {
+        class: q(P(Xt))
+      }, C(e.label), 11, J$)) : V("", !0),
+      d("div", t4, [
+        U(P(ji), {
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
         }),
@@ -19164,17 +19131,17 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? i.value : void 0,
           onInput: l
-        }, null, 42, l4)
+        }, null, 42, e4)
       ]),
       e.errorText ? (v(), b("p", {
         key: 1,
         id: i.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, c4)) : V("", !0)
+      }, C(e.errorText), 11, a4)) : V("", !0)
     ]));
   }
-}), u4 = { class: "font-sans" }, h4 = ["for"], f4 = { class: "relative" }, g4 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], p4 = ["id"], v4 = /* @__PURE__ */ tt({
+}), s4 = { class: "font-sans" }, o4 = ["for"], i4 = { class: "relative" }, r4 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], l4 = ["id"], c4 = /* @__PURE__ */ et({
   name: "InputTime",
   __name: "InputTime",
   props: {
@@ -19205,14 +19172,14 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       const g = f.target.value;
       o("update:modelValue", n(g));
     }
-    return (f, g) => (v(), b("div", u4, [
+    return (f, g) => (v(), b("div", s4, [
       e.label ? (v(), b("label", {
         key: 0,
         for: r.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, h4)) : V("", !0),
-      d("div", f4, [
-        X(P(Zg), {
+        class: q(P(Xt))
+      }, C(e.label), 11, o4)) : V("", !0),
+      d("div", i4, [
+        U(P(Zg), {
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
         }),
@@ -19234,32 +19201,32 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? l.value : void 0,
           onInput: u
-        }, null, 42, g4)
+        }, null, 42, r4)
       ]),
       e.errorText ? (v(), b("p", {
         key: 1,
         id: l.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, p4)) : V("", !0)
+      }, C(e.errorText), 11, l4)) : V("", !0)
     ]));
   }
-}), m4 = { class: "font-sans" }, b4 = ["for"], y4 = {
+}), d4 = { class: "font-sans" }, u4 = ["for"], h4 = {
   key: 0,
   class: "order-1 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, _4 = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], x4 = {
+}, f4 = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], g4 = {
   key: 1,
   class: "text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, k4 = {
+}, p4 = {
   key: 2,
   class: "grid w-full max-w-full grid-cols-[1fr_auto_1fr] items-start gap-x-3 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, w4 = { class: "min-w-0 text-left leading-snug" }, $4 = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, C4 = { class: "min-w-0 text-right leading-snug" }, M4 = {
+}, v4 = { class: "min-w-0 text-left leading-snug" }, m4 = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, b4 = { class: "min-w-0 text-right leading-snug" }, y4 = {
   key: 3,
   class: "order-3 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, S4 = {
+}, _4 = {
   key: 4,
   class: "order-4 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, D4 = ["id"], A4 = /* @__PURE__ */ tt({
+}, x4 = ["id"], k4 = /* @__PURE__ */ et({
   name: "InputRange",
   __name: "InputRange",
   props: {
@@ -19298,16 +19265,16 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       const h = Number(p.target.value);
       n("update:modelValue", Number.isNaN(h) ? a.min : h);
     }
-    return (p, h) => (v(), b("div", m4, [
+    return (p, h) => (v(), b("div", d4, [
       e.label ? (v(), b("label", {
         key: 0,
         for: o.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, b4)) : V("", !0),
+        class: q(P(Xt))
+      }, C(e.label), 11, u4)) : V("", !0),
       d("div", {
         class: q(["flex flex-col items-center gap-2", (e.orientation === "vertical", "w-full")])
       }, [
-        e.orientation === "vertical" && e.captionMax ? (v(), b("p", y4, C(e.captionMax), 1)) : V("", !0),
+        e.orientation === "vertical" && e.captionMax ? (v(), b("p", h4, C(e.captionMax), 1)) : V("", !0),
         d("div", {
           class: q(["flex items-center justify-center", [
             e.orientation === "vertical" ? "order-2 h-[var(--kiut-range-length)] w-11 shrink-0" : "order-none w-full py-1"
@@ -19330,25 +19297,25 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
               e.orientation === "vertical" ? "kiut-range-input--vertical" : "kiut-range-input--horizontal w-full"
             ]),
             onInput: g
-          }, null, 42, _4)
+          }, null, 42, f4)
         ], 6),
-        e.orientation === "horizontal" && l.value ? (v(), b("p", x4, C(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (v(), b("div", k4, [
-          d("span", w4, C(e.captionMin), 1),
-          d("span", $4, C(e.caption), 1),
-          d("span", C4, C(e.captionMax), 1)
+        e.orientation === "horizontal" && l.value ? (v(), b("p", g4, C(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (v(), b("div", p4, [
+          d("span", v4, C(e.captionMin), 1),
+          d("span", m4, C(e.caption), 1),
+          d("span", b4, C(e.captionMax), 1)
         ])) : V("", !0),
-        e.orientation === "vertical" && e.captionMin ? (v(), b("p", M4, C(e.captionMin), 1)) : V("", !0),
-        e.orientation === "vertical" && e.caption ? (v(), b("p", S4, C(e.caption), 1)) : V("", !0)
+        e.orientation === "vertical" && e.captionMin ? (v(), b("p", y4, C(e.captionMin), 1)) : V("", !0),
+        e.orientation === "vertical" && e.caption ? (v(), b("p", _4, C(e.caption), 1)) : V("", !0)
       ], 2),
       e.errorText ? (v(), b("p", {
         key: 1,
         id: i.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, D4)) : V("", !0)
+      }, C(e.errorText), 11, x4)) : V("", !0)
     ]));
   }
-}), T4 = /* @__PURE__ */ st(A4, [["__scopeId", "data-v-a1343418"]]), B4 = { class: "font-sans" }, L4 = ["for"], F4 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], P4 = ["id"], R4 = /* @__PURE__ */ tt({
+}), w4 = /* @__PURE__ */ it(k4, [["__scopeId", "data-v-a1343418"]]), $4 = { class: "font-sans" }, C4 = ["for"], M4 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], S4 = ["id"], D4 = /* @__PURE__ */ et({
   name: "InputNumber",
   __name: "InputNumber",
   props: {
@@ -19387,12 +19354,12 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       const g = Number(f);
       n("update:modelValue", Number.isNaN(g) ? null : g);
     }
-    return (u, f) => (v(), b("div", B4, [
+    return (u, f) => (v(), b("div", $4, [
       e.label ? (v(), b("label", {
         key: 0,
         for: o.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, L4)) : V("", !0),
+        class: q(P(Xt))
+      }, C(e.label), 11, C4)) : V("", !0),
       d("input", {
         id: o.value,
         value: l.value,
@@ -19411,16 +19378,16 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
         step: e.step,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 42, F4),
+      }, null, 42, M4),
       e.errorText ? (v(), b("p", {
         key: 1,
         id: i.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, P4)) : V("", !0)
+      }, C(e.errorText), 11, S4)) : V("", !0)
     ]));
   }
-}), I4 = { class: "font-sans" }, E4 = ["for"], O4 = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], V4 = ["disabled"], z4 = ["id"], N4 = "#3b82f6", W4 = "#aabbcc", H4 = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", j4 = /* @__PURE__ */ tt({
+}), A4 = { class: "font-sans" }, T4 = ["for"], B4 = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], L4 = ["disabled"], F4 = ["id"], P4 = "#3b82f6", R4 = "#aabbcc", I4 = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", E4 = /* @__PURE__ */ et({
   name: "InputColorPicker",
   __name: "InputColorPicker",
   props: {
@@ -19445,7 +19412,7 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       return null;
     }
     function n(h) {
-      return a(h) ?? N4;
+      return a(h) ?? P4;
     }
     const s = e, o = t, i = `kiut-input-color-${Pt()}`, r = D(() => s.id ?? i), l = D(() => `${r.value}-err`), c = D(() => n(s.modelValue)), u = at(c.value), f = at(!1);
     Ot(c, (h) => {
@@ -19464,15 +19431,15 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
       if (!f.value) return;
       const m = a(h);
       m && o("update:modelValue", m);
-    }), (h, m) => (v(), b("div", I4, [
+    }), (h, m) => (v(), b("div", A4, [
       e.label ? (v(), b("label", {
         key: 0,
         for: r.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, E4)) : V("", !0),
+        class: q(P(Xt))
+      }, C(e.label), 11, T4)) : V("", !0),
       d("div", {
         class: q([
-          H4,
+          I4,
           e.invalid ? P($e) : "",
           e.disabled ? "cursor-not-allowed opacity-50" : ""
         ])
@@ -19486,8 +19453,8 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-describedby": e.errorText ? l.value : void 0,
           class: "h-9 w-11 shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-0.5 shadow-inner outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/35 disabled:cursor-not-allowed dark:border-slate-600 dark:bg-slate-800/80",
           onInput: g
-        }, null, 40, O4),
-        e.showHexInput ? Xt((v(), b("input", {
+        }, null, 40, B4),
+        e.showHexInput ? Kt((v(), b("input", {
           key: 0,
           "onUpdate:modelValue": m[0] || (m[0] = (y) => u.value = y),
           type: "text",
@@ -19496,10 +19463,10 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
           spellcheck: "false",
           "aria-label": "Código hexadecimal del color",
           class: "min-h-0 min-w-0 flex-1 border-0 bg-transparent p-0 font-mono text-sm font-medium text-[color:var(--kiut-text-primary)] outline-none ring-0 placeholder:text-[color:var(--kiut-text-muted)] focus:ring-0 disabled:cursor-not-allowed dark:text-slate-100 dark:placeholder:text-slate-500",
-          placeholder: W4,
+          placeholder: R4,
           onFocus: m[1] || (m[1] = (y) => f.value = !0),
           onBlur: p
-        }, null, 40, V4)), [
+        }, null, 40, L4)), [
           [Le, u.value]
         ]) : V("", !0)
       ], 2),
@@ -19508,7 +19475,7 @@ const c$ = ["aria-label"], d$ = { class: "flex flex-wrap items-center gap-x-2 ga
         id: l.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, z4)) : V("", !0)
+      }, C(e.errorText), 11, F4)) : V("", !0)
     ]));
   }
 });
@@ -19527,11 +19494,11 @@ function tr(e, t) {
     })
   ]);
 }
-const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = ["aria-selected", "onClick", "onMouseenter"], K4 = {
+const O4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], V4 = ["aria-selected", "onClick", "onMouseenter"], z4 = {
   key: 0,
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
-}, U4 = { class: "min-w-0 flex-1" }, er = /* @__PURE__ */ tt({
+}, N4 = { class: "min-w-0 flex-1" }, er = /* @__PURE__ */ et({
   name: "Select",
   __name: "Select",
   props: {
@@ -19665,9 +19632,9 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
           class: q(["h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", f.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
-      ], 42, Y4),
-      (v(), pt(On, { to: "body" }, [
-        Xt(d("ul", {
+      ], 42, O4),
+      (v(), ft(On, { to: "body" }, [
+        Kt(d("ul", {
           id: r,
           ref_key: "listRef",
           ref: u,
@@ -19685,30 +19652,30 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
             onClick: ne((K) => w(R), ["stop"]),
             onMouseenter: (K) => g.value = j
           }, [
-            e.showOptionCheck ? (v(), b("span", K4, [
-              A(R) ? (v(), pt(P(tr), {
+            e.showOptionCheck ? (v(), b("span", z4, [
+              A(E) ? (v(), ft(P(tr), {
                 key: 0,
                 class: "h-4 w-4 text-white"
               })) : V("", !0)
             ])) : V("", !0),
-            d("span", U4, C(R.label), 1)
-          ], 42, q4))), 128))
+            d("span", N4, C(E.label), 1)
+          ], 42, V4))), 128))
         ], 36), [
           [ra, f.value]
         ])
       ]))
     ], 512));
   }
-}), X4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], G4 = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, Z4 = {
+}), W4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], H4 = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, j4 = {
   key: 0,
   class: "block truncate text-[color:var(--kiut-text-muted)] dark:text-slate-500"
-}, Q4 = {
+}, Y4 = {
   key: 1,
   class: "flex flex-wrap gap-1"
-}, J4 = { class: "truncate" }, tC = ["aria-selected", "onClick", "onMouseenter"], eC = {
+}, q4 = { class: "truncate" }, K4 = ["aria-selected", "onClick", "onMouseenter"], U4 = {
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
-}, aC = { class: "min-w-0 flex-1" }, nC = /* @__PURE__ */ tt({
+}, X4 = { class: "min-w-0 flex-1" }, G4 = /* @__PURE__ */ et({
   name: "MultiSelect",
   __name: "MultiSelect",
   props: {
@@ -19821,13 +19788,13 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
         onClick: x,
         onKeydown: S
       }, [
-        d("div", G4, [
-          h.value.length === 0 ? (v(), b("span", Z4, C(e.placeholder), 1)) : (v(), b("div", Q4, [
-            (v(!0), b(Q, null, nt(h.value, (L) => (v(), b("span", {
+        d("div", H4, [
+          h.value.length === 0 ? (v(), b("span", j4, C(e.placeholder), 1)) : (v(), b("div", Y4, [
+            (v(!0), b(Q, null, st(h.value, (L) => (v(), b("span", {
               key: y(L),
               class: "inline-flex max-w-full items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-[color:var(--kiut-text-primary)] dark:bg-white/10 dark:text-slate-100"
             }, [
-              d("span", J4, C(L.label), 1)
+              d("span", q4, C(L.label), 1)
             ]))), 128))
           ]))
         ]),
@@ -19835,8 +19802,8 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
           class: q(["mt-0.5 h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", u.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
-      ], 42, X4),
-      Xt(d("ul", {
+      ], 42, W4),
+      Kt(d("ul", {
         id: r,
         ref_key: "listRef",
         ref: c,
@@ -19854,20 +19821,20 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
           onClick: ne((j) => A(L), ["stop"]),
           onMouseenter: (j) => f.value = R
         }, [
-          d("span", eC, [
-            _(L) ? (v(), pt(P(tr), {
+          d("span", U4, [
+            _(L) ? (v(), ft(P(tr), {
               key: 0,
               class: "h-4 w-4 text-white"
             })) : V("", !0)
           ]),
-          d("span", aC, C(L.label), 1)
-        ], 42, tC))), 128))
+          d("span", X4, C(L.label), 1)
+        ], 42, K4))), 128))
       ], 544), [
         [ra, u.value]
       ])
     ], 512));
   }
-}), sC = ["id", "aria-checked", "aria-disabled", "disabled", "onKeydown"], oC = { class: "sr-only" }, iC = /* @__PURE__ */ tt({
+}), Z4 = ["id", "aria-checked", "aria-disabled", "disabled", "onKeydown"], Q4 = { class: "sr-only" }, J4 = /* @__PURE__ */ et({
   name: "Toggle",
   __name: "Toggle",
   props: {
@@ -19905,10 +19872,10 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
         class: q(["pointer-events-none inline-block h-7 w-7 translate-x-0 transform rounded-full bg-white shadow-sm transition-transform duration-200 ease-out", e.modelValue ? "translate-x-7" : "translate-x-0"]),
         "aria-hidden": "true"
       }, null, 2),
-      d("span", oC, C(e.ariaLabel), 1)
-    ], 42, sC));
+      d("span", Q4, C(e.ariaLabel), 1)
+    ], 42, Z4));
   }
-}), rC = { class: "font-sans" }, lC = ["for"], cC = { class: "flex gap-2" }, dC = { class: "w-[7.5rem] shrink-0" }, uC = { class: "min-w-0 flex-1" }, hC = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], fC = ["id"], gC = /* @__PURE__ */ tt({
+}), tC = { class: "font-sans" }, eC = ["for"], aC = { class: "flex gap-2" }, nC = { class: "w-[7.5rem] shrink-0" }, sC = { class: "min-w-0 flex-1" }, oC = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], iC = ["id"], rC = /* @__PURE__ */ et({
   name: "InputPhone",
   __name: "InputPhone",
   props: {
@@ -19931,15 +19898,15 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
       get: () => a.modelValue.number,
       set: (c) => n("update:modelValue", { ...a.modelValue, number: c })
     });
-    return (c, u) => (v(), b("div", rC, [
+    return (c, u) => (v(), b("div", tC, [
       e.label ? (v(), b("label", {
         key: 0,
         for: o.value,
-        class: q(P(Zt))
-      }, C(e.label), 11, lC)) : V("", !0),
-      d("div", cC, [
-        d("div", dC, [
-          X(er, {
+        class: q(P(Xt))
+      }, C(e.label), 11, eC)) : V("", !0),
+      d("div", aC, [
+        d("div", nC, [
+          U(er, {
             modelValue: r.value,
             "onUpdate:modelValue": u[0] || (u[0] = (f) => r.value = f),
             "aria-label-trigger": "Prefijo telefónico",
@@ -19949,8 +19916,8 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
             "show-option-check": !1
           }, null, 8, ["modelValue", "options", "placeholder", "disabled"])
         ]),
-        d("div", uC, [
-          Xt(d("input", {
+        d("div", sC, [
+          Kt(d("input", {
             id: o.value,
             "onUpdate:modelValue": u[1] || (u[1] = (f) => l.value = f),
             type: "tel",
@@ -19961,7 +19928,7 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
             disabled: e.disabled,
             "aria-invalid": e.invalid ? "true" : void 0,
             "aria-describedby": e.errorText ? i.value : void 0
-          }, null, 10, hC), [
+          }, null, 10, oC), [
             [Le, l.value]
           ])
         ])
@@ -19971,13 +19938,13 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
         id: i.value,
         class: q(P(ge)),
         role: "alert"
-      }, C(e.errorText), 11, fC)) : V("", !0)
+      }, C(e.errorText), 11, iC)) : V("", !0)
     ]));
   }
-}), pC = ["role", "aria-label"], vC = { class: "flex flex-wrap gap-2" }, mC = ["aria-checked", "role", "onClick"], bC = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, yC = {
+}), lC = ["role", "aria-label"], cC = { class: "flex flex-wrap gap-2" }, dC = ["aria-checked", "role", "onClick"], uC = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, hC = {
   key: 0,
   class: "h-2 w-2 rounded-full bg-[color:var(--kiut-primary)]"
-}, _C = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, xC = /* @__PURE__ */ tt({
+}, fC = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, gC = /* @__PURE__ */ et({
   name: "SelectablePills",
   __name: "SelectablePills",
   props: {
@@ -20012,8 +19979,8 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
       role: e.multiple ? "group" : "radiogroup",
       "aria-label": e.ariaLabel
     }, [
-      d("div", vC, [
-        (v(!0), b(Q, null, nt(e.items, (u) => (v(), b("button", {
+      d("div", cC, [
+        (v(!0), b(Q, null, st(e.items, (u) => (v(), b("button", {
           key: u.value,
           type: "button",
           class: q(i(u)),
@@ -20021,8 +19988,8 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
           role: e.multiple ? "checkbox" : "radio",
           onClick: (f) => r(u)
         }, [
-          d("span", bC, [
-            o(u) ? (v(), b("span", yC)) : V("", !0)
+          d("span", uC, [
+            o(u) ? (v(), b("span", hC)) : V("", !0)
           ]),
           u.dotColor ? (v(), b("span", {
             key: 0,
@@ -20030,12 +19997,12 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
             style: bt({ backgroundColor: u.dotColor }),
             "aria-hidden": "true"
           }, null, 4)) : V("", !0),
-          d("span", _C, C(u.label), 1)
-        ], 10, mC))), 128))
+          d("span", fC, C(u.label), 1)
+        ], 10, dC))), 128))
       ])
-    ], 8, pC));
+    ], 8, lC));
   }
-}), kC = ["aria-label"], wC = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], $C = { class: "truncate px-3 py-2 text-sm font-medium" }, CC = /* @__PURE__ */ tt({
+}), pC = ["aria-label"], vC = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], mC = { class: "truncate px-3 py-2 text-sm font-medium" }, bC = /* @__PURE__ */ et({
   name: "SegmentedControl",
   __name: "SegmentedControl",
   props: {
@@ -20117,9 +20084,9 @@ const Y4 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], q4 = 
         onClick: (A) => f(_, $),
         onKeydown: (A) => h(A, $)
       }, [
-        d("span", $C, C(_.label), 1)
-      ], 42, wC))), 128))
-    ], 8, kC));
+        d("span", mC, C(_.label), 1)
+      ], 42, vC))), 128))
+    ], 8, pC));
   }
 });
 function De(e) {
@@ -20149,13 +20116,13 @@ function Io(e, t) {
 function Cn(e, t) {
   return Za(e, t) < 0;
 }
-function MC(e, t) {
+function yC(e, t) {
   return Za(e, t) >= 0;
 }
-function SC(e, t) {
+function _C(e, t) {
   return Za(e, t) <= 0;
 }
-function DC(e) {
+function xC(e) {
   const t = e.getFullYear(), a = e.getMonth(), n = new Date(t, a, 1), s = new Date(n);
   s.setDate(n.getDate() - n.getDay());
   const o = [], i = new Date(s);
@@ -20163,7 +20130,7 @@ function DC(e) {
     o.push(new Date(i)), i.setDate(i.getDate() + 1);
   return o;
 }
-const AC = [
+const kC = [
   "Jan",
   "Feb",
   "Mar",
@@ -20176,7 +20143,7 @@ const AC = [
   "Oct",
   "Nov",
   "Dec"
-], TC = [
+], wC = [
   "January",
   "February",
   "March",
@@ -20191,12 +20158,12 @@ const AC = [
   "December"
 ];
 function Eo(e) {
-  return `${AC[e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
+  return `${kC[e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
 }
 function Oo(e) {
-  return `${TC[e.getMonth()]} ${e.getFullYear()}`;
+  return `${wC[e.getMonth()]} ${e.getFullYear()}`;
 }
-const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"], FC = { class: "mb-4 flex items-center justify-between gap-2" }, PC = { class: "flex min-w-0 flex-1 justify-center gap-8 text-center text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, RC = { class: "min-w-0 truncate" }, IC = { class: "min-w-0 truncate" }, EC = { class: "flex flex-col gap-6 sm:flex-row sm:gap-8" }, OC = { class: "mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-medium uppercase tracking-wide text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, VC = { class: "grid grid-cols-7 gap-y-1" }, zC = ["disabled", "onClick"], NC = /* @__PURE__ */ tt({
+const $C = ["aria-expanded", "aria-labelledby", "aria-label"], CC = ["onKeydown"], MC = { class: "mb-4 flex items-center justify-between gap-2" }, SC = { class: "flex min-w-0 flex-1 justify-center gap-8 text-center text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, DC = { class: "min-w-0 truncate" }, AC = { class: "min-w-0 truncate" }, TC = { class: "flex flex-col gap-6 sm:flex-row sm:gap-8" }, BC = { class: "mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-medium uppercase tracking-wide text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, LC = { class: "grid grid-cols-7 gap-y-1" }, FC = ["disabled", "onClick"], PC = /* @__PURE__ */ et({
   name: "DateRangePicker",
   __name: "DateRangePicker",
   props: {
@@ -20235,9 +20202,9 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
     function _(k, S) {
       const F = m(S, k), B = a.modelValue.start ? ve(De(a.modelValue.start)) : null, M = a.modelValue.end ? ve(De(a.modelValue.end)) : null, L = ve(S), R = F ? "text-[color:var(--kiut-text-primary)] dark:text-slate-100" : "text-slate-400 dark:text-slate-500";
       if (!B || !M)
-        return `${R} hover:bg-black/[0.04] dark:hover:bg-white/[0.06]`;
-      const j = MC(L, B) && SC(L, M), K = Io(L, B), Z = Io(L, M);
-      return K || Z ? "bg-[color:var(--kiut-primary)] font-semibold text-white shadow-sm" : j ? `${R} bg-violet-100/90 dark:bg-violet-950/35 hover:bg-violet-200/80 dark:hover:bg-violet-900/40` : `${R} hover:bg-black/[0.04] dark:hover:bg-white/[0.06]`;
+        return `${E} hover:bg-black/[0.04] dark:hover:bg-white/[0.06]`;
+      const H = yC(L, B) && _C(L, M), K = Io(L, B), X = Io(L, M);
+      return K || X ? "bg-[color:var(--kiut-primary)] font-semibold text-white shadow-sm" : H ? `${E} bg-violet-100/90 dark:bg-violet-950/35 hover:bg-violet-200/80 dark:hover:bg-violet-900/40` : `${E} hover:bg-black/[0.04] dark:hover:bg-white/[0.06]`;
     }
     function $(k) {
       if (y(k)) return;
@@ -20306,8 +20273,8 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
             !e.modelValue.start || !e.modelValue.end ? "text-[color:var(--kiut-text-muted)] dark:text-slate-500" : ""
           ])
         }, C(h.value), 3)
-      ], 42, BC),
-      Xt(d("div", {
+      ], 42, $C),
+      Kt(d("div", {
         ref_key: "panelRef",
         ref: r,
         role: "dialog",
@@ -20317,7 +20284,7 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
         class: "absolute left-0 top-full z-[120] mt-2 w-[min(calc(100vw-2rem),720px)] max-w-[100vw] rounded-2xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] p-4 shadow-xl outline-none dark:border-[color:var(--kiut-border-light)]",
         onKeydown: Pa(ne(T, ["stop"]), ["escape"])
       }, [
-        d("div", FC, [
+        d("div", MC, [
           d("button", {
             type: "button",
             class: "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-600 transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-slate-300 dark:hover:bg-white/[0.06]",
@@ -20329,9 +20296,9 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
               "aria-hidden": "true"
             })
           ]),
-          d("div", PC, [
-            d("span", RC, C(P(Oo)(f.value[0])), 1),
-            d("span", IC, C(P(Oo)(f.value[1])), 1)
+          d("div", SC, [
+            d("span", DC, C(P(Oo)(f.value[0])), 1),
+            d("span", AC, C(P(Oo)(f.value[1])), 1)
           ]),
           d("button", {
             type: "button",
@@ -20345,35 +20312,35 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
             })
           ])
         ]),
-        d("div", EC, [
-          (v(!0), b(Q, null, nt(f.value, (F) => (v(), b("div", {
+        d("div", TC, [
+          (v(!0), b(Q, null, st(f.value, (F) => (v(), b("div", {
             key: `${F.getFullYear()}-${F.getMonth()}`,
             class: "min-w-0 flex-1"
           }, [
-            d("div", OC, [
-              (v(), b(Q, null, nt(p, (B) => d("span", { key: B }, C(B), 1)), 64))
+            d("div", BC, [
+              (v(), b(Q, null, st(p, (B) => d("span", { key: B }, C(B), 1)), 64))
             ]),
-            d("div", VC, [
-              (v(!0), b(Q, null, nt(P(DC)(F), (B) => (v(), b("button", {
+            d("div", LC, [
+              (v(!0), b(Q, null, st(P(xC)(F), (B) => (v(), b("button", {
                 key: P(Je)(B),
                 type: "button",
                 disabled: y(B),
                 class: q(["relative flex h-9 items-center justify-center rounded-lg text-sm outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40", _(F, B)]),
                 onClick: (M) => $(B)
-              }, C(B.getDate()), 11, zC))), 128))
+              }, C(B.getDate()), 11, FC))), 128))
             ])
           ]))), 128))
         ])
-      ], 40, LC), [
+      ], 40, CC), [
         [ra, l.value]
       ])
     ], 512));
   }
-}), WC = {
+}), RC = {
   key: 0,
   class: "relative flex h-2 w-2 shrink-0 items-center justify-center",
   "aria-hidden": "true"
-}, HC = /* @__PURE__ */ tt({
+}, IC = /* @__PURE__ */ et({
   name: "Tag",
   __name: "Tag",
   props: {
@@ -20415,7 +20382,7 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       role: "status",
       class: q(["inline-flex w-min max-w-full min-h-[22px] items-center gap-2 whitespace-nowrap rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] leading-snug", s.value])
     }, [
-      e.statusLive === !0 ? (v(), b("span", WC, [...l[0] || (l[0] = [
+      e.statusLive === !0 ? (v(), b("span", RC, [...l[0] || (l[0] = [
         d("span", { class: "absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/50 dark:bg-emerald-400/45" }, null, -1),
         d("span", { class: "relative inline-flex h-2 w-2 rounded-full bg-[color:var(--kiut-success)]" }, null, -1)
       ])])) : V("", !0),
@@ -20431,17 +20398,17 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       ])
     ], 2));
   }
-}), jC = {
+}), EC = {
   key: 0,
   class: "group relative inline-flex shrink-0"
-}, YC = ["type", "disabled", "aria-label"], qC = {
+}, OC = ["type", "disabled", "aria-label"], VC = {
   key: 1,
   class: "min-w-0 truncate"
-}, KC = {
+}, zC = {
   role: "tooltip",
   "aria-hidden": "true",
   class: "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 font-sans text-xs font-medium text-[color:var(--kiut-text-primary)] opacity-0 shadow-lg shadow-slate-900/10 ring-1 ring-black/5 transition-opacity duration-150 will-change-[opacity,visibility] invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:bg-slate-800 dark:text-slate-100 dark:shadow-black/40 dark:ring-white/10"
-}, UC = ["type", "disabled", "aria-label"], XC = {
+}, NC = ["type", "disabled", "aria-label"], WC = {
   key: 1,
   class: "min-w-0 truncate"
 }, Fa = /* @__PURE__ */ tt({
@@ -20494,7 +20461,7 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       "dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white",
       "dark:active:bg-[color:var(--kiut-primary-dark)]"
     ]);
-    return (u, f) => n.value ? (v(), b("span", jC, [
+    return (u, f) => n.value ? (v(), b("span", EC, [
       d("button", Dn({
         type: r.value,
         class: ["inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]", [c.value, P(a).class]],
@@ -20508,11 +20475,11 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
         }, [
           zt(u.$slots, "icon")
         ], 2)) : V("", !0),
-        o.value ? (v(), b("span", qC, [
-          zt(u.$slots, "default")
+        o.value ? (v(), b("span", VC, [
+          Ot(u.$slots, "default")
         ])) : V("", !0)
-      ], 16, YC),
-      d("span", KC, C(e.tooltip), 1)
+      ], 16, OC),
+      d("span", zC, C(e.tooltip), 1)
     ])) : (v(), b("button", Dn({
       key: 1,
       type: r.value,
@@ -20527,19 +20494,19 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       }, [
         zt(u.$slots, "icon")
       ], 2)) : V("", !0),
-      o.value ? (v(), b("span", XC, [
-        zt(u.$slots, "default")
+      o.value ? (v(), b("span", WC, [
+        Ot(u.$slots, "default")
       ])) : V("", !0)
-    ], 16, UC));
+    ], 16, NC));
   }
-}), GC = {
+}), HC = {
   key: 0,
   class: "fixed inset-0 z-[200] flex items-center justify-center p-4 [font-family:'Inter',sans-serif]",
   "aria-hidden": "false"
-}, ZC = { class: "min-w-0 flex-1 space-y-1" }, QC = {
+}, jC = { class: "min-w-0 flex-1 space-y-1" }, YC = {
   key: 0,
   class: "text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-}, JC = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, tM = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, eM = /* @__PURE__ */ tt({
+}, qC = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, KC = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, UC = /* @__PURE__ */ et({
   name: "Modal",
   __name: "Modal",
   props: {
@@ -20575,7 +20542,7 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
     }), (u, f) => (v(), pt(On, { to: "body" }, [
       X(En, { name: "kiut-modal" }, {
         default: Y(() => [
-          e.modelValue ? (v(), b("div", GC, [
+          e.modelValue ? (v(), b("div", HC, [
             d("div", {
               class: "absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] dark:bg-black/60",
               "aria-hidden": "true",
@@ -20595,12 +20562,12 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
               d("header", {
                 class: q(["flex shrink-0 justify-between gap-4 border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.02]", e.subtitle ? "items-start" : "items-center"])
               }, [
-                d("div", ZC, [
+                d("div", jC, [
                   d("h2", {
                     id: o,
                     class: "text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
                   }, C(e.title), 1),
-                  e.subtitle ? (v(), b("p", QC, C(e.subtitle), 1)) : V("", !0)
+                  e.subtitle ? (v(), b("p", YC, C(e.subtitle), 1)) : V("", !0)
                 ]),
                 X(Fa, {
                   variant: "action",
@@ -20614,11 +20581,11 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
                   _: 1
                 })
               ], 2),
-              d("div", JC, [
-                zt(u.$slots, "default", {}, void 0, !0)
+              d("div", qC, [
+                Ot(u.$slots, "default", {}, void 0, !0)
               ]),
-              d("footer", tM, [
-                X(Fa, {
+              d("footer", KC, [
+                U(Fa, {
                   variant: "secondary",
                   type: "button",
                   onClick: r
@@ -20646,11 +20613,17 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       })
     ]));
   }
-}), aM = /* @__PURE__ */ st(eM, [["__scopeId", "data-v-4ed7bb14"]]), nM = { class: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" }, sM = { class: "flex min-w-0 flex-1 flex-col gap-1.5" }, oM = { class: "flex min-w-0 items-center gap-2.5" }, iM = {
+}), XC = /* @__PURE__ */ it(UC, [["__scopeId", "data-v-4ed7bb14"]]), GC = { class: "flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between" }, ZC = { class: "flex min-w-0 flex-1 flex-col gap-1.5" }, QC = { class: "flex min-w-0 items-center gap-2.5" }, JC = {
   key: 0,
   class: "inline-flex shrink-0 items-center text-[color:var(--kiut-text-primary)] dark:text-slate-100 [&>svg]:size-6",
   "aria-hidden": "true"
-}, rM = {
+}, tM = {
+  key: 0,
+  class: "text-base leading-snug text-[color:var(--kiut-text-secondary)] dark:text-[#838395]"
+}, eM = {
+  key: 0,
+  class: "flex shrink-0 flex-wrap items-center justify-end gap-2 sm:pt-0.5"
+}, aM = {
   key: 0,
   class: "text-base leading-snug text-[color:var(--kiut-text-secondary)] dark:text-[#838395]"
 }, lM = {
@@ -20659,7 +20632,7 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
 }, cM = {
   key: 0,
   class: "mt-6"
-}, dM = /* @__PURE__ */ tt({
+}, nM = /* @__PURE__ */ et({
   name: "Section",
   __name: "Section",
   props: {
@@ -20673,12 +20646,12 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       class: "text-left font-['Inter',system-ui,sans-serif]",
       "aria-labelledby": s
     }, [
-      d("header", nM, [
-        d("div", sM, [
-          d("div", oM, [
-            o.value ? (v(), b("span", iM, [
-              zt(i.$slots, "icon", {}, () => [
-                e.icon ? (v(), pt(la(e.icon), { key: 0 })) : V("", !0)
+      d("header", GC, [
+        d("div", ZC, [
+          d("div", QC, [
+            o.value ? (v(), b("span", JC, [
+              Ot(i.$slots, "icon", {}, () => [
+                e.icon ? (v(), ft(la(e.icon), { key: 0 })) : V("", !0)
               ])
             ])) : V("", !0),
             d("h2", {
@@ -20686,30 +20659,30 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
               class: "min-w-0 text-3xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
             }, C(e.title), 1)
           ]),
-          e.subtitle ? (v(), b("p", rM, C(e.subtitle), 1)) : V("", !0)
+          e.subtitle ? (v(), b("p", tM, C(e.subtitle), 1)) : V("", !0)
         ]),
-        i.$slots.actions ? (v(), b("div", lM, [
-          zt(i.$slots, "actions")
+        i.$slots.actions ? (v(), b("div", eM, [
+          Ot(i.$slots, "actions")
         ])) : V("", !0)
       ]),
-      i.$slots.default ? (v(), b("div", cM, [
-        zt(i.$slots, "default")
+      i.$slots.default ? (v(), b("div", aM, [
+        Ot(i.$slots, "default")
       ])) : V("", !0)
     ]));
   }
-}), uM = { class: "flex flex-1 min-h-0" }, hM = {
+}), sM = { class: "flex flex-1 min-h-0" }, oM = {
   key: 0,
   class: "flex justify-center items-center mt-3 shrink-0"
-}, fM = {
+}, iM = {
   class: "flex-1 overflow-y-auto p-1.5 flex flex-col gap-1",
   "aria-label": "Sections"
-}, gM = ["aria-current", "title", "onClick"], pM = {
+}, rM = ["aria-current", "title", "onClick"], lM = {
   key: 1,
   class: "shrink-0 border-t border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)]"
-}, vM = { class: "px-4 pt-4 pb-2 shrink-0" }, mM = { class: "text-[12px] font-bold uppercase tracking-widest text-[color:var(--kiut-text-muted)]" }, bM = {
+}, cM = { class: "px-4 pt-4 pb-2 shrink-0" }, dM = { class: "text-[12px] font-bold uppercase tracking-widest text-[color:var(--kiut-text-muted)]" }, uM = {
   class: "flex-1 overflow-y-auto px-2 pb-3 flex flex-col gap-1",
   "aria-label": "Section items"
-}, yM = ["data-nav-id", "aria-current", "onClick"], _M = /* @__PURE__ */ tt({
+}, hM = ["data-nav-id", "aria-current", "onClick"], fM = /* @__PURE__ */ et({
   name: "AppShellNavigation",
   inheritAttrs: !1,
   __name: "AppShellNavigation",
@@ -20775,7 +20748,7 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       role: "navigation",
       "aria-label": "Main navigation"
     }, r), [
-      d("div", uM, [
+      d("div", sM, [
         d("div", {
           class: "primary-rail flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)]",
           style: bt({
@@ -20785,11 +20758,11 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
           onMouseenter: y[0] || (y[0] = (_) => a.value = !0),
           onMouseleave: y[1] || (y[1] = (_) => a.value = !1)
         }, [
-          m.$slots.logo ? (v(), b("div", hM, [
-            zt(m.$slots, "logo", { expanded: a.value }, void 0, !0)
+          m.$slots.logo ? (v(), b("div", oM, [
+            Ot(m.$slots, "logo", { expanded: a.value }, void 0, !0)
           ])) : V("", !0),
-          d("nav", fM, [
-            (v(!0), b(Q, null, nt(e.sections, (_) => (v(), b("button", {
+          d("nav", iM, [
+            (v(!0), b(Q, null, st(e.sections, (_) => (v(), b("button", {
               key: _.id,
               type: "button",
               "aria-current": e.selectedSectionId === _.id ? "true" : void 0,
@@ -20807,10 +20780,10 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
                 class: "leading-tight font-semibold tracking-wide text-left w-full truncate px-1",
                 style: bt({ fontSize: e.primaryFontSize })
               }, C(_.label), 5)
-            ], 10, gM))), 128))
+            ], 10, rM))), 128))
           ]),
-          m.$slots.footer ? (v(), b("div", pM, [
-            zt(m.$slots, "footer", { expanded: a.value }, void 0, !0)
+          m.$slots.footer ? (v(), b("div", lM, [
+            Ot(m.$slots, "footer", { expanded: a.value }, void 0, !0)
           ])) : V("", !0)
         ], 36),
         X(En, { name: "ksn-sub" }, {
@@ -20820,11 +20793,11 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
               class: "secondary-panel flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)] overflow-hidden",
               style: bt({ width: e.secondaryWidth })
             }, [
-              d("div", vM, [
-                d("p", mM, C(l.value.label), 1)
+              d("div", cM, [
+                d("p", dM, C(l.value.label), 1)
               ]),
-              d("nav", bM, [
-                (v(!0), b(Q, null, nt(l.value.items, (_) => (v(), b("button", {
+              d("nav", uM, [
+                (v(!0), b(Q, null, st(l.value.items, (_) => (v(), b("button", {
                   key: _.id,
                   type: "button",
                   "data-nav-id": _.id,
@@ -20840,7 +20813,7 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
                     class: "truncate",
                     style: bt({ fontSize: e.secondaryFontSize })
                   }, C(_.label), 5)
-                ], 10, yM))), 128))
+                ], 10, hM))), 128))
               ])
             ], 4)) : V("", !0)
           ]),
@@ -20849,21 +20822,21 @@ const BC = ["aria-expanded", "aria-labelledby", "aria-label"], LC = ["onKeydown"
       ])
     ], 16));
   }
-}), xM = /* @__PURE__ */ st(_M, [["__scopeId", "data-v-b510acff"]]), LM = {
+}), gM = /* @__PURE__ */ it(fM, [["__scopeId", "data-v-b510acff"]]), CM = {
   install(e) {
-    e.component("KiutChartBar", ue), e.component("KiutChartLine", ke), e.component("KiutPieChart", Ga), e.component("KiutBoxplotChart", rf), e.component("KiutCandlestickChart", Ni), e.component("KiutHistogramChart", Wi), e.component("KiutSankeyChart", we), e.component("KiutAgentsPerDay", _p), e.component("KiutBookingManager", l0), e.component("KiutCheckin", A0), e.component("KiutCheckinContainer", Iv), e.component("KiutCheckinMetrics", Z0), e.component("KiutCheckinSegments", Ui), e.component("KiutDisruption", pm), e.component("KiutFAQ", Sm), e.component("KiutMessagesPerAgent", Nm), e.component("KiutRecordLocator", Ki), e.component("KiutSalesByChannel", Xi), e.component("KiutSeller", Gi), e.component("KiutSellerContainer", Gb), e.component("KiutTopAgents", o1), e.component("KiutPaymentMethod", F1), e.component("KiutAgentHumanConversations", $y), e.component("KiutChannelMetrics", Iy), e.component("KiutTriageCombinations", t_), e.component("KiutSelectLanguage", u_), e.component("KiutGuardrails", I_), e.component("KiutDisruptionNotifier", Tx), e.component("KiutTotalConversationsCard", Ix), e.component("KiutCsatP95Card", Kx), e.component("KiutCSATContainer", V2), e.component("KiutAiGeneratedRevenueCard", Y2), e.component("KiutNpsDailyMetrics", Qi), e.component("KiutNpsMetrics", Ji), e.component("KiutNpsOverviewMetrics", Zi), e.component("KiutAWSCost", dk), e.component("KiutCostUsage", Fk), e.component("KiutTokenUsage", t5), e.component("KiutConversationCount", g5), e.component("KiutTopAgentsAnalysis", S5), e.component("KiutTopAgentsPie", E5), e.component("KiutDailyCostTrends", K5), e.component("KiutModelUsage", mw), e.component("KiutMessageRoles", Rw), e.component("KiutCostPerConversations", t$), e.component("Tabs", i$), e.component("Table", qt), e.component("Filters", V$), e.component("InputText", Y$), e.component("InputTextarea", G$), e.component("InputFile", s4), e.component("InputDateTime", d4), e.component("InputTime", v4), e.component("InputRange", T4), e.component("InputNumber", R4), e.component("InputColorPicker", j4), e.component("Select", er), e.component("MultiSelect", nC), e.component("Toggle", iC), e.component("InputPhone", gC), e.component("SelectablePills", xC), e.component("SegmentedControl", CC), e.component("DateRangePicker", NC), e.component("Tag", HC), e.component("Button", Fa), e.component("Modal", aM), e.component("Section", dM), e.component("KiutAppShellNavigation", xM);
+    e.component("KiutChartBar", de), e.component("KiutChartLine", ke), e.component("KiutPieChart", Ga), e.component("KiutBoxplotChart", rf), e.component("KiutCandlestickChart", Ni), e.component("KiutHistogramChart", Wi), e.component("KiutSankeyChart", we), e.component("KiutAgentsPerDay", _p), e.component("KiutBookingManager", l0), e.component("KiutCheckin", A0), e.component("KiutCheckinContainer", Iv), e.component("KiutCheckinMetrics", Z0), e.component("KiutCheckinSegments", Ui), e.component("KiutDisruption", pm), e.component("KiutFAQ", Sm), e.component("KiutMessagesPerAgent", Nm), e.component("KiutRecordLocator", Ki), e.component("KiutSalesByChannel", Xi), e.component("KiutSeller", Gi), e.component("KiutSellerContainer", Ub), e.component("KiutTopAgents", n1), e.component("KiutPaymentMethod", B1), e.component("KiutAgentHumanConversations", ky), e.component("KiutChannelMetrics", Py), e.component("KiutTriageCombinations", Qy), e.component("KiutSelectLanguage", c_), e.component("KiutGuardrails", P_), e.component("KiutDisruptionNotifier", D2), e.component("KiutTotalConversationsCard", P2), e.component("KiutCsatP95Card", z2), e.component("KiutCSATContainer", Lx), e.component("KiutAiGeneratedRevenueCard", Ox), e.component("KiutNpsDailyMetrics", Qi), e.component("KiutNpsMetrics", Ji), e.component("KiutNpsOverviewMetrics", Zi), e.component("KiutAWSCost", nk), e.component("KiutCostUsage", Mk), e.component("KiutTokenUsage", Kk), e.component("KiutConversationCount", r5), e.component("KiutTopAgentsAnalysis", _5), e.component("KiutTopAgentsPie", T5), e.component("KiutDailyCostTrends", z5), e.component("KiutModelUsage", dw), e.component("KiutMessageRoles", Dw), e.component("KiutCostPerConversations", Kw), e.component("Tabs", Jw), e.component("Table", jt), e.component("Filters", L$), e.component("InputText", O$), e.component("InputTextarea", H$), e.component("InputFile", Z$), e.component("InputDateTime", n4), e.component("InputTime", c4), e.component("InputRange", w4), e.component("InputNumber", D4), e.component("InputColorPicker", E4), e.component("Select", er), e.component("MultiSelect", G4), e.component("Toggle", J4), e.component("InputPhone", rC), e.component("SelectablePills", gC), e.component("SegmentedControl", bC), e.component("DateRangePicker", PC), e.component("Tag", IC), e.component("Button", Fa), e.component("Modal", XC), e.component("Section", nM), e.component("KiutAppShellNavigation", gM);
   }
 };
 export {
-  dk as AWSCost,
-  $y as AgentHumanConversations,
+  nk as AWSCost,
+  ky as AgentHumanConversations,
   _p as AgentsPerDay,
-  Y2 as AiGeneratedRevenueCard,
-  xM as AppShellNavigation,
+  Ox as AiGeneratedRevenueCard,
+  gM as AppShellNavigation,
   l0 as BookingManager,
   rf as BoxplotChart,
   Fa as Button,
-  V2 as CSATContainer,
+  Lx as CSATContainer,
   Ni as CandlestickChart,
   Iy as ChannelMetrics,
   ue as ChartBar,
@@ -20872,33 +20845,33 @@ export {
   Iv as CheckinContainer,
   Z0 as CheckinMetrics,
   Ui as CheckinSegments,
-  g5 as ConversationCount,
-  t$ as CostPerConversations,
-  Fk as CostUsage,
-  Kx as CsatP95Card,
-  K5 as DailyCostTrends,
-  NC as DateRangePicker,
+  r5 as ConversationCount,
+  Kw as CostPerConversations,
+  Mk as CostUsage,
+  z2 as CsatP95Card,
+  z5 as DailyCostTrends,
+  PC as DateRangePicker,
   pm as Disruption,
-  Tx as DisruptionNotifier,
+  D2 as DisruptionNotifier,
   Sm as FAQ,
-  V$ as Filters,
-  I_ as Guardrails,
+  L$ as Filters,
+  P_ as Guardrails,
   Wi as HistogramChart,
-  j4 as InputColorPicker,
-  d4 as InputDateTime,
-  s4 as InputFile,
-  R4 as InputNumber,
-  gC as InputPhone,
-  T4 as InputRange,
-  Y$ as InputText,
-  G$ as InputTextarea,
-  v4 as InputTime,
-  LM as KiutUIPlugin,
-  Rw as MessageRoles,
+  E4 as InputColorPicker,
+  n4 as InputDateTime,
+  Z$ as InputFile,
+  D4 as InputNumber,
+  rC as InputPhone,
+  w4 as InputRange,
+  O$ as InputText,
+  H$ as InputTextarea,
+  c4 as InputTime,
+  CM as KiutUIPlugin,
+  Dw as MessageRoles,
   Nm as MessagesPerAgent,
-  aM as Modal,
-  mw as ModelUsage,
-  nC as MultiSelect,
+  XC as Modal,
+  dw as ModelUsage,
+  G4 as MultiSelect,
   Qi as NpsDailyMetrics,
   Ji as NpsMetrics,
   Zi as NpsOverviewMetrics,
@@ -20907,22 +20880,22 @@ export {
   Ki as RecordLocator,
   Xi as SalesByChannel,
   we as SankeyChart,
-  dM as Section,
-  CC as SegmentedControl,
+  nM as Section,
+  bC as SegmentedControl,
   er as Select,
-  u_ as SelectLanguage,
-  xC as SelectablePills,
+  c_ as SelectLanguage,
+  gC as SelectablePills,
   Gi as Seller,
-  Gb as SellerContainer,
-  qt as Table,
-  i$ as Tabs,
-  HC as Tag,
-  iC as Toggle,
-  t5 as TokenUsage,
-  o1 as TopAgents,
-  S5 as TopAgentsAnalysis,
-  E5 as TopAgentsPie,
-  Ix as TotalConversationsCard,
-  t_ as TriageCombinations
+  Ub as SellerContainer,
+  jt as Table,
+  Jw as Tabs,
+  IC as Tag,
+  J4 as Toggle,
+  Kk as TokenUsage,
+  n1 as TopAgents,
+  _5 as TopAgentsAnalysis,
+  T5 as TopAgentsPie,
+  P2 as TotalConversationsCard,
+  Qy as TriageCombinations
 };
 //# sourceMappingURL=kiut-ui.es.js.map

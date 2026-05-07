@@ -2,8 +2,8 @@
   <details class="checkin-container-card metric-collapsible" :open="containerInitiallyOpen">
     <summary class="card-header metric-collapsible__summary checkin-container__summary">
       <div class="header-content">
-        <h2 class="checkin-container__title font-sans">Check in</h2>
-        <p class="checkin-container__subtitle font-sans">Check-in flows, metrics by record locator and segment breakdown.</p>
+        <h2 class="card-title font-sans">Check in</h2>
+        <p class="card-subtitle font-sans">Check-in flows, metrics by record locator and segment breakdown.</p>
       </div>
       <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -125,7 +125,7 @@ const props = withDefaults(
     segmentsData?: SegmentDatum[];
   }>(),
   {
-    containerInitiallyOpen: true,
+    containerInitiallyOpen: false,
     childrenInitiallyOpen: true,
     loading: false,
     checkinLoading: false,
@@ -201,23 +201,35 @@ function handleSegmentsExport(payload: CheckinSegmentsExportPayload) {
   margin-bottom: 20px;
 }
 
-.checkin-container__title {
+.card-header {
+  position: relative;
+  text-align: left;
+}
+
+.header-content {
+  width: 100%;
+  text-align: left;
+}
+
+.card-title {
+  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   margin: 0;
-  line-height: 1.35;
+  line-height: 1.3;
   letter-spacing: -0.02em;
-  font-weight: 600;
-  font-size: 1.375rem;
-  background: linear-gradient(135deg, var(--kiut-primary-light, #818cf8), var(--kiut-primary-default, #6366f1));
+  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
-.checkin-container__subtitle {
+.card-subtitle {
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--kiut-text-secondary);
-  margin: 4px 0 0 0;
+  margin: 0;
   line-height: 1.25rem;
 }
 

@@ -107,7 +107,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    containerInitiallyOpen: true,
+    containerInitiallyOpen: false,
     loading: false,
     enableExport: true,
     data: mockCSATData,

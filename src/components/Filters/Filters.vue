@@ -26,7 +26,7 @@
           :aria-controls="openFilterId === def.id ? panelId : undefined"
           @click="toggleAddPanel(def, $event)"
         >
-          <PlusIcon class="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+          <PlusIcon class="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
           <span class="truncate">{{ def.label }}</span>
           <span
             v-if="def.type === 'select' && selectCount(def) > 0"
@@ -410,7 +410,7 @@ function filterPillClass(def: FilterDefinition): string {
   if (open || has) {
     return 'border border-solid border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)] dark:bg-[color:var(--kiut-primary)]/15 dark:text-[color:var(--kiut-primary-light)]';
   }
-  return 'border border-dashed border-slate-400/90 text-[color:var(--kiut-text-secondary)] hover:border-[color:var(--kiut-primary)]/50 hover:bg-slate-50 dark:border-slate-500 dark:text-slate-400 dark:hover:border-[color:var(--kiut-primary-light)]/40 dark:hover:bg-white/[0.04]';
+  return 'border border-dashed border-[#838395] text-[color:var(--kiut-text-secondary)] hover:border-[#838395] hover:bg-slate-50 dark:border-[#838395] dark:text-slate-400 dark:hover:border-[#838395] dark:hover:bg-white/[0.04]';
 }
 
 function filterPillAriaLabel(def: FilterDefinition): string {
