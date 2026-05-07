@@ -103,39 +103,45 @@
               <span class="sl-cell text-center">{{ useNumberFormat(Number(row.sell_bank_transfer_count) || 0) }}</span>
             </template>
             <template #cell-btValue="{ row }">
-              <span class="sl-cell text-center warning-value">
+              <span class="sl-cell text-center success-value">
                 <div
-                  v-if="Array.isArray(row.daily_value_sell_bank_transfer) && row.daily_value_sell_bank_transfer.length > 0"
+                  v-if="Array.isArray(sellerDayFromRow(row).daily_value_sell_success_bank_transfer) && (sellerDayFromRow(row).daily_value_sell_success_bank_transfer as CurrencyValue[]).length > 0"
                   class="currency-cell-list"
                 >
                   <span
-                    v-for="item in row.daily_value_sell_bank_transfer"
-                    :key="`${row.date}-bt-${item.currency}`"
+                    v-for="item in (sellerDayFromRow(row).daily_value_sell_success_bank_transfer as CurrencyValue[])"
+                    :key="`${row.date}-bt-success-${item.currency}`"
                   >
                     {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
                   </span>
                 </div>
                 <span v-else class="empty-cell">-</span>
               </span>
+            </template>
+            <template #cell-btSuccess="{ row }">
+              <span class="sl-cell text-center success-value">{{ useNumberFormat(Number(sellerDayFromRow(row).sell_success_bank_transfer_count) || 0) }}</span>
             </template>
             <template #cell-cashOption="{ row }">
               <span class="sl-cell text-center">{{ useNumberFormat(Number(row.sell_cash_option_count) || 0) }}</span>
             </template>
             <template #cell-coValue="{ row }">
-              <span class="sl-cell text-center warning-value">
+              <span class="sl-cell text-center success-value">
                 <div
-                  v-if="Array.isArray(row.daily_value_sell_cash_option) && row.daily_value_sell_cash_option.length > 0"
+                  v-if="Array.isArray(sellerDayFromRow(row).daily_value_sell_success_cash) && (sellerDayFromRow(row).daily_value_sell_success_cash as CurrencyValue[]).length > 0"
                   class="currency-cell-list"
                 >
                   <span
-                    v-for="item in row.daily_value_sell_cash_option"
-                    :key="`${row.date}-co-${item.currency}`"
+                    v-for="item in (sellerDayFromRow(row).daily_value_sell_success_cash as CurrencyValue[])"
+                    :key="`${row.date}-co-success-${item.currency}`"
                   >
                     {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
                   </span>
                 </div>
                 <span v-else class="empty-cell">-</span>
               </span>
+            </template>
+            <template #cell-cashSuccess="{ row }">
+              <span class="sl-cell text-center success-value">{{ useNumberFormat(Number(sellerDayFromRow(row).sell_success_cash_count) || 0) }}</span>
             </template>
             <template #cell-sellSuccess="{ row }">
               <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_success_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
@@ -220,9 +226,13 @@ interface SellerDayData {
   sell_success_count: number;
   sell_bank_transfer_count: number;
   sell_cash_option_count: number;
+  sell_success_bank_transfer_count?: number;
+  sell_success_cash_count?: number;
   daily_value_sell_success: number | CurrencyValue[];
   daily_value_sell_bank_transfer: CurrencyValue[];
   daily_value_sell_cash_option: CurrencyValue[];
+  daily_value_sell_success_bank_transfer?: CurrencyValue[];
+  daily_value_sell_success_cash?: CurrencyValue[];
   reasons?: FailedReason[];
 }
 
@@ -238,9 +248,13 @@ interface SellerData {
   total_sell_success: number;
   total_sell_bank_transfer: number;
   total_sell_cash_option: number;
+  total_sell_success_bank_transfer?: number;
+  total_sell_success_cash?: number;
   total_value_sell_success: number | CurrencyValue[];
   total_value_sell_bank_transfer: CurrencyValue[];
   total_value_sell_cash_option: CurrencyValue[];
+  total_value_sell_success_bank_transfer?: CurrencyValue[];
+  total_value_sell_success_cash?: CurrencyValue[];
   seller_by_day: SellerDayData[];
 }
 
@@ -352,9 +366,11 @@ const sellerTableColumns: TableColumn[] = [
   { key: 'getQuote', label: 'Get Quote', align: 'center' },
   { key: 'bookingCreated', label: 'Booking Created', align: 'center' },
   { key: 'bankTransfer', label: 'Bank Transfer', align: 'center' },
-  { key: 'btValue', label: 'BT Value', align: 'center' },
+  { key: 'btValue', label: 'BT Success Value', align: 'center' },
+  { key: 'btSuccess', label: 'BT Success', align: 'center' },
   { key: 'cashOption', label: 'Cash Option', align: 'center' },
-  { key: 'coValue', label: 'CO Value', align: 'center' },
+  { key: 'coValue', label: 'CO Success Value', align: 'center' },
+  { key: 'cashSuccess', label: 'Cash Success', align: 'center' },
   { key: 'sellSuccess', label: 'Sell Success', align: 'center' },
   { key: 'totalSalesValue', label: 'Total Sales Value', align: 'center' },
   { key: 'failed', label: 'Failed', align: 'left' },
@@ -387,16 +403,21 @@ const sankeyData = computed(() => {
     total_sell_success: success = 0,
     total_sell_bank_transfer: bankTransfer = 0,
     total_sell_cash_option: cashOption = 0,
+    total_sell_success_bank_transfer: successBankTransfer = 0,
+    total_sell_success_cash: successCash = 0,
   } = sellerData.value
   const { failed_by_reason_by_day = [] } = failedData.value
 
   if (conversations === 0) return { nodes: [], links: [] }
 
+  // Sell Success (online) = total sell_success minus the offline-confirmed ones
+  const successOnline = Math.max(0, success - (successBankTransfer ?? 0) - (successCash ?? 0))
+
   const nodes: { name: string; value: number }[] = [
     { name: 'Sell Initiated', value: conversations },
     { name: 'Sell Started', value: started },
     { name: 'Booking Created', value: bookingCreated },
-    { name: 'Sell Success', value: success },
+    { name: 'Sell Success', value: successOnline },
   ]
 
   const links: { source: string; target: string; value: number; label: string }[] = []
@@ -471,17 +492,40 @@ const sankeyData = computed(() => {
     })
   }
 
-  if (success > 0) {
-    const percentage = Math.round((success / conversations) * 100)
+  if (successOnline > 0) {
+    const percentage = Math.round((successOnline / conversations) * 100)
     links.push({
       source: 'Booking Created',
       target: 'Sell Success',
-      value: success,
-      label: `${success.toLocaleString()} (${percentage}%)`,
+      value: successOnline,
+      label: `${successOnline.toLocaleString()} (${percentage}%)`,
     })
   }
 
-  const failedAtCompletion = bookingCreated - success - bankTransfer - cashOption
+  // ETL-confirmed success nodes after Bank Transfer and Cash Option
+  if ((successBankTransfer ?? 0) > 0) {
+    const percentage = Math.round(((successBankTransfer ?? 0) / conversations) * 100)
+    nodes.push({ name: 'Bank Transfer Success', value: successBankTransfer ?? 0 })
+    links.push({
+      source: 'Bank Transfer',
+      target: 'Bank Transfer Success',
+      value: successBankTransfer ?? 0,
+      label: `${(successBankTransfer ?? 0).toLocaleString()} (${percentage}%)`,
+    })
+  }
+
+  if ((successCash ?? 0) > 0) {
+    const percentage = Math.round(((successCash ?? 0) / conversations) * 100)
+    nodes.push({ name: 'Cash Option Success', value: successCash ?? 0 })
+    links.push({
+      source: 'Cash Option',
+      target: 'Cash Option Success',
+      value: successCash ?? 0,
+      label: `${(successCash ?? 0).toLocaleString()} (${percentage}%)`,
+    })
+  }
+
+  const failedAtCompletion = bookingCreated - successOnline - bankTransfer - cashOption
   if (failedAtCompletion > 0) {
     const percentage = Math.round((failedAtCompletion / conversations) * 100)
     nodes.push({ name: 'Failed at Completion', value: failedAtCompletion })
@@ -548,6 +592,8 @@ const SANKEY_SELLER_COLORS: Record<string, string> = {
   'Booking Created': '#8B8CF6',
   'Bank Transfer': '#fde68a',
   'Cash Option': '#fde68a',
+  'Bank Transfer Success': '#4ade80',
+  'Cash Option Success': '#4ade80',
   'Other Payment': '#818CF8',
   'Sell Success': '#7BE39E',
   'Sell Failed': '#FCA5A5',
