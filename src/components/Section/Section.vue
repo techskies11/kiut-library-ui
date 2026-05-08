@@ -2,7 +2,7 @@
   <section class="text-left font-['Inter',system-ui,sans-serif]">
     <header
       v-if="$slots.description || $slots.actions"
-      class="flex flex-col gap-4 sm:flex-row sm:items-start"
+      class="flex flex-col gap-4 sm:flex-row"
       :class="headerRowClass"
     >
       <div
@@ -13,7 +13,7 @@
       </div>
       <div
         v-if="$slots.actions"
-        class="flex shrink-0 flex-wrap items-center justify-end gap-2 sm:pt-0.5"
+        class="flex shrink-0 flex-wrap items-center justify-end gap-2"
       >
         <slot name="actions" />
       </div>
@@ -42,10 +42,13 @@ const headerRowClass = computed(() => {
   const hasDescription = Boolean(slots.description);
   const hasActions = Boolean(slots.actions);
   if (hasDescription && hasActions) {
-    return 'sm:justify-between';
+    return 'sm:justify-between sm:items-center';
   }
   if (!hasDescription && hasActions) {
     return 'max-sm:items-end sm:justify-end';
+  }
+  if (hasDescription && !hasActions) {
+    return 'sm:items-start';
   }
   return '';
 });
