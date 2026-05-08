@@ -20617,19 +20617,19 @@ const MC = ["aria-expanded", "aria-labelledby", "aria-label"], SC = ["onKeydown"
   class: "flex min-w-0 flex-1 flex-col gap-1.5"
 }, tM = {
   key: 1,
-  class: "flex shrink-0 flex-wrap items-center justify-end gap-2 sm:pt-0.5"
+  class: "flex shrink-0 flex-wrap items-center justify-end gap-2"
 }, eM = /* @__PURE__ */ tt({
   name: "Section",
   __name: "Section",
   setup(e) {
     const t = Wo(), a = D(() => {
       const n = !!t.description, s = !!t.actions;
-      return n && s ? "sm:justify-between" : !n && s ? "max-sm:items-end sm:justify-end" : "";
+      return n && s ? "sm:justify-between sm:items-center" : !n && s ? "max-sm:items-end sm:justify-end" : n && !s ? "sm:items-start" : "";
     });
     return (n, s) => (v(), b("section", QC, [
       n.$slots.description || n.$slots.actions ? (v(), b("header", {
         key: 0,
-        class: q(["flex flex-col gap-4 sm:flex-row sm:items-start", a.value])
+        class: q(["flex flex-col gap-4 sm:flex-row", a.value])
       }, [
         n.$slots.description ? (v(), b("div", JC, [
           Rt(n.$slots, "description")
