@@ -520,6 +520,93 @@ export const CustomSizes: Story = {
 };
 
 // ──────────────────────────────────────────────────────────────────
+// Mobile layout (bottom tab bar + bottom sheet)
+// ──────────────────────────────────────────────────────────────────
+
+export const Mobile: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "On viewports narrower than `mobileBreakpoint` (default 768px) the navigation switches to a fixed bottom tab bar. Tapping a section with sub-items reveals a bottom sheet. Tapping outside the sheet or a close button dismisses it.",
+      },
+    },
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: () => ({
+    components: { AppShellNavigation },
+    setup() {
+      const selectedSectionId = ref<string | null>(null);
+      const activePath = ref("/personality");
+      function onNavigate({ item }: { item: { path: string } }) {
+        activePath.value = item.path;
+      }
+      return { demoSections, selectedSectionId, activePath, onNavigate };
+    },
+    template: `
+      <div class="relative h-screen bg-[color:var(--kiut-bg-primary)] overflow-hidden" style="max-width:390px">
+        <main class="flex-1 p-5 pb-16">
+          <h2 class="text-base font-semibold text-[color:var(--kiut-text-primary)] mb-1">Mobile Navigation</h2>
+          <p class="text-sm text-[color:var(--kiut-text-secondary)] mb-4">
+            Tap a section in the bottom bar to open its items in a sheet.
+          </p>
+          <p class="text-xs text-[color:var(--kiut-text-muted)]">
+            Selected section: <strong>{{ selectedSectionId ?? '—' }}</strong><br />
+            Active path: <strong>{{ activePath }}</strong>
+          </p>
+        </main>
+        <AppShellNavigation
+          :sections="demoSections"
+          v-model:selectedSectionId="selectedSectionId"
+          :activePath="activePath"
+          :mobileBreakpoint="9999"
+          @navigate="onNavigate"
+        />
+      </div>
+    `,
+  }),
+};
+
+export const MobileDark: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "Mobile layout in dark mode.",
+      },
+    },
+    viewport: { defaultViewport: "mobile1" },
+  },
+  render: () => ({
+    components: { AppShellNavigation },
+    setup() {
+      const selectedSectionId = ref<string | null>("aiAgents");
+      const activePath = ref("/personality");
+      function onNavigate({ item }: { item: { path: string } }) {
+        activePath.value = item.path;
+      }
+      return { demoSections, selectedSectionId, activePath, onNavigate };
+    },
+    template: `
+      <div class="dark relative h-screen bg-[#000] overflow-hidden" style="max-width:390px">
+        <main class="flex-1 p-5 pb-16">
+          <h2 class="text-base font-semibold text-[color:var(--kiut-text-primary)] mb-1">Dark Mobile</h2>
+          <p class="text-sm text-[color:var(--kiut-text-secondary)]">
+            Active path: <strong>{{ activePath }}</strong>
+          </p>
+        </main>
+        <AppShellNavigation
+          :sections="demoSections"
+          v-model:selectedSectionId="selectedSectionId"
+          :activePath="activePath"
+          :mobileBreakpoint="9999"
+          @navigate="onNavigate"
+        />
+      </div>
+    `,
+  }),
+};
+
+// ──────────────────────────────────────────────────────────────────
 // Custom rail widths
 // ──────────────────────────────────────────────────────────────────
 
