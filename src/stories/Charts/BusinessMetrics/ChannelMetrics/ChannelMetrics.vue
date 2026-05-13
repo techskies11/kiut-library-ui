@@ -1,107 +1,163 @@
 <template>
-  <article class="channel-metrics-card">
-    <header class="card-header">
-      <div class="header-content">
-        <h3 class="card-title">Interactions by Channel</h3>
-        <p class="card-subtitle">Responses sent by AI agents</p>
-      </div>
-    </header>
-
-    <!-- Content when loaded -->
-    <div class="card-body" v-if="!props.loading">
-      <!-- Chart Section -->
-      <section v-if="dataChart.labels && dataChart.labels.length" class="chart-section">
-        <LineChart :data="dataChart" :options="lineOptions" />
-
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
-      </section>
-
-      <!-- KPI Cards -->
-      <div class="kpi-grid" v-if="channelTotals.length">
-        <div
-          class="kpi-card"
-          v-for="ch in channelTotals"
-          :key="ch.name"
+  <ChartMetricContainer
+    class="w-full min-h-0 self-start"
+    title="Interactions by Channel"
+    subtitle="Responses sent by AI agents"
+    :collapsible="false"
+  >
+    <template
+      v-if="
+        enableExport &&
+        !props.loading &&
+        ((dataChart.labels && dataChart.labels.length > 0) ||
+          channelTotals.length > 0)
+      "
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        :loading="exportLoading"
+        @export="handleExport"
+      />
+    </template>
+    <div
+      class="flex min-h-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
+      :class="props.loading ? 'flex-1' : 'w-full shrink-0'"
+    >
+      <div
+        v-if="props.loading"
+        class="flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
+      >
+        <div class="mb-6 flex h-[100px] items-end justify-center gap-2.5">
+          <div
+            v-for="(pct, i) in loaderBarHeights"
+            :key="i"
+            class="w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 shadow-[var(--kiut-shadow-loader,0_4px_14px_rgba(139,92,246,0.25))] dark:from-violet-500 dark:via-violet-400 dark:to-violet-300"
+            :class="loaderDelays[i]"
+            :style="{ height: `${pct}%` }"
+          />
+        </div>
+        <p
+          class="animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]"
         >
-          <div class="kpi-label-row">
-            <span class="kpi-color-dot" :style="{ backgroundColor: ch.color }" aria-hidden="true"></span>
-            <span class="kpi-label" :title="ch.label">{{ ch.label }}</span>
-          </div>
-          <span class="kpi-value">{{ ch.percentage }}%</span>
-          <span class="kpi-secondary">{{ useNumberFormat(ch.total) }} msgs</span>
-        </div>
+          Loading channel metrics...
+        </p>
       </div>
 
-      <!-- Empty State -->
-      <section v-else class="empty-state">
-        <div class="empty-state-content">
-          <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
+      <template v-else>
+        <section
+          v-if="dataChart.labels && dataChart.labels.length"
+          class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
+        >
+          <div
+            class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"
+          >
+            <LineChart :data="dataChart" :theme="theme" />
           </div>
-          <p class="empty-title">No channel metrics data available</p>
-          <p class="empty-description">No channel data found for the selected period. Try adjusting the date range.</p>
-        </div>
-      </section>
-    </div>
+          <div
+            v-if="channelTotalsTop4.length"
+            :class="cardInfoGridClass"
+          >
+            <CardInfo
+              v-for="ch in channelTotalsTop4"
+              :key="ch.name"
+              :color="ch.color"
+              :title="ch.label"
+              :value="`${ch.percentage}%`"
+              :subvalue="`${useNumberFormat(ch.total)} msgs`"
+            />
+          </div>
+        </section>
 
-    <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-else>
-      <div class="loading-container">
-        <div class="chart-bars-loader">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="bar bar-4"></div>
-          <div class="bar bar-5"></div>
-        </div>
-        <p class="loading-text">Loading channel metrics...</p>
-      </div>
+        <section
+          v-else-if="channelTotals.length"
+          class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
+        >
+          <div :class="cardInfoGridClass">
+            <CardInfo
+              v-for="ch in channelTotalsTop4"
+              :key="ch.name"
+              :color="ch.color"
+              :title="ch.label"
+              :value="`${ch.percentage}%`"
+              :subvalue="`${useNumberFormat(ch.total)} msgs`"
+            />
+          </div>
+        </section>
+
+        <section v-if="!channelTotals.length" class="flex min-h-[280px] flex-1 items-center justify-center">
+          <div class="max-w-[360px] px-4 text-center">
+            <div
+              class="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]"
+            >
+              <ChartBarIcon class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" />
+            </div>
+            <p
+              class="mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]"
+            >
+              No channel metrics data available
+            </p>
+            <p
+              class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
+            >
+              No channel data found for the selected period. Try adjusting the date range.
+            </p>
+          </div>
+        </section>
+      </template>
     </div>
-  </article>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, computed, toRef } from 'vue'
 import moment from 'moment'
+import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import LineChart from '../../Line/ChartLine.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
+const loaderBarHeights = [30, 50, 70, 50, 40]
+const loaderDelays = ['', 'delay-100', 'delay-200', 'delay-300', 'delay-[400ms]']
+
 interface ChannelsByDay {
   [date: string]: {
-    [channel: string]: number;
-  };
+    [channel: string]: number
+  }
 }
 
 interface TotalByChannel {
-  [channel: string]: number;
+  [channel: string]: number
 }
 
 interface MetricsData {
-  airline_name?: string;
-  start_date?: string;
-  end_date?: string;
-  channels_by_day: ChannelsByDay;
-  total_by_channel: TotalByChannel;
-  total_conversations: number;
+  airline_name?: string
+  start_date?: string
+  end_date?: string
+  channels_by_day: ChannelsByDay
+  total_by_channel: TotalByChannel
+  total_conversations: number
 }
 
-const props = withDefaults(defineProps<{
-  loading?: boolean;
-  data?: MetricsData | null;
-  theme?: Theme;
-  enableExport?: boolean;
-  exportLoading?: boolean;
-}>(), {
-  loading: false,
-  data: null,
-  theme: undefined,
-  enableExport: false,
-  exportLoading: false
-})
+const props = withDefaults(
+  defineProps<{
+    loading?: boolean
+    data?: MetricsData | null
+    theme?: Theme
+    enableExport?: boolean
+    exportLoading?: boolean
+  }>(),
+  {
+    loading: false,
+    data: null,
+    theme: undefined,
+    enableExport: false,
+    exportLoading: false,
+  },
+)
 
 const emit = defineEmits<{
   export: [format: ExportFormat]
@@ -111,8 +167,8 @@ const handleExport = (format: ExportFormat) => {
   emit('export', format)
 }
 
-// Theme detection with prop fallback
-const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
+const theme = toRef(props, 'theme')
+const { isDark } = useThemeDetection(theme)
 
 const channelColorMap: Record<string, string> = {
   wsp: '#25D366',
@@ -127,11 +183,14 @@ const channelColorMap: Record<string, string> = {
 }
 
 const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
-const metricsData = computed<MetricsData>(() => props.data ?? {
-  channels_by_day: {},
-  total_by_channel: {},
-  total_conversations: 0,
-})
+const metricsData = computed<MetricsData>(
+  () =>
+    props.data ?? {
+      channels_by_day: {},
+      total_by_channel: {},
+      total_conversations: 0,
+    },
+)
 
 const channelTotals = computed(() => {
   const totalByChannel = metricsData.value.total_by_channel || {}
@@ -149,83 +208,16 @@ const channelTotals = computed(() => {
     }))
 })
 
-const lineOptions = computed(() => ({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: true,
-      position: 'top' as const,
-      labels: {
-        usePointStyle: true,
-        padding: 20,
-        font: {
-          family: "'DM Sans', sans-serif",
-          size: 12,
-        },
-        color: colors.value.textSecondary,
-      },
-    },
-    tooltip: {
-      mode: 'index' as const,
-      intersect: false,
-      backgroundColor: colors.value.tooltipBg,
-      titleColor: colors.value.tooltipText,
-      bodyColor: colors.value.textSecondary,
-      borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
-      borderWidth: 1,
-      padding: 12,
-      cornerRadius: 8,
-      titleFont: {
-        family: "'Space Grotesk', sans-serif",
-        size: 14,
-        weight: 600,
-      },
-      bodyFont: {
-        family: "'DM Sans', sans-serif",
-        size: 13,
-      },
-    },
-  },
-  scales: {
-    x: {
-      display: true,
-      grid: {
-        color: colors.value.gridLines,
-        lineWidth: 1,
-        drawTicks: false,
-      },
-      ticks: {
-        font: {
-          family: "'DM Sans', sans-serif",
-          size: 11,
-        },
-        color: colors.value.textSecondary,
-      },
-    },
-    y: {
-      type: 'linear' as const,
-      display: true,
-      position: 'left' as const,
-      beginAtZero: true,
-      grid: {
-        color: colors.value.gridLines,
-      },
-      ticks: {
-        font: {
-          family: "'DM Sans', sans-serif",
-          size: 11,
-        },
-        color: colors.value.textSecondary,
-      },
-    },
-  },
-  interaction: {
-    mode: 'nearest' as const,
-    axis: 'x' as const,
-    intersect: false,
-  },
-}))
+const channelTotalsTop4 = computed(() => channelTotals.value.slice(0, 4))
+
+/** Reparto horizontal: 3 cards → 3 columnas al 100% del ancho. */
+const cardInfoGridClass = computed(() => {
+  const n = channelTotalsTop4.value.length
+  if (n <= 1) return 'grid w-full grid-cols-1 gap-3 sm:gap-4'
+  if (n === 2) return 'grid w-full grid-cols-2 gap-3 sm:gap-4'
+  if (n === 3) return 'grid w-full grid-cols-3 gap-3 sm:gap-4'
+  return 'grid w-full grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4'
+})
 
 const processChartData = (data: MetricsData | null) => {
   if (!data || !data.channels_by_day) {
@@ -241,7 +233,6 @@ const processChartData = (data: MetricsData | null) => {
     return
   }
 
-  // Obtener todas las categorías únicas de canales
   const categoriesSet = new Set<string>()
   for (const dayData of Object.values(daysData)) {
     for (const category of Object.keys(dayData)) {
@@ -250,339 +241,38 @@ const processChartData = (data: MetricsData | null) => {
   }
   const categories = Array.from(categoriesSet)
 
-  const datasets = categories.map(category => {
+  const datasets = categories.map((category) => {
     const normalizedCategory = category.toLowerCase()
     const color = channelColorMap[normalizedCategory] || '#9ca3af'
-    
+
     return {
       label: category.toUpperCase(),
-      data: labels.map(date => daysData[date]?.[category] || 0),
+      data: labels.map((date) => daysData[date]?.[category] || 0),
       borderColor: color,
-      backgroundColor: `${color}1A`, // 1A = 10% opacity
-      borderWidth: 2,
-      fill: true,
-      tension: 0.4,
-      pointBackgroundColor: color,
-      pointBorderColor: color,
-      pointBorderWidth: 2,
-      pointRadius: 4,
-      pointHoverRadius: 6,
     }
   })
 
   dataChart.value = {
-    labels: labels.map(date => moment(date).format('MMM DD')),
+    labels: labels.map((date) => moment(date).format('MMM DD')),
     datasets,
   }
 }
 
-// Procesar datos cuando cambie el prop data
 watch(
   () => props.data,
   (newData) => {
     processChartData(newData ?? null)
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 
-// Expose isDark for potential use in templates
 defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles */
-.channel-metrics-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Coincide con ChartLine: 220px trazado + 10px banda de indicadores/leyenda */
+.chart-line-area {
   position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.channel-metrics-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 28px;
-  position: relative;
-}
-
-.header-content {
-  width: 100%;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-/* Card Body */
-.card-body {
-  animation: fadeIn 0.5s ease-out;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* KPI Grid */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.kpi-card {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px 10px;
-  background: var(--kiut-bg-stats-badge);
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  text-align: center;
-  min-width: 0;
-}
-
-.kpi-card:hover {
-  background: var(--kiut-bg-card);
-  border-color: var(--kiut-border-color);
-}
-
-.kpi-label-row {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  margin: 0 auto;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.kpi-color-dot {
-  flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-}
-
-.kpi-label {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.kpi-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--kiut-text-primary);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.kpi-secondary {
-  font-size: 0.6875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  line-height: 1.2;
-}
-
-/* Chart Section */
-.chart-section {
-  animation: fadeIn 0.5s ease-out 0.1s backwards;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* Empty State */
-.empty-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 280px;
-}
-
-.empty-state-content {
-  text-align: center;
-  max-width: 360px;
-  animation: fadeIn 0.6s ease-out;
-}
-
-.empty-icon-wrapper {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 80px;
-  background: var(--kiut-bg-empty-icon);
-  border-radius: 20px;
-  margin: 0 auto 20px;
-  box-shadow: var(--kiut-shadow-empty-icon);
-}
-
-.empty-icon {
-  width: 40px;
-  height: 40px;
-  color: var(--kiut-primary);
-}
-
-.empty-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--kiut-text-primary);
-  margin: 0 0 8px 0;
-  letter-spacing: -0.01em;
-}
-
-.empty-description {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* Loading State */
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 380px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-bars-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: 100px;
-  margin-bottom: 24px;
-}
-
-.bar {
-  width: 8px;
-  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
-  border-radius: 4px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
-}
-
-.bar-1 { height: 30%; animation-delay: 0s; }
-.bar-2 { height: 50%; animation-delay: 0.1s; }
-.bar-3 { height: 70%; animation-delay: 0.2s; }
-.bar-4 { height: 50%; animation-delay: 0.3s; }
-.bar-5 { height: 40%; animation-delay: 0.4s; }
-
-.loading-text {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  letter-spacing: -0.01em;
-}
-
-/* Animations */
-@keyframes wave {
-  0%, 100% {
-    transform: scaleY(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scaleY(1.6);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .channel-metrics-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .card-title {
-    font-size: 20px;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 24px;
-  }
-
-  .kpi-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-  }
-
-  .kpi-card {
-    padding: 6px 8px;
-  }
-
-  .kpi-value {
-    font-size: 1rem;
-  }
+  min-height: 0;
 }
 </style>

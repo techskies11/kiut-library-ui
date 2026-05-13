@@ -67,7 +67,13 @@ const meta = {
         component: 'Componente para mostrar métricas de FAQ incluyendo tarjetas KPI y un gráfico de líneas con tendencias diarias de consultas de información de aerolínea, estado de vuelo e información de reservas.'
       }
     }
-  }
+  },
+  decorators: [
+    () => ({
+      template:
+        '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
+    }),
+  ],
 } satisfies Meta<typeof FAQ>;
 
 export default meta;

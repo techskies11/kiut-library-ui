@@ -195,7 +195,13 @@ const meta = {
         component: 'Componente para mostrar métricas de canales de comunicación incluyendo tarjetas KPI con totales por canal y un gráfico de líneas con tendencias diarias de cada canal (SMS, Voice, Web Chat, WhatsApp, etc.).'
       }
     }
-  }
+  },
+  decorators: [
+    () => ({
+      template:
+        '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
+    }),
+  ],
 } satisfies Meta<typeof ChannelMetrics>;
 
 export default meta;

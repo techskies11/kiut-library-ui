@@ -1,16 +1,23 @@
 <template>
-    <article class="top-agents-card">
-        <header class="card-header">
-            <div class="header-content">
-                <h3 class="card-title">Top Agents</h3>
-                <p class="card-subtitle">Interactions by agent (excluding triage)</p>
-            </div>
-        </header>
-
+    <ChartMetricContainer
+        class="top-agents-root h-full min-h-0"
+        title="Top Agents"
+        subtitle="Interactions by agent (excluding triage)"
+        :collapsible="false"
+    >
+        <template
+            v-if="enableExport && !loading && chartData.labels && chartData.labels.length"
+            #headerExport
+        >
+            <FooterExport
+                variant="inline"
+                @export="handleExport"
+                :loading="exportLoading"
+            />
+        </template>
         <div class="card-body" v-if="!loading">
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
                 <PieChart :data="chartData" :options="chartOptions" />
-                <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
             </section>
             <section v-else class="empty-state">
                 <div class="empty-state-content">
@@ -36,12 +43,13 @@
                 <p class="loading-text">Loading chart data...</p>
             </div>
         </div>
-    </article>
+    </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import PieChart from '../../Pie/PieChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { ChartPieIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
@@ -220,62 +228,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles */
-.top-agents-card {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--kiut-bg-card-gradient);
-    border-radius: 20px;
-    padding: 28px 32px;
-    box-shadow: var(--kiut-shadow-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.top-agents-card:hover {
-    box-shadow: var(--kiut-shadow-card-hover);
-    transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 32px;
-    position: relative;
-}
-
-.header-content {
-    flex: 1;
-    text-align: left;
-}
-
-.card-title {
-    font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    margin: 0;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 600;
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-}
-
-.card-subtitle {
-    font-size: .875rem;
-    font-weight: 400;
-    color: var(--kiut-text-secondary);
-    margin: 0px;
-    line-height: 1.25rem;
-}
-
 /* Card Body */
 .card-body {
     min-height: 300px;
@@ -417,23 +369,6 @@ defineExpose({ isDark })
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .top-agents-card {
-        padding: 20px 24px;
-        border-radius: 16px;
-    }
-
-    .card-title {
-        font-size: 20px;
-    }
-
-    .card-subtitle {
-        font-size: 13px;
-    }
-
-    .card-header {
-        margin-bottom: 24px;
-    }
-    
     .chart-section {
         padding-right: 8px;
     }

@@ -1,15 +1,21 @@
 <template>
-  <details :open="initiallyOpen" class="checkin-segments-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <h3 class="card-title">Checkin Segments</h3>
-        <p class="card-subtitle">Breakdown by flight segment with connection when applicable</p>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
-
+  <ChartMetricContainer
+    class="checkin-segments-root h-full min-h-0"
+    title="Checkin Segments"
+    subtitle="Breakdown by flight segment with connection when applicable"
+    :collapsible="collapsible"
+    :default-open="initiallyOpen"
+  >
+    <template
+      v-if="enableExport && !props.loading && props.data.length > 0"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
@@ -26,33 +32,33 @@
 
     <!-- Content when loaded -->
     <div v-else class="card-body">
-      <section v-if="props.data.length > 0" class="table-section">
-        <div class="table-wrapper">
-          <Table :columns="tableColumns" :rows="tableRows" row-key="id">
+      <section v-if="props.data.length > 0" class="checkin-segments-daily-section">
+        <div class="w-full min-w-0">
+          <Table
+            :columns="tableColumns"
+            :rows="tableRows"
+            :max-visible-rows="3"
+            row-key="id"
+          >
             <template #cell-departure="{ row }">
-              <span class="airport-badge">{{ formatAirport(row.departure_airport as string) }}</span>
+              <span class="segment-plain">{{ formatAirport(row.departure_airport as string) }}</span>
             </template>
             <template #cell-connection="{ row }">
-              <span v-if="formatAirport(row.conexion_airport as string) !== '-'" class="airport-badge connection">
+              <span
+                class="segment-plain"
+                :class="{
+                  'segment-plain--muted': formatAirport(row.conexion_airport as string) === '-'
+                }"
+              >
                 {{ formatAirport(row.conexion_airport as string) }}
               </span>
-              <span v-else class="empty-connection">-</span>
             </template>
             <template #cell-arrival="{ row }">
-              <span class="airport-badge">{{ formatAirport(row.arrival_airport as string) }}</span>
+              <span class="segment-plain">{{ formatAirport(row.arrival_airport as string) }}</span>
             </template>
             <template #cell-trip="{ row }">
-              <span v-if="isRoundtrip(row as unknown as SegmentData)" class="trip-badge roundtrip">
-                <svg class="trip-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Roundtrip
-              </span>
-              <span v-else class="trip-badge oneway">
-                <svg class="trip-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-                One way
+              <span class="segment-plain">
+                {{ isRoundtrip(row as unknown as SegmentData) ? 'Roundtrip' : 'One way' }}
               </span>
             </template>
             <template #cell-init="{ row }">
@@ -69,21 +75,6 @@
             </template>
           </Table>
         </div>
-        <button
-          v-if="hasMoreRows"
-          type="button"
-          class="view-more-btn"
-          @click="showAllRows = !showAllRows"
-        >
-          {{ showAllRows ? 'View less' : `View more (${remainingRows} rows)` }}
-          <svg
-            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -99,15 +90,16 @@
         </div>
       </section>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 interface SegmentData {
   departure_airport: string;
@@ -124,6 +116,8 @@ const props = withDefaults(defineProps<{
   loading?: boolean;
   /** Initial expanded state for the collapsible card */
   initiallyOpen?: boolean;
+  /** Si es false, el card siempre abierto sin chevron (p. ej. dentro de CheckinContainer). */
+  collapsible?: boolean;
   theme?: Theme;
   enableExport?: boolean;
   exportLoading?: boolean;
@@ -131,6 +125,7 @@ const props = withDefaults(defineProps<{
   data: () => [],
   loading: false,
   initiallyOpen: false,
+  collapsible: true,
   theme: undefined,
   enableExport: false,
   exportLoading: false
@@ -147,14 +142,6 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
-const visibleData = computed(() => {
-  if (showAllRows.value) return props.data
-  return props.data.slice(0, MAX_VISIBLE_ROWS)
-})
-
 const tableColumns: TableColumn[] = [
   { key: 'departure', label: 'Departure', align: 'center' },
   { key: 'connection', label: 'Connection', align: 'center' },
@@ -167,7 +154,7 @@ const tableColumns: TableColumn[] = [
 ]
 
 const tableRows = computed((): Record<string, unknown>[] =>
-  visibleData.value.map((row, idx) => ({
+  props.data.map((row, idx) => ({
     id: `segment-${idx}-${row.departure_airport}-${row.arrival_airport}-${row.segment_init_count}-${row.segment_started_count}`,
     departure_airport: row.departure_airport,
     conexion_airport: row.conexion_airport,
@@ -178,10 +165,6 @@ const tableRows = computed((): Record<string, unknown>[] =>
     segment_closed_count: row.segment_closed_count,
   }))
 )
-
-const hasMoreRows = computed(() => props.data.length > MAX_VISIBLE_ROWS)
-
-const remainingRows = computed(() => Math.max(0, props.data.length - MAX_VISIBLE_ROWS))
 
 const calculatePercentage = (value: number, total: number): string => {
   if (!total || total === 0 || !value) return '0%'
@@ -207,62 +190,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-/* Main Card Styles */
-.checkin-segments-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.checkin-segments-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 28px;
-  position: relative;
-}
-
-.header-content {
-  width: 100%;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -271,69 +198,25 @@ defineExpose({ isDark })
   flex-direction: column;
 }
 
-/* Table Section */
-.table-section {
+/* Bloque tabla segmentos (chrome de <table>: Utils/Table) */
+.checkin-segments-daily-section {
   animation: fadeIn 0.5s ease-out;
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
-.table-wrapper {
-  flex: 1;
-  overflow-x: auto;
-}
-
-/* Airport Badge */
-.airport-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 12px;
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  color: #1e40af;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
-}
-
-.airport-badge.connection {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  color: #92400e;
-}
-
-.empty-connection {
-  color: var(--kiut-text-muted);
+/* Celdas de aeropuerto / tipo de viaje sin pills */
+.segment-plain {
   font-size: 0.875rem;
-}
-
-/* Trip Badge */
-.trip-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 9999px;
-  font-size: 0.75rem;
   font-weight: 500;
+  color: var(--kiut-text-primary);
 }
 
-.trip-badge.roundtrip {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  color: #047857;
+.segment-plain--muted {
+  color: var(--kiut-text-muted);
 }
-
-.trip-badge.oneway {
-  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-  color: #0369a1;
-}
-
-.trip-icon {
-  width: 14px;
-  height: 14px;
-}
-
 /* Percentage Value */
 .percentage-value {
   font-weight: 500;
@@ -469,30 +352,7 @@ defineExpose({ isDark })
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-  .table-wrapper {
-    overflow-x: scroll;
-  }
-}
-
 @media (max-width: 768px) {
-  .checkin-segments-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .card-title {
-    font-size: 20px;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 24px;
-  }
-
   .airport-badge {
     padding: 4px 8px;
     font-size: 0.75rem;

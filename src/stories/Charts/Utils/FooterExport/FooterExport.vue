@@ -1,8 +1,8 @@
 <template>
-  <footer class="chart-footer">
-    <div class="footer-divider"></div>
-    <div class="export-actions">
-      <span class="export-label">Export</span>
+  <component :is="rootTag" :class="rootClass">
+    <div v-if="variant === 'footer'" class="footer-divider"></div>
+    <div class="export-actions" :class="{ 'export-actions--inline': variant === 'inline' }">
+      <span v-if="variant === 'footer'" class="export-label">Export</span>
       <div class="export-buttons">
         <button
           v-if="showFormat('pdf')"
@@ -13,7 +13,6 @@
           title="Download PDF"
           @click="handleExport('pdf')"
         >
-          <!-- Loading spinner -->
           <svg
             v-if="loading"
             class="spinner"
@@ -28,7 +27,6 @@
             <circle cx="12" cy="12" r="10" stroke-opacity="0.25" />
             <path d="M12 2a10 10 0 0 1 10 10" />
           </svg>
-          <!-- PDF icon -->
           <svg
             v-else
             width="14"
@@ -57,7 +55,6 @@
           title="Download CSV"
           @click="handleExport('csv')"
         >
-          <!-- Loading spinner -->
           <svg
             v-if="loading"
             class="spinner"
@@ -72,7 +69,6 @@
             <circle cx="12" cy="12" r="10" stroke-opacity="0.25" />
             <path d="M12 2a10 10 0 0 1 10 10" />
           </svg>
-          <!-- CSV icon -->
           <svg
             v-else
             width="14"
@@ -93,46 +89,38 @@
         </button>
       </div>
     </div>
-  </footer>
+  </component>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+
 export type ExportFormat = 'pdf' | 'csv'
+export type FooterExportVariant = 'footer' | 'inline'
 
 const props = withDefaults(defineProps<{
-  /**
-   * Array of export formats to display
-   * @default ['pdf', 'csv']
-   */
   formats?: ExportFormat[]
-  /**
-   * Loading state (shows spinner on all buttons)
-   * @default false
-   */
   loading?: boolean
+  variant?: FooterExportVariant
 }>(), {
   formats: () => ['pdf', 'csv'],
-  loading: false
+  loading: false,
+  variant: 'footer',
 })
 
 const emit = defineEmits<{
-  /**
-   * Emitted when an export button is clicked
-   * @param format - The export format type ('pdf' | 'csv')
-   */
   export: [format: ExportFormat]
 }>()
 
-/**
- * Check if a format should be displayed
- */
+const rootTag = computed(() => (props.variant === 'footer' ? 'footer' : 'div'))
+const rootClass = computed(() =>
+  props.variant === 'footer' ? 'chart-footer' : 'chart-export-inline',
+)
+
 const showFormat = (format: ExportFormat): boolean => {
   return props.formats.includes(format)
 }
 
-/**
- * Handle export button click
- */
 const handleExport = (format: ExportFormat) => {
   if (!props.loading) {
     emit('export', format)
@@ -141,9 +129,15 @@ const handleExport = (format: ExportFormat) => {
 </script>
 
 <style scoped>
-/* Chart Footer */
 .chart-footer {
   margin-top: 20px;
+}
+
+.chart-export-inline {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .footer-divider {
@@ -166,6 +160,10 @@ const handleExport = (format: ExportFormat) => {
   gap: 12px;
 }
 
+.export-actions--inline {
+  justify-content: flex-start;
+}
+
 .export-label {
   font-size: 0.75rem;
   font-weight: 500;
@@ -180,6 +178,12 @@ const handleExport = (format: ExportFormat) => {
   gap: 8px;
 }
 
+.chart-export-inline .export-buttons {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
 .export-btn {
   display: inline-flex;
   align-items: center;
@@ -187,7 +191,14 @@ const handleExport = (format: ExportFormat) => {
   padding: 6px 12px;
   font-size: 0.75rem;
   font-weight: 500;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    'DM Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
   color: var(--kiut-text-secondary, #64748b);
   background: transparent;
   border: 1px solid var(--kiut-border-light, rgba(0, 0, 0, 0.05));
@@ -195,6 +206,21 @@ const handleExport = (format: ExportFormat) => {
   text-decoration: none;
   transition: all 0.2s ease;
   cursor: pointer;
+}
+
+.chart-export-inline .export-btn {
+  padding: 0 6px;
+  font-size: 10px;
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    sans-serif;
+  line-height: 1.25;
+}
+
+.chart-export-inline .export-btn svg {
+  width: 12px;
+  height: 12px;
 }
 
 .export-btn:hover:not(:disabled) {
@@ -226,7 +252,6 @@ const handleExport = (format: ExportFormat) => {
   opacity: 1;
 }
 
-/* Spinner animation */
 .spinner {
   animation: spin 0.8s linear infinite;
   opacity: 1 !important;
@@ -241,17 +266,16 @@ const handleExport = (format: ExportFormat) => {
   }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .export-buttons {
     gap: 6px;
   }
 
-  .export-btn span {
+  .chart-footer .export-btn span {
     display: none;
   }
 
-  .export-btn {
+  .chart-footer .export-btn {
     padding: 8px;
   }
 }

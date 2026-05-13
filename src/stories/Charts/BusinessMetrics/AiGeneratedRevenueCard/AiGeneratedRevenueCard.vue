@@ -1,28 +1,37 @@
 <template>
-  <article :class="['highlight-card', { 'highlight-card--dark': isDark }]">
-    <header class="card-header">
-      <div class="icon-wrapper">
-        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-2.407-1.204a5.97 5.97 0 01-1.593-.98l-3.5-2.625a2.25 2.25 0 010-3.602l3.5-2.625a5.97 5.97 0 011.593-.98L9 5.25l.813 2.846a2.25 2.25 0 001.341 1.457l2.846.813-2.846.813a2.25 2.25 0 00-1.341 1.457zM15.75 5.25l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975l-.537 1.879-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975l.537-1.879zM18 12.75l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975L18 19.53l-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975L18 12.75z" />
-        </svg>
+  <ChartMetricContainer title="Total Conversations" :collapsible="false" class="total-conv-metric w-full">
+    <template #title>
+      <div class="header-title-group">
+        <div class="icon-wrapper">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-2.407-1.204a5.97 5.97 0 01-1.593-.98l-3.5-2.625a2.25 2.25 0 010-3.602l3.5-2.625a5.97 5.97 0 011.593-.98L9 5.25l.813 2.846a2.25 2.25 0 001.341 1.457l2.846.813-2.846.813a2.25 2.25 0 00-1.341 1.457zM15.75 5.25l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975l-.537 1.879-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975l.537-1.879zM18 12.75l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975L18 19.53l-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975L18 12.75z" />
+          </svg>
+        
+        </div>
+        <span class="kpi-heading-text">AI-Generated Revenue</span>
       </div>
+    </template>
+    <template #headerAside>
       <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
-    </header>
+    </template>
 
-    <div v-if="loading" class="loading-state">
-      <div class="shimmer shimmer-value"></div>
-      <div class="shimmer shimmer-label"></div>
-    </div>
+    <div :class="['highlight-inner', { 'highlight-inner--dark': isDark }]">
+      <div v-if="loading" class="loading-state">
+        <div class="shimmer shimmer-value"></div>
+        <div class="shimmer shimmer-label"></div>
+      </div>
 
-    <div v-else class="card-body">
-      <span class="metric-value">{{ formattedRevenue }}</span>
-      <span class="metric-label">AI-Generated Revenue</span>
+      <div v-else class="card-body">
+        <span class="metric-value">{{ formattedRevenue }}</span>
+        <span class="metric-label">AI-Generated Revenue</span>
+      </div>
     </div>
-  </article>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 import { useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 
@@ -70,33 +79,30 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.highlight-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #ffffff 0%, #faf8ff 50%, #f5f0ff 100%);
-  border-radius: 18px;
-  padding: 18px 20px;
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 8px 24px -4px rgba(93, 75, 147, 0.08),
-    0 0 0 1px rgba(93, 75, 147, 0.06);
+.header-title-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.kpi-heading-text {
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  letter-spacing: -0.02em;
+}
+
+.highlight-inner--dark .kpi-heading-text {
+  color: #f1f5f9;
+}
+
+.highlight-inner {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  min-height: 150px;
-}
-
-.highlight-card--dark {
-  background: linear-gradient(135deg, #1a1a1d 0%, #1e1b25 50%, #211e2a 100%);
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.2),
-    0 8px 24px -4px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(198, 125, 255, 0.08);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  min-height: 120px;
 }
 
 .icon-wrapper {
@@ -136,9 +142,9 @@ defineExpose({ isDark, changePercent })
   color: #64748b;
 }
 
-.highlight-card--dark .change-badge--up { color: #22c55e; }
-.highlight-card--dark .change-badge--down { color: #f87171; }
-.highlight-card--dark .change-badge--neutral { color: #94a3b8; }
+.highlight-inner--dark .change-badge--up { color: #22c55e; }
+.highlight-inner--dark .change-badge--down { color: #f87171; }
+.highlight-inner--dark .change-badge--neutral { color: #94a3b8; }
 
 .card-body {
   display: flex;
@@ -155,7 +161,7 @@ defineExpose({ isDark, changePercent })
   color: #059669;
 }
 
-.highlight-card--dark .metric-value {
+.highlight-inner--dark .metric-value {
   color: #34d399;
 }
 
@@ -165,7 +171,7 @@ defineExpose({ isDark, changePercent })
   color: #64748b;
 }
 
-.highlight-card--dark .metric-label {
+.highlight-inner--dark .metric-label {
   color: #9ca3af;
 }
 
@@ -187,7 +193,7 @@ defineExpose({ isDark, changePercent })
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.highlight-card--dark .shimmer {
+.highlight-inner--dark .shimmer {
   background: linear-gradient(
     90deg,
     rgba(198, 125, 255, 0.06) 25%,

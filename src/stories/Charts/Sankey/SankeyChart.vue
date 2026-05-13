@@ -73,6 +73,7 @@ const props = withDefaults(defineProps<{
    */
   height?: string;
   nodeColors?: Record<string, string>;
+  /** Conservado por compatibilidad; los enlaces usan opacidad por tema (claro: negro 20%, oscuro: blanco 10%). */
   useGradient?: boolean;
   nodeGap?: number;
   theme?: Theme;
@@ -266,6 +267,13 @@ const setOptions = () => {
   if (!chartInstance || !props.data.nodes?.length || !props.data.links?.length) return;
 
   const cfg = responsiveConfig.value;
+  /** Flujos entre nodos (sin color de origen ni gradientes). */
+  const linkColor = isDark.value
+    ? 'rgb(34, 34, 45)'
+    : 'rgb(240, 240, 242)';
+  const linkColorEmphasis = isDark.value
+    ? 'rgb(34, 34, 45)'
+    : 'rgb(240, 240, 242)';
 
   try {
     const { nodes: validNodes, links: validLinks } = validateData();
@@ -296,7 +304,13 @@ const setOptions = () => {
           type: 'sankey',
           data: nodesWithColors,
           links: validLinks,
-          emphasis: { focus: 'adjacency' },
+          emphasis: {
+            focus: 'adjacency',
+            lineStyle: {
+              color: linkColorEmphasis,
+              opacity: 1,
+            },
+          },
           levels: [
             {
               depth: 0,
@@ -304,7 +318,7 @@ const setOptions = () => {
                 color: '#8b5cf6',
                 borderRadius: 8,
               },
-              lineStyle: { color: 'source', opacity: 0.5 },
+              lineStyle: { color: linkColor, opacity: 1 },
             },
             {
               depth: 1,
@@ -312,13 +326,13 @@ const setOptions = () => {
                 color: '#8b5cf6',
                 borderRadius: 8,
               },
-              lineStyle: { color: 'source', opacity: 0.5 },
+              lineStyle: { color: linkColor, opacity: 1 },
             },
           ],
           lineStyle: {
-            color: props.useGradient ? 'gradient' : 'source',
+            color: linkColor,
             curveness: 0.5,
-            opacity: 0.6,
+            opacity: 1,
           },
           itemStyle: CHART_CONFIG.style,
           label: {
@@ -435,6 +449,12 @@ defineExpose({ isDark });
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   position: relative;
   overflow: hidden;
+  background-color: transparent;
+}
+
+.chart-wrapper,
+.chart-content {
+  background-color: transparent;
 }
 
 /* Móvil: evita que el padre recorte sombras o bordes; el clip del canvas lo hace ECharts */

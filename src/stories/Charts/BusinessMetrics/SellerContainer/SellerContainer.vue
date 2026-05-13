@@ -1,17 +1,10 @@
 <template>
-  <details class="seller-container-card metric-collapsible" :open="containerInitiallyOpen">
-    <summary class="card-header metric-collapsible__summary seller-container__summary">
-      <div class="header-content">
-        <h2 class="card-title font-sans">Seller</h2>
-        <p class="card-subtitle font-sans">
-          Sales funnel performance and successful sales by communication channel.
-        </p>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
-
+  <ChartMetricContainer
+    class="seller-container-root w-full"
+    title="Seller"
+    subtitle="Sales funnel performance and successful sales by communication channel."
+    :default-open="containerInitiallyOpen"
+  >
     <div class="seller-container__body">
       <Seller
         :initially-open="childrenInitiallyOpen"
@@ -34,11 +27,12 @@
         @export="(fmt) => handleChildExport('salesByChannel', fmt)"
       />
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import Seller from '../Seller/Seller.vue'
 import SalesByChannel from '../SalesByChannel/SalesByChannel.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
@@ -172,69 +166,6 @@ function handleChildExport(source: SellerContainerExportSource, format: ExportFo
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-
-.seller-container-card {
-  font-family: var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), 'Inter', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition:
-    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.seller-container-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-.seller-container__summary {
-  margin-bottom: 0;
-}
-
-.metric-collapsible[open] .seller-container__summary {
-  margin-bottom: 20px;
-}
-
-.card-header {
-  position: relative;
-  text-align: left;
-}
-
-.header-content {
-  width: 100%;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0;
-  line-height: 1.25rem;
-}
-
 .seller-container__body {
   display: flex;
   flex-direction: column;

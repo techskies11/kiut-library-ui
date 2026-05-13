@@ -1,15 +1,20 @@
 <template>
-    <details :open="initiallyOpen" class="checkin-metrics-card metric-collapsible">
-        <summary class="card-header metric-collapsible__summary">
-            <div class="header-content">
-                <h3 class="card-title">Check-in Metrics</h3>
-                <p class="card-subtitle">Check-in performance and failure analysis</p>
-            </div>
-            <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-        </summary>
-
+    <ChartMetricContainer
+        class="checkin-metrics-root h-full min-h-0"
+        title="Check-in Metrics"
+        subtitle="Check-in performance and failure analysis"
+        :default-open="initiallyOpen"
+    >
+        <template
+            v-if="enableExport && !loading && tableData && tableData.length > 0"
+            #headerExport
+        >
+            <FooterExport
+                variant="inline"
+                @export="handleExport"
+                :loading="exportLoading"
+            />
+        </template>
         <!-- Loading State -->
         <div v-if="loading" class="loading-state">
             <div class="loading-container">
@@ -37,30 +42,35 @@
                 />
             </div>
 
-            <!-- Table Data -->
-            <div v-if="tableData && tableData.length > 0" class="table-section">
-                <div class="table-wrapper">
-                    <Table :columns="checkinMetricsTableColumns" :rows="checkinMetricsTableRows" row-key="id">
+            <!-- Table Data (chrome de tabla: Utils/Table) -->
+            <div v-if="tableData && tableData.length > 0" class="checkin-metrics-daily-section">
+                <div class="w-full min-w-0">
+                    <Table
+                        :columns="checkinMetricsTableColumns"
+                        :rows="checkinMetricsTableRows"
+                        :max-visible-rows="3"
+                        row-key="id"
+                    >
                         <template #cell-date="{ row }">
-                            <span class="cm-cell date-cell">{{ formatDate(String(row.date)) }}</span>
+                            <span class="font-medium whitespace-nowrap">{{ formatDate(String(row.date)) }}</span>
                         </template>
                         <template #cell-checkinInit="{ row }">
-                            <span class="cm-cell text-center">{{ formatNumber(row.checkin_initiated as number) }}</span>
+                            <span>{{ formatNumber(row.checkin_initiated as number) }}</span>
                         </template>
                         <template #cell-bookingRetrieval="{ row }">
-                            <span class="cm-cell text-center">{{ formatValueWithPercentage(row.record_locator_init_count as number, row.checkin_initiated as number) }}</span>
+                            <span>{{ formatValueWithPercentage(row.record_locator_init_count as number, row.checkin_initiated as number) }}</span>
                         </template>
                         <template #cell-bookingRetrieved="{ row }">
-                            <span class="cm-cell text-center">{{ formatValueWithPercentage(row.record_locator_started_count as number, row.record_locator_init_count as number) }}</span>
+                            <span>{{ formatValueWithPercentage(row.record_locator_started_count as number, row.record_locator_init_count as number) }}</span>
                         </template>
                         <template #cell-completed="{ row }">
-                            <span class="cm-cell text-center">{{ formatValueWithPercentage(row.record_locator_completed_count as number, row.record_locator_started_count as number) }}</span>
+                            <span>{{ formatValueWithPercentage(row.record_locator_completed_count as number, row.record_locator_started_count as number) }}</span>
                         </template>
                         <template #cell-closed="{ row }">
-                            <span class="cm-cell text-center cell-success">{{ formatValueWithPercentage(row.record_locator_closed_count as number, row.record_locator_started_count as number) }}</span>
+                            <span class="cell-success">{{ formatValueWithPercentage(row.record_locator_closed_count as number, row.record_locator_started_count as number) }}</span>
                         </template>
                         <template #cell-failed="{ row }">
-                            <span class="cm-cell text-center cell-danger">{{ formatValueWithPercentage(row.unrecovered_count as number, row.record_locator_started_count as number) }}</span>
+                            <span class="cell-danger">{{ formatValueWithPercentage(row.unrecovered_count as number, row.record_locator_started_count as number) }}</span>
                         </template>
                         <template #cell-reasons="{ row }">
                             <div v-if="Array.isArray(row.failed_steps) && row.failed_steps.length > 0" class="reasons-list">
@@ -73,21 +83,6 @@
                         </template>
                     </Table>
                 </div>
-                <button
-                    v-if="hasMoreRows"
-                    type="button"
-                    class="view-more-btn"
-                    @click="showAllRows = !showAllRows"
-                >
-                    {{ showAllRows ? 'View less' : `View more (${remainingRows} rows)` }}
-                    <svg
-                        :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
             </div>
 
             <!-- Empty State -->
@@ -101,16 +96,18 @@
                 </div>
             </div>
         </div>
-    </details>
+    </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, toRef } from 'vue'
+import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 // Types
 interface CheckinByDay {
@@ -237,10 +234,9 @@ const formatNumber = (value: number | undefined): string => {
 };
 
 const formatDate = (dateStr: string): string => {
-    // Parse as local time to avoid UTC midnight → previous day shift in negative-offset timezones
+    // Parse as local calendar date (Y-M-D parts) to avoid UTC midnight → previous day shift
     const [year, month, day] = dateStr.split('-').map(Number);
-    const date = new Date(year, month - 1, day);
-    return `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+    return moment([year, month - 1, day]).format('MMM DD');
 };
 
 const formatStepName = (stepName: string): string => {
@@ -280,9 +276,6 @@ const sankeyNodeColors = computed(() => {
     return baseColors;
 });
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
 // Computed: Datos combinados para la tabla
 const tableData = computed((): TableRow[] => {
     const checkinByDay = props.checkinData?.record_locator_by_day || [];
@@ -302,17 +295,6 @@ const tableData = computed((): TableRow[] => {
     return combined.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 });
 
-const visibleTableData = computed(() => {
-    if (showAllRows.value) return tableData.value;
-    return tableData.value.slice(0, MAX_VISIBLE_ROWS);
-});
-
-const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS);
-
-const remainingRows = computed(() =>
-    Math.max(0, tableData.value.length - MAX_VISIBLE_ROWS)
-);
-
 const checkinMetricsTableColumns: TableColumn[] = [
     { key: 'date', label: 'Date', align: 'center' },
     { key: 'checkinInit', label: 'Checkin Init', align: 'center' },
@@ -325,7 +307,7 @@ const checkinMetricsTableColumns: TableColumn[] = [
 ];
 
 const checkinMetricsTableRows = computed((): Record<string, unknown>[] =>
-    visibleTableData.value.map((row) => ({
+    tableData.value.map((row) => ({
         id: row.date,
         date: row.date,
         checkin_initiated: row.checkin_initiated,
@@ -561,63 +543,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-/* Main Card Styles */
-.checkin-metrics-card {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--kiut-bg-card-gradient);
-    border-radius: 20px;
-    padding: 28px 32px;
-    box-shadow: var(--kiut-shadow-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.checkin-metrics-card:hover {
-    box-shadow: var(--kiut-shadow-card-hover);
-    transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-    margin-bottom: 28px;
-    position: relative;
-    text-align: left;
-}
-
-.header-content {
-    width: 100%;
-    text-align: left;
-}
-
-.card-title {
-    font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    margin: 0;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 600;
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-}
-
-.card-subtitle {
-    font-size: .875rem;
-    font-weight: 400;
-    color: var(--kiut-text-secondary);
-    margin: 0px;
-    line-height: 1.25rem;
-}
-
 /* Card Body */
 .card-body {
     animation: fadeIn 0.5s ease-out;
@@ -631,33 +556,13 @@ defineExpose({ isDark })
     margin-bottom: 32px;
 }
 
-/* Table Section */
-.table-section {
+/* Bloque tabla diaria (celdas: reasons-list, cell-success, etc.) */
+.checkin-metrics-daily-section {
     margin-top: 24px;
     flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-.table-wrapper {
-    flex: 1;
-}
-
-.cm-cell {
-    display: inline-block;
-    width: 100%;
-    font-size: 0.875rem;
-    color: var(--kiut-text-primary);
-    text-align: center;
-}
-
-.cm-cell.text-center {
-    text-align: center;
-}
-
-.date-cell {
-    font-weight: 500;
-    white-space: nowrap;
+    gap: 12px;
 }
 
 .reasons-list {
@@ -819,27 +724,4 @@ defineExpose({ isDark })
     }
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .checkin-metrics-card {
-        padding: 20px 24px;
-        border-radius: 16px;
-    }
-
-    .card-title {
-        font-size: 1rem;
-    }
-
-    .card-subtitle {
-        font-size: 13px;
-    }
-
-    .card-header {
-        margin-bottom: 24px;
-    }
-
-    .cm-cell {
-        font-size: 0.75rem;
-    }
-}
 </style>

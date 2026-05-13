@@ -1,24 +1,23 @@
 <template>
-  <article class="conversation-count-card">
-    <header class="card-header">
-      <div class="header-left">
-        <div class="header-content">
-          <h3 class="card-title">Conversation Count</h3>
-          <p class="card-subtitle">Conversations over time</p>
-        </div>
-      </div>
-      <div class="header-right">
-        <div class="stat-badge">
-          <span class="stat-label">Total</span>
-          <span class="stat-value">{{ data.total_conversations || 0 }}</span>
-        </div>
-      </div>
-    </header>
+  <ChartMetricContainer
+    class="h-full min-h-0"
+    title="Conversation Count"
+    subtitle="Conversations over time"
+    :collapsible="false"
+  >
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
     <div class="card-body" v-if="!loading">
       <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
         <div class="chart-container">
           <LineChart :data="chartData" :options="chartOptions" />
+        </div>
+        <div class="mt-4 w-full min-w-0">
+          <CardInfo
+            class="min-w-0 w-full"
+            title="Total"
+            :value="formattedTotalConversations"
+          />
         </div>
       </section>
       <section v-else class="empty-state">
@@ -45,12 +44,16 @@
         <p class="loading-text">Loading chart data...</p>
       </div>
     </div>
-  </article>
+    </div>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import LineChart from '../../Line/ChartLine.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
+import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
@@ -91,15 +94,9 @@ const formatDate = (dateStr: string): string => {
   return `${month}-${day}`;
 };
 
-// Computed para formatear el rango de fechas
-const formatDateRange = computed(() => {
-  if (props.data?.start_date && props.data?.end_date) {
-    const start = formatDate(props.data.start_date);
-    const end = formatDate(props.data.end_date);
-    return `${start} - ${end}`;
-  }
-  return 'N/A';
-});
+const formattedTotalConversations = computed(() =>
+  useNumberFormat(props.data?.total_conversations ?? 0)
+)
 
 // Computed que procesa conversations_by_day y genera labels + datasets para el gráfico
 const chartData = computed(() => {
@@ -227,102 +224,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles */
-.conversation-count-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.conversation-count-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 32px;
-  position: relative;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-content {
-  text-align: left;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-}
-
-.stat-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 20px;
-  background: var(--kiut-bg-stats-badge);
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stat-badge:hover {
-  border-color: var(--kiut-primary-light);
-  box-shadow: 0 4px 12px rgba(198, 125, 255, 0.15);
-}
-
-.stat-label {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.stat-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: var(--kiut-text-primary);
-}
-
-.card-title {
-    font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.75rem;
-    margin: 0;
-    letter-spacing: -0.02em;
-    color: var(--kiut-primary-light);
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
 /* Card Body */
 .card-body {
   min-height: 300px;
@@ -455,40 +356,6 @@ defineExpose({ isDark })
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .conversation-count-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-  
-  .card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  
-  .header-right {
-    width: 100%;
-  }
-  
-  .stat-badge {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .stat-label {
-    font-size: 0.75rem;
-  }
-  
-  .stat-value {
-    font-size: 1.5rem;
-  }
-  
-  .card-title { font-size: 20px; }
-  .card-subtitle { font-size: 13px; }
-  
   .chart-container {
     height: 280px;
   }

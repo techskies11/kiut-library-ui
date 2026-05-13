@@ -1,25 +1,24 @@
 <template>
-  <details class="disruption-metrics-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">Disruption Manager Metrics</h3>
-          <p class="card-subtitle">Disruption workflow performance and completion tracking</p>
-        </div>
-        <div class="payment-success-badge" v-if="!props.loading">
-          <p class="badge-label">Payment Success Value</p>
-          <div v-if="totalPaymentSuccessByCurrency.length > 0" class="currency-breakdown-list">
-            <p v-for="item in totalPaymentSuccessByCurrency" :key="item.currency" class="currency-breakdown-item">
-              {{ item.currency }} {{ formatCurrency(item.total_value) }}
-            </p>
-          </div>
-          <p v-else class="badge-value">{{ formatCurrency(0) }}</p>
-        </div>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
+  <ChartMetricContainer
+    class="disruption-metrics-root h-full min-h-0"
+    title="Disruption Manager Metrics"
+    subtitle="Disruption workflow performance and completion tracking"
+  >
+    <template
+      v-if="
+        enableExport &&
+        !props.loading &&
+        tableData &&
+        tableData.length > 0
+      "
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -52,42 +51,35 @@
         </div>
       </section>
 
-      <!-- Daily Overview Table -->
-      <section v-if="tableData && tableData.length > 0" class="table-section">
+      <section class="payment-success-summary">
+        <CardInfo
+          color="#22c55e"
+          title="Payment Success Value"
+          :value="paymentSuccessCardValue"
+        />
+      </section>
+
+      <!-- Daily Overview Table (chrome de tabla: Utils/Table) -->
+      <section v-if="tableData && tableData.length > 0" class="disruption-daily-section">
         <div class="section-header">
           <h4 class="section-title">Daily Overview</h4>
         </div>
 
-        <!-- Legend -->
-        <div class="legend-container">
-          <p class="legend-title">Legend</p>
-          <div class="legend-items">
-            <div class="legend-group">
-              <span class="legend-label">Voluntary:</span>
-              <span class="badge badge-vol">VOL</span>
-            </div>
-            <div class="legend-group">
-              <span class="legend-label">Involuntary:</span>
-              <span class="badge badge-inv">INV</span>
-            </div>
-            <div class="legend-note">
-              <span>Vol=Voluntary</span>
-              <span>•</span>
-              <span>Inv=Involuntary</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="table-wrapper">
-          <Table :columns="disruptionTableColumns" :rows="disruptionTableRows" row-key="id">
+        <div class="w-full min-w-0">
+          <Table
+            :columns="disruptionTableColumns"
+            :rows="disruptionTableRows"
+            :max-visible-rows="3"
+            row-key="id"
+          >
             <template #cell-date="{ row }">
-              <span class="d-cell font-medium text-center">{{ moment(String(row.date)).format('DD/MM') }}</span>
+              <span class="font-medium text-center">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-initiated="{ row }">
-              <span class="d-cell text-center">{{ useNumberFormat(Number(row.disruption_conversations)) }}</span>
+              <span class="text-center">{{ useNumberFormat(Number(row.disruption_conversations)) }}</span>
             </template>
             <template #cell-started="{ row }">
-              <span class="d-cell text-center">
+              <span class="text-center">
                 {{ useNumberFormat(Number(row.disruption_initiated_count)) }}
                 <span class="percentage-text">
                   ({{ calculatePercentage(Number(row.disruption_initiated_count), Number(row.disruption_conversations)) }})
@@ -95,7 +87,7 @@
               </span>
             </template>
             <template #cell-abandoned="{ row }">
-              <span class="d-cell text-center">
+              <span class="text-center">
                 <span class="abandoned-value">
                   {{ useNumberFormat(Number(row.disruption_initiated_count) - Number(row.voluntary_count) - Number(row.involuntary_count)) }}
                   ({{ calculatePercentage(Number(row.disruption_initiated_count) - Number(row.voluntary_count) - Number(row.involuntary_count), Number(row.disruption_conversations)) }})
@@ -105,75 +97,60 @@
             <template #cell-voluntary="{ row }">
               <div class="badges-container badges-wrap">
                 <template v-for="(r, i) in [disruptionDayFromRow(row)]" :key="i">
-                  <span class="badge badge-vol">
+                  <Tag color="neutral" :outlined="true">
                     VOL {{ useNumberFormat(r.voluntary_count) }}
                     ({{ calculatePercentage(r.voluntary_count, r.disruption_conversations) }})
-                  </span>
-                  <span class="badge badge-confirm">
+                  </Tag>
+                  <Tag color="success">
                     Confirm {{ useNumberFormat(r.confirmed_count) }}
                     ({{ calculatePercentage(r.confirmed_count, r.disruption_conversations) }})
-                  </span>
-                  <span class="badge badge-not-confirm">
+                  </Tag>
+                  <Tag color="warning">
                     Not Confirm {{ useNumberFormat(r.voluntary_count - r.confirmed_count) }}
                     ({{ calculatePercentage(r.voluntary_count - r.confirmed_count, r.disruption_conversations) }})
-                  </span>
-                  <span class="badge badge-reject">
+                  </Tag>
+                  <Tag color="danger">
                     Reject {{ useNumberFormat(r.sell_failed_count) }}
                     ({{ calculatePercentage(r.sell_failed_count, r.disruption_conversations) }})
-                  </span>
-                  <span class="badge badge-not-paid">
+                  </Tag>
+                  <Tag color="orange">
                     Not Paid {{ useNumberFormat(Math.max(0, r.confirmed_count - getSellSuccessCount(r) - r.sell_failed_count)) }}
                     ({{ calculatePercentage(Math.max(0, r.confirmed_count - getSellSuccessCount(r) - r.sell_failed_count), r.disruption_conversations) }})
-                  </span>
-                  <span class="badge badge-success">
+                  </Tag>
+                  <Tag color="success" :outlined="true">
                     Finish {{ useNumberFormat(getSellSuccessCount(r)) }}
                     ({{ calculatePercentage(getSellSuccessCount(r), r.disruption_conversations) }})
-                  </span>
-                  <span
+                  </Tag>
+                  <Tag
                     v-for="item in r.payment_success_total || []"
                     :key="`${r.date}-${item.currency}`"
-                    class="badge badge-currency"
+                    color="neutral"
                   >
                     {{ item.currency }} {{ formatCurrency(item.total_value) }}
-                  </span>
+                  </Tag>
                 </template>
               </div>
             </template>
             <template #cell-involuntary="{ row }">
               <div class="badges-container badges-wrap">
                 <template v-for="(r, i) in [disruptionDayFromRow(row)]" :key="i">
-                  <span class="badge badge-inv">
+                  <Tag color="purple">
                     INV {{ useNumberFormat(r.involuntary_count) }}
                     ({{ calculatePercentage(r.involuntary_count, r.disruption_conversations) }})
-                  </span>
-                  <span class="badge badge-human">
+                  </Tag>
+                  <Tag color="danger">
                     Human {{ useNumberFormat(r.involuntary_count - r.accepted_count) }}
                     ({{ calculatePercentage(r.involuntary_count - r.accepted_count, r.disruption_conversations) }})
-                  </span>
-                  <span class="badge badge-accept">
+                  </Tag>
+                  <Tag color="success">
                     Accept {{ useNumberFormat(r.accepted_count) }}
                     ({{ calculatePercentage(r.accepted_count, r.disruption_conversations) }})
-                  </span>
+                  </Tag>
                 </template>
               </div>
             </template>
           </Table>
         </div>
-        <button
-          v-if="hasMoreRows"
-          type="button"
-          class="view-more-btn"
-          @click="showAllRows = !showAllRows"
-        >
-          {{ showAllRows ? 'View less' : `View more (${disruptionRemainingRows} rows)` }}
-          <svg
-            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -189,16 +166,19 @@
         </div>
       </section>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import moment from 'moment'
 import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
+import Tag from '../../../../components/Tag/Tag.vue'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 interface DisruptionDayData {
   date: string;
@@ -269,9 +249,6 @@ const handleExport = (format: ExportFormat) => {
   emit('export', format)
 }
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
 // Computed para ordenar los datos por día
 const tableData = computed(() => {
   if (!props.data?.disruption_by_day) return []
@@ -279,17 +256,6 @@ const tableData = computed(() => {
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 })
-
-const visibleTableData = computed(() => {
-  if (showAllRows.value) return tableData.value
-  return tableData.value.slice(0, MAX_VISIBLE_ROWS)
-})
-
-const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS)
-
-const disruptionRemainingRows = computed(() =>
-  Math.max(0, tableData.value.length - MAX_VISIBLE_ROWS)
-)
 
 const disruptionTableColumns: TableColumn[] = [
   { key: 'date', label: 'Date', align: 'center' },
@@ -301,7 +267,7 @@ const disruptionTableColumns: TableColumn[] = [
 ]
 
 const disruptionTableRows = computed((): Record<string, unknown>[] =>
-  visibleTableData.value.map((row) => ({
+  tableData.value.map((row) => ({
     id: row.date,
     ...row,
   }))
@@ -309,6 +275,12 @@ const disruptionTableRows = computed((): Record<string, unknown>[] =>
 
 const totalPaymentSuccessByCurrency = computed(() => {
   return props.data?.total_payment_success || []
+})
+
+const paymentSuccessCardValue = computed(() => {
+  const items = totalPaymentSuccessByCurrency.value
+  if (items.length === 0) return formatCurrency(0)
+  return items.map((item) => `${item.currency} ${formatCurrency(item.total_value)}`).join(' · ')
 })
 
 const calculatePercentage = (value: number, total: number): string => {
@@ -507,126 +479,6 @@ const nodeColors: Record<string, string> = {
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-/* Main Card Styles */
-.disruption-metrics-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.disruption-metrics-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 24px;
-  position: relative;
-  text-align: left;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-  width: 100%;
-  text-align: left;
-}
-
-.title-section {
-  flex: 1;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-.payment-success-badge {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 16px;
-  padding: 16px 24px;
-  min-width: 140px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.payment-success-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
-}
-
-:global(.dark) .payment-success-badge {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.22) 100%);
-  border-color: rgba(110, 231, 183, 0.22);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
-}
-
-:global(.dark) .payment-success-badge:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36);
-}
-
-.badge-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #047857;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 4px 0;
-}
-
-.badge-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #065f46;
-  margin: 0;
-  letter-spacing: -0.02em;
-}
-
-:global(.dark) .badge-label {
-  color: #86efac;
-}
-
-:global(.dark) .badge-value,
-:global(.dark) .currency-breakdown-item {
-  color: #bbf7d0;
-}
-
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -661,7 +513,12 @@ const nodeColors: Record<string, string> = {
   font-size: 0.875rem;
 }
 
-/* Section Header */
+.payment-success-summary {
+  margin-bottom: 28px;
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
 .section-header {
   margin-bottom: 16px;
 }
@@ -675,66 +532,13 @@ const nodeColors: Record<string, string> = {
   letter-spacing: -0.01em;
 }
 
-/* Legend */
-.legend-container {
-  margin-bottom: 16px;
-  padding: 16px;
-  background: var(--kiut-bg-chart-wrapper);
-  border-radius: 12px;
-  border: 1px solid var(--kiut-border-light);
-}
-
-.legend-title {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--kiut-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 12px 0;
-}
-
-.legend-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-}
-
-.legend-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.legend-label {
-  font-size: 0.75rem;
-  color: var(--kiut-text-secondary);
-  font-weight: 500;
-}
-
-.legend-note {
-  display: flex;
-  gap: 8px;
-  font-size: 0.7rem;
-  color: var(--kiut-text-muted);
-  font-style: italic;
-}
-
-/* Table Section */
-.table-section {
+/* Bloque Daily Overview (tabla; celdas con Tag) */
+.disruption-daily-section {
   animation: fadeIn 0.6s ease-out 0.1s backwards;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid var(--kiut-border-table);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  background: var(--kiut-bg-table);
-  flex: 1;
+  gap: 12px;
 }
 
 .percentage-text {
@@ -747,88 +551,14 @@ const nodeColors: Record<string, string> = {
   font-size: 0.8125rem;
 }
 
-/* Badges */
 .badges-container {
   display: flex;
-  gap: 4px;
+  gap: 6px;
 }
 
 .badges-wrap {
   flex-wrap: wrap;
-}
-
-.badge {
-  display: inline-flex;
   align-items: center;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.65rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.badge-vol {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  color: #1d4ed8;
-}
-
-.badge-inv {
-  background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-  color: #7c3aed;
-}
-
-.badge-confirm {
-  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-  color: #0369a1;
-}
-
-.badge-not-confirm {
-  background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
-  color: #0e7490;
-}
-
-.badge-reject {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  color: #b91c1c;
-}
-
-.badge-not-paid {
-  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
-  color: #c2410c;
-}
-
-.badge-success {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  color: #047857;
-}
-
-.badge-currency {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  color: #1d4ed8;
-}
-
-.badge-human {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  color: #b91c1c;
-}
-
-.badge-accept {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  color: #047857;
-}
-
-.currency-breakdown-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.currency-breakdown-item {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #065f46;
-  margin: 0;
 }
 
 /* Empty State */
@@ -979,49 +709,15 @@ const nodeColors: Record<string, string> = {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .table-wrapper {
-    overflow-x: scroll;
-  }
-
   .badges-container {
     min-width: 280px;
   }
 }
 
 @media (max-width: 768px) {
-  .disruption-metrics-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .payment-success-badge {
-    width: 100%;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 20px;
-  }
-
   .chart-wrapper {
     padding: 16px;
   }
 
-  .badge {
-    font-size: 0.6rem;
-    padding: 2px 6px;
-  }
 }
 </style>

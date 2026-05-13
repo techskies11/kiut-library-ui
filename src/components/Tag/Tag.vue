@@ -59,10 +59,18 @@ const props = withDefaults(
     outlined: false,
     labelConnected: 'Connected',
     labelDisconnected: 'Disconnected',
+    /**
+     * Las props `boolean` opcionales en Vue pueden quedar en `false` cuando no se pasan,
+     * lo que activaba el modo conexión y mostraba siempre "Disconnected".
+     * `undefined` explícito mantiene el modo semántico (pill con slot / `label`).
+     */
+    statusLive: undefined,
   }
 );
 
-const isLiveMode = computed(() => props.statusLive !== undefined);
+const isLiveMode = computed(
+  () => props.statusLive === true || props.statusLive === false,
+);
 
 const liveLabel = computed(() =>
   props.statusLive === true ? props.labelConnected : props.labelDisconnected

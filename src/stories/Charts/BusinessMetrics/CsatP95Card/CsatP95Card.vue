@@ -1,31 +1,36 @@
 <template>
-  <div :class="['highlight-card', { 'highlight-card--dark': isDark }]">
-    <header class="card-header">
+  <ChartMetricContainer title="CSAT Metrics" :collapsible="false" class="csat-p95-metric w-full">
+    <template #title>
       <div class="header-title-group">
         <div class="icon-wrapper">
           <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.41a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345l2.125-5.11z" />
           </svg>
         </div>
-        <span class="card-title">CSAT Metrics</span>
+        <span class="csat-p95-title-text">CSAT Metrics</span>
       </div>
+    </template>
+    <template #headerAside>
       <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
-    </header>
+    </template>
 
-    <div v-if="loading" class="loading-state">
-      <div class="shimmer shimmer-value"></div>
-      <div class="shimmer shimmer-label"></div>
-    </div>
+    <div :class="['csat-p95-inner', { 'csat-p95-inner--dark': isDark }]">
+      <div v-if="loading" class="loading-state">
+        <div class="shimmer shimmer-value"></div>
+        <div class="shimmer shimmer-label"></div>
+      </div>
 
-    <div v-else class="card-body">
-      <span class="metric-value">{{ formattedCsat }}</span>
-      <span class="metric-label">CSAT P95</span>
+      <div v-else class="card-body">
+        <span class="metric-value">{{ formattedCsat }}</span>
+        <span class="metric-label">CSAT P95</span>
+      </div>
     </div>
-  </div>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
 const props = withDefaults(defineProps<{
@@ -70,7 +75,7 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.card-title {
+.csat-p95-title-text {
   font-family: 'Space Grotesk', 'DM Sans', sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
@@ -78,38 +83,15 @@ defineExpose({ isDark, changePercent })
   letter-spacing: -0.02em;
 }
 
-.highlight-card--dark .card-title {
+.csat-p95-inner--dark .csat-p95-title-text {
   color: #f1f5f9;
 }
 
-.highlight-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #ffffff 0%, #faf8ff 50%, #f5f0ff 100%);
-  border-radius: 18px;
-  padding: 18px 20px;
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 8px 24px -4px rgba(93, 75, 147, 0.08),
-    0 0 0 1px rgba(93, 75, 147, 0.06);
+.csat-p95-inner {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  min-height: 150px;
-}
-
-.highlight-card--dark {
-  background: linear-gradient(135deg, #1a1a1d 0%, #1e1b25 50%, #211e2a 100%);
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.2),
-    0 8px 24px -4px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(198, 125, 255, 0.08);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+  min-height: 120px;
 }
 
 .header-title-group {
@@ -156,9 +138,9 @@ defineExpose({ isDark, changePercent })
   color: #64748b;
 }
 
-.highlight-card--dark .change-badge--up { color: #22c55e; }
-.highlight-card--dark .change-badge--down { color: #f87171; }
-.highlight-card--dark .change-badge--neutral { color: #94a3b8; }
+.csat-p95-inner--dark .change-badge--up { color: #22c55e; }
+.csat-p95-inner--dark .change-badge--down { color: #f87171; }
+.csat-p95-inner--dark .change-badge--neutral { color: #94a3b8; }
 
 .card-body {
   display: flex;
@@ -175,7 +157,7 @@ defineExpose({ isDark, changePercent })
   color: #1e293b;
 }
 
-.highlight-card--dark .metric-value {
+.csat-p95-inner--dark .metric-value {
   color: #f1f5f9;
 }
 
@@ -185,7 +167,7 @@ defineExpose({ isDark, changePercent })
   color: #64748b;
 }
 
-.highlight-card--dark .metric-label {
+.csat-p95-inner--dark .metric-label {
   color: #9ca3af;
 }
 
@@ -207,7 +189,7 @@ defineExpose({ isDark, changePercent })
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.highlight-card--dark .shimmer {
+.csat-p95-inner--dark .shimmer {
   background: linear-gradient(
     90deg,
     rgba(198, 125, 255, 0.06) 25%,

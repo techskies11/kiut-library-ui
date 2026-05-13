@@ -1,17 +1,20 @@
 <template>
-  <article class="nps-daily-card">
-    <header class="card-header">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">CSAT Daily Metrics</h3>
-          <p class="card-subtitle">Daily CSAT Distribution</p>
-        </div>
-        <div v-if="npsData && npsData.nps_by_day && npsData.nps_by_day.length > 0" class="stats-badge">
-          <p class="badge-label">Days</p>
-          <p class="badge-value">{{ npsData.nps_by_day.length }}</p>
-        </div>
-      </div>
-    </header>
+  <ChartMetricContainer
+    class="nps-daily-root h-full min-h-0"
+    title="CSAT Daily Metrics"
+    subtitle="Daily CSAT Distribution"
+    :collapsible="false"
+  >
+    <template
+      v-if="enableExport && !props.loading && npsData && npsData.nps_by_day && npsData.nps_by_day.length > 0"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <!-- Loading State -->
     <div v-if="props.loading" class="loading-state">
@@ -85,7 +88,13 @@
           </div>
         </div>
       </div>
-      <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
+      <div class="mt-4 flex w-full justify-start">
+        <CardInfo
+          title="Days"
+          :value="String(npsData.nps_by_day.length)"
+          class="min-w-0 w-full max-w-xs"
+        />
+      </div>
     </div>
 
     <!-- Empty State -->
@@ -100,13 +109,15 @@
         <p class="empty-description">No daily NPS data found for the selected period. Try adjusting the date range.</p>
       </div>
     </div>
-  </article>
+  </ChartMetricContainer>
 </template>
 
 <script setup>
 import { ref, computed, toRef } from 'vue'
 import moment from 'moment'
 import CandlestickChart from '../../Candlestick/CandlestickChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { FooterExport } from '../../Utils/FooterExport'
 import { useThemeDetection } from '../../../../composables/useThemeDetection'
 
@@ -277,122 +288,12 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles - Consistente con otros componentes */
-.nps-daily-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.nps-daily-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 28px;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.title-section {
-  flex: 1;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-/* Stats Badge - KPI Style */
-.stats-badge {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
-  background: var(--kiut-bg-stats-badge);
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 10px;
-  transition: all 0.2s ease;
-  text-align: center;
-  min-width: 80px;
-}
-
-.stats-badge:hover {
-  background: var(--kiut-bg-card);
-  border-color: var(--kiut-border-color);
-}
-
-.badge-label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  line-height: 1.2;
-  margin: 0;
-}
-
-.badge-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--kiut-text-primary);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  margin: 0;
-}
-
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-/* Chart Wrapper */
-.chart-wrapper {
-  position: relative;
-  background: var(--kiut-bg-chart-wrapper);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--kiut-border-light);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  overflow-x: auto;
-  flex: 1;
 }
 
 /* Empty State */
@@ -595,32 +496,6 @@ defineExpose({ isDark })
 
 /* Responsive */
 @media (max-width: 768px) {
-  .nps-daily-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .stats-badge {
-    min-width: auto;
-  }
-
-  .card-title {
-    font-size: 20px;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 24px;
-  }
-
   .chart-wrapper {
     padding: 16px;
   }

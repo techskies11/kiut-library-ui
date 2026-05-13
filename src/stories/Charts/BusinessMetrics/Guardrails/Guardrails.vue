@@ -1,17 +1,20 @@
 <template>
-  <article class="guardrails-card">
-    <header class="card-header">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">Guardrails Metrics</h3>
-          <p class="card-subtitle">Content safety guardrail events and actions</p>
-        </div>
-        <div class="total-badge" v-if="!props.loading">
-          <p class="badge-label">Total Events</p>
-          <p class="badge-value">{{ useNumberFormat(totalCount) }}</p>
-        </div>
-      </div>
-    </header>
+  <ChartMetricContainer
+    class="guardrails-root h-full min-h-0"
+    title="Guardrails Metrics"
+    subtitle="Content safety guardrail events and actions"
+    :collapsible="false"
+  >
+    <template
+      v-if="enableExport && !props.loading && hasData && groupedTableData.length > 0"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <!-- Loading State -->
     <div class="loading-state" v-if="props.loading">
@@ -30,41 +33,20 @@
     <!-- Content when loaded -->
     <div v-else class="card-body">
       <template v-if="hasData">
-        <!-- Summary Card -->
-        <div class="summary-card">
-          <div class="summary-items">
-            <div class="summary-item">
-              <span class="summary-label">Top type:</span>
-              <span class="summary-value">{{ topType.name }}</span>
-              <span class="summary-pct">({{ topType.pct }}%)</span>
-            </div>
-            <span class="summary-dot">·</span>
-            <div class="summary-item">
-              <span class="summary-label">Top action:</span>
-              <span :class="['summary-value', `summary-action-${topAction.name.toLowerCase()}`]">{{ topAction.name }}</span>
-              <span class="summary-pct">({{ topAction.pct }}%)</span>
-            </div>
-            <span class="summary-dot">·</span>
-            <div class="summary-item">
-              <span class="summary-label">Top source:</span>
-              <span class="summary-value">{{ topSource.name }}</span>
-              <span class="summary-pct">({{ topSource.pct }}%)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Daily Grouped Table -->
-        <section v-if="groupedTableData.length > 0" class="table-section">
-          <div class="section-header">
-            <h4 class="section-title">Daily Overview</h4>
-          </div>
-          <div class="table-wrapper">
-            <Table :columns="guardrailsTableColumns" :rows="guardrailsTableRows" row-key="id">
+        <!-- Daily Grouped Table (chrome: Utils/Table) -->
+        <section v-if="groupedTableData.length > 0" class="guardrails-daily-section">
+          <div class="w-full min-w-0">
+            <Table
+              :columns="guardrailsTableColumns"
+              :rows="guardrailsTableRows"
+              :max-visible-rows="3"
+              row-key="id"
+            >
               <template #cell-date="{ row }">
-                <span class="table-cell-inner font-medium">{{ moment(String(row.date)).format('DD/MM') }}</span>
+                <span class="font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
               </template>
               <template #cell-count="{ row }">
-                <span class="table-cell-inner text-center font-semibold">{{ useNumberFormat(row.total as number) }}</span>
+                <span class="font-semibold">{{ useNumberFormat(row.total as number) }}</span>
               </template>
               <template #cell-types="{ row }">
                 <div class="type-badges-row">
@@ -79,21 +61,26 @@
               </template>
             </Table>
           </div>
-          <button
-            v-if="hasMoreRows"
-            type="button"
-            class="view-more-btn"
-            @click="showAllRows = !showAllRows"
-          >
-            {{ showAllRows ? 'View less' : `View more (${remainingRows} rows)` }}
-            <svg
-              :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-              fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
+        </section>
+
+        <!-- KPI cards debajo del contenido principal (tabla / vista diaria) -->
+        <section class="guardrails-kpis grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <CardInfo title="Total Events" :value="useNumberFormat(totalCount)" />
+          <CardInfo
+            title="Top type"
+            :value="topType.name"
+            :subvalue="topType.pct > 0 ? `(${topType.pct}%)` : undefined"
+          />
+          <CardInfo
+            title="Top action"
+            :value="topAction.name"
+            :subvalue="topAction.pct > 0 ? `(${topAction.pct}%)` : undefined"
+          />
+          <CardInfo
+            title="Top source"
+            :value="topSource.name"
+            :subvalue="topSource.pct > 0 ? `(${topSource.pct}%)` : undefined"
+          />
         </section>
       </template>
 
@@ -110,16 +97,18 @@
         </div>
       </section>
     </div>
-  </article>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, toRef } from 'vue'
 import moment from 'moment'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 
 interface GuardrailItem {
   date: string;
@@ -201,20 +190,6 @@ const groupedTableData = computed(() => {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 })
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
-const visibleGroupedData = computed(() => {
-  if (showAllRows.value) return groupedTableData.value
-  return groupedTableData.value.slice(0, MAX_VISIBLE_ROWS)
-})
-
-const hasMoreRows = computed(() => groupedTableData.value.length > MAX_VISIBLE_ROWS)
-
-const remainingRows = computed(() =>
-  Math.max(0, groupedTableData.value.length - MAX_VISIBLE_ROWS)
-)
-
 const guardrailsTableColumns: TableColumn[] = [
   { key: 'date', label: 'Date', align: 'center' },
   { key: 'count', label: 'Count', align: 'center' },
@@ -222,7 +197,7 @@ const guardrailsTableColumns: TableColumn[] = [
 ]
 
 const guardrailsTableRows = computed((): Record<string, unknown>[] =>
-  visibleGroupedData.value.map((row) => ({
+  groupedTableData.value.map((row) => ({
     id: row.date,
     date: row.date,
     total: row.total,
@@ -234,46 +209,9 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../view-more-cta.css';
-
-.guardrails-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient, linear-gradient(to bottom, #ffffff 0%, #fafafa 100%));
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card, 0 1px 3px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05));
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative; overflow: hidden;
-  display: flex; flex-direction: column; height: 100%;
-}
-.guardrails-card:hover { box-shadow: var(--kiut-shadow-card-hover, 0 4px 6px rgba(0,0,0,0.05), 0 20px 25px -5px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)); transform: translateY(-2px); }
-.card-header { margin-bottom: 28px; }
-.header-content { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
-.title-section { flex: 1; text-align: left; }
-.card-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; margin: 0; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--kiut-primary-light, #c67dff), var(--kiut-primary-default, #5d4b93)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; font-size: 1.125rem; line-height: 1.75rem; }
-.card-subtitle { font-size: .875rem; font-weight: 400; color: var(--kiut-text-secondary, #64748b); margin: 0; line-height: 1.25rem; }
-.total-badge { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 16px; padding: 12px 20px; text-align: center; }
-.badge-label { font-size: 0.7rem; font-weight: 600; color: #b91c1c; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 2px 0; }
-.badge-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; color: #991b1b; margin: 0; letter-spacing: -0.02em; }
 .card-body { animation: fadeIn 0.5s ease-out; flex: 1; display: flex; flex-direction: column; gap: 20px; }
 
-/* Summary Card */
-.summary-card {
-  padding: 16px 20px;
-  background: var(--kiut-bg-stats-badge, #f8fafc);
-  border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.05));
-  border-radius: 12px;
-}
-.summary-items { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.summary-item { display: flex; align-items: center; gap: 5px; }
-.summary-label { font-size: 0.8125rem; color: var(--kiut-text-secondary, #64748b); font-weight: 400; }
-.summary-value { font-size: 0.8125rem; font-weight: 700; color: var(--kiut-text-primary, #1e293b); text-transform: capitalize; }
-.summary-action-blocked { color: #b91c1c; }
-.summary-action-warned { color: #92400e; }
-.summary-action-allowed { color: #047857; }
-.summary-action-detected { color: #0369a1; }
-.summary-pct { font-size: 0.75rem; color: var(--kiut-text-secondary, #94a3b8); font-weight: 500; }
-.summary-dot { font-size: 1rem; color: var(--kiut-text-secondary, #cbd5e1); font-weight: 700; line-height: 1; }
+.guardrails-kpis { animation: fadeIn 0.55s ease-out 0.05s backwards; }
 
 /* Type Count Badges in Table */
 .type-badges-row { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -286,12 +224,8 @@ defineExpose({ isDark })
   text-transform: uppercase; letter-spacing: 0.02em;
 }
 
-/* Table Section */
-.table-section { animation: fadeIn 0.6s ease-out 0.1s backwards; flex: 1; display: flex; flex-direction: column; }
-.section-header { margin-bottom: 16px; }
-.section-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0; }
-.table-wrapper { flex: 1; }
-.table-cell-inner { font-size: 0.8125rem; color: var(--kiut-text-primary, #1e293b); display: inline-block; width: 100%; }
+/* Daily table block (Utils/Table) */
+.guardrails-daily-section { animation: fadeIn 0.6s ease-out 0.1s backwards; flex: 1; display: flex; flex-direction: column; gap: 12px; }
 
 /* Empty State */
 .empty-state { display: flex; align-items: center; justify-content: center; min-height: 280px; }
@@ -311,10 +245,4 @@ defineExpose({ isDark })
 @keyframes wave { 0%, 100% { transform: scaleY(1); opacity: 0.7; } 50% { transform: scaleY(1.6); opacity: 1; } }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 768px) {
-  .guardrails-card { padding: 20px 24px; border-radius: 16px; }
-  .header-content { flex-direction: column; gap: 16px; }
-  .summary-items { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .summary-dot { display: none; }
-}
 </style>

@@ -19,11 +19,16 @@ A reusable export footer component for chart cards.
 - Responsive design (icons only on mobile)
 - Supports dark/light themes via CSS variables
 
+## Variants
+- \`footer\` (default): bloque inferior con divisor y etiqueta «Export».
+- \`inline\`: solo botones, para la cabecera (\`ChartMetricContainer\` slot \`headerExport\`).
+
 ## Usage
 \`\`\`vue
 <FooterExport 
   :formats="['pdf', 'csv']"
   :loading="isExporting"
+  variant="footer"
   @export="handleExport" 
 />
 \`\`\`
@@ -61,6 +66,15 @@ const handleExport = async (format) => {
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
+      },
+    },
+    variant: {
+      control: 'select',
+      options: ['footer', 'inline'],
+      description: 'footer: bloque con divisor; inline: solo botones (cabecera)',
+      table: {
+        type: { summary: "'footer' | 'inline'" },
+        defaultValue: { summary: "'footer'" },
       },
     },
     onExport: {
@@ -111,7 +125,40 @@ export const Default: Story = {
   args: {
     formats: ['pdf', 'csv'],
     loading: false,
+    variant: 'footer',
   },
+}
+
+/**
+ * Cabecera: sin divisor ni etiqueta (usar con slot `headerExport` en ChartMetricContainer)
+ */
+export const Inline: Story = {
+  args: {
+    formats: ['pdf', 'csv'],
+    loading: false,
+    variant: 'inline',
+  },
+  decorators: [
+    () => ({
+      template: `
+        <div style="
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 16px;
+          border-radius: 12px;
+          border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.08));
+          background: var(--kiut-bg-card, #fff);
+        ">
+          <div style="flex: 1; min-width: 0;">
+            <div style="font-weight: 600; font-size: 1.125rem; font-family: Inter, sans-serif;">Título</div>
+            <div style="font-size: 0.875rem; color: var(--kiut-text-secondary, #737373);">Subtítulo</div>
+          </div>
+          <story />
+        </div>
+      `,
+    }),
+  ],
 }
 
 /**

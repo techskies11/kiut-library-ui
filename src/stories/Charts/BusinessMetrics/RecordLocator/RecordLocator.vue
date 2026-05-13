@@ -1,15 +1,20 @@
 <template>
-  <details class="record-locator-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <h3 class="card-title">Checkin by Record Locator Metrics</h3>
-        <p class="card-subtitle">Checkin by record locator retrieval and completion analysis</p>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
-
+  <ChartMetricContainer
+    class="record-locator-root h-full min-h-0"
+    title="Checkin by Record Locator Metrics"
+    subtitle="Checkin by record locator retrieval and completion analysis"
+    :collapsible="collapsible"
+  >
+    <template
+      v-if="enableExport && !props.loading && tableData && tableData.length > 0"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
@@ -39,12 +44,17 @@
         </div>
       </section>
 
-      <!-- Table Data -->
-      <section v-if="tableData && tableData.length > 0" class="table-section">
-        <div class="table-wrapper">
-          <Table :columns="recordLocatorColumns" :rows="recordLocatorTableRows" row-key="id">
+      <!-- Table Data (chrome: Utils/Table) -->
+      <section v-if="tableData && tableData.length > 0" class="record-locator-daily-section">
+        <div class="w-full min-w-0">
+          <Table
+            :columns="recordLocatorColumns"
+            :rows="recordLocatorTableRows"
+            :max-visible-rows="3"
+            row-key="id"
+          >
             <template #cell-date="{ row }">
-              <span class="cell-plain font-medium">{{ moment(String(row.date)).format('DD/MM/YYYY') }}</span>
+              <span class="cell-plain font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-checkinInit="{ row }">
               <span class="cell-plain text-center">{{ useNumberFormat(row.checkin_initiated as number) }}</span>
@@ -75,21 +85,6 @@
             </template>
           </Table>
         </div>
-        <button
-          v-if="hasMoreRows"
-          type="button"
-          class="view-more-btn"
-          @click="showAllRows = !showAllRows"
-        >
-          {{ showAllRows ? 'View less' : `View more (${remainingRows} rows)` }}
-          <svg
-            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -105,17 +100,18 @@
         </div>
       </section>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, toRef } from 'vue'
 import moment from 'moment'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 interface RecordLocatorDayData {
   date: string;
@@ -153,6 +149,8 @@ const props = withDefaults(defineProps<{
   theme?: Theme;
   enableExport?: boolean;
   exportLoading?: boolean;
+  /** Si es false, el card siempre abierto sin chevron (p. ej. dentro de CheckinContainer). */
+  collapsible?: boolean;
 }>(), {
   data: () => ({
     total_checkin_initiated: 0,
@@ -173,7 +171,8 @@ const props = withDefaults(defineProps<{
   isAvianca: false,
   theme: undefined,
   enableExport: false,
-  exportLoading: false
+  exportLoading: false,
+  collapsible: true,
 })
 
 const emit = defineEmits<{
@@ -187,9 +186,6 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
 // Computed para ordenar los datos por día
 const tableData = computed(() => {
   if (!props.data?.record_locator_by_day) return []
@@ -197,17 +193,6 @@ const tableData = computed(() => {
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 })
-
-const visibleTableData = computed(() => {
-  if (showAllRows.value) return tableData.value
-  return tableData.value.slice(0, MAX_VISIBLE_ROWS)
-})
-
-const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS)
-
-const remainingRows = computed(() =>
-  Math.max(0, tableData.value.length - MAX_VISIBLE_ROWS)
-)
 
 const baseRecordLocatorColumns: TableColumn[] = [
   { key: 'date', label: 'Date', align: 'center' },
@@ -230,7 +215,7 @@ const recordLocatorColumns = computed(() =>
 )
 
 const recordLocatorTableRows = computed((): Record<string, unknown>[] =>
-  visibleTableData.value.map((row) => ({
+  tableData.value.map((row) => ({
     id: row.date,
     date: row.date,
     checkin_initiated: row.checkin_initiated,
@@ -479,62 +464,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-/* Main Card Styles */
-.record-locator-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.record-locator-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 28px;
-  position: relative;
-}
-
-.header-content {
-  width: 100%;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -557,16 +486,13 @@ defineExpose({ isDark })
   box-shadow: var(--kiut-shadow-chart-wrapper);
 }
 
-/* Table Section */
-.table-section {
+/* Daily table block (Utils/Table) */
+.record-locator-daily-section {
   animation: fadeIn 0.6s ease-out 0.1s backwards;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.table-wrapper {
-  flex: 1;
+  gap: 12px;
 }
 
 .cell-plain {
@@ -721,10 +647,10 @@ defineExpose({ isDark })
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .table-wrapper {
-    overflow-x: scroll;
+  .record-locator-daily-section {
+    overflow-x: auto;
   }
-  
+
   .cell-plain {
     padding: 0;
     font-size: 0.8125rem;
@@ -732,23 +658,6 @@ defineExpose({ isDark })
 }
 
 @media (max-width: 768px) {
-  .record-locator-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .card-title {
-    font-size: 20px;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 24px;
-  }
-
   .chart-wrapper {
     padding: 16px;
   }

@@ -1,43 +1,20 @@
 <template>
-  <details class="seller-metrics-card metric-collapsible" :open="initiallyOpen">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">Seller Metrics</h3>
-          <p class="card-subtitle">Sales performance and failure analysis</p>
-        </div>
-        <div class="header-badges">
-          <div class="payment-success-badge" v-if="!props.loading">
-            <p class="badge-label">Total Sales Value</p>
-            <div v-if="totalSalesByCurrency.length > 0" class="currency-breakdown-list">
-            <p v-for="item in totalSalesByCurrency" :key="item.currency" class="currency-breakdown-item">
-              {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
-            </p>
-            </div>
-            <p v-else class="badge-value">{{ formatCurrencyValue(props.sellerData.total_value_sell_success) }}</p>
-          </div>
-          <div class="payment-warning-badge" v-if="!props.loading && bankTransferByCurrency.length > 0">
-            <p class="badge-label-warning">Bank Transfer Value</p>
-            <div class="currency-breakdown-list">
-              <p v-for="item in bankTransferByCurrency" :key="'bt-' + item.currency" class="currency-breakdown-item-warning">
-                {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
-              </p>
-            </div>
-          </div>
-          <div class="payment-warning-badge" v-if="!props.loading && cashOptionByCurrency.length > 0">
-            <p class="badge-label-warning">Cash Option Value</p>
-            <div class="currency-breakdown-list">
-              <p v-for="item in cashOptionByCurrency" :key="'co-' + item.currency" class="currency-breakdown-item-warning">
-                {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
+  <ChartMetricContainer
+    class="seller-metrics-root h-full min-h-0"
+    title="Seller Metrics"
+    subtitle="Sales performance and failure analysis"
+    :default-open="initiallyOpen"
+  >
+    <template
+      v-if="enableExport && !props.loading && tableData && tableData.length > 0"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -80,12 +57,38 @@
         </div>
       </section>
 
-      <!-- Table Data -->
-      <section v-if="tableData && tableData.length > 0" class="table-section">
-        <div class="table-wrapper">
-          <Table :columns="sellerTableColumns" :rows="sellerTableRows" row-key="id">
+      <section class="seller-value-cards">
+        <CardInfo
+          class="seller-value-card"
+          color="var(--kiut-success)"
+          title="Total Sales Value"
+          :value="totalSalesCardValue"
+        />
+        <CardInfo
+          class="seller-value-card"
+          color="#d97706"
+          title="Bank Transfer Value"
+          :value="bankTransferCardValue"
+        />
+        <CardInfo
+          class="seller-value-card"
+          color="#ca8a04"
+          title="Cash Option Value"
+          :value="cashOptionCardValue"
+        />
+      </section>
+
+      <!-- Table Data (chrome: Utils/Table) -->
+      <section v-if="tableData && tableData.length > 0" class="seller-daily-section">
+        <div class="w-full min-w-0">
+          <Table
+            :columns="sellerTableColumns"
+            :rows="sellerTableRows"
+            :max-visible-rows="3"
+            row-key="id"
+          >
             <template #cell-date="{ row }">
-              <span class="sl-cell font-medium">{{ moment(String(row.date)).format('DD/MM/YYYY') }}</span>
+              <span class="sl-cell font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-sellInitiated="{ row }">
               <span class="sl-cell text-center">{{ useNumberFormat(Number(row.seller_conversations) || 0) }}</span>
@@ -177,34 +180,21 @@
             </template>
           </Table>
         </div>
-        <button
-          v-if="hasMoreRows"
-          type="button"
-          class="view-more-btn"
-          @click="showAllRows = !showAllRows"
-        >
-          {{ showAllRows ? 'View less' : `View more (${sellerRemainingRows} rows)` }}
-          <svg
-            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, toRef } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat, useCurrencyFormat, useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 
 interface FailedReason {
   reason: string;
@@ -310,9 +300,6 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
 // Computed para combinar y ordenar los datos de la tabla
 const tableData = computed(() => {
   if (!props.sellerData?.seller_by_day) return []
@@ -348,17 +335,6 @@ const tableData = computed(() => {
   return data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 })
 
-const visibleTableData = computed(() => {
-  if (showAllRows.value) return tableData.value
-  return tableData.value.slice(0, MAX_VISIBLE_ROWS)
-})
-
-const hasMoreRows = computed(() => tableData.value.length > MAX_VISIBLE_ROWS)
-
-const sellerRemainingRows = computed(() =>
-  Math.max(0, tableData.value.length - MAX_VISIBLE_ROWS)
-)
-
 const sellerTableColumns: TableColumn[] = [
   { key: 'date', label: 'Date', align: 'center' },
   { key: 'sellInitiated', label: 'Sell Initiated', align: 'center' },
@@ -377,7 +353,7 @@ const sellerTableColumns: TableColumn[] = [
 ]
 
 const sellerTableRows = computed((): Record<string, unknown>[] =>
-  visibleTableData.value.map((row) => ({
+  tableData.value.map((row) => ({
     id: row.date,
     ...row,
   }))
@@ -393,6 +369,33 @@ const bankTransferByCurrency = computed(() =>
 )
 const cashOptionByCurrency = computed(() =>
   Array.isArray(props.sellerData.total_value_sell_cash_option) ? props.sellerData.total_value_sell_cash_option : [],
+)
+
+const totalSalesCardValue = computed((): string => {
+  const items = totalSalesByCurrency.value
+  if (items.length > 0) {
+    return items
+      .map((item) => `${item.currency} ${useCompactCurrencyFormat(item.total_value)}`)
+      .join(' · ')
+  }
+  return formatCurrencyValue(props.sellerData.total_value_sell_success)
+})
+
+function formatCurrencyBreakdownCard(items: CurrencyValue[]): string {
+  if (items.length > 0) {
+    return items
+      .map((item) => `${item.currency} ${useCompactCurrencyFormat(item.total_value)}`)
+      .join(' · ')
+  }
+  return '—'
+}
+
+const bankTransferCardValue = computed((): string =>
+  formatCurrencyBreakdownCard(bankTransferByCurrency.value),
+)
+
+const cashOptionCardValue = computed((): string =>
+  formatCurrencyBreakdownCard(cashOptionByCurrency.value),
 )
 
 const sankeyData = computed(() => {
@@ -644,167 +647,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-/* Main Card Styles */
-.seller-metrics-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.seller-metrics-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 28px;
-  position: relative;
-  text-align: left;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.title-section {
-  flex: 1;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-/* Payment Success Badge - aligned with Disruption */
-.payment-success-badge {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 16px;
-  padding: 16px 24px;
-  min-width: 140px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.payment-success-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
-}
-
-.badge-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #047857;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 4px 0;
-}
-
-.badge-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #065f46;
-  letter-spacing: -0.02em;
-  margin: 0;
-}
-
-.currency-breakdown-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.currency-breakdown-item {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #065f46;
-  letter-spacing: -0.01em;
-  margin: 0;
-}
-
-/* Header Badges Container */
-.header-badges {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-
-.seller-metrics-card:not([open]) .header-badges {
-  display: none;
-}
-
-/* Yellow Warning Badge for Bank Transfer / Cash Option */
-.payment-warning-badge {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 16px;
-  padding: 16px 24px;
-  min-width: 140px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.payment-warning-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
-}
-
-.badge-label-warning {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #92400e;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 4px 0;
-}
-
-.currency-breakdown-item-warning {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #78350f;
-  letter-spacing: -0.01em;
-  margin: 0;
-}
-
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -819,6 +661,24 @@ defineExpose({ isDark })
   animation: fadeIn 0.5s ease-out;
 }
 
+.seller-value-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+  animation: fadeIn 0.55s ease-out 0.05s backwards;
+}
+
+.seller-value-card {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .seller-value-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
 .chart-wrapper {
   background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
@@ -827,21 +687,13 @@ defineExpose({ isDark })
   box-shadow: var(--kiut-shadow-chart-wrapper);
 }
 
-/* Table Section */
-.table-section {
+/* Daily table block (Utils/Table) */
+.seller-daily-section {
   animation: fadeIn 0.6s ease-out 0.1s backwards;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid var(--kiut-border-table);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  background: var(--kiut-bg-table);
-  flex: 1;
+  gap: 12px;
 }
 
 .success-value {
@@ -894,6 +746,7 @@ defineExpose({ isDark })
   align-items: center;
   justify-content: center;
   min-height: 280px;
+  margin-bottom: 28px;
 }
 
 .empty-state-content {
@@ -1036,38 +889,12 @@ defineExpose({ isDark })
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .table-wrapper {
-    overflow-x: scroll;
+  .seller-daily-section {
+    overflow-x: auto;
   }
 }
 
 @media (max-width: 768px) {
-  .seller-metrics-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .payment-success-badge {
-    min-width: auto;
-  }
-
-  .card-title {
-    font-size: 20px;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 24px;
-  }
-
   .chart-wrapper {
     padding: 16px;
   }
