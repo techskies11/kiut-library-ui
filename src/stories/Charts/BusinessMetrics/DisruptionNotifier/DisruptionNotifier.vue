@@ -1,20 +1,19 @@
 <template>
-  <details class="dn-metrics-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">Disruption Notifier</h3>
-          <p class="card-subtitle">Passenger notification effectiveness and delivery analysis</p>
-        </div>
-        <div class="total-docs-badge" v-if="!props.loading">
-          <p class="badge-label">Total Records</p>
-          <p class="badge-value">{{ useNumberFormat(docTotals.row_count_total) }}</p>
-        </div>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
+  <ChartMetricContainer
+    class="dn-metrics-root h-full min-h-0"
+    title="Disruption Notifier"
+    subtitle="Passenger notification effectiveness and delivery analysis"
+  >
+    <template
+      v-if="enableExport && !props.loading && hasData"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <!-- Loading State -->
     <div class="loading-state" v-if="props.loading">
@@ -34,30 +33,7 @@
     <div v-else class="card-body">
       <template v-if="hasData">
 
-        <!-- 1. BUSINESS OUTCOME KPIs -->
-        <div class="kpi-grid">
-          <div class="kpi-card kpi-neutral">
-            <span class="kpi-label">Passengers Affected</span>
-            <span class="kpi-value">{{ useNumberFormat(affected) }}</span>
-          </div>
-          <div class="kpi-card kpi-success">
-            <span class="kpi-label">Successfully Notified</span>
-            <span class="kpi-value kpi-value-success">{{ useNumberFormat(procTotals.notification_sent) }}</span>
-            <span class="kpi-pct">{{ pct(procTotals.notification_sent, affected) }}</span>
-          </div>
-          <div class="kpi-card kpi-danger">
-            <span class="kpi-label">Not Notified</span>
-            <span class="kpi-value kpi-value-error">{{ useNumberFormat(notNotified) }}</span>
-            <span class="kpi-pct">{{ pct(notNotified, affected) }}</span>
-          </div>
-          <div class="kpi-card kpi-warning">
-            <span class="kpi-label">Main Failure Reason</span>
-            <span class="kpi-value kpi-value-reason">{{ topFailure.reason }}</span>
-            <span class="kpi-pct">{{ useNumberFormat(topFailure.count) }} cases</span>
-          </div>
-        </div>
-
-        <!-- 2. PASSENGER DISRUPTION FUNNEL -->
+        <!-- 1. PASSENGER DISRUPTION FUNNEL -->
         <section class="chart-section">
           <div class="chart-header">
             <h4 class="section-title">Passenger Disruption Funnel</h4>
@@ -75,13 +51,50 @@
           </div>
         </section>
 
-        <!-- 3. FAILURE ANALYSIS -->
-        <section v-if="failureRows.length > 0" class="table-section">
+        <!-- Summary cards (Total Records + business KPIs) -->
+        <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
+          <CardInfo
+            color="#3b82f6"
+            title="Total Records"
+            :value="useNumberFormat(docTotals.row_count_total)"
+          />
+          <CardInfo
+            color="#8b5cf6"
+            title="Passengers Affected"
+            :value="useNumberFormat(affected)"
+          />
+          <CardInfo
+            color="#10b981"
+            title="Successfully Notified"
+            :value="useNumberFormat(procTotals.notification_sent)"
+            :subvalue="pct(procTotals.notification_sent, affected)"
+          />
+          <CardInfo
+            color="#ef4444"
+            title="Not Notified"
+            :value="useNumberFormat(notNotified)"
+            :subvalue="pct(notNotified, affected)"
+          />
+          <CardInfo
+            color="#f59e0b"
+            title="Main Failure Reason"
+            :value="topFailure.reason"
+            :subvalue="topFailure.count > 0 ? `${useNumberFormat(topFailure.count)} cases` : undefined"
+          />
+        </div>
+
+        <!-- 2. FAILURE ANALYSIS (chrome de tabla: Utils/Table) -->
+        <section v-if="failureRows.length > 0" class="dn-failure-section">
           <div class="section-header">
             <h4 class="section-title">Why Passengers Were Not Notified</h4>
           </div>
-          <div class="table-wrapper">
-            <Table :columns="failureTableColumns" :rows="visibleFailureTableRows" row-key="id">
+          <div class="w-full min-w-0">
+            <Table
+              :columns="failureTableColumns"
+              :rows="failureTableRows"
+              :max-visible-rows="3"
+              row-key="id"
+            >
               <template #cell-reason="{ row }">
                 <span class="failure-reason">{{ row.reason }}</span>
               </template>
@@ -96,54 +109,59 @@
               </template>
             </Table>
           </div>
-          <button
-            v-if="failureHasMoreRows"
-            type="button"
-            class="view-more-btn"
-            @click="showAllFailureRows = !showAllFailureRows"
-          >
-            {{ showAllFailureRows ? 'View less' : `View more (${failureRemainingRows} rows)` }}
-            <svg
-              :class="['view-more-icon', { 'view-more-icon-rotated': showAllFailureRows }]"
-              fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
         </section>
 
-        <!-- 4. TREND: Notification Success Rate by Day -->
-        <section v-if="trendChartData.labels.length > 0" class="chart-section">
-          <div class="chart-header">
-            <h4 class="section-title">Notification Success Rate by Day</h4>
-          </div>
-          <div class="chart-wrapper">
-            <LineChart :data="trendChartData" :options="trendOptions" />
-          </div>
-        </section>
-
-        <!-- 5. SYSTEM HEALTH (collapsible) -->
-        <details class="system-health">
-          <summary class="system-health-toggle">
-            <svg class="toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            System Health Details
-          </summary>
-          <div class="system-health-content">
-            <div class="sys-kpi-grid">
-              <div class="sys-kpi"><span class="sys-label">Docs Started</span><span class="sys-value">{{ useNumberFormat(docTotals.processing_started) }}</span></div>
-              <div class="sys-kpi"><span class="sys-label">Docs Completed</span><span class="sys-value">{{ useNumberFormat(docTotals.processing_completed) }}</span></div>
-              <div class="sys-kpi"><span class="sys-label">Docs Failed</span><span class="sys-value sys-error">{{ useNumberFormat(docTotals.processing_failed) }}</span></div>
-              <div class="sys-kpi"><span class="sys-label">Processing Started</span><span class="sys-value">{{ useNumberFormat(procTotals.processing_started) }}</span></div>
-              <div class="sys-kpi"><span class="sys-label">Processing Success</span><span class="sys-value">{{ useNumberFormat(procTotals.processing_success) }}</span></div>
-              <div class="sys-kpi"><span class="sys-label">Notification Failed</span><span class="sys-value sys-error">{{ useNumberFormat(procTotals.notification_failed) }}</span></div>
+        <div class="dn-trend-health-block flex flex-col gap-0">
+          <!-- 3. TREND: Notification Success Rate by Day -->
+          <section v-if="trendChartData.labels.length > 0" class="chart-section dn-trend-chart-section">
+            <div class="chart-header">
+              <h4 class="section-title">Notification Success Rate by Day</h4>
             </div>
-          </div>
-        </details>
+            <div class="dn-trend-chart-area min-h-[280px] w-full min-w-0 flex-1">
+              <LineChart :data="trendChartData" :options="trendOptions" :theme="props.theme" />
+            </div>
+          </section>
 
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
+          <!-- 4. SYSTEM HEALTH (collapsible) -->
+          <details class="system-health">
+            <summary class="system-health-toggle">
+              <svg class="toggle-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              System Health Details
+            </summary>
+            <div class="system-health-content">
+              <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+                <CardInfo
+                  title="Docs Started"
+                  :value="useNumberFormat(docTotals.processing_started)"
+                />
+                <CardInfo
+                  title="Docs Completed"
+                  :value="useNumberFormat(docTotals.processing_completed)"
+                />
+                <CardInfo
+                  title="Docs Failed"
+                  :value="useNumberFormat(docTotals.processing_failed)"
+                />
+                <CardInfo
+                  title="Processing Started"
+                  :value="useNumberFormat(procTotals.processing_started)"
+                />
+                <CardInfo
+                  title="Processing Success"
+                  :value="useNumberFormat(procTotals.processing_success)"
+                />
+                <CardInfo
+                  title="Notification Failed"
+                  :value="useNumberFormat(procTotals.notification_failed)"
+                />
+              </div>
+            </div>
+          </details>
+        </div>
+
       </template>
 
       <!-- Empty State -->
@@ -159,18 +177,20 @@
         </div>
       </section>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
+import { computed, toRef } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
 import LineChart from '../../Line/ChartLine.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 interface DocumentCountItem {
   date: string;
@@ -275,9 +295,6 @@ const topFailure = computed(() => {
   return reasons.length > 0 ? reasons[0] : { reason: 'None', count: 0 }
 })
 
-const MAX_FAILURE_VISIBLE = 3
-const showAllFailureRows = ref(false)
-
 const failureRows = computed(() => {
   const total = affected.value
   return [
@@ -298,19 +315,8 @@ const failureTableColumns: TableColumn[] = [
   { key: 'impact', label: 'Impact', align: 'center' },
 ]
 
-const visibleFailureRows = computed(() => {
-  if (showAllFailureRows.value) return failureRows.value
-  return failureRows.value.slice(0, MAX_FAILURE_VISIBLE)
-})
-
-const failureHasMoreRows = computed(() => failureRows.value.length > MAX_FAILURE_VISIBLE)
-
-const failureRemainingRows = computed(() =>
-  Math.max(0, failureRows.value.length - MAX_FAILURE_VISIBLE)
-)
-
-const visibleFailureTableRows = computed((): Record<string, unknown>[] =>
-  visibleFailureRows.value.map((r) => ({
+const failureTableRows = computed((): Record<string, unknown>[] =>
+  failureRows.value.map((r) => ({
     id: r.reason,
     reason: r.reason,
     count: r.count,
@@ -397,31 +403,12 @@ const trendChartData = computed(() => {
         label: 'Success Rate (%)',
         data: rateData,
         borderColor: '#8b5cf6',
-        backgroundColor: 'rgba(139, 92, 246, 0.1)',
-        borderWidth: 2.5,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointBackgroundColor: '#8b5cf6',
-        pointBorderColor: '#7c3aed',
-        pointBorderWidth: 2,
         yAxisID: 'y',
       },
       {
         label: 'Notifications Sent',
         data: volumeData,
         borderColor: '#10b981',
-        backgroundColor: 'rgba(16, 185, 129, 0.08)',
-        borderWidth: 1.5,
-        borderDash: [4, 4],
-        fill: false,
-        tension: 0.4,
-        pointRadius: 3,
-        pointHoverRadius: 5,
-        pointBackgroundColor: '#10b981',
-        pointBorderColor: '#059669',
-        pointBorderWidth: 2,
         yAxisID: 'y1',
       },
     ],
@@ -431,9 +418,19 @@ const trendChartData = computed(() => {
 const trendOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
+  layout: {
+    padding: {
+      top: 18,
+      bottom: 2,
+      left: 4,
+      right: 8,
+    },
+  },
   interaction: { mode: 'index' as const, intersect: false },
   plugins: {
-    legend: { display: true, position: 'top' as const, labels: { usePointStyle: true, padding: 16, font: { family: "'DM Sans', sans-serif", size: 11 }, color: colors.value.textSecondary } },
+    legend: {
+      display: false,
+    },
     tooltip: {
       mode: 'index' as const, intersect: false,
       backgroundColor: colors.value.tooltipBg, titleColor: colors.value.tooltipText, bodyColor: colors.value.textSecondary,
@@ -447,14 +444,54 @@ const trendOptions = computed(() => ({
     },
   },
   scales: {
-    x: { display: true, grid: { display: false }, ticks: { font: { family: "'DM Sans', sans-serif", size: 11 }, color: colors.value.textSecondary } },
+    x: {
+      display: true,
+      grid: { display: false },
+      ticks: {
+        font: {
+          family: "'Inter', ui-sans-serif, system-ui, sans-serif",
+          size: 11,
+        },
+        color: colors.value.textSecondary,
+      },
+    },
     y: { type: 'linear' as const, display: true, position: 'left' as const, beginAtZero: true, max: 100, grid: { color: colors.value.gridLines },
-      ticks: { font: { family: "'DM Sans', sans-serif", size: 11 }, color: colors.value.textSecondary, callback: (v: any) => v + '%' },
-      title: { display: true, text: 'Success Rate', font: { family: "'DM Sans', sans-serif", size: 11 }, color: colors.value.textSecondary },
+      ticks: {
+        font: {
+          family: "'Inter', ui-sans-serif, system-ui, sans-serif",
+          size: 11,
+        },
+        color: colors.value.textSecondary,
+        callback: (v: unknown) =>
+          `${v}%`,
+      },
+      title: {
+        display: true,
+        text: 'Success Rate',
+        font: {
+          family: "'Inter', ui-sans-serif, system-ui, sans-serif",
+          size: 11,
+        },
+        color: colors.value.textSecondary,
+      },
     },
     y1: { type: 'linear' as const, display: true, position: 'right' as const, beginAtZero: true, grid: { drawOnChartArea: false },
-      ticks: { font: { family: "'DM Sans', sans-serif", size: 11 }, color: colors.value.textSecondary },
-      title: { display: true, text: 'Volume', font: { family: "'DM Sans', sans-serif", size: 11 }, color: colors.value.textSecondary },
+      ticks: {
+        font: {
+          family: "'Inter', ui-sans-serif, system-ui, sans-serif",
+          size: 11,
+        },
+        color: colors.value.textSecondary,
+      },
+      title: {
+        display: true,
+        text: 'Volume',
+        font: {
+          family: "'Inter', ui-sans-serif, system-ui, sans-serif",
+          size: 11,
+        },
+        color: colors.value.textSecondary,
+      },
     },
   },
 }))
@@ -463,43 +500,7 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-.dn-metrics-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient, linear-gradient(to bottom, #ffffff 0%, #fafafa 100%));
-  border-radius: 20px; padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card, 0 1px 3px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05));
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative; overflow: hidden; display: flex; flex-direction: column; height: 100%;
-}
-.dn-metrics-card:hover { box-shadow: var(--kiut-shadow-card-hover, 0 4px 6px rgba(0,0,0,0.05), 0 20px 25px -5px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)); transform: translateY(-2px); }
-.card-header { margin-bottom: 24px; position: relative; text-align: left; }
-.header-content { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; width: 100%; text-align: left; }
-.title-section { flex: 1; text-align: left; }
-.card-title { font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; line-height: 1.3; letter-spacing: -0.02em; background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; font-size: 1.125rem; line-height: 1.75rem; }
-.card-subtitle { font-size: .875rem; font-weight: 400; color: var(--kiut-text-secondary, #64748b); margin: 0; line-height: 1.25rem; }
-.total-docs-badge { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 16px; padding: 12px 20px; min-width: 120px; text-align: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.total-docs-badge:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2); }
-.total-docs-badge .badge-label { font-size: 0.7rem; font-weight: 600; color: #1d4ed8; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 2px 0; }
-.total-docs-badge .badge-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.375rem; font-weight: 700; color: #1e40af; margin: 0; letter-spacing: -0.02em; }
 .card-body { animation: fadeIn 0.5s ease-out; flex: 1; display: flex; flex-direction: column; gap: 24px; }
-
-/* KPI Grid - 4 business outcome cards */
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.kpi-card { display: flex; flex-direction: column; gap: 4px; padding: 16px 14px; background: var(--kiut-bg-stats-badge, #f8fafc); border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.05)); border-radius: 12px; text-align: center; transition: all 0.2s ease; }
-.kpi-card:hover { background: var(--kiut-bg-card, #fff); transform: translateY(-1px); }
-.kpi-neutral { border-top: 3px solid #8b5cf6; }
-.kpi-success { border-top: 3px solid #10b981; }
-.kpi-danger { border-top: 3px solid #ef4444; }
-.kpi-warning { border-top: 3px solid #f59e0b; }
-.kpi-label { font-size: 0.7rem; font-weight: 500; color: var(--kiut-text-secondary, #64748b); line-height: 1.2; }
-.kpi-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.375rem; font-weight: 700; color: var(--kiut-text-primary, #1e293b); letter-spacing: -0.02em; }
-.kpi-value-success { color: #059669; }
-.kpi-value-error { color: #dc2626; }
-.kpi-value-reason { font-size: 0.9rem; color: #92400e; }
-.kpi-pct { font-size: 0.75rem; color: var(--kiut-text-secondary, #94a3b8); font-weight: 500; }
 
 /* Chart Sections */
 .chart-section { display: flex; flex-direction: column; gap: 8px; }
@@ -508,13 +509,27 @@ defineExpose({ isDark })
 .empty-chart { display: flex; align-items: center; justify-content: center; height: 300px; }
 .empty-chart-text { color: var(--kiut-text-secondary, #64748b); font-size: 0.875rem; }
 
-/* Failure Analysis Table */
-.table-section { display: flex; flex-direction: column; }
+/* Failure Analysis block (tabla: Utils/Table) */
+.dn-failure-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Failure Analysis table cell content */
 .section-header { margin-bottom: 12px; }
 .section-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0; }
-.table-wrapper { flex: 1; }
 .failure-reason { font-size: 0.8125rem; font-weight: 500; color: var(--kiut-text-primary, #1e293b); }
 .failure-count { font-size: 0.8125rem; font-weight: 600; display: inline-block; width: 100%; text-align: center; }
+
+/* Trend + System Health: sin hueco vertical extra; lienzo respira arriba */
+.dn-trend-health-block .system-health { margin-top: 0; }
+.dn-trend-chart-area { padding-top: 10px; padding-bottom: 0; }
+.dn-trend-chart-area :deep(.chart-line-root ul) {
+  margin-top: 0;
+  padding-top: 0.375rem;
+  padding-bottom: 0;
+}
 
 /* Impact Bar */
 .impact-bar-container { display: flex; align-items: center; gap: 8px; min-width: 120px; }
@@ -535,11 +550,6 @@ defineExpose({ isDark })
 .toggle-icon { width: 16px; height: 16px; flex-shrink: 0; }
 .system-health[open] .toggle-icon { transform: rotate(90deg); }
 .system-health-content { padding: 16px; }
-.sys-kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.sys-kpi { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; background: var(--kiut-bg-card, white); border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.05)); border-radius: 8px; text-align: center; }
-.sys-label { font-size: 0.65rem; font-weight: 500; color: var(--kiut-text-secondary, #94a3b8); text-transform: uppercase; letter-spacing: 0.03em; }
-.sys-value { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--kiut-text-primary, #475569); }
-.sys-error { color: #dc2626; }
 
 /* Empty State */
 .empty-state { display: flex; align-items: center; justify-content: center; min-height: 280px; }
@@ -559,13 +569,4 @@ defineExpose({ isDark })
 @keyframes wave { 0%, 100% { transform: scaleY(1); opacity: 0.7; } 50% { transform: scaleY(1.6); opacity: 1; } }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 1024px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .sys-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 768px) {
-  .dn-metrics-card { padding: 20px 24px; border-radius: 16px; }
-  .kpi-grid { grid-template-columns: 1fr 1fr; }
-  .sys-kpi-grid { grid-template-columns: 1fr 1fr; }
-  .card-title { font-size: 1rem; }
-  .header-content { flex-direction: column; gap: 16px; }
-  .card-header { margin-bottom: 20px; }
-}
 </style>

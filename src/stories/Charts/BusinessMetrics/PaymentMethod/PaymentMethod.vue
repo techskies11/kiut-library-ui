@@ -1,18 +1,19 @@
 <template>
-  <details class="payment-method-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">Payment Method Metrics</h3>
-          <p class="card-subtitle">Sales breakdown by payment method</p>
-        </div>
-        
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
-
+  <ChartMetricContainer
+    class="payment-method-root h-full min-h-0"
+    title="Payment Method Metrics"
+    subtitle="Sales breakdown by payment method"
+  >
+    <template
+      v-if="enableExport && !loading && hasDailyBreakdown"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
     <!-- Loading State -->
     <div class="loading-state" v-if="loading">
       <div class="loading-container">
@@ -33,43 +34,15 @@
       <section v-if="hasPaymentMethods" class="payment-methods-section">
         <p class="section-label">Sales by Payment Method</p>
         <div class="payment-methods-grid">
-          <div
+          <CardInfo
             v-for="(pm, index) in metricsData.payment_method_breakdown"
             :key="pm.payment_method"
-            class="payment-method-card-item"
-            :style="getCardStyle(index)"
-          >
-            <div class="payment-card-content">
-              <!-- Payment Method Icon & Name -->
-              <div class="payment-card-header">
-                <component :is="getPaymentIcon(pm.payment_method)" class="payment-icon" :style="getIconStyle(index)" />
-                <span class="payment-name" :style="getTextStyle(index)">
-                  {{ formatPaymentMethod(pm.payment_method) }}
-                </span>
-              </div>
-              <!-- Currency Breakdown -->
-              <div v-if="pm.total_amount_by_currency && pm.total_amount_by_currency.length > 0" class="currency-breakdown-card">
-                <p
-                  v-for="item in pm.total_amount_by_currency"
-                  :key="`${pm.payment_method}-${item.currency}`"
-                  class="currency-card-item"
-                  :style="getValueStyle(index)"
-                >
-                  <span class="currency-label">{{ item.currency }}</span>
-                  <span class="currency-value" :style="getAmountSizeStyle(item.total_value)">{{ formatCompactCurrency(item.total_value) }}</span>
-                </p>
-              </div>
-              <p v-else class="payment-amount" :style="[getValueStyle(index), getAmountSizeStyle(pm.total_amount)]">
-                {{ formatCurrency(pm.total_amount) }}
-              </p>
-              <!-- Count Badge -->
-              <div class="payment-badge-wrapper">
-                <span class="payment-badge" :style="getBadgeStyle(index)">
-                  {{ formatCount(pm.count) }} {{ formatCount(pm.count) === 1 ? 'sale' : 'sales' }}
-                </span>
-              </div>
-            </div>
-          </div>
+            class="payment-method-card-item min-w-0"
+            :color="cardAccentColors[index % cardAccentColors.length]"
+            :title="formatPaymentMethod(pm.payment_method)"
+            :value="formatPaymentCardValue(pm)"
+            :subvalue="`${formatCount(pm.count)} ${formatCount(pm.count) === 1 ? 'sale' : 'sales'}`"
+          />
         </div>
       </section>
 
@@ -84,19 +57,24 @@
         </div>
       </section>
 
-      <!-- Daily Breakdown Table -->
-      <section v-if="hasDailyBreakdown" class="table-section">
+      <!-- Daily Breakdown Table (chrome: Utils/Table) -->
+      <section v-if="hasDailyBreakdown" class="payment-method-daily-section">
         <p class="section-label">Daily Breakdown</p>
-        <div class="table-wrapper">
-          <Table :columns="paymentDailyColumns" :rows="paymentDailyTableRows" row-key="id">
+        <div class="w-full min-w-0">
+          <Table
+            :columns="paymentDailyColumns"
+            :rows="paymentDailyTableRows"
+            :max-visible-rows="3"
+            row-key="id"
+          >
             <template #cell-date="{ row }">
-              <span class="pm-cell font-medium">{{ formatDate(String(row.date)) }}</span>
+              <span class="font-medium">{{ formatDate(String(row.date)) }}</span>
             </template>
             <template #cell-totalSales="{ row }">
-              <span class="pm-cell text-center">{{ useNumberFormat((row.total_count as number) ?? 0) }}</span>
+              <span class="text-center">{{ useNumberFormat((row.total_count as number) ?? 0) }}</span>
             </template>
             <template #cell-totalAmount="{ row }">
-              <span class="pm-cell text-center success-value">
+              <span class="text-center success-value">
                 <template v-if="Array.isArray(row.total_amount_by_currency) && row.total_amount_by_currency.length > 0">
                   <div class="currency-cell-list">
                     <span
@@ -131,21 +109,6 @@
             </template>
           </Table>
         </div>
-        <button
-          v-if="hasMoreRows"
-          type="button"
-          class="view-more-btn"
-          @click="showAllRows = !showAllRows"
-        >
-          {{ showAllRows ? 'View less' : `View more (${paymentRemainingRows} rows)` }}
-          <svg
-            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State for Table when no daily breakdown -->
@@ -153,25 +116,19 @@
         <p class="empty-table-text">No daily breakdown available</p>
       </div>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, toRef, onMounted, watch } from 'vue'
 import moment from 'moment'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat, useCurrencyFormat, useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
+import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import {
-  CreditCardIcon,
-  BanknotesIcon,
-  BuildingLibraryIcon,
-  DevicePhoneMobileIcon,
-  CurrencyDollarIcon,
-  WalletIcon,
-  QuestionMarkCircleIcon,
-} from '@heroicons/vue/24/outline'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import { CreditCardIcon } from '@heroicons/vue/24/outline'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 // Types
 interface PaymentMethodItem {
@@ -261,10 +218,6 @@ const hasDailyBreakdown = computed(() => {
   return metricsData.value.payment_method_by_day && metricsData.value.payment_method_by_day.length > 0
 })
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
-// Sort payment_method_by_day by date ascending
 const sortedPaymentMethodByDay = computed(() => {
   if (!metricsData.value.payment_method_by_day || metricsData.value.payment_method_by_day.length === 0) {
     return []
@@ -274,17 +227,6 @@ const sortedPaymentMethodByDay = computed(() => {
   })
 })
 
-const visiblePaymentMethodByDay = computed(() => {
-  if (showAllRows.value) return sortedPaymentMethodByDay.value
-  return sortedPaymentMethodByDay.value.slice(0, MAX_VISIBLE_ROWS)
-})
-
-const hasMoreRows = computed(() => sortedPaymentMethodByDay.value.length > MAX_VISIBLE_ROWS)
-
-const paymentRemainingRows = computed(() =>
-  Math.max(0, sortedPaymentMethodByDay.value.length - MAX_VISIBLE_ROWS)
-)
-
 const paymentDailyColumns: TableColumn[] = [
   { key: 'date', label: 'Date', align: 'left' },
   { key: 'totalSales', label: 'Total Sales', align: 'center' },
@@ -293,7 +235,7 @@ const paymentDailyColumns: TableColumn[] = [
 ]
 
 const paymentDailyTableRows = computed((): Record<string, unknown>[] =>
-  visiblePaymentMethodByDay.value.map((day) => ({
+  sortedPaymentMethodByDay.value.map((day) => ({
     id: day.date,
     date: day.date,
     total_count: day.total_count,
@@ -372,67 +314,8 @@ const searchData = async () => {
   }
 }
 
-// Card styling by index
-const cardColors = [
-  { bg: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)', border: '#a7f3d0', text: '#047857', value: '#065f46', icon: '#10b981', badge: '#059669' },
-  { bg: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)', border: '#93c5fd', text: '#1d4ed8', value: '#1e40af', icon: '#3b82f6', badge: '#2563eb' },
-  { bg: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)', border: '#d8b4fe', text: '#7c3aed', value: '#6d28d9', icon: '#8b5cf6', badge: '#7c3aed' },
-  { bg: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)', border: '#fcd34d', text: '#b45309', value: '#92400e', icon: '#f59e0b', badge: '#d97706' },
-  { bg: 'linear-gradient(135deg, #fff1f2 0%, #fce7f3 100%)', border: '#fda4af', text: '#be123c', value: '#9f1239', icon: '#f43f5e', badge: '#e11d48' },
-  { bg: 'linear-gradient(135deg, #ecfeff 0%, #cffafe 100%)', border: '#67e8f9', text: '#0e7490', value: '#155e75', icon: '#06b6d4', badge: '#0891b2' },
-]
-
-const getCardStyle = (index: number) => {
-  const color = cardColors[index % cardColors.length]
-  return {
-    background: color.bg,
-    borderColor: color.border,
-  }
-}
-
-const getTextStyle = (index: number) => {
-  const color = cardColors[index % cardColors.length]
-  return { color: color.text }
-}
-
-const getValueStyle = (index: number) => {
-  const color = cardColors[index % cardColors.length]
-  return { color: color.value }
-}
-
-const getIconStyle = (index: number) => {
-  const color = cardColors[index % cardColors.length]
-  return { color: color.icon }
-}
-
-const getBadgeStyle = (index: number) => {
-  const color = cardColors[index % cardColors.length]
-  return { color: color.badge }
-}
-
-// Get dynamic font size based on amount length
-const getAmountSizeStyle = (amount: number | undefined | null) => {
-  const formatted = formatCurrency(amount)
-  const length = formatted.length
-
-  if (length > 18) return { fontSize: '0.75rem' } // Very long amounts like $1,234,567,890.00
-  if (length > 15) return { fontSize: '0.875rem' } // Long amounts like $123,456,789.00
-  if (length > 12) return { fontSize: '1rem' } // Medium amounts like $1,234,567.00
-  return { fontSize: '1.125rem' } // Normal amounts
-}
-
-// Get appropriate icon for payment method
-const getPaymentIcon = (method: string) => {
-  const methodLower = method?.toLowerCase() || ''
-  // Unregistered/Unknown payment methods
-  if (!method || methodLower === 'unknown') return QuestionMarkCircleIcon
-  if (methodLower.includes('credit') || methodLower.includes('debit')) return CreditCardIcon
-  if (methodLower.includes('cash') || methodLower.includes('efectivo')) return BanknotesIcon
-  if (methodLower.includes('bank') || methodLower.includes('transfer')) return BuildingLibraryIcon
-  if (methodLower.includes('zelle') || methodLower.includes('pago') || methodLower.includes('movil')) return DevicePhoneMobileIcon
-  if (methodLower.includes('wallet')) return WalletIcon
-  return CurrencyDollarIcon
-}
+/** Accent color for CardInfo indicator dot (cycles by index) */
+const cardAccentColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#f43f5e', '#06b6d4']
 
 // Format payment method name
 const formatPaymentMethod = (method: string) => {
@@ -446,15 +329,18 @@ const formatCurrency = (value: number | undefined | null) => {
   return useCurrencyFormat(value)
 }
 
-const formatCompactCurrency = (value: number | undefined | null) => {
-  if (value === null || value === undefined) return '0'
-  return useCompactCurrencyFormat(value)
+const formatPaymentCardValue = (pm: PaymentMethodItem): string => {
+  const byCur = pm.total_amount_by_currency
+  if (byCur && byCur.length > 0) {
+    return byCur.map((item) => `${item.currency} ${formatCurrency(item.total_value)}`).join(' · ')
+  }
+  return formatCurrency(pm.total_amount)
 }
 
 // Format date
 const formatDate = (dateStr: string) => {
   if (!dateStr) return '-'
-  return moment(dateStr).format('DD/MM/YYYY')
+  return moment(dateStr).format('MMM DD')
 }
 
 // Format count with default value
@@ -516,92 +402,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-/* Main Card Styles */
-.payment-method-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.payment-method-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 24px;
-  position: relative;
-  text-align: left;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-  width: 100%;
-  text-align: left;
-}
-
-.title-section {
-  flex: 1;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-/* Stats Badge */
-.stats-badge {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
-  background: var(--kiut-bg-stats-badge);
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 10px;
-  transition: all 0.2s ease;
-  text-align: center;
-  min-width: 80px;
-}
-
-.stats-badge:hover {
-  background: var(--kiut-bg-card);
-  border-color: var(--kiut-border-color);
-}
-
 .badge-label {
   font-size: 0.75rem;
   font-weight: 500;
@@ -677,70 +477,8 @@ defineExpose({ isDark })
 }
 
 .payment-method-card-item {
-  border-radius: 12px;
-  border: 1px solid;
-  padding: 16px;
-  transition: all 0.2s ease;
-  cursor: default;
-}
-
-.payment-method-card-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.payment-card-content {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.payment-card-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.payment-icon {
-  width: 20px;
-  height: 20px;
-}
-
-.payment-name {
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.payment-amount {
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.currency-breakdown-card {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.currency-card-item {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.currency-label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  opacity: 0.7;
-}
-
-.currency-value {
-  font-weight: 700;
+  /* CardInfo aporta borde/fondo; solo aseguramos grid item */
+  min-width: 0;
 }
 
 .currency-cell-list {
@@ -751,42 +489,13 @@ defineExpose({ isDark })
   color: var(--kiut-text-secondary);
 }
 
-.payment-badge-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.payment-badge {
-  font-size: 0.75rem;
-  padding: 2px 8px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.6);
-  font-weight: 500;
-}
-
-/* Table Section */
-.table-section {
+/* Daily breakdown block (Utils/Table) */
+.payment-method-daily-section {
   animation: fadeIn 0.6s ease-out 0.1s backwards;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.table-wrapper {
-  flex: 1;
-}
-
-.pm-cell {
-  display: inline-block;
-  width: 100%;
-  font-size: 0.875rem;
-  color: var(--kiut-text-primary);
-  white-space: nowrap;
-}
-
-.pm-cell.text-center {
-  text-align: center;
+  gap: 12px;
 }
 
 .text-left {
@@ -984,46 +693,11 @@ defineExpose({ isDark })
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .table-wrapper {
-    overflow-x: scroll;
-  }
-  
-  .pm-cell {
-    font-size: 0.8125rem;
+  .payment-method-daily-section {
+    overflow-x: auto;
   }
 }
 
-@media (max-width: 768px) {
-  .payment-method-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .stats-badge {
-    min-width: auto;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 20px;
-  }
-
-  .pm-cell {
-    font-size: 0.8125rem;
-  }
-}
 </style>
 
 

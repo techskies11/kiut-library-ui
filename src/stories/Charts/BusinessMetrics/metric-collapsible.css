@@ -106,16 +106,19 @@ details.metric-collapsible[open] .metric-collapsible__chevron {
   transform: rotate(180deg);
 }
 
-/* Inter + colores sólidos (reemplazan Grotesk / gradient sobre el texto del título) */
-details.metric-collapsible .card-title,
-details.metric-collapsible .card-subtitle {
+/*
+ * Solo el encabezado colapsable (<summary>), no métricas anidadas dentro del body del <details>.
+ * Si se usa `.card-title` bajo cualquier descendiente del details, pisaba cards con collapsible=false.
+ */
+details.metric-collapsible .metric-collapsible__summary .card-title,
+details.metric-collapsible .metric-collapsible__summary .card-subtitle {
   font-family:
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
     'Inter',
     sans-serif;
 }
 
-details.metric-collapsible .card-title {
+details.metric-collapsible .metric-collapsible__summary .card-title {
   color: inherit;
   background: none;
   -webkit-background-clip: unset;
@@ -124,11 +127,11 @@ details.metric-collapsible .card-title {
 }
 
 /* Fila compacta en colapsado para respetar 54px con títulos más grandes en algunos cards */
-details.metric-collapsible:not([open]) .card-title {
+details.metric-collapsible:not([open]) .metric-collapsible__summary .card-title {
   line-height: 1.2;
 }
 
-details.metric-collapsible .card-subtitle {
+details.metric-collapsible .metric-collapsible__summary .card-subtitle {
   color: inherit;
 }
 
@@ -148,6 +151,7 @@ details.metric-collapsible .card-subtitle {
 .metric-collapsible:not([open]) .total-docs-badge,
 .metric-collapsible:not([open]) .csat-collapsible-value,
 .metric-collapsible:not([open]) .csat-collapsible-label,
-.metric-collapsible:not([open]) .csat-collapsible-loading {
+.metric-collapsible:not([open]) .csat-collapsible-loading,
+.metric-collapsible:not([open]) .cmc-header-aside {
   display: none;
 }

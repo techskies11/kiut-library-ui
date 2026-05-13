@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div class="chart-container" :class="{ 'chart-container--static': !interactive }">
     <svg
       :viewBox="`0 0 ${chartWidth} ${chartHeight}`"
       class="w-full histogram-svg"
@@ -8,7 +8,7 @@
       @mouseleave="handleMouseLeave"
     >
       <!-- Tooltip -->
-      <g v-if="tooltip.visible" :transform="`translate(${tooltip.x}, ${tooltip.y})`">
+      <g v-if="interactive && tooltip.visible" :transform="`translate(${tooltip.x}, ${tooltip.y})`">
         <rect
           :x="-tooltip.width / 2"
           :y="-tooltip.height - 10"
@@ -187,9 +187,9 @@
           stroke-width="2"
           rx="4"
           class="histogram-bar"
-          @mouseenter="showTooltip($event, bar)"
-          @mouseleave="hideTooltip"
-          style="cursor: pointer;"
+          @mouseenter="onBarMouseEnter($event, bar)"
+          @mouseleave="onBarMouseLeave"
+          :style="{ cursor: interactive ? 'pointer' : 'default' }"
         />
       </template>
 
@@ -428,6 +428,8 @@ const props = withDefaults(defineProps<{
   chartMargin?: number;
   chartBottomMargin?: number;
   showLegend?: boolean;
+  /** When false, disables tooltip, cursor change, and hover styling on bars/container/curve */
+  interactive?: boolean;
   theme?: Theme;
 }>(), {
   histogram: () => [],
@@ -442,6 +444,7 @@ const props = withDefaults(defineProps<{
   chartMargin: 60,
   chartBottomMargin: 80,
   showLegend: true,
+  interactive: true,
   theme: undefined
 });
 
@@ -729,6 +732,16 @@ const yAxisTicks = computed(() => {
   return ticks;
 });
 
+const onBarMouseEnter = (event: MouseEvent, bar: any) => {
+  if (!props.interactive) return;
+  showTooltip(event, bar);
+};
+
+const onBarMouseLeave = () => {
+  if (!props.interactive) return;
+  hideTooltip();
+};
+
 const showTooltip = (event: MouseEvent, bar: any) => {
   const svg = (event.currentTarget as SVGElement).closest('svg');
   if (!svg) return;
@@ -755,6 +768,7 @@ const showTooltip = (event: MouseEvent, bar: any) => {
 };
 
 const handleMouseMove = (event: MouseEvent) => {
+  if (!props.interactive) return;
   if (tooltip.value.visible) {
     const svg = event.currentTarget as SVGSVGElement;
     const rect = svg.getBoundingClientRect();
@@ -781,17 +795,20 @@ defineExpose({ isDark });
 
 <style scoped>
 .chart-container {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   height: 100%;
   min-height: 450px;
   max-height: 550px;
-  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   position: relative;
 }
 
 .chart-container:hover {
   box-shadow: var(--kiut-shadow-card-hover);
+}
+
+.chart-container--static:hover {
+  box-shadow: none;
 }
 
 .histogram-svg {
@@ -813,6 +830,15 @@ defineExpose({ isDark });
 
 .gaussian-curve:hover {
   stroke-width: 3;
+}
+
+.chart-container--static .histogram-bar:hover {
+  opacity: 1;
+  filter: none;
+}
+
+.chart-container--static .gaussian-curve:hover {
+  stroke-width: 2.5;
 }
 
 /* Responsive adjustments */

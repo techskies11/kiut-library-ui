@@ -1,23 +1,20 @@
 <template>
-  <article class="nps-overview-card">
-    <header class="card-header">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">CSAT Overview Metrics</h3>
-          <p class="card-subtitle">Overall CSAT Distribution</p>
-        </div>
-        <div class="header-badges">
-          <div v-if="npsData && npsData.total_nps_responses > 0" class="stats-badge">
-            <p class="badge-label">Responses</p>
-            <p class="badge-value">{{ npsData.total_nps_responses }}</p>
-          </div>
-          <div v-if="npsData && npsData.p95_score > 0" class="stats-badge">
-            <p class="badge-label">Percentile 95</p>
-            <p class="badge-value">{{ npsData.p95_score || 0 }}</p>
-          </div>
-        </div>
-      </div>
-    </header>
+  <ChartMetricContainer
+    class="nps-overview-root h-full min-h-0"
+    title="CSAT Overview Metrics"
+    subtitle="Overall CSAT Distribution"
+    :collapsible="false"
+  >
+    <template
+      v-if="enableExport && !props.loading && npsData && npsData.total_nps_responses > 0"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <!-- Loading State -->
     <div v-if="props.loading" class="loading-state">
@@ -48,9 +45,22 @@
           :chart-height="chartHeight"
           :chart-margin="chartMargin"
           :chart-bottom-margin="chartBottomMargin"
+          :interactive="false"
         />
       </div>
-      <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
+      <div class="overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
+        <CardInfo
+          class="min-w-0 flex-1"
+          title="Responses"
+          :value="String(npsData.total_nps_responses)"
+        />
+        <CardInfo
+          v-if="npsData.p95_score > 0"
+          class="min-w-0 flex-1"
+          title="Percentile 95"
+          :value="String(npsData.p95_score)"
+        />
+      </div>
     </div>
 
     <!-- Empty State -->
@@ -65,12 +75,14 @@
         <p class="empty-description">No NPS data found for the selected period. Try adjusting the date range.</p>
       </div>
     </div>
-  </article>
+  </ChartMetricContainer>
 </template>
 
 <script setup>
 import { computed, toRef } from 'vue'
 import HistogramChart from '../../Histogram/HistogramChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { FooterExport } from '../../Utils/FooterExport'
 import { useThemeDetection } from '../../../../composables/useThemeDetection'
 
@@ -121,106 +133,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles - Consistente con otros componentes */
-.nps-overview-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.nps-overview-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 28px;
-  position: relative;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.title-section {
-  flex: 1;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-.header-badges { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
-
-/* Stats Badge - KPI Style */
-.stats-badge {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 16px;
-  background: var(--kiut-bg-stats-badge);
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 10px;
-  transition: all 0.2s ease;
-  text-align: center;
-  min-width: 80px;
-}
-
-.stats-badge:hover {
-  background: var(--kiut-bg-card);
-  border-color: var(--kiut-border-color);
-}
-
-.badge-label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  line-height: 1.2;
-  margin: 0;
-}
-
-.badge-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--kiut-text-primary);
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  margin: 0;
-}
-
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
@@ -229,19 +141,6 @@ defineExpose({ isDark })
   flex-direction: column;
 }
 
-/* Chart Wrapper */
-.chart-wrapper {
-  background: var(--kiut-bg-chart-wrapper);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--kiut-border-light);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  overflow-x: auto;
-}
 
 /* Empty State */
 .empty-state {
@@ -368,32 +267,6 @@ defineExpose({ isDark })
 
 /* Responsive */
 @media (max-width: 768px) {
-  .nps-overview-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .stats-badge {
-    min-width: auto;
-  }
-
-  .card-title {
-    font-size: 20px;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 24px;
-  }
-
   .chart-wrapper {
     padding: 16px;
   }

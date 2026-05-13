@@ -1,15 +1,19 @@
 <template>
-  <details class="agent-human-conv-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <h3 class="card-title">Agent Human Conversations</h3>
-        <p class="card-subtitle">Human conversation assignments and closures by agent</p>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
-
+  <ChartMetricContainer
+    class="agent-human-conv-root h-full min-h-0"
+    title="Agent Human Conversations"
+    subtitle="Human conversation assignments and closures by agent"
+  >
+    <template
+      v-if="enableExport && !loading && hasData"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
     <!-- Loading State -->
     <div v-if="loading" class="loading-state">
       <div class="loading-container">
@@ -99,7 +103,7 @@
           </div>
 
           <!-- Agents Table -->
-          <div class="table-wrapper">
+          <div class="w-full min-w-0">
             <Table :columns="agentTableColumns" :rows="agentRowsForTable(String(date), agents)" row-key="id">
               <template #cell-agentName="{ row }">
                 <span class="ah-cell name-cell">{{ row.agent_name || '-' }}</span>
@@ -144,7 +148,6 @@
             </svg>
           </button>
         </div>
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </div>
 
       <!-- Empty State -->
@@ -165,13 +168,14 @@
         </div>
       </div>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, toRef } from 'vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
 
@@ -375,66 +379,7 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
 @import '../view-more-cta.css';
-
-/* Main Card Styles */
-.agent-human-conv-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  /* Avoid clipping tall tables / inner charts when parent grid stretches row height */
-  overflow-x: clip;
-  overflow-y: visible;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-self: start;
-  min-height: 0;
-}
-
-.agent-human-conv-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 24px;
-  position: relative;
-  text-align: left;
-}
-
-.header-content {
-  width: 100%;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
 
 /* Card Body */
 .card-body {
@@ -665,11 +610,7 @@ defineExpose({ isDark })
   color: #10b981;
 }
 
-/* Table Styles */
-.table-wrapper {
-  flex: 1;
-}
-
+/* Table cell content (Table.vue maneja bordes y layout) */
 .ah-cell {
   display: inline-block;
   width: 100%;
@@ -855,23 +796,6 @@ defineExpose({ isDark })
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .agent-human-conv-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 20px;
-  }
-
   .summary-cards {
     flex-direction: column;
   }

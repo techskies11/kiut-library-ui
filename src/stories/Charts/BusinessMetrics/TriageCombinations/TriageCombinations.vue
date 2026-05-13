@@ -1,14 +1,20 @@
 <template>
-  <article class="triage-combinations-card">
-    <header class="card-header">
-      <div class="header-content">
-        <h3 class="card-title">Distribution of Number of Intents</h3>
-        <p class="card-subtitle">Analysis of intent combinations per conversation</p>
-      </div>
-      <span class="total-badge">
-        Total: {{ totalIncluded }}
-      </span>
-    </header>
+  <ChartMetricContainer
+    class="triage-combinations-root h-full min-h-0"
+    title="Distribution of Number of Intents"
+    subtitle="Analysis of intent combinations per conversation"
+    :collapsible="false"
+  >
+    <template
+      v-if="enableExport && !loading && hasValue"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <div class="card-body" v-if="!loading">
       <template v-if="hasValue">
@@ -16,8 +22,20 @@
           <BarChart :data="barData" :options="barOptions" />
         </div>
 
-        <div class="triage-table-wrap">
-          <Table :columns="triageTableColumns" :rows="triageTableRows" row-key="id">
+        <CardInfo
+          class="w-full min-w-0"
+          title="Total"
+          :value="useNumberFormat(totalIncluded)"
+          subvalue="Conversations with triage"
+        />
+
+        <div class="triage-table-block w-full min-w-0">
+          <Table
+            :columns="triageTableColumns"
+            :rows="triageTableRows"
+            :max-visible-rows="3"
+            row-key="id"
+          >
             <template #cell-metric="{ row }">
               <span class="triage-row-label">{{ row.metric }}</span>
             </template>
@@ -64,7 +82,6 @@
           </Table>
         </div>
 
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </template>
 
       <template v-else>
@@ -93,17 +110,19 @@
         <p class="loading-text">Loading intent distribution...</p>
       </div>
     </div>
-  </article>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import BarChart from '../../Bar/ChartBar.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 // Modelo de datos que recibe el componente
 interface TriageCombinationsData {
@@ -320,72 +339,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles */
-.triage-combinations-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.triage-combinations-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  gap: 16px;
-}
-
-.header-content {
-  flex: 1;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.75rem;
-  margin: 0;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-.total-badge {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 8px 14px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(198, 125, 255, 0.08) 100%);
-  color: var(--kiut-text-primary);
-  border: 1px solid var(--kiut-border-light);
-  white-space: nowrap;
-}
-
 /* Card Body */
 .card-body {
   flex: 1;
@@ -394,21 +347,19 @@ defineExpose({ isDark })
   gap: 20px;
 }
 
-/* Chart Container */
+/* Chart Container: ChartBar.vue usa altura fija en su raíz; forzar altura al slot aquí */
 .chart-container {
   height: 100px;
   margin-bottom: 4px;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
 }
 
-.chart-container :deep(.chart-container) {
-  min-height: unset;
-  max-height: unset;
-  height: 100%;
-}
-
-/* Tabla (Table.vue) */
-.triage-table-wrap {
-  margin-top: 4px;
+.chart-container > :deep(div) {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
 }
 
 .triage-row-label {
@@ -555,29 +506,6 @@ defineExpose({ isDark })
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .triage-combinations-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-subtitle {
-    font-size: 0.8125rem;
-  }
-
-  .total-badge {
-    align-self: flex-start;
-  }
-
   .chart-container {
     height: 80px;
   }

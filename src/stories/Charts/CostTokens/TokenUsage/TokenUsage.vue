@@ -1,11 +1,11 @@
 <template>
-    <article class="token-usage-card">
-        <header class="card-header">
-            <div class="header-content">
-                <h3 class="card-title">Token Usage</h3>
-                <p class="card-subtitle">Token consumption over time (stacked)</p>
-            </div>
-        </header>
+  <ChartMetricContainer
+    class="h-full min-h-0"
+    title="Token Usage"
+    subtitle="Token consumption over time (stacked)"
+    :collapsible="false"
+  >
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
         <div class="card-body" v-if="!loading">
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
@@ -13,27 +13,38 @@
                     <BarChart :data="chartData" :options="chartOptions" :stacked="true" />
                 </div>
                 
-                <footer class="kpi-grid">
-                    <div class="kpi-card">
-                        <span class="kpi-label">Total Tokens</span>
-                        <span class="kpi-value">{{ useNumberFormat(data.total_tokens) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Input</span>
-                        <span class="kpi-value">{{ useNumberFormat(data.total_input_tokens) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Output</span>
-                        <span class="kpi-value">{{ useNumberFormat(data.total_output_tokens) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Cache Read</span>
-                        <span class="kpi-value">{{ useNumberFormat(data.total_cache_read_tokens) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Cache Write</span>
-                        <span class="kpi-value">{{ useNumberFormat(data.total_cache_write_tokens) }}</span>
-                    </div>
+                <footer
+                    class="mt-auto flex w-full min-w-0 flex-nowrap items-stretch gap-2 sm:gap-3"
+                >
+                    <CardInfo
+                        class="min-w-0 flex-1"
+                        title="Total Tokens"
+                        :value="useNumberFormat(data.total_tokens)"
+                    />
+                    <CardInfo
+                        class="min-w-0 flex-1"
+                        title="Input"
+                        :value="useNumberFormat(data.total_input_tokens)"
+                        :color="tokenColors.input"
+                    />
+                    <CardInfo
+                        class="min-w-0 flex-1"
+                        title="Output"
+                        :value="useNumberFormat(data.total_output_tokens)"
+                        :color="tokenColors.output"
+                    />
+                    <CardInfo
+                        class="min-w-0 flex-1"
+                        title="Cache Read"
+                        :value="useNumberFormat(data.total_cache_read_tokens)"
+                        :color="tokenColors.cache_read"
+                    />
+                    <CardInfo
+                        class="min-w-0 flex-1"
+                        title="Cache Write"
+                        :value="useNumberFormat(data.total_cache_write_tokens)"
+                        :color="tokenColors.cache_write"
+                    />
                 </footer>
             </section>
             <section v-else class="empty-state">
@@ -60,12 +71,15 @@
                 <p class="loading-text">Loading chart data...</p>
             </div>
         </div>
-    </article>
+    </div>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import BarChart from '../../Bar/ChartBar.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
@@ -132,7 +146,7 @@ const formatDate = (dateStr: string): string => {
     return `${day}-${month}`;
 };
 
-// Mapa de colores para los tipos de tokens
+/** Colores alineados con el gráfico apilado (CardInfo + datasets). */
 const tokenColors = {
     input: '#a78bfa',
     output: '#f59e0b',
@@ -189,6 +203,12 @@ const chartData = computed(() => {
     };
 });
 
+const chartFontFamily =
+    "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+
+/** Mismo tamaño de caja que ChartBar.vue (LEGEND_BOX_PX). */
+const LEGEND_BOX_PX = 10
+
 const chartOptions = computed(() => {
     if (props.options) return props.options;
     
@@ -202,21 +222,19 @@ const chartOptions = computed(() => {
         plugins: {
             legend: {
                 display: true,
-                position: 'top' as const,
-                align: 'end' as const,
+                position: 'bottom' as const,
+                align: 'center' as const,
                 labels: {
                     font: {
-                        family: "'DM Sans', sans-serif",
+                        family: chartFontFamily,
                         size: 13,
-                        weight: 500 as any,
+                        weight: '500',
                     },
                     color: colors.value.textSecondary,
                     padding: 12,
-                    boxWidth: 12,
-                    boxHeight: 12,
-                    borderRadius: 4,
-                    usePointStyle: true,
-                    pointStyle: 'rectRounded',
+                    boxWidth: LEGEND_BOX_PX,
+                    boxHeight: LEGEND_BOX_PX,
+                    usePointStyle: false,
                 }
             },
             tooltip: {
@@ -229,14 +247,14 @@ const chartOptions = computed(() => {
                 padding: 12,
                 cornerRadius: 8,
                 titleFont: {
-                    family: "'DM Sans', sans-serif",
+                    family: chartFontFamily,
                     size: 13,
-                    weight: 600 as any,
+                    weight: '600',
                 },
                 bodyFont: {
-                    family: "'DM Sans', sans-serif",
+                    family: chartFontFamily,
                     size: 12,
-                    weight: 500 as any,
+                    weight: '500',
                 },
             }
         },
@@ -246,7 +264,7 @@ const chartOptions = computed(() => {
                 border: { display: false },
                 grid: { display: false },
                 ticks: {
-                    font: { family: "'DM Sans', sans-serif", size: 12, weight: 500 as any },
+                    font: { family: chartFontFamily, size: 12, weight: '500' },
                     color: colors.value.textSecondary,
                     padding: 8,
                 }
@@ -261,7 +279,7 @@ const chartOptions = computed(() => {
                     drawTicks: false,
                 },
                 ticks: {
-                    font: { family: "'DM Sans', sans-serif", size: 12, weight: 500 as any },
+                    font: { family: chartFontFamily, size: 12, weight: '500' },
                     color: colors.value.textSecondary,
                     padding: 8,
                 }
@@ -274,58 +292,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles */
-.token-usage-card {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--kiut-bg-card-gradient);
-    border-radius: 20px;
-    padding: 28px 32px;
-    box-shadow: var(--kiut-shadow-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.token-usage-card:hover {
-    box-shadow: var(--kiut-shadow-card-hover);
-    transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-    margin-bottom: 32px;
-    position: relative;
-}
-
-.header-content {
-    width: 100%;
-    text-align: left;
-}
-
-.card-title {
-    font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.75rem;
-    margin: 0;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.card-subtitle {
-    font-size: .875rem;
-    font-weight: 400;
-    color: var(--kiut-text-secondary);
-    margin: 0px;
-    line-height: 1.25rem;
-}
-
 /* Card Body */
 .card-body {
     min-height: 300px;
@@ -343,54 +309,7 @@ defineExpose({ isDark })
 }
 
 .chart-container {
-    height: 320px;
     margin-bottom: 24px;
-}
-
-/* Footer KPI Grid */
-.kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: auto;
-}
-
-.kpi-card {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px 16px;
-    background: var(--kiut-bg-stats-badge);
-    border: 1px solid var(--kiut-border-light);
-    border-radius: 10px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
-    min-width: 0;
-}
-
-.kpi-card:hover {
-    background: var(--kiut-bg-card);
-    border-color: var(--kiut-border-color);
-}
-
-/* Empty State */
-.kpi-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--kiut-text-secondary);
-    line-height: 1.2;
-    word-break: break-word;
-}
-
-.kpi-value {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--kiut-text-primary);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    word-break: break-word;
-    overflow-wrap: break-word;
 }
 
 /* Empty State */
@@ -504,56 +423,7 @@ defineExpose({ isDark })
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-    .kpi-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
 @media (max-width: 768px) {
-    .token-usage-card {
-        padding: 20px 24px;
-        border-radius: 16px;
-    }
-    .card-title { font-size: 20px; }
-    .card-subtitle { font-size: 13px; }
-    .card-header { margin-bottom: 24px; }
     .chart-section { padding-right: 8px; }
-
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-
-    .kpi-card {
-        padding: 8px 10px;
-    }
-
-    .kpi-label {
-        font-size: 0.625rem;
-    }
-
-    .kpi-value {
-        font-size: 0.875rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-    }
-
-    .kpi-card {
-        padding: 6px 8px;
-    }
-
-    .kpi-label {
-        font-size: 0.5625rem;
-    }
-
-    .kpi-value {
-        font-size: 0.75rem;
-    }
 }
 </style>

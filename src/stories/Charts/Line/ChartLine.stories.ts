@@ -5,6 +5,11 @@ const meta = {
   title: 'Charts/Line',
   component: ChartLine,
   tags: ['autodocs'],
+  decorators: [
+    () => ({
+      template: '<div class="h-[230px] w-full min-w-[280px]"><story /></div>',
+    }),
+  ],
   argTypes: {
     data: { control: 'object' },
     options: { control: 'object' },
@@ -64,18 +69,17 @@ export const MultipleLines: Story = {
   },
 };
 
-// Gráfica con área rellena
-export const FilledArea: Story = {
+// Una sola línea destacada (el área bajo la curva depende de `fill` en el dataset)
+export const SingleProminentLine: Story = {
   args: {
     data: {
       labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
       datasets: [
         {
-          label: 'Usuarios Activos',
+          label: 'Usuarios activos',
           data: [120, 150, 180, 220, 250, 280, 320],
           borderColor: 'rgb(153, 102, 255)',
           backgroundColor: 'rgba(153, 102, 255, 0.3)',
-          fill: true,
           tension: 0.4,
         },
       ],

@@ -12,7 +12,9 @@ const mockDisruptionData = {
   total_sell_success: 1800,
   total_sell_failed: 200,
   total_finished: 1800,
-  total_payment_success: 1800,
+  total_payment_success: [
+    { currency: 'USD', total_value: 125000, count: 1800 },
+  ],
   disruption_by_day: [
     {
       date: '2024-11-01',
@@ -134,7 +136,7 @@ export const EmptyData: Story = {
       total_sell_success: 0,
       total_sell_failed: 0,
       total_finished: 0,
-      total_payment_success: 0,
+      total_payment_success: [],
       disruption_by_day: [],
     },
     loading: false,

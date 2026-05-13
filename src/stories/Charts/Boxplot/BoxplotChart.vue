@@ -488,11 +488,10 @@ defineExpose({ isDark });
 
 <style scoped>
 .chart-container {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   height: 100%;
   min-height: 400px;
   max-height: 500px;
-  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   position: relative;
 }

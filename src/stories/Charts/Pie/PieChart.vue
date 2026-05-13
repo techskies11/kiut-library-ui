@@ -42,10 +42,13 @@ const capitalizeText = (text: any): any => {
   return text;
 };
 
+const chartFontFamily =
+  "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+
 // Computed options that react to theme changes
 const computedOptions = computed(() => {
   if (props.options) return props.options;
-  
+
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -57,32 +60,40 @@ const computedOptions = computed(() => {
         align: 'center' as const,
         labels: {
           font: {
-            family: "'DM Sans', sans-serif",
+            family: chartFontFamily,
             size: 13,
             weight: 500 as any,
           },
-          color: colors.value.textSecondary,
           padding: 16,
           boxWidth: 14,
           boxHeight: 14,
           borderRadius: 4,
           usePointStyle: true,
           pointStyle: 'circle',
-          generateLabels: function(chart: any) {
+          generateLabels: function (chart: any) {
             const data = chart.data;
             if (data.labels.length && data.datasets.length) {
               return data.labels.map((label: string, i: number) => {
                 const meta = chart.getDatasetMeta(0);
+                const style = meta.controller.getStyle(i);
                 const dataset = data.datasets[0];
                 const value = dataset.data[i];
-                const backgroundColor = Array.isArray(dataset.backgroundColor)
-                  ? dataset.backgroundColor[i]
-                  : dataset.backgroundColor;
-                
+                const segmentColor =
+                  typeof style.backgroundColor === 'string' &&
+                  style.backgroundColor.length > 0
+                    ? style.backgroundColor
+                    : colors.value.textSecondary;
+
                 return {
                   text: `${capitalizeText(label)}: ${value}`,
-                  fillStyle: backgroundColor,
-                  hidden: meta.data[i]?.hidden || false,
+                  fillStyle: style.backgroundColor,
+                  strokeStyle: style.borderColor,
+                  lineWidth: style.borderWidth,
+                  lineDash: style.borderDash,
+                  lineDashOffset: style.borderDashOffset,
+                  lineJoin: style.borderJoinStyle,
+                  fontColor: segmentColor,
+                  hidden: !chart.getDataVisibility(i),
                   index: i,
                 };
               });
@@ -149,11 +160,10 @@ defineExpose({ isDark });
 
 <style scoped>
 .chart-container {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   height: 100%;
   min-height: 320px;
   max-height: 420px;
-  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   position: relative;
   display: flex;

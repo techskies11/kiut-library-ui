@@ -1,18 +1,10 @@
 <template>
-  <article class="select-language-card">
-    <header class="card-header">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">Language Selection</h3>
-          <p class="card-subtitle">Language distribution across conversations</p>
-        </div>
-        <div class="total-badge" v-if="!props.loading">
-          <p class="badge-label">Total</p>
-          <p class="badge-value">{{ useNumberFormat(totalCount) }}</p>
-        </div>
-      </div>
-    </header>
-
+  <ChartMetricContainer
+    class="select-language-root h-full min-h-0"
+    title="Language Selection"
+    subtitle="Language distribution across conversations"
+    :collapsible="false"
+  >
     <!-- Loading State -->
     <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
@@ -30,12 +22,19 @@
     <!-- Content when loaded -->
     <div v-else class="card-body">
       <template v-if="hasData">
-
-
-        <!-- Pie Chart (Distribution) -->
-        <section class="pie-section">
-          <PieChart :data="pieData" :options="pieOptions" />
-        </section>
+        <div
+          class="distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-4 min-h-0"
+        >
+          <section class="pie-section">
+            <PieChart :data="pieData" :options="pieOptions" />
+          </section>
+          <CardInfo
+            class="shrink-0"
+            title="Total"
+            :value="useNumberFormat(totalCount)"
+            color="#8b5cf6"
+          />
+        </div>
       </template>
 
       <!-- Empty State -->
@@ -51,12 +50,14 @@
         </div>
       </section>
     </div>
-  </article>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import PieChart from '../../Pie/PieChart.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
@@ -177,42 +178,13 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-.select-language-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient, linear-gradient(to bottom, #ffffff 0%, #fafafa 100%));
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card, 0 1px 3px rgba(0,0,0,0.05), 0 10px 15px -3px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05));
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
+.card-body {
+  animation: fadeIn 0.5s ease-out;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 0;
 }
-.select-language-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover, 0 4px 6px rgba(0,0,0,0.05), 0 20px 25px -5px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05));
-  transform: translateY(-2px);
-}
-.card-header { margin-bottom: 28px; }
-.header-content { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
-.title-section { flex: 1; text-align: left; }
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-  margin: 0; letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light, #c67dff), var(--kiut-primary-default, #5d4b93));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  font-weight: 600; font-size: 1.125rem; line-height: 1.75rem;
-}
-.card-subtitle { font-size: .875rem; font-weight: 400; color: var(--kiut-text-secondary, #64748b); margin: 0; line-height: 1.25rem; }
-.total-badge {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(198, 125, 255, 0.08));
-  border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.05));
-  border-radius: 16px; padding: 12px 20px; text-align: center;
-}
-.badge-label { font-size: 0.7rem; font-weight: 600; color: var(--kiut-text-secondary, #64748b); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 2px 0; }
-.badge-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--kiut-text-primary, #1e293b); margin: 0; letter-spacing: -0.02em; }
-.card-body { animation: fadeIn 0.5s ease-out; flex: 1; display: flex; flex-direction: column; }
 .language-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
 .language-card {
   display: flex; justify-content: space-between; align-items: center;
@@ -227,7 +199,21 @@ defineExpose({ isDark })
 .language-stats { display: flex; flex-direction: column; align-items: flex-end; }
 .language-count { font-family: 'Space Grotesk', sans-serif; font-size: 1.125rem; font-weight: 700; color: var(--kiut-text-primary, #1e293b); }
 .language-pct { font-size: 0.75rem; color: var(--kiut-text-secondary, #64748b); }
-.pie-section { margin-bottom: 24px; height: 260px; }
+/*
+ * PieChart.vue usa min-height fijo (~320px) en .chart-container; sin esto la sección a 260px desborda.
+ */
+.pie-section {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+}
+.pie-section :deep(.chart-container) {
+  flex: 1 1 auto;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
 .section-header { margin-bottom: 16px; }
 .section-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0; }
 .empty-state { display: flex; align-items: center; justify-content: center; min-height: 280px; }
@@ -249,9 +235,4 @@ defineExpose({ isDark })
 @keyframes wave { 0%, 100% { transform: scaleY(1); opacity: 0.7; } 50% { transform: scaleY(1.6); opacity: 1; } }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 768px) {
-  .select-language-card { padding: 20px 24px; border-radius: 16px; }
-  .header-content { flex-direction: column; gap: 16px; }
-  .card-title { font-size: 1rem; }
-}
 </style>

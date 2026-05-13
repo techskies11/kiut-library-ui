@@ -27,6 +27,12 @@ const meta = {
       description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf, csv, xlsx)',
     },
   },
+  decorators: [
+    () => ({
+      template:
+        '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
+    }),
+  ],
 } satisfies Meta<typeof MessagesPerAgent>;
 
 export default meta;

@@ -1,11 +1,11 @@
 <template>
-    <article class="cost-usage-card">
-        <header class="card-header">
-            <div class="header-content">
-                <h3 class="card-title">Cost Usage</h3>
-                <p class="card-subtitle">Cost breakdown over time (stacked)</p>
-            </div>
-        </header>
+  <ChartMetricContainer
+    class="h-full min-h-0"
+    title="Cost Usage"
+    subtitle="Cost breakdown over time (stacked)"
+    :collapsible="false"
+  >
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
         <div class="card-body" v-if="!loading">
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
@@ -13,31 +13,34 @@
                     <BarChart :data="chartData" :options="chartOptions" :stacked="true" />
                 </div>
                 
-                <footer class="kpi-grid">
-                    <div class="kpi-card">
-                        <span class="kpi-label">Total Cost</span>
-                        <span class="kpi-value">{{ useCurrencyFormat(data.total_cost) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Input Cost</span>
-                        <span class="kpi-value">{{ useCurrencyFormat(totalInputCost) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Output Cost</span>
-                        <span class="kpi-value">{{ useCurrencyFormat(totalOutputCost) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Cache Read</span>
-                        <span class="kpi-value">{{ useCurrencyFormat(totalCacheReadCost) }}</span>
-                    </div>
-                    <div class="kpi-card">
-                        <span class="kpi-label">Cache Write</span>
-                        <span class="kpi-value">{{ useCurrencyFormat(totalCacheWriteCost) }}</span>
-                    </div>
-                    <div class="kpi-card highlighted">
-                        <span class="kpi-label">Avg / Conv.</span>
-                        <span class="kpi-value gradient-text">{{ useCurrencyFormat(data.avg_cost_per_conversation) }}</span>
-                    </div>
+                <footer
+                    class="mt-auto grid grid-cols-2 gap-3 sm:grid-cols-3 max-[768px]:gap-2"
+                >
+                    <CardInfo title="Total Cost" :value="useCurrencyFormat(data.total_cost)" />
+                    <CardInfo
+                        title="Input Cost"
+                        :value="useCurrencyFormat(totalInputCost)"
+                        :color="costColors.input"
+                    />
+                    <CardInfo
+                        title="Output Cost"
+                        :value="useCurrencyFormat(totalOutputCost)"
+                        :color="costColors.output"
+                    />
+                    <CardInfo
+                        title="Cache Read"
+                        :value="useCurrencyFormat(totalCacheReadCost)"
+                        :color="costColors.cache_read"
+                    />
+                    <CardInfo
+                        title="Cache Write"
+                        :value="useCurrencyFormat(totalCacheWriteCost)"
+                        :color="costColors.cache_write"
+                    />
+                    <CardInfo
+                        title="Avg / Conv."
+                        :value="useCurrencyFormat(data.avg_cost_per_conversation)"
+                    />
                 </footer>
             </section>
             <section v-else class="empty-state">
@@ -64,12 +67,15 @@
                 <p class="loading-text">Loading chart data...</p>
             </div>
         </div>
-    </article>
+    </div>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import BarChart from '../../Bar/ChartBar.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useCurrencyFormat } from '../../../../plugins/numberFormat'
@@ -129,6 +135,10 @@ const handleExport = (format: ExportFormat) => {
 
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
+
+const chartFontFamily =
+    "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+const LEGEND_BOX_PX = 10
 
 // Función para formatear fecha a DD-MM
 const formatDate = (dateStr: string): string => {
@@ -229,22 +239,20 @@ const chartOptions = computed(() => {
         plugins: {
             legend: {
                 display: true,
-                position: 'top' as const,
-                align: 'end' as const,
+                position: 'bottom' as const,
+                align: 'center' as const,
                 labels: {
                     font: {
-                        family: "'DM Sans', sans-serif",
+                        family: chartFontFamily,
                         size: 13,
-                        weight: 500 as any,
+                        weight: '500',
                     },
                     color: colors.value.textSecondary,
                     padding: 12,
-                    boxWidth: 12,
-                    boxHeight: 12,
-                    borderRadius: 4,
-                    usePointStyle: true,
-                    pointStyle: 'rectRounded',
-                }
+                    boxWidth: LEGEND_BOX_PX,
+                    boxHeight: LEGEND_BOX_PX,
+                    usePointStyle: false,
+                },
             },
             tooltip: {
                 enabled: true,
@@ -256,14 +264,14 @@ const chartOptions = computed(() => {
                 padding: 12,
                 cornerRadius: 8,
                 titleFont: {
-                    family: "'DM Sans', sans-serif",
+                    family: chartFontFamily,
                     size: 13,
-                    weight: 600 as any,
+                    weight: '600',
                 },
                 bodyFont: {
-                    family: "'DM Sans', sans-serif",
+                    family: chartFontFamily,
                     size: 12,
-                    weight: 500 as any,
+                    weight: '500',
                 },
                 callbacks: {
                     label: function(context: any) {
@@ -285,7 +293,7 @@ const chartOptions = computed(() => {
                 border: { display: false },
                 grid: { display: false },
                 ticks: {
-                    font: { family: "'DM Sans', sans-serif", size: 12, weight: 500 as any },
+                    font: { family: chartFontFamily, size: 12, weight: '500' },
                     color: colors.value.textSecondary,
                     padding: 8,
                 }
@@ -300,7 +308,7 @@ const chartOptions = computed(() => {
                     drawTicks: false,
                 },
                 ticks: {
-                    font: { family: "'DM Sans', sans-serif", size: 12, weight: 500 as any },
+                    font: { family: chartFontFamily, size: 12, weight: '500' },
                     color: colors.value.textSecondary,
                     padding: 8,
                     callback: function(value: any) {
@@ -316,58 +324,6 @@ defineExpose({ isDark })
 </script>
 
 <style scoped>
-/* Main Card Styles */
-.cost-usage-card {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--kiut-bg-card-gradient);
-    border-radius: 20px;
-    padding: 28px 32px;
-    box-shadow: var(--kiut-shadow-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.cost-usage-card:hover {
-    box-shadow: var(--kiut-shadow-card-hover);
-    transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-    margin-bottom: 32px;
-    position: relative;
-}
-
-.header-content {
-    width: 100%;
-    text-align: left;
-}
-
-.card-title {
-    font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.75rem;
-    margin: 0;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.card-subtitle {
-    font-size: .875rem;
-    font-weight: 400;
-    color: var(--kiut-text-secondary);
-    margin: 0px;
-    line-height: 1.25rem;
-}
-
 /* Card Body */
 .card-body {
     min-height: 300px;
@@ -385,65 +341,7 @@ defineExpose({ isDark })
 }
 
 .chart-container {
-    height: 320px;
     margin-bottom: 24px;
-}
-
-/* Footer KPI Grid */
-.kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: auto;
-}
-
-.kpi-card {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px 16px;
-    background: var(--kiut-bg-stats-badge);
-    border: 1px solid var(--kiut-border-light);
-    border-radius: 10px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
-    min-width: 0;
-}
-
-.kpi-card:hover {
-    background: var(--kiut-bg-card);
-    border-color: var(--kiut-border-color);
-}
-
-.kpi-card.highlighted {
-    border-color: var(--kiut-primary-light);
-    background: var(--kiut-bg-card);
-}
-
-.kpi-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--kiut-text-secondary);
-    line-height: 1.2;
-    word-break: break-word;
-}
-
-.kpi-value {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--kiut-text-primary);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    word-break: break-word;
-    overflow-wrap: break-word;
-}
-
-.gradient-text {
-    background: linear-gradient(135deg, var(--kiut-primary-light) 0%, var(--kiut-primary-default) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 /* Empty State */
@@ -557,57 +455,8 @@ defineExpose({ isDark })
 }
 
 /* Responsive Design */
-@media (max-width: 1280px) {
-    .kpi-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
 @media (max-width: 768px) {
-    .cost-usage-card {
-        padding: 20px 24px;
-        border-radius: 16px;
-    }
-    .card-title { font-size: 20px; }
-    .card-subtitle { font-size: 13px; }
-    .card-header { margin-bottom: 24px; }
     .chart-section { padding-right: 8px; }
-
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-
-    .kpi-card {
-        padding: 8px 10px;
-    }
-
-    .kpi-label {
-        font-size: 0.625rem;
-    }
-
-    .kpi-value {
-        font-size: 0.875rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-    }
-
-    .kpi-card {
-        padding: 6px 8px;
-    }
-
-    .kpi-label {
-        font-size: 0.5625rem;
-    }
-
-    .kpi-value {
-        font-size: 0.75rem;
-    }
 }
 </style>
 

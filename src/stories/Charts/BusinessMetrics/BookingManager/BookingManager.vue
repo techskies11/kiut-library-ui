@@ -1,25 +1,19 @@
 <template>
-  <details class="booking-manager-card metric-collapsible">
-    <summary class="card-header metric-collapsible__summary">
-      <div class="header-content">
-        <div class="title-section">
-          <h3 class="card-title">Booking Manager Metrics</h3>
-          <p class="card-subtitle">Booking manager workflow tracking and analysis</p>
-        </div>
-        <div class="payment-success-badge" v-if="!props.loading">
-          <p class="badge-label">Payment Success Value</p>
-          <div v-if="totalPaymentSuccessValueByCurrency.length > 0" class="currency-breakdown-list">
-            <p v-for="item in totalPaymentSuccessValueByCurrency" :key="item.currency" class="currency-breakdown-item">
-              {{ item.currency }} {{ formatCompactCurrency(item.total_value) }}
-            </p>
-          </div>
-          <p v-else class="badge-value">{{ formatCompactCurrency(0) }}</p>
-        </div>
-      </div>
-      <svg class="metric-collapsible__chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </summary>
+  <ChartMetricContainer
+    class="booking-manager-root h-full min-h-0"
+    title="Booking Manager Metrics"
+    subtitle="Booking manager workflow tracking and analysis"
+  >
+    <template
+      v-if="enableExport && !props.loading && !props.error && sortedDayData.length > 0"
+      #headerExport
+    >
+      <FooterExport
+        variant="inline"
+        @export="handleExport"
+        :loading="exportLoading"
+      />
+    </template>
 
     <!-- Loading State con animación CSS personalizada -->
     <div class="loading-state" v-if="props.loading">
@@ -62,21 +56,34 @@
         </div>
       </section>
 
+      <section class="payment-success-summary">
+        <CardInfo
+          color="#22c55e"
+          title="Payment Success Value"
+          :value="paymentSuccessCardValue"
+        />
+      </section>
+
       <!-- Daily Overview Table -->
-      <section v-if="sortedDayData.length > 0" class="table-section">
+      <section v-if="sortedDayData.length > 0" class="booking-daily-section">
         <div class="section-header">
           <h4 class="section-title">Daily Overview</h4>
         </div>
-        <div class="table-wrapper">
-          <Table :columns="bookingManagerColumns" :rows="bookingManagerTableRows" row-key="id">
+        <div class="w-full min-w-0">
+          <Table
+            :columns="bookingManagerColumns"
+            :rows="bookingManagerTableRows"
+            :max-visible-rows="3"
+            row-key="id"
+          >
             <template #cell-date="{ row }">
-              <span class="bm-cell font-medium">{{ moment(String(row.date)).format('DD/MM/YYYY') }}</span>
+              <span class="font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-initiated="{ row }">
-              <span class="bm-cell text-center">{{ useNumberFormat(Number(row.booking_initiated_count)) }}</span>
+              <span>{{ useNumberFormat(Number(row.booking_initiated_count)) }}</span>
             </template>
             <template #cell-started="{ row }">
-              <span class="bm-cell text-center">
+              <span>
                 {{ useNumberFormat(Number(row.booking_started_count)) }}
                 <span class="percentage-text">
                   ({{ calculatePercentage(Number(row.booking_started_count), Number(row.booking_initiated_count)) }})
@@ -84,16 +91,16 @@
               </span>
             </template>
             <template #cell-paymentInitiated="{ row }">
-              <span class="bm-cell text-center">{{ useNumberFormat(Number(row.payment_initiated_count)) }}</span>
+              <span>{{ useNumberFormat(Number(row.payment_initiated_count)) }}</span>
             </template>
             <template #cell-paymentResults="{ row }">
               <div class="badges-container">
-                <span class="badge badge-success">
+                <Tag color="success">
                   Success: {{ useNumberFormat(getPaymentSuccessCount(bookingDayFromRow(row))) }}
-                </span>
-                <span class="badge badge-error">
+                </Tag>
+                <Tag color="danger">
                   Failed: {{ useNumberFormat(Number(row.payment_failed_count) || 0) }}
-                </span>
+                </Tag>
               </div>
             </template>
             <template #cell-paymentValue="{ row }">
@@ -112,37 +119,22 @@
             </template>
             <template #cell-outcomes="{ row }">
               <div class="badges-container">
-                <span class="badge badge-error">
+                <Tag color="danger">
                   Not Found: {{ row.not_found_count ? useNumberFormat(Number(row.not_found_count)) : 'N/A' }}
-                </span>
-                <span class="badge badge-warning">
+                </Tag>
+                <Tag color="warning">
                   Cancelled: {{ row.cancelled_count ? useNumberFormat(Number(row.cancelled_count)) : 'N/A' }}
-                </span>
-                <span class="badge badge-yellow">
+                </Tag>
+                <Tag color="orange">
                   No Balance: {{ row.no_pending_balance_count ? useNumberFormat(Number(row.no_pending_balance_count)) : 'N/A' }}
-                </span>
-                <span class="badge badge-error">
+                </Tag>
+                <Tag color="danger">
                   Errors: {{ row.error_count ? useNumberFormat(Number(row.error_count)) : 'N/A' }}
-                </span>
+                </Tag>
               </div>
             </template>
           </Table>
         </div>
-        <button
-          v-if="hasMoreRows"
-          type="button"
-          class="view-more-btn"
-          @click="showAllRows = !showAllRows"
-        >
-          {{ showAllRows ? 'View less' : `View more (${bookingRemainingRows} rows)` }}
-          <svg
-            :class="['view-more-icon', { 'view-more-icon-rotated': showAllRows }]"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-        <FooterExport v-if="enableExport" @export="handleExport" :loading="exportLoading" />
       </section>
 
       <!-- Empty State -->
@@ -158,16 +150,19 @@
         </div>
       </section>
     </div>
-  </details>
+  </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import moment from 'moment'
 import SankeyChart from '../../Sankey/SankeyChart.vue'
+import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
+import Tag from '../../../../components/Tag/Tag.vue'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useCurrencyFormat, useCompactCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
 
 interface BookingDayData {
   date: string;
@@ -242,9 +237,6 @@ const handleExport = (format: ExportFormat) => {
   emit('export', format)
 }
 
-const MAX_VISIBLE_ROWS = 3
-const showAllRows = ref(false)
-
 // Computed para ordenar los datos por día
 const sortedDayData = computed(() => {
   if (!props.data?.booking_manager_by_day) return []
@@ -252,17 +244,6 @@ const sortedDayData = computed(() => {
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 })
-
-const visibleDayData = computed(() => {
-  if (showAllRows.value) return sortedDayData.value
-  return sortedDayData.value.slice(0, MAX_VISIBLE_ROWS)
-})
-
-const hasMoreRows = computed(() => sortedDayData.value.length > MAX_VISIBLE_ROWS)
-
-const bookingRemainingRows = computed(() =>
-  Math.max(0, sortedDayData.value.length - MAX_VISIBLE_ROWS)
-)
 
 const bookingManagerColumns: TableColumn[] = [
   { key: 'date', label: 'Date', align: 'center' },
@@ -275,7 +256,7 @@ const bookingManagerColumns: TableColumn[] = [
 ]
 
 const bookingManagerTableRows = computed((): Record<string, unknown>[] =>
-  visibleDayData.value.map((day) => ({
+  sortedDayData.value.map((day) => ({
     id: day.date,
     ...day,
   }))
@@ -283,6 +264,14 @@ const bookingManagerTableRows = computed((): Record<string, unknown>[] =>
 
 const totalPaymentSuccessValueByCurrency = computed(() => {
   return props.data?.total_payment_success_value || []
+})
+
+const paymentSuccessCardValue = computed(() => {
+  const items = totalPaymentSuccessValueByCurrency.value
+  if (items.length === 0) return formatCompactCurrency(0)
+  return items
+    .map((item) => `${item.currency} ${formatCompactCurrency(item.total_value)}`)
+    .join(' · ')
 })
 
 const getPaymentSuccessValueByCurrency = (day: BookingDayData): BookingManagerCurrencyBreakdown[] => {
@@ -470,124 +459,10 @@ const calculatePercentage = (value: number, total: number): string => {
 </script>
 
 <style scoped>
-@import '../metric-collapsible.css';
-@import '../view-more-cta.css';
-
-/* Main Card Styles */
-.booking-manager-card {
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--kiut-bg-card-gradient);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: var(--kiut-shadow-card);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.booking-manager-card:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-/* Header Styles */
-.card-header {
-  margin-bottom: 24px;
-  position: relative;
-  text-align: left;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  flex-wrap: wrap;
-  width: 100%;
-  text-align: left;
-}
-
-.title-section {
-  flex: 1;
-  text-align: left;
-}
-
-.card-title {
-  font-family: 'Space Grotesk', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  margin: 0;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 600;
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.card-subtitle {
-  font-size: .875rem;
-  font-weight: 400;
-  color: var(--kiut-text-secondary);
-  margin: 0px;
-  line-height: 1.25rem;
-}
-
-.payment-success-badge {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 16px;
-  padding: 16px 24px;
-  min-width: 140px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.payment-success-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
-}
-
-:global(.dark) .payment-success-badge {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(5, 150, 105, 0.22) 100%);
-  border-color: rgba(110, 231, 183, 0.22);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
-}
-
-:global(.dark) .payment-success-badge:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36);
-}
-
-.badge-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #047857;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 4px 0;
-}
-
-.badge-value {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #065f46;
-  margin: 0;
-  letter-spacing: -0.02em;
-}
-
-:global(.dark) .badge-label {
-  color: #86efac;
-}
-
-:global(.dark) .badge-value,
-:global(.dark) .currency-breakdown-item {
-  color: #bbf7d0;
+.payment-success-summary {
+  margin-bottom: 28px;
+  max-width: 28rem;
+  margin-inline: auto;
 }
 
 /* Card Body */
@@ -626,21 +501,13 @@ const calculatePercentage = (value: number, total: number): string => {
   letter-spacing: -0.01em;
 }
 
-/* Table Section */
-.table-section {
+/* Bloque Daily Overview (la tabla usa estilos del Utils Table) */
+.booking-daily-section {
   animation: fadeIn 0.6s ease-out 0.1s backwards;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.table-wrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid var(--kiut-border-table);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-  background: var(--kiut-bg-table);
-  flex: 1;
+  gap: 12px;
 }
 
 .percentage-text {
@@ -665,43 +532,9 @@ const calculatePercentage = (value: number, total: number): string => {
   font-weight: 500;
 }
 
-.badge-success {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  color: #065f46;
-}
-
-.badge-error {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  color: #991b1b;
-}
-
-.badge-warning {
-  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
-  color: #9a3412;
-}
-
-.badge-yellow {
-  background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
-  color: #854d0e;
-}
-
 .badge-currency {
   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
   color: #1d4ed8;
-}
-
-.currency-breakdown-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.currency-breakdown-item {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #065f46;
-  margin: 0;
 }
 
 /* Empty State */
@@ -918,42 +751,12 @@ const calculatePercentage = (value: number, total: number): string => {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .table-wrapper {
-    overflow-x: scroll;
-  }
-
   .badges-container {
     min-width: 200px;
   }
 }
 
 @media (max-width: 768px) {
-  .booking-manager-card {
-    padding: 20px 24px;
-    border-radius: 16px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .payment-success-badge {
-    width: 100%;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-subtitle {
-    font-size: 13px;
-  }
-
-  .card-header {
-    margin-bottom: 20px;
-  }
-
   .chart-wrapper {
     padding: 16px;
   }
