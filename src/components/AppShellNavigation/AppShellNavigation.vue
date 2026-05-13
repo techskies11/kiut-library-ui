@@ -1,15 +1,16 @@
 <template>
+  <!-- ── DESKTOP: two-rail sidebar ── -->
   <aside
+    v-if="!isMobile"
     class="kiut-app-shell-nav flex flex-col h-full overflow-hidden"
     role="navigation"
     aria-label="Main navigation"
     v-bind="restAttrs"
   >
-    <!-- Top area: two rails side by side, grow to fill height -->
     <div class="flex flex-1 min-h-0">
       <!-- ── Primary rail ── -->
       <div
-        class="primary-rail flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)]"
+        class="primary-rail flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light)"
         :style="{
           '--expanded-width': expandedPrimaryWidth,
           width: primaryRailWidth,
@@ -17,7 +18,6 @@
         @mouseenter="isHoveringRail = true"
         @mouseleave="isHoveringRail = false"
       >
-
         <div
           v-if="$slots.logo"
           class="flex justify-center items-center mt-3 shrink-0"
@@ -25,7 +25,6 @@
           <slot name="logo" :expanded="isHoveringRail" />
         </div>
 
-        <!-- Section buttons -->
         <nav
           class="flex-1 overflow-y-auto p-1.5 flex flex-col gap-1"
           aria-label="Sections"
@@ -38,7 +37,7 @@
               selectedSectionId === section.id ? 'true' : undefined
             "
             :title="section.label"
-            class="group relative flex flex-row items-center justify-start gap-1 px-2 py-2 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/20"
+            class="group relative flex flex-row items-center justify-start gap-1 px-2 py-2 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--kiut-primary)/20"
             :class="sectionButtonClass(section)"
             @click="selectSection(section)"
           >
@@ -57,10 +56,10 @@
             </span>
           </button>
         </nav>
-        <!-- ── Footer slot – spans full width ── -->
+
         <div
           v-if="$slots.footer"
-          class="shrink-0 border-t border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)]"
+          class="shrink-0 border-t border-(--kiut-border-light) bg-(--kiut-bg-secondary)"
         >
           <slot name="footer" :expanded="isHoveringRail" />
         </div>
@@ -71,19 +70,17 @@
         <div
           v-if="activeSection"
           key="secondary"
-          class="secondary-panel flex flex-col shrink-0 bg-[color:var(--kiut-bg-secondary)] border-r border-[color:var(--kiut-border-light)] overflow-hidden"
+          class="secondary-panel flex flex-col shrink-0 bg-(--kiut-bg-secondary) border-r border-(--kiut-border-light) overflow-hidden"
           :style="{ width: secondaryWidth }"
         >
-          <!-- Section title -->
           <div class="px-4 pt-4 pb-2 shrink-0">
             <p
-              class="text-[12px] font-bold uppercase tracking-widest text-[color:var(--kiut-text-muted)]"
+              class="text-[12px] font-bold uppercase tracking-widest text-(--kiut-text-muted)"
             >
               {{ activeSection.label }}
             </p>
           </div>
 
-          <!-- Item list -->
           <nav
             class="flex-1 overflow-y-auto px-2 pb-3 flex flex-col gap-1"
             aria-label="Section items"
@@ -94,7 +91,7 @@
               type="button"
               :data-nav-id="item.id"
               :aria-current="isItemActive(item) ? 'page' : undefined"
-              class="group flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/20"
+              class="group flex items-center gap-2.5 w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--kiut-primary)/20"
               :class="itemButtonClass(item)"
               @click="navigateToItem(activeSection!, item)"
             >
@@ -112,16 +109,125 @@
       </Transition>
     </div>
   </aside>
+
+  <!-- ── MOBILE: fixed bottom tab bar + bottom sheet ── -->
+  <div
+    v-else
+    class="kiut-app-shell-nav"
+    role="navigation"
+    aria-label="Main navigation"
+    v-bind="restAttrs"
+  >
+    <!-- Backdrop overlay -->
+    <Transition name="ksn-overlay">
+      <div
+        v-if="activeSection"
+        class="fixed inset-0 bg-black/40 z-40"
+        aria-hidden="true"
+        @click="closeSheet"
+      />
+    </Transition>
+
+    <!-- Bottom sheet -->
+    <Transition name="ksn-sheet">
+      <div
+        v-if="activeSection"
+        class="fixed left-0 right-0 z-50 bg-(--kiut-bg-secondary) rounded-t-2xl shadow-2xl border-t border-(--kiut-border-light) max-h-[70vh] flex flex-col"
+        :style="{ bottom: mobileBarHeight }"
+      >
+        <!-- Drag handle -->
+        <div class="flex justify-center pt-3 pb-1 shrink-0">
+          <div class="w-10 h-1 rounded-full bg-(--kiut-border-light) dark:bg-purple-500/30" />
+        </div>
+
+        <!-- Sheet header -->
+        <div class="flex items-center justify-between px-5 py-3 shrink-0">
+          <p class="text-xs font-bold uppercase tracking-widest text-(--kiut-text-muted)">
+            {{ activeSection.label }}
+          </p>
+          <button
+            type="button"
+            class="w-8 h-8 flex items-center justify-center rounded-lg text-(--kiut-text-muted) hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors"
+            aria-label="Close"
+            @click="closeSheet"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Items list -->
+        <nav
+          class="overflow-y-auto flex-1 px-3 pb-5 flex flex-col gap-1"
+          aria-label="Section items"
+        >
+          <button
+            v-for="item in activeSection.items"
+            :key="item.id"
+            type="button"
+            :data-nav-id="item.id"
+            :aria-current="isItemActive(item) ? 'page' : undefined"
+            class="group flex items-center gap-3 w-full text-left px-4 rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--kiut-primary)/20 min-h-[52px]"
+            :class="itemButtonClass(item)"
+            @click="mobileNavigateToItem(activeSection!, item)"
+          >
+            <component
+              :is="item.icon"
+              v-if="item.icon"
+              class="shrink-0"
+              :style="{ width: '18px', height: '18px' }"
+              aria-hidden="true"
+            />
+            <span class="truncate text-[15px]">{{ item.label }}</span>
+          </button>
+        </nav>
+      </div>
+    </Transition>
+
+    <!-- Bottom tab bar -->
+    <nav
+      class="fixed bottom-0 left-0 right-0 z-50 bg-(--kiut-bg-secondary) border-t border-(--kiut-border-light) flex items-stretch justify-around"
+      :style="{ height: mobileBarHeight }"
+      aria-label="Sections"
+    >
+      <button
+        v-for="section in sections"
+        :key="section.id"
+        type="button"
+        :aria-current="selectedSectionId === section.id ? 'true' : undefined"
+        class="relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-(--kiut-primary)/30"
+        :class="mobileSectionButtonClass(section)"
+        @click="selectSection(section)"
+      >
+        <!-- Active indicator line at top -->
+        <span
+          v-if="selectedSectionId === section.id || hasSectionActiveItem(section)"
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-(--kiut-primary)"
+          aria-hidden="true"
+        />
+        <component
+          :is="section.icon"
+          v-if="section.icon"
+          class="shrink-0"
+          :style="{ width: primaryIconSize, height: primaryIconSize }"
+          aria-hidden="true"
+        />
+        <span class="text-[10px] font-semibold leading-none truncate w-full text-center px-0.5">
+          {{ section.label }}
+        </span>
+      </button>
+    </nav>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useAttrs, type Component } from "vue";
+import { computed, ref, onMounted, onUnmounted, useAttrs, type Component } from "vue";
 
 defineOptions({ name: "AppShellNavigation", inheritAttrs: false });
 
 const isHoveringRail = ref(false);
 
-/* Interface for the Navs of every Section*/
 export interface NavItem {
   id: string;
   label: string;
@@ -129,7 +235,6 @@ export interface NavItem {
   path: string;
 }
 
-/* Every Section of the Menu Lateral. */
 export interface NavSection {
   id: string;
   label: string;
@@ -143,19 +248,19 @@ const props = withDefaults(
     /** List of the sections and the items. */
     sections: NavSection[];
 
-    /* What Section is open and with 'update:selectedSectionId' we say to the father will be the next */
+    /** What Section is open and with 'update:selectedSectionId' we say to the father will be the next */
     selectedSectionId?: string | null;
 
-    /* Actual route  */
+    /** Actual route */
     activePath?: string;
 
-    /* Width of the Section Panel Expanded */
+    /** Width of the Section Panel Expanded */
     expandedPrimaryWidth?: string;
 
     /** Width of the Items Panel */
     secondaryWidth?: string;
 
-    /* Font Size of the Section Panel */
+    /** Font Size of the Section Panel */
     primaryFontSize?: string;
 
     /** Font Size of the Items Panel */
@@ -169,9 +274,21 @@ const props = withDefaults(
 
     /** Base width of the primary rail (collapsed, no hover) */
     primaryRailWidth?: string;
+
+    /**
+     * Viewport width (px) below which the mobile layout is used.
+     * @default 768
+     */
+    mobileBreakpoint?: number;
+
+    /**
+     * Height of the bottom tab bar on mobile. Consumers should add
+     * padding-bottom of the same value to their main content area.
+     * @default '4rem'
+     */
+    mobileBarHeight?: string;
   }>(),
   {
-    /* Default value of the props */
     selectedSectionId: null,
     activePath: "",
     expandedPrimaryWidth: "8rem",
@@ -181,6 +298,8 @@ const props = withDefaults(
     primaryIconSize: "24px",
     secondaryIconSize: "14px",
     primaryRailWidth: "3.4rem",
+    mobileBreakpoint: 768,
+    mobileBarHeight: "4rem",
   },
 );
 
@@ -193,17 +312,33 @@ const emit = defineEmits<{
 }>();
 
 const attrs = useAttrs();
-// Separate class from the rest so we don't double-apply it this is for the two panels.
 const { class: _class, ...restAttrs } = attrs as Record<string, unknown>;
 
-/* Control if the items panel shows comparing if the selecedSectionID with props.section */
+// ── Mobile detection ──────────────────────────────────────────────
+
+const isMobile = ref(false);
+
+function checkMobile() {
+  if (typeof window === "undefined") return;
+  isMobile.value = window.innerWidth < props.mobileBreakpoint;
+}
+
+onMounted(() => {
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", checkMobile);
+});
+
+// ── Shared logic ──────────────────────────────────────────────────
+
 const activeSection = computed<NavSection | null>(() => {
   const section = props.sections.find((s) => s.id === props.selectedSectionId);
-  // Just return if have items
   return section?.items?.length ? section : null;
 });
 
-/* Compare the activePath with the props.activePath is active if the match is exactly */
 function isItemActive(item: NavItem): boolean {
   if (!props.activePath) return false;
   return (
@@ -212,12 +347,10 @@ function isItemActive(item: NavItem): boolean {
   );
 }
 
-/* Return true or false depending if is active a section with that highlight the selected section */
 function hasSectionActiveItem(section: NavSection): boolean {
   return (section.items ?? []).some(isItemActive);
 }
 
-/* If click again the selected section will be closed or click another one will be opened */
 function selectSection(section: NavSection): void {
   if (!section.items?.length) {
     emit("update:selectedSectionId", null);
@@ -231,12 +364,21 @@ function selectSection(section: NavSection): void {
   emit("update:selectedSectionId", nextId);
 }
 
-/* Navigate to the new section */
 function navigateToItem(section: NavSection, item: NavItem): void {
   emit("navigate", { section, item });
 }
 
-/* Style when is active or not */
+function closeSheet(): void {
+  emit("update:selectedSectionId", null);
+}
+
+function mobileNavigateToItem(section: NavSection, item: NavItem): void {
+  navigateToItem(section, item);
+  closeSheet();
+}
+
+// ── Style helpers ─────────────────────────────────────────────────
+
 function sectionButtonClass(section: NavSection): string[] {
   if (props.selectedSectionId === section.id) {
     return [
@@ -244,10 +386,10 @@ function sectionButtonClass(section: NavSection): string[] {
     ];
   }
   if (hasSectionActiveItem(section)) {
-    return ["text-[color:var(--kiut-primary)]", "text-purple-800/90 dark:text-purple-400"];
+    return ["text-(--kiut-primary)", "text-purple-800/90 dark:text-purple-400"];
   }
   return [
-    "text-[color:var(--kiut-text-secondary)]",
+    "text-(--kiut-text-secondary)",
     "hover:bg-purple-100/50 hover:text-purple-900",
     "dark:hover:bg-purple-400/20 dark:hover:text-purple-50",
   ];
@@ -261,14 +403,28 @@ function itemButtonClass(item: NavItem): string[] {
     ];
   }
   return [
-    "text-[color:var(--kiut-text-primary)]",
+    "text-(--kiut-text-primary)",
     "hover:bg-purple-50 hover:text-purple-900",
     "dark:hover:bg-purple-500/30 dark:hover:text-purple-50",
+  ];
+}
+
+function mobileSectionButtonClass(section: NavSection): string[] {
+  if (props.selectedSectionId === section.id) {
+    return ["text-(--kiut-primary)"];
+  }
+  if (hasSectionActiveItem(section)) {
+    return ["text-(--kiut-primary)", "opacity-75"];
+  }
+  return [
+    "text-(--kiut-text-muted)",
+    "active:text-(--kiut-text-secondary)",
   ];
 }
 </script>
 
 <style scoped>
+/* ── Desktop: primary rail hover expand ── */
 .primary-rail:hover {
   width: var(--expanded-width) !important;
 }
@@ -293,6 +449,7 @@ function itemButtonClass(item: NavItem): string[] {
   visibility: hidden;
 }
 
+/* ── Desktop: secondary panel slide-in ── */
 .ksn-sub-enter-active,
 .ksn-sub-leave-active {
   transition:
@@ -302,6 +459,27 @@ function itemButtonClass(item: NavItem): string[] {
 .ksn-sub-enter-from,
 .ksn-sub-leave-to {
   transform: translateX(-12px);
+  opacity: 0;
+}
+
+/* ── Mobile: backdrop fade ── */
+.ksn-overlay-enter-active,
+.ksn-overlay-leave-active {
+  transition: opacity 0.22s ease;
+}
+.ksn-overlay-enter-from,
+.ksn-overlay-leave-to {
+  opacity: 0;
+}
+
+/* ── Mobile: bottom sheet slide-up ── */
+.ksn-sheet-enter-active,
+.ksn-sheet-leave-active {
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease;
+}
+.ksn-sheet-enter-from,
+.ksn-sheet-leave-to {
+  transform: translateY(100%);
   opacity: 0;
 }
 </style>
