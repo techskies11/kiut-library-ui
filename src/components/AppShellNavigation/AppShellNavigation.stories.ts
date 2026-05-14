@@ -545,7 +545,7 @@ export const Mobile: Story = {
     },
     template: `
       <div class="relative h-screen bg-[color:var(--kiut-bg-primary)] overflow-hidden" style="max-width:390px">
-        <main class="flex-1 p-5 pb-16">
+        <main class="flex-1 p-5 pb-[7rem]">
           <h2 class="text-base font-semibold text-[color:var(--kiut-text-primary)] mb-1">Mobile Navigation</h2>
           <p class="text-sm text-[color:var(--kiut-text-secondary)] mb-4">
             Tap a section in the bottom bar to open its items in a sheet.
@@ -561,7 +561,25 @@ export const Mobile: Story = {
           :activePath="activePath"
           :mobileBreakpoint="9999"
           @navigate="onNavigate"
-        />
+        >
+          <template #footer>
+            <div class="flex items-center justify-between px-1 py-2.5 gap-0.5 text-[color:var(--kiut-text-muted)] w-full">
+              <button class="flex flex-col items-center gap-0.5 hover:text-[color:var(--kiut-primary)] transition-colors w-1/3">
+                <strong class="text-[8px] font-semibold uppercase tracking-wider">Lang</strong>
+                <span class="text-[8px] font-medium">EN</span>
+              </button>
+              <button class="flex flex-col items-center gap-0.5 hover:text-[color:var(--kiut-primary)] transition-colors w-1/3">
+                <strong class="text-[8px] font-semibold uppercase tracking-wider">Zone</strong>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <span class="text-[8px] font-medium">GMT-5</span>
+              </button>
+              <button class="flex flex-col items-center gap-0.5 hover:text-[color:var(--kiut-primary)] transition-colors w-1/3">
+                <strong class="text-[8px] font-semibold uppercase tracking-wider">Theme</strong>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              </button>
+            </div>
+          </template>
+        </AppShellNavigation>
       </div>
     `,
   }),
@@ -588,7 +606,7 @@ export const MobileDark: Story = {
     },
     template: `
       <div class="dark relative h-screen bg-[#000] overflow-hidden" style="max-width:390px">
-        <main class="flex-1 p-5 pb-16">
+        <main class="flex-1 p-5 pb-[7rem]">
           <h2 class="text-base font-semibold text-[color:var(--kiut-text-primary)] mb-1">Dark Mobile</h2>
           <p class="text-sm text-[color:var(--kiut-text-secondary)]">
             Active path: <strong>{{ activePath }}</strong>
@@ -600,7 +618,25 @@ export const MobileDark: Story = {
           :activePath="activePath"
           :mobileBreakpoint="9999"
           @navigate="onNavigate"
-        />
+        >
+          <template #footer>
+            <div class="flex items-center justify-between px-1 py-2.5 gap-0.5 text-[color:var(--kiut-text-muted)] w-full">
+              <button class="flex flex-col items-center gap-0.5 hover:text-[color:var(--kiut-primary)] transition-colors w-1/3">
+                <strong class="text-[8px] font-semibold uppercase tracking-wider">Lang</strong>
+                <span class="text-[8px] font-medium">EN</span>
+              </button>
+              <button class="flex flex-col items-center gap-0.5 hover:text-[color:var(--kiut-primary)] transition-colors w-1/3">
+                <strong class="text-[8px] font-semibold uppercase tracking-wider">Zone</strong>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <span class="text-[8px] font-medium">GMT-5</span>
+              </button>
+              <button class="flex flex-col items-center gap-0.5 hover:text-[color:var(--kiut-primary)] transition-colors w-1/3">
+                <strong class="text-[8px] font-semibold uppercase tracking-wider">Theme</strong>
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              </button>
+            </div>
+          </template>
+        </AppShellNavigation>
       </div>
     `,
   }),
