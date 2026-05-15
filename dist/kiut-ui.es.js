@@ -1,4 +1,4 @@
-import { defineComponent as Q, shallowRef as Bo, h as xa, ref as st, onMounted as te, onUnmounted as $e, watch as Pt, toRaw as ka, nextTick as Lt, version as qi, isProxy as Lo, computed as M, toRef as ut, openBlock as _, createElementBlock as k, createVNode as R, unref as F, createElementVNode as r, Fragment as U, renderList as at, normalizeStyle as mt, normalizeClass as H, toDisplayString as A, createCommentVNode as z, onBeforeUnmount as Fo, createStaticVNode as es, withDirectives as Xt, vShow as mn, useSlots as Qn, renderSlot as wt, createBlock as nt, resolveDynamicComponent as je, withCtx as P, createSlots as Mt, createTextVNode as bt, Transition as un, Teleport as Ta, withModifiers as ie, withKeys as Hn, vModelText as Pe, useAttrs as Eo, mergeProps as jn } from "vue";
+import { defineComponent as Q, shallowRef as Bo, h as xa, ref as st, onMounted as te, onUnmounted as $e, watch as Pt, toRaw as ka, nextTick as Lt, version as qi, isProxy as Lo, computed as M, toRef as ut, openBlock as _, createElementBlock as k, createVNode as R, unref as F, createElementVNode as r, Fragment as U, renderList as at, normalizeStyle as mt, normalizeClass as H, toDisplayString as A, createCommentVNode as z, onBeforeUnmount as Fo, createStaticVNode as es, withDirectives as Xt, vShow as mn, useSlots as Qn, renderSlot as kt, createBlock as nt, resolveDynamicComponent as je, withCtx as P, createSlots as Mt, createTextVNode as bt, Transition as un, Teleport as Ta, withModifiers as ie, withKeys as Hn, vModelText as Pe, useAttrs as Eo, mergeProps as jn } from "vue";
 import * as ns from "echarts/core";
 import { TooltipComponent as Ki, TitleComponent as Ui } from "echarts/components";
 import { SankeyChart as Xi } from "echarts/charts";
@@ -571,7 +571,7 @@ const yn = (e) => typeof e < "u", Ce = (e) => typeof e == "function", rs = (e, t
 function $l(e) {
   return e.type === "mouseup" || e.type === "click" || e.type === "contextmenu";
 }
-const kt = Math.PI, At = 2 * kt, Sl = At + kt, Kn = Number.POSITIVE_INFINITY, Ml = kt / 180, Et = kt / 2, Ae = kt / 4, cs = kt * 2 / 3, Vo = Math.log10, oe = Math.sign;
+const wt = Math.PI, At = 2 * wt, Sl = At + wt, Kn = Number.POSITIVE_INFINITY, Ml = wt / 180, Et = wt / 2, Ae = wt / 4, cs = wt * 2 / 3, Vo = Math.log10, oe = Math.sign;
 function fn(e, t, n) {
   return Math.abs(e - t) < n;
 }
@@ -604,10 +604,10 @@ function Bl(e, t, n) {
     o = e[a][n], isNaN(o) || (t.min = Math.min(t.min, o), t.max = Math.max(t.max, o));
 }
 function ue(e) {
-  return e * (kt / 180);
+  return e * (wt / 180);
 }
 function Ll(e) {
-  return e * (180 / kt);
+  return e * (180 / wt);
 }
 function us(e) {
   if (!Gt(e))
@@ -620,7 +620,7 @@ function us(e) {
 function No(e, t) {
   const n = t.x - e.x, a = t.y - e.y, s = Math.sqrt(n * n + a * a);
   let o = Math.atan2(a, n);
-  return o < -0.5 * kt && (o += At), {
+  return o < -0.5 * wt && (o += At), {
     angle: o,
     distance: s
   };
@@ -629,7 +629,7 @@ function Ca(e, t) {
   return Math.sqrt(Math.pow(t.x - e.x, 2) + Math.pow(t.y - e.y, 2));
 }
 function Fl(e, t) {
-  return (e - t + Sl) % At - kt;
+  return (e - t + Sl) % At - wt;
 }
 function Jt(e) {
   return (e % At + At) % At;
@@ -801,7 +801,7 @@ const An = (e) => e === 0 || e === 1, fs = (e, t, n) => -(Math.pow(2, 10 * (e -=
   easeInOutQuint: (e) => (e /= 0.5) < 1 ? 0.5 * e * e * e * e * e : 0.5 * ((e -= 2) * e * e * e * e + 2),
   easeInSine: (e) => -Math.cos(e * Et) + 1,
   easeOutSine: (e) => Math.sin(e * Et),
-  easeInOutSine: (e) => -0.5 * (Math.cos(kt * e) - 1),
+  easeInOutSine: (e) => -0.5 * (Math.cos(wt * e) - 1),
   easeInExpo: (e) => e === 0 ? 0 : Math.pow(2, 10 * (e - 1)),
   easeOutExpo: (e) => e === 1 ? 1 : -Math.pow(2, -10 * e) + 1,
   easeInOutExpo: (e) => An(e) ? e : e < 0.5 ? 0.5 * Math.pow(2, 10 * (e * 2 - 1)) : 0.5 * (-Math.pow(2, -10 * (e * 2 - 1)) + 2),
@@ -1146,7 +1146,7 @@ function Ko(e, t, n, a, s) {
         u = s ? s / 2 : m, e.moveTo(n + Math.sin(v) * u, a - Math.cos(v) * m), v += cs, e.lineTo(n + Math.sin(v) * u, a - Math.cos(v) * m), v += cs, e.lineTo(n + Math.sin(v) * u, a - Math.cos(v) * m), e.closePath();
         break;
       case "rectRounded":
-        c = m * 0.516, d = m - c, i = Math.cos(v + Ae) * d, h = Math.cos(v + Ae) * (s ? s / 2 - c : d), l = Math.sin(v + Ae) * d, g = Math.sin(v + Ae) * (s ? s / 2 - c : d), e.arc(n - h, a - l, c, v - kt, v - Et), e.arc(n + g, a - i, c, v - Et, v), e.arc(n + h, a + l, c, v, v + Et), e.arc(n - g, a + i, c, v + Et, v + kt), e.closePath();
+        c = m * 0.516, d = m - c, i = Math.cos(v + Ae) * d, h = Math.cos(v + Ae) * (s ? s / 2 - c : d), l = Math.sin(v + Ae) * d, g = Math.sin(v + Ae) * (s ? s / 2 - c : d), e.arc(n - h, a - l, c, v - wt, v - Et), e.arc(n + g, a - i, c, v - Et, v), e.arc(n + h, a + l, c, v, v + Et), e.arc(n - g, a + i, c, v + Et, v + wt), e.closePath();
         break;
       case "rect":
         if (!f) {
@@ -1227,7 +1227,7 @@ function wn(e, t, n, a, s, o = {}) {
 }
 function Un(e, t) {
   const { x: n, y: a, w: s, h: o, radius: i } = t;
-  e.arc(n + i.topLeft, a + i.topLeft, i.topLeft, 1.5 * kt, kt, !0), e.lineTo(n, a + o - i.bottomLeft), e.arc(n + i.bottomLeft, a + o - i.bottomLeft, i.bottomLeft, kt, Et, !0), e.lineTo(n + s - i.bottomRight, a + o), e.arc(n + s - i.bottomRight, a + o - i.bottomRight, i.bottomRight, Et, 0, !0), e.lineTo(n + s, a + i.topRight), e.arc(n + s - i.topRight, a + i.topRight, i.topRight, 0, -Et, !0), e.lineTo(n + i.topLeft, a);
+  e.arc(n + i.topLeft, a + i.topLeft, i.topLeft, 1.5 * wt, wt, !0), e.lineTo(n, a + o - i.bottomLeft), e.arc(n + i.bottomLeft, a + o - i.bottomLeft, i.bottomLeft, wt, Et, !0), e.lineTo(n + s - i.bottomRight, a + o), e.arc(n + s - i.bottomRight, a + o - i.bottomRight, i.bottomRight, Et, 0, !0), e.lineTo(n + s, a + i.topRight), e.arc(n + s - i.topRight, a + i.topRight, i.topRight, 0, -Et, !0), e.lineTo(n + i.topLeft, a);
 }
 const ar = /^(normal|(\d+(?:\.\d+)?)(px|em|%)?)$/, sr = /^(normal|italic|initial|inherit|unset|(oblique( -?[0-9]?[0-9]deg)?))$/;
 function or(e, t) {
@@ -3030,7 +3030,7 @@ class pc extends ta {
 function mc(e, t, n) {
   let a = 1, s = 1, o = 0, i = 0;
   if (t < At) {
-    const l = e, d = l + t, c = Math.cos(l), u = Math.sin(l), h = Math.cos(d), g = Math.sin(d), y = (x, w, D) => xn(x, l, d, !0) ? 1 : Math.max(w, w * n, D, D * n), f = (x, w, D) => xn(x, l, d, !0) ? -1 : Math.min(w, w * n, D, D * n), m = y(0, c, h), v = y(Et, u, g), p = f(kt, c, h), b = f(kt + Et, u, g);
+    const l = e, d = l + t, c = Math.cos(l), u = Math.sin(l), h = Math.cos(d), g = Math.sin(d), y = (x, w, D) => xn(x, l, d, !0) ? 1 : Math.max(w, w * n, D, D * n), f = (x, w, D) => xn(x, l, d, !0) ? -1 : Math.min(w, w * n, D, D * n), m = y(0, c, h), v = y(Et, u, g), p = f(wt, c, h), b = f(wt + Et, u, g);
     a = (m - p) / 2, s = (v - b) / 2, o = -(m + p) / 2, i = -(v + b) / 2;
   }
   return {
@@ -5707,9 +5707,9 @@ function Ad(e, t, n) {
   } else {
     const g = Math.min(c / 2, i * Jt(a - n));
     if (u === "round")
-      e.arc(s, o, g, n - kt / 2, a + kt / 2, !0);
+      e.arc(s, o, g, n - wt / 2, a + wt / 2, !0);
     else if (u === "bevel") {
-      const y = 2 * g * g, f = -y * Math.cos(n + kt / 2) + s, m = -y * Math.sin(n + kt / 2) + o, v = y * Math.cos(a + kt / 2) + s, p = y * Math.sin(a + kt / 2) + o;
+      const y = 2 * g * g, f = -y * Math.cos(n + wt / 2) + s, m = -y * Math.sin(n + wt / 2) + o, v = y * Math.cos(a + wt / 2) + s, p = y * Math.sin(a + wt / 2) + o;
       e.lineTo(f, m), e.lineTo(v, p);
     }
   }
@@ -5754,7 +5754,7 @@ function Zn(e, t, n, a, s, o) {
     const Y = u > 0 ? u - a : 0, V = h > 0 ? h - a : 0, tt = (Y + V) / 2, et = tt !== 0 ? f * tt / (tt + a) : f;
     y = (f - et) / 2;
   }
-  const m = Math.max(1e-3, f * h - n / kt) / h, v = (f - m) / 2, p = d + v + y, b = s - v - y, { outerStart: x, outerEnd: w, innerStart: D, innerEnd: S } = Ld(t, g, h, b - p), C = h - x, $ = h - w, L = p + x / C, T = b - w / $, B = g + D, E = g + S, I = p + D / B, N = b - S / E;
+  const m = Math.max(1e-3, f * h - n / wt) / h, v = (f - m) / 2, p = d + v + y, b = s - v - y, { outerStart: x, outerEnd: w, innerStart: D, innerEnd: S } = Ld(t, g, h, b - p), C = h - x, $ = h - w, L = p + x / C, T = b - w / $, B = g + D, E = g + S, I = p + D / B, N = b - S / E;
   if (e.beginPath(), o) {
     const Y = (L + T) / 2;
     if (e.arc(i, l, h, L, Y), e.arc(i, l, h, Y, T), w > 0) {
@@ -5808,7 +5808,7 @@ function Ed(e, t, n, a, s) {
       e.stroke();
     isNaN(l) || (m = i + (l % At || At));
   }
-  f && Td(e, t, m), d.selfJoin && m - i >= kt && y === 0 && u !== "miter" && Ad(e, t, m), o || (Zn(e, t, n, a, m, s), e.stroke());
+  f && Td(e, t, m), d.selfJoin && m - i >= wt && y === 0 && u !== "miter" && Ad(e, t, m), o || (Zn(e, t, n, a, m, s), e.stroke());
 }
 class Id extends fe {
   static id = "arc";
@@ -5883,7 +5883,7 @@ class Id extends fe {
     t.save();
     const l = (this.startAngle + this.endAngle) / 2;
     t.translate(Math.cos(l) * s, Math.sin(l) * s);
-    const d = 1 - Math.sin(Math.min(kt, a || 0)), c = s * d;
+    const d = 1 - Math.sin(Math.min(wt, a || 0)), c = s * d;
     t.fillStyle = n.backgroundColor, t.strokeStyle = n.borderColor, Fd(t, this, c, o, i), Ed(t, this, c, o, i), t.restore();
   }
 }
@@ -6574,7 +6574,7 @@ class yi extends fe {
   _drawArgs(t) {
     const { top: n, left: a, bottom: s, right: o, options: i } = this, l = i.align;
     let d = 0, c, u, h;
-    return this.isHorizontal() ? (u = Ot(l, a, o), h = n + t, c = o - a) : (i.position === "left" ? (u = a + t, h = Ot(l, s, n), d = kt * -0.5) : (u = o - t, h = Ot(l, n, s), d = kt * 0.5), c = s - n), {
+    return this.isHorizontal() ? (u = Ot(l, a, o), h = n + t, c = o - a) : (i.position === "left" ? (u = a + t, h = Ot(l, s, n), d = wt * -0.5) : (u = o - t, h = Ot(l, n, s), d = wt * 0.5), c = s - n), {
       titleX: u,
       titleY: h,
       maxWidth: c,
@@ -7652,7 +7652,7 @@ function On(e, t, n) {
   const c = i - o;
   return c ? l + (d - l) * (t - o) / c : l;
 }
-class T5 extends bo {
+class F5 extends bo {
   static id = "timeseries";
   static defaults = bo.defaults;
   constructor(t) {
@@ -10311,18 +10311,18 @@ const mg = { class: "chart-container" }, bg = {
         r("div", xg, [
           r("div", kg, [
             r("div", wg, [
-              wt(i.$slots, "title", {}, () => [
+              kt(i.$slots, "title", {}, () => [
                 r("h3", Cg, A(e.title), 1)
               ], !0),
               e.subtitle ? (_(), k("p", $g, A(e.subtitle), 1)) : z("", !0),
-              wt(i.$slots, "headerAppend", {}, void 0, !0)
+              kt(i.$slots, "headerAppend", {}, void 0, !0)
             ]),
             s.value ? (_(), k("div", Sg, [
-              wt(i.$slots, "headerExport", {}, void 0, !0)
+              kt(i.$slots, "headerExport", {}, void 0, !0)
             ])) : z("", !0)
           ]),
           i.$slots.headerAside ? (_(), k("div", Mg, [
-            wt(i.$slots, "headerAside", {}, void 0, !0)
+            kt(i.$slots, "headerAside", {}, void 0, !0)
           ])) : z("", !0)
         ]),
         l[0] || (l[0] = r("svg", {
@@ -10341,30 +10341,30 @@ const mg = { class: "chart-container" }, bg = {
         ], -1))
       ]),
       r("div", Dg, [
-        wt(i.$slots, "default", {}, void 0, !0)
+        kt(i.$slots, "default", {}, void 0, !0)
       ])
     ], 40, yg)) : (_(), k("div", Ag, [
       r("div", Tg, [
         r("div", Bg, [
           r("div", Lg, [
             r("div", Fg, [
-              wt(i.$slots, "title", {}, () => [
+              kt(i.$slots, "title", {}, () => [
                 r("h3", Eg, A(e.title), 1)
               ], !0),
               e.subtitle ? (_(), k("p", Ig, A(e.subtitle), 1)) : z("", !0),
-              wt(i.$slots, "headerAppend", {}, void 0, !0)
+              kt(i.$slots, "headerAppend", {}, void 0, !0)
             ]),
             s.value ? (_(), k("div", Pg, [
-              wt(i.$slots, "headerExport", {}, void 0, !0)
+              kt(i.$slots, "headerExport", {}, void 0, !0)
             ])) : z("", !0)
           ]),
           i.$slots.headerAside ? (_(), k("div", Rg, [
-            wt(i.$slots, "headerAside", {}, void 0, !0)
+            kt(i.$slots, "headerAside", {}, void 0, !0)
           ])) : z("", !0)
         ])
       ]),
       r("div", Og, [
-        wt(i.$slots, "default", {}, void 0, !0)
+        kt(i.$slots, "default", {}, void 0, !0)
       ])
     ]));
   }
@@ -10880,7 +10880,7 @@ const qg = {
       key: 1,
       class: H(["inline-flex w-min max-w-full min-h-[22px] items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] font-semibold leading-snug tracking-tight", i.value])
     }, [
-      wt(l.$slots, "default", {}, () => [
+      kt(l.$slots, "default", {}, () => [
         bt(A(e.label), 1)
       ])
     ], 2));
@@ -10953,7 +10953,7 @@ const qg = {
                 key: `${b}-${x.key}`,
                 class: H(["kiut-table-td px-3 py-2 text-[color:var(--kiut-text-primary,#1e293b)]", [o(x.align), x.cellClass]])
               }, [
-                wt(m.$slots, i(x.key), {
+                kt(m.$slots, i(x.key), {
                   row: p,
                   column: x,
                   value: l(p, x.key)
@@ -14494,7 +14494,7 @@ const qg = {
                   S.cellClass ?? ""
                 ])
               }, [
-                wt(b.$slots, o(S.key), {
+                kt(b.$slots, o(S.key), {
                   row: w,
                   column: S,
                   value: d(w, S.key)
@@ -18134,7 +18134,7 @@ const kx = { class: "tabs text-sm" }, wx = ["aria-label"], Cx = ["id", "aria-sel
             key: e.modelValue,
             class: "tabs-panel mt-4"
           }, [
-            wt(f.$slots, "default", { active: e.modelValue }, void 0, !0)
+            kt(f.$slots, "default", { active: e.modelValue }, void 0, !0)
           ]))
         ]),
         _: 3
@@ -18885,7 +18885,7 @@ const ik = ["aria-label"], lk = { class: "flex flex-wrap items-center gap-x-2 ga
               "aria-label": Bt(J),
               onClick: (pt) => rt(J.def, pt)
             }, [
-              wt(O.$slots, "formatChip", {
+              kt(O.$slots, "formatChip", {
                 filter: J.def,
                 value: w(J.def.id),
                 optionValue: J.kind === "select" ? J.optionValue : void 0
@@ -18928,7 +18928,7 @@ const ik = ["aria-label"], lk = { class: "flex flex-wrap items-center gap-x-2 ga
           }, ["stop"]))
         }, [
           p.value ? (_(), k(U, { key: 0 }, [
-            O.$slots.panel ? wt(O.$slots, "panel", {
+            O.$slots.panel ? kt(O.$slots, "panel", {
               key: 0,
               filter: p.value,
               close: X,
@@ -20522,10 +20522,10 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
           class: H(["inline-flex shrink-0", s.value ? "[&>svg]:size-4" : "[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]"]),
           "aria-hidden": "true"
         }, [
-          wt(u.$slots, "icon")
+          kt(u.$slots, "icon")
         ], 2)) : z("", !0),
         o.value ? (_(), k("span", Nw, [
-          wt(u.$slots, "default")
+          kt(u.$slots, "default")
         ])) : z("", !0)
       ], 16, Vw),
       r("span", Ww, A(e.tooltip), 1)
@@ -20541,10 +20541,10 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
         class: H(["inline-flex shrink-0", s.value ? "[&>svg]:size-4" : "[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]"]),
         "aria-hidden": "true"
       }, [
-        wt(u.$slots, "icon")
+        kt(u.$slots, "icon")
       ], 2)) : z("", !0),
       o.value ? (_(), k("span", jw, [
-        wt(u.$slots, "default")
+        kt(u.$slots, "default")
       ])) : z("", !0)
     ], 16, Hw));
   }
@@ -20631,7 +20631,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                 })
               ], 2),
               r("div", Uw, [
-                wt(u.$slots, "default", {}, void 0, !0)
+                kt(u.$slots, "default", {}, void 0, !0)
               ]),
               r("footer", Xw, [
                 R(Wn, {
@@ -20664,60 +20664,71 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
   }
 }), Zw = /* @__PURE__ */ it(Gw, [["__scopeId", "data-v-4ed7bb14"]]), Qw = { class: "text-left font-['Inter',system-ui,sans-serif]" }, Jw = {
   key: 0,
-  class: "flex min-w-0 flex-1 flex-col gap-1.5"
+  class: ""
 }, t5 = {
+  key: 0,
+  class: "flex min-w-0 flex-col gap-1.5 mb-4"
+}, e5 = {
+  key: 1,
+  class: "flex flex-row justify-between items-center gap-2"
+}, n5 = {
+  key: 0,
+  class: "flex shrink-0 flex-wrap items-center justify-end gap-2"
+}, a5 = {
   key: 1,
   class: "flex shrink-0 flex-wrap items-center justify-end gap-2"
-}, e5 = /* @__PURE__ */ Q({
+}, s5 = /* @__PURE__ */ Q({
   name: "Section",
   __name: "Section",
   setup(e) {
-    const t = Qn(), n = M(() => {
-      const a = !!t.description, s = !!t.actions;
-      return a && s ? "sm:justify-between sm:items-center" : !a && s ? "max-sm:items-end sm:justify-end" : a && !s ? "sm:items-start" : "";
-    });
-    return (a, s) => (_(), k("section", Qw, [
-      a.$slots.description || a.$slots.actions ? (_(), k("header", {
-        key: 0,
-        class: H(["flex flex-col gap-4 sm:flex-row", n.value])
-      }, [
-        a.$slots.description ? (_(), k("div", Jw, [
-          wt(a.$slots, "description")
+    const t = Qn();
+    return M(() => {
+      const n = !!t.description, a = !!t.actions, s = !!t.filters, o = a || s;
+      return n && o ? "sm:justify-between sm:items-start" : !n && o ? "max-sm:items-end sm:justify-end" : n && !o ? "sm:items-start" : "";
+    }), (n, a) => (_(), k("section", Qw, [
+      n.$slots.description || n.$slots.filters || n.$slots.actions ? (_(), k("header", Jw, [
+        n.$slots.description ? (_(), k("div", t5, [
+          kt(n.$slots, "description")
         ])) : z("", !0),
-        a.$slots.actions ? (_(), k("div", t5, [
-          wt(a.$slots, "actions")
+        n.$slots.filters || n.$slots.actions ? (_(), k("div", e5, [
+          n.$slots.filters ? (_(), k("div", n5, [
+            kt(n.$slots, "filters")
+          ])) : z("", !0),
+          n.$slots.actions ? (_(), k("div", a5, [
+            kt(n.$slots, "actions")
+          ])) : z("", !0)
         ])) : z("", !0)
-      ], 2)) : z("", !0),
-      a.$slots.content || a.$slots.default ? (_(), k("div", {
+      ])) : z("", !0),
+      n.$slots.content || n.$slots.default ? (_(), k("div", {
         key: 1,
-        class: H({ "mt-6": a.$slots.description || a.$slots.actions })
+        class: H({ "mt-6": n.$slots.description || n.$slots.filters || n.$slots.actions })
       }, [
-        wt(a.$slots, "content", {}, () => [
-          wt(a.$slots, "default")
+        kt(n.$slots, "content", {}, () => [
+          kt(n.$slots, "default")
         ])
       ], 2)) : z("", !0)
     ]));
   }
-}), n5 = { class: "flex flex-1 min-h-0" }, a5 = {
+}), o5 = { class: "flex flex-1 min-h-0" }, i5 = {
   key: 0,
   class: "flex justify-center items-center my-4 shrink-0"
-}, s5 = {
+}, l5 = {
   class: "flex-1 overflow-y-auto p-1 flex flex-col gap-1",
   "aria-label": "Sections"
-}, o5 = ["aria-current", "title", "onClick"], i5 = {
+}, r5 = ["aria-current", "title", "onClick"], c5 = {
   key: 1,
   class: "shrink-0 border-t [border-color:var(--kiut-lateral-border-color)] [background-color:var(--kiut-lateral-bg)]"
-}, l5 = { class: "px-4 py-4 shrink-0" }, r5 = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, c5 = {
+}, d5 = { class: "px-4 py-4 shrink-0" }, u5 = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, h5 = {
   class: "flex-1 overflow-y-auto px-1 pb-3 flex flex-col gap-0.5",
   "aria-label": "Section items"
-}, d5 = ["data-nav-id", "aria-current", "onClick"], u5 = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, h5 = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, f5 = {
+}, f5 = ["data-nav-id", "aria-current", "onClick"], g5 = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, p5 = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, m5 = {
   class: "overflow-y-auto flex-1 px-3 pb-5 flex flex-col gap-1",
   "aria-label": "Section items"
-}, g5 = ["data-nav-id", "aria-current", "onClick"], p5 = { class: "truncate text-[15px]" }, m5 = ["aria-current", "onClick"], b5 = {
+}, b5 = ["data-nav-id", "aria-current", "onClick"], v5 = { class: "truncate text-[15px]" }, y5 = ["aria-current", "onClick"], _5 = {
   key: 0,
   class: "absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full [background-color:var(--kiut-primary)]",
   "aria-hidden": "true"
-}, v5 = { class: "text-[10px] font-semibold leading-none truncate w-full text-center px-0.5" }, y5 = /* @__PURE__ */ Q({
+}, x5 = { class: "text-[10px] font-semibold leading-none truncate w-full text-center px-0.5" }, k5 = /* @__PURE__ */ Q({
   name: "AppShellNavigation",
   inheritAttrs: !1,
   __name: "AppShellNavigation",
@@ -20809,7 +20820,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
     }
     return (S, C) => u.value ? (_(), k("div", jn({
       key: 1,
-      class: "kiut-app-shell-nav",
+      class: "kiut-app-shell-nav font-['Inter',system-ui,sans-serif]",
       role: "navigation",
       "aria-label": "Main navigation"
     }, l), [
@@ -20834,8 +20845,8 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
             C[3] || (C[3] = r("div", { class: "flex justify-center pt-3 pb-1 shrink-0" }, [
               r("div", { class: "w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-purple-500/30" })
             ], -1)),
-            r("div", u5, [
-              r("p", h5, A(g.value.label), 1),
+            r("div", g5, [
+              r("p", p5, A(g.value.label), 1),
               r("button", {
                 type: "button",
                 class: "w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors",
@@ -20854,7 +20865,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                 ], -1)
               ])])
             ]),
-            r("nav", f5, [
+            r("nav", m5, [
               (_(!0), k(U, null, at(g.value.items, ($) => (_(), k("button", {
                 key: $.id,
                 type: "button",
@@ -20869,8 +20880,8 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                   style: { width: "18px", height: "18px" },
                   "aria-hidden": "true"
                 })) : z("", !0),
-                r("span", p5, A($.label), 1)
-              ], 10, g5))), 128))
+                r("span", v5, A($.label), 1)
+              ], 10, b5))), 128))
             ])
           ], 4)) : z("", !0)
         ]),
@@ -20881,7 +20892,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
         class: "fixed left-0 right-0 z-50 [background-color:var(--kiut-lateral-bg)] border-t [border-color:var(--kiut-lateral-border-color)] flex items-center justify-center",
         style: mt({ bottom: e.mobileBarHeight, height: e.mobileFooterHeight })
       }, [
-        wt(S.$slots, "footer", { expanded: !0 }, void 0, !0)
+        kt(S.$slots, "footer", { expanded: !0 }, void 0, !0)
       ], 4)) : z("", !0),
       r("nav", {
         class: "fixed bottom-0 left-0 right-0 z-50 [background-color:var(--kiut-lateral-bg)] border-t [border-color:var(--kiut-lateral-border-color)] flex items-stretch justify-around overflow-hidden",
@@ -20895,23 +20906,23 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
           class: H(["relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--kiut-primary)]/30", D($)]),
           onClick: (L) => m($)
         }, [
-          e.selectedSectionId === $.id || f($) ? (_(), k("span", b5)) : z("", !0),
+          e.selectedSectionId === $.id || f($) ? (_(), k("span", _5)) : z("", !0),
           $.icon ? (_(), nt(je($.icon), {
             key: 1,
             class: "shrink-0",
             style: mt({ width: e.primaryIconSize, height: e.primaryIconSize }),
             "aria-hidden": "true"
           }, null, 8, ["style"])) : z("", !0),
-          r("span", v5, A($.label), 1)
-        ], 10, m5))), 128))
+          r("span", x5, A($.label), 1)
+        ], 10, y5))), 128))
       ], 4)
     ], 16)) : (_(), k("aside", jn({
       key: 0,
-      class: "kiut-app-shell-nav flex flex-col h-full overflow-hidden",
+      class: "kiut-app-shell-nav flex flex-col h-full overflow-hidden font-['Inter',system-ui,sans-serif]",
       role: "navigation",
       "aria-label": "Main navigation"
     }, l), [
-      r("div", n5, [
+      r("div", o5, [
         r("div", {
           class: "primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center [border-color:var(--kiut-lateral-border-color)]",
           style: mt({
@@ -20921,10 +20932,10 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
           onMouseenter: C[0] || (C[0] = ($) => n.value = !0),
           onMouseleave: C[1] || (C[1] = ($) => n.value = !1)
         }, [
-          S.$slots.logo ? (_(), k("div", a5, [
-            wt(S.$slots, "logo", { expanded: n.value }, void 0, !0)
+          S.$slots.logo ? (_(), k("div", i5, [
+            kt(S.$slots, "logo", { expanded: n.value }, void 0, !0)
           ])) : z("", !0),
-          r("nav", s5, [
+          r("nav", l5, [
             (_(!0), k(U, null, at(e.sections, ($) => (_(), k("button", {
               key: $.id,
               type: "button",
@@ -20943,10 +20954,10 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                 class: "leading-tight font-semibold tracking-wide text-left w-full truncate px-1 color-",
                 style: mt({ fontSize: e.primaryFontSize })
               }, A($.label), 5)
-            ], 10, o5))), 128))
+            ], 10, r5))), 128))
           ]),
-          S.$slots.footer ? (_(), k("div", i5, [
-            wt(S.$slots, "footer", { expanded: n.value }, void 0, !0)
+          S.$slots.footer ? (_(), k("div", c5, [
+            kt(S.$slots, "footer", { expanded: n.value }, void 0, !0)
           ])) : z("", !0)
         ], 36),
         R(un, { name: "ksn-sub" }, {
@@ -20956,10 +20967,10 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
               class: "secondary-panel flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r [border-color:var(--kiut-lateral-border-color)] overflow-hidden",
               style: mt({ width: e.secondaryWidth })
             }, [
-              r("div", l5, [
-                r("p", r5, A(g.value.label), 1)
+              r("div", d5, [
+                r("p", u5, A(g.value.label), 1)
               ]),
-              r("nav", c5, [
+              r("nav", h5, [
                 (_(!0), k(U, null, at(g.value.items, ($) => (_(), k("button", {
                   key: $.id,
                   type: "button",
@@ -20976,7 +20987,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                     class: "truncate",
                     style: mt({ fontSize: e.secondaryFontSize })
                   }, A($.label), 5)
-                ], 10, d5))), 128))
+                ], 10, f5))), 128))
               ])
             ], 4)) : z("", !0)
           ]),
@@ -20985,9 +20996,9 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
       ])
     ], 16));
   }
-}), _5 = /* @__PURE__ */ it(y5, [["__scopeId", "data-v-b1c4b9e6"]]), B5 = {
+}), w5 = /* @__PURE__ */ it(k5, [["__scopeId", "data-v-b37426de"]]), E5 = {
   install(e) {
-    e.component("KiutChartBar", he), e.component("KiutChartLine", Se), e.component("KiutPieChart", aa), e.component("KiutBoxplotChart", Ih), e.component("KiutCandlestickChart", Mi), e.component("KiutHistogramChart", Di), e.component("KiutSankeyChart", Me), e.component("KiutAgentsPerDay", dp), e.component("KiutBookingManager", zp), e.component("KiutCheckin", Jp), e.component("KiutCheckinContainer", Xm), e.component("KiutCheckinMetrics", mm), e.component("KiutCheckinSegments", Ei), e.component("KiutDisruption", g0), e.component("KiutFAQ", x0), e.component("KiutMessagesPerAgent", B0), e.component("KiutRecordLocator", Fi), e.component("KiutSalesByChannel", Ii), e.component("KiutSeller", Pi), e.component("KiutSellerContainer", yb), e.component("KiutTopAgents", Mb), e.component("KiutPaymentMethod", Xb), e.component("KiutAgentHumanConversations", Uv), e.component("KiutChannelMetrics", sy), e.component("KiutTriageCombinations", yy), e.component("KiutSelectLanguage", Sy), e.component("KiutGuardrails", Ry), e.component("KiutDisruptionNotifier", s1), e.component("KiutTotalConversationsCard", c1), e.component("KiutCsatP95Card", g1), e.component("KiutCSATContainer", U1), e.component("KiutAiGeneratedRevenueCard", J1), e.component("KiutNpsDailyMetrics", zi), e.component("KiutNpsMetrics", Vi), e.component("KiutNpsOverviewMetrics", Oi), e.component("KiutAWSCost", c_), e.component("KiutCostUsage", __), e.component("KiutTokenUsage", B_), e.component("KiutConversationCount", W_), e.component("KiutTopAgentsAnalysis", ex), e.component("KiutTopAgentsPie", ux), e.component("KiutDailyCostTrends", xx), e.component("KiutModelUsage", Px), e.component("KiutMessageRoles", qx), e.component("KiutCostPerConversations", ak), e.component("Tabs", Ni), e.component("Table", Ri), e.component("Filters", Pk), e.component("InputText", Wk), e.component("InputTextarea", Kk), e.component("InputFile", e2), e.component("InputDateTime", l2), e.component("InputTime", f2), e.component("InputRange", M2), e.component("InputNumber", L2), e.component("InputColorPicker", N2), e.component("Select", Hi), e.component("MultiSelect", tw), e.component("Toggle", aw), e.component("InputPhone", uw), e.component("SelectablePills", vw), e.component("SegmentedControl", kw), e.component("DateRangePicker", Ow), e.component("Tag", Rt), e.component("Button", Wn), e.component("Modal", Zw), e.component("Section", e5), e.component("KiutAppShellNavigation", _5);
+    e.component("KiutChartBar", he), e.component("KiutChartLine", Se), e.component("KiutPieChart", aa), e.component("KiutBoxplotChart", Ih), e.component("KiutCandlestickChart", Mi), e.component("KiutHistogramChart", Di), e.component("KiutSankeyChart", Me), e.component("KiutAgentsPerDay", dp), e.component("KiutBookingManager", zp), e.component("KiutCheckin", Jp), e.component("KiutCheckinContainer", Xm), e.component("KiutCheckinMetrics", mm), e.component("KiutCheckinSegments", Ei), e.component("KiutDisruption", g0), e.component("KiutFAQ", x0), e.component("KiutMessagesPerAgent", B0), e.component("KiutRecordLocator", Fi), e.component("KiutSalesByChannel", Ii), e.component("KiutSeller", Pi), e.component("KiutSellerContainer", yb), e.component("KiutTopAgents", Mb), e.component("KiutPaymentMethod", Xb), e.component("KiutAgentHumanConversations", Uv), e.component("KiutChannelMetrics", sy), e.component("KiutTriageCombinations", yy), e.component("KiutSelectLanguage", Sy), e.component("KiutGuardrails", Ry), e.component("KiutDisruptionNotifier", s1), e.component("KiutTotalConversationsCard", c1), e.component("KiutCsatP95Card", g1), e.component("KiutCSATContainer", U1), e.component("KiutAiGeneratedRevenueCard", J1), e.component("KiutNpsDailyMetrics", zi), e.component("KiutNpsMetrics", Vi), e.component("KiutNpsOverviewMetrics", Oi), e.component("KiutAWSCost", c_), e.component("KiutCostUsage", __), e.component("KiutTokenUsage", B_), e.component("KiutConversationCount", W_), e.component("KiutTopAgentsAnalysis", ex), e.component("KiutTopAgentsPie", ux), e.component("KiutDailyCostTrends", xx), e.component("KiutModelUsage", Px), e.component("KiutMessageRoles", qx), e.component("KiutCostPerConversations", ak), e.component("Tabs", Ni), e.component("Table", Ri), e.component("Filters", Pk), e.component("InputText", Wk), e.component("InputTextarea", Kk), e.component("InputFile", e2), e.component("InputDateTime", l2), e.component("InputTime", f2), e.component("InputRange", M2), e.component("InputNumber", L2), e.component("InputColorPicker", N2), e.component("Select", Hi), e.component("MultiSelect", tw), e.component("Toggle", aw), e.component("InputPhone", uw), e.component("SelectablePills", vw), e.component("SegmentedControl", kw), e.component("DateRangePicker", Ow), e.component("Tag", Rt), e.component("Button", Wn), e.component("Modal", Zw), e.component("Section", s5), e.component("KiutAppShellNavigation", w5);
   }
 };
 export {
@@ -20995,7 +21006,7 @@ export {
   Uv as AgentHumanConversations,
   dp as AgentsPerDay,
   J1 as AiGeneratedRevenueCard,
-  _5 as AppShellNavigation,
+  w5 as AppShellNavigation,
   zp as BookingManager,
   Ih as BoxplotChart,
   Wn as Button,
@@ -21029,7 +21040,7 @@ export {
   Wk as InputText,
   Kk as InputTextarea,
   f2 as InputTime,
-  B5 as KiutUIPlugin,
+  E5 as KiutUIPlugin,
   qx as MessageRoles,
   B0 as MessagesPerAgent,
   Zw as Modal,
@@ -21043,7 +21054,7 @@ export {
   Fi as RecordLocator,
   Ii as SalesByChannel,
   Me as SankeyChart,
-  e5 as Section,
+  s5 as Section,
   kw as SegmentedControl,
   Hi as Select,
   Sy as SelectLanguage,
