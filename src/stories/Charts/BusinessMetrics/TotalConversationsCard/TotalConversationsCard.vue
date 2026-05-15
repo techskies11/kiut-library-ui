@@ -89,7 +89,7 @@ defineExpose({ isDark, changePercent })
 }
 
 .total-conv-metric :deep(.card-header) {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .total-conv-metric :deep(.metric-header-content) {
@@ -115,7 +115,7 @@ defineExpose({ isDark, changePercent })
   height: 36px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .card-icon {

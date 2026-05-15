@@ -19,10 +19,12 @@
     <div class="highlight-inner">
       <div v-if="loading" class="loading-state">
         <div class="shimmer shimmer-value"></div>
+        <div class="shimmer shimmer-label"></div>
       </div>
 
       <div v-else class="card-body">
         <span class="metric-value">{{ formattedCsat }}</span>
+        <span class="metric-label">CSAT P95</span>
       </div>
     </div>
   </ChartMetricContainer>
@@ -84,7 +86,7 @@ defineExpose({ isDark, changePercent })
 }
 
 .csat-p95-metric :deep(.card-header) {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .csat-p95-metric :deep(.metric-header-content) {
@@ -110,7 +112,7 @@ defineExpose({ isDark, changePercent })
   height: 36px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .card-icon {
@@ -170,7 +172,7 @@ defineExpose({ isDark, changePercent })
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0;
+  gap: 6px;
   text-align: left;
 }
 
@@ -185,10 +187,21 @@ defineExpose({ isDark, changePercent })
   color: var(--kiut-text-primary);
 }
 
+.metric-label {
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #61616b;
+}
+
 .loading-state {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 12px;
   text-align: left;
 }
 
@@ -217,6 +230,11 @@ defineExpose({ isDark, changePercent })
 .shimmer-value {
   width: 40%;
   height: 26px;
+}
+
+.shimmer-label {
+  width: 38%;
+  height: 15px;
 }
 
 @keyframes shimmer {
