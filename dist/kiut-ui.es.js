@@ -16062,7 +16062,7 @@ const qg = {
       _: 1
     }, 8, ["class"]));
   }
-}), u1 = /* @__PURE__ */ it(d1, [["__scopeId", "data-v-94c1612c"]]), h1 = { class: "highlight-inner" }, f1 = {
+}), u1 = /* @__PURE__ */ it(d1, [["__scopeId", "data-v-55c80363"]]), h1 = { class: "highlight-inner" }, f1 = {
   key: 0,
   class: "loading-state"
 }, g1 = {
@@ -16122,16 +16122,18 @@ const qg = {
       default: P(() => [
         r("div", h1, [
           e.loading ? (_(), k("div", f1, [...u[1] || (u[1] = [
-            r("div", { class: "shimmer shimmer-value" }, null, -1)
+            r("div", { class: "shimmer shimmer-value" }, null, -1),
+            r("div", { class: "shimmer shimmer-label" }, null, -1)
           ])])) : (_(), k("div", g1, [
-            r("span", p1, A(s.value), 1)
+            r("span", p1, A(s.value), 1),
+            u[2] || (u[2] = r("span", { class: "metric-label" }, "CSAT P95", -1))
           ]))
         ])
       ]),
       _: 1
     }, 8, ["class"]));
   }
-}), b1 = /* @__PURE__ */ it(m1, [["__scopeId", "data-v-8cef2671"]]), v1 = {
+}), b1 = /* @__PURE__ */ it(m1, [["__scopeId", "data-v-b2f7dc51"]]), v1 = {
   key: 0,
   class: "loading-state"
 }, y1 = {
@@ -16618,7 +16620,7 @@ const qg = {
       _: 1
     }, 8, ["class"]));
   }
-}), o_ = /* @__PURE__ */ it(s_, [["__scopeId", "data-v-04da33bc"]]), i_ = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, l_ = {
+}), o_ = /* @__PURE__ */ it(s_, [["__scopeId", "data-v-67588c1c"]]), i_ = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, l_ = {
   key: 0,
   class: "flex min-h-[320px] flex-col items-center justify-center px-4"
 }, r_ = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, c_ = {
