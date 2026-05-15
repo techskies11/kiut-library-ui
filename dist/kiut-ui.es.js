@@ -18111,7 +18111,7 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
         role: "tablist",
         "aria-label": e.ariaLabel,
         class: H([
-          "box-border min-h-10 flex-wrap items-stretch gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-0.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none",
+          "box-border min-h-10 flex-wrap items-center gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-0.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none",
           e.fullWidth ? "flex w-full" : "inline-flex w-fit max-w-full"
         ])
       }, [
@@ -18159,7 +18159,7 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       })) : z("", !0)
     ]));
   }
-}), Ni = /* @__PURE__ */ it(Lx, [["__scopeId", "data-v-a3d7bb09"]]), Fx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Ex = {
+}), Ni = /* @__PURE__ */ it(Lx, [["__scopeId", "data-v-552ce048"]]), Fx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Ex = {
   key: 0,
   class: "loading-state"
 }, Ix = {
@@ -20697,7 +20697,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
   class: "flex min-w-0 flex-1 flex-wrap items-center gap-2"
 }, l5 = {
   key: 1,
-  class: "flex shrink-0 flex-wrap items-center justify-end gap-2"
+  class: "flex min-w-0 flex-1 flex-wrap items-center gap-2"
 }, c5 = /* @__PURE__ */ Q({
   name: "Section",
   __name: "Section",
