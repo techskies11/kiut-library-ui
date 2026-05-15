@@ -225,7 +225,7 @@
           v-if="
             selectedSectionId === section.id || hasSectionActiveItem(section)
           "
-          class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]"
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-0.5 rounded-full [background-color:var(--kiut-primary)]"
           aria-hidden="true"
         />
         <component
