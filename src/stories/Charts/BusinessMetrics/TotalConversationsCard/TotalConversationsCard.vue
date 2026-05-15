@@ -1,20 +1,23 @@
 <template>
-  <ChartMetricContainer title="Total Conversations" :collapsible="false" class="total-conv-metric w-full">
+  <ChartMetricContainer
+    title=""
+    :collapsible="false"
+    :class="['total-conv-metric', 'w-full', { 'total-conv-metric--dark': isDark }]"
+  >
     <template #title>
       <div class="header-title-group">
-        <div class="icon-wrapper">
+        <div class="icon-wrapper" aria-hidden="true">
           <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
           </svg>
         </div>
-        <span class="kpi-heading-text">Total Conversations</span>
       </div>
     </template>
     <template #headerAside>
       <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
     </template>
 
-    <div :class="['highlight-inner', { 'highlight-inner--dark': isDark }]">
+    <div class="highlight-inner">
       <div v-if="loading" class="loading-state">
         <div class="shimmer shimmer-value"></div>
         <div class="shimmer shimmer-label"></div>
@@ -62,8 +65,9 @@ const changePercent = computed(() => {
 })
 
 const changeLabel = computed(() => {
-  const sign = changePercent.value > 0 ? '+' : ''
-  return `${sign}${changePercent.value.toFixed(1)}% vs prev.`
+  const pct = changePercent.value.toFixed(1)
+  if (changePercent.value > 0) return `+${pct}%`
+  return `${pct}%`
 })
 
 const changeBadgeClass = computed(() => {
@@ -76,118 +80,136 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
+/* Tarjeta: borde redondeado, padding y borde al estilo de la maqueta light/dark (tokens Kiut) */
+.total-conv-metric.chart-metric-container--static {
+  padding: 16px;
+  border-radius: 20px;
+  border-color: var(--kiut-border-table);
+  background-color: var(--kiut-bg-card);
+}
+
+.total-conv-metric .card-header {
+  margin-bottom: 20px;
+}
+
+.total-conv-metric .metric-header-content {
+  align-items: center;
+}
+
+.metric-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .header-title-group {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   min-width: 0;
-}
-
-.kpi-heading-text {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1e293b;
-  letter-spacing: -0.02em;
-}
-
-.highlight-inner--dark .kpi-heading-text {
-  color: #f1f5f9;
 }
 
 .highlight-inner {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  min-height: 120px;
+  gap: 0;
 }
 
 .icon-wrapper {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .card-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  color: #7c3aed;
+}
+
+.total-conv-metric--dark .card-icon {
   color: #8b5cf6;
 }
 
 .change-badge {
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   line-height: 1;
+  letter-spacing: 0.01em;
 }
 
 .change-badge--up {
-  background: rgba(16, 185, 129, 0.12);
-  color: #16a34a;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .change-badge--down {
-  background: rgba(239, 68, 68, 0.12);
-  color: #dc2626;
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
 .change-badge--neutral {
-  background: rgba(148, 163, 184, 0.14);
+  background: rgba(148, 163, 184, 0.16);
   color: #64748b;
 }
 
-.highlight-inner--dark .change-badge--up {
-  color: #22c55e;
+.total-conv-metric--dark .change-badge--up {
+  background: #162d24;
+  color: #4ade80;
 }
 
-.highlight-inner--dark .change-badge--down {
-  color: #f87171;
+.total-conv-metric--dark .change-badge--down {
+  background: #3f1d20;
+  color: #fb7185;
 }
 
-.highlight-inner--dark .change-badge--neutral {
+.total-conv-metric--dark .change-badge--neutral {
+  background: rgba(148, 163, 184, 0.12);
   color: #94a3b8;
 }
 
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .metric-value {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-  font-size: 2.2rem;
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 24px;
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: #1e293b;
-}
-
-.highlight-inner--dark .metric-value {
-  color: #f1f5f9;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--kiut-text-primary);
 }
 
 .metric-label {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #64748b;
-}
-
-.highlight-inner--dark .metric-label {
-  color: #9ca3af;
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #61616b;
 }
 
 .loading-state {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .shimmer {
-  border-radius: 8px;
+  border-radius: 10px;
   background: linear-gradient(
     90deg,
     rgba(93, 75, 147, 0.06) 25%,
@@ -198,7 +220,7 @@ defineExpose({ isDark, changePercent })
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.highlight-inner--dark .shimmer {
+.total-conv-metric--dark .shimmer {
   background: linear-gradient(
     90deg,
     rgba(198, 125, 255, 0.06) 25%,
@@ -209,17 +231,21 @@ defineExpose({ isDark, changePercent })
 }
 
 .shimmer-value {
-  width: 60%;
-  height: 36px;
+  width: 58%;
+  height: 26px;
 }
 
 .shimmer-label {
-  width: 45%;
-  height: 16px;
+  width: 42%;
+  height: 15px;
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 </style>

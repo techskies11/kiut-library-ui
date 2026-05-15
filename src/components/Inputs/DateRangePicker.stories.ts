@@ -47,3 +47,30 @@ export const Default: Story = {
     },
   }),
 };
+
+/** Panel anclado al borde derecho del control (útil en headers alineados a la derecha). */
+export const AlignedEnd: Story = {
+  args: {
+    ...Default.args,
+    panelAlign: 'end',
+    label: 'Rango (panel a la derecha)',
+  },
+  render: (args) => ({
+    components: { DateRangePicker },
+    setup() {
+      const model = ref<KiutDateRange>({ ...args.modelValue });
+      return () =>
+        h('div', { class: 'flex w-full max-w-4xl justify-end' }, [
+          h('div', { class: 'w-full max-w-md' }, [
+            h(DateRangePicker, {
+              ...args,
+              modelValue: model.value,
+              'onUpdate:modelValue': (v: KiutDateRange) => {
+                model.value = v;
+              },
+            }),
+          ]),
+        ]);
+    },
+  }),
+};

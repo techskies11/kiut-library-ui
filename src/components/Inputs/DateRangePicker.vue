@@ -34,7 +34,10 @@
       tabindex="-1"
       aria-modal="true"
       aria-label="Calendario de rango"
-      class="absolute left-0 top-full z-[120] mt-2 w-[min(calc(100vw-2rem),720px)] max-w-[100vw] rounded-2xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] p-4 shadow-xl outline-none dark:border-[color:var(--kiut-border-light)]"
+      :class="[
+        panelPositionClass,
+        'absolute top-full z-[120] mt-2 w-[min(calc(100vw-2rem),720px)] max-w-[100vw] rounded-2xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] p-4 shadow-xl outline-none dark:border-[color:var(--kiut-border-light)]',
+      ]"
       @keydown.escape.stop="close"
     >
       <div class="mb-4 flex items-center justify-between gap-2">
@@ -125,9 +128,12 @@ const props = withDefaults(
     ariaLabel?: string;
     minDate?: string | null;
     maxDate?: string | null;
+    /** Ancla el panel al borde izquierdo (`start`) o derecho (`end`) del control; usa `end` cerca del borde derecho del viewport. */
+    panelAlign?: 'start' | 'end';
   }>(),
   {
     placeholder: 'Seleccionar fechas',
+    panelAlign: 'start',
   }
 );
 
@@ -151,6 +157,10 @@ const visibleMonths = computed(() => {
 });
 
 const resolvedAria = computed(() => props.ariaLabel ?? props.placeholder);
+
+const panelPositionClass = computed(() =>
+  props.panelAlign === 'end' ? 'right-0 left-auto' : 'left-0 right-auto'
+);
 
 const weekDays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
