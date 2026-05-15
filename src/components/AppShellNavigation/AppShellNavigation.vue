@@ -132,8 +132,8 @@
     <Transition name="ksn-sheet">
       <div
         v-if="activeSection"
-        class="fixed left-0 right-0 z-50 [background-color:var(--kiut-lateral-bg)] rounded-t-2xl shadow-2xl border-t [border-color:var(--kiut-lateral-border-color)] max-h-[70vh] flex flex-col"
-        :style="{ bottom: mobileBottomOffset }"
+        class="fixed left-0 right-0 bottom-0 z-50 [background-color:var(--kiut-lateral-bg)] rounded-t-2xl shadow-2xl border-t [border-color:var(--kiut-lateral-border-color)] max-h-[70vh] flex flex-col"
+        :style="{ paddingBottom: props.mobileBarHeight }"
       >
         <!-- Drag handle -->
         <div class="flex justify-center pt-3 pb-1 shrink-0">
@@ -311,12 +311,6 @@ const props = withDefaults(
      */
     mobileBarHeight?: string;
 
-    /**
-     * Height of the footer slot strip rendered above the tab bar on mobile.
-     * Only used when the footer slot is provided.
-     * @default '3rem'
-     */
-    mobileFooterHeight?: string;
   }>(),
   {
     selectedSectionId: null,
@@ -330,7 +324,6 @@ const props = withDefaults(
     primaryRailWidth: "3.4rem",
     mobileBreakpoint: 768,
     mobileBarHeight: "4rem",
-    mobileFooterHeight: "3rem",
   },
 );
 
@@ -344,13 +337,6 @@ const emit = defineEmits<{
 
 const attrs = useAttrs();
 const { class: _class, ...restAttrs } = attrs as Record<string, unknown>;
-const slots = useSlots();
-
-const mobileBottomOffset = computed(() =>
-  slots.footer
-    ? `calc(${props.mobileBarHeight} + ${props.mobileFooterHeight})`
-    : props.mobileBarHeight,
-);
 
 // ── Mobile detection ──────────────────────────────────────────────
 
