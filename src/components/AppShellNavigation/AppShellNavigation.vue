@@ -2,7 +2,7 @@
   <!-- ── DESKTOP: two-rail sidebar ── -->
   <aside
     v-if="!isMobile"
-    class="kiut-app-shell-nav flex flex-col h-full overflow-hidden"
+    class="kiut-app-shell-nav flex flex-col h-full overflow-hidden font-['Inter',system-ui,sans-serif]"
     role="navigation"
     aria-label="Main navigation"
     v-bind="restAttrs"
@@ -113,7 +113,7 @@
   <!-- ── MOBILE: fixed bottom tab bar + bottom sheet ── -->
   <div
     v-else
-    class="kiut-app-shell-nav"
+    class="kiut-app-shell-nav font-['Inter',system-ui,sans-serif]"
     role="navigation"
     aria-label="Main navigation"
     v-bind="restAttrs"

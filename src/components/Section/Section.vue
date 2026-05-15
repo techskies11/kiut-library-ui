@@ -1,27 +1,35 @@
 <template>
   <section class="text-left font-['Inter',system-ui,sans-serif]">
     <header
-      v-if="$slots.description || $slots.actions"
-      class="flex flex-col gap-4 sm:flex-row"
-      :class="headerRowClass"
+      v-if="$slots.description || $slots.filters || $slots.actions"
+      class=""
     >
       <div
         v-if="$slots.description"
-        class="flex min-w-0 flex-1 flex-col gap-1.5"
+        class="flex min-w-0 flex-col gap-1.5 mb-4"
       >
         <slot name="description" />
       </div>
-      <div
-        v-if="$slots.actions"
-        class="flex shrink-0 flex-wrap items-center justify-end gap-2"
-      >
-        <slot name="actions" />
+
+      <div v-if="$slots.filters || $slots.actions" class="flex flex-row justify-between items-center gap-2">
+        <div
+          v-if="$slots.filters"
+          class="flex shrink-0 flex-wrap items-center justify-end gap-2"
+        >
+          <slot name="filters" />
+        </div>
+        <div
+          v-if="$slots.actions"
+          class="flex shrink-0 flex-wrap items-center justify-end gap-2"
+        >
+          <slot name="actions" />
+        </div>
       </div>
     </header>
 
     <div
       v-if="$slots.content || $slots.default"
-      :class="{ 'mt-6': $slots.description || $slots.actions }"
+      :class="{ 'mt-6': $slots.description || $slots.filters || $slots.actions }"
     >
       <slot name="content">
         <slot />
@@ -37,17 +45,19 @@ defineOptions({ name: 'Section' });
 
 const slots = useSlots();
 
-/** Sin descripción y con acciones: una sola fila debe alinear las acciones a la derecha (en columna también). */
 const headerRowClass = computed(() => {
   const hasDescription = Boolean(slots.description);
   const hasActions = Boolean(slots.actions);
-  if (hasDescription && hasActions) {
-    return 'sm:justify-between sm:items-center';
+  const hasFilters = Boolean(slots.filters);
+  const hasRight = hasActions || hasFilters;
+
+  if (hasDescription && hasRight) {
+    return 'sm:justify-between sm:items-start';
   }
-  if (!hasDescription && hasActions) {
+  if (!hasDescription && hasRight) {
     return 'max-sm:items-end sm:justify-end';
   }
-  if (hasDescription && !hasActions) {
+  if (hasDescription && !hasRight) {
     return 'sm:items-start';
   }
   return '';
