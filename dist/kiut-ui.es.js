@@ -7652,7 +7652,7 @@ function On(e, t, n) {
   const c = i - o;
   return c ? l + (d - l) * (t - o) / c : l;
 }
-class F5 extends bo {
+class L5 extends bo {
   static id = "timeseries";
   static defaults = bo.defaults;
   constructor(t) {
@@ -20669,66 +20669,66 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
   key: 0,
   class: "flex min-w-0 flex-col gap-1.5 mb-4"
 }, e5 = {
-  key: 1,
-  class: "flex flex-row justify-between items-center gap-2"
-}, n5 = {
   key: 0,
   class: "flex shrink-0 flex-wrap items-center justify-end gap-2"
-}, a5 = {
+}, n5 = {
   key: 1,
   class: "flex shrink-0 flex-wrap items-center justify-end gap-2"
-}, s5 = /* @__PURE__ */ Q({
+}, a5 = /* @__PURE__ */ Q({
   name: "Section",
   __name: "Section",
   setup(e) {
-    const t = Qn();
-    return M(() => {
-      const n = !!t.description, a = !!t.actions, s = !!t.filters, o = a || s;
-      return n && o ? "sm:justify-between sm:items-start" : !n && o ? "max-sm:items-end sm:justify-end" : n && !o ? "sm:items-start" : "";
-    }), (n, a) => (_(), k("section", Qw, [
-      n.$slots.description || n.$slots.filters || n.$slots.actions ? (_(), k("header", Jw, [
-        n.$slots.description ? (_(), k("div", t5, [
-          kt(n.$slots, "description")
+    const t = Qn(), n = M(() => {
+      const a = !!t.description, s = !!t.actions, o = !!t.filters, i = s || o;
+      return a && i ? "sm:justify-between sm:items-start" : !a && i ? "max-sm:items-end sm:justify-end" : a && !i ? "sm:items-start" : !o && s ? "justify-end" : "";
+    });
+    return (a, s) => (_(), k("section", Qw, [
+      a.$slots.description || a.$slots.filters || a.$slots.actions ? (_(), k("header", Jw, [
+        a.$slots.description ? (_(), k("div", t5, [
+          kt(a.$slots, "description")
         ])) : z("", !0),
-        n.$slots.filters || n.$slots.actions ? (_(), k("div", e5, [
-          n.$slots.filters ? (_(), k("div", n5, [
-            kt(n.$slots, "filters")
+        a.$slots.filters || a.$slots.actions ? (_(), k("div", {
+          key: 1,
+          class: H(["flex flex-row gap-2 items-center", n.value])
+        }, [
+          a.$slots.filters ? (_(), k("div", e5, [
+            kt(a.$slots, "filters")
           ])) : z("", !0),
-          n.$slots.actions ? (_(), k("div", a5, [
-            kt(n.$slots, "actions")
+          a.$slots.actions ? (_(), k("div", n5, [
+            kt(a.$slots, "actions")
           ])) : z("", !0)
-        ])) : z("", !0)
+        ], 2)) : z("", !0)
       ])) : z("", !0),
-      n.$slots.content || n.$slots.default ? (_(), k("div", {
+      a.$slots.content || a.$slots.default ? (_(), k("div", {
         key: 1,
-        class: H({ "mt-6": n.$slots.description || n.$slots.filters || n.$slots.actions })
+        class: H({ "mt-6": a.$slots.description || a.$slots.filters || a.$slots.actions })
       }, [
-        kt(n.$slots, "content", {}, () => [
-          kt(n.$slots, "default")
+        kt(a.$slots, "content", {}, () => [
+          kt(a.$slots, "default")
         ])
       ], 2)) : z("", !0)
     ]));
   }
-}), o5 = { class: "flex flex-1 min-h-0" }, i5 = {
+}), s5 = { class: "flex flex-1 min-h-0" }, o5 = {
   key: 0,
   class: "flex justify-center items-center my-4 shrink-0"
-}, l5 = {
+}, i5 = {
   class: "flex-1 overflow-y-auto p-1 flex flex-col gap-1",
   "aria-label": "Sections"
-}, r5 = ["aria-current", "title", "onClick"], c5 = {
+}, l5 = ["aria-current", "title", "onClick"], r5 = {
   key: 1,
   class: "shrink-0 border-t [border-color:var(--kiut-lateral-border-color)] [background-color:var(--kiut-lateral-bg)]"
-}, d5 = { class: "px-4 py-4 shrink-0" }, u5 = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, h5 = {
+}, c5 = { class: "px-4 py-4 shrink-0" }, d5 = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, u5 = {
   class: "flex-1 overflow-y-auto px-1 pb-3 flex flex-col gap-0.5",
   "aria-label": "Section items"
-}, f5 = ["data-nav-id", "aria-current", "onClick"], g5 = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, p5 = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, m5 = {
+}, h5 = ["data-nav-id", "aria-current", "onClick"], f5 = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, g5 = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, p5 = {
   class: "overflow-y-auto flex-1 px-3 pb-5 flex flex-col gap-1",
   "aria-label": "Section items"
-}, b5 = ["data-nav-id", "aria-current", "onClick"], v5 = { class: "truncate text-[15px]" }, y5 = ["aria-current", "onClick"], _5 = {
+}, m5 = ["data-nav-id", "aria-current", "onClick"], b5 = { class: "truncate text-[15px]" }, v5 = ["aria-current", "onClick"], y5 = {
   key: 0,
-  class: "absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full [background-color:var(--kiut-primary)]",
+  class: "absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]",
   "aria-hidden": "true"
-}, x5 = { class: "text-[10px] font-semibold leading-none truncate w-full text-center px-0.5" }, k5 = /* @__PURE__ */ Q({
+}, _5 = { class: "text-[10px] font-semibold leading-none truncate w-full text-center px-0.5" }, x5 = /* @__PURE__ */ Q({
   name: "AppShellNavigation",
   inheritAttrs: !1,
   __name: "AppShellNavigation",
@@ -20845,8 +20845,8 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
             C[3] || (C[3] = r("div", { class: "flex justify-center pt-3 pb-1 shrink-0" }, [
               r("div", { class: "w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-purple-500/30" })
             ], -1)),
-            r("div", g5, [
-              r("p", p5, A(g.value.label), 1),
+            r("div", f5, [
+              r("p", g5, A(g.value.label), 1),
               r("button", {
                 type: "button",
                 class: "w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors",
@@ -20865,7 +20865,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                 ], -1)
               ])])
             ]),
-            r("nav", m5, [
+            r("nav", p5, [
               (_(!0), k(U, null, at(g.value.items, ($) => (_(), k("button", {
                 key: $.id,
                 type: "button",
@@ -20880,8 +20880,8 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                   style: { width: "18px", height: "18px" },
                   "aria-hidden": "true"
                 })) : z("", !0),
-                r("span", v5, A($.label), 1)
-              ], 10, b5))), 128))
+                r("span", b5, A($.label), 1)
+              ], 10, m5))), 128))
             ])
           ], 4)) : z("", !0)
         ]),
@@ -20906,15 +20906,15 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
           class: H(["relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--kiut-primary)]/30", D($)]),
           onClick: (L) => m($)
         }, [
-          e.selectedSectionId === $.id || f($) ? (_(), k("span", _5)) : z("", !0),
+          e.selectedSectionId === $.id || f($) ? (_(), k("span", y5)) : z("", !0),
           $.icon ? (_(), nt(je($.icon), {
             key: 1,
             class: "shrink-0",
             style: mt({ width: e.primaryIconSize, height: e.primaryIconSize }),
             "aria-hidden": "true"
           }, null, 8, ["style"])) : z("", !0),
-          r("span", x5, A($.label), 1)
-        ], 10, y5))), 128))
+          r("span", _5, A($.label), 1)
+        ], 10, v5))), 128))
       ], 4)
     ], 16)) : (_(), k("aside", jn({
       key: 0,
@@ -20922,7 +20922,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
       role: "navigation",
       "aria-label": "Main navigation"
     }, l), [
-      r("div", o5, [
+      r("div", s5, [
         r("div", {
           class: "primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center [border-color:var(--kiut-lateral-border-color)]",
           style: mt({
@@ -20932,10 +20932,10 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
           onMouseenter: C[0] || (C[0] = ($) => n.value = !0),
           onMouseleave: C[1] || (C[1] = ($) => n.value = !1)
         }, [
-          S.$slots.logo ? (_(), k("div", i5, [
+          S.$slots.logo ? (_(), k("div", o5, [
             kt(S.$slots, "logo", { expanded: n.value }, void 0, !0)
           ])) : z("", !0),
-          r("nav", l5, [
+          r("nav", i5, [
             (_(!0), k(U, null, at(e.sections, ($) => (_(), k("button", {
               key: $.id,
               type: "button",
@@ -20954,9 +20954,9 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                 class: "leading-tight font-semibold tracking-wide text-left w-full truncate px-1 color-",
                 style: mt({ fontSize: e.primaryFontSize })
               }, A($.label), 5)
-            ], 10, r5))), 128))
+            ], 10, l5))), 128))
           ]),
-          S.$slots.footer ? (_(), k("div", c5, [
+          S.$slots.footer ? (_(), k("div", r5, [
             kt(S.$slots, "footer", { expanded: n.value }, void 0, !0)
           ])) : z("", !0)
         ], 36),
@@ -20967,10 +20967,10 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
               class: "secondary-panel flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r [border-color:var(--kiut-lateral-border-color)] overflow-hidden",
               style: mt({ width: e.secondaryWidth })
             }, [
-              r("div", d5, [
-                r("p", u5, A(g.value.label), 1)
+              r("div", c5, [
+                r("p", d5, A(g.value.label), 1)
               ]),
-              r("nav", h5, [
+              r("nav", u5, [
                 (_(!0), k(U, null, at(g.value.items, ($) => (_(), k("button", {
                   key: $.id,
                   type: "button",
@@ -20987,7 +20987,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
                     class: "truncate",
                     style: mt({ fontSize: e.secondaryFontSize })
                   }, A($.label), 5)
-                ], 10, f5))), 128))
+                ], 10, h5))), 128))
               ])
             ], 4)) : z("", !0)
           ]),
@@ -20996,9 +20996,9 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
       ])
     ], 16));
   }
-}), w5 = /* @__PURE__ */ it(k5, [["__scopeId", "data-v-b37426de"]]), E5 = {
+}), k5 = /* @__PURE__ */ it(x5, [["__scopeId", "data-v-92fb9637"]]), F5 = {
   install(e) {
-    e.component("KiutChartBar", he), e.component("KiutChartLine", Se), e.component("KiutPieChart", aa), e.component("KiutBoxplotChart", Ih), e.component("KiutCandlestickChart", Mi), e.component("KiutHistogramChart", Di), e.component("KiutSankeyChart", Me), e.component("KiutAgentsPerDay", dp), e.component("KiutBookingManager", zp), e.component("KiutCheckin", Jp), e.component("KiutCheckinContainer", Xm), e.component("KiutCheckinMetrics", mm), e.component("KiutCheckinSegments", Ei), e.component("KiutDisruption", g0), e.component("KiutFAQ", x0), e.component("KiutMessagesPerAgent", B0), e.component("KiutRecordLocator", Fi), e.component("KiutSalesByChannel", Ii), e.component("KiutSeller", Pi), e.component("KiutSellerContainer", yb), e.component("KiutTopAgents", Mb), e.component("KiutPaymentMethod", Xb), e.component("KiutAgentHumanConversations", Uv), e.component("KiutChannelMetrics", sy), e.component("KiutTriageCombinations", yy), e.component("KiutSelectLanguage", Sy), e.component("KiutGuardrails", Ry), e.component("KiutDisruptionNotifier", s1), e.component("KiutTotalConversationsCard", c1), e.component("KiutCsatP95Card", g1), e.component("KiutCSATContainer", U1), e.component("KiutAiGeneratedRevenueCard", J1), e.component("KiutNpsDailyMetrics", zi), e.component("KiutNpsMetrics", Vi), e.component("KiutNpsOverviewMetrics", Oi), e.component("KiutAWSCost", c_), e.component("KiutCostUsage", __), e.component("KiutTokenUsage", B_), e.component("KiutConversationCount", W_), e.component("KiutTopAgentsAnalysis", ex), e.component("KiutTopAgentsPie", ux), e.component("KiutDailyCostTrends", xx), e.component("KiutModelUsage", Px), e.component("KiutMessageRoles", qx), e.component("KiutCostPerConversations", ak), e.component("Tabs", Ni), e.component("Table", Ri), e.component("Filters", Pk), e.component("InputText", Wk), e.component("InputTextarea", Kk), e.component("InputFile", e2), e.component("InputDateTime", l2), e.component("InputTime", f2), e.component("InputRange", M2), e.component("InputNumber", L2), e.component("InputColorPicker", N2), e.component("Select", Hi), e.component("MultiSelect", tw), e.component("Toggle", aw), e.component("InputPhone", uw), e.component("SelectablePills", vw), e.component("SegmentedControl", kw), e.component("DateRangePicker", Ow), e.component("Tag", Rt), e.component("Button", Wn), e.component("Modal", Zw), e.component("Section", s5), e.component("KiutAppShellNavigation", w5);
+    e.component("KiutChartBar", he), e.component("KiutChartLine", Se), e.component("KiutPieChart", aa), e.component("KiutBoxplotChart", Ih), e.component("KiutCandlestickChart", Mi), e.component("KiutHistogramChart", Di), e.component("KiutSankeyChart", Me), e.component("KiutAgentsPerDay", dp), e.component("KiutBookingManager", zp), e.component("KiutCheckin", Jp), e.component("KiutCheckinContainer", Xm), e.component("KiutCheckinMetrics", mm), e.component("KiutCheckinSegments", Ei), e.component("KiutDisruption", g0), e.component("KiutFAQ", x0), e.component("KiutMessagesPerAgent", B0), e.component("KiutRecordLocator", Fi), e.component("KiutSalesByChannel", Ii), e.component("KiutSeller", Pi), e.component("KiutSellerContainer", yb), e.component("KiutTopAgents", Mb), e.component("KiutPaymentMethod", Xb), e.component("KiutAgentHumanConversations", Uv), e.component("KiutChannelMetrics", sy), e.component("KiutTriageCombinations", yy), e.component("KiutSelectLanguage", Sy), e.component("KiutGuardrails", Ry), e.component("KiutDisruptionNotifier", s1), e.component("KiutTotalConversationsCard", c1), e.component("KiutCsatP95Card", g1), e.component("KiutCSATContainer", U1), e.component("KiutAiGeneratedRevenueCard", J1), e.component("KiutNpsDailyMetrics", zi), e.component("KiutNpsMetrics", Vi), e.component("KiutNpsOverviewMetrics", Oi), e.component("KiutAWSCost", c_), e.component("KiutCostUsage", __), e.component("KiutTokenUsage", B_), e.component("KiutConversationCount", W_), e.component("KiutTopAgentsAnalysis", ex), e.component("KiutTopAgentsPie", ux), e.component("KiutDailyCostTrends", xx), e.component("KiutModelUsage", Px), e.component("KiutMessageRoles", qx), e.component("KiutCostPerConversations", ak), e.component("Tabs", Ni), e.component("Table", Ri), e.component("Filters", Pk), e.component("InputText", Wk), e.component("InputTextarea", Kk), e.component("InputFile", e2), e.component("InputDateTime", l2), e.component("InputTime", f2), e.component("InputRange", M2), e.component("InputNumber", L2), e.component("InputColorPicker", N2), e.component("Select", Hi), e.component("MultiSelect", tw), e.component("Toggle", aw), e.component("InputPhone", uw), e.component("SelectablePills", vw), e.component("SegmentedControl", kw), e.component("DateRangePicker", Ow), e.component("Tag", Rt), e.component("Button", Wn), e.component("Modal", Zw), e.component("Section", a5), e.component("KiutAppShellNavigation", k5);
   }
 };
 export {
@@ -21006,7 +21006,7 @@ export {
   Uv as AgentHumanConversations,
   dp as AgentsPerDay,
   J1 as AiGeneratedRevenueCard,
-  w5 as AppShellNavigation,
+  k5 as AppShellNavigation,
   zp as BookingManager,
   Ih as BoxplotChart,
   Wn as Button,
@@ -21040,7 +21040,7 @@ export {
   Wk as InputText,
   Kk as InputTextarea,
   f2 as InputTime,
-  E5 as KiutUIPlugin,
+  F5 as KiutUIPlugin,
   qx as MessageRoles,
   B0 as MessagesPerAgent,
   Zw as Modal,
@@ -21054,7 +21054,7 @@ export {
   Fi as RecordLocator,
   Ii as SalesByChannel,
   Me as SankeyChart,
-  s5 as Section,
+  a5 as Section,
   kw as SegmentedControl,
   Hi as Select,
   Sy as SelectLanguage,
