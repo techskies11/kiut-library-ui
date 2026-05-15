@@ -299,6 +299,39 @@ export const Mobile: Story = {
   }),
 };
 
+export const SoloAcciones: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Solo el slot **#actions** sin descripción ni filtros. El botón se alinea automáticamente a la derecha gracias a `headerRowClass`.',
+      },
+    },
+  },
+  render: () => ({
+    components: { Section, Button },
+    template: `
+      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+        <Section>
+          <template #actions>
+            <Button variant="primary" type="button">
+              <template #icon>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+              </template>
+              Agregar
+            </Button>
+          </template>
+          <template #content>
+            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+              Contenido de la sección.
+            </div>
+          </template>
+        </Section>
+      </div>
+    `,
+  }),
+};
+
 export const SoloDescripcionYContenido: Story = {
   render: () => ({
     components: { Section },

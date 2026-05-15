@@ -11,7 +11,7 @@
         <slot name="description" />
       </div>
 
-      <div v-if="$slots.filters || $slots.actions" class="flex flex-row justify-between items-center gap-2">
+      <div v-if="$slots.filters || $slots.actions" :class="['flex flex-row gap-2 items-center', headerRowClass]">
         <div
           v-if="$slots.filters"
           class="flex shrink-0 flex-wrap items-center justify-end gap-2"
@@ -59,6 +59,9 @@ const headerRowClass = computed(() => {
   }
   if (hasDescription && !hasRight) {
     return 'sm:items-start';
+  }
+  if(!hasFilters && hasActions) {
+    return 'justify-end';
   }
   return '';
 });
