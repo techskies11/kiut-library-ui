@@ -15,13 +15,15 @@
   --kiut-primary-light: #c67dff;
   --kiut-primary-default: #5d4b93;
   --kiut-primary-dark: #4a3a75;
-  
+
+
+
   /* Status Colors - Same in both themes */
   --kiut-success: #10b981;
   --kiut-warning: #f59e0b;
   --kiut-danger: #ef4444;
   --kiut-info: #3b82f6;
-  
+
   /* Backgrounds */
   --kiut-bg-primary: #f8f9fa;
   --kiut-bg-secondary: #ffffff;
@@ -34,40 +36,45 @@
   --kiut-bg-empty-icon: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
   --kiut-bg-stats-badge: #fafafa;
   
+  /* Lateral Menu */
+  --kiut-text-subtitle: #61616b;
+  --kiut-lateral-bg: #ffffff;
+  --kiut-lateral-border-color: rgba(0, 0, 0, 0.05);
+  --kiut-primary-section: #895af6;
+  --kiut-secondary-section: #895af6;
+
   /* Text Colors */
   --kiut-text-primary: #1e293b;
   --kiut-text-secondary: #64748b;
   --kiut-text-muted: #94a3b8;
   --kiut-text-table-header: #374151;
-  
+
   /* Borders */
   --kiut-border-color: rgba(93, 75, 147, 0.1);
   --kiut-border-light: rgba(0, 0, 0, 0.05);
   --kiut-border-table: #e2e8f0;
   --kiut-border-table-row: #f3f4f6;
-  
+
   /* Grid Lines (Charts) */
   --kiut-grid-lines: rgba(148, 163, 184, 0.12);
-  
+
   /* Shadows */
-  --kiut-shadow-card: 
-    0 1px 3px rgba(0, 0, 0, 0.05),
-    0 10px 15px -3px rgba(0, 0, 0, 0.08),
+  --kiut-shadow-card:
+    0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(0, 0, 0, 0.05);
-  --kiut-shadow-card-hover: 
-    0 4px 6px rgba(0, 0, 0, 0.05),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  --kiut-shadow-card-hover:
+    0 4px 6px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(0, 0, 0, 0.05);
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.04);
   --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.15);
   --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.4);
-  
+
   /* Tooltips (Charts) */
   --kiut-tooltip-bg: rgba(15, 23, 42, 0.95);
   --kiut-tooltip-text: #f1f5f9;
   --kiut-tooltip-text-secondary: #e2e8f0;
   --kiut-tooltip-border: rgba(148, 163, 184, 0.2);
-  
+
   /* Chart Specific */
   --kiut-chart-legend-color: #475569;
   --kiut-chart-tick-color: #64748b;
@@ -90,40 +97,45 @@
   --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
   --kiut-bg-stats-badge: #23232f80;
   
+  /* Lateral Menu */
+  --kiut-lateral-bg: #0f0f15;
+  --kiut-lateral-border-color: #22222b;
+  --kiut-text-subtitle: #9191a1;
+  --kiut-primary-section: #895af626;
+  --kiut-secondary-section: #895af626;
+
   /* Text Colors */
   --kiut-text-primary: #e3e3e8;
   --kiut-text-secondary: #9191a1;
   --kiut-text-muted: #6b7280;
   --kiut-text-table-header: #d1d5db;
-  
+
   /* Borders */
   --kiut-border-color: #2d2d39;
   --kiut-border-light: #2d2d39;
   --kiut-border-table: #2d2d39;
   --kiut-border-table-row: #2d2d39;
-  
+
   /* Grid Lines (Charts) */
   --kiut-grid-lines: rgba(198, 125, 255, 0.12);
-  
+
   /* Shadows */
-  --kiut-shadow-card: 
-    0 1px 3px rgba(0, 0, 0, 0.3),
-    0 10px 15px -3px rgba(0, 0, 0, 0.4),
+  --kiut-shadow-card:
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 10px 15px -3px rgba(0, 0, 0, 0.4),
     0 0 0 1px #2d2d39;
-  --kiut-shadow-card-hover: 
-    0 4px 6px rgba(0, 0, 0, 0.3),
-    0 20px 25px -5px rgba(0, 0, 0, 0.5),
+  --kiut-shadow-card-hover:
+    0 4px 6px rgba(0, 0, 0, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5),
     0 0 0 1px #2d2d39;
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
   --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
   --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
-  
+
   /* Tooltips (Charts) */
   --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
   --kiut-tooltip-text: #f8f9fa;
   --kiut-tooltip-text-secondary: #d1d5db;
   --kiut-tooltip-border: #2d2d39;
-  
+
   /* Chart Specific */
   --kiut-chart-legend-color: #d1d5db;
   --kiut-chart-tick-color: #9ca3af;
@@ -133,7 +145,11 @@
    Gradient for titles (works in both themes)
    ============================================ */
 .kiut-title-gradient {
-  background: linear-gradient(135deg, var(--kiut-primary-light), var(--kiut-primary-default));
+  background: linear-gradient(
+    135deg,
+    var(--kiut-primary-light),
+    var(--kiut-primary-default)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -175,35 +191,33 @@
   --kiut-text-secondary: #9191a1;
   --kiut-text-muted: #6b7280;
   --kiut-text-table-header: #d1d5db;
-  
+
   /* Borders */
   --kiut-border-color: #2d2d39;
   --kiut-border-light: #2d2d39;
   --kiut-border-table: #2d2d39;
   --kiut-border-table-row: #2d2d39;
-  
+
   /* Grid Lines (Charts) */
   --kiut-grid-lines: rgba(198, 125, 255, 0.12);
-  
+
   /* Shadows */
-  --kiut-shadow-card: 
-    0 1px 3px rgba(0, 0, 0, 0.3),
-    0 10px 15px -3px rgba(0, 0, 0, 0.4),
+  --kiut-shadow-card:
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 10px 15px -3px rgba(0, 0, 0, 0.4),
     0 0 0 1px #2d2d39;
-  --kiut-shadow-card-hover: 
-    0 4px 6px rgba(0, 0, 0, 0.3),
-    0 20px 25px -5px rgba(0, 0, 0, 0.5),
+  --kiut-shadow-card-hover:
+    0 4px 6px rgba(0, 0, 0, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5),
     0 0 0 1px #2d2d39;
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
   --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
   --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
-  
+
   /* Tooltips (Charts) */
   --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
   --kiut-tooltip-text: #f8f9fa;
   --kiut-tooltip-text-secondary: #d1d5db;
   --kiut-tooltip-border: #2d2d39;
-  
+
   /* Chart Specific */
   --kiut-chart-legend-color: #d1d5db;
   --kiut-chart-tick-color: #9ca3af;
