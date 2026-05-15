@@ -1,28 +1,28 @@
 <template>
-  <ChartMetricContainer title="CSAT Metrics" :collapsible="false" class="csat-p95-metric w-full">
+  <ChartMetricContainer
+    :collapsible="false"
+    :class="['csat-p95-metric', 'w-full', { 'csat-p95-metric--dark': isDark }]"
+  >
     <template #title>
       <div class="header-title-group">
-        <div class="icon-wrapper">
+        <div class="icon-wrapper" aria-hidden="true">
           <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321 1.01l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.41a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-1.01l5.518-.442a.563.563 0 00.475-.345l2.125-5.11z" />
           </svg>
         </div>
-        <span class="csat-p95-title-text">CSAT Metrics</span>
       </div>
     </template>
     <template #headerAside>
       <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
     </template>
 
-    <div :class="['csat-p95-inner', { 'csat-p95-inner--dark': isDark }]">
+    <div class="highlight-inner">
       <div v-if="loading" class="loading-state">
         <div class="shimmer shimmer-value"></div>
-        <div class="shimmer shimmer-label"></div>
       </div>
 
       <div v-else class="card-body">
         <span class="metric-value">{{ formattedCsat }}</span>
-        <span class="metric-label">CSAT P95</span>
       </div>
     </div>
   </ChartMetricContainer>
@@ -61,8 +61,9 @@ const changePercent = computed(() => {
 })
 
 const changeLabel = computed(() => {
-  const sign = changePercent.value > 0 ? '+' : ''
-  return `${sign}${changePercent.value.toFixed(1)}% vs prev.`
+  const pct = changePercent.value.toFixed(1)
+  if (changePercent.value > 0) return `+${pct}%`
+  return `${pct}%`
 })
 
 const changeBadgeClass = computed(() => {
@@ -75,110 +76,118 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.csat-p95-title-text {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1e293b;
-  letter-spacing: -0.02em;
+.csat-p95-metric.chart-metric-container--static {
+  padding: 16px;
+  border-radius: 20px;
+  border-color: var(--kiut-border-table);
+  background-color: var(--kiut-bg-card);
 }
 
-.csat-p95-inner--dark .csat-p95-title-text {
-  color: #f1f5f9;
+.csat-p95-metric :deep(.card-header) {
+  margin-bottom: 20px;
 }
 
-.csat-p95-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-height: 120px;
+.csat-p95-metric :deep(.metric-header-content) {
+  align-items: center;
 }
 
 .header-title-group {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   min-width: 0;
 }
 
+.highlight-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .icon-wrapper {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .card-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  color: #7c3aed;
+}
+
+.csat-p95-metric--dark .card-icon {
   color: #8b5cf6;
 }
 
 .change-badge {
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   line-height: 1;
+  letter-spacing: 0.01em;
 }
 
 .change-badge--up {
-  background: rgba(16, 185, 129, 0.12);
-  color: #16a34a;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .change-badge--down {
-  background: rgba(239, 68, 68, 0.12);
-  color: #dc2626;
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
 .change-badge--neutral {
-  background: rgba(148, 163, 184, 0.14);
+  background: rgba(148, 163, 184, 0.16);
   color: #64748b;
 }
 
-.csat-p95-inner--dark .change-badge--up { color: #22c55e; }
-.csat-p95-inner--dark .change-badge--down { color: #f87171; }
-.csat-p95-inner--dark .change-badge--neutral { color: #94a3b8; }
+.csat-p95-metric--dark .change-badge--up {
+  background: #162d24;
+  color: #4ade80;
+}
+
+.csat-p95-metric--dark .change-badge--down {
+  background: #3f1d20;
+  color: #fb7185;
+}
+
+.csat-p95-metric--dark .change-badge--neutral {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+}
 
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
 }
 
 .metric-value {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-  font-size: 2.2rem;
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 24px;
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: #1e293b;
-}
-
-.csat-p95-inner--dark .metric-value {
-  color: #f1f5f9;
-}
-
-.metric-label {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #64748b;
-}
-
-.csat-p95-inner--dark .metric-label {
-  color: #9ca3af;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--kiut-text-primary);
 }
 
 .loading-state {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .shimmer {
-  border-radius: 8px;
+  border-radius: 10px;
   background: linear-gradient(
     90deg,
     rgba(93, 75, 147, 0.06) 25%,
@@ -189,7 +198,7 @@ defineExpose({ isDark, changePercent })
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.csat-p95-inner--dark .shimmer {
+.csat-p95-metric--dark .shimmer {
   background: linear-gradient(
     90deg,
     rgba(198, 125, 255, 0.06) 25%,
@@ -199,11 +208,17 @@ defineExpose({ isDark, changePercent })
   background-size: 200% 100%;
 }
 
-.shimmer-value { width: 40%; height: 36px; }
-.shimmer-label { width: 35%; height: 16px; }
+.shimmer-value {
+  width: 40%;
+  height: 26px;
+}
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 </style>

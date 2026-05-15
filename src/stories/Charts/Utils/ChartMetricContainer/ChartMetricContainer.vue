@@ -10,7 +10,7 @@
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
             <slot name="title">
-              <h3 class="card-title">{{ title }}</h3>
+              <h3 v-if="title" class="card-title">{{ title }}</h3>
             </slot>
             <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
             <slot name="headerAppend" />
@@ -48,7 +48,7 @@
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
             <slot name="title">
-              <h3 class="card-title">{{ title }}</h3>
+              <h3 v-if="title" class="card-title">{{ title }}</h3>
             </slot>
             <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
             <slot name="headerAppend" />
@@ -77,12 +77,13 @@ import { computed, ref, useSlots, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
-    title: string
+    title?: string
     subtitle?: string
     collapsible?: boolean
     defaultOpen?: boolean
   }>(),
   {
+    title: '',
     collapsible: true,
     defaultOpen: false,
   },

@@ -88,18 +88,12 @@ defineExpose({ isDark, changePercent })
   background-color: var(--kiut-bg-card);
 }
 
-.total-conv-metric .card-header {
+.total-conv-metric :deep(.card-header) {
   margin-bottom: 20px;
 }
 
-.total-conv-metric .metric-header-content {
+.total-conv-metric :deep(.metric-header-content) {
   align-items: center;
-}
-
-.metric-header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .header-title-group {
