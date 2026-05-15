@@ -105,7 +105,9 @@ defineExpose({ isDark, changePercent })
 .highlight-inner {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0;
+  text-align: left;
 }
 
 .icon-wrapper {
@@ -172,7 +174,9 @@ defineExpose({ isDark, changePercent })
 .card-body {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 6px;
+  text-align: left;
 }
 
 .metric-value {
@@ -199,7 +203,9 @@ defineExpose({ isDark, changePercent })
 .loading-state {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
+  text-align: left;
 }
 
 .shimmer {

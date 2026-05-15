@@ -6,8 +6,18 @@
     <template #title>
       <div class="header-title-group">
         <div class="icon-wrapper" aria-hidden="true">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-2.407-1.204a5.97 5.97 0 01-1.593-.98l-3.5-2.625a2.25 2.25 0 010-3.602l3.5-2.625a5.97 5.97 0 011.593-.98L9 5.25l.813 2.846a2.25 2.25 0 001.341 1.457l2.846.813-2.846.813a2.25 2.25 0 00-1.341 1.457zM15.75 5.25l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975l-.537 1.879-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975l.537-1.879zM18 12.75l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975L18 19.53l-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975L18 12.75z" />
+          <svg
+            class="card-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+            <path d="M12 18V6" />
           </svg>
         </div>
       </div>
@@ -19,10 +29,15 @@
     <div class="highlight-inner">
       <div v-if="loading" class="loading-state">
         <div class="shimmer shimmer-value"></div>
+        <div class="shimmer shimmer-label"></div>
       </div>
 
       <div v-else class="card-body">
-        <span class="metric-value">{{ formattedRevenue }}</span>
+        <div class="metric-row">
+          <span class="metric-currency">{{ props.currencyCode }}</span>
+          <span class="metric-value">{{ formattedAmount }}</span>
+        </div>
+        <span class="metric-label">AI Revenue</span>
       </div>
     </div>
   </ChartMetricContainer>
@@ -50,7 +65,7 @@ const props = withDefaults(defineProps<{
 
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-const formattedRevenue = computed(() => `${props.currencyCode} ${useCompactCurrencyFormat(props.totalRevenue)}`)
+const formattedAmount = computed(() => useCompactCurrencyFormat(props.totalRevenue))
 
 const hasPreviousData = computed(() =>
   props.previousTotalRevenue !== null && props.previousTotalRevenue !== undefined
@@ -103,7 +118,9 @@ defineExpose({ isDark, changePercent })
 .highlight-inner {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0;
+  text-align: left;
 }
 
 .icon-wrapper {
@@ -170,23 +187,56 @@ defineExpose({ isDark, changePercent })
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+}
+
+.metric-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.metric-currency {
+  font-family: 'Inter', var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #9191a1;
 }
 
 .metric-value {
   font-family:
     'Inter',
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--kiut-text-primary);
+}
+
+.metric-label {
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #61616b;
 }
 
 .loading-state {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
 }
 
 .shimmer {
@@ -213,7 +263,12 @@ defineExpose({ isDark, changePercent })
 
 .shimmer-value {
   width: 70%;
-  height: 26px;
+  height: 30px;
+}
+
+.shimmer-label {
+  width: 42%;
+  height: 15px;
 }
 
 @keyframes shimmer {
