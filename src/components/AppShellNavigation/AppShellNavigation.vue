@@ -196,15 +196,6 @@
       </div>
     </Transition>
 
-    <!-- Mobile footer slot (language / timezone / theme) -->
-    <div
-      v-if="$slots.footer"
-      class="fixed left-0 right-0 z-50 [background-color:var(--kiut-lateral-bg)] border-t [border-color:var(--kiut-lateral-border-color)] flex items-center justify-center"
-      :style="{ bottom: mobileBarHeight, height: mobileFooterHeight }"
-    >
-      <slot name="footer" :expanded="true" />
-    </div>
-
     <!-- Bottom tab bar -->
     <nav
       class="fixed bottom-0 left-0 right-0 z-50 [background-color:var(--kiut-lateral-bg)] border-t [border-color:var(--kiut-lateral-border-color)] flex items-stretch justify-around overflow-hidden"
@@ -225,7 +216,7 @@
           v-if="
             selectedSectionId === section.id || hasSectionActiveItem(section)
           "
-          class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-0.5 rounded-full [background-color:var(--kiut-primary)]"
+          class="absolute top-0 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]"
           aria-hidden="true"
         />
         <component
@@ -236,7 +227,7 @@
           aria-hidden="true"
         />
         <span
-          class="text-[10px] font-semibold leading-none truncate w-full text-center px-0.5"
+          class="text-[9px] font-semibold leading-none truncate w-full text-center px-0.5"
         >
           {{ section.label }}
         </span>
