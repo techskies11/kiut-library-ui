@@ -88,11 +88,11 @@
   --kiut-bg-table-hover: linear-gradient(to right, #252528 0%, #1f1f22 100%);
   --kiut-bg-chart-wrapper: linear-gradient(to bottom, #252528 0%, #1a1a1d 100%);
   --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
-  --kiut-bg-stats-badge: #252528;
+  --kiut-bg-stats-badge: #23232f80;
   
   /* Text Colors */
-  --kiut-text-primary: #f8f9fa;
-  --kiut-text-secondary: #9ca3af;
+  --kiut-text-primary: #e3e3e8;
+  --kiut-text-secondary: #9191a1;
   --kiut-text-muted: #6b7280;
   --kiut-text-table-header: #d1d5db;
   
@@ -168,11 +168,11 @@
   --kiut-bg-table-hover: linear-gradient(to right, #252528 0%, #1f1f22 100%);
   --kiut-bg-chart-wrapper: linear-gradient(to bottom, #252528 0%, #1a1a1d 100%);
   --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
-  --kiut-bg-stats-badge: #252528;
+  --kiut-bg-stats-badge: #23232f80;
   
   /* Text Colors */
-  --kiut-text-primary: #f8f9fa;
-  --kiut-text-secondary: #9ca3af;
+  --kiut-text-primary: #e3e3e8;
+  --kiut-text-secondary: #9191a1;
   --kiut-text-muted: #6b7280;
   --kiut-text-table-header: #d1d5db;
   

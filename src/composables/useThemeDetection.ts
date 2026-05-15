@@ -102,8 +102,8 @@ const darkColors: ThemeColors = {
   bgTableHover: '#252528',
   
   // Text
-  textPrimary: '#f8f9fa',
-  textSecondary: '#9ca3af',
+  textPrimary: '#e3e3e8',
+  textSecondary: '#9191a1',
   textMuted: '#6b7280',
   
   // Borders & Lines
