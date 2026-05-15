@@ -5,7 +5,7 @@
     subtitle="Sales breakdown by payment method"
   >
     <template
-      v-if="enableExport && !loading && hasDailyBreakdown"
+      v-if="enableExport && !loading"
       #headerExport
     >
       <FooterExport

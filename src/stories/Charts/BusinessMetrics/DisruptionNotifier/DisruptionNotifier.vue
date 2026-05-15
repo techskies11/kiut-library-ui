@@ -5,7 +5,7 @@
     subtitle="Passenger notification effectiveness and delivery analysis"
   >
     <template
-      v-if="enableExport && !props.loading && hasData"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport

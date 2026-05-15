@@ -5,7 +5,7 @@
     subtitle="Booking manager workflow tracking and analysis"
   >
     <template
-      v-if="enableExport && !props.loading && !props.error && sortedDayData.length > 0"
+      v-if="enableExport && !props.loading && !props.error"
       #headerExport
     >
       <FooterExport

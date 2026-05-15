@@ -7,7 +7,7 @@
     :default-open="initiallyOpen"
   >
     <template
-      v-if="enableExport && !props.loading && props.data.length > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport

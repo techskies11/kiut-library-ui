@@ -6,7 +6,7 @@
     :default-open="initiallyOpen"
   >
     <template
-      v-if="enableExport && !props.loading && chartData.labels.length > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport

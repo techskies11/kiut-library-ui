@@ -5,7 +5,7 @@
     subtitle="Human conversation assignments and closures by agent"
   >
     <template
-      v-if="enableExport && !loading && hasData"
+      v-if="enableExport && !loading"
       #headerExport
     >
       <FooterExport

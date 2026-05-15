@@ -6,7 +6,7 @@
     :collapsible="collapsible"
   >
     <template
-      v-if="enableExport && !props.loading && tableData && tableData.length > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport

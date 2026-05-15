@@ -7,9 +7,7 @@
     <template
       v-if="
         enableExport &&
-        !props.loading &&
-        tableData &&
-        tableData.length > 0
+        !props.loading
       "
       #headerExport
     >

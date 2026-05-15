@@ -6,7 +6,7 @@
     :collapsible="false"
   >
     <template
-      v-if="enableExport && !loading && chartData.labels && chartData.labels.length"
+      v-if="enableExport && !loading"
       #headerExport
     >
       <FooterExport
