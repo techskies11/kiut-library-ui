@@ -20694,7 +20694,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
   class: "flex min-w-0 flex-col gap-1.5 mb-4"
 }, r5 = {
   key: 0,
-  class: "flex min-w-0 flex-wrap items-center justify-end gap-2"
+  class: "flex min-w-0 flex-1 flex-wrap items-center gap-2"
 }, l5 = {
   key: 1,
   class: "flex shrink-0 flex-wrap items-center justify-end gap-2"
