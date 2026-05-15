@@ -46,23 +46,11 @@ defineOptions({ name: 'Section' });
 const slots = useSlots();
 
 const headerRowClass = computed(() => {
-  const hasDescription = Boolean(slots.description);
-  const hasActions = Boolean(slots.actions);
   const hasFilters = Boolean(slots.filters);
-  const hasRight = hasActions || hasFilters;
+  const hasActions = Boolean(slots.actions);
 
-  if (hasDescription && hasRight) {
-    return 'sm:justify-between sm:items-start';
-  }
-  if (!hasDescription && hasRight) {
-    return 'max-sm:items-end sm:justify-end';
-  }
-  if (hasDescription && !hasRight) {
-    return 'sm:items-start';
-  }
-  if(!hasFilters && hasActions) {
-    return 'justify-end';
-  }
+  if (hasFilters) return 'justify-between';
+  if (hasActions) return 'justify-end';
   return '';
 });
 </script>
