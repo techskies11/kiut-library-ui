@@ -20679,8 +20679,8 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
   __name: "Section",
   setup(e) {
     const t = Qn(), n = M(() => {
-      const a = !!t.description, s = !!t.actions, o = !!t.filters, i = s || o;
-      return a && i ? "sm:justify-between sm:items-start" : !a && i ? "max-sm:items-end sm:justify-end" : a && !i ? "sm:items-start" : !o && s ? "justify-end" : "";
+      const a = !!t.filters, s = !!t.actions;
+      return a ? "justify-between" : s ? "justify-end" : "";
     });
     return (a, s) => (_(), k("section", Qw, [
       a.$slots.description || a.$slots.filters || a.$slots.actions ? (_(), k("header", Jw, [
@@ -20726,7 +20726,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
   "aria-label": "Section items"
 }, m5 = ["data-nav-id", "aria-current", "onClick"], b5 = { class: "truncate text-[15px]" }, v5 = ["aria-current", "onClick"], y5 = {
   key: 0,
-  class: "absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]",
+  class: "absolute top-0 left-1/2 -translate-x-1/2 w-full h-0.5 rounded-full [background-color:var(--kiut-primary)]",
   "aria-hidden": "true"
 }, _5 = { class: "text-[10px] font-semibold leading-none truncate w-full text-center px-0.5" }, x5 = /* @__PURE__ */ Q({
   name: "AppShellNavigation",
@@ -20996,7 +20996,7 @@ const Dw = ["aria-expanded", "aria-labelledby", "aria-label"], Aw = ["onKeydown"
       ])
     ], 16));
   }
-}), k5 = /* @__PURE__ */ it(x5, [["__scopeId", "data-v-92fb9637"]]), F5 = {
+}), k5 = /* @__PURE__ */ it(x5, [["__scopeId", "data-v-7a07fbb5"]]), F5 = {
   install(e) {
     e.component("KiutChartBar", he), e.component("KiutChartLine", Se), e.component("KiutPieChart", aa), e.component("KiutBoxplotChart", Ih), e.component("KiutCandlestickChart", Mi), e.component("KiutHistogramChart", Di), e.component("KiutSankeyChart", Me), e.component("KiutAgentsPerDay", dp), e.component("KiutBookingManager", zp), e.component("KiutCheckin", Jp), e.component("KiutCheckinContainer", Xm), e.component("KiutCheckinMetrics", mm), e.component("KiutCheckinSegments", Ei), e.component("KiutDisruption", g0), e.component("KiutFAQ", x0), e.component("KiutMessagesPerAgent", B0), e.component("KiutRecordLocator", Fi), e.component("KiutSalesByChannel", Ii), e.component("KiutSeller", Pi), e.component("KiutSellerContainer", yb), e.component("KiutTopAgents", Mb), e.component("KiutPaymentMethod", Xb), e.component("KiutAgentHumanConversations", Uv), e.component("KiutChannelMetrics", sy), e.component("KiutTriageCombinations", yy), e.component("KiutSelectLanguage", Sy), e.component("KiutGuardrails", Ry), e.component("KiutDisruptionNotifier", s1), e.component("KiutTotalConversationsCard", c1), e.component("KiutCsatP95Card", g1), e.component("KiutCSATContainer", U1), e.component("KiutAiGeneratedRevenueCard", J1), e.component("KiutNpsDailyMetrics", zi), e.component("KiutNpsMetrics", Vi), e.component("KiutNpsOverviewMetrics", Oi), e.component("KiutAWSCost", c_), e.component("KiutCostUsage", __), e.component("KiutTokenUsage", B_), e.component("KiutConversationCount", W_), e.component("KiutTopAgentsAnalysis", ex), e.component("KiutTopAgentsPie", ux), e.component("KiutDailyCostTrends", xx), e.component("KiutModelUsage", Px), e.component("KiutMessageRoles", qx), e.component("KiutCostPerConversations", ak), e.component("Tabs", Ni), e.component("Table", Ri), e.component("Filters", Pk), e.component("InputText", Wk), e.component("InputTextarea", Kk), e.component("InputFile", e2), e.component("InputDateTime", l2), e.component("InputTime", f2), e.component("InputRange", M2), e.component("InputNumber", L2), e.component("InputColorPicker", N2), e.component("Select", Hi), e.component("MultiSelect", tw), e.component("Toggle", aw), e.component("InputPhone", uw), e.component("SelectablePills", vw), e.component("SegmentedControl", kw), e.component("DateRangePicker", Ow), e.component("Tag", Rt), e.component("Button", Wn), e.component("Modal", Zw), e.component("Section", a5), e.component("KiutAppShellNavigation", k5);
   }
