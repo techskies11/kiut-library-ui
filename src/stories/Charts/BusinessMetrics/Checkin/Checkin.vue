@@ -70,23 +70,23 @@
               <span>{{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}</span>
             </template>
             <template #cell-closed="{ row }">
-              <span>{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</span>
+              <span class="cell-success">{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</span>
             </template>
             <template #cell-failed="{ row }">
-              <span>{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</span>
+              <span class="cell-danger">{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</span>
             </template>
             <template #cell-reasons="{ row }">
-              <div v-if="row.failed_steps && row.failed_steps.length > 0" class="failed-steps">
+              <div v-if="row.failed_steps && row.failed_steps.length > 0" class="reasons-list">
                 <div
                   v-for="step in row.failed_steps"
                   :key="step.step_name"
-                  class="failed-step-item"
+                  class="reason-item"
                 >
-                  <span class="step-name">{{ step.step_name.replace(/_/g, ' ') }}:</span>
-                  <span class="step-count">{{ step.failed_count }}</span>
+                  <span class="reason-name">{{ step.step_name.replace(/_/g, ' ') }}:</span>
+                  <span class="reason-count">{{ step.failed_count }}</span>
                 </div>
               </div>
-              <div v-else class="empty-cell">-</div>
+              <div v-else class="no-reasons">-</div>
             </template>
           </Table>
         </div>
@@ -536,23 +536,23 @@
   font-family: 'Space Grotesk', 'DM Sans', sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 4px 0;
   letter-spacing: -0.01em;
 }
 
 .section-description {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0;
 }
 
 .chart-wrapper {
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  background: var(--kiut-bg-chart-wrapper);
   border-radius: 16px;
   padding: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--kiut-border-light);
+  box-shadow: var(--kiut-shadow-chart-wrapper);
 }
 
 /* Bloque de tabla diaria (chrome de <table> lo aporta Utils/Table) */
@@ -565,32 +565,41 @@
   gap: 12px;
 }
 
-.failed-steps {
+.reasons-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.failed-step-item {
+.reason-item {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
   font-size: 0.75rem;
 }
 
-.step-name {
-  color: #64748b;
+.reason-name {
+  color: var(--kiut-text-secondary);
   text-transform: capitalize;
 }
 
-.step-count {
+.reason-count {
   font-weight: 600;
-  color: #ef4444;
+  color: var(--kiut-danger);
 }
 
-.empty-cell {
+.no-reasons {
+  color: var(--kiut-text-muted);
   text-align: center;
-  color: #cbd5e1;
+}
+
+.cell-success {
+  color: #059669 !important;
+  font-weight: 600;
+}
+
+.cell-danger {
+  color: #dc2626 !important;
+  font-weight: 600;
 }
 
 /* Empty State */
@@ -619,16 +628,27 @@
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
 }
 
+.dark .empty-icon-wrapper,
+.dark-mode .empty-icon-wrapper {
+  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+  box-shadow: var(--kiut-shadow-empty-icon);
+}
+
 .empty-icon {
   width: 40px;
   height: 40px;
   color: #10b981;
 }
 
+.dark .empty-icon,
+.dark-mode .empty-icon {
+  color: #34d399;
+}
+
 .empty-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -636,7 +656,7 @@
 .empty-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -671,7 +691,7 @@
   background: linear-gradient(to top, #10b981 0%, #059669 50%, #047857 100%);
   border-radius: 5px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  box-shadow: var(--kiut-shadow-loader);
 }
 
 .flow-1 {
@@ -702,7 +722,7 @@
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -741,7 +761,7 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .failed-steps {
+  .reasons-list {
     min-width: 0;
   }
 }
