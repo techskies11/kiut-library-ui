@@ -24,7 +24,8 @@
           <span class="inline-flex shrink-0 items-center" aria-hidden="true">
             <span class="h-0.5 w-2 shrink-0 rounded-full bg-current" />
             <span
-              class="relative z-[1] box-border size-2 shrink-0 rounded-full border-2 border-current bg-transparent"
+              class="relative z-[1] box-border size-2 shrink-0 rounded-full border-2 bg-transparent"
+              :style="{ borderColor: entry.color }"
             />
             <span class="h-0.5 w-2 shrink-0 rounded-full bg-current" />
           </span>
@@ -210,6 +211,7 @@ const computedOptions = computed(() => {
       intersect: false,
     },
     plugins: {
+      colors: { enabled: false },
       legend: {
         display: false,
       },
