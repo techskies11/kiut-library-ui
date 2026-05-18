@@ -3,6 +3,7 @@
     class="checkin-metrics-root h-full min-h-0"
     title="Check-in Metrics"
     subtitle="Check-in performance and failure analysis"
+    :collapsible="collapsible"
     :default-open="initiallyOpen"
   >
     <template
@@ -124,6 +125,11 @@
   }
 
   const props = defineProps({
+    /** Si es false, el bloque no usa <details> ni chevron (p. ej. anidado en CheckinContainer). */
+    collapsible: {
+      type: Boolean,
+      default: true,
+    },
     initiallyOpen: {
       type: Boolean,
       default: false,
