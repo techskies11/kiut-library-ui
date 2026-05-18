@@ -98,7 +98,6 @@ defineExpose({ isDark, changePercent })
   padding: 16px;
   border-radius: 20px;
   border-color: var(--kiut-border-table);
-  background-color: var(--kiut-bg-card);
 }
 
 .ai-revenue-metric :deep(.card-header) {

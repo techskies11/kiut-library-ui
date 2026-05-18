@@ -85,7 +85,6 @@ defineExpose({ isDark, changePercent })
   padding: 16px;
   border-radius: 20px;
   border-color: var(--kiut-border-table);
-  background-color: var(--kiut-bg-card);
 }
 
 .total-conv-metric :deep(.card-header) {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="box-border flex w-full min-w-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl border border-[color:var(--kiut-border-light,rgba(0,0,0,0.05))] bg-[color:var(--kiut-bg-stats-badge,#fafafa)] px-3 py-2 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[color:var(--kiut-text-secondary,#64748b)]"
+    class="card-info box-border flex w-full min-w-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl px-3 py-2 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[color:var(--kiut-text-secondary,#64748b)]"
     :class="subvalue ? 'h-[72px]' : 'h-[58px]'"
   >
     <div class="flex w-full min-w-0 justify-center">
@@ -33,3 +33,10 @@ defineProps<{
   subvalue?: string
 }>()
 </script>
+
+<style scoped>
+.card-info {
+  background-color: var(--kiut-bg-stats-badge, #fafafa);
+  border: 1px solid var(--kiut-border-light, rgba(0, 0, 0, 0.05));
+}
+</style>
