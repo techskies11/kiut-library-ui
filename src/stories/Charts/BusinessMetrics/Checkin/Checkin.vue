@@ -16,15 +16,15 @@
         :loading="exportLoading"
       />
     </template>
-    <!-- Loading State con animación CSS personalizada -->
+    <!-- Loading State -->
     <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
-        <div class="chart-flow-loader">
-          <div class="flow-line flow-1"></div>
-          <div class="flow-line flow-2"></div>
-          <div class="flow-line flow-3"></div>
-          <div class="flow-line flow-4"></div>
-          <div class="flow-line flow-5"></div>
+        <div class="chart-bars-loader">
+          <div class="bar bar-1"></div>
+          <div class="bar bar-2"></div>
+          <div class="bar bar-3"></div>
+          <div class="bar bar-4"></div>
+          <div class="bar bar-5"></div>
         </div>
         <p class="loading-text">Loading check-in data...</p>
       </div>
@@ -524,7 +524,7 @@
 
 /* Chart Section */
 .chart-section {
-  margin-bottom: 32px;
+  margin-bottom: 12px;
   animation: fadeIn 0.5s ease-out;
 }
 
@@ -622,27 +622,16 @@
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  background: var(--kiut-bg-empty-icon);
   border-radius: 20px;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-}
-
-.dark .empty-icon-wrapper,
-.dark-mode .empty-icon-wrapper {
-  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
   box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
   width: 40px;
   height: 40px;
-  color: #10b981;
-}
-
-.dark .empty-icon,
-.dark-mode .empty-icon {
-  color: #34d399;
+  color: var(--kiut-primary);
 }
 
 .empty-title {
@@ -666,7 +655,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 380px;
 }
 
 .loading-container {
@@ -677,47 +666,28 @@
   width: 100%;
 }
 
-.chart-flow-loader {
+.chart-bars-loader {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 12px;
-  height: 120px;
+  gap: 10px;
+  height: 100px;
   margin-bottom: 24px;
 }
 
-.flow-line {
-  width: 10px;
-  background: linear-gradient(to top, #10b981 0%, #059669 50%, #047857 100%);
-  border-radius: 5px;
+.bar {
+  width: 8px;
+  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
+  border-radius: 4px;
   animation: wave 1.5s ease-in-out infinite;
   box-shadow: var(--kiut-shadow-loader);
 }
 
-.flow-1 {
-  height: 35%;
-  animation-delay: 0s;
-}
-
-.flow-2 {
-  height: 55%;
-  animation-delay: 0.1s;
-}
-
-.flow-3 {
-  height: 75%;
-  animation-delay: 0.2s;
-}
-
-.flow-4 {
-  height: 55%;
-  animation-delay: 0.3s;
-}
-
-.flow-5 {
-  height: 45%;
-  animation-delay: 0.4s;
-}
+.bar-1 { height: 30%; animation-delay: 0s; }
+.bar-2 { height: 50%; animation-delay: 0.1s; }
+.bar-3 { height: 70%; animation-delay: 0.2s; }
+.bar-4 { height: 50%; animation-delay: 0.3s; }
+.bar-5 { height: 40%; animation-delay: 0.4s; }
 
 .loading-text {
   font-size: 15px;

@@ -475,7 +475,7 @@ const calculatePercentage = (value: number, total: number): string => {
 
 /* Chart Section */
 .chart-section {
-  margin-bottom: 28px;
+  margin-bottom: 12px;
   animation: fadeIn 0.5s ease-out;
 }
 

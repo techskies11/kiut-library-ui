@@ -1,6 +1,6 @@
 <template>
   <div
-    class="chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-sans min-w-0"
+    class="chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] min-w-0"
   >
     <div class="chart-line-canvas-host relative min-h-0 w-full flex-1">
       <Line ref="lineChartRef" :data="chartData" :options="computedOptions" />
@@ -14,7 +14,7 @@
       <li v-for="(entry, i) in legendEntries" :key="entry.key" role="listitem">
         <button
           type="button"
-          class="inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent font-sans text-[11px] font-medium leading-snug transition-opacity outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-secondary)] dark:focus-visible:ring-offset-[#1a1a1d]"
+          class="inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[11px] font-medium leading-snug transition-opacity outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-secondary)] dark:focus-visible:ring-offset-[#1a1a1d]"
           :class="datasetVisible[i] !== false ? 'opacity-100' : 'opacity-45 line-through'"
           :style="{ color: entry.color }"
           :aria-pressed="datasetVisible[i] !== false"
@@ -49,6 +49,15 @@ import {
   Legend,
 } from 'chart.js';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
+import {
+  CHART_X_MAX_TICKS,
+  CHART_Y_MAX_TICKS,
+  applyChartAxisTickLimits,
+} from '../chartAxisTicks';
+import {
+  applyInterFontToChartOptions,
+  CHART_INTER_FONT_FAMILY,
+} from '../chartInterFont';
 
 const props = defineProps<{
   data: {
@@ -81,6 +90,8 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
+
+ChartJS.defaults.font.family = CHART_INTER_FONT_FAMILY;
 
 const lineChartRef = ref<{ chart: ChartJS | null } | null>(null);
 
@@ -122,9 +133,6 @@ const chartData = computed(() => {
     }),
   };
 });
-
-const chartFontFamily =
-  "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
 const capitalizeText = (text: any): any => {
   if (typeof text === 'string') {
@@ -190,6 +198,9 @@ function deepMergeChartOptions(
 
 const computedOptions = computed(() => {
   const defaults: Record<string, any> = {
+    font: {
+      family: CHART_INTER_FONT_FAMILY,
+    },
     color: colors.value.textSecondary,
     responsive: true,
     maintainAspectRatio: false,
@@ -215,12 +226,12 @@ const computedOptions = computed(() => {
         cornerRadius: 8,
         displayColors: true,
         titleFont: {
-          family: chartFontFamily,
+          family: CHART_INTER_FONT_FAMILY,
           size: 14,
           weight: '600',
         },
         bodyFont: {
-          family: chartFontFamily,
+          family: CHART_INTER_FONT_FAMILY,
           size: 13,
         },
         callbacks: {
@@ -251,8 +262,13 @@ const computedOptions = computed(() => {
           drawTicks: false,
         },
         ticks: {
+          maxTicksLimit: CHART_X_MAX_TICKS,
+          autoSkip: true,
+          autoSkipPadding: 8,
+          minRotation: 0,
+          maxRotation: 0,
           font: {
-            family: chartFontFamily,
+            family: CHART_INTER_FONT_FAMILY,
             size: 11,
           },
           color: colors.value.textSecondary,
@@ -267,8 +283,9 @@ const computedOptions = computed(() => {
           color: colors.value.gridLines,
         },
         ticks: {
+          maxTicksLimit: CHART_Y_MAX_TICKS,
           font: {
-            family: chartFontFamily,
+            family: CHART_INTER_FONT_FAMILY,
             size: 11,
           },
           color: colors.value.textSecondary,
@@ -282,15 +299,18 @@ const computedOptions = computed(() => {
         borderCapStyle: 'round' as const,
       },
       point: {
-        radius: 5,
-        hoverRadius: 7,
+        radius: 4,
+        hoverRadius: 6,
         borderWidth: 2,
         hoverBorderWidth: 2,
       },
     },
   };
 
-  return props.options ? deepMergeChartOptions(defaults, props.options) : defaults;
+  const merged = props.options ? deepMergeChartOptions(defaults, props.options) : defaults;
+  return applyInterFontToChartOptions(
+    applyChartAxisTickLimits(merged as Record<string, unknown>),
+  ) as Record<string, any>;
 });
 
 defineExpose({ isDark });
