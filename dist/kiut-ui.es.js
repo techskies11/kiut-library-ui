@@ -7652,7 +7652,7 @@ function On(e, t, n) {
   const c = i - o;
   return c ? l + (d - l) * (t - o) / c : l;
 }
-class O5 extends bo {
+class V5 extends bo {
   static id = "timeseries";
   static defaults = bo.defaults;
   constructor(t) {
@@ -10169,7 +10169,8 @@ const bg = { class: "chart-container" }, vg = {
               label: {
                 show: !0,
                 position: C.labelPosition,
-                color: "#000000",
+                /** Dark: external labels (e.g. mobile `right`) use light text; inside nodes stay dark for contrast on pastel bars. */
+                color: C.labelPosition === "right" && a.value ? s.value.textPrimary : "#0f172a",
                 fontWeight: 600,
                 fontSize: C.labelFontSize,
                 ...C.labelWrap && C.labelLineHeight > 0 ? { lineHeight: C.labelLineHeight } : {},
@@ -10239,7 +10240,7 @@ const bg = { class: "chart-container" }, vg = {
         class: "error-state",
         style: mt({ height: e.height })
       }, [...$[0] || ($[0] = [
-        es('<div class="error-content" data-v-ccb2fb1d><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-ccb2fb1d><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-ccb2fb1d></path></svg><p class="error-title" data-v-ccb2fb1d>Chart could not be loaded</p><p class="error-description" data-v-ccb2fb1d>Please check the data format.</p></div>', 1)
+        es('<div class="error-content" data-v-eb927194><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-eb927194><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-eb927194></path></svg><p class="error-title" data-v-eb927194>Chart could not be loaded</p><p class="error-description" data-v-eb927194>Please check the data format.</p></div>', 1)
       ])], 4)) : (_(), k("div", vg, [
         Xt(r("div", {
           ref_key: "chartEl",
@@ -10253,14 +10254,14 @@ const bg = { class: "chart-container" }, vg = {
           class: "loading-state",
           style: mt({ height: e.height })
         }, [...$[1] || ($[1] = [
-          es('<div class="loading-container" data-v-ccb2fb1d><div class="sankey-loader" data-v-ccb2fb1d><div class="flow flow-1" data-v-ccb2fb1d></div><div class="flow flow-2" data-v-ccb2fb1d></div><div class="flow flow-3" data-v-ccb2fb1d></div><div class="flow flow-4" data-v-ccb2fb1d></div></div><p class="loading-text" data-v-ccb2fb1d>Loading Sankey diagram...</p></div>', 1)
+          es('<div class="loading-container" data-v-eb927194><div class="sankey-loader" data-v-eb927194><div class="flow flow-1" data-v-eb927194></div><div class="flow flow-2" data-v-eb927194></div><div class="flow flow-3" data-v-eb927194></div><div class="flow flow-4" data-v-eb927194></div></div><p class="loading-text" data-v-eb927194>Loading Sankey diagram...</p></div>', 1)
         ])], 4), [
           [mn, l.value]
         ])
       ]))
     ]));
   }
-}), Me = /* @__PURE__ */ it(yg, [["__scopeId", "data-v-ccb2fb1d"]]), _g = ["open"], xg = { class: "card-header metric-collapsible__summary" }, kg = { class: "header-content metric-header-content" }, wg = { class: "metric-header-content__main" }, Cg = { class: "metric-header-content__text" }, $g = {
+}), Me = /* @__PURE__ */ it(yg, [["__scopeId", "data-v-eb927194"]]), _g = ["open"], xg = { class: "card-header metric-collapsible__summary" }, kg = { class: "header-content metric-header-content" }, wg = { class: "metric-header-content__main" }, Cg = { class: "metric-header-content__text" }, $g = {
   key: 0,
   class: "card-title"
 }, Sg = {
@@ -11333,16 +11334,16 @@ const Kg = {
 }, Yp = { class: "chart-wrapper" }, qp = {
   key: 1,
   class: "checkin-daily-section"
-}, Kp = { class: "w-full min-w-0" }, Up = { class: "font-medium" }, Xp = {
+}, Kp = { class: "w-full min-w-0" }, Up = { class: "font-medium" }, Xp = { class: "cell-success" }, Gp = { class: "cell-danger" }, Zp = {
   key: 0,
-  class: "failed-steps"
-}, Gp = { class: "step-name" }, Zp = { class: "step-count" }, Qp = {
+  class: "reasons-list"
+}, Qp = { class: "reason-name" }, Jp = { class: "reason-count" }, tm = {
   key: 1,
-  class: "empty-cell"
-}, Jp = {
+  class: "no-reasons"
+}, em = {
   key: 2,
   class: "empty-state"
-}, tm = {
+}, nm = {
   __name: "Checkin",
   props: {
     /** Si es false, el bloque no usa <details> ni chevron (p. ej. anidado en CheckinContainer). */
@@ -11671,26 +11672,26 @@ const Kg = {
                   r("span", null, A(f(w.checkin_completed_count, w.checkin_started_count)), 1)
                 ]),
                 "cell-closed": P(({ row: w }) => [
-                  r("span", null, A(f(w.checkin_closed_count, w.checkin_started_count)), 1)
+                  r("span", Xp, A(f(w.checkin_closed_count, w.checkin_started_count)), 1)
                 ]),
                 "cell-failed": P(({ row: w }) => [
-                  r("span", null, A(f(p(w.failed_steps), w.checkin_started_count)), 1)
+                  r("span", Gp, A(f(p(w.failed_steps), w.checkin_started_count)), 1)
                 ]),
                 "cell-reasons": P(({ row: w }) => [
-                  w.failed_steps && w.failed_steps.length > 0 ? (_(), k("div", Xp, [
+                  w.failed_steps && w.failed_steps.length > 0 ? (_(), k("div", Zp, [
                     (_(!0), k(U, null, at(w.failed_steps, (D) => (_(), k("div", {
                       key: D.step_name,
-                      class: "failed-step-item"
+                      class: "reason-item"
                     }, [
-                      r("span", Gp, A(D.step_name.replace(/_/g, " ")) + ":", 1),
-                      r("span", Zp, A(D.failed_count), 1)
+                      r("span", Qp, A(D.step_name.replace(/_/g, " ")) + ":", 1),
+                      r("span", Jp, A(D.failed_count), 1)
                     ]))), 128))
-                  ])) : (_(), k("div", Qp, "-"))
+                  ])) : (_(), k("div", tm, "-"))
                 ]),
                 _: 1
               }, 8, ["rows"])
             ])
-          ])) : (_(), k("section", Jp, [...x[1] || (x[1] = [
+          ])) : (_(), k("section", em, [...x[1] || (x[1] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -11728,28 +11729,28 @@ const Kg = {
       } : void 0
     ]), 1032, ["collapsible", "default-open"]));
   }
-}, Fi = /* @__PURE__ */ it(tm, [["__scopeId", "data-v-c168f6fe"]]), em = {
+}, Fi = /* @__PURE__ */ it(nm, [["__scopeId", "data-v-aad2bba4"]]), am = {
   key: 0,
   class: "loading-state"
-}, nm = {
-  key: 1,
-  class: "card-body"
-}, am = {
-  key: 0,
-  class: "sankey-section"
 }, sm = {
   key: 1,
+  class: "card-body"
+}, om = {
+  key: 0,
+  class: "sankey-section"
+}, im = {
+  key: 1,
   class: "checkin-metrics-daily-section"
-}, om = { class: "w-full min-w-0" }, im = { class: "font-medium whitespace-nowrap" }, lm = { class: "cell-success" }, rm = { class: "cell-danger" }, cm = {
+}, lm = { class: "w-full min-w-0" }, rm = { class: "font-medium whitespace-nowrap" }, cm = { class: "cell-success" }, dm = { class: "cell-danger" }, um = {
   key: 0,
   class: "reasons-list"
-}, dm = { class: "reason-name" }, um = { class: "reason-count" }, hm = {
+}, hm = { class: "reason-name" }, fm = { class: "reason-count" }, gm = {
   key: 1,
   class: "no-reasons"
-}, fm = {
+}, pm = {
   key: 2,
   class: "empty-state"
-}, gm = { class: "empty-state-content" }, pm = { class: "empty-icon-wrapper" }, mm = /* @__PURE__ */ Q({
+}, mm = { class: "empty-state-content" }, bm = { class: "empty-icon-wrapper" }, vm = /* @__PURE__ */ Q({
   __name: "CheckinMetrics",
   props: {
     initiallyOpen: { type: Boolean, default: !1 },
@@ -11980,7 +11981,7 @@ const Kg = {
       "default-open": e.initiallyOpen
     }, Mt({
       default: P(() => [
-        e.loading ? (_(), k("div", em, [...b[0] || (b[0] = [
+        e.loading ? (_(), k("div", am, [...b[0] || (b[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -11991,8 +11992,8 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading check-in data...")
           ], -1)
-        ])])) : (_(), k("div", nm, [
-          v.value.nodes.length > 0 ? (_(), k("div", am, [
+        ])])) : (_(), k("div", sm, [
+          v.value.nodes.length > 0 ? (_(), k("div", om, [
             R(Me, {
               data: v.value,
               height: "500px",
@@ -12001,8 +12002,8 @@ const Kg = {
               "node-gap": 30
             }, null, 8, ["data", "node-colors"])
           ])) : z("", !0),
-          y.value && y.value.length > 0 ? (_(), k("div", sm, [
-            r("div", om, [
+          y.value && y.value.length > 0 ? (_(), k("div", im, [
+            r("div", lm, [
               R(qt, {
                 columns: f,
                 rows: p.value,
@@ -12010,7 +12011,7 @@ const Kg = {
                 "row-key": "id"
               }, {
                 "cell-date": P(({ row: x }) => [
-                  r("span", im, A(d(String(x.date))), 1)
+                  r("span", rm, A(d(String(x.date))), 1)
                 ]),
                 "cell-checkinInit": P(({ row: x }) => [
                   r("span", null, A(l(x.checkin_initiated)), 1)
@@ -12025,28 +12026,28 @@ const Kg = {
                   r("span", null, A(h(x.record_locator_completed_count, x.record_locator_started_count)), 1)
                 ]),
                 "cell-closed": P(({ row: x }) => [
-                  r("span", lm, A(h(x.record_locator_closed_count, x.record_locator_started_count)), 1)
+                  r("span", cm, A(h(x.record_locator_closed_count, x.record_locator_started_count)), 1)
                 ]),
                 "cell-failed": P(({ row: x }) => [
-                  r("span", rm, A(h(x.unrecovered_count, x.record_locator_started_count)), 1)
+                  r("span", dm, A(h(x.unrecovered_count, x.record_locator_started_count)), 1)
                 ]),
                 "cell-reasons": P(({ row: x }) => [
-                  Array.isArray(x.failed_steps) && x.failed_steps.length > 0 ? (_(), k("div", cm, [
+                  Array.isArray(x.failed_steps) && x.failed_steps.length > 0 ? (_(), k("div", um, [
                     (_(!0), k(U, null, at(x.failed_steps, (w) => (_(), k("div", {
                       key: w.step_name,
                       class: "reason-item"
                     }, [
-                      r("span", dm, A(c(w.step_name)) + ":", 1),
-                      r("span", um, A(w.failed_count), 1)
+                      r("span", hm, A(c(w.step_name)) + ":", 1),
+                      r("span", fm, A(w.failed_count), 1)
                     ]))), 128))
-                  ])) : (_(), k("div", hm, "-"))
+                  ])) : (_(), k("div", gm, "-"))
                 ]),
                 _: 1
               }, 8, ["rows"])
             ])
-          ])) : (_(), k("div", fm, [
-            r("div", gm, [
-              r("div", pm, [
+          ])) : (_(), k("div", pm, [
+            r("div", mm, [
+              r("div", bm, [
                 R(F(Wt), { class: "empty-icon" })
               ]),
               b[1] || (b[1] = r("p", { class: "empty-title" }, "No check-in data available", -1)),
@@ -12070,22 +12071,22 @@ const Kg = {
       } : void 0
     ]), 1032, ["default-open"]));
   }
-}), bm = /* @__PURE__ */ it(mm, [["__scopeId", "data-v-4b78de4b"]]), vm = {
+}), ym = /* @__PURE__ */ it(vm, [["__scopeId", "data-v-4b78de4b"]]), _m = {
   key: 0,
   class: "loading-state"
-}, ym = {
+}, xm = {
   key: 1,
   class: "card-body"
-}, _m = {
+}, km = {
   key: 0,
   class: "chart-section"
-}, xm = { class: "chart-wrapper" }, km = {
+}, wm = { class: "chart-wrapper" }, Cm = {
   key: 1,
   class: "record-locator-daily-section"
-}, wm = { class: "w-full min-w-0" }, Cm = { class: "cell-plain font-medium" }, $m = { class: "cell-plain text-center" }, Sm = { class: "cell-plain text-center" }, Mm = { class: "cell-plain text-center" }, Dm = { class: "cell-plain text-center" }, Am = { class: "cell-plain text-center success-value" }, Tm = { class: "cell-plain text-center failed-value" }, Bm = { class: "cell-plain text-center warning-value" }, Lm = { class: "cell-plain text-center" }, Fm = { class: "cell-plain text-center failed-value" }, Em = {
+}, $m = { class: "w-full min-w-0" }, Sm = { class: "cell-plain font-medium" }, Mm = { class: "cell-plain text-center" }, Dm = { class: "cell-plain text-center" }, Am = { class: "cell-plain text-center" }, Tm = { class: "cell-plain text-center" }, Bm = { class: "cell-plain text-center success-value" }, Lm = { class: "cell-plain text-center failed-value" }, Fm = { class: "cell-plain text-center warning-value" }, Em = { class: "cell-plain text-center" }, Im = { class: "cell-plain text-center failed-value" }, Pm = {
   key: 2,
   class: "empty-state"
-}, Im = /* @__PURE__ */ Q({
+}, Rm = /* @__PURE__ */ Q({
   __name: "RecordLocator",
   props: {
     data: { default: () => ({
@@ -12296,7 +12297,7 @@ const Kg = {
       collapsible: e.collapsible
     }, Mt({
       default: P(() => [
-        a.loading ? (_(), k("div", vm, [...b[0] || (b[0] = [
+        a.loading ? (_(), k("div", _m, [...b[0] || (b[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-flow-loader" }, [
               r("div", { class: "flow-line flow-1" }),
@@ -12307,9 +12308,9 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading record locator data...")
           ], -1)
-        ])])) : (_(), k("div", ym, [
-          v.value.nodes.length > 0 ? (_(), k("section", _m, [
-            r("div", xm, [
+        ])])) : (_(), k("div", xm, [
+          v.value.nodes.length > 0 ? (_(), k("section", km, [
+            r("div", wm, [
               R(Me, {
                 data: v.value,
                 height: "500px",
@@ -12319,8 +12320,8 @@ const Kg = {
               }, null, 8, ["data", "node-colors"])
             ])
           ])) : z("", !0),
-          l.value && l.value.length > 0 ? (_(), k("section", km, [
-            r("div", wm, [
+          l.value && l.value.length > 0 ? (_(), k("section", Cm, [
+            r("div", $m, [
               R(qt, {
                 columns: u.value,
                 rows: h.value,
@@ -12328,39 +12329,39 @@ const Kg = {
                 "row-key": "id"
               }, {
                 "cell-date": P(({ row: x }) => [
-                  r("span", Cm, A(F(It)(String(x.date)).format("MMM DD")), 1)
+                  r("span", Sm, A(F(It)(String(x.date)).format("MMM DD")), 1)
                 ]),
                 "cell-checkinInit": P(({ row: x }) => [
-                  r("span", $m, A(F(K)(x.checkin_initiated)), 1)
+                  r("span", Mm, A(F(K)(x.checkin_initiated)), 1)
                 ]),
                 "cell-bookingRetrieve": P(({ row: x }) => [
-                  r("span", Sm, A(p(x.record_locator_init_count, x.checkin_initiated)), 1)
+                  r("span", Dm, A(p(x.record_locator_init_count, x.checkin_initiated)), 1)
                 ]),
                 "cell-checkinStarted": P(({ row: x }) => [
-                  r("span", Mm, A(F(K)(x.record_locator_started_count)), 1)
+                  r("span", Am, A(F(K)(x.record_locator_started_count)), 1)
                 ]),
                 "cell-checkinCompleted": P(({ row: x }) => [
-                  r("span", Dm, A(p(x.record_locator_completed_count, x.record_locator_started_count)), 1)
+                  r("span", Tm, A(p(x.record_locator_completed_count, x.record_locator_started_count)), 1)
                 ]),
                 "cell-checkinClosed": P(({ row: x }) => [
-                  r("span", Am, A(p(x.record_locator_closed_count, x.record_locator_started_count)), 1)
+                  r("span", Bm, A(p(x.record_locator_closed_count, x.record_locator_started_count)), 1)
                 ]),
                 "cell-checkinFailed": P(({ row: x }) => [
-                  r("span", Tm, A(p(x.record_locator_failed_count, x.record_locator_started_count)), 1)
+                  r("span", Lm, A(p(x.record_locator_failed_count, x.record_locator_started_count)), 1)
                 ]),
                 "cell-abandoned": P(({ row: x }) => [
-                  r("span", Bm, A(p(x.record_locator_abandoned_count, x.record_locator_started_count)), 1)
+                  r("span", Fm, A(p(x.record_locator_abandoned_count, x.record_locator_started_count)), 1)
                 ]),
                 "cell-createPayment": P(({ row: x }) => [
-                  r("span", Lm, A(F(K)(x.record_locator_create_payment_count ?? 0)), 1)
+                  r("span", Em, A(F(K)(x.record_locator_create_payment_count ?? 0)), 1)
                 ]),
                 "cell-failedPayment": P(({ row: x }) => [
-                  r("span", Fm, A(F(K)(x.record_locator_create_payment_failed_count ?? 0)), 1)
+                  r("span", Im, A(F(K)(x.record_locator_create_payment_failed_count ?? 0)), 1)
                 ]),
                 _: 1
               }, 8, ["columns", "rows"])
             ])
-          ])) : (_(), k("section", Em, [...b[1] || (b[1] = [
+          ])) : (_(), k("section", Pm, [...b[1] || (b[1] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -12398,19 +12399,19 @@ const Kg = {
       } : void 0
     ]), 1032, ["collapsible"]));
   }
-}), Ei = /* @__PURE__ */ it(Im, [["__scopeId", "data-v-b0afdda5"]]), Pm = {
+}), Ei = /* @__PURE__ */ it(Rm, [["__scopeId", "data-v-b0afdda5"]]), Om = {
   key: 0,
   class: "loading-state"
-}, Rm = {
+}, zm = {
   key: 1,
   class: "card-body"
-}, Om = {
+}, Vm = {
   key: 0,
   class: "checkin-segments-daily-section"
-}, zm = { class: "w-full min-w-0" }, Vm = { class: "segment-plain" }, Nm = { class: "segment-plain" }, Wm = { class: "segment-plain" }, Hm = { class: "percentage-value" }, jm = { class: "percentage-value" }, Ym = { class: "percentage-value success" }, qm = {
+}, Nm = { class: "w-full min-w-0" }, Wm = { class: "segment-plain" }, Hm = { class: "segment-plain" }, jm = { class: "segment-plain" }, Ym = { class: "percentage-value" }, qm = { class: "percentage-value" }, Km = { class: "percentage-value success" }, Um = {
   key: 1,
   class: "empty-state"
-}, Km = /* @__PURE__ */ Q({
+}, Xm = /* @__PURE__ */ Q({
   __name: "checkinSegments",
   props: {
     data: { default: () => [] },
@@ -12457,7 +12458,7 @@ const Kg = {
       "default-open": e.initiallyOpen
     }, Mt({
       default: P(() => [
-        a.loading ? (_(), k("div", Pm, [...y[0] || (y[0] = [
+        a.loading ? (_(), k("div", Om, [...y[0] || (y[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-flow-loader" }, [
               r("div", { class: "flow-line flow-1" }),
@@ -12468,9 +12469,9 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading segment data...")
           ], -1)
-        ])])) : (_(), k("div", Rm, [
-          a.data.length > 0 ? (_(), k("section", Om, [
-            r("div", zm, [
+        ])])) : (_(), k("div", zm, [
+          a.data.length > 0 ? (_(), k("section", Vm, [
+            r("div", Nm, [
               R(qt, {
                 columns: l,
                 rows: d.value,
@@ -12478,7 +12479,7 @@ const Kg = {
                 "row-key": "id"
               }, {
                 "cell-departure": P(({ row: f }) => [
-                  r("span", Vm, A(u(f.departure_airport)), 1)
+                  r("span", Wm, A(u(f.departure_airport)), 1)
                 ]),
                 "cell-connection": P(({ row: f }) => [
                   r("span", {
@@ -12488,27 +12489,27 @@ const Kg = {
                   }, A(u(f.conexion_airport)), 3)
                 ]),
                 "cell-arrival": P(({ row: f }) => [
-                  r("span", Nm, A(u(f.arrival_airport)), 1)
+                  r("span", Hm, A(u(f.arrival_airport)), 1)
                 ]),
                 "cell-trip": P(({ row: f }) => [
-                  r("span", Wm, A(h(f) ? "Roundtrip" : "One way"), 1)
+                  r("span", jm, A(h(f) ? "Roundtrip" : "One way"), 1)
                 ]),
                 "cell-init": P(({ row: f }) => [
                   bt(A(F(K)(f.segment_init_count)), 1)
                 ]),
                 "cell-started": P(({ row: f }) => [
-                  r("span", Hm, A(c(f.segment_started_count, f.segment_init_count)), 1)
+                  r("span", Ym, A(c(f.segment_started_count, f.segment_init_count)), 1)
                 ]),
                 "cell-completed": P(({ row: f }) => [
-                  r("span", jm, A(c(f.segment_completed_count, f.segment_init_count)), 1)
+                  r("span", qm, A(c(f.segment_completed_count, f.segment_init_count)), 1)
                 ]),
                 "cell-closed": P(({ row: f }) => [
-                  r("span", Ym, A(c(f.segment_closed_count, f.segment_init_count)), 1)
+                  r("span", Km, A(c(f.segment_closed_count, f.segment_init_count)), 1)
                 ]),
                 _: 1
               }, 8, ["rows"])
             ])
-          ])) : (_(), k("section", qm, [...y[1] || (y[1] = [
+          ])) : (_(), k("section", Um, [...y[1] || (y[1] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -12546,7 +12547,7 @@ const Kg = {
       } : void 0
     ]), 1032, ["collapsible", "default-open"]));
   }
-}), Ii = /* @__PURE__ */ it(Km, [["__scopeId", "data-v-22b55b09"]]), Um = { class: "checkin-container__body" }, Xm = /* @__PURE__ */ Q({
+}), Ii = /* @__PURE__ */ it(Xm, [["__scopeId", "data-v-22b55b09"]]), Gm = { class: "checkin-container__body" }, Zm = /* @__PURE__ */ Q({
   __name: "CheckinContainer",
   props: {
     containerInitiallyOpen: { type: Boolean, default: !1 },
@@ -12594,7 +12595,7 @@ const Kg = {
       "default-open": e.containerInitiallyOpen
     }, {
       default: P(() => [
-        r("div", Um, [
+        r("div", Gm, [
           e.showCheckin ? (_(), nt(Fi, {
             key: 0,
             class: "w-full min-h-0",
@@ -12632,22 +12633,22 @@ const Kg = {
       _: 1
     }, 8, ["default-open"]));
   }
-}), Gm = /* @__PURE__ */ it(Xm, [["__scopeId", "data-v-90d88bae"]]), Zm = {
+}), Qm = /* @__PURE__ */ it(Zm, [["__scopeId", "data-v-90d88bae"]]), Jm = {
   key: 0,
   class: "loading-state"
-}, Qm = {
+}, t0 = {
   key: 1,
   class: "card-body"
-}, Jm = { class: "chart-section" }, t0 = { class: "chart-wrapper" }, e0 = {
+}, e0 = { class: "chart-section" }, n0 = { class: "chart-wrapper" }, a0 = {
   key: 1,
   class: "empty-chart"
-}, n0 = { class: "payment-success-summary" }, a0 = {
+}, s0 = { class: "payment-success-summary" }, o0 = {
   key: 0,
   class: "disruption-daily-section"
-}, s0 = { class: "w-full min-w-0" }, o0 = { class: "font-medium text-center" }, i0 = { class: "text-center" }, l0 = { class: "text-center" }, r0 = { class: "percentage-text" }, c0 = { class: "text-center" }, d0 = { class: "abandoned-value" }, u0 = { class: "badges-container badges-wrap" }, h0 = { class: "badges-container badges-wrap" }, f0 = {
+}, i0 = { class: "w-full min-w-0" }, l0 = { class: "font-medium text-center" }, r0 = { class: "text-center" }, c0 = { class: "text-center" }, d0 = { class: "percentage-text" }, u0 = { class: "text-center" }, h0 = { class: "abandoned-value" }, f0 = { class: "badges-container badges-wrap" }, g0 = { class: "badges-container badges-wrap" }, p0 = {
   key: 1,
   class: "empty-state"
-}, g0 = /* @__PURE__ */ Q({
+}, m0 = /* @__PURE__ */ Q({
   __name: "Disruption",
   props: {
     data: { default: () => ({
@@ -12792,7 +12793,7 @@ const Kg = {
       subtitle: "Disruption workflow performance and completion tracking"
     }, Mt({
       default: P(() => [
-        a.loading ? (_(), k("div", Zm, [...b[0] || (b[0] = [
+        a.loading ? (_(), k("div", Jm, [...b[0] || (b[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -12803,31 +12804,31 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading disruption data...")
           ], -1)
-        ])])) : (_(), k("div", Qm, [
-          r("section", Jm, [
-            r("div", t0, [
+        ])])) : (_(), k("div", t0, [
+          r("section", e0, [
+            r("div", n0, [
               p.value.nodes.length > 0 && p.value.links.length > 0 ? (_(), nt(Me, {
                 key: 0,
                 data: p.value,
                 "node-colors": v,
                 height: "500px"
-              }, null, 8, ["data"])) : (_(), k("div", e0, [...b[1] || (b[1] = [
+              }, null, 8, ["data"])) : (_(), k("div", a0, [...b[1] || (b[1] = [
                 r("p", { class: "empty-chart-text" }, "No disruption data available for visualization", -1)
               ])]))
             ])
           ]),
-          r("section", n0, [
+          r("section", s0, [
             R(lt, {
               color: "#22c55e",
               title: "Payment Success Value",
               value: u.value
             }, null, 8, ["value"])
           ]),
-          i.value && i.value.length > 0 ? (_(), k("section", a0, [
+          i.value && i.value.length > 0 ? (_(), k("section", o0, [
             b[2] || (b[2] = r("div", { class: "section-header" }, [
               r("h4", { class: "section-title" }, "Daily Overview")
             ], -1)),
-            r("div", s0, [
+            r("div", i0, [
               R(qt, {
                 columns: l,
                 rows: d.value,
@@ -12835,24 +12836,24 @@ const Kg = {
                 "row-key": "id"
               }, {
                 "cell-date": P(({ row: x }) => [
-                  r("span", o0, A(F(It)(String(x.date)).format("MMM DD")), 1)
+                  r("span", l0, A(F(It)(String(x.date)).format("MMM DD")), 1)
                 ]),
                 "cell-initiated": P(({ row: x }) => [
-                  r("span", i0, A(F(K)(Number(x.disruption_conversations))), 1)
+                  r("span", r0, A(F(K)(Number(x.disruption_conversations))), 1)
                 ]),
                 "cell-started": P(({ row: x }) => [
-                  r("span", l0, [
+                  r("span", c0, [
                     bt(A(F(K)(Number(x.disruption_initiated_count))) + " ", 1),
-                    r("span", r0, " (" + A(h(Number(x.disruption_initiated_count), Number(x.disruption_conversations))) + ") ", 1)
+                    r("span", d0, " (" + A(h(Number(x.disruption_initiated_count), Number(x.disruption_conversations))) + ") ", 1)
                   ])
                 ]),
                 "cell-abandoned": P(({ row: x }) => [
-                  r("span", c0, [
-                    r("span", d0, A(F(K)(Number(x.disruption_initiated_count) - Number(x.voluntary_count) - Number(x.involuntary_count))) + " (" + A(h(Number(x.disruption_initiated_count) - Number(x.voluntary_count) - Number(x.involuntary_count), Number(x.disruption_conversations))) + ") ", 1)
+                  r("span", u0, [
+                    r("span", h0, A(F(K)(Number(x.disruption_initiated_count) - Number(x.voluntary_count) - Number(x.involuntary_count))) + " (" + A(h(Number(x.disruption_initiated_count) - Number(x.voluntary_count) - Number(x.involuntary_count), Number(x.disruption_conversations))) + ") ", 1)
                   ])
                 ]),
                 "cell-voluntary": P(({ row: x }) => [
-                  r("div", u0, [
+                  r("div", f0, [
                     (_(!0), k(U, null, at([x], (w, D) => (_(), k(U, { key: D }, [
                       R(Rt, {
                         color: "neutral",
@@ -12909,7 +12910,7 @@ const Kg = {
                   ])
                 ]),
                 "cell-involuntary": P(({ row: x }) => [
-                  r("div", h0, [
+                  r("div", g0, [
                     (_(!0), k(U, null, at([x], (w, D) => (_(), k(U, { key: D }, [
                       R(Rt, { color: "purple" }, {
                         default: P(() => [
@@ -12935,7 +12936,7 @@ const Kg = {
                 _: 1
               }, 8, ["rows"])
             ])
-          ])) : (_(), k("section", f0, [...b[3] || (b[3] = [
+          ])) : (_(), k("section", p0, [...b[3] || (b[3] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -12973,16 +12974,16 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), p0 = /* @__PURE__ */ it(g0, [["__scopeId", "data-v-430625b7"]]), m0 = {
+}), b0 = /* @__PURE__ */ it(m0, [["__scopeId", "data-v-430625b7"]]), v0 = {
   key: 0,
   class: "flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
-}, b0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, v0 = {
+}, y0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, _0 = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, y0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, _0 = {
+}, x0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, k0 = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
-}, x0 = /* @__PURE__ */ Q({
+}, w0 = /* @__PURE__ */ Q({
   __name: "FAQ",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -13096,8 +13097,8 @@ const Kg = {
         r("div", {
           class: H(["flex min-h-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]", o.loading ? "flex-1" : "w-full shrink-0"])
         }, [
-          o.loading ? (_(), k("div", m0, [
-            r("div", b0, [
+          o.loading ? (_(), k("div", v0, [
+            r("div", y0, [
               (_(), k(U, null, at(a, (b, x) => r("div", {
                 key: x,
                 class: H(["w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 shadow-[var(--kiut-shadow-loader,0_4px_14px_rgba(139,92,246,0.25))] dark:from-violet-500 dark:via-violet-400 dark:to-violet-300", s[x]]),
@@ -13106,8 +13107,8 @@ const Kg = {
             ]),
             g[0] || (g[0] = r("p", { class: "animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]" }, " Loading FAQ metrics... ", -1))
           ])) : (_(), k(U, { key: 1 }, [
-            h.value.labels && h.value.labels.length ? (_(), k("section", v0, [
-              r("div", y0, [
+            h.value.labels && h.value.labels.length ? (_(), k("section", _0, [
+              r("div", x0, [
                 R(Se, {
                   data: h.value,
                   theme: d.value
@@ -13124,7 +13125,7 @@ const Kg = {
                   subvalue: b.subvalue
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 2)
-            ])) : (_(), k("section", _0, [...g[1] || (g[1] = [
+            ])) : (_(), k("section", k0, [...g[1] || (g[1] = [
               r("div", { class: "max-w-[360px] px-4 text-center" }, [
                 r("div", { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, [
                   r("svg", {
@@ -13164,19 +13165,19 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), k0 = /* @__PURE__ */ it(x0, [["__scopeId", "data-v-92007b9a"]]), w0 = {
+}), C0 = /* @__PURE__ */ it(w0, [["__scopeId", "data-v-92007b9a"]]), $0 = {
   key: 0,
   class: "flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
-}, C0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, $0 = {
+}, S0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, M0 = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, S0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, M0 = {
+}, D0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, A0 = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, D0 = {
+}, T0 = {
   key: 2,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
-}, A0 = { class: "max-w-[360px] px-4 text-center" }, T0 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, B0 = /* @__PURE__ */ Q({
+}, B0 = { class: "max-w-[360px] px-4 text-center" }, L0 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, F0 = /* @__PURE__ */ Q({
   __name: "MessagesPerAgent",
   props: {
     data: { default: () => ({}) },
@@ -13250,8 +13251,8 @@ const Kg = {
         r("div", {
           class: H(["flex min-h-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]", i.loading ? "flex-1" : "w-full shrink-0"])
         }, [
-          i.loading ? (_(), k("div", w0, [
-            r("div", C0, [
+          i.loading ? (_(), k("div", $0, [
+            r("div", S0, [
               (_(), k(U, null, at(a, (g, b) => r("div", {
                 key: b,
                 class: H(["w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 shadow-[var(--kiut-shadow-loader,0_4px_14px_rgba(139,92,246,0.25))] dark:from-violet-500 dark:via-violet-400 dark:to-violet-300", s[b]]),
@@ -13260,8 +13261,8 @@ const Kg = {
             ]),
             v[0] || (v[0] = r("p", { class: "animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]" }, " Loading agent metrics... ", -1))
           ])) : (_(), k(U, { key: 1 }, [
-            h.value.labels && h.value.labels.length ? (_(), k("section", $0, [
-              r("div", S0, [
+            h.value.labels && h.value.labels.length ? (_(), k("section", M0, [
+              r("div", D0, [
                 R(Se, {
                   data: h.value,
                   options: e.options,
@@ -13280,7 +13281,7 @@ const Kg = {
                   subvalue: `${F(K)(g.total)} msgs`
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 2)) : z("", !0)
-            ])) : m.value.length ? (_(), k("section", M0, [
+            ])) : m.value.length ? (_(), k("section", A0, [
               r("div", {
                 class: H(f.value)
               }, [
@@ -13293,9 +13294,9 @@ const Kg = {
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 2)
             ])) : z("", !0),
-            m.value.length ? z("", !0) : (_(), k("section", D0, [
-              r("div", A0, [
-                r("div", T0, [
+            m.value.length ? z("", !0) : (_(), k("section", T0, [
+              r("div", B0, [
+                r("div", L0, [
                   R(F(Wt), { class: "h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" })
                 ]),
                 v[1] || (v[1] = r("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " No agent interactions data ", -1)),
@@ -13320,22 +13321,22 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), L0 = /* @__PURE__ */ it(B0, [["__scopeId", "data-v-75264875"]]), F0 = {
+}), E0 = /* @__PURE__ */ it(F0, [["__scopeId", "data-v-75264875"]]), I0 = {
   key: 0,
   class: "loading-state"
-}, E0 = {
-  key: 1,
-  class: "card-body"
-}, I0 = {
-  key: 0,
-  class: "chart-section"
 }, P0 = {
   key: 1,
-  class: "empty-state"
+  class: "card-body"
 }, R0 = {
+  key: 0,
+  class: "chart-section"
+}, O0 = {
+  key: 1,
+  class: "empty-state"
+}, z0 = {
   key: 2,
   class: "comparison-section"
-}, O0 = { class: "comparison-grid" }, z0 = /* @__PURE__ */ Q({
+}, V0 = { class: "comparison-grid" }, N0 = /* @__PURE__ */ Q({
   __name: "SalesByChannel",
   props: {
     data: { default: () => ({
@@ -13401,7 +13402,7 @@ const Kg = {
       "default-open": e.initiallyOpen
     }, Mt({
       default: P(() => [
-        o.loading ? (_(), k("div", F0, [...p[0] || (p[0] = [
+        o.loading ? (_(), k("div", I0, [...p[0] || (p[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -13412,13 +13413,13 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading sales data...")
           ], -1)
-        ])])) : (_(), k("div", E0, [
-          y.value.labels.length > 0 ? (_(), k("section", I0, [
+        ])])) : (_(), k("div", P0, [
+          y.value.labels.length > 0 ? (_(), k("section", R0, [
             R(he, {
               data: y.value,
               stacked: !0
             }, null, 8, ["data"])
-          ])) : (_(), k("section", P0, [...p[1] || (p[1] = [
+          ])) : (_(), k("section", O0, [...p[1] || (p[1] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -13439,8 +13440,8 @@ const Kg = {
               r("p", { class: "empty-description" }, "No sales by channel data found for the selected period. Try adjusting the date range.")
             ], -1)
           ])])),
-          e.channelComparison.length > 0 ? (_(), k("section", R0, [
-            r("div", O0, [
+          e.channelComparison.length > 0 ? (_(), k("section", z0, [
+            r("div", V0, [
               (_(!0), k(U, null, at(e.channelComparison, (v, g) => (_(), nt(F(lt), {
                 key: v.channel,
                 color: u(v.channel, g),
@@ -13467,43 +13468,43 @@ const Kg = {
       } : void 0
     ]), 1032, ["default-open"]));
   }
-}), Pi = /* @__PURE__ */ it(z0, [["__scopeId", "data-v-a7a085c2"]]), V0 = {
+}), Pi = /* @__PURE__ */ it(N0, [["__scopeId", "data-v-a7a085c2"]]), W0 = {
   key: 0,
   class: "loading-state"
-}, N0 = {
+}, H0 = {
   key: 1,
   class: "card-body"
-}, W0 = {
+}, j0 = {
   key: 0,
   class: "chart-section"
-}, H0 = { class: "chart-wrapper" }, j0 = {
+}, Y0 = { class: "chart-wrapper" }, q0 = {
   key: 1,
   class: "empty-state"
-}, Y0 = { class: "seller-value-cards" }, q0 = {
+}, K0 = { class: "seller-value-cards" }, U0 = {
   key: 2,
   class: "seller-daily-section"
-}, K0 = { class: "w-full min-w-0" }, U0 = { class: "sl-cell font-medium" }, X0 = { class: "sl-cell text-center" }, G0 = { class: "sl-cell text-center" }, Z0 = { class: "sl-cell text-center" }, Q0 = { class: "sl-cell text-center" }, J0 = { class: "sl-cell text-center" }, tb = { class: "sl-cell text-center success-value" }, eb = {
+}, X0 = { class: "w-full min-w-0" }, G0 = { class: "sl-cell font-medium" }, Z0 = { class: "sl-cell text-center" }, Q0 = { class: "sl-cell text-center" }, J0 = { class: "sl-cell text-center" }, tb = { class: "sl-cell text-center" }, eb = { class: "sl-cell text-center" }, nb = { class: "sl-cell text-center success-value" }, ab = {
   key: 0,
   class: "currency-cell-list"
-}, nb = {
+}, sb = {
   key: 1,
   class: "empty-cell"
-}, ab = { class: "sl-cell text-center success-value" }, sb = { class: "sl-cell text-center" }, ob = { class: "sl-cell text-center success-value" }, ib = {
+}, ob = { class: "sl-cell text-center success-value" }, ib = { class: "sl-cell text-center" }, lb = { class: "sl-cell text-center success-value" }, rb = {
   key: 0,
   class: "currency-cell-list"
-}, lb = {
+}, cb = {
   key: 1,
   class: "empty-cell"
-}, rb = { class: "sl-cell text-center success-value" }, cb = { class: "sl-cell text-center" }, db = { class: "sl-cell text-center success-value" }, ub = {
+}, db = { class: "sl-cell text-center success-value" }, ub = { class: "sl-cell text-center" }, hb = { class: "sl-cell text-center success-value" }, fb = {
   key: 0,
   class: "currency-cell-list"
-}, hb = { key: 1 }, fb = {
+}, gb = { key: 1 }, pb = {
   key: 0,
   class: "failed-reasons"
-}, gb = { class: "reason-name" }, pb = { class: "reason-count" }, mb = {
+}, mb = { class: "reason-name" }, bb = { class: "reason-count" }, vb = {
   key: 1,
   class: "empty-cell"
-}, bb = /* @__PURE__ */ Q({
+}, yb = /* @__PURE__ */ Q({
   __name: "Seller",
   props: {
     sellerData: { default: () => ({
@@ -13764,7 +13765,7 @@ const Kg = {
       "default-open": e.initiallyOpen
     }, Mt({
       default: P(() => [
-        s.loading ? (_(), k("div", V0, [...E[0] || (E[0] = [
+        s.loading ? (_(), k("div", W0, [...E[0] || (E[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-flow-loader" }, [
               r("div", { class: "flow-line flow-1" }),
@@ -13775,9 +13776,9 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading sales data...")
           ], -1)
-        ])])) : (_(), k("div", N0, [
-          w.value.nodes.length > 0 ? (_(), k("section", W0, [
-            r("div", H0, [
+        ])])) : (_(), k("div", H0, [
+          w.value.nodes.length > 0 ? (_(), k("section", j0, [
+            r("div", Y0, [
               R(Me, {
                 data: w.value,
                 "node-colors": C.value,
@@ -13785,7 +13786,7 @@ const Kg = {
                 height: "320px"
               }, null, 8, ["data", "node-colors"])
             ])
-          ])) : (_(), k("section", j0, [...E[1] || (E[1] = [
+          ])) : (_(), k("section", q0, [...E[1] || (E[1] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -13806,7 +13807,7 @@ const Kg = {
               r("p", { class: "empty-description" }, "No sales data found for the selected period. Try adjusting the date range.")
             ], -1)
           ])])),
-          r("section", Y0, [
+          r("section", K0, [
             R(lt, {
               class: "seller-value-card",
               color: "var(--kiut-success)",
@@ -13826,8 +13827,8 @@ const Kg = {
               value: x.value
             }, null, 8, ["value"])
           ]),
-          d.value && d.value.length > 0 ? (_(), k("section", q0, [
-            r("div", K0, [
+          d.value && d.value.length > 0 ? (_(), k("section", U0, [
+            r("div", X0, [
               R(qt, {
                 columns: c,
                 rows: u.value,
@@ -13835,72 +13836,72 @@ const Kg = {
                 "row-key": "id"
               }, {
                 "cell-date": P(({ row: I }) => [
-                  r("span", U0, A(F(It)(String(I.date)).format("MMM DD")), 1)
+                  r("span", G0, A(F(It)(String(I.date)).format("MMM DD")), 1)
                 ]),
                 "cell-sellInitiated": P(({ row: I }) => [
-                  r("span", X0, A(F(K)(Number(I.seller_conversations) || 0)), 1)
+                  r("span", Z0, A(F(K)(Number(I.seller_conversations) || 0)), 1)
                 ]),
                 "cell-sellStarted": P(({ row: I }) => [
-                  r("span", G0, A(S(I.sell_started_count, I.seller_conversations || I.sell_started_count)), 1)
+                  r("span", Q0, A(S(I.sell_started_count, I.seller_conversations || I.sell_started_count)), 1)
                 ]),
                 "cell-getQuote": P(({ row: I }) => [
-                  r("span", Z0, A(S(I.sell_get_quote_count, I.seller_conversations || I.sell_started_count)), 1)
+                  r("span", J0, A(S(I.sell_get_quote_count, I.seller_conversations || I.sell_started_count)), 1)
                 ]),
                 "cell-bookingCreated": P(({ row: I }) => [
-                  r("span", Q0, A(S(I.sell_booking_created_count, I.seller_conversations || I.sell_started_count)), 1)
+                  r("span", tb, A(S(I.sell_booking_created_count, I.seller_conversations || I.sell_started_count)), 1)
                 ]),
                 "cell-bankTransfer": P(({ row: I }) => [
-                  r("span", J0, A(F(K)(Number(I.sell_bank_transfer_count) || 0)), 1)
+                  r("span", eb, A(F(K)(Number(I.sell_bank_transfer_count) || 0)), 1)
                 ]),
                 "cell-btValue": P(({ row: I }) => [
-                  r("span", tb, [
-                    Array.isArray(I.daily_value_sell_success_bank_transfer) && I.daily_value_sell_success_bank_transfer.length > 0 ? (_(), k("div", eb, [
+                  r("span", nb, [
+                    Array.isArray(I.daily_value_sell_success_bank_transfer) && I.daily_value_sell_success_bank_transfer.length > 0 ? (_(), k("div", ab, [
                       (_(!0), k(U, null, at(I.daily_value_sell_success_bank_transfer, (N) => (_(), k("span", {
                         key: `${I.date}-bt-success-${N.currency}`
                       }, A(N.currency) + " " + A(F(ve)(N.total_value)), 1))), 128))
-                    ])) : (_(), k("span", nb, "-"))
+                    ])) : (_(), k("span", sb, "-"))
                   ])
                 ]),
                 "cell-btSuccess": P(({ row: I }) => [
-                  r("span", ab, A(F(K)(Number(I.sell_success_bank_transfer_count) || 0)), 1)
+                  r("span", ob, A(F(K)(Number(I.sell_success_bank_transfer_count) || 0)), 1)
                 ]),
                 "cell-cashOption": P(({ row: I }) => [
-                  r("span", sb, A(F(K)(Number(I.sell_cash_option_count) || 0)), 1)
+                  r("span", ib, A(F(K)(Number(I.sell_cash_option_count) || 0)), 1)
                 ]),
                 "cell-coValue": P(({ row: I }) => [
-                  r("span", ob, [
-                    Array.isArray(I.daily_value_sell_success_cash) && I.daily_value_sell_success_cash.length > 0 ? (_(), k("div", ib, [
+                  r("span", lb, [
+                    Array.isArray(I.daily_value_sell_success_cash) && I.daily_value_sell_success_cash.length > 0 ? (_(), k("div", rb, [
                       (_(!0), k(U, null, at(I.daily_value_sell_success_cash, (N) => (_(), k("span", {
                         key: `${I.date}-co-success-${N.currency}`
                       }, A(N.currency) + " " + A(F(ve)(N.total_value)), 1))), 128))
-                    ])) : (_(), k("span", lb, "-"))
+                    ])) : (_(), k("span", cb, "-"))
                   ])
                 ]),
                 "cell-cashSuccess": P(({ row: I }) => [
-                  r("span", rb, A(F(K)(Number(I.sell_success_cash_count) || 0)), 1)
+                  r("span", db, A(F(K)(Number(I.sell_success_cash_count) || 0)), 1)
                 ]),
                 "cell-sellSuccess": P(({ row: I }) => [
-                  r("span", cb, A(S(I.sell_success_count, I.seller_conversations || I.sell_started_count)), 1)
+                  r("span", ub, A(S(I.sell_success_count, I.seller_conversations || I.sell_started_count)), 1)
                 ]),
                 "cell-totalSalesValue": P(({ row: I }) => [
-                  r("span", db, [
-                    Array.isArray(I.daily_value_sell_success) && I.daily_value_sell_success.length > 0 ? (_(), k("div", ub, [
+                  r("span", hb, [
+                    Array.isArray(I.daily_value_sell_success) && I.daily_value_sell_success.length > 0 ? (_(), k("div", fb, [
                       (_(!0), k(U, null, at(I.daily_value_sell_success, (N) => (_(), k("span", {
                         key: `${I.date}-${N.currency}`
                       }, A(N.currency) + " " + A(F(ve)(N.total_value)), 1))), 128))
-                    ])) : (_(), k("span", hb, A(B(I.daily_value_sell_success)), 1))
+                    ])) : (_(), k("span", gb, A(B(I.daily_value_sell_success)), 1))
                   ])
                 ]),
                 "cell-failed": P(({ row: I }) => [
-                  (I.reasons || []).length > 0 ? (_(), k("div", fb, [
+                  (I.reasons || []).length > 0 ? (_(), k("div", pb, [
                     (_(!0), k(U, null, at(I.reasons || [], (N) => (_(), k("div", {
                       key: N.reason,
                       class: "failed-reason-item"
                     }, [
-                      r("span", gb, A(N.reason) + ":", 1),
-                      r("span", pb, A(N.failed_count), 1)
+                      r("span", mb, A(N.reason) + ":", 1),
+                      r("span", bb, A(N.failed_count), 1)
                     ]))), 128))
-                  ])) : (_(), k("div", mb, "-"))
+                  ])) : (_(), k("div", vb, "-"))
                 ]),
                 _: 1
               }, 8, ["rows"])
@@ -13923,7 +13924,7 @@ const Kg = {
       } : void 0
     ]), 1032, ["default-open"]));
   }
-}), Ri = /* @__PURE__ */ it(bb, [["__scopeId", "data-v-036ff257"]]), vb = { class: "seller-container__body" }, yb = /* @__PURE__ */ Q({
+}), Ri = /* @__PURE__ */ it(yb, [["__scopeId", "data-v-036ff257"]]), _b = { class: "seller-container__body" }, xb = /* @__PURE__ */ Q({
   __name: "SellerContainer",
   props: {
     containerInitiallyOpen: { type: Boolean, default: !1 },
@@ -13954,7 +13955,7 @@ const Kg = {
       "default-open": e.containerInitiallyOpen
     }, {
       default: P(() => [
-        r("div", vb, [
+        r("div", _b, [
           R(Ri, {
             "initially-open": e.childrenInitiallyOpen,
             "seller-data": e.sellerData,
@@ -13980,19 +13981,19 @@ const Kg = {
       _: 1
     }, 8, ["default-open"]));
   }
-}), _b = /* @__PURE__ */ it(yb, [["__scopeId", "data-v-878fdbc6"]]), xb = {
+}), kb = /* @__PURE__ */ it(xb, [["__scopeId", "data-v-878fdbc6"]]), wb = {
   key: 0,
   class: "card-body"
-}, kb = {
+}, Cb = {
   key: 0,
   class: "chart-section"
-}, wb = {
+}, $b = {
   key: 1,
   class: "empty-state"
-}, Cb = { class: "empty-state-content" }, $b = { class: "empty-icon-wrapper" }, Sb = {
+}, Sb = { class: "empty-state-content" }, Mb = { class: "empty-icon-wrapper" }, Db = {
   key: 1,
   class: "loading-state"
-}, Mb = /* @__PURE__ */ Q({
+}, Ab = /* @__PURE__ */ Q({
   __name: "TopAgents",
   props: {
     data: { default: () => ({}) },
@@ -14098,7 +14099,7 @@ const Kg = {
       collapsible: !1
     }, Mt({
       default: P(() => [
-        e.loading ? (_(), k("div", Sb, [...m[2] || (m[2] = [
+        e.loading ? (_(), k("div", Db, [...m[2] || (m[2] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-lines-loader" }, [
               r("div", { class: "line line-1" }),
@@ -14109,15 +14110,15 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading chart data...")
           ], -1)
-        ])])) : (_(), k("div", xb, [
-          c.value.labels && c.value.labels.length ? (_(), k("section", kb, [
+        ])])) : (_(), k("div", wb, [
+          c.value.labels && c.value.labels.length ? (_(), k("section", Cb, [
             R(na, {
               data: c.value,
               options: u.value
             }, null, 8, ["data", "options"])
-          ])) : (_(), k("section", wb, [
-            r("div", Cb, [
-              r("div", $b, [
+          ])) : (_(), k("section", $b, [
+            r("div", Sb, [
+              r("div", Mb, [
                 R(F(Wg), { class: "empty-icon" })
               ]),
               m[0] || (m[0] = r("p", { class: "empty-title" }, "No top agents data", -1)),
@@ -14141,34 +14142,34 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), Db = /* @__PURE__ */ it(Mb, [["__scopeId", "data-v-b027642a"]]), Ab = {
+}), Tb = /* @__PURE__ */ it(Ab, [["__scopeId", "data-v-b027642a"]]), Bb = {
   key: 0,
   class: "loading-state"
-}, Tb = {
+}, Lb = {
   key: 1,
   class: "card-body"
-}, Bb = {
+}, Fb = {
   key: 0,
   class: "payment-methods-section"
-}, Lb = { class: "payment-methods-grid" }, Fb = {
+}, Eb = { class: "payment-methods-grid" }, Ib = {
   key: 1,
   class: "empty-state"
-}, Eb = { class: "empty-state-content" }, Ib = { class: "empty-icon-wrapper" }, Pb = {
+}, Pb = { class: "empty-state-content" }, Rb = { class: "empty-icon-wrapper" }, Ob = {
   key: 2,
   class: "payment-method-daily-section"
-}, Rb = { class: "w-full min-w-0" }, Ob = { class: "font-medium" }, zb = { class: "text-center" }, Vb = { class: "text-center success-value" }, Nb = {
+}, zb = { class: "w-full min-w-0" }, Vb = { class: "font-medium" }, Nb = { class: "text-center" }, Wb = { class: "text-center success-value" }, Hb = {
   key: 0,
   class: "currency-cell-list"
-}, Wb = { class: "payment-tags" }, Hb = { class: "tag-name" }, jb = {
+}, jb = { class: "payment-tags" }, Yb = { class: "tag-name" }, qb = {
   key: 0,
   class: "tag-amount"
-}, Yb = {
+}, Kb = {
   key: 1,
   class: "tag-amount"
-}, qb = { class: "tag-count" }, Kb = {
+}, Ub = { class: "tag-count" }, Xb = {
   key: 3,
   class: "empty-table-state"
-}, Ub = "Not Registered", Xb = /* @__PURE__ */ Q({
+}, Gb = "Not Registered", Zb = /* @__PURE__ */ Q({
   __name: "PaymentMethod",
   props: {
     data: { default: void 0 },
@@ -14256,7 +14257,7 @@ const Kg = {
           i.value = !1;
         }
       }
-    }, p = ["#10b981", "#3b82f6", "#8b5cf6", "#f59e0b", "#f43f5e", "#06b6d4"], v = ($) => !$ || $.toLowerCase() === "unknown" ? Ub : $.replace(/_/g, " "), g = ($) => $ == null ? "$0.00" : yt($), b = ($) => {
+    }, p = ["#10b981", "#3b82f6", "#8b5cf6", "#f59e0b", "#f43f5e", "#06b6d4"], v = ($) => !$ || $.toLowerCase() === "unknown" ? Gb : $.replace(/_/g, " "), g = ($) => $ == null ? "$0.00" : yt($), b = ($) => {
       const S = $.total_amount_by_currency;
       return S && S.length > 0 ? S.map((L) => `${L.currency} ${g(L.total_value)}`).join(" · ") : g($.total_amount);
     }, x = ($) => $ ? It($).format("MMM DD") : "-", w = ($) => $ == null || Number.isNaN(Number($)) ? 0 : Number($), D = ($) => {
@@ -14286,7 +14287,7 @@ const Kg = {
       subtitle: "Sales breakdown by payment method"
     }, Mt({
       default: P(() => [
-        i.value ? (_(), k("div", Ab, [...S[0] || (S[0] = [
+        i.value ? (_(), k("div", Bb, [...S[0] || (S[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-lines-loader" }, [
               r("div", { class: "line line-1" }),
@@ -14297,10 +14298,10 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading payment data...")
           ], -1)
-        ])])) : (_(), k("div", Tb, [
-          d.value ? (_(), k("section", Bb, [
+        ])])) : (_(), k("div", Lb, [
+          d.value ? (_(), k("section", Fb, [
             S[1] || (S[1] = r("p", { class: "section-label" }, "Sales by Payment Method", -1)),
-            r("div", Lb, [
+            r("div", Eb, [
               (_(!0), k(U, null, at(l.value.payment_method_breakdown, (L, B) => (_(), nt(lt, {
                 key: L.payment_method,
                 class: "payment-method-card-item min-w-0",
@@ -14310,18 +14311,18 @@ const Kg = {
                 subvalue: `${w(L.count)} ${w(L.count) === 1 ? "sale" : "sales"}`
               }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
             ])
-          ])) : (_(), k("section", Fb, [
-            r("div", Eb, [
-              r("div", Ib, [
+          ])) : (_(), k("section", Ib, [
+            r("div", Pb, [
+              r("div", Rb, [
                 R(F(qg), { class: "empty-icon" })
               ]),
               S[2] || (S[2] = r("p", { class: "empty-title" }, "No payment data available", -1)),
               S[3] || (S[3] = r("p", { class: "empty-description" }, "No payment method data found for the selected period. Try adjusting the date range.", -1))
             ])
           ])),
-          c.value ? (_(), k("section", Pb, [
+          c.value ? (_(), k("section", Ob, [
             S[5] || (S[5] = r("p", { class: "section-label" }, "Daily Breakdown", -1)),
-            r("div", Rb, [
+            r("div", zb, [
               R(qt, {
                 columns: h,
                 rows: m.value,
@@ -14329,14 +14330,14 @@ const Kg = {
                 "row-key": "id"
               }, {
                 "cell-date": P(({ row: L }) => [
-                  r("span", Ob, A(x(String(L.date))), 1)
+                  r("span", Vb, A(x(String(L.date))), 1)
                 ]),
                 "cell-totalSales": P(({ row: L }) => [
-                  r("span", zb, A(F(K)(L.total_count ?? 0)), 1)
+                  r("span", Nb, A(F(K)(L.total_count ?? 0)), 1)
                 ]),
                 "cell-totalAmount": P(({ row: L }) => [
-                  r("span", Vb, [
-                    Array.isArray(L.total_amount_by_currency) && L.total_amount_by_currency.length > 0 ? (_(), k("div", Nb, [
+                  r("span", Wb, [
+                    Array.isArray(L.total_amount_by_currency) && L.total_amount_by_currency.length > 0 ? (_(), k("div", Hb, [
                       (_(!0), k(U, null, at(L.total_amount_by_currency, (B) => (_(), k("span", {
                         key: `${L.date}-${B.currency}`
                       }, A(B.currency) + " " + A(g(B.total_value)), 1))), 128))
@@ -14346,22 +14347,22 @@ const Kg = {
                   ])
                 ]),
                 "cell-paymentMethods": P(({ row: L }) => [
-                  r("div", Wb, [
+                  r("div", jb, [
                     (_(!0), k(U, null, at(Array.isArray(L.payment_methods) ? L.payment_methods : [], (B) => (_(), k("div", {
                       key: B.payment_method,
                       class: "payment-tag"
                     }, [
-                      r("span", Hb, A(v(B.payment_method)), 1),
+                      r("span", Yb, A(v(B.payment_method)), 1),
                       S[4] || (S[4] = r("span", { class: "tag-separator" }, "•", -1)),
-                      !B.total_amount_by_currency || B.total_amount_by_currency.length === 0 ? (_(), k("span", jb, A(g(B.total_amount)), 1)) : (_(), k("span", Yb, A(B.total_amount_by_currency.map((T) => `${T.currency} ${g(T.total_value)}`).join(" / ")), 1)),
-                      r("span", qb, "(" + A(w(B.count)) + ")", 1)
+                      !B.total_amount_by_currency || B.total_amount_by_currency.length === 0 ? (_(), k("span", qb, A(g(B.total_amount)), 1)) : (_(), k("span", Kb, A(B.total_amount_by_currency.map((T) => `${T.currency} ${g(T.total_value)}`).join(" / ")), 1)),
+                      r("span", Ub, "(" + A(w(B.count)) + ")", 1)
                     ]))), 128))
                   ])
                 ]),
                 _: 1
               }, 8, ["rows"])
             ])
-          ])) : d.value ? (_(), k("div", Kb, [...S[6] || (S[6] = [
+          ])) : d.value ? (_(), k("div", Xb, [...S[6] || (S[6] = [
             r("p", { class: "empty-table-text" }, "No daily breakdown available", -1)
           ])])) : z("", !0)
         ]))
@@ -14381,14 +14382,14 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), Gb = /* @__PURE__ */ it(Xb, [["__scopeId", "data-v-21b6865b"]]), Zb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, Qb = { class: "overflow-x-auto" }, Jb = { class: "kiut-table w-full min-w-[640px] border-collapse text-left text-sm" }, tv = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, ev = {
+}), Qb = /* @__PURE__ */ it(Zb, [["__scopeId", "data-v-21b6865b"]]), Jb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, tv = { class: "overflow-x-auto" }, ev = { class: "kiut-table w-full min-w-[640px] border-collapse text-left text-sm" }, nv = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, av = {
   key: 0,
   scope: "col",
   class: "w-12 px-4 py-3 text-center align-middle"
-}, nv = ["checked", "aria-label"], av = {
+}, sv = ["checked", "aria-label"], ov = {
   key: 0,
   class: "w-12 bg-transparent px-4 py-3 text-center align-middle"
-}, sv = ["checked", "aria-label", "onChange"], ov = /* @__PURE__ */ Q({
+}, iv = ["checked", "aria-label", "onChange"], lv = /* @__PURE__ */ Q({
   name: "Table",
   __name: "Table",
   props: {
@@ -14465,12 +14466,12 @@ const Kg = {
       const w = l(b, x);
       return `${n.ariaLabelSelectRow} ${w}`;
     }
-    return (b, x) => (_(), k("div", Zb, [
-      r("div", Qb, [
-        r("table", Jb, [
+    return (b, x) => (_(), k("div", Jb, [
+      r("div", tv, [
+        r("table", ev, [
           r("thead", null, [
-            r("tr", tv, [
-              e.selectable ? (_(), k("th", ev, [
+            r("tr", nv, [
+              e.selectable ? (_(), k("th", av, [
                 r("input", {
                   ref_key: "selectAllRef",
                   ref: s,
@@ -14479,7 +14480,7 @@ const Kg = {
                   checked: y.value,
                   "aria-label": e.ariaLabelSelectAll,
                   onChange: p
-                }, null, 40, nv)
+                }, null, 40, sv)
               ])) : z("", !0),
               (_(!0), k(U, null, at(e.columns, (w) => (_(), k("th", {
                 key: w.key,
@@ -14497,14 +14498,14 @@ const Kg = {
               key: u(w, D),
               class: "h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]"
             }, [
-              e.selectable ? (_(), k("td", av, [
+              e.selectable ? (_(), k("td", ov, [
                 r("input", {
                   type: "checkbox",
                   class: "kiut-table-checkbox",
                   checked: m(w, D),
                   "aria-label": g(w, D),
                   onChange: (C) => v(w, D)
-                }, null, 40, sv)
+                }, null, 40, iv)
               ])) : z("", !0),
               (_(!0), k(U, null, at(e.columns, (C) => (_(), k("td", {
                 key: C.key,
@@ -14528,25 +14529,25 @@ const Kg = {
       ])
     ]));
   }
-}), Oi = /* @__PURE__ */ it(ov, [["__scopeId", "data-v-95fc0bc9"]]), iv = {
+}), Oi = /* @__PURE__ */ it(lv, [["__scopeId", "data-v-95fc0bc9"]]), rv = {
   key: 0,
   class: "loading-state"
-}, lv = {
+}, cv = {
   key: 1,
   class: "card-body"
-}, rv = { class: "summary-cards" }, cv = {
+}, dv = { class: "summary-cards" }, uv = {
   key: 0,
   class: "summary-card enqueued-card"
-}, dv = { class: "summary-card-content" }, uv = { class: "card-content enqueued-content" }, hv = { class: "card-value enqueued-value" }, fv = { class: "summary-card assigned-card" }, gv = { class: "summary-card-content" }, pv = { class: "card-content" }, mv = { class: "card-value assigned-value" }, bv = { class: "card-content" }, vv = { class: "card-value assigned-value" }, yv = { class: "summary-card closed-card" }, _v = { class: "summary-card-content" }, xv = { class: "card-content" }, kv = { class: "card-value closed-value" }, wv = { class: "card-content" }, Cv = { class: "card-value closed-value" }, $v = {
+}, hv = { class: "summary-card-content" }, fv = { class: "card-content enqueued-content" }, gv = { class: "card-value enqueued-value" }, pv = { class: "summary-card assigned-card" }, mv = { class: "summary-card-content" }, bv = { class: "card-content" }, vv = { class: "card-value assigned-value" }, yv = { class: "card-content" }, _v = { class: "card-value assigned-value" }, xv = { class: "summary-card closed-card" }, kv = { class: "summary-card-content" }, wv = { class: "card-content" }, Cv = { class: "card-value closed-value" }, $v = { class: "card-content" }, Sv = { class: "card-value closed-value" }, Mv = {
   key: 0,
   class: "agents-section"
-}, Sv = { class: "date-header" }, Mv = { class: "date-title" }, Dv = { class: "date-stats" }, Av = {
+}, Dv = { class: "date-header" }, Av = { class: "date-title" }, Tv = { class: "date-stats" }, Bv = {
   key: 0,
   class: "stat-item enqueued-stat"
-}, Tv = { class: "stat-value" }, Bv = { class: "stat-item assigned-stat" }, Lv = { class: "stat-value" }, Fv = { class: "stat-value" }, Ev = { class: "stat-item closed-stat" }, Iv = { class: "stat-value" }, Pv = { class: "stat-value" }, Rv = { class: "w-full min-w-0" }, Ov = { class: "ah-cell name-cell" }, zv = { class: "ah-cell email-cell" }, Vv = { class: "metric-cell-content" }, Nv = { class: "badge assigned-badge" }, Wv = { class: "metric-cell-avg" }, Hv = { class: "metric-cell-content" }, jv = { class: "badge closed-badge" }, Yv = { class: "metric-cell-avg" }, qv = ["onClick"], Kv = {
+}, Lv = { class: "stat-value" }, Fv = { class: "stat-item assigned-stat" }, Ev = { class: "stat-value" }, Iv = { class: "stat-value" }, Pv = { class: "stat-item closed-stat" }, Rv = { class: "stat-value" }, Ov = { class: "stat-value" }, zv = { class: "w-full min-w-0" }, Vv = { class: "ah-cell name-cell" }, Nv = { class: "ah-cell email-cell" }, Wv = { class: "metric-cell-content" }, Hv = { class: "badge assigned-badge" }, jv = { class: "metric-cell-avg" }, Yv = { class: "metric-cell-content" }, qv = { class: "badge closed-badge" }, Kv = { class: "metric-cell-avg" }, Uv = ["onClick"], Xv = {
   key: 1,
   class: "empty-state"
-}, ba = 3, Uv = /* @__PURE__ */ Q({
+}, ba = 3, Gv = /* @__PURE__ */ Q({
   __name: "AgentHumanConversations",
   props: {
     data: { default: () => ({
@@ -14634,7 +14635,7 @@ const Kg = {
       subtitle: "Human conversation assignments and closures by agent"
     }, Mt({
       default: P(() => [
-        e.loading ? (_(), k("div", iv, [...L[0] || (L[0] = [
+        e.loading ? (_(), k("div", rv, [...L[0] || (L[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -14645,90 +14646,90 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading agent data...")
           ], -1)
-        ])])) : (_(), k("div", lv, [
-          r("div", rv, [
-            e.data.total_enqueued ? (_(), k("div", cv, [
+        ])])) : (_(), k("div", cv, [
+          r("div", dv, [
+            e.data.total_enqueued ? (_(), k("div", uv, [
               L[2] || (L[2] = r("div", { class: "card-decoration" }, null, -1)),
-              r("div", dv, [
-                r("div", uv, [
+              r("div", hv, [
+                r("div", fv, [
                   L[1] || (L[1] = r("p", { class: "card-label" }, "Total Enqueued", -1)),
-                  r("p", hv, A(v(e.data.total_enqueued)), 1)
+                  r("p", gv, A(v(e.data.total_enqueued)), 1)
                 ])
               ])
             ])) : z("", !0),
-            r("div", fv, [
+            r("div", pv, [
               L[5] || (L[5] = r("div", { class: "card-decoration" }, null, -1)),
-              r("div", gv, [
-                r("div", pv, [
-                  L[3] || (L[3] = r("p", { class: "card-label" }, "Total Assigned", -1)),
-                  r("p", mv, A(v(e.data.total_assigned)), 1)
-                ]),
+              r("div", mv, [
                 r("div", bv, [
+                  L[3] || (L[3] = r("p", { class: "card-label" }, "Total Assigned", -1)),
+                  r("p", vv, A(v(e.data.total_assigned)), 1)
+                ]),
+                r("div", yv, [
                   L[4] || (L[4] = r("p", { class: "card-label" }, "AVG time to assign", -1)),
-                  r("p", vv, A(g(e.data.avg_time_to_assign_seconds)), 1)
+                  r("p", _v, A(g(e.data.avg_time_to_assign_seconds)), 1)
                 ])
               ])
             ]),
-            r("div", yv, [
+            r("div", xv, [
               L[8] || (L[8] = r("div", { class: "card-decoration" }, null, -1)),
-              r("div", _v, [
-                r("div", xv, [
-                  L[6] || (L[6] = r("p", { class: "card-label" }, "Total Closed", -1)),
-                  r("p", kv, A(v(e.data.total_closed)), 1)
-                ]),
+              r("div", kv, [
                 r("div", wv, [
+                  L[6] || (L[6] = r("p", { class: "card-label" }, "Total Closed", -1)),
+                  r("p", Cv, A(v(e.data.total_closed)), 1)
+                ]),
+                r("div", $v, [
                   L[7] || (L[7] = r("p", { class: "card-label" }, "AVG time to close", -1)),
-                  r("p", Cv, A(g(e.data.avg_conversation_duration_seconds)), 1)
+                  r("p", Sv, A(g(e.data.avg_conversation_duration_seconds)), 1)
                 ])
               ])
             ])
           ]),
-          l.value ? (_(), k("div", $v, [
+          l.value ? (_(), k("div", Mv, [
             (_(!0), k(U, null, at(d.value, (B, T) => (_(), k("div", {
               key: T,
               class: "date-group"
             }, [
-              r("div", Sv, [
-                r("h4", Mv, A(b(T)), 1),
-                r("div", Dv, [
-                  x(B) ? (_(), k("span", Av, [
-                    r("span", Tv, A(v(x(B))), 1),
+              r("div", Dv, [
+                r("h4", Av, A(b(T)), 1),
+                r("div", Tv, [
+                  x(B) ? (_(), k("span", Bv, [
+                    r("span", Lv, A(v(x(B))), 1),
                     L[9] || (L[9] = bt(" Enqueued ", -1))
                   ])) : z("", !0),
-                  r("span", Bv, [
-                    r("span", Lv, A(v(w(B))), 1),
+                  r("span", Fv, [
+                    r("span", Ev, A(v(w(B))), 1),
                     L[10] || (L[10] = bt(" Assigned ", -1)),
-                    r("span", Fv, A(g(C(B))), 1)
+                    r("span", Iv, A(g(C(B))), 1)
                   ]),
-                  r("span", Ev, [
-                    r("span", Iv, A(v(D(B))), 1),
+                  r("span", Pv, [
+                    r("span", Rv, A(v(D(B))), 1),
                     L[11] || (L[11] = bt(" Closed ", -1)),
-                    r("span", Pv, A(g($(B))), 1)
+                    r("span", Ov, A(g($(B))), 1)
                   ])
                 ])
               ]),
-              r("div", Rv, [
+              r("div", zv, [
                 R(Oi, {
                   columns: f,
                   rows: p(String(T), B),
                   "row-key": "id"
                 }, {
                   "cell-agentName": P(({ row: E }) => [
-                    r("span", Ov, A(E.agent_name || "-"), 1)
+                    r("span", Vv, A(E.agent_name || "-"), 1)
                   ]),
                   "cell-email": P(({ row: E }) => [
-                    r("span", zv, A(E.agent_email), 1)
+                    r("span", Nv, A(E.agent_email), 1)
                   ]),
                   "cell-assigned": P(({ row: E }) => [
-                    r("div", Vv, [
-                      r("span", Nv, A(v(Number(E.assigned_count))), 1),
-                      r("span", Wv, A(g(Number(E.avg_time_to_assign_seconds))), 1)
+                    r("div", Wv, [
+                      r("span", Hv, A(v(Number(E.assigned_count))), 1),
+                      r("span", jv, A(g(Number(E.avg_time_to_assign_seconds))), 1)
                     ])
                   ]),
                   "cell-closed": P(({ row: E }) => [
-                    r("div", Hv, [
-                      r("span", jv, A(v(Number(E.closed_count))), 1),
-                      r("span", Yv, A(g(Number(E.avg_conversation_duration_seconds))), 1)
+                    r("div", Yv, [
+                      r("span", qv, A(v(Number(E.closed_count))), 1),
+                      r("span", Kv, A(g(Number(E.avg_conversation_duration_seconds))), 1)
                     ])
                   ]),
                   _: 1
@@ -14754,9 +14755,9 @@ const Kg = {
                     d: "M19 9l-7 7-7-7"
                   }, null, -1)
                 ])], 2))
-              ], 8, qv)) : z("", !0)
+              ], 8, Uv)) : z("", !0)
             ]))), 128))
-          ])) : (_(), k("div", Kv, [...L[13] || (L[13] = [
+          ])) : (_(), k("div", Xv, [...L[13] || (L[13] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -14794,19 +14795,19 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), Xv = /* @__PURE__ */ it(Uv, [["__scopeId", "data-v-d6171363"]]), Gv = {
+}), Zv = /* @__PURE__ */ it(Gv, [["__scopeId", "data-v-d6171363"]]), Qv = {
   key: 0,
   class: "flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
-}, Zv = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, Qv = {
+}, Jv = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, ty = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, Jv = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, ty = {
+}, ey = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, ny = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, ey = {
+}, ay = {
   key: 2,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
-}, ny = { class: "max-w-[360px] px-4 text-center" }, ay = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, sy = /* @__PURE__ */ Q({
+}, sy = { class: "max-w-[360px] px-4 text-center" }, oy = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, iy = /* @__PURE__ */ Q({
   __name: "ChannelMetrics",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -14890,8 +14891,8 @@ const Kg = {
         r("div", {
           class: H(["flex min-h-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]", o.loading ? "flex-1" : "w-full shrink-0"])
         }, [
-          o.loading ? (_(), k("div", Gv, [
-            r("div", Zv, [
+          o.loading ? (_(), k("div", Qv, [
+            r("div", Jv, [
               (_(), k(U, null, at(a, (x, w) => r("div", {
                 key: w,
                 class: H(["w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 shadow-[var(--kiut-shadow-loader,0_4px_14px_rgba(139,92,246,0.25))] dark:from-violet-500 dark:via-violet-400 dark:to-violet-300", s[w]]),
@@ -14900,8 +14901,8 @@ const Kg = {
             ]),
             b[0] || (b[0] = r("p", { class: "animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]" }, " Loading channel metrics... ", -1))
           ])) : (_(), k(U, { key: 1 }, [
-            h.value.labels && h.value.labels.length ? (_(), k("section", Qv, [
-              r("div", Jv, [
+            h.value.labels && h.value.labels.length ? (_(), k("section", ty, [
+              r("div", ey, [
                 R(Se, {
                   data: h.value,
                   theme: d.value
@@ -14919,7 +14920,7 @@ const Kg = {
                   subvalue: `${F(K)(x.total)} msgs`
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 2)) : z("", !0)
-            ])) : y.value.length ? (_(), k("section", ty, [
+            ])) : y.value.length ? (_(), k("section", ny, [
               r("div", {
                 class: H(p.value)
               }, [
@@ -14932,9 +14933,9 @@ const Kg = {
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 2)
             ])) : z("", !0),
-            y.value.length ? z("", !0) : (_(), k("section", ey, [
-              r("div", ny, [
-                r("div", ay, [
+            y.value.length ? z("", !0) : (_(), k("section", ay, [
+              r("div", sy, [
+                r("div", oy, [
                   R(F(Wt), { class: "h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" })
                 ]),
                 b[1] || (b[1] = r("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " No channel metrics data available ", -1)),
@@ -14959,16 +14960,10 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), oy = /* @__PURE__ */ it(sy, [["__scopeId", "data-v-567110f7"]]), iy = {
+}), ly = /* @__PURE__ */ it(iy, [["__scopeId", "data-v-567110f7"]]), ry = {
   key: 0,
   class: "card-body"
-}, ly = { class: "chart-container" }, ry = { class: "triage-table-block w-full min-w-0" }, cy = { class: "triage-row-label" }, dy = {
-  key: 1,
-  class: "triage-count"
-}, uy = {
-  key: 1,
-  class: "triage-count"
-}, hy = {
+}, cy = { class: "chart-container" }, dy = { class: "triage-table-block w-full min-w-0" }, uy = { class: "triage-row-label" }, hy = {
   key: 1,
   class: "triage-count"
 }, fy = {
@@ -14979,11 +14974,17 @@ const Kg = {
   class: "triage-count"
 }, py = {
   key: 1,
+  class: "triage-count"
+}, my = {
+  key: 1,
+  class: "triage-count"
+}, by = {
+  key: 1,
   class: "empty-state"
-}, my = { class: "empty-state-content" }, by = { class: "empty-icon-wrapper" }, vy = {
+}, vy = { class: "empty-state-content" }, yy = { class: "empty-icon-wrapper" }, _y = {
   key: 1,
   class: "loading-state"
-}, yy = /* @__PURE__ */ Q({
+}, xy = /* @__PURE__ */ Q({
   __name: "TriageCombinations",
   props: {
     data: { default: () => ({ combinations: {} }) },
@@ -15152,7 +15153,7 @@ const Kg = {
       collapsible: !1
     }, Mt({
       default: P(() => [
-        e.loading ? (_(), k("div", vy, [...w[2] || (w[2] = [
+        e.loading ? (_(), k("div", _y, [...w[2] || (w[2] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -15163,9 +15164,9 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading intent distribution...")
           ], -1)
-        ])])) : (_(), k("div", iy, [
+        ])])) : (_(), k("div", ry, [
           u.value ? (_(), k(U, { key: 0 }, [
-            r("div", ly, [
+            r("div", cy, [
               R(he, {
                 data: v.value,
                 options: g.value
@@ -15177,7 +15178,7 @@ const Kg = {
               value: F(K)(c.value),
               subvalue: "Conversations with triage"
             }, null, 8, ["value"]),
-            r("div", ry, [
+            r("div", dy, [
               R(qt, {
                 columns: m,
                 rows: y.value,
@@ -15185,49 +15186,49 @@ const Kg = {
                 "row-key": "id"
               }, {
                 "cell-metric": P(({ row: D }) => [
-                  r("span", cy, A(D.metric), 1)
+                  r("span", uy, A(D.metric), 1)
                 ]),
                 "cell-b0": P(({ row: D }) => [
                   D.id === "pct" ? (_(), k("span", {
                     key: 0,
                     class: "triage-pct",
                     style: mt({ color: p(f.c0) })
-                  }, A(b(Number(D.b0))) + "%", 5)) : (_(), k("span", dy, A(F(K)(Number(D.b0))), 1))
+                  }, A(b(Number(D.b0))) + "%", 5)) : (_(), k("span", hy, A(F(K)(Number(D.b0))), 1))
                 ]),
                 "cell-b1": P(({ row: D }) => [
                   D.id === "pct" ? (_(), k("span", {
                     key: 0,
                     class: "triage-pct",
                     style: mt({ color: p(f.c1) })
-                  }, A(b(Number(D.b1))) + "%", 5)) : (_(), k("span", uy, A(F(K)(Number(D.b1))), 1))
+                  }, A(b(Number(D.b1))) + "%", 5)) : (_(), k("span", fy, A(F(K)(Number(D.b1))), 1))
                 ]),
                 "cell-b2": P(({ row: D }) => [
                   D.id === "pct" ? (_(), k("span", {
                     key: 0,
                     class: "triage-pct",
                     style: mt({ color: p(f.c2) })
-                  }, A(b(Number(D.b2))) + "%", 5)) : (_(), k("span", hy, A(F(K)(Number(D.b2))), 1))
+                  }, A(b(Number(D.b2))) + "%", 5)) : (_(), k("span", gy, A(F(K)(Number(D.b2))), 1))
                 ]),
                 "cell-b3": P(({ row: D }) => [
                   D.id === "pct" ? (_(), k("span", {
                     key: 0,
                     class: "triage-pct",
                     style: mt({ color: p(f.c3) })
-                  }, A(b(Number(D.b3))) + "%", 5)) : (_(), k("span", fy, A(F(K)(Number(D.b3))), 1))
+                  }, A(b(Number(D.b3))) + "%", 5)) : (_(), k("span", py, A(F(K)(Number(D.b3))), 1))
                 ]),
                 "cell-b4p": P(({ row: D }) => [
                   D.id === "pct" ? (_(), k("span", {
                     key: 0,
                     class: "triage-pct",
                     style: mt({ color: p(f.c4p) })
-                  }, A(b(Number(D.b4p))) + "%", 5)) : (_(), k("span", gy, A(F(K)(Number(D.b4p))), 1))
+                  }, A(b(Number(D.b4p))) + "%", 5)) : (_(), k("span", my, A(F(K)(Number(D.b4p))), 1))
                 ]),
                 _: 1
               }, 8, ["rows"])
             ])
-          ], 64)) : (_(), k("div", py, [
-            r("div", my, [
-              r("div", by, [
+          ], 64)) : (_(), k("div", by, [
+            r("div", vy, [
+              r("div", yy, [
                 R(F(Wt), { class: "empty-icon" })
               ]),
               w[0] || (w[0] = r("p", { class: "empty-title" }, "No triage combinations data", -1)),
@@ -15251,19 +15252,19 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), _y = /* @__PURE__ */ it(yy, [["__scopeId", "data-v-c0931082"]]), xy = {
+}), ky = /* @__PURE__ */ it(xy, [["__scopeId", "data-v-c0931082"]]), wy = {
   key: 0,
   class: "loading-state"
-}, ky = {
+}, Cy = {
   key: 1,
   class: "card-body"
-}, wy = {
+}, $y = {
   key: 0,
   class: "distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-4 min-h-0"
-}, Cy = { class: "pie-section" }, $y = {
+}, Sy = { class: "pie-section" }, My = {
   key: 1,
   class: "empty-state"
-}, Sy = /* @__PURE__ */ Q({
+}, Dy = /* @__PURE__ */ Q({
   __name: "SelectLanguage",
   props: {
     data: { default: () => ({ items: [] }) },
@@ -15355,7 +15356,7 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        n.loading ? (_(), k("div", xy, [...f[0] || (f[0] = [
+        n.loading ? (_(), k("div", wy, [...f[0] || (f[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -15366,9 +15367,9 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading language data...")
           ], -1)
-        ])])) : (_(), k("div", ky, [
-          d.value ? (_(), k("div", wy, [
-            r("section", Cy, [
+        ])])) : (_(), k("div", Cy, [
+          d.value ? (_(), k("div", $y, [
+            r("section", Sy, [
               R(na, {
                 data: h.value,
                 options: m.value
@@ -15380,7 +15381,7 @@ const Kg = {
               value: F(K)(c.value),
               color: "#8b5cf6"
             }, null, 8, ["value"])
-          ])) : (_(), k("section", $y, [...f[1] || (f[1] = [
+          ])) : (_(), k("section", My, [...f[1] || (f[1] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -15406,19 +15407,19 @@ const Kg = {
       _: 1
     }));
   }
-}), My = /* @__PURE__ */ it(Sy, [["__scopeId", "data-v-020e89a6"]]), Dy = {
+}), Ay = /* @__PURE__ */ it(Dy, [["__scopeId", "data-v-020e89a6"]]), Ty = {
   key: 0,
   class: "loading-state"
-}, Ay = {
+}, By = {
   key: 1,
   class: "card-body"
-}, Ty = {
+}, Ly = {
   key: 0,
   class: "guardrails-daily-section"
-}, By = { class: "w-full min-w-0" }, Ly = { class: "font-medium" }, Fy = { class: "font-semibold" }, Ey = { class: "type-badges-row" }, Iy = { class: "guardrails-kpis grid grid-cols-2 gap-3 lg:grid-cols-4" }, Py = {
+}, Fy = { class: "w-full min-w-0" }, Ey = { class: "font-medium" }, Iy = { class: "font-semibold" }, Py = { class: "type-badges-row" }, Ry = { class: "guardrails-kpis grid grid-cols-2 gap-3 lg:grid-cols-4" }, Oy = {
   key: 1,
   class: "empty-state"
-}, Ry = /* @__PURE__ */ Q({
+}, zy = /* @__PURE__ */ Q({
   __name: "Guardrails",
   props: {
     data: { default: () => ({ items: [] }) },
@@ -15474,7 +15475,7 @@ const Kg = {
       collapsible: !1
     }, Mt({
       default: P(() => [
-        a.loading ? (_(), k("div", Dy, [...g[0] || (g[0] = [
+        a.loading ? (_(), k("div", Ty, [...g[0] || (g[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -15485,10 +15486,10 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading guardrails data...")
           ], -1)
-        ])])) : (_(), k("div", Ay, [
+        ])])) : (_(), k("div", By, [
           l.value ? (_(), k(U, { key: 0 }, [
-            y.value.length > 0 ? (_(), k("section", Ty, [
-              r("div", By, [
+            y.value.length > 0 ? (_(), k("section", Ly, [
+              r("div", Fy, [
                 R(qt, {
                   columns: f,
                   rows: p.value,
@@ -15496,13 +15497,13 @@ const Kg = {
                   "row-key": "id"
                 }, {
                   "cell-date": P(({ row: b }) => [
-                    r("span", Ly, A(F(It)(String(b.date)).format("MMM DD")), 1)
+                    r("span", Ey, A(F(It)(String(b.date)).format("MMM DD")), 1)
                   ]),
                   "cell-count": P(({ row: b }) => [
-                    r("span", Fy, A(F(K)(b.total)), 1)
+                    r("span", Iy, A(F(K)(b.total)), 1)
                   ]),
                   "cell-types": P(({ row: b }) => [
-                    r("div", Ey, [
+                    r("div", Py, [
                       (_(!0), k(U, null, at(b.types, (x) => (_(), k("span", {
                         key: x.type,
                         class: "type-count-badge"
@@ -15513,7 +15514,7 @@ const Kg = {
                 }, 8, ["rows"])
               ])
             ])) : z("", !0),
-            r("section", Iy, [
+            r("section", Ry, [
               R(lt, {
                 title: "Total Events",
                 value: F(K)(d.value)
@@ -15534,7 +15535,7 @@ const Kg = {
                 subvalue: m.value.pct > 0 ? `(${m.value.pct}%)` : void 0
               }, null, 8, ["value", "subvalue"])
             ])
-          ], 64)) : (_(), k("section", Py, [...g[1] || (g[1] = [
+          ], 64)) : (_(), k("section", Oy, [...g[1] || (g[1] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -15572,25 +15573,25 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), Oy = /* @__PURE__ */ it(Ry, [["__scopeId", "data-v-0416b73e"]]), zy = {
+}), Vy = /* @__PURE__ */ it(zy, [["__scopeId", "data-v-0416b73e"]]), Ny = {
   key: 0,
   class: "loading-state"
-}, Vy = {
+}, Wy = {
   key: 1,
   class: "card-body"
-}, Ny = { class: "chart-section" }, Wy = { class: "chart-wrapper" }, Hy = {
+}, Hy = { class: "chart-section" }, jy = { class: "chart-wrapper" }, Yy = {
   key: 1,
   class: "empty-chart"
-}, jy = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5" }, Yy = {
+}, qy = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5" }, Ky = {
   key: 0,
   class: "dn-failure-section"
-}, qy = { class: "w-full min-w-0" }, Ky = { class: "failure-reason" }, Uy = { class: "failure-count" }, Xy = { class: "impact-bar-container" }, Gy = { class: "impact-label" }, Zy = { class: "dn-trend-health-block flex flex-col gap-0" }, Qy = {
+}, Uy = { class: "w-full min-w-0" }, Xy = { class: "failure-reason" }, Gy = { class: "failure-count" }, Zy = { class: "impact-bar-container" }, Qy = { class: "impact-label" }, Jy = { class: "dn-trend-health-block flex flex-col gap-0" }, t1 = {
   key: 0,
   class: "chart-section dn-trend-chart-section"
-}, Jy = { class: "dn-trend-chart-area min-h-[280px] w-full min-w-0 flex-1" }, t1 = { class: "system-health" }, e1 = { class: "system-health-content" }, n1 = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" }, a1 = {
+}, e1 = { class: "dn-trend-chart-area min-h-[280px] w-full min-w-0 flex-1" }, n1 = { class: "system-health" }, a1 = { class: "system-health-content" }, s1 = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" }, o1 = {
   key: 1,
   class: "empty-state"
-}, s1 = /* @__PURE__ */ Q({
+}, i1 = /* @__PURE__ */ Q({
   __name: "DisruptionNotifier",
   props: {
     data: { default: () => ({
@@ -15810,7 +15811,7 @@ const Kg = {
       subtitle: "Passenger notification effectiveness and delivery analysis"
     }, Mt({
       default: P(() => [
-        a.loading ? (_(), k("div", zy, [...$[0] || ($[0] = [
+        a.loading ? (_(), k("div", Ny, [...$[0] || ($[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-bars-loader" }, [
               r("div", { class: "bar bar-1" }),
@@ -15821,24 +15822,24 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading disruption notifier data...")
           ], -1)
-        ])])) : (_(), k("div", Vy, [
+        ])])) : (_(), k("div", Wy, [
           d.value ? (_(), k(U, { key: 0 }, [
-            r("section", Ny, [
+            r("section", Hy, [
               $[2] || ($[2] = r("div", { class: "chart-header" }, [
                 r("h4", { class: "section-title" }, "Passenger Disruption Funnel")
               ], -1)),
-              r("div", Wy, [
+              r("div", jy, [
                 b.value.nodes.length > 0 && b.value.links.length > 0 ? (_(), nt(Me, {
                   key: 0,
                   data: b.value,
                   "node-colors": x,
                   height: "350px"
-                }, null, 8, ["data"])) : (_(), k("div", Hy, [...$[1] || ($[1] = [
+                }, null, 8, ["data"])) : (_(), k("div", Yy, [...$[1] || ($[1] = [
                   r("p", { class: "empty-chart-text" }, "No processing data available for visualization", -1)
                 ])]))
               ])
             ]),
-            r("div", jy, [
+            r("div", qy, [
               R(lt, {
                 color: "#3b82f6",
                 title: "Total Records",
@@ -15868,11 +15869,11 @@ const Kg = {
                 subvalue: f.value.count > 0 ? `${F(K)(f.value.count)} cases` : void 0
               }, null, 8, ["value", "subvalue"])
             ]),
-            p.value.length > 0 ? (_(), k("section", Yy, [
+            p.value.length > 0 ? (_(), k("section", Ky, [
               $[3] || ($[3] = r("div", { class: "section-header" }, [
                 r("h4", { class: "section-title" }, "Why Passengers Were Not Notified")
               ], -1)),
-              r("div", qy, [
+              r("div", Uy, [
                 R(qt, {
                   columns: v,
                   rows: g.value,
@@ -15880,30 +15881,30 @@ const Kg = {
                   "row-key": "id"
                 }, {
                   "cell-reason": P(({ row: S }) => [
-                    r("span", Ky, A(S.reason), 1)
+                    r("span", Xy, A(S.reason), 1)
                   ]),
                   "cell-count": P(({ row: S }) => [
-                    r("span", Uy, A(F(K)(S.count)), 1)
+                    r("span", Gy, A(F(K)(S.count)), 1)
                   ]),
                   "cell-impact": P(({ row: S }) => [
-                    r("div", Xy, [
+                    r("div", Zy, [
                       r("div", {
                         class: "impact-bar",
                         style: mt({ width: S.impactPct + "%" })
                       }, null, 4),
-                      r("span", Gy, A(S.impactPct) + "%", 1)
+                      r("span", Qy, A(S.impactPct) + "%", 1)
                     ])
                   ]),
                   _: 1
                 }, 8, ["rows"])
               ])
             ])) : z("", !0),
-            r("div", Zy, [
-              w.value.labels.length > 0 ? (_(), k("section", Qy, [
+            r("div", Jy, [
+              w.value.labels.length > 0 ? (_(), k("section", t1, [
                 $[4] || ($[4] = r("div", { class: "chart-header" }, [
                   r("h4", { class: "section-title" }, "Notification Success Rate by Day")
                 ], -1)),
-                r("div", Jy, [
+                r("div", e1, [
                   R(Se, {
                     data: w.value,
                     options: D.value,
@@ -15911,7 +15912,7 @@ const Kg = {
                   }, null, 8, ["data", "options", "theme"])
                 ])
               ])) : z("", !0),
-              r("details", t1, [
+              r("details", n1, [
                 $[5] || ($[5] = r("summary", { class: "system-health-toggle" }, [
                   r("svg", {
                     class: "toggle-icon",
@@ -15934,8 +15935,8 @@ const Kg = {
                   ]),
                   bt(" System Health Details ")
                 ], -1)),
-                r("div", e1, [
-                  r("div", n1, [
+                r("div", a1, [
+                  r("div", s1, [
                     R(lt, {
                       title: "Docs Started",
                       value: F(K)(c.value.processing_started)
@@ -15964,7 +15965,7 @@ const Kg = {
                 ])
               ])
             ])
-          ], 64)) : (_(), k("section", a1, [...$[6] || ($[6] = [
+          ], 64)) : (_(), k("section", o1, [...$[6] || ($[6] = [
             r("div", { class: "empty-state-content" }, [
               r("div", { class: "empty-icon-wrapper" }, [
                 r("svg", {
@@ -16002,13 +16003,13 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}), o1 = /* @__PURE__ */ it(s1, [["__scopeId", "data-v-3e21a8c3"]]), i1 = { class: "highlight-inner" }, l1 = {
+}), l1 = /* @__PURE__ */ it(i1, [["__scopeId", "data-v-3e21a8c3"]]), r1 = { class: "highlight-inner" }, c1 = {
   key: 0,
   class: "loading-state"
-}, r1 = {
+}, d1 = {
   key: 1,
   class: "card-body"
-}, c1 = { class: "metric-value" }, d1 = /* @__PURE__ */ Q({
+}, u1 = { class: "metric-value" }, h1 = /* @__PURE__ */ Q({
   __name: "TotalConversationsCard",
   props: {
     totalConversations: { default: 0 },
@@ -16061,12 +16062,12 @@ const Kg = {
         }, A(l.value), 3)) : z("", !0)
       ]),
       default: P(() => [
-        r("div", i1, [
-          e.loading ? (_(), k("div", l1, [...u[1] || (u[1] = [
+        r("div", r1, [
+          e.loading ? (_(), k("div", c1, [...u[1] || (u[1] = [
             r("div", { class: "shimmer shimmer-value" }, null, -1),
             r("div", { class: "shimmer shimmer-label" }, null, -1)
-          ])])) : (_(), k("div", r1, [
-            r("span", c1, A(s.value), 1),
+          ])])) : (_(), k("div", d1, [
+            r("span", u1, A(s.value), 1),
             u[2] || (u[2] = r("span", { class: "metric-label" }, "Total Conversations", -1))
           ]))
         ])
@@ -16074,13 +16075,13 @@ const Kg = {
       _: 1
     }, 8, ["class"]));
   }
-}), u1 = /* @__PURE__ */ it(d1, [["__scopeId", "data-v-55c80363"]]), h1 = { class: "highlight-inner" }, f1 = {
+}), f1 = /* @__PURE__ */ it(h1, [["__scopeId", "data-v-55c80363"]]), g1 = { class: "highlight-inner" }, p1 = {
   key: 0,
   class: "loading-state"
-}, g1 = {
+}, m1 = {
   key: 1,
   class: "card-body"
-}, p1 = { class: "metric-value" }, m1 = /* @__PURE__ */ Q({
+}, b1 = { class: "metric-value" }, v1 = /* @__PURE__ */ Q({
   __name: "CsatP95Card",
   props: {
     csatP95: { default: 0 },
@@ -16132,12 +16133,12 @@ const Kg = {
         }, A(l.value), 3)) : z("", !0)
       ]),
       default: P(() => [
-        r("div", h1, [
-          e.loading ? (_(), k("div", f1, [...u[1] || (u[1] = [
+        r("div", g1, [
+          e.loading ? (_(), k("div", p1, [...u[1] || (u[1] = [
             r("div", { class: "shimmer shimmer-value" }, null, -1),
             r("div", { class: "shimmer shimmer-label" }, null, -1)
-          ])])) : (_(), k("div", g1, [
-            r("span", p1, A(s.value), 1),
+          ])])) : (_(), k("div", m1, [
+            r("span", b1, A(s.value), 1),
             u[2] || (u[2] = r("span", { class: "metric-label" }, "CSAT P95", -1))
           ]))
         ])
@@ -16145,16 +16146,16 @@ const Kg = {
       _: 1
     }, 8, ["class"]));
   }
-}), b1 = /* @__PURE__ */ it(m1, [["__scopeId", "data-v-b2f7dc51"]]), v1 = {
+}), y1 = /* @__PURE__ */ it(v1, [["__scopeId", "data-v-b2f7dc51"]]), _1 = {
   key: 0,
   class: "loading-state"
-}, y1 = {
+}, x1 = {
   key: 1,
   class: "card-body"
-}, _1 = { class: "chart-wrapper" }, x1 = { class: "overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4" }, k1 = {
+}, k1 = { class: "chart-wrapper" }, w1 = { class: "overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4" }, C1 = {
   key: 2,
   class: "empty-state"
-}, w1 = 500, C1 = 60, $1 = 80, S1 = {
+}, $1 = 500, S1 = 60, M1 = 80, D1 = {
   __name: "npsOverviewMetrics",
   props: {
     data: {
@@ -16190,7 +16191,7 @@ const Kg = {
       collapsible: !1
     }, Mt({
       default: P(() => [
-        o.loading ? (_(), k("div", v1, [...u[0] || (u[0] = [
+        o.loading ? (_(), k("div", _1, [...u[0] || (u[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-flow-loader" }, [
               r("div", { class: "flow-line flow-1" }),
@@ -16201,8 +16202,8 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading NPS data...")
           ], -1)
-        ])])) : l.value && l.value.total_nps_responses > 0 ? (_(), k("div", y1, [
-          r("div", _1, [
+        ])])) : l.value && l.value.total_nps_responses > 0 ? (_(), k("div", x1, [
+          r("div", k1, [
             R(Di, {
               histogram: l.value.histogram || [],
               "min-score": l.value.min_score || 0,
@@ -16212,13 +16213,13 @@ const Kg = {
               "q3-score": l.value.q3_score || 0,
               "average-score": l.value.average_score || 0,
               "chart-width": d.value,
-              "chart-height": w1,
-              "chart-margin": C1,
-              "chart-bottom-margin": $1,
+              "chart-height": $1,
+              "chart-margin": S1,
+              "chart-bottom-margin": M1,
               interactive: !1
             }, null, 8, ["histogram", "min-score", "max-score", "q1-score", "median-score", "q3-score", "average-score", "chart-width"])
           ]),
-          r("div", x1, [
+          r("div", w1, [
             R(lt, {
               class: "min-w-0 flex-1",
               title: "Responses",
@@ -16231,7 +16232,7 @@ const Kg = {
               value: String(l.value.p95_score)
             }, null, 8, ["value"])) : z("", !0)
           ])
-        ])) : (_(), k("div", k1, [...u[1] || (u[1] = [
+        ])) : (_(), k("div", C1, [...u[1] || (u[1] = [
           r("div", { class: "empty-state-content" }, [
             r("div", { class: "empty-icon-wrapper" }, [
               r("svg", {
@@ -16268,16 +16269,16 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}, zi = /* @__PURE__ */ it(S1, [["__scopeId", "data-v-28b39eb9"]]), M1 = {
+}, zi = /* @__PURE__ */ it(D1, [["__scopeId", "data-v-28b39eb9"]]), A1 = {
   key: 0,
   class: "loading-state"
-}, D1 = {
+}, T1 = {
   key: 1,
   class: "card-body"
-}, A1 = { class: "tooltip-content" }, T1 = { class: "tooltip-title" }, B1 = { class: "tooltip-stats" }, L1 = { class: "tooltip-stat-row" }, F1 = { class: "tooltip-value" }, E1 = { class: "tooltip-stat-row" }, I1 = { class: "tooltip-value" }, P1 = { class: "tooltip-stat-row" }, R1 = { class: "tooltip-value" }, O1 = { class: "tooltip-stat-row" }, z1 = { class: "tooltip-value" }, V1 = { class: "tooltip-stat-row" }, N1 = { class: "tooltip-value" }, W1 = { class: "tooltip-stat-row" }, H1 = { class: "tooltip-value" }, j1 = { class: "mt-4 flex w-full justify-start" }, Y1 = {
+}, B1 = { class: "tooltip-content" }, L1 = { class: "tooltip-title" }, F1 = { class: "tooltip-stats" }, E1 = { class: "tooltip-stat-row" }, I1 = { class: "tooltip-value" }, P1 = { class: "tooltip-stat-row" }, R1 = { class: "tooltip-value" }, O1 = { class: "tooltip-stat-row" }, z1 = { class: "tooltip-value" }, V1 = { class: "tooltip-stat-row" }, N1 = { class: "tooltip-value" }, W1 = { class: "tooltip-stat-row" }, H1 = { class: "tooltip-value" }, j1 = { class: "tooltip-stat-row" }, Y1 = { class: "tooltip-value" }, q1 = { class: "mt-4 flex w-full justify-start" }, K1 = {
   key: 2,
   class: "empty-state"
-}, ko = 400, an = 60, wo = 90, Co = 120, q1 = {
+}, ko = 400, an = 60, wo = 90, Co = 120, U1 = {
   __name: "npsDailyMetrics",
   props: {
     data: {
@@ -16374,7 +16375,7 @@ const Kg = {
       collapsible: !1
     }, Mt({
       default: P(() => [
-        o.loading ? (_(), k("div", M1, [...g[0] || (g[0] = [
+        o.loading ? (_(), k("div", A1, [...g[0] || (g[0] = [
           r("div", { class: "loading-container" }, [
             r("div", { class: "chart-flow-loader" }, [
               r("div", { class: "flow-line flow-1" }),
@@ -16385,7 +16386,7 @@ const Kg = {
             ]),
             r("p", { class: "loading-text" }, "Loading daily NPS data...")
           ], -1)
-        ])])) : l.value && l.value.nps_by_day && l.value.nps_by_day.length > 0 ? (_(), k("div", D1, [
+        ])])) : l.value && l.value.nps_by_day && l.value.nps_by_day.length > 0 ? (_(), k("div", T1, [
           r("div", {
             class: "chart-wrapper",
             ref_key: "chartContainerRef",
@@ -16412,46 +16413,46 @@ const Kg = {
                 top: `${c.value.y}px`
               })
             }, [
-              r("div", A1, [
-                r("div", T1, A(c.value.date), 1),
+              r("div", B1, [
+                r("div", L1, A(c.value.date), 1),
                 g[7] || (g[7] = r("div", { class: "tooltip-divider" }, null, -1)),
-                r("div", B1, [
-                  r("div", L1, [
-                    g[1] || (g[1] = r("span", { class: "tooltip-label tooltip-min" }, "Min:", -1)),
-                    r("span", F1, A(c.value.min), 1)
-                  ]),
+                r("div", F1, [
                   r("div", E1, [
-                    g[2] || (g[2] = r("span", { class: "tooltip-label tooltip-q1" }, "Q1:", -1)),
-                    r("span", I1, A(c.value.q1), 1)
+                    g[1] || (g[1] = r("span", { class: "tooltip-label tooltip-min" }, "Min:", -1)),
+                    r("span", I1, A(c.value.min), 1)
                   ]),
                   r("div", P1, [
-                    g[3] || (g[3] = r("span", { class: "tooltip-label tooltip-median" }, "Median:", -1)),
-                    r("span", R1, A(c.value.median), 1)
+                    g[2] || (g[2] = r("span", { class: "tooltip-label tooltip-q1" }, "Q1:", -1)),
+                    r("span", R1, A(c.value.q1), 1)
                   ]),
                   r("div", O1, [
-                    g[4] || (g[4] = r("span", { class: "tooltip-label tooltip-avg" }, "Avg:", -1)),
-                    r("span", z1, A(c.value.avg), 1)
+                    g[3] || (g[3] = r("span", { class: "tooltip-label tooltip-median" }, "Median:", -1)),
+                    r("span", z1, A(c.value.median), 1)
                   ]),
                   r("div", V1, [
-                    g[5] || (g[5] = r("span", { class: "tooltip-label tooltip-q3" }, "Q3:", -1)),
-                    r("span", N1, A(c.value.q3), 1)
+                    g[4] || (g[4] = r("span", { class: "tooltip-label tooltip-avg" }, "Avg:", -1)),
+                    r("span", N1, A(c.value.avg), 1)
                   ]),
                   r("div", W1, [
+                    g[5] || (g[5] = r("span", { class: "tooltip-label tooltip-q3" }, "Q3:", -1)),
+                    r("span", H1, A(c.value.q3), 1)
+                  ]),
+                  r("div", j1, [
                     g[6] || (g[6] = r("span", { class: "tooltip-label tooltip-max" }, "Max:", -1)),
-                    r("span", H1, A(c.value.max), 1)
+                    r("span", Y1, A(c.value.max), 1)
                   ])
                 ])
               ])
             ], 4)) : z("", !0)
           ], 512),
-          r("div", j1, [
+          r("div", q1, [
             R(lt, {
               title: "Days",
               value: String(l.value.nps_by_day.length),
               class: "min-w-0 w-full max-w-xs"
             }, null, 8, ["value"])
           ])
-        ])) : (_(), k("div", Y1, [...g[8] || (g[8] = [
+        ])) : (_(), k("div", K1, [...g[8] || (g[8] = [
           r("div", { class: "empty-state-content" }, [
             r("div", { class: "empty-icon-wrapper" }, [
               r("svg", {
@@ -16488,7 +16489,7 @@ const Kg = {
       } : void 0
     ]), 1024));
   }
-}, Vi = /* @__PURE__ */ it(q1, [["__scopeId", "data-v-59bff16f"]]), K1 = { class: "nps-metrics-container" }, U1 = {
+}, Vi = /* @__PURE__ */ it(U1, [["__scopeId", "data-v-59bff16f"]]), X1 = { class: "nps-metrics-container" }, G1 = {
   __name: "npsMetrics",
   props: {
     data: {
@@ -16509,7 +16510,7 @@ const Kg = {
     const n = t, a = (s) => {
       n("export", s);
     };
-    return (s, o) => (_(), k("div", K1, [
+    return (s, o) => (_(), k("div", X1, [
       R(zi, {
         data: e.data,
         loading: e.loading,
@@ -16524,7 +16525,7 @@ const Kg = {
       }, null, 8, ["data", "loading", "enable-export"])
     ]));
   }
-}, Ni = /* @__PURE__ */ it(U1, [["__scopeId", "data-v-25fe3b80"]]), X1 = { class: "csat-container__body" }, G1 = /* @__PURE__ */ Q({
+}, Ni = /* @__PURE__ */ it(G1, [["__scopeId", "data-v-25fe3b80"]]), Z1 = { class: "csat-container__body" }, Q1 = /* @__PURE__ */ Q({
   __name: "CSATContainer",
   props: {
     containerInitiallyOpen: { type: Boolean, default: !1 },
@@ -16545,7 +16546,7 @@ const Kg = {
       "default-open": e.containerInitiallyOpen
     }, {
       default: P(() => [
-        r("div", X1, [
+        r("div", Z1, [
           R(Ni, {
             data: e.data,
             loading: e.loading,
@@ -16557,13 +16558,13 @@ const Kg = {
       _: 1
     }, 8, ["default-open"]));
   }
-}), Z1 = /* @__PURE__ */ it(G1, [["__scopeId", "data-v-29e9904b"]]), Q1 = { class: "highlight-inner" }, J1 = {
+}), J1 = /* @__PURE__ */ it(Q1, [["__scopeId", "data-v-29e9904b"]]), t_ = { class: "highlight-inner" }, e_ = {
   key: 0,
   class: "loading-state"
-}, t_ = {
+}, n_ = {
   key: 1,
   class: "card-body"
-}, e_ = { class: "metric-row" }, n_ = { class: "metric-currency" }, a_ = { class: "metric-value" }, s_ = /* @__PURE__ */ Q({
+}, a_ = { class: "metric-row" }, s_ = { class: "metric-currency" }, o_ = { class: "metric-value" }, i_ = /* @__PURE__ */ Q({
   __name: "AiGeneratedRevenueCard",
   props: {
     totalRevenue: { default: 0 },
@@ -16616,14 +16617,14 @@ const Kg = {
         }, A(l.value), 3)) : z("", !0)
       ]),
       default: P(() => [
-        r("div", Q1, [
-          e.loading ? (_(), k("div", J1, [...u[1] || (u[1] = [
+        r("div", t_, [
+          e.loading ? (_(), k("div", e_, [...u[1] || (u[1] = [
             r("div", { class: "shimmer shimmer-value" }, null, -1),
             r("div", { class: "shimmer shimmer-label" }, null, -1)
-          ])])) : (_(), k("div", t_, [
-            r("div", e_, [
-              r("span", n_, A(n.currencyCode), 1),
-              r("span", a_, A(s.value), 1)
+          ])])) : (_(), k("div", n_, [
+            r("div", a_, [
+              r("span", s_, A(n.currencyCode), 1),
+              r("span", o_, A(s.value), 1)
             ]),
             u[2] || (u[2] = r("span", { class: "metric-label" }, "AI Revenue", -1))
           ]))
@@ -16632,16 +16633,16 @@ const Kg = {
       _: 1
     }, 8, ["class"]));
   }
-}), o_ = /* @__PURE__ */ it(s_, [["__scopeId", "data-v-67588c1c"]]), i_ = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, l_ = {
+}), l_ = /* @__PURE__ */ it(i_, [["__scopeId", "data-v-67588c1c"]]), r_ = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, c_ = {
   key: 0,
   class: "flex min-h-[320px] flex-col items-center justify-center px-4"
-}, r_ = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, c_ = {
+}, d_ = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, u_ = {
   key: 1,
   class: "flex w-full shrink-0 flex-col min-h-0"
-}, d_ = { class: "flex h-[230px] max-h-[230px] w-full shrink-0 flex-col min-h-0 mb-4" }, u_ = { class: "grid w-full grid-cols-1 gap-3 sm:grid-cols-2" }, h_ = {
+}, h_ = { class: "flex h-[230px] max-h-[230px] w-full shrink-0 flex-col min-h-0 mb-4" }, f_ = { class: "grid w-full grid-cols-1 gap-3 sm:grid-cols-2" }, g_ = {
   key: 2,
   class: "flex min-h-[280px] w-full items-center justify-center"
-}, f_ = { class: "max-w-[360px] text-center" }, g_ = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))]" }, p_ = {
+}, p_ = { class: "max-w-[360px] text-center" }, m_ = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))]" }, b_ = {
   __name: "AWSCost",
   props: {
     data: {
@@ -16796,9 +16797,9 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        r("div", i_, [
-          e.loading ? (_(), k("div", l_, [
-            r("div", r_, [
+        r("div", r_, [
+          e.loading ? (_(), k("div", c_, [
+            r("div", d_, [
               (_(), k(U, null, at(s, (h, m) => r("div", {
                 key: m,
                 class: H(["w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 dark:from-violet-500 dark:via-violet-400 dark:to-violet-300", o[m]]),
@@ -16806,15 +16807,15 @@ const Kg = {
               }, null, 6)), 64))
             ]),
             u[0] || (u[0] = r("p", { class: "animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]" }, " Loading chart data... ", -1))
-          ])) : i.value.daily.length > 0 ? (_(), k("div", c_, [
-            r("div", d_, [
+          ])) : i.value.daily.length > 0 ? (_(), k("div", u_, [
+            r("div", h_, [
               R(Se, {
                 class: "h-full min-h-0 w-full",
                 data: l.value,
                 options: d.value
               }, null, 8, ["data", "options"])
             ]),
-            r("div", u_, [
+            r("div", f_, [
               R(lt, {
                 color: F(a).primaryLight,
                 title: "Total Allocated",
@@ -16826,9 +16827,9 @@ const Kg = {
                 value: F(yt)(i.value.total_cost)
               }, null, 8, ["value"])
             ])
-          ])) : (_(), k("section", h_, [
-            r("div", f_, [
-              r("div", g_, [
+          ])) : (_(), k("section", g_, [
+            r("div", p_, [
+              r("div", m_, [
                 R(F(Wt), { class: "h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" })
               ]),
               u[1] || (u[1] = r("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " Sin datos de costos ", -1)),
@@ -16840,19 +16841,19 @@ const Kg = {
       _: 1
     }, 8, ["title"]));
   }
-}, m_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, b_ = {
+}, v_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, y_ = {
   key: 0,
   class: "card-body"
-}, v_ = {
+}, __ = {
   key: 0,
   class: "chart-section"
-}, y_ = { class: "chart-container" }, __ = { class: "mt-auto grid grid-cols-2 gap-3 sm:grid-cols-3 max-[768px]:gap-2" }, x_ = {
+}, x_ = { class: "chart-container" }, k_ = { class: "mt-auto grid grid-cols-2 gap-3 sm:grid-cols-3 max-[768px]:gap-2" }, w_ = {
   key: 1,
   class: "empty-state"
-}, k_ = { class: "empty-state-content" }, w_ = { class: "empty-icon-wrapper" }, C_ = {
+}, C_ = { class: "empty-state-content" }, $_ = { class: "empty-icon-wrapper" }, S_ = {
   key: 1,
   class: "loading-state"
-}, sn = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", $o = 10, $_ = /* @__PURE__ */ Q({
+}, sn = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", $o = 10, M_ = /* @__PURE__ */ Q({
   __name: "CostUsage",
   props: {
     data: { default: () => ({}) },
@@ -17012,8 +17013,8 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        r("div", m_, [
-          e.loading ? (_(), k("div", C_, [...p[2] || (p[2] = [
+        r("div", v_, [
+          e.loading ? (_(), k("div", S_, [...p[2] || (p[2] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-lines-loader" }, [
                 r("div", { class: "line line-1" }),
@@ -17024,16 +17025,16 @@ const Kg = {
               ]),
               r("p", { class: "loading-text" }, "Loading chart data...")
             ], -1)
-          ])])) : (_(), k("div", b_, [
-            m.value.labels && m.value.labels.length ? (_(), k("section", v_, [
-              r("div", y_, [
+          ])])) : (_(), k("div", y_, [
+            m.value.labels && m.value.labels.length ? (_(), k("section", __, [
+              r("div", x_, [
                 R(he, {
                   data: m.value,
                   options: y.value,
                   stacked: !0
                 }, null, 8, ["data", "options"])
               ]),
-              r("footer", __, [
+              r("footer", k_, [
                 R(lt, {
                   title: "Total Cost",
                   value: F(yt)(e.data.total_cost)
@@ -17063,9 +17064,9 @@ const Kg = {
                   value: F(yt)(e.data.avg_cost_per_conversation)
                 }, null, 8, ["value"])
               ])
-            ])) : (_(), k("section", x_, [
-              r("div", k_, [
-                r("div", w_, [
+            ])) : (_(), k("section", w_, [
+              r("div", C_, [
+                r("div", $_, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 p[0] || (p[0] = r("p", { class: "empty-title" }, "No cost usage data", -1)),
@@ -17078,19 +17079,19 @@ const Kg = {
       _: 1
     }));
   }
-}), S_ = /* @__PURE__ */ it($_, [["__scopeId", "data-v-39a5448c"]]), M_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, D_ = {
+}), D_ = /* @__PURE__ */ it(M_, [["__scopeId", "data-v-39a5448c"]]), A_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, T_ = {
   key: 0,
   class: "card-body"
-}, A_ = {
+}, B_ = {
   key: 0,
   class: "chart-section"
-}, T_ = { class: "chart-container" }, B_ = { class: "mt-auto flex w-full min-w-0 flex-nowrap items-stretch gap-2 sm:gap-3" }, L_ = {
+}, L_ = { class: "chart-container" }, F_ = { class: "mt-auto flex w-full min-w-0 flex-nowrap items-stretch gap-2 sm:gap-3" }, E_ = {
   key: 1,
   class: "empty-state"
-}, F_ = { class: "empty-state-content" }, E_ = { class: "empty-icon-wrapper" }, I_ = {
+}, I_ = { class: "empty-state-content" }, P_ = { class: "empty-icon-wrapper" }, R_ = {
   key: 1,
   class: "loading-state"
-}, on = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", So = 10, P_ = /* @__PURE__ */ Q({
+}, on = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", So = 10, O_ = /* @__PURE__ */ Q({
   __name: "TokenUsage",
   props: {
     data: { default: () => ({}) },
@@ -17229,8 +17230,8 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        r("div", M_, [
-          e.loading ? (_(), k("div", I_, [...h[2] || (h[2] = [
+        r("div", A_, [
+          e.loading ? (_(), k("div", R_, [...h[2] || (h[2] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-lines-loader" }, [
                 r("div", { class: "line line-1" }),
@@ -17241,16 +17242,16 @@ const Kg = {
               ]),
               r("p", { class: "loading-text" }, "Loading chart data...")
             ], -1)
-          ])])) : (_(), k("div", D_, [
-            d.value.labels && d.value.labels.length ? (_(), k("section", A_, [
-              r("div", T_, [
+          ])])) : (_(), k("div", T_, [
+            d.value.labels && d.value.labels.length ? (_(), k("section", B_, [
+              r("div", L_, [
                 R(he, {
                   data: d.value,
                   options: c.value,
                   stacked: !0
                 }, null, 8, ["data", "options"])
               ]),
-              r("footer", B_, [
+              r("footer", F_, [
                 R(lt, {
                   class: "min-w-0 flex-1",
                   title: "Total Tokens",
@@ -17281,9 +17282,9 @@ const Kg = {
                   color: l.cache_write
                 }, null, 8, ["value", "color"])
               ])
-            ])) : (_(), k("section", L_, [
-              r("div", F_, [
-                r("div", E_, [
+            ])) : (_(), k("section", E_, [
+              r("div", I_, [
+                r("div", P_, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 h[0] || (h[0] = r("p", { class: "empty-title" }, "No token usage data", -1)),
@@ -17296,19 +17297,19 @@ const Kg = {
       _: 1
     }));
   }
-}), R_ = /* @__PURE__ */ it(P_, [["__scopeId", "data-v-70c6f3c7"]]), O_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, z_ = {
+}), z_ = /* @__PURE__ */ it(O_, [["__scopeId", "data-v-70c6f3c7"]]), V_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, N_ = {
   key: 0,
   class: "card-body"
-}, V_ = {
+}, W_ = {
   key: 0,
   class: "chart-section"
-}, N_ = { class: "chart-container" }, W_ = { class: "mt-4 w-full min-w-0" }, H_ = {
+}, H_ = { class: "chart-container" }, j_ = { class: "mt-4 w-full min-w-0" }, Y_ = {
   key: 1,
   class: "empty-state"
-}, j_ = { class: "empty-state-content" }, Y_ = { class: "empty-icon-wrapper" }, q_ = {
+}, q_ = { class: "empty-state-content" }, K_ = { class: "empty-icon-wrapper" }, U_ = {
   key: 1,
   class: "loading-state"
-}, K_ = /* @__PURE__ */ Q({
+}, X_ = /* @__PURE__ */ Q({
   __name: "ConversationCount",
   props: {
     data: { default: () => ({}) },
@@ -17430,8 +17431,8 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        r("div", O_, [
-          e.loading ? (_(), k("div", q_, [...u[2] || (u[2] = [
+        r("div", V_, [
+          e.loading ? (_(), k("div", U_, [...u[2] || (u[2] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-lines-loader" }, [
                 r("div", { class: "line line-1" }),
@@ -17442,24 +17443,24 @@ const Kg = {
               ]),
               r("p", { class: "loading-text" }, "Loading chart data...")
             ], -1)
-          ])])) : (_(), k("div", z_, [
-            l.value.labels && l.value.labels.length ? (_(), k("section", V_, [
-              r("div", N_, [
+          ])])) : (_(), k("div", N_, [
+            l.value.labels && l.value.labels.length ? (_(), k("section", W_, [
+              r("div", H_, [
                 R(Se, {
                   data: l.value,
                   options: d.value
                 }, null, 8, ["data", "options"])
               ]),
-              r("div", W_, [
+              r("div", j_, [
                 R(lt, {
                   class: "min-w-0 w-full",
                   title: "Total",
                   value: i.value
                 }, null, 8, ["value"])
               ])
-            ])) : (_(), k("section", H_, [
-              r("div", j_, [
-                r("div", Y_, [
+            ])) : (_(), k("section", Y_, [
+              r("div", q_, [
+                r("div", K_, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 u[0] || (u[0] = r("p", { class: "empty-title" }, "No conversation count data", -1)),
@@ -17472,19 +17473,19 @@ const Kg = {
       _: 1
     }));
   }
-}), U_ = /* @__PURE__ */ it(K_, [["__scopeId", "data-v-b33e8627"]]), X_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, G_ = {
+}), G_ = /* @__PURE__ */ it(X_, [["__scopeId", "data-v-b33e8627"]]), Z_ = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Q_ = {
   key: 0,
   class: "card-body"
-}, Z_ = {
+}, J_ = {
   key: 0,
   class: "charts-grid"
-}, Q_ = { class: "chart-section" }, J_ = { class: "chart-container" }, tx = { class: "chart-section" }, ex = { class: "chart-container" }, nx = {
+}, tx = { class: "chart-section" }, ex = { class: "chart-container" }, nx = { class: "chart-section" }, ax = { class: "chart-container" }, sx = {
   key: 1,
   class: "empty-state"
-}, ax = { class: "empty-state-content" }, sx = { class: "empty-icon-wrapper" }, ox = {
+}, ox = { class: "empty-state-content" }, ix = { class: "empty-icon-wrapper" }, lx = {
   key: 1,
   class: "loading-state"
-}, ix = /* @__PURE__ */ Q({
+}, rx = /* @__PURE__ */ Q({
   __name: "TopAgentsAnalysis",
   props: {
     data: { default: () => ({}) },
@@ -17671,8 +17672,8 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        r("div", X_, [
-          e.loading ? (_(), k("div", ox, [...y[4] || (y[4] = [
+        r("div", Z_, [
+          e.loading ? (_(), k("div", lx, [...y[4] || (y[4] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-lines-loader" }, [
                 r("div", { class: "line line-1" }),
@@ -17683,29 +17684,29 @@ const Kg = {
               ]),
               r("p", { class: "loading-text" }, "Loading chart data...")
             ], -1)
-          ])])) : (_(), k("div", G_, [
-            o.value ? (_(), k("div", Z_, [
-              r("section", Q_, [
+          ])])) : (_(), k("div", Q_, [
+            o.value ? (_(), k("div", J_, [
+              r("section", tx, [
                 y[0] || (y[0] = r("h4", { class: "chart-section-title" }, "Total cost per agent", -1)),
-                r("div", J_, [
+                r("div", ex, [
                   R(he, {
                     data: d.value,
                     options: u.value
                   }, null, 8, ["data", "options"])
                 ])
               ]),
-              r("section", tx, [
+              r("section", nx, [
                 y[1] || (y[1] = r("h4", { class: "chart-section-title" }, "Total tokens per agent", -1)),
-                r("div", ex, [
+                r("div", ax, [
                   R(he, {
                     data: c.value,
                     options: h.value
                   }, null, 8, ["data", "options"])
                 ])
               ])
-            ])) : (_(), k("section", nx, [
-              r("div", ax, [
-                r("div", sx, [
+            ])) : (_(), k("section", sx, [
+              r("div", ox, [
+                r("div", ix, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 y[2] || (y[2] = r("p", { class: "empty-title" }, "No top agents data", -1)),
@@ -17718,19 +17719,19 @@ const Kg = {
       _: 1
     }));
   }
-}), lx = /* @__PURE__ */ it(ix, [["__scopeId", "data-v-a5014772"]]), rx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, cx = {
+}), cx = /* @__PURE__ */ it(rx, [["__scopeId", "data-v-a5014772"]]), dx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, ux = {
   key: 0,
   class: "card-body"
-}, dx = {
+}, hx = {
   key: 0,
   class: "chart-section"
-}, ux = { class: "chart-container" }, hx = {
+}, fx = { class: "chart-container" }, gx = {
   key: 1,
   class: "empty-state"
-}, fx = { class: "empty-state-content" }, gx = { class: "empty-icon-wrapper" }, px = {
+}, px = { class: "empty-state-content" }, mx = { class: "empty-icon-wrapper" }, bx = {
   key: 1,
   class: "loading-state"
-}, mx = /* @__PURE__ */ Q({
+}, vx = /* @__PURE__ */ Q({
   __name: "TopAgents",
   props: {
     data: { default: () => ({}) },
@@ -17830,8 +17831,8 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        r("div", rx, [
-          e.loading ? (_(), k("div", px, [...m[2] || (m[2] = [
+        r("div", dx, [
+          e.loading ? (_(), k("div", bx, [...m[2] || (m[2] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-lines-loader" }, [
                 r("div", { class: "line line-1" }),
@@ -17842,17 +17843,17 @@ const Kg = {
               ]),
               r("p", { class: "loading-text" }, "Loading chart data...")
             ], -1)
-          ])])) : (_(), k("div", cx, [
-            l.value ? (_(), k("section", dx, [
-              r("div", ux, [
+          ])])) : (_(), k("div", ux, [
+            l.value ? (_(), k("section", hx, [
+              r("div", fx, [
                 R(na, {
                   data: c.value,
                   options: u.value
                 }, null, 8, ["data", "options"])
               ])
-            ])) : (_(), k("section", hx, [
-              r("div", fx, [
-                r("div", gx, [
+            ])) : (_(), k("section", gx, [
+              r("div", px, [
+                r("div", mx, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 m[0] || (m[0] = r("p", { class: "empty-title" }, "No top agents data", -1)),
@@ -17865,19 +17866,19 @@ const Kg = {
       _: 1
     }));
   }
-}), bx = /* @__PURE__ */ it(mx, [["__scopeId", "data-v-14445b91"]]), vx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, yx = {
+}), yx = /* @__PURE__ */ it(vx, [["__scopeId", "data-v-14445b91"]]), _x = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, xx = {
   key: 0,
   class: "card-body"
-}, _x = {
+}, kx = {
   key: 0,
   class: "chart-section"
-}, xx = { class: "chart-container" }, kx = {
+}, wx = { class: "chart-container" }, Cx = {
   key: 1,
   class: "empty-state"
-}, wx = { class: "empty-state-content" }, Cx = { class: "empty-icon-wrapper" }, $x = {
+}, $x = { class: "empty-state-content" }, Sx = { class: "empty-icon-wrapper" }, Mx = {
   key: 1,
   class: "loading-state"
-}, Sx = /* @__PURE__ */ Q({
+}, Dx = /* @__PURE__ */ Q({
   __name: "DailyCostTrends",
   props: {
     costData: { default: () => ({}) },
@@ -18033,8 +18034,8 @@ const Kg = {
       collapsible: !1
     }, {
       default: P(() => [
-        r("div", vx, [
-          e.loading ? (_(), k("div", $x, [...u[2] || (u[2] = [
+        r("div", _x, [
+          e.loading ? (_(), k("div", Mx, [...u[2] || (u[2] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-lines-loader" }, [
                 r("div", { class: "line line-1" }),
@@ -18045,17 +18046,17 @@ const Kg = {
               ]),
               r("p", { class: "loading-text" }, "Loading chart data...")
             ], -1)
-          ])])) : (_(), k("div", yx, [
-            i.value ? (_(), k("section", _x, [
-              r("div", xx, [
+          ])])) : (_(), k("div", xx, [
+            i.value ? (_(), k("section", kx, [
+              r("div", wx, [
                 R(Se, {
                   data: l.value,
                   options: d.value
                 }, null, 8, ["data", "options"])
               ])
-            ])) : (_(), k("section", kx, [
-              r("div", wx, [
-                r("div", Cx, [
+            ])) : (_(), k("section", Cx, [
+              r("div", $x, [
+                r("div", Sx, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 u[0] || (u[0] = r("p", { class: "empty-title" }, "No daily cost trends data", -1)),
@@ -18068,12 +18069,12 @@ const Kg = {
       _: 1
     }));
   }
-}), Mx = /* @__PURE__ */ it(Sx, [["__scopeId", "data-v-1e8204ea"]]);
+}), Ax = /* @__PURE__ */ it(Dx, [["__scopeId", "data-v-1e8204ea"]]);
 function Nt() {
   const e = new Uint8Array(8);
   return globalThis.crypto.getRandomValues(e), Array.from(e, (t) => t.toString(16).padStart(2, "0")).join("");
 }
-const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], Bx = { class: "truncate whitespace-nowrap font-medium tracking-tight" }, Lx = /* @__PURE__ */ Q({
+const Tx = { class: "tabs text-sm" }, Bx = ["aria-label"], Lx = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], Fx = { class: "truncate whitespace-nowrap font-medium tracking-tight" }, Ex = /* @__PURE__ */ Q({
   name: "Tabs",
   __name: "Tabs",
   props: {
@@ -18118,7 +18119,7 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       const b = n.items[g];
       !b || b.disabled || (u(b.value, n.modelValue), await Lt(), s.value[g]?.focus());
     }
-    return (f, p) => (_(), k("div", Dx, [
+    return (f, p) => (_(), k("div", Tx, [
       r("div", {
         role: "tablist",
         "aria-label": e.ariaLabel,
@@ -18150,10 +18151,10 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
               class: "h-[1.125rem] w-[1.125rem] shrink-0",
               "aria-hidden": "true"
             })) : z("", !0),
-            r("span", Bx, A(v.label), 1)
+            r("span", Fx, A(v.label), 1)
           ], 2)
-        ], 42, Tx))), 128))
-      ], 10, Ax),
+        ], 42, Lx))), 128))
+      ], 10, Bx),
       f.$slots.default ? (_(), nt(un, {
         key: 0,
         name: "tabs-panel",
@@ -18171,19 +18172,19 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       })) : z("", !0)
     ]));
   }
-}), Wi = /* @__PURE__ */ it(Lx, [["__scopeId", "data-v-552ce048"]]), Fx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Ex = {
+}), Wi = /* @__PURE__ */ it(Ex, [["__scopeId", "data-v-552ce048"]]), Ix = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Px = {
   key: 0,
   class: "loading-state"
-}, Ix = {
+}, Rx = {
   key: 1,
   class: "card-body"
-}, Px = {
+}, Ox = {
   key: 0,
   class: "model-usage-table-block"
-}, Rx = { class: "w-full min-w-0" }, Ox = {
+}, zx = { class: "w-full min-w-0" }, Vx = {
   key: 1,
   class: "empty-state"
-}, zx = { class: "empty-state-content" }, Vx = { class: "empty-icon-wrapper" }, Nx = /* @__PURE__ */ Q({
+}, Nx = { class: "empty-state-content" }, Wx = { class: "empty-icon-wrapper" }, Hx = /* @__PURE__ */ Q({
   __name: "ModelUsage",
   props: {
     data: { default: () => ({
@@ -18227,8 +18228,8 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       collapsible: !1
     }, Mt({
       default: P(() => [
-        r("div", Fx, [
-          e.loading ? (_(), k("div", Ex, [...p[1] || (p[1] = [
+        r("div", Ix, [
+          e.loading ? (_(), k("div", Px, [...p[1] || (p[1] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-bars-loader" }, [
                 r("div", { class: "bar bar-1" }),
@@ -18239,7 +18240,7 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
               ]),
               r("p", { class: "loading-text" }, "Loading model usage data...")
             ], -1)
-          ])])) : (_(), k("div", Ix, [
+          ])])) : (_(), k("div", Rx, [
             R(Wi, {
               modelValue: d.value,
               "onUpdate:modelValue": p[0] || (p[0] = (v) => d.value = v),
@@ -18248,8 +18249,8 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
               "full-width": ""
             }, {
               default: P(() => [
-                c.value && Object.keys(c.value).length > 0 ? (_(), k("div", Px, [
-                  r("div", Rx, [
+                c.value && Object.keys(c.value).length > 0 ? (_(), k("div", Ox, [
+                  r("div", zx, [
                     R(qt, {
                       columns: u.value,
                       rows: h.value,
@@ -18257,9 +18258,9 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
                       "row-key": "id"
                     }, null, 8, ["columns", "rows"])
                   ])
-                ])) : (_(), k("div", Ox, [
-                  r("div", zx, [
-                    r("div", Vx, [
+                ])) : (_(), k("div", Vx, [
+                  r("div", Nx, [
+                    r("div", Wx, [
                       R(F(Wt), { class: "empty-icon" })
                     ]),
                     p[2] || (p[2] = r("p", { class: "empty-title" }, "No model usage data available", -1)),
@@ -18287,19 +18288,19 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       } : void 0
     ]), 1024));
   }
-}), Wx = /* @__PURE__ */ it(Nx, [["__scopeId", "data-v-3e03d526"]]), Hx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, jx = {
+}), jx = /* @__PURE__ */ it(Hx, [["__scopeId", "data-v-3e03d526"]]), Yx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, qx = {
   key: 0,
   class: "loading-state"
-}, Yx = {
+}, Kx = {
   key: 1,
   class: "card-body"
-}, qx = {
+}, Ux = {
   key: 0,
   class: "message-roles-table-block"
-}, Kx = { class: "w-full min-w-0" }, Ux = {
+}, Xx = { class: "w-full min-w-0" }, Gx = {
   key: 1,
   class: "empty-state"
-}, Xx = { class: "empty-state-content" }, Gx = { class: "empty-icon-wrapper" }, Zx = /* @__PURE__ */ Q({
+}, Zx = { class: "empty-state-content" }, Qx = { class: "empty-icon-wrapper" }, Jx = /* @__PURE__ */ Q({
   __name: "MessageRoles",
   props: {
     data: { default: () => ({
@@ -18339,8 +18340,8 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       collapsible: !1
     }, Mt({
       default: P(() => [
-        r("div", Hx, [
-          e.loading ? (_(), k("div", jx, [...v[0] || (v[0] = [
+        r("div", Yx, [
+          e.loading ? (_(), k("div", qx, [...v[0] || (v[0] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-bars-loader" }, [
                 r("div", { class: "bar bar-1" }),
@@ -18351,9 +18352,9 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
               ]),
               r("p", { class: "loading-text" }, "Loading message role data...")
             ], -1)
-          ])])) : (_(), k("div", Yx, [
-            h.value ? (_(), k("div", qx, [
-              r("div", Kx, [
+          ])])) : (_(), k("div", Kx, [
+            h.value ? (_(), k("div", Ux, [
+              r("div", Xx, [
                 R(qt, {
                   columns: d,
                   rows: u.value,
@@ -18361,9 +18362,9 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
                   "row-key": "id"
                 }, null, 8, ["rows"])
               ])
-            ])) : (_(), k("div", Ux, [
-              r("div", Xx, [
-                r("div", Gx, [
+            ])) : (_(), k("div", Gx, [
+              r("div", Zx, [
+                r("div", Qx, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 v[1] || (v[1] = r("p", { class: "empty-title" }, "No message role data available", -1)),
@@ -18388,19 +18389,19 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       } : void 0
     ]), 1024));
   }
-}), Qx = /* @__PURE__ */ it(Zx, [["__scopeId", "data-v-57850103"]]), Jx = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, tk = {
+}), tk = /* @__PURE__ */ it(Jx, [["__scopeId", "data-v-57850103"]]), ek = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, nk = {
   key: 0,
   class: "card-body"
-}, ek = {
+}, ak = {
   key: 0,
   class: "chart-section"
-}, nk = { class: "chart-container" }, ak = { class: "kpi-grid" }, sk = {
+}, sk = { class: "chart-container" }, ok = { class: "kpi-grid" }, ik = {
   key: 1,
   class: "empty-state"
-}, ok = { class: "empty-state-content" }, ik = { class: "empty-icon-wrapper" }, lk = {
+}, lk = { class: "empty-state-content" }, rk = { class: "empty-icon-wrapper" }, ck = {
   key: 1,
   class: "loading-state"
-}, rk = /* @__PURE__ */ Q({
+}, dk = /* @__PURE__ */ Q({
   __name: "CostPerConversations",
   props: {
     data: { default: () => ({ top_agents: [] }) },
@@ -18525,8 +18526,8 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       collapsible: !1
     }, Mt({
       default: P(() => [
-        r("div", Jx, [
-          e.loading ? (_(), k("div", lk, [...x[2] || (x[2] = [
+        r("div", ek, [
+          e.loading ? (_(), k("div", ck, [...x[2] || (x[2] = [
             r("div", { class: "loading-container" }, [
               r("div", { class: "chart-bars-loader" }, [
                 r("div", { class: "bar bar-1" }),
@@ -18537,15 +18538,15 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
               ]),
               r("p", { class: "loading-text" }, "Loading agent costs...")
             ], -1)
-          ])])) : (_(), k("div", tk, [
-            v.value.labels && v.value.labels.length ? (_(), k("section", ek, [
-              r("div", nk, [
+          ])])) : (_(), k("div", nk, [
+            v.value.labels && v.value.labels.length ? (_(), k("section", ak, [
+              r("div", sk, [
                 R(he, {
                   data: v.value,
                   options: g.value
                 }, null, 8, ["data", "options"])
               ]),
-              r("footer", ak, [
+              r("footer", ok, [
                 R(F(lt), {
                   title: "Total Agents",
                   value: String(m.value.length)
@@ -18563,9 +18564,9 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
                   value: F(yt)(p.value)
                 }, null, 8, ["value"])
               ])
-            ])) : (_(), k("section", sk, [
-              r("div", ok, [
-                r("div", ik, [
+            ])) : (_(), k("section", ik, [
+              r("div", lk, [
+                r("div", rk, [
                   R(F(Wt), { class: "empty-icon" })
                 ]),
                 x[0] || (x[0] = r("p", { class: "empty-title" }, "No cost per conversation data", -1)),
@@ -18590,8 +18591,8 @@ const Dx = { class: "tabs text-sm" }, Ax = ["aria-label"], Tx = ["id", "aria-sel
       } : void 0
     ]), 1024));
   }
-}), ck = /* @__PURE__ */ it(rk, [["__scopeId", "data-v-cd2a584a"]]);
-function dk(e, t) {
+}), uk = /* @__PURE__ */ it(dk, [["__scopeId", "data-v-cd2a584a"]]);
+function hk(e, t) {
   return _(), k("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
@@ -18602,7 +18603,7 @@ function dk(e, t) {
     r("path", { d: "M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" })
   ]);
 }
-function uk(e, t) {
+function fk(e, t) {
   return _(), k("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
@@ -18613,16 +18614,16 @@ function uk(e, t) {
     r("path", { d: "M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" })
   ]);
 }
-const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, gk = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, pk = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, mk = ["aria-label", "aria-expanded", "aria-controls", "onClick"], bk = { class: "truncate" }, vk = {
+const gk = ["aria-label"], pk = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, mk = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, bk = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, vk = ["aria-label", "aria-expanded", "aria-controls", "onClick"], yk = { class: "truncate" }, _k = {
   key: 0,
   class: "ml-0.5 inline-flex min-h-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full bg-[color:var(--kiut-primary)]/20 px-1 text-[10px] font-semibold tabular-nums text-[color:var(--kiut-primary-default)] dark:bg-[color:var(--kiut-primary)]/25 dark:text-[color:var(--kiut-primary-light)]"
-}, yk = {
+}, xk = {
   key: 0,
   class: "mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5"
-}, _k = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, xk = ["aria-label", "onClick"], kk = ["aria-label", "onClick"], wk = ["aria-label"], Ck = ["aria-label"], $k = {
+}, kk = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, wk = ["aria-label", "onClick"], Ck = ["aria-label", "onClick"], $k = ["aria-label"], Sk = ["aria-label"], Mk = {
   key: 1,
   class: "space-y-2"
-}, Sk = ["for"], Mk = ["id", "placeholder", "onKeydown"], Dk = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, Ak = ["aria-label"], Tk = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, Bk = ["checked", "onChange"], Lk = { class: "min-w-0 flex-1" }, Fk = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, Ek = { class: "flex flex-wrap items-end gap-2" }, Ik = { class: "min-w-[120px] flex-1" }, Pk = ["for"], Rk = ["id"], Ok = { class: "min-w-[120px] flex-1" }, zk = ["for"], Vk = ["id"], Nk = /* @__PURE__ */ Q({
+}, Dk = ["for"], Ak = ["id", "placeholder", "onKeydown"], Tk = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, Bk = ["aria-label"], Lk = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, Fk = ["checked", "onChange"], Ek = { class: "min-w-0 flex-1" }, Ik = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, Pk = { class: "flex flex-wrap items-end gap-2" }, Rk = { class: "min-w-[120px] flex-1" }, Ok = ["for"], zk = ["id"], Vk = { class: "min-w-[120px] flex-1" }, Nk = ["for"], Wk = ["id"], Hk = /* @__PURE__ */ Q({
   name: "Filters",
   __name: "Filters",
   props: {
@@ -18878,9 +18879,9 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       role: "region",
       "aria-label": e.regionAriaLabel
     }, [
-      r("div", fk, [
-        r("span", gk, A(e.label), 1),
-        r("div", pk, [
+      r("div", pk, [
+        r("span", mk, A(e.label), 1),
+        r("div", bk, [
           (_(!0), k(U, null, at(e.filterDefinitions, (J) => (_(), k("button", {
             key: `pill-${J.id}`,
             ref_for: !0,
@@ -18893,17 +18894,17 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-controls": c.value === J.id ? i : void 0,
             onClick: (pt) => G(J, pt)
           }, [
-            R(F(dk), {
+            R(F(hk), {
               class: "h-2.5 w-2.5 shrink-0",
               "aria-hidden": "true"
             }),
-            r("span", bk, A(J.label), 1),
-            J.type === "select" && L(J) > 0 ? (_(), k("span", vk, A(L(J)), 1)) : z("", !0)
-          ], 10, mk))), 128))
+            r("span", yk, A(J.label), 1),
+            J.type === "select" && L(J) > 0 ? (_(), k("span", _k, A(L(J)), 1)) : z("", !0)
+          ], 10, vk))), 128))
         ])
       ]),
-      $.value ? (_(), k("div", yk, [
-        r("div", _k, [
+      $.value ? (_(), k("div", xk, [
+        r("div", kk, [
           (_(!0), k(U, null, at(S.value, (J) => (_(), k("div", {
             key: J.key,
             "data-kiut-filter-chip": "",
@@ -18922,18 +18923,18 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
               }, () => [
                 bt(A(T(J)), 1)
               ], !0)
-            ], 8, xk),
+            ], 8, wk),
             r("button", {
               type: "button",
               class: "shrink-0 rounded p-0.5 text-[color:var(--kiut-text-muted)] transition hover:bg-black/5 hover:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/10 dark:hover:text-slate-100",
               "aria-label": St(J),
               onClick: (pt) => gt(J)
             }, [
-              R(F(uk), {
+              R(F(fk), {
                 class: "h-3.5 w-3.5",
                 "aria-hidden": "true"
               })
-            ], 8, kk)
+            ], 8, Ck)
           ]))), 128))
         ]),
         r("button", {
@@ -18941,7 +18942,7 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
           class: "shrink-0 text-[color:var(--kiut-text-secondary)] underline-offset-2 transition hover:text-[color:var(--kiut-primary)] hover:underline dark:text-slate-400 dark:hover:text-[color:var(--kiut-primary-light)]",
           "aria-label": sa.value,
           onClick: Z
-        }, A(e.clearLabel), 9, wk)
+        }, A(e.clearLabel), 9, $k)
       ])) : z("", !0),
       (_(), nt(Ta, { to: "body" }, [
         c.value && u.value ? (_(), k("div", {
@@ -18964,12 +18965,12 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
               close: X,
               value: b.value,
               updateValue: ot
-            }, void 0, !0) : (_(), k("div", $k, [
+            }, void 0, !0) : (_(), k("div", Mk, [
               g.value.type === "text" ? (_(), k(U, { key: 0 }, [
                 r("label", {
                   for: `${i}-text`,
                   class: "block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-                }, A(g.value.label), 9, Sk),
+                }, A(g.value.label), 9, Dk),
                 Xt(r("input", {
                   id: `${i}-text`,
                   "onUpdate:modelValue": W[0] || (W[0] = (J) => y.value = J),
@@ -18977,11 +18978,11 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
                   class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500",
                   placeholder: g.value.placeholder ?? "…",
                   onKeydown: Hn(ie(X, ["prevent"]), ["enter"])
-                }, null, 40, Mk), [
+                }, null, 40, Ak), [
                   [Pe, y.value]
                 ])
               ], 64)) : g.value.type === "select" ? (_(), k(U, { key: 1 }, [
-                r("p", Dk, A(g.value.label), 1),
+                r("p", Tk, A(g.value.label), 1),
                 r("ul", {
                   class: "max-h-[min(280px,50vh)] space-y-0.5 overflow-y-auto",
                   role: "listbox",
@@ -18991,45 +18992,45 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
                   (_(!0), k(U, null, at(g.value.options, (J) => (_(), k("li", {
                     key: J.value
                   }, [
-                    r("label", Tk, [
+                    r("label", Lk, [
                       r("input", {
                         type: "checkbox",
                         class: "kiut-filter-ms-checkbox shrink-0",
                         checked: f.value.includes(J.value),
                         onChange: (pt) => tt(J.value)
-                      }, null, 40, Bk),
-                      r("span", Lk, A(J.label), 1)
+                      }, null, 40, Fk),
+                      r("span", Ek, A(J.label), 1)
                     ])
                   ]))), 128))
-                ], 8, Ak)
+                ], 8, Bk)
               ], 64)) : g.value.type === "dateRange" ? (_(), k(U, { key: 2 }, [
-                r("p", Fk, A(g.value.label), 1),
-                r("div", Ek, [
-                  r("div", Ik, [
+                r("p", Ik, A(g.value.label), 1),
+                r("div", Pk, [
+                  r("div", Rk, [
                     r("label", {
                       for: `${i}-start`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Desde ", 8, Pk),
+                    }, " Desde ", 8, Ok),
                     Xt(r("input", {
                       id: `${i}-start`,
                       "onUpdate:modelValue": W[1] || (W[1] = (J) => p.value = J),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
-                    }, null, 8, Rk), [
+                    }, null, 8, zk), [
                       [Pe, p.value]
                     ])
                   ]),
-                  r("div", Ok, [
+                  r("div", Vk, [
                     r("label", {
                       for: `${i}-end`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Hasta ", 8, zk),
+                    }, " Hasta ", 8, Nk),
                     Xt(r("input", {
                       id: `${i}-end`,
                       "onUpdate:modelValue": W[2] || (W[2] = (J) => v.value = J),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
-                    }, null, 8, Vk), [
+                    }, null, 8, Wk), [
                       [Pe, v.value]
                     ])
                   ])
@@ -19037,11 +19038,11 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
               ], 64)) : z("", !0)
             ]))
           ], 64)) : z("", !0)
-        ], 44, Ck)) : z("", !0)
+        ], 44, Sk)) : z("", !0)
       ]))
-    ], 8, hk));
+    ], 8, gk));
   }
-}), Wk = /* @__PURE__ */ it(Nk, [["__scopeId", "data-v-f38e0100"]]), Qt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100", ge = "min-h-[2.75rem] w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", Hk = "min-h-[5.5rem] w-full resize-y rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans leading-normal text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", De = "border-red-500 focus:border-red-500 focus:ring-red-500/25 dark:border-red-400", pe = "mt-1 text-xs font-medium text-red-600 dark:text-red-400", jk = { class: "font-sans" }, Yk = ["for"], qk = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], Kk = ["id"], Uk = /* @__PURE__ */ Q({
+}), jk = /* @__PURE__ */ it(Hk, [["__scopeId", "data-v-f38e0100"]]), Qt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100", ge = "min-h-[2.75rem] w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", Yk = "min-h-[5.5rem] w-full resize-y rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans leading-normal text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", De = "border-red-500 focus:border-red-500 focus:ring-red-500/25 dark:border-red-400", pe = "mt-1 text-xs font-medium text-red-600 dark:text-red-400", qk = { class: "font-sans" }, Kk = ["for"], Uk = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], Xk = ["id"], Gk = /* @__PURE__ */ Q({
   name: "InputText",
   __name: "InputText",
   props: {
@@ -19059,12 +19060,12 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       get: () => n.modelValue,
       set: (d) => a("update:modelValue", d)
     });
-    return (d, c) => (_(), k("div", jk, [
+    return (d, c) => (_(), k("div", qk, [
       e.label ? (_(), k("label", {
         key: 0,
         for: o.value,
         class: H(F(Qt))
-      }, A(e.label), 11, Yk)) : z("", !0),
+      }, A(e.label), 11, Kk)) : z("", !0),
       Xt(r("input", {
         id: o.value,
         "onUpdate:modelValue": c[0] || (c[0] = (u) => l.value = u),
@@ -19075,7 +19076,7 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
         disabled: e.disabled,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 10, qk), [
+      }, null, 10, Uk), [
         [Pe, l.value]
       ]),
       e.errorText ? (_(), k("p", {
@@ -19083,10 +19084,10 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
         id: i.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, Kk)) : z("", !0)
+      }, A(e.errorText), 11, Xk)) : z("", !0)
     ]));
   }
-}), Xk = { class: "font-sans" }, Gk = ["for"], Zk = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], Qk = ["id"], Jk = /* @__PURE__ */ Q({
+}), Zk = { class: "font-sans" }, Qk = ["for"], Jk = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], t2 = ["id"], e2 = /* @__PURE__ */ Q({
   name: "InputTextarea",
   __name: "InputTextarea",
   props: {
@@ -19105,23 +19106,23 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       get: () => n.modelValue,
       set: (d) => a("update:modelValue", d)
     });
-    return (d, c) => (_(), k("div", Xk, [
+    return (d, c) => (_(), k("div", Zk, [
       e.label ? (_(), k("label", {
         key: 0,
         for: o.value,
         class: H(F(Qt))
-      }, A(e.label), 11, Gk)) : z("", !0),
+      }, A(e.label), 11, Qk)) : z("", !0),
       Xt(r("textarea", {
         id: o.value,
         "onUpdate:modelValue": c[0] || (c[0] = (u) => l.value = u),
         rows: e.rows,
         autocomplete: "off",
-        class: H([F(Hk), e.invalid ? F(De) : ""]),
+        class: H([F(Yk), e.invalid ? F(De) : ""]),
         placeholder: e.placeholder,
         disabled: e.disabled,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 10, Zk), [
+      }, null, 10, Jk), [
         [Pe, l.value]
       ]),
       e.errorText ? (_(), k("p", {
@@ -19129,10 +19130,10 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
         id: i.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, Qk)) : z("", !0)
+      }, A(e.errorText), 11, t2)) : z("", !0)
     ]));
   }
-}), t2 = { class: "font-sans" }, e2 = ["for"], n2 = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], a2 = ["for"], s2 = ["title"], o2 = ["aria-label"], i2 = ["id"], l2 = /* @__PURE__ */ Q({
+}), n2 = { class: "font-sans" }, a2 = ["for"], s2 = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], o2 = ["for"], i2 = ["title"], l2 = ["aria-label"], r2 = ["id"], c2 = /* @__PURE__ */ Q({
   name: "InputFile",
   __name: "InputFile",
   props: {
@@ -19158,12 +19159,12 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
     function u() {
       a("update:modelValue", null), l.value && (l.value.value = "");
     }
-    return (h, m) => (_(), k("div", t2, [
+    return (h, m) => (_(), k("div", n2, [
       e.label ? (_(), k("label", {
         key: 0,
         for: o.value,
         class: H(F(Qt))
-      }, A(e.label), 11, e2)) : z("", !0),
+      }, A(e.label), 11, a2)) : z("", !0),
       r("div", {
         class: H([
           F(ge),
@@ -19185,7 +19186,7 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? i.value : void 0,
           onChange: c
-        }, null, 40, n2),
+        }, null, 40, s2),
         r("label", {
           for: o.value,
           class: H(["inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-[color:var(--kiut-text-primary)] transition hover:bg-gray-100 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]", e.disabled ? "cursor-not-allowed opacity-50" : ""])
@@ -19195,11 +19196,11 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-hidden": "true"
           }),
           bt(" " + A(e.chooseLabel), 1)
-        ], 10, a2),
+        ], 10, o2),
         r("span", {
           class: "min-w-0 flex-1 truncate text-sm text-[color:var(--kiut-text-primary)] dark:text-slate-100",
           title: d.value || void 0
-        }, A(d.value), 9, s2),
+        }, A(d.value), 9, i2),
         e.modelValue && !e.disabled ? (_(), k("button", {
           key: 0,
           type: "button",
@@ -19211,17 +19212,17 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
             class: "h-4 w-4",
             "aria-hidden": "true"
           })
-        ], 8, o2)) : z("", !0)
+        ], 8, l2)) : z("", !0)
       ], 2),
       e.errorText ? (_(), k("p", {
         key: 1,
         id: i.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, i2)) : z("", !0)
+      }, A(e.errorText), 11, r2)) : z("", !0)
     ]));
   }
-}), r2 = { class: "font-sans" }, c2 = ["for"], d2 = { class: "relative" }, u2 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], h2 = ["id"], f2 = /* @__PURE__ */ Q({
+}), d2 = { class: "font-sans" }, u2 = ["for"], h2 = { class: "relative" }, f2 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], g2 = ["id"], p2 = /* @__PURE__ */ Q({
   name: "InputDateTime",
   __name: "InputDateTime",
   props: {
@@ -19243,13 +19244,13 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       const u = c.target.value;
       a("update:modelValue", u === "" ? null : u);
     }
-    return (c, u) => (_(), k("div", r2, [
+    return (c, u) => (_(), k("div", d2, [
       e.label ? (_(), k("label", {
         key: 0,
         for: o.value,
         class: H(F(Qt))
-      }, A(e.label), 11, c2)) : z("", !0),
-      r("div", d2, [
+      }, A(e.label), 11, u2)) : z("", !0),
+      r("div", h2, [
         R(F(Ti), {
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
@@ -19272,17 +19273,17 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? i.value : void 0,
           onInput: d
-        }, null, 42, u2)
+        }, null, 42, f2)
       ]),
       e.errorText ? (_(), k("p", {
         key: 1,
         id: i.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, h2)) : z("", !0)
+      }, A(e.errorText), 11, g2)) : z("", !0)
     ]));
   }
-}), g2 = { class: "font-sans" }, p2 = ["for"], m2 = { class: "relative" }, b2 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], v2 = ["id"], y2 = /* @__PURE__ */ Q({
+}), m2 = { class: "font-sans" }, b2 = ["for"], v2 = { class: "relative" }, y2 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], _2 = ["id"], x2 = /* @__PURE__ */ Q({
   name: "InputTime",
   __name: "InputTime",
   props: {
@@ -19313,13 +19314,13 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       const m = h.target.value;
       o("update:modelValue", a(m));
     }
-    return (h, m) => (_(), k("div", g2, [
+    return (h, m) => (_(), k("div", m2, [
       e.label ? (_(), k("label", {
         key: 0,
         for: l.value,
         class: H(F(Qt))
-      }, A(e.label), 11, p2)) : z("", !0),
-      r("div", m2, [
+      }, A(e.label), 11, b2)) : z("", !0),
+      r("div", v2, [
         R(F(Yg), {
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
@@ -19342,32 +19343,32 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? d.value : void 0,
           onInput: u
-        }, null, 42, b2)
+        }, null, 42, y2)
       ]),
       e.errorText ? (_(), k("p", {
         key: 1,
         id: d.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, v2)) : z("", !0)
+      }, A(e.errorText), 11, _2)) : z("", !0)
     ]));
   }
-}), _2 = { class: "font-sans" }, x2 = ["for"], k2 = {
+}), k2 = { class: "font-sans" }, w2 = ["for"], C2 = {
   key: 0,
   class: "order-1 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, w2 = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], C2 = {
+}, $2 = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], S2 = {
   key: 1,
   class: "text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, $2 = {
+}, M2 = {
   key: 2,
   class: "grid w-full max-w-full grid-cols-[1fr_auto_1fr] items-start gap-x-3 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, S2 = { class: "min-w-0 text-left leading-snug" }, M2 = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, D2 = { class: "min-w-0 text-right leading-snug" }, A2 = {
+}, D2 = { class: "min-w-0 text-left leading-snug" }, A2 = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, T2 = { class: "min-w-0 text-right leading-snug" }, B2 = {
   key: 3,
   class: "order-3 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, T2 = {
+}, L2 = {
   key: 4,
   class: "order-4 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, B2 = ["id"], L2 = /* @__PURE__ */ Q({
+}, F2 = ["id"], E2 = /* @__PURE__ */ Q({
   name: "InputRange",
   __name: "InputRange",
   props: {
@@ -19406,16 +19407,16 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       const f = Number(y.target.value);
       a("update:modelValue", Number.isNaN(f) ? n.min : f);
     }
-    return (y, f) => (_(), k("div", _2, [
+    return (y, f) => (_(), k("div", k2, [
       e.label ? (_(), k("label", {
         key: 0,
         for: o.value,
         class: H(F(Qt))
-      }, A(e.label), 11, x2)) : z("", !0),
+      }, A(e.label), 11, w2)) : z("", !0),
       r("div", {
         class: H(["flex flex-col items-center gap-2", (e.orientation === "vertical", "w-full")])
       }, [
-        e.orientation === "vertical" && e.captionMax ? (_(), k("p", k2, A(e.captionMax), 1)) : z("", !0),
+        e.orientation === "vertical" && e.captionMax ? (_(), k("p", C2, A(e.captionMax), 1)) : z("", !0),
         r("div", {
           class: H(["flex items-center justify-center", [
             e.orientation === "vertical" ? "order-2 h-[var(--kiut-range-length)] w-11 shrink-0" : "order-none w-full py-1"
@@ -19438,25 +19439,25 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
               e.orientation === "vertical" ? "kiut-range-input--vertical" : "kiut-range-input--horizontal w-full"
             ]),
             onInput: m
-          }, null, 42, w2)
+          }, null, 42, $2)
         ], 6),
-        e.orientation === "horizontal" && d.value ? (_(), k("p", C2, A(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (_(), k("div", $2, [
-          r("span", S2, A(e.captionMin), 1),
-          r("span", M2, A(e.caption), 1),
-          r("span", D2, A(e.captionMax), 1)
+        e.orientation === "horizontal" && d.value ? (_(), k("p", S2, A(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (_(), k("div", M2, [
+          r("span", D2, A(e.captionMin), 1),
+          r("span", A2, A(e.caption), 1),
+          r("span", T2, A(e.captionMax), 1)
         ])) : z("", !0),
-        e.orientation === "vertical" && e.captionMin ? (_(), k("p", A2, A(e.captionMin), 1)) : z("", !0),
-        e.orientation === "vertical" && e.caption ? (_(), k("p", T2, A(e.caption), 1)) : z("", !0)
+        e.orientation === "vertical" && e.captionMin ? (_(), k("p", B2, A(e.captionMin), 1)) : z("", !0),
+        e.orientation === "vertical" && e.caption ? (_(), k("p", L2, A(e.caption), 1)) : z("", !0)
       ], 2),
       e.errorText ? (_(), k("p", {
         key: 1,
         id: i.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, B2)) : z("", !0)
+      }, A(e.errorText), 11, F2)) : z("", !0)
     ]));
   }
-}), F2 = /* @__PURE__ */ it(L2, [["__scopeId", "data-v-a1343418"]]), E2 = { class: "font-sans" }, I2 = ["for"], P2 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], R2 = ["id"], O2 = /* @__PURE__ */ Q({
+}), I2 = /* @__PURE__ */ it(E2, [["__scopeId", "data-v-a1343418"]]), P2 = { class: "font-sans" }, R2 = ["for"], O2 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], z2 = ["id"], V2 = /* @__PURE__ */ Q({
   name: "InputNumber",
   __name: "InputNumber",
   props: {
@@ -19495,12 +19496,12 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       const m = Number(h);
       a("update:modelValue", Number.isNaN(m) ? null : m);
     }
-    return (u, h) => (_(), k("div", E2, [
+    return (u, h) => (_(), k("div", P2, [
       e.label ? (_(), k("label", {
         key: 0,
         for: o.value,
         class: H(F(Qt))
-      }, A(e.label), 11, I2)) : z("", !0),
+      }, A(e.label), 11, R2)) : z("", !0),
       r("input", {
         id: o.value,
         value: d.value,
@@ -19519,16 +19520,16 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
         step: e.step,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 42, P2),
+      }, null, 42, O2),
       e.errorText ? (_(), k("p", {
         key: 1,
         id: i.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, R2)) : z("", !0)
+      }, A(e.errorText), 11, z2)) : z("", !0)
     ]));
   }
-}), z2 = { class: "font-sans" }, V2 = ["for"], N2 = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], W2 = ["disabled"], H2 = ["id"], j2 = "#3b82f6", Y2 = "#aabbcc", q2 = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", K2 = /* @__PURE__ */ Q({
+}), N2 = { class: "font-sans" }, W2 = ["for"], H2 = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], j2 = ["disabled"], Y2 = ["id"], q2 = "#3b82f6", K2 = "#aabbcc", U2 = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", X2 = /* @__PURE__ */ Q({
   name: "InputColorPicker",
   __name: "InputColorPicker",
   props: {
@@ -19553,7 +19554,7 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       return null;
     }
     function a(f) {
-      return n(f) ?? j2;
+      return n(f) ?? q2;
     }
     const s = e, o = t, i = `kiut-input-color-${Nt()}`, l = M(() => s.id ?? i), d = M(() => `${l.value}-err`), c = M(() => a(s.modelValue)), u = st(c.value), h = st(!1);
     Pt(c, (f) => {
@@ -19572,15 +19573,15 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
       if (!h.value) return;
       const p = n(f);
       p && o("update:modelValue", p);
-    }), (f, p) => (_(), k("div", z2, [
+    }), (f, p) => (_(), k("div", N2, [
       e.label ? (_(), k("label", {
         key: 0,
         for: l.value,
         class: H(F(Qt))
-      }, A(e.label), 11, V2)) : z("", !0),
+      }, A(e.label), 11, W2)) : z("", !0),
       r("div", {
         class: H([
-          q2,
+          U2,
           e.invalid ? F(De) : "",
           e.disabled ? "cursor-not-allowed opacity-50" : ""
         ])
@@ -19594,7 +19595,7 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-describedby": e.errorText ? d.value : void 0,
           class: "h-9 w-11 shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-0.5 shadow-inner outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/35 disabled:cursor-not-allowed dark:border-slate-600 dark:bg-slate-800/80",
           onInput: m
-        }, null, 40, N2),
+        }, null, 40, H2),
         e.showHexInput ? Xt((_(), k("input", {
           key: 0,
           "onUpdate:modelValue": p[0] || (p[0] = (v) => u.value = v),
@@ -19604,10 +19605,10 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
           spellcheck: "false",
           "aria-label": "Código hexadecimal del color",
           class: "min-h-0 min-w-0 flex-1 border-0 bg-transparent p-0 font-mono text-sm font-medium text-[color:var(--kiut-text-primary)] outline-none ring-0 placeholder:text-[color:var(--kiut-text-muted)] focus:ring-0 disabled:cursor-not-allowed dark:text-slate-100 dark:placeholder:text-slate-500",
-          placeholder: Y2,
+          placeholder: K2,
           onFocus: p[1] || (p[1] = (v) => h.value = !0),
           onBlur: y
-        }, null, 40, W2)), [
+        }, null, 40, j2)), [
           [Pe, u.value]
         ]) : z("", !0)
       ], 2),
@@ -19616,7 +19617,7 @@ const hk = ["aria-label"], fk = { class: "flex flex-wrap items-center gap-x-2 ga
         id: d.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, H2)) : z("", !0)
+      }, A(e.errorText), 11, Y2)) : z("", !0)
     ]));
   }
 });
@@ -19635,11 +19636,11 @@ function Hi(e, t) {
     })
   ]);
 }
-const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = ["aria-selected", "onClick", "onMouseenter"], G2 = {
+const G2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], Z2 = ["aria-selected", "onClick", "onMouseenter"], Q2 = {
   key: 0,
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
-}, Z2 = { class: "min-w-0 flex-1" }, ji = /* @__PURE__ */ Q({
+}, J2 = { class: "min-w-0 flex-1" }, ji = /* @__PURE__ */ Q({
   name: "Select",
   __name: "Select",
   props: {
@@ -19773,7 +19774,7 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
           class: H(["h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", h.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
-      ], 42, U2),
+      ], 42, G2),
       (_(), nt(Ta, { to: "body" }, [
         Xt(r("ul", {
           id: l,
@@ -19793,30 +19794,30 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
             onClick: ie((Y) => D(I), ["stop"]),
             onMouseenter: (Y) => m.value = N
           }, [
-            e.showOptionCheck ? (_(), k("span", G2, [
+            e.showOptionCheck ? (_(), k("span", Q2, [
               x(I) ? (_(), nt(F(Hi), {
                 key: 0,
                 class: "h-4 w-4 text-white"
               })) : z("", !0)
             ])) : z("", !0),
-            r("span", Z2, A(I.label), 1)
-          ], 42, X2))), 128))
+            r("span", J2, A(I.label), 1)
+          ], 42, Z2))), 128))
         ], 36), [
           [mn, h.value]
         ])
       ]))
     ], 512));
   }
-}), Q2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], J2 = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, tw = {
+}), tw = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], ew = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, nw = {
   key: 0,
   class: "block truncate text-[color:var(--kiut-text-muted)] dark:text-slate-500"
-}, ew = {
+}, aw = {
   key: 1,
   class: "flex flex-wrap gap-1"
-}, nw = { class: "truncate" }, aw = ["aria-selected", "onClick", "onMouseenter"], sw = {
+}, sw = { class: "truncate" }, ow = ["aria-selected", "onClick", "onMouseenter"], iw = {
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
-}, ow = { class: "min-w-0 flex-1" }, iw = /* @__PURE__ */ Q({
+}, lw = { class: "min-w-0 flex-1" }, rw = /* @__PURE__ */ Q({
   name: "MultiSelect",
   __name: "MultiSelect",
   props: {
@@ -19929,13 +19930,13 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
         onClick: C,
         onKeydown: S
       }, [
-        r("div", J2, [
-          f.value.length === 0 ? (_(), k("span", tw, A(e.placeholder), 1)) : (_(), k("div", ew, [
+        r("div", ew, [
+          f.value.length === 0 ? (_(), k("span", nw, A(e.placeholder), 1)) : (_(), k("div", aw, [
             (_(!0), k(U, null, at(f.value, (E) => (_(), k("span", {
               key: v(E),
               class: "inline-flex max-w-full items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-[color:var(--kiut-text-primary)] dark:bg-white/10 dark:text-slate-100"
             }, [
-              r("span", nw, A(E.label), 1)
+              r("span", sw, A(E.label), 1)
             ]))), 128))
           ]))
         ]),
@@ -19943,7 +19944,7 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
           class: H(["mt-0.5 h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", u.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
-      ], 42, Q2),
+      ], 42, tw),
       Xt(r("ul", {
         id: l,
         ref_key: "listRef",
@@ -19962,20 +19963,20 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
           onClick: ie((N) => x(E), ["stop"]),
           onMouseenter: (N) => h.value = I
         }, [
-          r("span", sw, [
+          r("span", iw, [
             g(E) ? (_(), nt(F(Hi), {
               key: 0,
               class: "h-4 w-4 text-white"
             })) : z("", !0)
           ]),
-          r("span", ow, A(E.label), 1)
-        ], 42, aw))), 128))
+          r("span", lw, A(E.label), 1)
+        ], 42, ow))), 128))
       ], 544), [
         [mn, u.value]
       ])
     ], 512));
   }
-}), lw = ["id", "aria-checked", "aria-disabled", "disabled", "onKeydown"], rw = { class: "sr-only" }, cw = /* @__PURE__ */ Q({
+}), cw = ["id", "aria-checked", "aria-disabled", "disabled", "onKeydown"], dw = { class: "sr-only" }, uw = /* @__PURE__ */ Q({
   name: "Toggle",
   __name: "Toggle",
   props: {
@@ -20013,10 +20014,10 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
         class: H(["pointer-events-none inline-block h-7 w-7 translate-x-0 transform rounded-full bg-white shadow-sm transition-transform duration-200 ease-out", e.modelValue ? "translate-x-7" : "translate-x-0"]),
         "aria-hidden": "true"
       }, null, 2),
-      r("span", rw, A(e.ariaLabel), 1)
-    ], 42, lw));
+      r("span", dw, A(e.ariaLabel), 1)
+    ], 42, cw));
   }
-}), dw = { class: "font-sans" }, uw = ["for"], hw = { class: "flex gap-2" }, fw = { class: "w-[7.5rem] shrink-0" }, gw = { class: "min-w-0 flex-1" }, pw = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], mw = ["id"], bw = /* @__PURE__ */ Q({
+}), hw = { class: "font-sans" }, fw = ["for"], gw = { class: "flex gap-2" }, pw = { class: "w-[7.5rem] shrink-0" }, mw = { class: "min-w-0 flex-1" }, bw = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], vw = ["id"], yw = /* @__PURE__ */ Q({
   name: "InputPhone",
   __name: "InputPhone",
   props: {
@@ -20039,14 +20040,14 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
       get: () => n.modelValue.number,
       set: (c) => a("update:modelValue", { ...n.modelValue, number: c })
     });
-    return (c, u) => (_(), k("div", dw, [
+    return (c, u) => (_(), k("div", hw, [
       e.label ? (_(), k("label", {
         key: 0,
         for: o.value,
         class: H(F(Qt))
-      }, A(e.label), 11, uw)) : z("", !0),
-      r("div", hw, [
-        r("div", fw, [
+      }, A(e.label), 11, fw)) : z("", !0),
+      r("div", gw, [
+        r("div", pw, [
           R(ji, {
             modelValue: l.value,
             "onUpdate:modelValue": u[0] || (u[0] = (h) => l.value = h),
@@ -20057,7 +20058,7 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
             "show-option-check": !1
           }, null, 8, ["modelValue", "options", "placeholder", "disabled"])
         ]),
-        r("div", gw, [
+        r("div", mw, [
           Xt(r("input", {
             id: o.value,
             "onUpdate:modelValue": u[1] || (u[1] = (h) => d.value = h),
@@ -20069,7 +20070,7 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
             disabled: e.disabled,
             "aria-invalid": e.invalid ? "true" : void 0,
             "aria-describedby": e.errorText ? i.value : void 0
-          }, null, 10, pw), [
+          }, null, 10, bw), [
             [Pe, d.value]
           ])
         ])
@@ -20079,13 +20080,13 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
         id: i.value,
         class: H(F(pe)),
         role: "alert"
-      }, A(e.errorText), 11, mw)) : z("", !0)
+      }, A(e.errorText), 11, vw)) : z("", !0)
     ]));
   }
-}), vw = ["role", "aria-label"], yw = { class: "flex flex-wrap gap-2" }, _w = ["aria-checked", "role", "onClick"], xw = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, kw = {
+}), _w = ["role", "aria-label"], xw = { class: "flex flex-wrap gap-2" }, kw = ["aria-checked", "role", "onClick"], ww = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, Cw = {
   key: 0,
   class: "h-2 w-2 rounded-full bg-[color:var(--kiut-primary)]"
-}, ww = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, Cw = /* @__PURE__ */ Q({
+}, $w = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, Sw = /* @__PURE__ */ Q({
   name: "SelectablePills",
   __name: "SelectablePills",
   props: {
@@ -20120,7 +20121,7 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
       role: e.multiple ? "group" : "radiogroup",
       "aria-label": e.ariaLabel
     }, [
-      r("div", yw, [
+      r("div", xw, [
         (_(!0), k(U, null, at(e.items, (u) => (_(), k("button", {
           key: u.value,
           type: "button",
@@ -20129,8 +20130,8 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
           role: e.multiple ? "checkbox" : "radio",
           onClick: (h) => l(u)
         }, [
-          r("span", xw, [
-            o(u) ? (_(), k("span", kw)) : z("", !0)
+          r("span", ww, [
+            o(u) ? (_(), k("span", Cw)) : z("", !0)
           ]),
           u.dotColor ? (_(), k("span", {
             key: 0,
@@ -20138,12 +20139,12 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
             style: mt({ backgroundColor: u.dotColor }),
             "aria-hidden": "true"
           }, null, 4)) : z("", !0),
-          r("span", ww, A(u.label), 1)
-        ], 10, _w))), 128))
+          r("span", $w, A(u.label), 1)
+        ], 10, kw))), 128))
       ])
-    ], 8, vw));
+    ], 8, _w));
   }
-}), $w = ["aria-label"], Sw = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], Mw = { class: "truncate px-3 py-2 text-sm font-medium" }, Dw = /* @__PURE__ */ Q({
+}), Mw = ["aria-label"], Dw = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], Aw = { class: "truncate px-3 py-2 text-sm font-medium" }, Tw = /* @__PURE__ */ Q({
   name: "SegmentedControl",
   __name: "SegmentedControl",
   props: {
@@ -20225,9 +20226,9 @@ const U2 = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], X2 = 
         onClick: (x) => h(g, b),
         onKeydown: (x) => f(x, b)
       }, [
-        r("span", Mw, A(g.label), 1)
-      ], 42, Sw))), 128))
-    ], 8, $w));
+        r("span", Aw, A(g.label), 1)
+      ], 42, Dw))), 128))
+    ], 8, Mw));
   }
 });
 function Le(e) {
@@ -20257,13 +20258,13 @@ function Do(e, t) {
 function ya(e, t) {
   return aa(e, t) < 0;
 }
-function Aw(e, t) {
+function Bw(e, t) {
   return aa(e, t) >= 0;
 }
-function Tw(e, t) {
+function Lw(e, t) {
   return aa(e, t) <= 0;
 }
-function Bw(e) {
+function Fw(e) {
   const t = e.getFullYear(), n = e.getMonth(), a = new Date(t, n, 1), s = new Date(a);
   s.setDate(a.getDate() - a.getDay());
   const o = [], i = new Date(s);
@@ -20271,7 +20272,7 @@ function Bw(e) {
     o.push(new Date(i)), i.setDate(i.getDate() + 1);
   return o;
 }
-const Lw = [
+const Ew = [
   "Jan",
   "Feb",
   "Mar",
@@ -20284,7 +20285,7 @@ const Lw = [
   "Oct",
   "Nov",
   "Dec"
-], Fw = [
+], Iw = [
   "January",
   "February",
   "March",
@@ -20299,12 +20300,12 @@ const Lw = [
   "December"
 ];
 function Ao(e) {
-  return `${Lw[e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
+  return `${Ew[e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
 }
 function To(e) {
-  return `${Fw[e.getMonth()]} ${e.getFullYear()}`;
+  return `${Iw[e.getMonth()]} ${e.getFullYear()}`;
 }
-const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"], Pw = { class: "mb-4 flex items-center justify-between gap-2" }, Rw = { class: "flex min-w-0 flex-1 justify-center gap-8 text-center text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, Ow = { class: "min-w-0 truncate" }, zw = { class: "min-w-0 truncate" }, Vw = { class: "flex flex-col gap-6 sm:flex-row sm:gap-8" }, Nw = { class: "mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-medium uppercase tracking-wide text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, Ww = { class: "grid grid-cols-7 gap-y-1" }, Hw = ["disabled", "onClick"], jw = /* @__PURE__ */ Q({
+const Pw = ["aria-expanded", "aria-labelledby", "aria-label"], Rw = ["onKeydown"], Ow = { class: "mb-4 flex items-center justify-between gap-2" }, zw = { class: "flex min-w-0 flex-1 justify-center gap-8 text-center text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, Vw = { class: "min-w-0 truncate" }, Nw = { class: "min-w-0 truncate" }, Ww = { class: "flex flex-col gap-6 sm:flex-row sm:gap-8" }, Hw = { class: "mb-2 grid grid-cols-7 gap-1 text-center text-[11px] font-medium uppercase tracking-wide text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, jw = { class: "grid grid-cols-7 gap-y-1" }, Yw = ["disabled", "onClick"], qw = /* @__PURE__ */ Q({
   name: "DateRangePicker",
   __name: "DateRangePicker",
   props: {
@@ -20347,7 +20348,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       const B = v(L, S), T = n.modelValue.start ? be(Le(n.modelValue.start)) : null, E = n.modelValue.end ? be(Le(n.modelValue.end)) : null, I = be(L), N = B ? "text-[color:var(--kiut-text-primary)] dark:text-slate-100" : "text-slate-400 dark:text-slate-500";
       if (!T || !E)
         return `${N} hover:bg-black/[0.04] dark:hover:bg-white/[0.06]`;
-      const Y = Aw(I, T) && Tw(I, E), V = Do(I, T), tt = Do(I, E);
+      const Y = Bw(I, T) && Lw(I, E), V = Do(I, T), tt = Do(I, E);
       return V || tt ? "bg-[color:var(--kiut-primary)] font-semibold text-white shadow-sm" : Y ? `${N} bg-violet-100/90 dark:bg-violet-950/35 hover:bg-violet-200/80 dark:hover:bg-violet-900/40` : `${N} hover:bg-black/[0.04] dark:hover:bg-white/[0.06]`;
     }
     function x(S) {
@@ -20417,7 +20418,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
             !e.modelValue.start || !e.modelValue.end ? "text-[color:var(--kiut-text-muted)] dark:text-slate-500" : ""
           ])
         }, A(p.value), 3)
-      ], 42, Ew),
+      ], 42, Pw),
       Xt(r("div", {
         ref_key: "panelRef",
         ref: l,
@@ -20431,7 +20432,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
         ]),
         onKeydown: Hn(ie(D, ["stop"]), ["escape"])
       }, [
-        r("div", Pw, [
+        r("div", Ow, [
           r("button", {
             type: "button",
             class: "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gray-300 text-gray-600 transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-slate-300 dark:hover:bg-white/[0.06]",
@@ -20443,9 +20444,9 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
               "aria-hidden": "true"
             })
           ]),
-          r("div", Rw, [
-            r("span", Ow, A(F(To)(h.value[0])), 1),
-            r("span", zw, A(F(To)(h.value[1])), 1)
+          r("div", zw, [
+            r("span", Vw, A(F(To)(h.value[0])), 1),
+            r("span", Nw, A(F(To)(h.value[1])), 1)
           ]),
           r("button", {
             type: "button",
@@ -20459,41 +20460,41 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
             })
           ])
         ]),
-        r("div", Vw, [
+        r("div", Ww, [
           (_(!0), k(U, null, at(h.value, (B) => (_(), k("div", {
             key: `${B.getFullYear()}-${B.getMonth()}`,
             class: "min-w-0 flex-1"
           }, [
-            r("div", Nw, [
+            r("div", Hw, [
               (_(), k(U, null, at(f, (T) => r("span", { key: T }, A(T), 1)), 64))
             ]),
-            r("div", Ww, [
-              (_(!0), k(U, null, at(F(Bw)(B), (T) => (_(), k("button", {
+            r("div", jw, [
+              (_(!0), k(U, null, at(F(Fw)(B), (T) => (_(), k("button", {
                 key: F(ln)(T),
                 type: "button",
                 disabled: g(T),
                 class: H(["relative flex h-9 items-center justify-center rounded-lg text-sm outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40", b(B, T)]),
                 onClick: (E) => x(T)
-              }, A(T.getDate()), 11, Hw))), 128))
+              }, A(T.getDate()), 11, Yw))), 128))
             ])
           ]))), 128))
         ])
-      ], 42, Iw), [
+      ], 42, Rw), [
         [mn, d.value]
       ])
     ], 512));
   }
-}), Yw = {
+}), Kw = {
   key: 0,
   class: "group relative inline-flex shrink-0"
-}, qw = ["type", "disabled", "aria-label"], Kw = {
+}, Uw = ["type", "disabled", "aria-label"], Xw = {
   key: 1,
   class: "min-w-0 truncate"
-}, Uw = {
+}, Gw = {
   role: "tooltip",
   "aria-hidden": "true",
   class: "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 font-sans text-xs font-medium text-[color:var(--kiut-text-primary)] opacity-0 shadow-lg shadow-slate-900/10 ring-1 ring-black/5 transition-opacity duration-150 will-change-[opacity,visibility] invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:bg-slate-800 dark:text-slate-100 dark:shadow-black/40 dark:ring-white/10"
-}, Xw = ["type", "disabled", "aria-label"], Gw = {
+}, Zw = ["type", "disabled", "aria-label"], Qw = {
   key: 1,
   class: "min-w-0 truncate"
 }, Wn = /* @__PURE__ */ Q({
@@ -20546,7 +20547,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       "dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white",
       "dark:active:bg-[color:var(--kiut-primary-dark)]"
     ]);
-    return (u, h) => a.value ? (_(), k("span", Yw, [
+    return (u, h) => a.value ? (_(), k("span", Kw, [
       r("button", jn({
         type: l.value,
         class: ["inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]", [c.value, F(n).class]],
@@ -20560,11 +20561,11 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
         }, [
           wt(u.$slots, "icon")
         ], 2)) : z("", !0),
-        o.value ? (_(), k("span", Kw, [
+        o.value ? (_(), k("span", Xw, [
           wt(u.$slots, "default")
         ])) : z("", !0)
-      ], 16, qw),
-      r("span", Uw, A(e.tooltip), 1)
+      ], 16, Uw),
+      r("span", Gw, A(e.tooltip), 1)
     ])) : (_(), k("button", jn({
       key: 1,
       type: l.value,
@@ -20579,19 +20580,19 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       }, [
         wt(u.$slots, "icon")
       ], 2)) : z("", !0),
-      o.value ? (_(), k("span", Gw, [
+      o.value ? (_(), k("span", Qw, [
         wt(u.$slots, "default")
       ])) : z("", !0)
-    ], 16, Xw));
+    ], 16, Zw));
   }
-}), Zw = {
+}), Jw = {
   key: 0,
   class: "fixed inset-0 z-[200] flex items-center justify-center p-4 [font-family:'Inter',sans-serif]",
   "aria-hidden": "false"
-}, Qw = { class: "min-w-0 flex-1 space-y-1" }, Jw = {
+}, t5 = { class: "min-w-0 flex-1 space-y-1" }, e5 = {
   key: 0,
   class: "text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-}, t5 = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, e5 = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, n5 = /* @__PURE__ */ Q({
+}, n5 = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, a5 = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, s5 = /* @__PURE__ */ Q({
   name: "Modal",
   __name: "Modal",
   props: {
@@ -20627,7 +20628,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
     }), (u, h) => (_(), nt(Ta, { to: "body" }, [
       R(un, { name: "kiut-modal" }, {
         default: P(() => [
-          e.modelValue ? (_(), k("div", Zw, [
+          e.modelValue ? (_(), k("div", Jw, [
             r("div", {
               class: "absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] dark:bg-black/60",
               "aria-hidden": "true",
@@ -20647,12 +20648,12 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
               r("header", {
                 class: H(["flex shrink-0 justify-between gap-4 border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.02]", e.subtitle ? "items-start" : "items-center"])
               }, [
-                r("div", Qw, [
+                r("div", t5, [
                   r("h2", {
                     id: o,
                     class: "text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
                   }, A(e.title), 1),
-                  e.subtitle ? (_(), k("p", Jw, A(e.subtitle), 1)) : z("", !0)
+                  e.subtitle ? (_(), k("p", e5, A(e.subtitle), 1)) : z("", !0)
                 ]),
                 R(Wn, {
                   variant: "action",
@@ -20666,10 +20667,10 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
                   _: 1
                 })
               ], 2),
-              r("div", t5, [
+              r("div", n5, [
                 wt(u.$slots, "default", {}, void 0, !0)
               ]),
-              r("footer", e5, [
+              r("footer", a5, [
                 R(Wn, {
                   variant: "secondary",
                   type: "button",
@@ -20698,19 +20699,19 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       })
     ]));
   }
-}), a5 = /* @__PURE__ */ it(n5, [["__scopeId", "data-v-4ed7bb14"]]), s5 = { class: "text-left font-['Inter',system-ui,sans-serif]" }, o5 = {
+}), o5 = /* @__PURE__ */ it(s5, [["__scopeId", "data-v-4ed7bb14"]]), i5 = { class: "text-left font-['Inter',system-ui,sans-serif]" }, l5 = {
   key: 0,
   class: ""
-}, i5 = {
+}, r5 = {
   key: 0,
   class: "flex min-w-0 flex-col gap-1.5 mb-4"
-}, l5 = {
+}, c5 = {
   key: 0,
   class: "flex min-w-0 flex-1 flex-wrap items-center gap-2"
-}, r5 = {
+}, d5 = {
   key: 1,
   class: "flex min-w-0 flex-1 flex-wrap items-center gap-2"
-}, c5 = /* @__PURE__ */ Q({
+}, u5 = /* @__PURE__ */ Q({
   name: "Section",
   __name: "Section",
   setup(e) {
@@ -20718,19 +20719,19 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       const a = !!t.filters, s = !!t.actions;
       return a ? "justify-between" : s ? "justify-end" : "";
     });
-    return (a, s) => (_(), k("section", s5, [
-      a.$slots.description || a.$slots.filters || a.$slots.actions ? (_(), k("header", o5, [
-        a.$slots.description ? (_(), k("div", i5, [
+    return (a, s) => (_(), k("section", i5, [
+      a.$slots.description || a.$slots.filters || a.$slots.actions ? (_(), k("header", l5, [
+        a.$slots.description ? (_(), k("div", r5, [
           wt(a.$slots, "description")
         ])) : z("", !0),
         a.$slots.filters || a.$slots.actions ? (_(), k("div", {
           key: 1,
           class: H(["flex flex-wrap gap-2 items-center", n.value])
         }, [
-          a.$slots.filters ? (_(), k("div", l5, [
+          a.$slots.filters ? (_(), k("div", c5, [
             wt(a.$slots, "filters")
           ])) : z("", !0),
-          a.$slots.actions ? (_(), k("div", r5, [
+          a.$slots.actions ? (_(), k("div", d5, [
             wt(a.$slots, "actions")
           ])) : z("", !0)
         ], 2)) : z("", !0)
@@ -20747,26 +20748,26 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       ], 2)) : z("", !0)
     ]));
   }
-}), d5 = { class: "flex flex-1 min-h-0" }, u5 = {
+}), h5 = { class: "flex flex-1 min-h-0" }, f5 = {
   key: 0,
   class: "flex justify-center items-center my-4 shrink-0"
-}, h5 = {
+}, g5 = {
   class: "flex-1 overflow-y-auto p-1 flex flex-col gap-1",
   "aria-label": "Sections"
-}, f5 = ["aria-current", "title", "onClick"], g5 = {
+}, p5 = ["aria-current", "title", "onClick"], m5 = {
   key: 1,
   class: "shrink-0 border-t [border-color:var(--kiut-lateral-border-color)] [background-color:var(--kiut-lateral-bg)]"
-}, p5 = { class: "px-4 py-4 shrink-0" }, m5 = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, b5 = {
+}, b5 = { class: "px-4 py-4 shrink-0" }, v5 = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, y5 = {
   class: "flex-1 overflow-y-auto px-1 pb-3 flex flex-col gap-0.5",
   "aria-label": "Section items"
-}, v5 = ["data-nav-id", "aria-current", "onClick"], y5 = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, _5 = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, x5 = {
+}, _5 = ["data-nav-id", "aria-current", "onClick"], x5 = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, k5 = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, w5 = {
   class: "overflow-y-auto flex-1 px-3 pb-5 flex flex-col gap-1",
   "aria-label": "Section items"
-}, k5 = ["data-nav-id", "aria-current", "onClick"], w5 = { class: "truncate text-[15px]" }, C5 = ["aria-current", "onClick"], $5 = {
+}, C5 = ["data-nav-id", "aria-current", "onClick"], $5 = { class: "truncate text-[15px]" }, S5 = ["aria-current", "onClick"], M5 = {
   key: 0,
   class: "absolute top-0 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]",
   "aria-hidden": "true"
-}, S5 = { class: "text-[9px] font-semibold leading-none truncate w-full text-center px-0.5" }, M5 = /* @__PURE__ */ Q({
+}, D5 = { class: "text-[9px] font-semibold leading-none truncate w-full text-center px-0.5" }, A5 = /* @__PURE__ */ Q({
   name: "AppShellNavigation",
   inheritAttrs: !1,
   __name: "AppShellNavigation",
@@ -20880,8 +20881,8 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
             D[3] || (D[3] = r("div", { class: "flex justify-center pt-3 pb-1 shrink-0" }, [
               r("div", { class: "w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-purple-500/30" })
             ], -1)),
-            r("div", y5, [
-              r("p", _5, A(u.value.label), 1),
+            r("div", x5, [
+              r("p", k5, A(u.value.label), 1),
               r("button", {
                 type: "button",
                 class: "w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors",
@@ -20900,7 +20901,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
                 ], -1)
               ])])
             ]),
-            r("nav", x5, [
+            r("nav", w5, [
               (_(!0), k(U, null, at(u.value.items, (C) => (_(), k("button", {
                 key: C.id,
                 type: "button",
@@ -20915,8 +20916,8 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
                   style: { width: "18px", height: "18px" },
                   "aria-hidden": "true"
                 })) : z("", !0),
-                r("span", w5, A(C.label), 1)
-              ], 10, k5))), 128))
+                r("span", $5, A(C.label), 1)
+              ], 10, C5))), 128))
             ])
           ], 4)) : z("", !0)
         ]),
@@ -20934,15 +20935,15 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
           class: H(["relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--kiut-primary)]/30", x(C)]),
           onClick: ($) => y(C)
         }, [
-          e.selectedSectionId === C.id || m(C) ? (_(), k("span", $5)) : z("", !0),
+          e.selectedSectionId === C.id || m(C) ? (_(), k("span", M5)) : z("", !0),
           C.icon ? (_(), nt(je(C.icon), {
             key: 1,
             class: "shrink-0",
             style: mt({ width: e.primaryIconSize, height: e.primaryIconSize }),
             "aria-hidden": "true"
           }, null, 8, ["style"])) : z("", !0),
-          r("span", S5, A(C.label), 1)
-        ], 10, C5))), 128))
+          r("span", D5, A(C.label), 1)
+        ], 10, S5))), 128))
       ], 4)
     ], 16)) : (_(), k("aside", jn({
       key: 0,
@@ -20950,7 +20951,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       role: "navigation",
       "aria-label": "Main navigation"
     }, l), [
-      r("div", d5, [
+      r("div", h5, [
         r("div", {
           class: "primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center [border-color:var(--kiut-lateral-border-color)]",
           style: mt({
@@ -20960,10 +20961,10 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
           onMouseenter: D[0] || (D[0] = (C) => n.value = !0),
           onMouseleave: D[1] || (D[1] = (C) => n.value = !1)
         }, [
-          w.$slots.logo ? (_(), k("div", u5, [
+          w.$slots.logo ? (_(), k("div", f5, [
             wt(w.$slots, "logo", { expanded: n.value }, void 0, !0)
           ])) : z("", !0),
-          r("nav", h5, [
+          r("nav", g5, [
             (_(!0), k(U, null, at(e.sections, (C) => (_(), k("button", {
               key: C.id,
               type: "button",
@@ -20982,9 +20983,9 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
                 class: "leading-tight font-semibold tracking-wide text-left w-full truncate px-1 color-",
                 style: mt({ fontSize: e.primaryFontSize })
               }, A(C.label), 5)
-            ], 10, f5))), 128))
+            ], 10, p5))), 128))
           ]),
-          w.$slots.footer ? (_(), k("div", g5, [
+          w.$slots.footer ? (_(), k("div", m5, [
             wt(w.$slots, "footer", { expanded: n.value }, void 0, !0)
           ])) : z("", !0)
         ], 36),
@@ -20995,10 +20996,10 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
               class: "secondary-panel flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r [border-color:var(--kiut-lateral-border-color)] overflow-hidden",
               style: mt({ width: e.secondaryWidth })
             }, [
-              r("div", p5, [
-                r("p", m5, A(u.value.label), 1)
+              r("div", b5, [
+                r("p", v5, A(u.value.label), 1)
               ]),
-              r("nav", b5, [
+              r("nav", y5, [
                 (_(!0), k(U, null, at(u.value.items, (C) => (_(), k("button", {
                   key: C.id,
                   type: "button",
@@ -21015,7 +21016,7 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
                     class: "truncate",
                     style: mt({ fontSize: e.secondaryFontSize })
                   }, A(C.label), 5)
-                ], 10, v5))), 128))
+                ], 10, _5))), 128))
               ])
             ], 4)) : z("", !0)
           ]),
@@ -21024,80 +21025,80 @@ const Ew = ["aria-expanded", "aria-labelledby", "aria-label"], Iw = ["onKeydown"
       ])
     ], 16));
   }
-}), D5 = /* @__PURE__ */ it(M5, [["__scopeId", "data-v-d3ebd9b8"]]), z5 = {
+}), T5 = /* @__PURE__ */ it(A5, [["__scopeId", "data-v-d3ebd9b8"]]), N5 = {
   install(e) {
-    e.component("KiutChartBar", he), e.component("KiutChartLine", Se), e.component("KiutPieChart", na), e.component("KiutBoxplotChart", Ph), e.component("KiutCandlestickChart", Mi), e.component("KiutHistogramChart", Di), e.component("KiutSankeyChart", Me), e.component("KiutAgentsPerDay", up), e.component("KiutBookingManager", Np), e.component("KiutCheckin", Fi), e.component("KiutCheckinContainer", Gm), e.component("KiutCheckinMetrics", bm), e.component("KiutCheckinSegments", Ii), e.component("KiutDisruption", p0), e.component("KiutFAQ", k0), e.component("KiutMessagesPerAgent", L0), e.component("KiutRecordLocator", Ei), e.component("KiutSalesByChannel", Pi), e.component("KiutSeller", Ri), e.component("KiutSellerContainer", _b), e.component("KiutTopAgents", Db), e.component("KiutPaymentMethod", Gb), e.component("KiutAgentHumanConversations", Xv), e.component("KiutChannelMetrics", oy), e.component("KiutTriageCombinations", _y), e.component("KiutSelectLanguage", My), e.component("KiutGuardrails", Oy), e.component("KiutDisruptionNotifier", o1), e.component("KiutTotalConversationsCard", u1), e.component("KiutCsatP95Card", b1), e.component("KiutCSATContainer", Z1), e.component("KiutAiGeneratedRevenueCard", o_), e.component("KiutNpsDailyMetrics", Vi), e.component("KiutNpsMetrics", Ni), e.component("KiutNpsOverviewMetrics", zi), e.component("KiutAWSCost", p_), e.component("KiutCostUsage", S_), e.component("KiutTokenUsage", R_), e.component("KiutConversationCount", U_), e.component("KiutTopAgentsAnalysis", lx), e.component("KiutTopAgentsPie", bx), e.component("KiutDailyCostTrends", Mx), e.component("KiutModelUsage", Wx), e.component("KiutMessageRoles", Qx), e.component("KiutCostPerConversations", ck), e.component("Tabs", Wi), e.component("Table", Oi), e.component("Filters", Wk), e.component("InputText", Uk), e.component("InputTextarea", Jk), e.component("InputFile", l2), e.component("InputDateTime", f2), e.component("InputTime", y2), e.component("InputRange", F2), e.component("InputNumber", O2), e.component("InputColorPicker", K2), e.component("Select", ji), e.component("MultiSelect", iw), e.component("Toggle", cw), e.component("InputPhone", bw), e.component("SelectablePills", Cw), e.component("SegmentedControl", Dw), e.component("DateRangePicker", jw), e.component("Tag", Rt), e.component("Button", Wn), e.component("Modal", a5), e.component("Section", c5), e.component("KiutAppShellNavigation", D5);
+    e.component("KiutChartBar", he), e.component("KiutChartLine", Se), e.component("KiutPieChart", na), e.component("KiutBoxplotChart", Ph), e.component("KiutCandlestickChart", Mi), e.component("KiutHistogramChart", Di), e.component("KiutSankeyChart", Me), e.component("KiutAgentsPerDay", up), e.component("KiutBookingManager", Np), e.component("KiutCheckin", Fi), e.component("KiutCheckinContainer", Qm), e.component("KiutCheckinMetrics", ym), e.component("KiutCheckinSegments", Ii), e.component("KiutDisruption", b0), e.component("KiutFAQ", C0), e.component("KiutMessagesPerAgent", E0), e.component("KiutRecordLocator", Ei), e.component("KiutSalesByChannel", Pi), e.component("KiutSeller", Ri), e.component("KiutSellerContainer", kb), e.component("KiutTopAgents", Tb), e.component("KiutPaymentMethod", Qb), e.component("KiutAgentHumanConversations", Zv), e.component("KiutChannelMetrics", ly), e.component("KiutTriageCombinations", ky), e.component("KiutSelectLanguage", Ay), e.component("KiutGuardrails", Vy), e.component("KiutDisruptionNotifier", l1), e.component("KiutTotalConversationsCard", f1), e.component("KiutCsatP95Card", y1), e.component("KiutCSATContainer", J1), e.component("KiutAiGeneratedRevenueCard", l_), e.component("KiutNpsDailyMetrics", Vi), e.component("KiutNpsMetrics", Ni), e.component("KiutNpsOverviewMetrics", zi), e.component("KiutAWSCost", b_), e.component("KiutCostUsage", D_), e.component("KiutTokenUsage", z_), e.component("KiutConversationCount", G_), e.component("KiutTopAgentsAnalysis", cx), e.component("KiutTopAgentsPie", yx), e.component("KiutDailyCostTrends", Ax), e.component("KiutModelUsage", jx), e.component("KiutMessageRoles", tk), e.component("KiutCostPerConversations", uk), e.component("Tabs", Wi), e.component("Table", Oi), e.component("Filters", jk), e.component("InputText", Gk), e.component("InputTextarea", e2), e.component("InputFile", c2), e.component("InputDateTime", p2), e.component("InputTime", x2), e.component("InputRange", I2), e.component("InputNumber", V2), e.component("InputColorPicker", X2), e.component("Select", ji), e.component("MultiSelect", rw), e.component("Toggle", uw), e.component("InputPhone", yw), e.component("SelectablePills", Sw), e.component("SegmentedControl", Tw), e.component("DateRangePicker", qw), e.component("Tag", Rt), e.component("Button", Wn), e.component("Modal", o5), e.component("Section", u5), e.component("KiutAppShellNavigation", T5);
   }
 };
 export {
-  p_ as AWSCost,
-  Xv as AgentHumanConversations,
+  b_ as AWSCost,
+  Zv as AgentHumanConversations,
   up as AgentsPerDay,
-  o_ as AiGeneratedRevenueCard,
-  D5 as AppShellNavigation,
+  l_ as AiGeneratedRevenueCard,
+  T5 as AppShellNavigation,
   Np as BookingManager,
   Ph as BoxplotChart,
   Wn as Button,
-  Z1 as CSATContainer,
+  J1 as CSATContainer,
   Mi as CandlestickChart,
-  oy as ChannelMetrics,
+  ly as ChannelMetrics,
   he as ChartBar,
   Se as ChartLine,
   Fi as Checkin,
-  Gm as CheckinContainer,
-  bm as CheckinMetrics,
+  Qm as CheckinContainer,
+  ym as CheckinMetrics,
   Ii as CheckinSegments,
-  U_ as ConversationCount,
-  ck as CostPerConversations,
-  S_ as CostUsage,
-  b1 as CsatP95Card,
-  Mx as DailyCostTrends,
-  jw as DateRangePicker,
-  p0 as Disruption,
-  o1 as DisruptionNotifier,
-  k0 as FAQ,
-  Wk as Filters,
-  Oy as Guardrails,
+  G_ as ConversationCount,
+  uk as CostPerConversations,
+  D_ as CostUsage,
+  y1 as CsatP95Card,
+  Ax as DailyCostTrends,
+  qw as DateRangePicker,
+  b0 as Disruption,
+  l1 as DisruptionNotifier,
+  C0 as FAQ,
+  jk as Filters,
+  Vy as Guardrails,
   Di as HistogramChart,
-  K2 as InputColorPicker,
-  f2 as InputDateTime,
-  l2 as InputFile,
-  O2 as InputNumber,
-  bw as InputPhone,
-  F2 as InputRange,
-  Uk as InputText,
-  Jk as InputTextarea,
-  y2 as InputTime,
-  z5 as KiutUIPlugin,
-  Qx as MessageRoles,
-  L0 as MessagesPerAgent,
-  a5 as Modal,
-  Wx as ModelUsage,
-  iw as MultiSelect,
+  X2 as InputColorPicker,
+  p2 as InputDateTime,
+  c2 as InputFile,
+  V2 as InputNumber,
+  yw as InputPhone,
+  I2 as InputRange,
+  Gk as InputText,
+  e2 as InputTextarea,
+  x2 as InputTime,
+  N5 as KiutUIPlugin,
+  tk as MessageRoles,
+  E0 as MessagesPerAgent,
+  o5 as Modal,
+  jx as ModelUsage,
+  rw as MultiSelect,
   Vi as NpsDailyMetrics,
   Ni as NpsMetrics,
   zi as NpsOverviewMetrics,
-  Gb as PaymentMethod,
+  Qb as PaymentMethod,
   na as PieChart,
   Ei as RecordLocator,
   Pi as SalesByChannel,
   Me as SankeyChart,
-  c5 as Section,
-  Dw as SegmentedControl,
+  u5 as Section,
+  Tw as SegmentedControl,
   ji as Select,
-  My as SelectLanguage,
-  Cw as SelectablePills,
+  Ay as SelectLanguage,
+  Sw as SelectablePills,
   Ri as Seller,
-  _b as SellerContainer,
+  kb as SellerContainer,
   Oi as Table,
   Wi as Tabs,
   Rt as Tag,
-  cw as Toggle,
-  R_ as TokenUsage,
-  Db as TopAgents,
-  lx as TopAgentsAnalysis,
-  bx as TopAgentsPie,
-  u1 as TotalConversationsCard,
-  _y as TriageCombinations
+  uw as Toggle,
+  z_ as TokenUsage,
+  Tb as TopAgents,
+  cx as TopAgentsAnalysis,
+  yx as TopAgentsPie,
+  f1 as TotalConversationsCard,
+  ky as TriageCombinations
 };
 //# sourceMappingURL=kiut-ui.es.js.map
