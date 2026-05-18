@@ -505,7 +505,6 @@ defineExpose({ isDark })
 /* Chart Sections */
 .chart-section { display: flex; flex-direction: column; gap: 8px; }
 .chart-header { display: flex; align-items: center; }
-.chart-wrapper { background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%); border-radius: 16px; padding: 20px; border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
 .empty-chart { display: flex; align-items: center; justify-content: center; height: 300px; }
 .empty-chart-text { color: var(--kiut-text-secondary, #64748b); font-size: 0.875rem; }
 

@@ -547,14 +547,6 @@
   margin: 0;
 }
 
-.chart-wrapper {
-  background: var(--kiut-bg-chart-wrapper);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--kiut-border-light);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-}
-
 /* Bloque de tabla diaria (chrome de <table> lo aporta Utils/Table) */
 .checkin-daily-section {
   margin-top: 24px;

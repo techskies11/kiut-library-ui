@@ -479,14 +479,6 @@ const calculatePercentage = (value: number, total: number): string => {
   animation: fadeIn 0.5s ease-out;
 }
 
-.chart-wrapper {
-  background: var(--kiut-bg-chart-wrapper);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--kiut-border-light);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
-}
-
 /* Section Header */
 .section-header {
   margin-bottom: 16px;
