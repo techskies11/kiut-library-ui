@@ -39,6 +39,8 @@ import TotalConversationsCard from './stories/Charts/BusinessMetrics/TotalConver
 import CsatP95Card from './stories/Charts/BusinessMetrics/CsatP95Card/CsatP95Card.vue';
 import CSATContainer from './stories/Charts/BusinessMetrics/CSATContainer/CSATContainer.vue';
 import AiGeneratedRevenueCard from './stories/Charts/BusinessMetrics/AiGeneratedRevenueCard/AiGeneratedRevenueCard.vue';
+import HumanEscalations from './stories/Charts/BusinessMetrics/HumanEscalations/HumanEscalations.vue';
+import HumanEscalationsCard from './stories/Charts/BusinessMetrics/HumanEscalations/HumanEscalationsCard.vue';
 
 // NPS Metrics
 import NpsDailyMetrics from './stories/Charts/BusinessMetrics/Nps/npsDailyMetrics.vue';
@@ -152,6 +154,8 @@ export {
   CsatP95Card,
   CSATContainer,
   AiGeneratedRevenueCard,
+  HumanEscalations,
+  HumanEscalationsCard,
   // NPS Metrics
   NpsDailyMetrics,
   NpsMetrics,
@@ -233,6 +237,8 @@ export const KiutUIPlugin = {
     app.component('KiutCsatP95Card', CsatP95Card);
     app.component('KiutCSATContainer', CSATContainer);
     app.component('KiutAiGeneratedRevenueCard', AiGeneratedRevenueCard);
+    app.component('KiutHumanEscalations', HumanEscalations);
+    app.component('KiutHumanEscalationsCard', HumanEscalationsCard);
     app.component('KiutNpsDailyMetrics', NpsDailyMetrics);
     app.component('KiutNpsMetrics', NpsMetrics);
     app.component('KiutNpsOverviewMetrics', NpsOverviewMetrics);

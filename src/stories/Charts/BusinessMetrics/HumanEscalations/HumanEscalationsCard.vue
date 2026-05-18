@@ -1,29 +1,40 @@
 <template>
   <ChartMetricContainer
     :collapsible="false"
-    :class="['ai-revenue-metric', 'w-full', { 'ai-revenue-metric--dark': isDark }]"
+    :class="['human-escalations-metric', 'w-full', { 'human-escalations-metric--dark': isDark }]"
   >
     <template #title>
       <div class="header-title-group">
         <div class="icon-wrapper" aria-hidden="true">
-          <svg
-            class="card-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.75"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-            <path d="M12 18V6" />
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 7.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 19.5a7.5 7.5 0 0 1 9.36-7.29"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m17.25 15.75 4.5 4.5"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m21.75 15.75-4.5 4.5"
+            />
           </svg>
         </div>
       </div>
     </template>
     <template #headerAside>
-      <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
+      <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">
+        {{ changeLabel }}
+      </div>
     </template>
 
     <div class="highlight-inner">
@@ -33,11 +44,8 @@
       </div>
 
       <div v-else class="card-body">
-        <div class="metric-row">
-          <span class="metric-currency">{{ props.currencyCode }}</span>
-          <span class="metric-value">{{ formattedAmount }}</span>
-        </div>
-        <span class="metric-label">AI Revenue</span>
+        <span class="metric-value">{{ rateLabel }}</span>
+        <span class="metric-label">Human Escalations</span>
       </div>
     </div>
   </ChartMetricContainer>
@@ -47,35 +55,36 @@
 import { computed, toRef } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import { useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 
-const props = withDefaults(defineProps<{
-  totalRevenue?: number;
-  previousTotalRevenue?: number | null;
-  currencyCode?: string;
-  loading?: boolean;
-  theme?: Theme;
-}>(), {
-  totalRevenue: 0,
-  previousTotalRevenue: null,
-  currencyCode: 'USD',
-  loading: false,
-  theme: undefined,
-})
+const props = withDefaults(
+  defineProps<{
+    escalationRatePercentage?: number
+    previousEscalationRatePercentage?: number | null
+    loading?: boolean
+    theme?: Theme
+  }>(),
+  {
+    escalationRatePercentage: 0,
+    previousEscalationRatePercentage: null,
+    loading: false,
+    theme: undefined,
+  },
+)
 
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
+const rateLabel = computed(() => `${Number(props.escalationRatePercentage || 0).toFixed(2)}%`)
 
-const formattedAmount = computed(() => useCompactCurrencyFormat(props.totalRevenue))
-
-const hasPreviousData = computed(() =>
-  props.previousTotalRevenue !== null && props.previousTotalRevenue !== undefined
+const hasPreviousData = computed(
+  () =>
+    props.previousEscalationRatePercentage !== null &&
+    props.previousEscalationRatePercentage !== undefined,
 )
 
 const changePercent = computed(() => {
   if (!hasPreviousData.value) return 0
-  const previousValue = props.previousTotalRevenue!
-  if (previousValue === 0) return props.totalRevenue > 0 ? 100 : 0
-  return ((props.totalRevenue - previousValue) / previousValue) * 100
+  const previousValue = props.previousEscalationRatePercentage!
+  if (previousValue === 0) return props.escalationRatePercentage > 0 ? 100 : 0
+  return ((props.escalationRatePercentage - previousValue) / previousValue) * 100
 })
 
 const changeLabel = computed(() => {
@@ -89,23 +98,21 @@ const changeBadgeClass = computed(() => {
   if (changePercent.value < 0) return 'change-badge--down'
   return 'change-badge--neutral'
 })
-
-defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.ai-revenue-metric.chart-metric-container--static {
+.human-escalations-metric.chart-metric-container--static {
   padding: 16px;
   border-radius: 20px;
   border-color: var(--kiut-border-table);
   background-color: var(--kiut-bg-card);
 }
 
-.ai-revenue-metric :deep(.card-header) {
+.human-escalations-metric :deep(.card-header) {
   margin-bottom: 0;
 }
 
-.ai-revenue-metric :deep(.metric-header-content) {
+.human-escalations-metric :deep(.metric-header-content) {
   align-items: center;
 }
 
@@ -137,7 +144,7 @@ defineExpose({ isDark, changePercent })
   color: #7c3aed;
 }
 
-.ai-revenue-metric--dark .card-icon {
+.human-escalations-metric--dark .card-icon {
   color: #8b5cf6;
 }
 
@@ -169,17 +176,17 @@ defineExpose({ isDark, changePercent })
   color: #64748b;
 }
 
-.ai-revenue-metric--dark .change-badge--up {
+.human-escalations-metric--dark .change-badge--up {
   background: #162d24;
   color: #4ade80;
 }
 
-.ai-revenue-metric--dark .change-badge--down {
+.human-escalations-metric--dark .change-badge--down {
   background: #3f1d20;
   color: #fb7185;
 }
 
-.ai-revenue-metric--dark .change-badge--neutral {
+.human-escalations-metric--dark .change-badge--neutral {
   background: rgba(148, 163, 184, 0.12);
   color: #94a3b8;
 }
@@ -192,31 +199,13 @@ defineExpose({ isDark, changePercent })
   text-align: left;
 }
 
-.metric-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-start;
-  gap: 8px;
-  flex-wrap: wrap;
-  text-align: left;
-}
-
-.metric-currency {
-  font-family: 'Inter', var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 0;
-  color: #9191a1;
-}
-
 .metric-value {
   font-family:
     'Inter',
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--kiut-text-primary);
 }
@@ -251,7 +240,7 @@ defineExpose({ isDark, changePercent })
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.ai-revenue-metric--dark .shimmer {
+.human-escalations-metric--dark .shimmer {
   background: linear-gradient(
     90deg,
     rgba(198, 125, 255, 0.06) 25%,
@@ -262,12 +251,12 @@ defineExpose({ isDark, changePercent })
 }
 
 .shimmer-value {
-  width: 70%;
-  height: 30px;
+  width: 52%;
+  height: 26px;
 }
 
 .shimmer-label {
-  width: 42%;
+  width: 44%;
   height: 15px;
 }
 

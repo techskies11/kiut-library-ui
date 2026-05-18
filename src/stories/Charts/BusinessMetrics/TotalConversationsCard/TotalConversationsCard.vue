@@ -66,8 +66,8 @@ const changePercent = computed(() => {
 
 const changeLabel = computed(() => {
   const pct = changePercent.value.toFixed(1)
-  if (changePercent.value > 0) return `+${pct}%`
-  return `${pct}%`
+  if (changePercent.value > 0) return `+${pct}% vs prev.`
+  return `${pct}% vs prev.`
 })
 
 const changeBadgeClass = computed(() => {
