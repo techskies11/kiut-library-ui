@@ -61,7 +61,7 @@
 
         <div
           v-if="$slots.footer"
-          class="shrink-0 border-t [border-color:var(--kiut-lateral-border-color)] [background-color:var(--kiut-lateral-bg)]"
+          class="footer-section shrink-0 border-t [background-color:var(--kiut-lateral-bg)]"
         >
           <slot name="footer" :expanded="isHoveringRail" />
         </div>
@@ -133,7 +133,7 @@
     <Transition name="ksn-sheet">
       <div
         v-if="activeSection"
-        class="fixed left-0 right-0 bottom-0 z-50 [background-color:var(--kiut-lateral-bg)] rounded-t-2xl shadow-2xl border-t [border-color:var(--kiut-lateral-border-color)] max-h-[70vh] flex flex-col"
+        class="mobile-subsections fixed left-0 right-0 bottom-0 z-50 [background-color:var(--kiut-lateral-bg)] rounded-t-2xl shadow-2xl border-t max-h-[70vh] flex flex-col"
         :style="{ paddingBottom: props.mobileBarHeight }"
       >
         <!-- Drag handle -->
@@ -478,6 +478,10 @@ function mobileNavigateToItem(section: NavSection, item: NavItem): void {
 
 /* Rail Mobile */
 
+.mobile-subsections {
+  border-color: var(--kiut-lateral-border-color);
+}
+
 .ksn-mobile-bar {
   background-color: var(--kiut-lateral-bg);
   border-color: var(--kiut-lateral-border-color);
@@ -528,6 +532,10 @@ function mobileNavigateToItem(section: NavSection, item: NavItem): void {
 .primary-rail:not(:hover) span {
   opacity: 0;
   visibility: hidden;
+}
+
+.primary-rail .footer-section {
+  border-color: var(--kiut-lateral-border-color);
 }
 
 /* ── Desktop: secondary panel slide-in ── */
