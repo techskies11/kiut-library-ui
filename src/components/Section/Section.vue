@@ -20,7 +20,7 @@
         </div>
         <div
           v-if="$slots.actions"
-          class="flex min-w-0 flex-1 flex-wrap items-center gap-2"
+          class="flex shrink-0 flex-wrap items-center gap-2"
         >
           <slot name="actions" />
         </div>
@@ -51,7 +51,7 @@ const headerRowClass = computed(() => {
   const hasFilters = Boolean(slots.filters);
   const hasActions = Boolean(slots.actions);
 
-  if (hasFilters) return "justify-between";
+  if (hasFilters && hasActions) return "justify-between";
   if (hasActions) return "justify-end";
   return "";
 });
