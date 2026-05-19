@@ -6,7 +6,7 @@
     :collapsible="false"
   >
     <template
-      v-if="enableExport && !props.loading && npsData && npsData.total_nps_responses > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport
@@ -45,7 +45,6 @@
           :chart-height="chartHeight"
           :chart-margin="chartMargin"
           :chart-bottom-margin="chartBottomMargin"
-          :interactive="false"
         />
       </div>
       <div class="overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4">

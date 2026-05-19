@@ -3,10 +3,11 @@
     class="checkin-metrics-root h-full min-h-0"
     title="Check-in Metrics"
     subtitle="Check-in performance and failure analysis"
+    :collapsible="collapsible"
     :default-open="initiallyOpen"
   >
     <template
-      v-if="enableExport && !props.loading && tableData && tableData.length > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport
@@ -15,15 +16,15 @@
         :loading="exportLoading"
       />
     </template>
-    <!-- Loading State con animación CSS personalizada -->
+    <!-- Loading State -->
     <div class="loading-state" v-if="props.loading">
       <div class="loading-container">
-        <div class="chart-flow-loader">
-          <div class="flow-line flow-1"></div>
-          <div class="flow-line flow-2"></div>
-          <div class="flow-line flow-3"></div>
-          <div class="flow-line flow-4"></div>
-          <div class="flow-line flow-5"></div>
+        <div class="chart-bars-loader">
+          <div class="bar bar-1"></div>
+          <div class="bar bar-2"></div>
+          <div class="bar bar-3"></div>
+          <div class="bar bar-4"></div>
+          <div class="bar bar-5"></div>
         </div>
         <p class="loading-text">Loading check-in data...</p>
       </div>
@@ -69,23 +70,23 @@
               <span>{{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}</span>
             </template>
             <template #cell-closed="{ row }">
-              <span>{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</span>
+              <span class="cell-success">{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</span>
             </template>
             <template #cell-failed="{ row }">
-              <span>{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</span>
+              <span class="cell-danger">{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</span>
             </template>
             <template #cell-reasons="{ row }">
-              <div v-if="row.failed_steps && row.failed_steps.length > 0" class="failed-steps">
+              <div v-if="row.failed_steps && row.failed_steps.length > 0" class="reasons-list">
                 <div
                   v-for="step in row.failed_steps"
                   :key="step.step_name"
-                  class="failed-step-item"
+                  class="reason-item"
                 >
-                  <span class="step-name">{{ step.step_name.replace(/_/g, ' ') }}:</span>
-                  <span class="step-count">{{ step.failed_count }}</span>
+                  <span class="reason-name">{{ step.step_name.replace(/_/g, ' ') }}:</span>
+                  <span class="reason-count">{{ step.failed_count }}</span>
                 </div>
               </div>
-              <div v-else class="empty-cell">-</div>
+              <div v-else class="no-reasons">-</div>
             </template>
           </Table>
         </div>
@@ -124,6 +125,11 @@
   }
 
   const props = defineProps({
+    /** Si es false, el bloque no usa <details> ni chevron (p. ej. anidado en CheckinContainer). */
+    collapsible: {
+      type: Boolean,
+      default: true,
+    },
     initiallyOpen: {
       type: Boolean,
       default: false,
@@ -518,7 +524,7 @@
 
 /* Chart Section */
 .chart-section {
-  margin-bottom: 32px;
+  margin-bottom: 12px;
   animation: fadeIn 0.5s ease-out;
 }
 
@@ -530,23 +536,15 @@
   font-family: 'Space Grotesk', 'DM Sans', sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 4px 0;
   letter-spacing: -0.01em;
 }
 
 .section-description {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   margin: 0;
-}
-
-.chart-wrapper {
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 /* Bloque de tabla diaria (chrome de <table> lo aporta Utils/Table) */
@@ -559,32 +557,41 @@
   gap: 12px;
 }
 
-.failed-steps {
+.reasons-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.failed-step-item {
+.reason-item {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
   font-size: 0.75rem;
 }
 
-.step-name {
-  color: #64748b;
+.reason-name {
+  color: var(--kiut-text-secondary);
   text-transform: capitalize;
 }
 
-.step-count {
+.reason-count {
   font-weight: 600;
-  color: #ef4444;
+  color: var(--kiut-danger);
 }
 
-.empty-cell {
+.no-reasons {
+  color: var(--kiut-text-muted);
   text-align: center;
-  color: #cbd5e1;
+}
+
+.cell-success {
+  color: #059669 !important;
+  font-weight: 600;
+}
+
+.cell-danger {
+  color: #dc2626 !important;
+  font-weight: 600;
 }
 
 /* Empty State */
@@ -607,22 +614,22 @@
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  background: var(--kiut-bg-empty-icon);
   border-radius: 20px;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  box-shadow: var(--kiut-shadow-empty-icon);
 }
 
 .empty-icon {
   width: 40px;
   height: 40px;
-  color: #10b981;
+  color: var(--kiut-primary);
 }
 
 .empty-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--kiut-text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
@@ -630,7 +637,7 @@
 .empty-description {
   font-size: 14px;
   font-weight: 400;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -640,7 +647,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: 380px;
 }
 
 .loading-container {
@@ -651,52 +658,33 @@
   width: 100%;
 }
 
-.chart-flow-loader {
+.chart-bars-loader {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 12px;
-  height: 120px;
+  gap: 10px;
+  height: 100px;
   margin-bottom: 24px;
 }
 
-.flow-line {
-  width: 10px;
-  background: linear-gradient(to top, #10b981 0%, #059669 50%, #047857 100%);
-  border-radius: 5px;
+.bar {
+  width: 8px;
+  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
+  border-radius: 4px;
   animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  box-shadow: var(--kiut-shadow-loader);
 }
 
-.flow-1 {
-  height: 35%;
-  animation-delay: 0s;
-}
-
-.flow-2 {
-  height: 55%;
-  animation-delay: 0.1s;
-}
-
-.flow-3 {
-  height: 75%;
-  animation-delay: 0.2s;
-}
-
-.flow-4 {
-  height: 55%;
-  animation-delay: 0.3s;
-}
-
-.flow-5 {
-  height: 45%;
-  animation-delay: 0.4s;
-}
+.bar-1 { height: 30%; animation-delay: 0s; }
+.bar-2 { height: 50%; animation-delay: 0.1s; }
+.bar-3 { height: 70%; animation-delay: 0.2s; }
+.bar-4 { height: 50%; animation-delay: 0.3s; }
+.bar-5 { height: 40%; animation-delay: 0.4s; }
 
 .loading-text {
   font-size: 15px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--kiut-text-secondary);
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   letter-spacing: -0.01em;
 }
@@ -735,7 +723,7 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .failed-steps {
+  .reasons-list {
     min-width: 0;
   }
 }

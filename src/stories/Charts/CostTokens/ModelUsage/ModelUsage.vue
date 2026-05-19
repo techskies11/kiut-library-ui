@@ -8,9 +8,7 @@
     <template
       v-if="
         enableExport &&
-        !loading &&
-        currentData &&
-        Object.keys(currentData).length > 0
+        !loading
       "
       #headerExport
     >

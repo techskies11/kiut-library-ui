@@ -6,7 +6,7 @@
     :default-open="initiallyOpen"
   >
     <template
-      v-if="enableExport && !props.loading && tableData && tableData.length > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport
@@ -657,7 +657,7 @@ defineExpose({ isDark })
 
 /* Chart Section */
 .chart-section {
-  margin-bottom: 28px;
+  margin-bottom: 12px;
   animation: fadeIn 0.5s ease-out;
 }
 
@@ -677,14 +677,6 @@ defineExpose({ isDark })
   .seller-value-cards {
     grid-template-columns: 1fr;
   }
-}
-
-.chart-wrapper {
-  background: var(--kiut-bg-chart-wrapper);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--kiut-border-light);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
 }
 
 /* Daily table block (Utils/Table) */

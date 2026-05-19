@@ -1,29 +1,43 @@
 <template>
-  <ChartMetricContainer title="Total Conversations" :collapsible="false" class="total-conv-metric w-full">
+  <ChartMetricContainer
+    :collapsible="false"
+    :class="['ai-revenue-metric', 'w-full', { 'ai-revenue-metric--dark': isDark }]"
+  >
     <template #title>
       <div class="header-title-group">
-        <div class="icon-wrapper">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-2.407-1.204a5.97 5.97 0 01-1.593-.98l-3.5-2.625a2.25 2.25 0 010-3.602l3.5-2.625a5.97 5.97 0 011.593-.98L9 5.25l.813 2.846a2.25 2.25 0 001.341 1.457l2.846.813-2.846.813a2.25 2.25 0 00-1.341 1.457zM15.75 5.25l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975l-.537 1.879-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975l.537-1.879zM18 12.75l.537 1.879a1.5 1.5 0 00.894.975l1.879.537-1.879.537a1.5 1.5 0 00-.894.975L18 19.53l-.537-1.879a1.5 1.5 0 00-.894-.975l-1.879-.537 1.879-.537a1.5 1.5 0 00.894-.975L18 12.75z" />
+        <div class="icon-wrapper" aria-hidden="true">
+          <svg
+            class="card-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+            <path d="M12 18V6" />
           </svg>
-        
         </div>
-        <span class="kpi-heading-text">AI-Generated Revenue</span>
       </div>
     </template>
     <template #headerAside>
       <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
     </template>
 
-    <div :class="['highlight-inner', { 'highlight-inner--dark': isDark }]">
+    <div class="highlight-inner">
       <div v-if="loading" class="loading-state">
         <div class="shimmer shimmer-value"></div>
         <div class="shimmer shimmer-label"></div>
       </div>
 
       <div v-else class="card-body">
-        <span class="metric-value">{{ formattedRevenue }}</span>
-        <span class="metric-label">AI-Generated Revenue</span>
+        <div class="metric-row">
+          <span class="metric-currency">{{ props.currencyCode }}</span>
+          <span class="metric-value">{{ formattedAmount }}</span>
+        </div>
+        <span class="metric-label">AI Revenue</span>
       </div>
     </div>
   </ChartMetricContainer>
@@ -51,7 +65,7 @@ const props = withDefaults(defineProps<{
 
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-const formattedRevenue = computed(() => `${props.currencyCode} ${useCompactCurrencyFormat(props.totalRevenue)}`)
+const formattedAmount = computed(() => useCompactCurrencyFormat(props.totalRevenue))
 
 const hasPreviousData = computed(() =>
   props.previousTotalRevenue !== null && props.previousTotalRevenue !== undefined
@@ -65,8 +79,9 @@ const changePercent = computed(() => {
 })
 
 const changeLabel = computed(() => {
-  const sign = changePercent.value > 0 ? '+' : ''
-  return `${sign}${changePercent.value.toFixed(1)}% vs prev.`
+  const pct = changePercent.value.toFixed(1)
+  if (changePercent.value > 0) return `+${pct}% vs prev.`
+  return `${pct}% vs prev.`
 })
 
 const changeBadgeClass = computed(() => {
@@ -79,110 +94,152 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
+.ai-revenue-metric.chart-metric-container--static {
+  padding: 16px;
+  border-radius: 20px;
+  border-color: var(--kiut-border-table);
+}
+
+.ai-revenue-metric :deep(.card-header) {
+  margin-bottom: 0;
+}
+
+.ai-revenue-metric :deep(.metric-header-content) {
+  align-items: center;
+}
+
 .header-title-group {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   min-width: 0;
-}
-
-.kpi-heading-text {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1e293b;
-  letter-spacing: -0.02em;
-}
-
-.highlight-inner--dark .kpi-heading-text {
-  color: #f1f5f9;
 }
 
 .highlight-inner {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  min-height: 120px;
+  align-items: flex-start;
+  gap: 0;
+  text-align: left;
 }
 
 .icon-wrapper {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .card-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+  color: #7c3aed;
+}
+
+.ai-revenue-metric--dark .card-icon {
   color: #8b5cf6;
 }
 
 .change-badge {
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   line-height: 1;
+  letter-spacing: 0.01em;
 }
 
 .change-badge--up {
-  background: rgba(16, 185, 129, 0.12);
-  color: #16a34a;
+  background: #dcfce7;
+  color: #166534;
 }
 
 .change-badge--down {
-  background: rgba(239, 68, 68, 0.12);
-  color: #dc2626;
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
 .change-badge--neutral {
-  background: rgba(148, 163, 184, 0.14);
+  background: rgba(148, 163, 184, 0.16);
   color: #64748b;
 }
 
-.highlight-inner--dark .change-badge--up { color: #22c55e; }
-.highlight-inner--dark .change-badge--down { color: #f87171; }
-.highlight-inner--dark .change-badge--neutral { color: #94a3b8; }
+.ai-revenue-metric--dark .change-badge--up {
+  background: #162d24;
+  color: #4ade80;
+}
+
+.ai-revenue-metric--dark .change-badge--down {
+  background: #3f1d20;
+  color: #fb7185;
+}
+
+.ai-revenue-metric--dark .change-badge--neutral {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+}
 
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+}
+
+.metric-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.metric-currency {
+  font-family: 'Inter', var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0;
+  color: #9191a1;
 }
 
 .metric-value {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
-  font-size: 2.2rem;
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 28px;
   font-weight: 700;
   line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: #059669;
-}
-
-.highlight-inner--dark .metric-value {
-  color: #34d399;
+  letter-spacing: -0.02em;
+  color: var(--kiut-text-primary);
 }
 
 .metric-label {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #64748b;
-}
-
-.highlight-inner--dark .metric-label {
-  color: #9ca3af;
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #61616b;
 }
 
 .loading-state {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
 }
 
 .shimmer {
-  border-radius: 8px;
+  border-radius: 10px;
   background: linear-gradient(
     90deg,
     rgba(93, 75, 147, 0.06) 25%,
@@ -193,7 +250,7 @@ defineExpose({ isDark, changePercent })
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.highlight-inner--dark .shimmer {
+.ai-revenue-metric--dark .shimmer {
   background: linear-gradient(
     90deg,
     rgba(198, 125, 255, 0.06) 25%,
@@ -203,11 +260,22 @@ defineExpose({ isDark, changePercent })
   background-size: 200% 100%;
 }
 
-.shimmer-value { width: 70%; height: 36px; }
-.shimmer-label { width: 45%; height: 16px; }
+.shimmer-value {
+  width: 70%;
+  height: 30px;
+}
+
+.shimmer-label {
+  width: 42%;
+  height: 15px;
+}
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 </style>

@@ -6,7 +6,7 @@
     :default-open="initiallyOpen"
   >
     <template
-      v-if="enableExport && !props.loading && chartData.labels.length > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport
@@ -206,6 +206,7 @@ defineExpose({ isDark })
 }
 
 .chart-section {
+  margin-bottom: 12px;
   animation: fadeIn 0.5s ease-out;
   width: 100%;
 }

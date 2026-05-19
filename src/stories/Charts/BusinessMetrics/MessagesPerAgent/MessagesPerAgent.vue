@@ -8,9 +8,7 @@
     <template
       v-if="
         enableExport &&
-        !props.loading &&
-        ((dataChart.labels && dataChart.labels.length > 0) ||
-          agentTotals.length > 0)
+        !props.loading
       "
       #headerExport
     >

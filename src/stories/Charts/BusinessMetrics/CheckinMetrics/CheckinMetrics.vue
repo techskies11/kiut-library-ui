@@ -6,7 +6,7 @@
         :default-open="initiallyOpen"
     >
         <template
-            v-if="enableExport && !loading && tableData && tableData.length > 0"
+            v-if="enableExport && !loading"
             #headerExport
         >
             <FooterExport

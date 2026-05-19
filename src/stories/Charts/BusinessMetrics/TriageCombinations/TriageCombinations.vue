@@ -6,7 +6,7 @@
     :collapsible="false"
   >
     <template
-      v-if="enableExport && !loading && hasValue"
+      v-if="enableExport && !loading"
       #headerExport
     >
       <FooterExport

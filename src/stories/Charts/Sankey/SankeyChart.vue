@@ -338,7 +338,11 @@ const setOptions = () => {
           label: {
             show: true,
             position: cfg.labelPosition,
-            color: '#000000',
+            /** Dark: external labels (e.g. mobile `right`) use light text; inside nodes stay dark for contrast on pastel bars. */
+            color:
+              cfg.labelPosition === 'right' && isDark.value
+                ? colors.value.textPrimary
+                : '#0f172a',
             fontWeight: 600,
             fontSize: cfg.labelFontSize,
             ...(cfg.labelWrap && cfg.labelLineHeight > 0

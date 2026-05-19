@@ -6,7 +6,7 @@
     :collapsible="false"
   >
     <template
-      v-if="enableExport && !props.loading && npsData && npsData.nps_by_day && npsData.nps_by_day.length > 0"
+      v-if="enableExport && !props.loading"
       #headerExport
     >
       <FooterExport

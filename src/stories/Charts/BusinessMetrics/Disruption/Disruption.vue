@@ -7,9 +7,7 @@
     <template
       v-if="
         enableExport &&
-        !props.loading &&
-        tableData &&
-        tableData.length > 0
+        !props.loading
       "
       #headerExport
     >
@@ -489,16 +487,8 @@ const nodeColors: Record<string, string> = {
 
 /* Chart Section */
 .chart-section {
-  margin-bottom: 28px;
+  margin-bottom: 12px;
   animation: fadeIn 0.5s ease-out;
-}
-
-.chart-wrapper {
-  background: var(--kiut-bg-chart-wrapper);
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--kiut-border-light);
-  box-shadow: var(--kiut-shadow-chart-wrapper);
 }
 
 .empty-chart {
