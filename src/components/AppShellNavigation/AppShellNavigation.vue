@@ -10,7 +10,7 @@
     <div class="flex flex-1 min-h-0">
       <!-- ── Primary rail ── -->
       <div
-        class="primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center [border-color:var(--kiut-lateral-border-color)]"
+        class="primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center"
         :style="{
           '--expanded-width': expandedPrimaryWidth,
           width: primaryRailWidth,
@@ -36,9 +36,11 @@
             :aria-current="
               selectedSectionId === section.id ? 'true' : undefined
             "
+            :data-has-active="
+              hasSectionActiveItem(section) ? 'true' : undefined
+            "
             :title="section.label"
-            class="group relative flex flex-row items-center justify-start gap-1 px-3 py-2.5 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20"
-            :class="sectionButtonClass(section)"
+            class="ksn-section-btn group relative flex flex-row items-center justify-start gap-1 px-3 py-2.5 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20"
             @click="selectSection(section)"
           >
             <component
@@ -91,8 +93,7 @@
               type="button"
               :data-nav-id="item.id"
               :aria-current="isItemActive(item) ? 'page' : undefined"
-              class="group flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20"
-              :class="itemButtonClass(item)"
+              class="ksn-item-btn group flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20"
               @click="navigateToItem(activeSection!, item)"
             >
               <component
@@ -179,8 +180,7 @@
             type="button"
             :data-nav-id="item.id"
             :aria-current="isItemActive(item) ? 'page' : undefined"
-            class="group flex items-center gap-3 w-full text-left px-4 rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20 min-h-[52px]"
-            :class="itemButtonClass(item)"
+            class="ksn-item-btn group flex items-center gap-3 w-full text-left px-4 rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20 min-h-[52px]"
             @click="mobileNavigateToItem(activeSection!, item)"
           >
             <component
@@ -198,7 +198,7 @@
 
     <!-- Bottom tab bar -->
     <nav
-      class="fixed bottom-0 left-0 right-0 z-50 [background-color:var(--kiut-lateral-bg)] border-t [border-color:var(--kiut-lateral-border-color)] flex items-stretch justify-around overflow-hidden"
+      class="ksn-mobile-bar fixed bottom-0 left-0 right-0 z-50 border-t flex items-stretch justify-around overflow-hidden"
       :style="{ height: mobileBarHeight }"
       aria-label="Sections"
     >
@@ -207,8 +207,8 @@
         :key="section.id"
         type="button"
         :aria-current="selectedSectionId === section.id ? 'true' : undefined"
-        class="relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--kiut-primary)]/30"
-        :class="mobileSectionButtonClass(section)"
+        :data-has-active="hasSectionActiveItem(section) ? 'true' : undefined"
+        class="ksn-section-btn relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset"
         @click="selectSection(section)"
       >
         <!-- Active indicator line at top -->
@@ -243,7 +243,6 @@ import {
   onMounted,
   onUnmounted,
   useAttrs,
-  useSlots,
   type Component,
 } from "vue";
 
@@ -310,7 +309,6 @@ const props = withDefaults(
      * @default '4rem'
      */
     mobileBarHeight?: string;
-
   }>(),
   {
     selectedSectionId: null,
@@ -407,65 +405,114 @@ function mobileNavigateToItem(section: NavSection, item: NavItem): void {
   navigateToItem(section, item);
   closeSheet();
 }
-
-// ── Style helpers ─────────────────────────────────────────────────
-
-function sectionButtonClass(section: NavSection): string[] {
-  if (props.selectedSectionId === section.id) {
-    return [
-      "[background-color:var(--kiut-primary-section)] text-white shadow-sm dark:text-purple-300",
-    ];
-  }
-  if (hasSectionActiveItem(section)) {
-    return [
-      "[color:var(--kiut-primary)]",
-      "text-purple-800/90 dark:text-purple-400",
-    ];
-  }
-  return [
-    "[color:var(--kiut-text-secondary)]",
-    "hover:bg-purple-100 hover:text-purple-900",
-    "dark:hover:bg-purple-400/20 dark:hover:text-purple-50",
-  ];
-}
-
-function itemButtonClass(item: NavItem): string[] {
-  if (isItemActive(item)) {
-    return [
-      "[background-color:var(--kiut-secondary-section)] text-white",
-      "dark:text-purple-300",
-    ];
-  }
-  return [
-    "[color:var(--kiut-text-primary)]",
-    "hover:bg-purple-100 hover:text-purple-700",
-    "dark:hover:bg-purple-500/30 dark:hover:text-purple-50",
-  ];
-}
-
-function mobileSectionButtonClass(section: NavSection): string[] {
-  if (props.selectedSectionId === section.id) {
-    return ["[color:var(--kiut-primary)]"];
-  }
-  if (hasSectionActiveItem(section)) {
-    return ["[color:var(--kiut-primary)]", "opacity-75"];
-  }
-  return [
-    "[color:var(--kiut-text-muted)]",
-    "active:[color:var(--kiut-text-secondary)]",
-  ];
-}
 </script>
 
 <style scoped>
+/* Normal */
+.primary-rail .ksn-section-btn {
+  color: var(--kiut-text-secondary, #64748b);
+}
+
+/* Hover */
+.primary-rail .ksn-section-btn:not([aria-current="true"]):hover {
+  background-color: var(--kiut-primary-section);
+  color: var(--kiut-text);
+}
+
+.dark .primary-rail .ksn-section-btn:not([aria-current="true"]):hover {
+  background-color: var(--kiut-primary-section);
+  color: #f5f3ff;
+}
+
+/* Activa vista */
+.primary-rail .ksn-section-btn[data-has-active="true"] {
+  color: var(--kiut-text);
+}
+
+.dark .primary-rail .ksn-section-btn[data-has-active="true"] {
+  color: var(--kiut-text);
+}
+
+/* Buscando otra */
+.primary-rail .ksn-section-btn[aria-current="true"] {
+  background-color: var(--kiut-primary-section);
+  color: var(--kiut-text);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.dark .primary-rail .ksn-section-btn[aria-current="true"] {
+  background-color: var(--kiut-primary-section);
+  color: var(--kiut-text);
+}
+
+/* Second Rail */
+/* Normal */
+.ksn-item-btn {
+  color: var(--kiut-text-primary, #1e293b);
+}
+
+.dark .ksn-item-btn {
+  color: var(--kiut-text-primary, #f8f9fa);
+}
+
+/* Hover */
+.ksn-item-btn:not([aria-current="page"]):hover {
+  background-color: var(--kiut-primary-section);
+  color: var(--kiut-text);
+}
+
+.dark .ksn-item-btn:not([aria-current="page"]):hover {
+  background-color: var(--kiut-primary-section);
+  color: #f5f3ff;
+}
+
+/* Active */
+.ksn-item-btn[aria-current="page"] {
+  background-color: var(--kiut-secondary-section, #895af6);
+  color: var(--kiut-text);
+}
+
+.dark .ksn-item-btn[aria-current="page"] {
+  color: var(--kiut-text); /* purple-300 */
+}
+
+/* Rail Mobile */
+
+.ksn-mobile-bar {
+  background-color: var(--kiut-lateral-bg);
+  border-color: var(--kiut-lateral-border-color);
+}
+
+.ksn-mobile-bar .ksn-section-btn {
+  color: var(--kiut-text-muted, #94a3b8);
+}
+
+.ksn-mobile-bar .ksn-section-btn[data-has-active="true"] {
+  color: var(--kiut-primary, #8b5cf6);
+  opacity: 0.75;
+}
+
+.ksn-mobile-bar .ksn-section-btn[aria-current="true"] {
+  color: var(--kiut-primary, #8b5cf6);
+  opacity: 1;
+}
+
+.ksn-mobile-bar .ksn-section-btn[data-has-active="true"]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--kiut-primary, #8b5cf6) 30%, transparent);
+}
+
 /* ── Desktop: primary rail hover expand ── */
 .primary-rail:hover {
   width: var(--expanded-width) !important;
 }
 
 .primary-rail {
+  border-color: var(--kiut-lateral-border-color);
   transition: width 0.1s ease;
 }
+
 .primary-rail:not(:hover) {
   transition: width 0.1s ease 0.2s;
 }

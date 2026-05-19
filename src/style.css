@@ -15,9 +15,7 @@
   --kiut-primary-light: #c67dff;
   --kiut-primary-default: #5d4b93;
   --kiut-primary-dark: #4a3a75;
-
-
-
+  
   /* Status Colors - Same in both themes */
   --kiut-success: #10b981;
   --kiut-warning: #f59e0b;
@@ -40,8 +38,9 @@
   --kiut-text-subtitle: #61616b;
   --kiut-lateral-bg: #ffffff;
   --kiut-lateral-border-color: rgba(0, 0, 0, 0.05);
-  --kiut-primary-section: #895af6;
-  --kiut-secondary-section: #895af6;
+  --kiut-primary-section: #895af626;
+  --kiut-secondary-section: #895af626;
+  --kiut-text: #895af6;
 
   /* Text Colors */
   --kiut-text-primary: #1e293b;
@@ -103,6 +102,8 @@
   --kiut-text-subtitle: #9191a1;
   --kiut-primary-section: #895af626;
   --kiut-secondary-section: #895af626;
+  --kiut-text: #C27AFF;
+  --kiut-text-hover: #f5f3ff;
 
   /* Text Colors */
   --kiut-text-primary: #f8f9fa;
