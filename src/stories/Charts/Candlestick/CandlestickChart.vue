@@ -7,43 +7,23 @@
       @mousemove="handleMouseMove" 
       @mouseleave="handleMouseLeave"
     >
-      <!-- Tooltip -->
-      <g v-if="tooltip.visible" :transform="`translate(${tooltip.x}, ${tooltip.y})`">
-        <rect
-          :x="-tooltip.width / 2"
-          :y="-tooltip.height - 10"
-          :width="tooltip.width"
-          :height="tooltip.height"
-          :fill="svgColors.tooltipBg"
-          rx="8"
-          :stroke="svgColors.tooltipBorder"
-          stroke-width="1"
-        />
-        <text
-          x="0"
-          :y="-tooltip.height + 8"
-          text-anchor="middle"
-          :fill="svgColors.tooltipText"
-          font-size="13"
-          font-weight="600"
-          font-family="'DM Sans', sans-serif"
-          dominant-baseline="hanging"
+      <defs>
+        <filter
+          id="candlestick-tooltip-shadow"
+          x="-50%"
+          y="-50%"
+          width="200%"
+          height="200%"
         >
-          {{ tooltip.title }}
-        </text>
-        <text
-          x="0"
-          :y="-tooltip.height + 26"
-          text-anchor="middle"
-          :fill="svgColors.tooltipTextSecondary"
-          font-size="11"
-          font-weight="500"
-          font-family="'DM Sans', sans-serif"
-          dominant-baseline="hanging"
-        >
-          {{ tooltip.text }}
-        </text>
-      </g>
+          <feDropShadow
+            dx="0"
+            dy="2"
+            stdDeviation="5"
+            flood-color="#000000"
+            flood-opacity="0.3"
+          />
+        </filter>
+      </defs>
 
       <!-- Y-axis (vertical axis for scores 1-10) -->
       <line
@@ -295,6 +275,49 @@
           </text>
         </g>
       </g>
+
+      <!-- Tooltip al final del SVG para z-order sobre candles / ejes -->
+      <g
+        v-if="tooltip.visible"
+        pointer-events="none"
+        :transform="`translate(${tooltip.x}, ${tooltip.y})`"
+      >
+        <rect
+          filter="url(#candlestick-tooltip-shadow)"
+          :x="-tooltip.width / 2"
+          :y="-tooltip.height - 10"
+          :width="tooltip.width"
+          :height="tooltip.height"
+          :fill="tooltipPalette.bg"
+          rx="8"
+          :stroke="tooltipPalette.border"
+          stroke-width="1"
+        />
+        <text
+          x="0"
+          :y="-tooltip.height - 10 + tooltipPadV"
+          text-anchor="middle"
+          :fill="tooltipPalette.text"
+          font-size="13"
+          font-weight="600"
+          font-family="'DM Sans', sans-serif"
+          dominant-baseline="hanging"
+        >
+          {{ tooltip.title }}
+        </text>
+        <text
+          x="0"
+          :y="-tooltip.height - 10 + tooltipPadV + tooltipTitleLine + tooltipLineGap"
+          text-anchor="middle"
+          :fill="tooltipPalette.secondary"
+          font-size="12"
+          font-weight="500"
+          font-family="'DM Sans', sans-serif"
+          dominant-baseline="hanging"
+        >
+          {{ tooltip.text }}
+        </text>
+      </g>
     </svg>
   </div>
 </template>
@@ -344,15 +367,52 @@ const props = withDefaults(defineProps<{
 });
 
 // Theme detection with prop fallback
-const { isDark } = useThemeDetection(toRef(props, 'theme'));
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'));
+
+const tooltipPadV = 10;
+const tooltipPadH = 14;
+const tooltipTitleLine = 13;
+const tooltipLineGap = 4;
+const tooltipBodyLine = 12;
+const tooltipHeightFixed =
+  tooltipPadV + tooltipTitleLine + tooltipLineGap + tooltipBodyLine + tooltipPadV;
+
+const tooltipPalette = computed(() => ({
+  bg: colors.value.tooltipBg,
+  border: colors.value.tooltipBorder,
+  text: colors.value.tooltipText,
+  secondary: isDark.value ? '#d1d5db' : '#e2e8f0',
+}));
+
+function approximateSvgLineWidth(charCount: number, fontSizePx: number, semiBold: boolean): number {
+  const em = semiBold ? 0.6 : 0.535;
+  return Math.ceil(Math.max(charCount, 1) * fontSizePx * em);
+}
+
+function estimateCandlestickTooltipWidth(title: string, text: string): number {
+  const inner = Math.max(
+    approximateSvgLineWidth(title.length, tooltipTitleLine, true),
+    approximateSvgLineWidth(text.length, tooltipBodyLine, false),
+    52,
+  );
+  return inner + tooltipPadH * 2;
+}
+
+function clampTooltipPosition(x: number, y: number, width: number, height: number) {
+  const half = width / 2;
+  const viewportPad = 6;
+  const cx = Math.min(
+    Math.max(x, half + viewportPad),
+    props.chartWidth - half - viewportPad,
+  );
+  const minY = viewportPad + height + 10;
+  const maxY = props.chartHeight - viewportPad + 10;
+  const cy = Math.min(Math.max(y, minY), maxY);
+  return { x: cx, y: cy };
+}
 
 // SVG colors based on theme
 const svgColors = computed(() => ({
-  // Tooltip
-  tooltipBg: isDark.value ? 'rgba(26, 26, 29, 0.98)' : 'rgba(15, 23, 42, 0.95)',
-  tooltipBorder: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
-  tooltipText: isDark.value ? '#f8f9fa' : '#f1f5f9',
-  tooltipTextSecondary: isDark.value ? '#d1d5db' : '#e2e8f0',
   // Axis
   axis: isDark.value ? '#9ca3af' : '#475569',
   // Grid
@@ -407,7 +467,7 @@ const showTooltip = (event: MouseEvent, candle: CandlestickData, type: string) =
       text = `Median: ${candle.median.toFixed(1)}`;
       break;
     case 'average':
-      text = `Average: ${candle.average?.toFixed(1)}`;
+      text = `Average: ${candle.average?.toFixed(1) ?? ''}`;
       break;
     case 'min':
       text = `Min: ${candle.low.toFixed(1)}`;
@@ -417,13 +477,19 @@ const showTooltip = (event: MouseEvent, candle: CandlestickData, type: string) =
       break;
   }
   
-  const tooltipWidth = Math.max(180, text.length * 7 + 40);
-  const tooltipHeight = 48;
-  
+  const tooltipWidth = estimateCandlestickTooltipWidth(title, text);
+  const tooltipHeight = tooltipHeightFixed;
+
+  let x = point.x;
+  let y = point.y - 20;
+  const clamped = clampTooltipPosition(x, y, tooltipWidth, tooltipHeight);
+  x = clamped.x;
+  y = clamped.y;
+
   tooltip.value = {
     visible: true,
-    x: point.x,
-    y: point.y - 20,
+    x,
+    y,
     title,
     text,
     width: tooltipWidth,
@@ -438,9 +504,12 @@ const handleMouseMove = (event: MouseEvent) => {
     const point = svg.createSVGPoint();
     point.x = event.clientX - rect.left;
     point.y = event.clientY - rect.top;
-    
-    tooltip.value.x = point.x;
-    tooltip.value.y = point.y - 20;
+
+    let x = point.x;
+    let y = point.y - 20;
+    const clamped = clampTooltipPosition(x, y, tooltip.value.width, tooltip.value.height);
+    tooltip.value.x = clamped.x;
+    tooltip.value.y = clamped.y;
   }
 };
 
