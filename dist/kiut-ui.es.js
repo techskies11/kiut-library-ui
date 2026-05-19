@@ -17086,7 +17086,7 @@ const up = {
       _: 1
     }, 8, ["class"]));
   }
-}), Y_ = /* @__PURE__ */ at(H_, [["__scopeId", "data-v-4a985726"]]), K_ = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, q_ = {
+}), Y_ = /* @__PURE__ */ at(H_, [["__scopeId", "data-v-a4480f29"]]), K_ = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, q_ = {
   key: 0,
   class: "flex min-h-[320px] flex-col items-center justify-center px-4"
 }, U_ = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, X_ = {
