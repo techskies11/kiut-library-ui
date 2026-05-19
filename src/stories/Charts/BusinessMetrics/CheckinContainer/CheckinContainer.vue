@@ -6,6 +6,18 @@
     :default-open="containerInitiallyOpen"
   >
     <div class="checkin-container__body">
+      <Checkin
+        v-if="showCheckin"
+        class="w-full min-h-0"
+        :collapsible="false"
+        :initially-open="childrenInitiallyOpen"
+        :loading="effectiveCheckinLoading"
+        :checkin-data="checkinData"
+        :failed-data="checkinFailedData"
+        :enable-export="enableExport"
+        :export-loading="exportLoading"
+        @export="(fmt) => handleChildExport('checkin', fmt)"
+      />
       <RecordLocator
         :collapsible="false"
         :loading="effectiveRecordLocatorLoading"
@@ -20,15 +32,7 @@
         :collapsible="false"
         :initially-open="childrenInitiallyOpen"
         :loading="effectiveSegmentsLoading"
-        :data="segmentsData"
-        :show-checkin="showCheckin"
-        :show-checkin-metrics="showCheckinMetrics"
-        :checkin-loading="effectiveCheckinLoading"
-        :checkin-metrics-loading="effectiveCheckinMetricsLoading"
-        :checkin-data="checkinData"
-        :checkin-failed-data="checkinFailedData"
-        :checkin-metrics-data="checkinMetricsData"
-        :checkin-metrics-failed-data="checkinMetricsFailedData"
+        :data="segmentsData ?? []"
         :theme="theme"
         :enable-export="enableExport"
         :export-loading="exportLoading"
@@ -42,6 +46,7 @@
 import { computed } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import RecordLocator from '../RecordLocator/RecordLocator.vue'
+import Checkin from '../Checkin/Checkin.vue'
 import CheckinSegments from '../CheckinSegments/checkinSegments.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'

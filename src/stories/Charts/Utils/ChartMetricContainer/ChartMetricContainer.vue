@@ -138,6 +138,12 @@ function onToggle(event: Event): void {
   min-height: 0;
 }
 
+.dark .chart-metric-container,
+.dark details.chart-metric-container.metric-collapsible {
+  background-color: #1a1a23;
+  border-color: #2d2d39;
+}
+
 /*
  * metric-collapsible usa 28×32 abiertos y 0+padding en summary cerrados.
  * Un solo bloque con mayor especificidad y orden posterior al @import asegura
@@ -148,7 +154,7 @@ details.chart-metric-container.metric-collapsible {
   padding: 12px 16px;
   min-height: 0;
   /* Misma lectura visual que modo estático */
-  border: 1px solid var(--kiut-border-light, rgba(0, 0, 0, 0.05));
+  border: 1px solid #d9d9dd;
 }
 
 details.chart-metric-container.metric-collapsible:not([open]) .metric-collapsible__summary {
@@ -221,11 +227,11 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 .chart-metric-container--static {
   box-sizing: border-box;
   color: var(--kiut-text-primary);
-  border: 1px solid var(--kiut-border-light, rgba(0, 0, 0, 0.05));
+  border: 1px solid #d9d9dd;
 }
 
 .card-header {
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   position: relative;
   text-align: left;
 }
@@ -290,12 +296,18 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
   color: var(--kiut-primary, #8b5cf6);
 }
 
-.card-subtitle {
+.chart-metric-container .card-subtitle,
+details.chart-metric-container.metric-collapsible .metric-collapsible__summary .card-subtitle {
   font-size: 0.875rem;
   font-weight: 400;
-  color: var(--kiut-text-secondary);
+  color: #61616b;
   margin: 0;
   line-height: 1.25rem;
+}
+
+.dark .chart-metric-container .card-subtitle,
+.dark details.chart-metric-container.metric-collapsible .metric-collapsible__summary .card-subtitle {
+  color: #9191a1;
 }
 
 .chart-metric-container__body {
@@ -334,7 +346,7 @@ details.chart-metric-container.metric-collapsible .chart-metric-container__body 
   }
 
   .card-header {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
 }
 </style>

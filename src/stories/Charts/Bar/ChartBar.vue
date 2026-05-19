@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-[230px] w-full shrink-0 bg-transparent font-sans">
+  <div class="relative h-[230px] w-full shrink-0 bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
     <Bar :data="chartData" :options="computedOptions" />
   </div>
 </template>
@@ -17,6 +17,15 @@ import {
   Legend,
 } from 'chart.js'
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection'
+import {
+  CHART_X_MAX_TICKS,
+  CHART_Y_MAX_TICKS,
+  applyChartAxisTickLimits,
+} from '../chartAxisTicks'
+import {
+  applyInterFontToChartOptions,
+  CHART_INTER_FONT_FAMILY,
+} from '../chartInterFont'
 
 const props = defineProps<{
   data: {
@@ -37,10 +46,9 @@ const props = defineProps<{
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
-const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
+ChartJS.defaults.font.family = CHART_INTER_FONT_FAMILY
 
-const chartFontFamily =
-  "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
 /** Leyenda en cuadrados sólidos; ChartLine usa usePointStyle + pointStyleWidth (línea + círculo). */
 const LEGEND_BOX_PX = 10
@@ -75,6 +83,9 @@ function deepMergeChartOptions(
 
 const computedOptions = computed(() => {
   const defaults: Record<string, any> = {
+    font: {
+      family: CHART_INTER_FONT_FAMILY,
+    },
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
@@ -88,7 +99,7 @@ const computedOptions = computed(() => {
         align: 'center' as const,
         labels: {
           font: {
-            family: chartFontFamily,
+            family: CHART_INTER_FONT_FAMILY,
             size: 13,
             weight: '500',
           },
@@ -138,12 +149,12 @@ const computedOptions = computed(() => {
         cornerRadius: 8,
         displayColors: true,
         titleFont: {
-          family: chartFontFamily,
+          family: CHART_INTER_FONT_FAMILY,
           size: 13,
           weight: '600',
         },
         bodyFont: {
-          family: chartFontFamily,
+          family: CHART_INTER_FONT_FAMILY,
           size: 12,
           weight: '500',
         },
@@ -177,8 +188,9 @@ const computedOptions = computed(() => {
           drawTicks: false,
         },
         ticks: {
+          maxTicksLimit: CHART_Y_MAX_TICKS,
           font: {
-            family: chartFontFamily,
+            family: CHART_INTER_FONT_FAMILY,
             size: 12,
             weight: '500',
           },
@@ -200,8 +212,13 @@ const computedOptions = computed(() => {
           drawTicks: false,
         },
         ticks: {
+          maxTicksLimit: CHART_X_MAX_TICKS,
+          autoSkip: true,
+          autoSkipPadding: 8,
+          minRotation: 0,
+          maxRotation: 0,
           font: {
-            family: chartFontFamily,
+            family: CHART_INTER_FONT_FAMILY,
             size: 12,
             weight: '500',
           },
@@ -229,7 +246,10 @@ const computedOptions = computed(() => {
     },
   }
 
-  return props.options ? deepMergeChartOptions(defaults, props.options) : defaults
+  const merged = props.options ? deepMergeChartOptions(defaults, props.options) : defaults
+  return applyInterFontToChartOptions(
+    applyChartAxisTickLimits(merged as Record<string, unknown>),
+  ) as Record<string, any>
 })
 
 defineExpose({ isDark })

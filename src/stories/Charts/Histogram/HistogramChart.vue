@@ -7,43 +7,23 @@
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"
     >
-      <!-- Tooltip -->
-      <g v-if="interactive && tooltip.visible" :transform="`translate(${tooltip.x}, ${tooltip.y})`">
-        <rect
-          :x="-tooltip.width / 2"
-          :y="-tooltip.height - 10"
-          :width="tooltip.width"
-          :height="tooltip.height"
-          :fill="svgColors.tooltipBg"
-          rx="8"
-          :stroke="svgColors.tooltipBorder"
-          stroke-width="1"
-        />
-        <text
-          x="0"
-          :y="-tooltip.height + 8"
-          text-anchor="middle"
-          :fill="svgColors.tooltipText"
-          font-size="13"
-          font-weight="600"
-          font-family="'DM Sans', sans-serif"
-          dominant-baseline="hanging"
+      <defs>
+        <filter
+          id="histogram-tooltip-shadow"
+          x="-50%"
+          y="-50%"
+          width="200%"
+          height="200%"
         >
-          {{ tooltip.title }}
-        </text>
-        <text
-          x="0"
-          :y="-tooltip.height + 26"
-          text-anchor="middle"
-          :fill="svgColors.tooltipTextSecondary"
-          font-size="11"
-          font-weight="500"
-          font-family="'DM Sans', sans-serif"
-          dominant-baseline="hanging"
-        >
-          {{ tooltip.text }}
-        </text>
-      </g>
+          <feDropShadow
+            dx="0"
+            dy="2"
+            stdDeviation="5"
+            flood-color="#000000"
+            flood-opacity="0.3"
+          />
+        </filter>
+      </defs>
 
       <!-- Grid lines -->
       <template v-for="(tick, index) in yAxisTicks" :key="`grid-${index}`">
@@ -402,6 +382,49 @@
           </text>
         </g>
       </g>
+
+      <!-- Tooltip último en el SVG para que pinte por encima de barras / curva / líneas -->
+      <g
+        v-if="interactive && tooltip.visible"
+        pointer-events="none"
+        :transform="`translate(${tooltip.x}, ${tooltip.y})`"
+      >
+        <rect
+          filter="url(#histogram-tooltip-shadow)"
+          :x="-tooltip.width / 2"
+          :y="-tooltip.height - 10"
+          :width="tooltip.width"
+          :height="tooltip.height"
+          :fill="tooltipPalette.bg"
+          rx="8"
+          :stroke="tooltipPalette.border"
+          stroke-width="1"
+        />
+        <text
+          x="0"
+          :y="-tooltip.height - 10 + tooltipPadV"
+          text-anchor="middle"
+          :fill="tooltipPalette.text"
+          font-size="13"
+          font-weight="600"
+          font-family="'DM Sans', sans-serif"
+          dominant-baseline="hanging"
+        >
+          {{ tooltip.title }}
+        </text>
+        <text
+          x="0"
+          :y="-tooltip.height - 10 + tooltipPadV + tooltipTitleLine + tooltipLineGap"
+          text-anchor="middle"
+          :fill="tooltipPalette.secondary"
+          font-size="12"
+          font-weight="500"
+          font-family="'DM Sans', sans-serif"
+          dominant-baseline="hanging"
+        >
+          {{ tooltip.text }}
+        </text>
+      </g>
     </svg>
   </div>
 </template>
@@ -449,15 +472,63 @@ const props = withDefaults(defineProps<{
 });
 
 // Theme detection with prop fallback
-const { isDark } = useThemeDetection(toRef(props, 'theme'));
+const { isDark, colors } = useThemeDetection(toRef(props, 'theme'));
+
+/** Padding tooltip como ECharts Sankey `[10, 14]` */
+const tooltipPadV = 10;
+const tooltipPadH = 14;
+const tooltipTitleLine = 13;
+const tooltipBodyLine = 12;
+const tooltipLineGap = 4;
+const tooltipHeightFixed =
+  tooltipPadV + tooltipTitleLine + tooltipLineGap + tooltipBodyLine + tooltipPadV;
+
+const tooltipPalette = computed(() => ({
+  bg: colors.value.tooltipBg,
+  border: colors.value.tooltipBorder,
+  text: colors.value.tooltipText,
+  secondary: isDark.value ? '#d1d5db' : '#e2e8f0',
+}));
+
+/**
+ * Ancho horizontal aproximado por línea (DM Sans latino; título suele llevar más peso).
+ * Así la caja = padH*2 + max(líneas) deja espacio izquierdo y derecho igual respecto al bloque de texto.
+ */
+function approximateSvgLineWidth(charCount: number, fontSizePx: number, semiBold: boolean): number {
+  const em = semiBold ? 0.6 : 0.535;
+  return Math.ceil(Math.max(charCount, 1) * fontSizePx * em);
+}
+
+function estimateTooltipWidth(title: string, text: string): number {
+  const inner = Math.max(
+    approximateSvgLineWidth(title.length, tooltipTitleLine, true),
+    approximateSvgLineWidth(text.length, tooltipBodyLine, false),
+    52,
+  );
+  return inner + tooltipPadH * 2;
+}
+
+function clampTooltipPosition(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+): { x: number; y: number } {
+  const half = width / 2;
+  const viewportPad = 6;
+  const cx = Math.min(
+    Math.max(x, half + viewportPad),
+    props.chartWidth - half - viewportPad,
+  );
+  /** Rect: top = y - height - 10, bottom = y - 10 (coords SVG) */
+  const minY = viewportPad + height + 10;
+  const maxY = props.chartHeight - viewportPad + 10;
+  const cy = Math.min(Math.max(y, minY), maxY);
+  return { x: cx, y: cy };
+}
 
 // SVG colors based on theme
 const svgColors = computed(() => ({
-  // Tooltip
-  tooltipBg: isDark.value ? 'rgba(26, 26, 29, 0.98)' : 'rgba(15, 23, 42, 0.95)',
-  tooltipBorder: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
-  tooltipText: isDark.value ? '#f8f9fa' : '#f1f5f9',
-  tooltipTextSecondary: isDark.value ? '#d1d5db' : '#e2e8f0',
   // Axis
   axis: isDark.value ? '#9ca3af' : '#475569',
   // Grid
@@ -478,6 +549,8 @@ const tooltip = ref({
   text: '',
   width: 0,
   height: 0,
+  /** Centro SVG X de la barra activa; fija tooltip horizontal sobre la columna correcta cuando el SVG escala por CSS */
+  anchorX: null as number | null,
 });
 
 const plotWidth = computed(() => props.chartWidth - props.chartMargin * 2);
@@ -732,6 +805,23 @@ const yAxisTicks = computed(() => {
   return ticks;
 });
 
+/**
+ * Coordenadas del puntero en espacio de usuario SVG (coinciden con viewBox),
+ * imprescindible cuando el SVG escala por `w-full`/responsive (ratio ≠ 1 vs rect local).
+ */
+function clientXYToSvgUserSpace(svg: SVGSVGElement, clientX: number, clientY: number) {
+  const p = svg.createSVGPoint();
+  p.x = clientX;
+  p.y = clientY;
+  const ctm = svg.getScreenCTM();
+  if (!ctm) {
+    const r = svg.getBoundingClientRect();
+    return { x: clientX - r.left, y: clientY - r.top };
+  }
+  const loc = p.matrixTransform(ctm.inverse());
+  return { x: loc.x, y: loc.y };
+}
+
 const onBarMouseEnter = (event: MouseEvent, bar: any) => {
   if (!props.interactive) return;
   showTooltip(event, bar);
@@ -743,27 +833,30 @@ const onBarMouseLeave = () => {
 };
 
 const showTooltip = (event: MouseEvent, bar: any) => {
-  const svg = (event.currentTarget as SVGElement).closest('svg');
+  const svg = (event.currentTarget as SVGElement).closest('svg') as SVGSVGElement | null;
   if (!svg) return;
-  
-  const rect = svg.getBoundingClientRect();
-  const point = svg.createSVGPoint();
-  point.x = event.clientX - rect.left;
-  point.y = event.clientY - rect.top;
-  
+
+  const { x: px, y: py } = clientXYToSvgUserSpace(svg, event.clientX, event.clientY);
+
   const title = `Score: ${bar.score}`;
-  const text = `Count: ${bar.count}`;
-  const tooltipWidth = 120;
-  const tooltipHeight = 48;
-  
+  const text = `Count: ${Number(bar.count ?? 0).toLocaleString()}`;
+  const tooltipWidth = estimateTooltipWidth(title, text);
+  const tooltipHeight = tooltipHeightFixed;
+
+  /** Eje horizontal: centro de barra para alinear tooltip con la columna salvo efectos de escalado viewport */
+  const x = typeof bar?.x === 'number' ? bar.x : px;
+  let y = py - 20;
+  const clamped = clampTooltipPosition(x, y, tooltipWidth, tooltipHeight);
+
   tooltip.value = {
     visible: true,
-    x: point.x,
-    y: point.y - 20,
+    x: clamped.x,
+    y: clamped.y,
     title,
     text,
     width: tooltipWidth,
     height: tooltipHeight,
+    anchorX: typeof bar?.x === 'number' ? bar.x : null,
   };
 };
 
@@ -771,22 +864,24 @@ const handleMouseMove = (event: MouseEvent) => {
   if (!props.interactive) return;
   if (tooltip.value.visible) {
     const svg = event.currentTarget as SVGSVGElement;
-    const rect = svg.getBoundingClientRect();
-    const point = svg.createSVGPoint();
-    point.x = event.clientX - rect.left;
-    point.y = event.clientY - rect.top;
-    
-    tooltip.value.x = point.x;
-    tooltip.value.y = point.y - 20;
+    const { x: px, y: py } = clientXYToSvgUserSpace(svg, event.clientX, event.clientY);
+
+    const anchor = tooltip.value.anchorX;
+    const x = anchor != null && Number.isFinite(anchor) ? anchor : px;
+    let y = py - 20;
+    const clamped = clampTooltipPosition(x, y, tooltip.value.width, tooltip.value.height);
+    tooltip.value.x = clamped.x;
+    tooltip.value.y = clamped.y;
   }
 };
 
 const handleMouseLeave = () => {
-  tooltip.value.visible = false;
+  hideTooltip();
 };
 
 const hideTooltip = () => {
   tooltip.value.visible = false;
+  tooltip.value.anchorX = null;
 };
 
 // Expose isDark for potential use
@@ -801,10 +896,6 @@ defineExpose({ isDark });
   max-height: 550px;
   border-radius: 16px;
   position: relative;
-}
-
-.chart-container:hover {
-  box-shadow: var(--kiut-shadow-card-hover);
 }
 
 .chart-container--static:hover {

@@ -149,11 +149,13 @@ const meta = {
     segmentsLoading: { control: 'boolean' },
     showCheckin: {
       control: 'boolean',
-      description: 'Renderiza el bloque Checkin dentro de CheckinSegments',
+      description:
+        'Muestra el bloque Sankey/tablas Checkin.vue (métricas de flujo `checkin_*`) entre Record locator y Segmentos',
     },
     showCheckinMetrics: {
       control: 'boolean',
-      description: 'Renderiza CheckinMetrics dentro de CheckinSegments cuando se necesita mantener ese bloque',
+      description:
+        'Reservado para un bloque CheckinMetrics en este contenedor; hoy solo afecta la API del componente.',
     },
     isAvianca: { control: 'boolean' },
     enableExport: { control: 'boolean' },
@@ -167,7 +169,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa Record Locator y Checkin Segments bajo un único colapsable “Check in”. CheckinSegments puede recibir la data necesaria para renderizar bloques internos de check-in.',
+          'Agrupa Record locator, métricas de flujo Check-in (Sankey Checkin.vue) y Checkin Segments bajo un único colapsable “Check in”. Los exports pueden indicar origen recordLocator | checkin | checkinSegments.',
       },
     },
   },

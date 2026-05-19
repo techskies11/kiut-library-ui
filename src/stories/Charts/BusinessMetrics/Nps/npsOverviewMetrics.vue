@@ -45,7 +45,6 @@
           :chart-height="chartHeight"
           :chart-margin="chartMargin"
           :chart-bottom-margin="chartBottomMargin"
-          :interactive="false"
         />
       </div>
       <div class="overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
