@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useSlots, watch } from 'vue'
+import { Comment, computed, ref, useSlots, watch, type VNode } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -93,10 +93,23 @@ const isOpen = ref(props.defaultOpen)
 
 const slots = useSlots()
 
-/** Export en cabecera: solo si hay slot y, en colapsable, cuando está abierto */
+function slotHasVisibleContent(vnodes: VNode[]): boolean {
+  return vnodes.some((vnode) => {
+    if (vnode.type === Comment) return false
+    if (vnode.type === Text) {
+      const children = vnode.children
+      return typeof children === 'string' && children.trim().length > 0
+    }
+    return Boolean(vnode.type)
+  })
+}
+
+/** Export en cabecera: slot siempre montado; visibilidad según contenido y estado colapsable */
 const showHeaderExport = computed(() => {
-  if (!slots.headerExport) return false
-  return !props.collapsible || isOpen.value
+  if (props.collapsible && !isOpen.value) return false
+  const render = slots.headerExport
+  if (!render) return false
+  return slotHasVisibleContent(render())
 })
 
 watch(

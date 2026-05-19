@@ -5,11 +5,9 @@
     subtitle="Checkin by record locator retrieval and completion analysis"
     :collapsible="collapsible"
   >
-    <template
-      v-if="enableExport && !props.loading"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !props.loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

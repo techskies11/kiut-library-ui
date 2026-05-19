@@ -5,11 +5,9 @@
     subtitle="Sales performance and failure analysis"
     :default-open="initiallyOpen"
   >
-    <template
-      v-if="enableExport && !props.loading"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !props.loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

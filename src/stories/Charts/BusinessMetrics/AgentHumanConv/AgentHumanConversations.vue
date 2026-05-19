@@ -4,11 +4,9 @@
     title="Agent Human Conversations"
     subtitle="Human conversation assignments and closures by agent"
   >
-    <template
-      v-if="enableExport && !loading"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

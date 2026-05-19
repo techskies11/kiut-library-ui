@@ -5,11 +5,9 @@
         subtitle="Interactions by agent (excluding triage)"
         :collapsible="false"
     >
-        <template
-            v-if="enableExport && !loading"
-            #headerExport
-        >
+        <template #headerExport>
             <FooterExport
+                v-if="enableExport && !loading"
                 variant="inline"
                 @export="handleExport"
                 :loading="exportLoading"

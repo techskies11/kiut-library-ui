@@ -5,11 +5,9 @@
     subtitle="Content safety guardrail events and actions"
     :collapsible="false"
   >
-    <template
-      v-if="enableExport && !props.loading"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !props.loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

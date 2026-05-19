@@ -5,14 +5,9 @@
     subtitle="FAQ volume by category"
     :collapsible="false"
   >
-    <template
-      v-if="
-        enableExport &&
-        !props.loading
-      "
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !props.loading"
         variant="inline"
         :loading="exportLoading"
         @export="handleExport"

@@ -5,11 +5,9 @@
         subtitle="Check-in performance and failure analysis"
         :default-open="initiallyOpen"
     >
-        <template
-            v-if="enableExport && !loading"
-            #headerExport
-        >
+        <template #headerExport>
             <FooterExport
+                v-if="enableExport && !loading"
                 variant="inline"
                 @export="handleExport"
                 :loading="exportLoading"

@@ -4,11 +4,9 @@
     title="Booking Manager Metrics"
     subtitle="Booking manager workflow tracking and analysis"
   >
-    <template
-      v-if="enableExport && !props.loading && !props.error"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !props.loading && !props.error"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

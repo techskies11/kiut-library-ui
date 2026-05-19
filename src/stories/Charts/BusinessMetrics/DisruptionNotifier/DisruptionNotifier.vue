@@ -4,11 +4,9 @@
     title="Disruption Notifier"
     subtitle="Passenger notification effectiveness and delivery analysis"
   >
-    <template
-      v-if="enableExport && !props.loading"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !props.loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

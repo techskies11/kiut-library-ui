@@ -4,11 +4,9 @@
     title="Payment Method Metrics"
     subtitle="Sales breakdown by payment method"
   >
-    <template
-      v-if="enableExport && !loading"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

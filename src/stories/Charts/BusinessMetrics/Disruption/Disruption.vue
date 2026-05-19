@@ -4,14 +4,9 @@
     title="Disruption Manager Metrics"
     subtitle="Disruption workflow performance and completion tracking"
   >
-    <template
-      v-if="
-        enableExport &&
-        !props.loading
-      "
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !props.loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"

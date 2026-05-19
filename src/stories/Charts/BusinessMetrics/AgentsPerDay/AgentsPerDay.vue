@@ -4,11 +4,9 @@
     subtitle="Daily agent interactions (stacked)"
     :collapsible="false"
   >
-    <template
-      v-if="enableExport && !loading"
-      #headerExport
-    >
+    <template #headerExport>
       <FooterExport
+        v-if="enableExport && !loading"
         variant="inline"
         :loading="exportLoading"
         @export="handleExport"
