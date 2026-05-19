@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import HumanEscalationsCard from './HumanEscalationsCard.vue'
 
 const meta: Meta<typeof HumanEscalationsCard> = {
-  title: 'Charts/Business Metrics/Human Escalations Card',
+  title: 'Charts/BusinessMetrics/HumanEscalationsCard',
   component: HumanEscalationsCard,
   tags: ['autodocs'],
 }

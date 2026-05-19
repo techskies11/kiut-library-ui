@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import HumanEscalations from './HumanEscalations.vue'
 
 const meta: Meta<typeof HumanEscalations> = {
-  title: 'Charts/Business Metrics/Human Escalations',
+  title: 'Charts/BusinessMetrics/HumanEscalations',
   component: HumanEscalations,
   tags: ['autodocs'],
 }

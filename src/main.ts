@@ -12,7 +12,7 @@ import HistogramChart from './stories/Charts/Histogram/HistogramChart.vue';
 import SankeyChart from './stories/Charts/Sankey/SankeyChart.vue';
 
 // ============================================
-// Business Metrics
+// BusinessMetrics
 // ============================================
 import AgentsPerDay from './stories/Charts/BusinessMetrics/AgentsPerDay/AgentsPerDay.vue';
 import BookingManager from './stories/Charts/BusinessMetrics/BookingManager/BookingManager.vue';
@@ -40,7 +40,7 @@ import CsatP95Card from './stories/Charts/BusinessMetrics/CsatP95Card/CsatP95Car
 import CSATContainer from './stories/Charts/BusinessMetrics/CSATContainer/CSATContainer.vue';
 import AiGeneratedRevenueCard from './stories/Charts/BusinessMetrics/AiGeneratedRevenueCard/AiGeneratedRevenueCard.vue';
 import HumanEscalations from './stories/Charts/BusinessMetrics/HumanEscalations/HumanEscalations.vue';
-import HumanEscalationsCard from './stories/Charts/BusinessMetrics/HumanEscalations/HumanEscalationsCard.vue';
+import HumanEscalationsCard from './stories/Charts/BusinessMetrics/HumanEscalationsCard/HumanEscalationsCard.vue';
 
 // NPS Metrics
 import NpsDailyMetrics from './stories/Charts/BusinessMetrics/Nps/npsDailyMetrics.vue';
@@ -128,7 +128,7 @@ export {
   CandlestickChart,
   HistogramChart,
   SankeyChart,
-  // Business Metrics
+  // BusinessMetrics
   AgentsPerDay,
   BookingManager,
   Checkin,
@@ -211,7 +211,7 @@ export const KiutUIPlugin = {
     app.component('KiutHistogramChart', HistogramChart);
     app.component('KiutSankeyChart', SankeyChart);
     
-    // Business Metrics
+    // BusinessMetrics
     app.component('KiutAgentsPerDay', AgentsPerDay);
     app.component('KiutBookingManager', BookingManager);
     app.component('KiutCheckin', Checkin);
