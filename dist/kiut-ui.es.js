@@ -21209,7 +21209,7 @@ const _5 = ["aria-expanded", "aria-labelledby", "aria-label"], x5 = ["onKeydown"
   "aria-label": "Sections"
 }, J5 = ["aria-current", "data-has-active", "title", "onClick"], tC = {
   key: 1,
-  class: "shrink-0 border-t [border-color:var(--kiut-lateral-border-color)] [background-color:var(--kiut-lateral-bg)]"
+  class: "footer-section shrink-0 border-t [background-color:var(--kiut-lateral-bg)]"
 }, eC = { class: "px-4 py-4 shrink-0" }, nC = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, aC = {
   class: "flex-1 overflow-y-auto px-1 pb-3 flex flex-col gap-0.5",
   "aria-label": "Section items"
@@ -21300,7 +21300,7 @@ const _5 = ["aria-expanded", "aria-labelledby", "aria-label"], x5 = ["onKeydown"
         default: I(() => [
           u.value ? (y(), w("div", {
             key: 0,
-            class: "fixed left-0 right-0 bottom-0 z-50 [background-color:var(--kiut-lateral-bg)] rounded-t-2xl shadow-2xl border-t [border-color:var(--kiut-lateral-border-color)] max-h-[70vh] flex flex-col",
+            class: "mobile-subsections fixed left-0 right-0 bottom-0 z-50 [background-color:var(--kiut-lateral-bg)] rounded-t-2xl shadow-2xl border-t max-h-[70vh] flex flex-col",
             style: gt({ paddingBottom: a.mobileBarHeight })
           }, [
             f[3] || (f[3] = r("div", { class: "flex justify-center pt-3 pb-1 shrink-0" }, [
@@ -21452,7 +21452,7 @@ const _5 = ["aria-expanded", "aria-labelledby", "aria-label"], x5 = ["onKeydown"
       ])
     ], 16));
   }
-}), gC = /* @__PURE__ */ at(fC, [["__scopeId", "data-v-94542c74"]]), $C = {
+}), gC = /* @__PURE__ */ at(fC, [["__scopeId", "data-v-e0ccb96c"]]), $C = {
   install(e) {
     e.component("KiutChartBar", be), e.component("KiutChartLine", ye), e.component("KiutPieChart", la), e.component("KiutBoxplotChart", Qh), e.component("KiutCandlestickChart", Oi), e.component("KiutHistogramChart", zi), e.component("KiutSankeyChart", Fe), e.component("KiutAgentsPerDay", Ap), e.component("KiutBookingManager", om), e.component("KiutCheckin", Hi), e.component("KiutCheckinContainer", m0), e.component("KiutCheckinMetrics", Rm), e.component("KiutCheckinSegments", Ki), e.component("KiutDisruption", P0), e.component("KiutFAQ", j0), e.component("KiutMessagesPerAgent", Q0), e.component("KiutRecordLocator", Yi), e.component("KiutSalesByChannel", qi), e.component("KiutSeller", Ui), e.component("KiutSellerContainer", Vb), e.component("KiutTopAgents", Ub), e.component("KiutPaymentMethod", mv), e.component("KiutAgentHumanConversations", py), e.component("KiutChannelMetrics", $y), e.component("KiutTriageCombinations", Vy), e.component("KiutSelectLanguage", qy), e.component("KiutGuardrails", s1), e.component("KiutDisruptionNotifier", $1), e.component("KiutTotalConversationsCard", B1), e.component("KiutCsatP95Card", R1), e.component("KiutCSATContainer", b_), e.component("KiutAiGeneratedRevenueCard", $_), e.component("KiutHumanEscalations", z_), e.component("KiutHumanEscalationsCard", Y_), e.component("KiutNpsDailyMetrics", Zi), e.component("KiutNpsMetrics", Qi), e.component("KiutNpsOverviewMetrics", Gi), e.component("KiutAWSCost", ex), e.component("KiutCostUsage", hx), e.component("KiutTokenUsage", wx), e.component("KiutConversationCount", Ex), e.component("KiutTopAgentsAnalysis", qx), e.component("KiutTopAgentsPie", ak), e.component("KiutDailyCostTrends", fk), e.component("KiutModelUsage", Dk), e.component("KiutMessageRoles", Ok), e.component("KiutCostPerConversations", Xk), e.component("Tabs", Ji), e.component("Table", Xi), e.component("Filters", D2), e.component("InputText", E2), e.component("InputTextarea", z2), e.component("InputFile", q2), e.component("InputDateTime", J2), e.component("InputTime", ow), e.component("InputRange", yw), e.component("InputNumber", Cw), e.component("InputColorPicker", Fw), e.component("Select", el), e.component("MultiSelect", Kw), e.component("Toggle", Xw), e.component("InputPhone", a5), e.component("SelectablePills", d5), e.component("SegmentedControl", g5), e.component("DateRangePicker", T5), e.component("Tag", jt), e.component("Button", qn), e.component("Modal", W5), e.component("Section", X5), e.component("KiutAppShellNavigation", gC);
   }
