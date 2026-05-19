@@ -1,20 +1,40 @@
 <template>
   <ChartMetricContainer
-    title=""
     :collapsible="false"
-    :class="['total-conv-metric', 'w-full', { 'total-conv-metric--dark': isDark }]"
+    :class="['human-escalations-metric', 'w-full', { 'human-escalations-metric--dark': isDark }]"
   >
     <template #title>
       <div class="header-title-group">
         <div class="icon-wrapper" aria-hidden="true">
           <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 7.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 19.5a7.5 7.5 0 0 1 9.36-7.29"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m17.25 15.75 4.5 4.5"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m21.75 15.75-4.5 4.5"
+            />
           </svg>
         </div>
       </div>
     </template>
     <template #headerAside>
-      <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">{{ changeLabel }}</div>
+      <div v-if="!loading && hasPreviousData" :class="['change-badge', changeBadgeClass]">
+        {{ changeLabel }}
+      </div>
     </template>
 
     <div class="highlight-inner">
@@ -24,8 +44,8 @@
       </div>
 
       <div v-else class="card-body">
-        <span class="metric-value">{{ formattedTotal }}</span>
-        <span class="metric-label">Total Conversations</span>
+        <span class="metric-value">{{ rateLabel }}</span>
+        <span class="metric-label">Human Escalations</span>
       </div>
     </div>
   </ChartMetricContainer>
@@ -35,33 +55,36 @@
 import { computed, toRef } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
 
-const props = withDefaults(defineProps<{
-  totalConversations?: number;
-  previousTotalConversations?: number | null;
-  loading?: boolean;
-  theme?: Theme;
-}>(), {
-  totalConversations: 0,
-  previousTotalConversations: null,
-  loading: false,
-  theme: undefined,
-})
+const props = withDefaults(
+  defineProps<{
+    escalationRatePercentage?: number
+    previousEscalationRatePercentage?: number | null
+    loading?: boolean
+    theme?: Theme
+  }>(),
+  {
+    escalationRatePercentage: 0,
+    previousEscalationRatePercentage: null,
+    loading: false,
+    theme: undefined,
+  },
+)
 
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
+const rateLabel = computed(() => `${Number(props.escalationRatePercentage || 0).toFixed(2)}%`)
 
-const formattedTotal = computed(() => useNumberFormat(props.totalConversations))
-
-const hasPreviousData = computed(() =>
-  props.previousTotalConversations !== null && props.previousTotalConversations !== undefined
+const hasPreviousData = computed(
+  () =>
+    props.previousEscalationRatePercentage !== null &&
+    props.previousEscalationRatePercentage !== undefined,
 )
 
 const changePercent = computed(() => {
   if (!hasPreviousData.value) return 0
-  const previousValue = props.previousTotalConversations!
-  if (previousValue === 0) return props.totalConversations > 0 ? 100 : 0
-  return ((props.totalConversations - previousValue) / previousValue) * 100
+  const previousValue = props.previousEscalationRatePercentage!
+  if (previousValue === 0) return props.escalationRatePercentage > 0 ? 100 : 0
+  return ((props.escalationRatePercentage - previousValue) / previousValue) * 100
 })
 
 const changeLabel = computed(() => {
@@ -75,23 +98,21 @@ const changeBadgeClass = computed(() => {
   if (changePercent.value < 0) return 'change-badge--down'
   return 'change-badge--neutral'
 })
-
-defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-/* Tarjeta: borde redondeado, padding y borde al estilo de la maqueta light/dark (tokens Kiut) */
-.total-conv-metric.chart-metric-container--static {
+.human-escalations-metric.chart-metric-container--static {
   padding: 16px;
   border-radius: 20px;
   border-color: var(--kiut-border-table);
+  background-color: var(--kiut-bg-card);
 }
 
-.total-conv-metric :deep(.card-header) {
+.human-escalations-metric :deep(.card-header) {
   margin-bottom: 0;
 }
 
-.total-conv-metric :deep(.metric-header-content) {
+.human-escalations-metric :deep(.metric-header-content) {
   align-items: center;
 }
 
@@ -123,7 +144,7 @@ defineExpose({ isDark, changePercent })
   color: #7c3aed;
 }
 
-.total-conv-metric--dark .card-icon {
+.human-escalations-metric--dark .card-icon {
   color: #8b5cf6;
 }
 
@@ -155,17 +176,17 @@ defineExpose({ isDark, changePercent })
   color: #64748b;
 }
 
-.total-conv-metric--dark .change-badge--up {
+.human-escalations-metric--dark .change-badge--up {
   background: #162d24;
   color: #4ade80;
 }
 
-.total-conv-metric--dark .change-badge--down {
+.human-escalations-metric--dark .change-badge--down {
   background: #3f1d20;
   color: #fb7185;
 }
 
-.total-conv-metric--dark .change-badge--neutral {
+.human-escalations-metric--dark .change-badge--neutral {
   background: rgba(148, 163, 184, 0.12);
   color: #94a3b8;
 }
@@ -219,7 +240,7 @@ defineExpose({ isDark, changePercent })
   animation: shimmer 1.8s ease-in-out infinite;
 }
 
-.total-conv-metric--dark .shimmer {
+.human-escalations-metric--dark .shimmer {
   background: linear-gradient(
     90deg,
     rgba(198, 125, 255, 0.06) 25%,
@@ -230,12 +251,12 @@ defineExpose({ isDark, changePercent })
 }
 
 .shimmer-value {
-  width: 58%;
+  width: 52%;
   height: 26px;
 }
 
 .shimmer-label {
-  width: 42%;
+  width: 44%;
   height: 15px;
 }
 
