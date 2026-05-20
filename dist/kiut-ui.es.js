@@ -10895,7 +10895,7 @@ const up = {
       _: 1
     }, 8, ["class"]));
   }
-}), Tt = /* @__PURE__ */ at(_p, [["__scopeId", "data-v-32629e66"]]), xp = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, kp = {
+}), Tt = /* @__PURE__ */ at(_p, [["__scopeId", "data-v-33a9d528"]]), xp = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, kp = {
   key: 0,
   class: "flex min-h-[320px] flex-col items-center justify-center px-4"
 }, wp = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, Cp = {
@@ -11011,7 +11011,7 @@ const up = {
   },
   setup(e) {
     return (t, n) => (v(), w("div", {
-      class: H(["card-info box-border flex w-full min-w-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl px-3 py-2 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[color:var(--kiut-text-secondary,#64748b)]", e.subvalue ? "h-[72px]" : "h-[58px]"])
+      class: H(["card-info box-border flex w-full min-w-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl px-3 py-2 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[color:var(--kiut-text-secondary,#64748b)]", e.subvalue ? "h-[75px]" : "h-[58px]"])
     }, [
       r("div", Tp, [
         r("div", Bp, [
@@ -11028,7 +11028,7 @@ const up = {
       e.subvalue ? (v(), w("p", Ep, A(e.subvalue), 1)) : O("", !0)
     ], 2));
   }
-}), ot = /* @__PURE__ */ at(Pp, [["__scopeId", "data-v-49db84b0"]]), Ip = {
+}), ot = /* @__PURE__ */ at(Pp, [["__scopeId", "data-v-945ff8fb"]]), Ip = {
   key: 0,
   class: "relative flex h-2 w-2 shrink-0 items-center justify-center",
   "aria-hidden": "true"
@@ -13152,7 +13152,7 @@ const up = {
   class: "flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
 }, R0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, O0 = {
   key: 0,
-  class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
+  class: "flex w-full shrink-0 flex-col gap-3"
 }, z0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, V0 = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
@@ -13334,12 +13334,12 @@ const up = {
       _: 1
     }));
   }
-}), j0 = /* @__PURE__ */ at(N0, [["__scopeId", "data-v-cdfb655f"]]), W0 = {
+}), j0 = /* @__PURE__ */ at(N0, [["__scopeId", "data-v-572f0ab1"]]), W0 = {
   key: 0,
   class: "flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
 }, H0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, Y0 = {
   key: 0,
-  class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
+  class: "flex w-full shrink-0 flex-col gap-3"
 }, K0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, q0 = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
@@ -13486,7 +13486,7 @@ const up = {
       _: 1
     }));
   }
-}), Q0 = /* @__PURE__ */ at(Z0, [["__scopeId", "data-v-884b3252"]]), J0 = {
+}), Q0 = /* @__PURE__ */ at(Z0, [["__scopeId", "data-v-a36c7d36"]]), J0 = {
   key: 0,
   class: "loading-state"
 }, tb = {
@@ -13629,7 +13629,7 @@ const up = {
       _: 1
     }, 8, ["default-open"]));
   }
-}), Ki = /* @__PURE__ */ at(ob, [["__scopeId", "data-v-8a9483a4"]]), ib = {
+}), Ki = /* @__PURE__ */ at(ob, [["__scopeId", "data-v-1896c562"]]), ib = {
   key: 0,
   class: "loading-state"
 }, lb = {
@@ -14945,7 +14945,7 @@ const up = {
   class: "flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
 }, by = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, vy = {
   key: 0,
-  class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
+  class: "flex w-full shrink-0 flex-col gap-3"
 }, yy = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, _y = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
@@ -15101,7 +15101,7 @@ const up = {
       _: 1
     }));
   }
-}), $y = /* @__PURE__ */ at(Cy, [["__scopeId", "data-v-ac49141c"]]), My = {
+}), $y = /* @__PURE__ */ at(Cy, [["__scopeId", "data-v-ba00ef31"]]), My = {
   key: 0,
   class: "card-body"
 }, Sy = { class: "chart-container" }, Dy = { class: "triage-table-block w-full min-w-0" }, Ay = { class: "triage-row-label" }, Ty = {
@@ -15389,7 +15389,7 @@ const up = {
       _: 1
     }));
   }
-}), Vy = /* @__PURE__ */ at(zy, [["__scopeId", "data-v-5f75096b"]]), Ny = {
+}), Vy = /* @__PURE__ */ at(zy, [["__scopeId", "data-v-d684dd65"]]), Ny = {
   key: 0,
   class: "loading-state"
 }, jy = {
@@ -15397,7 +15397,7 @@ const up = {
   class: "card-body"
 }, Wy = {
   key: 0,
-  class: "distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-4 min-h-0"
+  class: "distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-3 min-h-0"
 }, Hy = { class: "pie-section" }, Yy = {
   key: 1,
   class: "empty-state"
@@ -15544,7 +15544,7 @@ const up = {
       _: 1
     }));
   }
-}), qy = /* @__PURE__ */ at(Ky, [["__scopeId", "data-v-020e89a6"]]), Uy = {
+}), qy = /* @__PURE__ */ at(Ky, [["__scopeId", "data-v-8c32a3b3"]]), Uy = {
   key: 0,
   class: "loading-state"
 }, Xy = {
