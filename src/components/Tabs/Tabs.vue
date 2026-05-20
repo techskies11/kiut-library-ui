@@ -4,7 +4,7 @@
       role="tablist"
       :aria-label="ariaLabel"
       :class="[
-        'ku:box-border ku:min-h-10 ku:flex-wrap ku:items-center ku:gap-0.5 ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-100/95 ku:px-0.5 ku:py-1 ku:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] ku:transition-colors ku:dark:bg-[color:var(--kiut-bg-secondary)] ku:dark:shadow-none',
+        'ku:box-border ku:h-10 ku:max-h-10 ku:min-h-10 ku:flex-wrap ku:items-center ku:gap-0.5 ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-100/95 ku:px-0.5 ku:py-1 ku:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] ku:transition-colors ku:dark:bg-[color:var(--kiut-bg-secondary)] ku:dark:shadow-none',
         fullWidth ? 'ku:flex ku:w-full' : 'ku:inline-flex ku:w-fit ku:max-w-full',
       ]"
     >
@@ -24,10 +24,7 @@
       >
         <span
           class="tabs-tab__label ku:flex ku:min-h-0 ku:min-w-0 ku:items-center ku:justify-center ku:gap-2 ku:px-3"
-          :class="[
-            { 'ku:min-w-0 ku:flex-1': fullWidth },
-            isActive(item) && 'ku:py-1',
-          ]"
+          :class="{ 'ku:min-w-0 ku:flex-1': fullWidth }"
         >
           <component
             :is="item.icon"
@@ -99,7 +96,7 @@ function tabButtonClass(item: TabItem): string {
     props.fullWidth
       ? 'ku:relative ku:flex ku:min-w-0 ku:flex-1'
       : 'ku:relative ku:inline-flex ku:max-w-full ku:shrink-0';
-  const base = `${width} ku:items-stretch ku:cursor-pointer ku:rounded-lg ku:border ku:border-transparent ku:text-center ku:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary-light)] ku:focus-visible:ring-offset-2 ku:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:active:scale-[0.99] ku:motion-reduce:active:scale-100`;
+  const base = `${width} ku:h-8 ku:max-h-8 ku:min-h-8 ku:items-stretch ku:cursor-pointer ku:rounded-lg ku:border ku:border-transparent ku:text-center ku:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary-light)] ku:focus-visible:ring-offset-2 ku:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:active:scale-[0.99] ku:motion-reduce:active:scale-100`;
   if (item.disabled) {
     return `${base} ku:cursor-not-allowed ku:opacity-40`;
   }
@@ -168,12 +165,19 @@ async function onKeydown(e: KeyboardEvent, index: number) {
   height: stretch;
 }
 
-/* Altura: activa más alta que inactivas (no depende del scanner de Tailwind) */
+/* Alturas fijas: track 40px, botones 32px */
+.tabs :deep([role='tablist']) {
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+}
+
 .tabs :deep([role='tablist'] [role='tab']) {
   box-sizing: border-box;
-  min-height: 1.625rem;
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
   transition:
-    min-height 0.3s cubic-bezier(0.33, 1, 0.68, 1),
     background-color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
     color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
     box-shadow 0.3s cubic-bezier(0.33, 1, 0.68, 1),
@@ -182,7 +186,6 @@ async function onKeydown(e: KeyboardEvent, index: number) {
 }
 
 .tabs :deep([role='tablist'] [role='tab'][aria-selected='true']) {
-  min-height: 2.375rem;
   z-index: 1;
 }
 
