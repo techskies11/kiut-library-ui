@@ -18480,7 +18480,7 @@ const gx = { class: "tabs ku:text-sm" }, kx = ["aria-label"], px = ["id", "aria-
       return k.value === n.modelValue;
     }
     function u(k) {
-      const m = c(k), g = `${n.fullWidth ? "ku:relative ku:flex ku:min-w-0 ku:flex-1" : "ku:relative ku:inline-flex ku:max-w-full ku:shrink-0"} ku:items-stretch ku:cursor-pointer ku:rounded-lg ku:border ku:border-transparent ku:text-center ku:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary-light)] ku:focus-visible:ring-offset-2 ku:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:active:scale-[0.99] ku:motion-reduce:active:scale-100`;
+      const m = c(k), g = `${n.fullWidth ? "ku:relative ku:flex ku:min-w-0 ku:flex-1" : "ku:relative ku:inline-flex ku:max-w-full ku:shrink-0"} ku:h-8 ku:max-h-8 ku:min-h-8 ku:items-stretch ku:cursor-pointer ku:rounded-lg ku:border ku:border-transparent ku:text-center ku:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary-light)] ku:focus-visible:ring-offset-2 ku:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:active:scale-[0.99] ku:motion-reduce:active:scale-100`;
       return k.disabled ? `${g} ku:cursor-not-allowed ku:opacity-40` : m ? `${g} ku:bg-white ku:text-[color:var(--kiut-text-primary)] ku:shadow-sm ku:ring-1 ku:ring-black/[0.04] ku:dark:bg-black/45 ku:dark:text-[color:var(--kiut-text-primary)] ku:dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)] ku:dark:ring-white/[0.06]` : `${g} ku:text-[color:var(--kiut-text-secondary)] ku:hover:text-[color:var(--kiut-text-primary)] ku:dark:text-[color:var(--kiut-text-muted)] ku:dark:hover:text-[color:var(--kiut-text-secondary)]`;
     }
     function d(k, m) {
@@ -18512,7 +18512,7 @@ const gx = { class: "tabs ku:text-sm" }, kx = ["aria-label"], px = ["id", "aria-
         role: "tablist",
         "aria-label": e.ariaLabel,
         class: H([
-          "ku:box-border ku:min-h-10 ku:flex-wrap ku:items-center ku:gap-0.5 ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-100/95 ku:px-0.5 ku:py-1 ku:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] ku:transition-colors ku:dark:bg-[color:var(--kiut-bg-secondary)] ku:dark:shadow-none",
+          "ku:box-border ku:h-10 ku:max-h-10 ku:min-h-10 ku:flex-wrap ku:items-center ku:gap-0.5 ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-100/95 ku:px-0.5 ku:py-1 ku:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] ku:transition-colors ku:dark:bg-[color:var(--kiut-bg-secondary)] ku:dark:shadow-none",
           e.fullWidth ? "ku:flex ku:w-full" : "ku:inline-flex ku:w-fit ku:max-w-full"
         ])
       }, [
@@ -18532,10 +18532,7 @@ const gx = { class: "tabs ku:text-sm" }, kx = ["aria-label"], px = ["id", "aria-
           onKeydown: (f) => _(f, g)
         }, [
           r("span", {
-            class: H(["tabs-tab__label ku:flex ku:min-h-0 ku:min-w-0 ku:items-center ku:justify-center ku:gap-2 ku:px-3", [
-              { "ku:min-w-0 ku:flex-1": e.fullWidth },
-              c(v) && "ku:py-1"
-            ]])
+            class: H(["tabs-tab__label ku:flex ku:min-h-0 ku:min-w-0 ku:items-center ku:justify-center ku:gap-2 ku:px-3", { "ku:min-w-0 ku:flex-1": e.fullWidth }])
           }, [
             v.icon ? (b(), K(Xe(v.icon), {
               key: 0,
@@ -18563,7 +18560,7 @@ const gx = { class: "tabs ku:text-sm" }, kx = ["aria-label"], px = ["id", "aria-
       })) : O("", !0)
     ]));
   }
-}), Qi = /* @__PURE__ */ at(bx, [["__scopeId", "data-v-85a1960b"]]), vx = { class: "ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, yx = {
+}), Qi = /* @__PURE__ */ at(bx, [["__scopeId", "data-v-ecbca936"]]), vx = { class: "ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, yx = {
   key: 0,
   class: "loading-state"
 }, _x = {
