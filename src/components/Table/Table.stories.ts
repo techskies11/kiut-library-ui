@@ -52,7 +52,7 @@ export const Default: Story = {
     components: { Table },
     setup() {
       return () =>
-        h('div', { class: 'ku:max-w-4xl' }, [
+        h('div', { class: 'max-w-4xl' }, [
           h(Table, {
             columns: args.columns,
             rows: args.rows,
@@ -76,21 +76,21 @@ export const Selectable: Story = {
     setup() {
       const selectedKeys = ref<string[]>(['2']);
       return () =>
-        h('div', { class: 'ku:max-w-4xl ku:space-y-3' }, [
+        h('div', { class: 'max-w-4xl space-y-3' }, [
           h(Table, {
             columns: args.columns,
             rows: args.rows,
             selectable: true,
             rowKey: 'id',
             selectedKeys: selectedKeys.value,
-            'ku:onUpdate:selectedKeys': (keys: string[]) => {
+            'onUpdate:selectedKeys': (keys: string[]) => {
               selectedKeys.value = keys;
             },
           }),
           h(
             'p',
             {
-              class: 'ku:font-mono ku:text-xs ku:text-[color:var(--kiut-text-muted)]',
+              class: 'font-mono text-xs text-[color:var(--kiut-text-muted)]',
             },
             `Seleccionados: ${selectedKeys.value.length ? selectedKeys.value.join(', ') : '(ninguno)'}`
           ),

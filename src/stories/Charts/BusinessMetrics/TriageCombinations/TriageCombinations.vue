@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="triage-combinations-root ku:h-full ku:min-h-0"
+    class="triage-combinations-root h-full min-h-0"
     title="Distribution of Number of Intents"
     subtitle="Analysis of intent combinations per conversation"
     :collapsible="false"
@@ -21,13 +21,13 @@
         </div>
 
         <CardInfo
-          class="ku:w-full ku:min-w-0"
+          class="w-full min-w-0"
           title="Total"
           :value="useNumberFormat(totalIncluded)"
           subvalue="Conversations with triage"
         />
 
-        <div class="triage-table-block ku:w-full ku:min-w-0">
+        <div class="triage-table-block w-full min-w-0">
           <Table
             :columns="triageTableColumns"
             :rows="triageTableRows"
@@ -83,13 +83,13 @@
       </template>
 
       <template v-else>
-        <div class="ku:empty-state">
-          <div class="ku:empty-state-content">
-            <div class="ku:empty-icon-wrapper">
-              <ChartBarIcon class="ku:empty-icon" />
+        <div class="empty-state">
+          <div class="empty-state-content">
+            <div class="empty-icon-wrapper">
+              <ChartBarIcon class="empty-icon" />
             </div>
-            <p class="ku:empty-title">No triage combinations data</p>
-            <p class="ku:empty-description">No intent distribution data found for the selected period. Try adjusting the date range.</p>
+            <p class="empty-title">No triage combinations data</p>
+            <p class="empty-description">No intent distribution data found for the selected period. Try adjusting the date range.</p>
           </div>
         </div>
       </template>

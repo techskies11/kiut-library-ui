@@ -1,5 +1,5 @@
 <template>
-  <div ref="rootRef" class="ku:relative ku:font-sans">
+  <div ref="rootRef" class="relative font-sans">
     <label v-if="label" :id="labelId" :class="kiutLabelClass">{{ label }}</label>
     <button
       ref="buttonRef"
@@ -8,8 +8,8 @@
       :disabled="disabled"
       :class="[
         kiutInputControlClass,
-        'ku:flex ku:items-center ku:justify-between ku:gap-2 ku:text-left',
-        open ? 'ku:border-[color:var(--kiut-primary)] ku:ring-2 ku:ring-[color:var(--kiut-primary)]/25' : '',
+        'flex items-center justify-between gap-2 text-left',
+        open ? 'border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25' : '',
       ]"
       :aria-expanded="open"
       aria-haspopup="listbox"
@@ -20,14 +20,18 @@
       @keydown="onTriggerKeydown"
     >
       <span
-        class="ku:min-w-0 ku:flex-1 ku:truncate"
-        :class="modelValue === null || modelValue === undefined || modelValue === '' ? 'ku:text-[color:var(--kiut-text-muted)] ku:dark:text-slate-500' : ''"
+        class="min-w-0 flex-1 truncate"
+        :class="
+          modelValue === null || modelValue === undefined || modelValue === ''
+            ? 'text-[color:var(--kiut-text-muted)] dark:text-slate-500'
+            : ''
+        "
       >
         {{ displayLabel }}
       </span>
       <ChevronDownIcon
-        class="ku:h-5 ku:w-5 ku:shrink-0 ku:text-gray-400 ku:transition-transform ku:dark:text-slate-500"
-        :class="open ? 'ku:rotate-180' : ''"
+        class="h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500"
+        :class="open ? 'rotate-180' : ''"
         aria-hidden="true"
       />
     </button>
@@ -40,7 +44,7 @@
         role="listbox"
         tabindex="-1"
         :style="floatingStyle"
-        class="ku:fixed ku:z-[300] ku:max-h-60 ku:overflow-auto ku:rounded-xl ku:border ku:border-gray-300 ku:bg-[color:var(--kiut-bg-secondary)] ku:py-1 ku:shadow-lg ku:dark:border-[color:var(--kiut-border-light)]"
+        class="fixed z-[300] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-[color:var(--kiut-border-light)]"
         @keydown.stop="onListKeydown"
       >
         <li
@@ -54,12 +58,12 @@
         >
           <span
             v-if="showOptionCheck"
-            class="ku:flex ku:w-5 ku:shrink-0 ku:justify-center"
+            class="flex w-5 shrink-0 justify-center"
             aria-hidden="true"
           >
-            <CheckIcon v-if="isSelected(opt)" class="ku:h-4 ku:w-4 ku:text-white" />
+            <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
           </span>
-          <span class="ku:min-w-0 ku:flex-1">{{ opt.label }}</span>
+          <span class="min-w-0 flex-1">{{ opt.label }}</span>
         </li>
       </ul>
     </Teleport>
@@ -102,7 +106,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'ku:update:modelValue': [value: KiutSelectValue];
+  'update:modelValue': [value: KiutSelectValue];
 }>();
 
 const uid = `kiut-select-${randomInstanceSuffix()}`;
@@ -154,16 +158,16 @@ function optionClass(opt: KiutSelectOption<KiutSelectValue>, index: number) {
   const selected = isSelected(opt);
   const hi = highlightIndex.value === index;
   return [
-    'ku:flex ku:cursor-pointer ku:items-center ku:gap-1.5 ku:px-2 ku:py-2 ku:text-sm ku:outline-none ku:transition-colors',
+    'flex cursor-pointer items-center gap-1.5 px-2 py-2 text-sm outline-none transition-colors',
     selected
-      ? 'ku:mx-1 ku:rounded-lg ku:bg-[color:var(--kiut-primary)] ku:font-medium ku:text-white'
-      : 'ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100',
-    !selected && hi ? 'ku:bg-slate-100 ku:dark:bg-white/5' : '',
+      ? 'mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white'
+      : 'text-[color:var(--kiut-text-primary)] dark:text-slate-100',
+    !selected && hi ? 'bg-slate-100 dark:bg-white/5' : '',
   ];
 }
 
 function choose(opt: KiutSelectOption<KiutSelectValue>) {
-  emit('ku:update:modelValue', opt.value);
+  emit('update:modelValue', opt.value);
   open.value = false;
 }
 

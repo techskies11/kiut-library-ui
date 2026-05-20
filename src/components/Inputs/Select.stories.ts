@@ -17,7 +17,7 @@ const meta: Meta<typeof Select> = {
     layout: 'padded',
     docs: {
       description: {
-        component: 'Listbox ku:estilizado: ítem activo con check y fondo primario.',
+        component: 'Listbox estilizado: ítem activo con check y fondo primario.',
       },
     },
   },
@@ -38,11 +38,11 @@ export const Default: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'ku:max-w-xs' }, [
+        h('div', { class: 'max-w-xs' }, [
           h(Select, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string | number) => {
+            'onUpdate:modelValue': (v: string | number) => {
               model.value = v as string;
             },
           }),

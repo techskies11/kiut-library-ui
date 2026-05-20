@@ -11,7 +11,7 @@ const meta: Meta<typeof InputColorPicker> = {
     docs: {
       description: {
         component:
-          'Selector de color nativo con campo hexadecimal opcional. Tema ku:claro/oscuro: toolbar **Theme** en Storybook.',
+          'Selector de color nativo con campo hexadecimal opcional. Tema claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -31,11 +31,11 @@ export const Default: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputColorPicker, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string) => {
+            'onUpdate:modelValue': (v: string) => {
               model.value = v;
             },
           }),
@@ -55,11 +55,11 @@ export const SwatchOnly: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'ku:max-w-xs' }, [
+        h('div', { class: 'max-w-xs' }, [
           h(InputColorPicker, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string) => {
+            'onUpdate:modelValue': (v: string) => {
               model.value = v;
             },
           }),
@@ -80,11 +80,11 @@ export const WithError: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputColorPicker, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string) => {
+            'onUpdate:modelValue': (v: string) => {
               model.value = v;
             },
           }),

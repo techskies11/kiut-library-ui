@@ -18,7 +18,7 @@ const meta: Meta<typeof SegmentedControl> = {
     docs: {
       description: {
         component:
-          'Control segmentado (p. ej. Day / Week / ku:Month): segmento activo con fondo primario y texto blanco.',
+          'Control segmentado (p. ej. Day / Week / Month): segmento activo con fondo primario y texto blanco.',
       },
     },
   },
@@ -39,11 +39,11 @@ export const TripleTabs: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(SegmentedControl, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string) => {
+            'onUpdate:modelValue': (v: string) => {
               model.value = v;
             },
           }),

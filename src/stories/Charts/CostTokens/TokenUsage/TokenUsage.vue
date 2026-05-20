@@ -1,11 +1,11 @@
 <template>
   <ChartMetricContainer
-    class="ku:h-full ku:min-h-0"
+    class="h-full min-h-0"
     title="Token Usage"
     subtitle="Token consumption over time (stacked)"
     :collapsible="false"
   >
-    <div class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
         <div class="card-body" v-if="!loading">
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
@@ -14,46 +14,46 @@
                 </div>
                 
                 <footer
-                    class="ku:mt-auto ku:flex ku:w-full ku:min-w-0 ku:flex-nowrap ku:items-stretch ku:gap-2 ku:sm:gap-3"
+                    class="mt-auto flex w-full min-w-0 flex-nowrap items-stretch gap-2 sm:gap-3"
                 >
                     <CardInfo
-                        class="ku:min-w-0 ku:flex-1"
+                        class="min-w-0 flex-1"
                         title="Total Tokens"
                         :value="useNumberFormat(data.total_tokens)"
                     />
                     <CardInfo
-                        class="ku:min-w-0 ku:flex-1"
+                        class="min-w-0 flex-1"
                         title="Input"
                         :value="useNumberFormat(data.total_input_tokens)"
                         :color="tokenColors.input"
                     />
                     <CardInfo
-                        class="ku:min-w-0 ku:flex-1"
+                        class="min-w-0 flex-1"
                         title="Output"
                         :value="useNumberFormat(data.total_output_tokens)"
                         :color="tokenColors.output"
                     />
                     <CardInfo
-                        class="ku:min-w-0 ku:flex-1"
+                        class="min-w-0 flex-1"
                         title="Cache Read"
                         :value="useNumberFormat(data.total_cache_read_tokens)"
                         :color="tokenColors.cache_read"
                     />
                     <CardInfo
-                        class="ku:min-w-0 ku:flex-1"
+                        class="min-w-0 flex-1"
                         title="Cache Write"
                         :value="useNumberFormat(data.total_cache_write_tokens)"
                         :color="tokenColors.cache_write"
                     />
                 </footer>
             </section>
-            <section v-else class="ku:empty-state">
-                <div class="ku:empty-state-content">
-                    <div class="ku:empty-icon-wrapper">
-                        <ChartBarIcon class="ku:empty-icon" />
+            <section v-else class="empty-state">
+                <div class="empty-state-content">
+                    <div class="empty-icon-wrapper">
+                        <ChartBarIcon class="empty-icon" />
                     </div>
-                    <p class="ku:empty-title">No token usage data</p>
-                    <p class="ku:empty-description">Try adjusting the date range or check your filters to see token consumption trends.</p>
+                    <p class="empty-title">No token usage data</p>
+                    <p class="empty-description">Try adjusting the date range or check your filters to see token consumption trends.</p>
                 </div>
             </section>
         </div>

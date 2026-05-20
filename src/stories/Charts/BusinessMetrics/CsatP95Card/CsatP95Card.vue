@@ -1,7 +1,7 @@
 <template>
   <ChartMetricContainer
     :collapsible="false"
-    :class="['csat-p95-metric', 'ku:w-full', { 'csat-p95-metric--dark': isDark }]"
+    :class="['csat-p95-metric', 'w-full', { 'csat-p95-metric--dark': isDark }]"
   >
     <template #title>
       <div class="header-title-group">

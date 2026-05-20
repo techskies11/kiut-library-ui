@@ -7,7 +7,7 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     () => ({
-      template: '<div ku:class="ku:h-[230px] ku:w-full ku:min-w-[280px]"><story /></div>',
+      template: '<div class="h-[230px] w-full min-w-[280px]"><story /></div>',
     }),
   ],
   argTypes: {

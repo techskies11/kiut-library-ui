@@ -1,11 +1,11 @@
 <template>
   <ChartMetricContainer
-    class="ku:h-full ku:min-h-0"
+    class="h-full min-h-0"
     title="Daily Cost Trends"
     subtitle="Mean USD/conversation per day"
     :collapsible="false"
   >
-    <div class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
     <div class="card-body" v-if="!loading">
       <section v-if="hasData" class="chart-section">
@@ -15,13 +15,13 @@
       </section>
       
       <!-- Empty State -->
-      <section v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <ChartBarIcon class="ku:empty-icon" />
+      <section v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <ChartBarIcon class="empty-icon" />
           </div>
-          <p class="ku:empty-title">No daily cost trends data</p>
-          <p class="ku:empty-description">Try adjusting the date range or check your filters.</p>
+          <p class="empty-title">No daily cost trends data</p>
+          <p class="empty-description">Try adjusting the date range or check your filters.</p>
         </div>
       </section>
     </div>

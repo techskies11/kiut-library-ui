@@ -11,7 +11,7 @@ const meta: Meta<typeof Tag> = {
     docs: {
       description: {
         component:
-          'Pill de ku:estado: modo **conexión** con `statusLive` (punto con pulso en verde si está conectado) o modo **semántico** con `color` y `outlined`. Usar la toolbar **Theme** para revisar claro/oscuro.',
+          'Pill de estado: modo **conexión** con `statusLive` (punto con pulso en verde si está conectado) o modo **semántico** con `color` y `outlined`. Usar la toolbar **Theme** para revisar claro/oscuro.',
       },
     },
   },
@@ -42,7 +42,7 @@ export const LiveLabelsCustom: Story = {
     components: { Tag },
     setup() {
       return () =>
-        h('div', { class: 'ku:flex ku:flex-col ku:gap-3' }, [
+        h('div', { class: 'flex flex-col gap-3' }, [
           h(Tag, { ...args, statusLive: true }),
           h(Tag, { ...args, statusLive: false }),
         ]);
@@ -75,11 +75,11 @@ export const SemanticSoft: Story = {
       return () =>
         h(
           'div',
-          { class: 'ku:flex ku:flex-col ku:gap-3' },
+          { class: 'flex flex-col gap-3' },
           semanticColors.map((color) =>
             h(
               'div',
-              { key: color, class: 'ku:flex ku:items-center ku:gap-2' },
+              { key: color, class: 'flex items-center gap-2' },
               [
                 h(Tag, { color, outlined: false }, () => semanticLabels[color]),
               ]
@@ -97,11 +97,11 @@ export const SemanticOutlined: Story = {
       return () =>
         h(
           'div',
-          { class: 'ku:flex ku:flex-col ku:gap-3' },
+          { class: 'flex flex-col gap-3' },
           semanticColors.map((color) =>
             h(
               'div',
-              { key: color, class: 'ku:flex ku:items-center ku:gap-2' },
+              { key: color, class: 'flex items-center gap-2' },
               [
                 h(Tag, { color, outlined: true }, () => semanticLabels[color]),
               ]

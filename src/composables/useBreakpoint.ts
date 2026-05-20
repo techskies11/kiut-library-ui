@@ -42,7 +42,7 @@ export function useBreakpoint() {
 
     mqMobile = window.matchMedia(`(max-width: ${MOBILE_MAX}px)`)
     mqTablet = window.matchMedia(`(min-width: 640px) and (max-width: ${TABLET_MAX}px)`)
-    mqDesktop = window.matchMedia('ku:(min-width: 1025px)')
+    mqDesktop = window.matchMedia('(min-width: 1025px)')
 
     handler = () => {
       updateBreakpoint()

@@ -1,7 +1,7 @@
 <template>
   <ChartMetricContainer
     :collapsible="false"
-    :class="['human-escalations-metric', 'ku:w-full', { 'human-escalations-metric--dark': isDark }]"
+    :class="['human-escalations-metric', 'w-full', { 'human-escalations-metric--dark': isDark }]"
   >
     <template #title>
       <div class="header-title-group">

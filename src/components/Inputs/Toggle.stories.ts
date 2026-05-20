@@ -29,12 +29,12 @@ export const Default: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'ku:flex ku:items-center ku:gap-3' }, [
-          h('span', { class: 'ku:text-sm ku:text-[color:var(--kiut-text-secondary)]' }, 'Estado'),
+        h('div', { class: 'flex items-center gap-3' }, [
+          h('span', { class: 'text-sm text-[color:var(--kiut-text-secondary)]' }, 'Estado'),
           h(Toggle, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: boolean) => {
+            'onUpdate:modelValue': (v: boolean) => {
               model.value = v;
             },
           }),

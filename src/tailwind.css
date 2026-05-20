@@ -1,7 +1,7 @@
-@import "tailwindcss" prefix(ku);
+@import "tailwindcss";
 
 /* Modo oscuro: <html class="dark"> y/o ancestros con .dark-mode (p. ej. storybook-wrapper) */
 @custom-variant dark (&:where(.dark, .dark *, .dark-mode, .dark-mode *));
 
 /* Safelist: clases usadas dinámicamente en computed (Button.vue) que el scanner no detecta */
-@source inline("ku:bg-[color:var(--kiut-primary)] ku:hover:bg-[color:var(--kiut-primary-hover)] ku:active:bg-[color:var(--kiut-primary-dark)] ku:focus-visible:ring-[color:var(--kiut-primary)]/40 ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)] ku:text-[color:var(--kiut-text-primary)] ku:dark:hover:brightness-110 ku:dark:active:brightness-95 ku:border-[color:var(--kiut-border-light)] ku:dark:border-[color:var(--kiut-border-light)] ku:dark:bg-slate-800/80 ku:dark:text-slate-100 ku:dark:hover:bg-slate-800 ku:dark:active:bg-slate-700/90 ku:dark:text-slate-200 ku:dark:hover:bg-[color:var(--kiut-primary)] ku:dark:active:bg-[color:var(--kiut-primary-dark)]");
+@source inline("bg-[color:var(--kiut-primary)] hover:bg-[color:var(--kiut-primary-hover)] active:bg-[color:var(--kiut-primary-dark)] focus-visible:ring-[color:var(--kiut-primary)]/40 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)] text-[color:var(--kiut-text-primary)] dark:hover:brightness-110 dark:active:brightness-95 border-[color:var(--kiut-border-light)] dark:border-[color:var(--kiut-border-light)] dark:bg-slate-800/80 dark:text-slate-100 dark:hover:bg-slate-800 dark:active:bg-slate-700/90 dark:text-slate-200 dark:hover:bg-[color:var(--kiut-primary)] dark:active:bg-[color:var(--kiut-primary-dark)]");

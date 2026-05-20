@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="agent-human-conv-root ku:h-full ku:min-h-0"
+    class="agent-human-conv-root h-full min-h-0"
     title="Agent Human Conversations"
     subtitle="Human conversation assignments and closures by agent"
   >
@@ -29,11 +29,11 @@
     <!-- Content when loaded -->
     <div v-else class="card-body">
       <!-- Summary Cards -->
-      <div class="ku:summary-cards">
+      <div class="summary-cards">
         <!-- Total Enqueued Card -->
-        <div v-if="data.total_enqueued" class="ku:summary-card enqueued-card">
+        <div v-if="data.total_enqueued" class="summary-card enqueued-card">
           <div class="card-decoration"></div>
-          <div class="ku:summary-card-content">
+          <div class="summary-card-content">
             <div class="card-content enqueued-content">
               <p class="card-label">Total Enqueued</p>
               <p class="card-value enqueued-value">{{ formatNumber(data.total_enqueued) }}</p>
@@ -42,9 +42,9 @@
         </div>
 
         <!-- Total Assigned Card -->
-        <div class="ku:summary-card assigned-card">
+        <div class="summary-card assigned-card">
           <div class="card-decoration"></div>
-          <div class="ku:summary-card-content">
+          <div class="summary-card-content">
             <div class="card-content">
               <p class="card-label">Total Assigned</p>
               <p class="card-value assigned-value">{{ formatNumber(data.total_assigned) }}</p>
@@ -57,9 +57,9 @@
         </div>
 
         <!-- Total Closed Card -->
-        <div class="ku:summary-card closed-card">
+        <div class="summary-card closed-card">
           <div class="card-decoration"></div>
-          <div class="ku:summary-card-content">
+          <div class="summary-card-content">
             <div class="card-content">
               <p class="card-label">Total Closed</p>
               <p class="card-value closed-value">{{ formatNumber(data.total_closed) }}</p>
@@ -101,7 +101,7 @@
           </div>
 
           <!-- Agents Table -->
-          <div class="ku:w-full ku:min-w-0">
+          <div class="w-full min-w-0">
             <Table :columns="agentTableColumns" :rows="agentRowsForTable(String(date), agents)" row-key="id">
               <template #cell-agentName="{ row }">
                 <span class="ah-cell name-cell">{{ row.agent_name || '-' }}</span>
@@ -149,10 +149,10 @@
       </div>
 
       <!-- Empty State -->
-      <div v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <svg class="ku:empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -161,8 +161,8 @@
               />
             </svg>
           </div>
-          <p class="ku:empty-title">No agent human conversation data available</p>
-          <p class="ku:empty-description">Try adjusting the date range or check your filters.</p>
+          <p class="empty-title">No agent human conversation data available</p>
+          <p class="empty-description">Try adjusting the date range or check your filters.</p>
         </div>
       </div>
     </div>

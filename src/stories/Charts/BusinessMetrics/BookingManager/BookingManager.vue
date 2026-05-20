@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="booking-manager-root ku:h-full ku:min-h-0"
+    class="booking-manager-root h-full min-h-0"
     title="Booking Manager Metrics"
     subtitle="Booking manager workflow tracking and analysis"
   >
@@ -67,7 +67,7 @@
         <div class="section-header">
           <h4 class="section-title">Daily Overview</h4>
         </div>
-        <div class="ku:w-full ku:min-w-0">
+        <div class="w-full min-w-0">
           <Table
             :columns="bookingManagerColumns"
             :rows="bookingManagerTableRows"
@@ -75,7 +75,7 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="ku:font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
+              <span class="font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-initiated="{ row }">
               <span>{{ useNumberFormat(Number(row.booking_initiated_count)) }}</span>
@@ -136,15 +136,15 @@
       </section>
 
       <!-- Empty State -->
-      <section v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
-          <p class="ku:empty-title">No booking manager data available</p>
-          <p class="ku:empty-description">No booking manager data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-title">No booking manager data available</p>
+          <p class="empty-description">No booking manager data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
     </div>

@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="ku:select-language-root ku:h-full ku:min-h-0"
+    class="select-language-root h-full min-h-0"
     title="Language Selection"
     subtitle="Language distribution across conversations"
     :collapsible="false"
@@ -23,13 +23,13 @@
     <div v-else class="card-body">
       <template v-if="hasData">
         <div
-          class="distribution-with-total ku:flex ku:w-full ku:min-w-0 ku:flex-1 ku:flex-col ku:gap-3 ku:min-h-0"
+          class="distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-3 min-h-0"
         >
           <section class="pie-section">
             <PieChart :data="pieData" :options="pieOptions" />
           </section>
           <CardInfo
-            class="ku:shrink-0"
+            class="shrink-0"
             title="Total"
             :value="useNumberFormat(totalCount)"
             color="#8b5cf6"
@@ -38,15 +38,15 @@
       </template>
 
       <!-- Empty State -->
-      <section v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
             </svg>
           </div>
-          <p class="ku:empty-title">No language data available</p>
-          <p class="ku:empty-description">No language selection data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-title">No language data available</p>
+          <p class="empty-description">No language selection data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
     </div>

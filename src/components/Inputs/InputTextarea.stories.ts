@@ -11,7 +11,7 @@ const meta: Meta<typeof InputTextarea> = {
     docs: {
       description: {
         component:
-          'Área de texto con etiqueta opcional. Tema ku:claro/oscuro: toolbar **Theme** en Storybook.',
+          'Área de texto con etiqueta opcional. Tema claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -32,11 +32,11 @@ export const Default: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputTextarea, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string) => {
+            'onUpdate:modelValue': (v: string) => {
               model.value = v;
             },
           }),
@@ -58,11 +58,11 @@ export const WithError: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputTextarea, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string) => {
+            'onUpdate:modelValue': (v: string) => {
               model.value = v;
             },
           }),

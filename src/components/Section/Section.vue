@@ -1,26 +1,26 @@
 <template>
-  <section class="ku:text-left ku:font-['Inter',system-ui,sans-serif]">
+  <section class="text-left font-['Inter',system-ui,sans-serif]">
     <header
       v-if="$slots.description || $slots.filters || $slots.actions"
       class=""
     >
-      <div v-if="$slots.description" class="ku:flex ku:min-w-0 ku:flex-col ku:gap-1.5 ku:mb-4">
+      <div v-if="$slots.description" class="flex min-w-0 flex-col gap-1.5 mb-4">
         <slot name="description" />
       </div>
 
       <div
         v-if="$slots.filters || $slots.actions"
-        :class="['ku:flex ku:flex-wrap ku:gap-2 ku:items-center', headerRowClass]"
+        :class="['flex flex-wrap gap-2 items-center', headerRowClass]"
       >
         <div
           v-if="$slots.filters"
-          class="ku:flex ku:min-w-0 ku:flex-1 ku:flex-wrap ku:items-center ku:gap-2"
+          class="flex min-w-0 flex-1 flex-wrap items-center gap-2"
         >
           <slot name="filters" />
         </div>
         <div
           v-if="$slots.actions"
-          class="ku:flex ku:shrink-0 ku:flex-wrap ku:items-center ku:gap-2"
+          class="flex shrink-0 flex-wrap items-center gap-2"
         >
           <slot name="actions" />
         </div>
@@ -30,7 +30,7 @@
     <div
       v-if="$slots.content || $slots.default"
       :class="{
-        'ku:mt-6': $slots.description || $slots.filters || $slots.actions,
+        'mt-6': $slots.description || $slots.filters || $slots.actions,
       }"
     >
       <slot name="content">

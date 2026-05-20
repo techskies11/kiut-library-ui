@@ -1,7 +1,7 @@
 <template>
-  <ChartMetricContainer class="ku:h-full ku:min-h-0" title="Total Tokens" :collapsible="false">
+  <ChartMetricContainer class="h-full min-h-0" title="Total Tokens" :collapsible="false">
     <div
-      class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
+      class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
     >
       <template v-if="!loading">
         <div class="container-value">

@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="ku:h-full ku:min-h-0"
+    class="h-full min-h-0"
     title="Message Roles"
     subtitle="Performance by message role"
     :collapsible="false"
@@ -13,7 +13,7 @@
         :loading="exportLoading"
       />
     </template>
-    <div class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
     <!-- Loading State -->
     <div v-if="loading" class="loading-state">
       <div class="loading-container">
@@ -32,7 +32,7 @@
     <div v-else class="card-body">
       <!-- Table Data -->
       <div v-if="hasData" class="message-roles-table-block">
-        <div class="ku:w-full ku:min-w-0">
+        <div class="w-full min-w-0">
           <Table
             :columns="messageRolesColumns"
             :rows="messageRolesTableRows"
@@ -43,13 +43,13 @@
       </div>
 
       <!-- Empty State -->
-      <div v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <ChartBarIcon class="ku:empty-icon" />
+      <div v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <ChartBarIcon class="empty-icon" />
           </div>
-          <p class="ku:empty-title">No message role data available</p>
-          <p class="ku:empty-description">Try adjusting the date range or check your filters to see message role metrics.</p>
+          <p class="empty-title">No message role data available</p>
+          <p class="empty-description">Try adjusting the date range or check your filters to see message role metrics.</p>
         </div>
       </div>
     </div>

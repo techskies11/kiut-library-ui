@@ -5,175 +5,231 @@ DOC: https://techskies11.github.io/kiut-library-ui/
 
 ---
 
-## Instalación
+## 📦 Instalación
 
-### Opción 1: Desde GitHub (recomendado)
+### Opción 1: Desde GitHub (Recomendado)
 
 ```bash
-npm install github:TU-USUARIO/kiut-library-ui#v2.0.0
-npm install chart.js vue-chartjs moment echarts  # peer dependencies
+# Instalar en tu proyecto
+npm install github:TU-USUARIO/kiut-library-ui
+
+# Con versión específica (recomendado)
+npm install github:TU-USUARIO/kiut-library-ui#v1.0.0
 ```
+
+**Ventajas:**
+- ✅ No requiere npm registry
+- ✅ Funciona con repos privados
+- ✅ Control de versiones con Git tags
+- ✅ Instalación directa del código fuente
 
 ### Opción 2: CDN (jsDelivr)
 
 ```html
+<!-- Vue 3 (requerido) -->
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<!-- Dependencias requeridas -->
 <script src="https://cdn.jsdelivr.net/npm/moment@2/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v2.0.0/dist/kiut-ui.iife.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v2.0.0/dist/kiut-ui.css">
+
+<!-- Kiut UI -->
+<script src="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.iife.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.css">
 ```
 
-> Reemplaza `TU-USUARIO` con tu usuario de GitHub.
+> **Nota:** Reemplaza `TU-USUARIO` con tu usuario de GitHub.
 
 ---
 
-## Uso básico
+## 🚀 Uso
 
-### main.ts
+### En Proyectos Vue/Vite
 
-```typescript
-import { createApp } from 'vue'
-import App from './App.vue'
-import { KiutUIPlugin } from 'kiut-library-ui'
-import 'kiut-library-ui/style.css'
-
-const app = createApp(App)
-app.use(KiutUIPlugin)
-app.mount('#app')
+**1. Instalar:**
+```bash
+npm install github:TU-USUARIO/kiut-library-ui#v1.0.0
+npm install chart.js vue-chartjs moment echarts  # Dependencias peer
 ```
 
-### Componente
+**2. Configurar (main.ts):**
+```typescript
+import { createApp } from 'vue'
+import KiutUI from 'kiut-library-ui'
+import 'kiut-library-ui/dist/style.css'
 
+createApp(App).use(KiutUI).mount('#app')
+```
+
+**3. Usar en componentes:**
 ```vue
 <template>
-  <Button variant="primary">Guardar</Button>
-  <ChartLine :data="chartData" />
+  <KiutButton label="Click me" :primary="true" @click="handleClick" />
+  <KiutChartLine :data="chartData" />
 </template>
 
 <script setup lang="ts">
-import { Button, ChartLine } from 'kiut-library-ui'
-
 const chartData = {
   labels: ['Ene', 'Feb', 'Mar'],
   datasets: [{
     label: 'Ventas',
     data: [65, 59, 80],
-    borderColor: 'rgb(75, 192, 192)',
-  }],
+    borderColor: 'rgb(75, 192, 192)'
+  }]
 }
+
+const handleClick = () => console.log('Click!')
 </script>
 ```
 
-También puedes importar componentes por nombre desde `kiut-library-ui` sin usar el plugin.
+### Con CDN (HTML)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.css">
+</head>
+<body>
+  <div id="app">
+    <kiut-button label="Hola" :primary="true"></kiut-button>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.iife.js"></script>
+  <script>
+    Vue.createApp({}).use(KiutUI).mount('#app')
+  </script>
+</body>
+</html>
+```
+
 
 ---
 
-## Integración con Tailwind en el proyecto consumidor
+## 🎨 Componentes
 
-Kiut compila sus utilidades Tailwind con **prefijo `ku:`** (`ku:flex`, `ku:h-9`, `ku:border-dashed`, etc.). Así las clases de tu app (`flex`, `h-9`, …) no pisan ni son pisadas por las de la librería.
-
-### Importar el CSS
-
-Importa la hoja de Kiut **después** del CSS principal de tu app si quieres que tus estilos base tengan prioridad sobre tokens y CSS scoped de componentes:
-
-```typescript
-// main.ts
-import './app.css'           // Tailwind / estilos de tu app
-import 'kiut-library-ui/style.css'  // kiut-ui.css — al final
+### KiutButton
+```vue
+<KiutButton 
+  label="Click me" 
+  :primary="true"
+  size="medium"
+  @click="handleClick"
+/>
 ```
 
-O con capa explícita (Tailwind v4):
+**Props:**
+- `label` (string): Texto del botón
+- `primary` (boolean): Estilo primario o secundario
+- `size` ('small' | 'medium' | 'large'): Tamaño
+- `backgroundColor` (string): Color personalizado
 
-```css
-/* app.css del consumidor */
-@layer theme, base, components, utilities;
-@import "kiut-library-ui/css" layer(kiut-library);
+### KiutChartLine
+```vue
+<KiutChartLine 
+  :data="{
+    labels: ['Ene', 'Feb', 'Mar'],
+    datasets: [{
+      label: 'Ventas',
+      data: [10, 20, 15],
+      borderColor: 'rgb(75, 192, 192)'
+    }]
+  }"
+/>
 ```
 
-Con el prefijo `ku:`, el orden importa menos para **utilidades** genéricas, pero sigue siendo relevante para **variables `--kiut-*`** y estilos scoped de charts/modales.
-
-### Modo oscuro (tokens `--kiut-*`)
-
-Los tokens semánticos cambian con la clase **`dark`** en un ancestro. **Recomendado:** ponerla en `<html>`:
-
-```typescript
-function setTheme(isDark: boolean) {
-  document.documentElement.classList.toggle('dark', isDark)
-}
-```
-
-**Importante:** Si solo añades `dark` en un wrapper interno (`#app`), los componentes que usan `Teleport to="body"` (Modal, Select, Filters) pueden seguir leyendo tokens en valores *light*. Usa `html.dark` para evitarlo.
-
-No basta con `prefers-color-scheme: dark` sin la clase `.dark` si usas colores `var(--kiut-*)`.
-
-### Resumen
-
-| Cambio en v2 | Evita |
-|--------------|--------|
-| Prefijo `ku:` en utilidades | Colisión `border-dashed`, `h-9`, `flex`, etc. |
-| `html.dark` + tokens | `--kiut-*` en light con UI en dark |
-| CSS al final o `@layer` | Sobrescritura impredecible entre hojas |
+**Props:**
+- `data` (object): Datos de Chart.js
+- `options` (object): Opciones de configuración
 
 ---
 
-## Migración 1.x → 2.0
-
-1. Actualiza la dependencia: `#v2.0.0`.
-2. Importa `kiut-library-ui/style.css` (alias de `dist/kiut-ui.css`).
-3. Activa modo oscuro con `class="dark"` en `document.documentElement`.
-4. No necesitas prefijar las clases de **tu** app; solo el bundle publicado de Kiut lleva `ku:`.
-5. Si consumías `./src/*` y copiabas clases de la lib, antepone `ku:` a las utilidades Tailwind.
-
-Ver [CHANGELOG.md](./CHANGELOG.md).
-
----
-
-## Desarrollo
+## 🛠️ Desarrollo
 
 ```bash
+# Instalar dependencias
 npm install
-npm run storybook
-npm run build:lib
-```
 
-Scripts de migración de prefijo (mantenimiento): `scripts/migrate-ku-prefix.mjs`, `scripts/fix-remaining-ku.mjs`.
+# Ver componentes en Storybook
+npm run storybook
+
+# Build de la biblioteca
+npm run build:lib
+
+# Script de ayuda para build y versionado
+./build-for-cdn.sh 1.0.0
+```
 
 ---
 
-## Publicar
+## 📝 Publicar
+
+### 1. Build y Commit
 
 ```bash
 npm run build:lib
 git add .
-git commit -m "Release v2.0.0"
-git tag v2.0.0
+git commit -m "Build v1.0.0"
+git tag v1.0.0
 git push origin main --tags
 ```
 
-El directorio `dist/` debe estar en el repositorio para CDN y installs desde Git.
+### 2. Usar en Otros Proyectos
+
+```bash
+# Desde Git
+npm install github:TU-USUARIO/kiut-library-ui#v1.0.0
+
+# Desde CDN
+# https://cdn.jsdelivr.net/gh/TU-USUARIO/kiut-library-ui@v1.0.0/dist/kiut-ui.iife.js
+```
+
+**Nota:** El directorio `dist/` debe estar en GitHub para que funcione el CDN.
 
 ---
 
-## Problemas comunes
-
-**Estilos de Kiut se ven mal junto a Tailwind**
-
-- Asegúrate de usar `v2.0.0+` (prefijo `ku:`).
-- Importa `kiut-library-ui/style.css` según la sección de integración.
-
-**Modo oscuro: tokens claros, utilidades oscuras**
-
-- Añade `class="dark"` en `<html>`, no solo en un contenedor interno.
-
-**Module not found**
+## 🔄 Actualizar la Librería
 
 ```bash
-npm install github:TU-USUARIO/kiut-library-ui#v2.0.0 --force
+# Actualizar a la última versión
+npm update kiut-library-ui
+
+# O forzar reinstalación
+npm install github:TU-USUARIO/kiut-library-ui#v1.1.0 --force
 ```
 
 ---
 
-## Licencia
+## 🆘 Problemas Comunes
+
+**Error: "Module not found"**
+```bash
+npm install github:TU-USUARIO/kiut-library-ui --force
+```
+
+**Error: "Cannot find module 'chart.js'"**
+```bash
+npm install chart.js vue-chartjs
+```
+
+**No se actualizan los cambios**
+```bash
+npm cache clean --force
+rm -rf node_modules/kiut-library-ui
+npm install
+```
+
+**Repos privados**
+```bash
+# Usar SSH en lugar de HTTPS
+npm install git+ssh://git@github.com/TU-USUARIO/kiut-library-ui.git
+```
+
+---
+
+## 📄 Licencia
 
 MIT

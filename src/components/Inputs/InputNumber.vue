@@ -1,5 +1,5 @@
 <template>
-  <div class="ku:font-sans">
+  <div class="font-sans">
     <label v-if="label" :for="inputId" :class="kiutLabelClass">{{ label }}</label>
     <input
       :id="inputId"
@@ -10,7 +10,7 @@
         kiutInputControlClass,
         invalid ? kiutInputControlInvalidClass : '',
         alignClass,
-        'ku:[appearance:textfield] ku:[&::-webkit-inner-spin-button]:appearance-none ku:[&::-webkit-outer-spin-button]:appearance-none',
+        '[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
       ]"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -59,7 +59,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'ku:update:modelValue': [value: number | null];
+  'update:modelValue': [value: number | null];
 }>();
 
 const uid = `kiut-input-number-${randomInstanceSuffix()}`;
@@ -69,11 +69,11 @@ const errorId = computed(() => `${inputId.value}-err`);
 const alignClass = computed(() => {
   switch (props.align) {
     case 'start':
-      return 'ku:text-start';
+      return 'text-start';
     case 'end':
-      return 'ku:text-end';
+      return 'text-end';
     default:
-      return 'ku:text-center';
+      return 'text-center';
   }
 });
 
@@ -84,10 +84,10 @@ const displayValue = computed(() =>
 function onInput(e: Event) {
   const raw = (e.target as HTMLInputElement).value;
   if (raw === '') {
-    emit('ku:update:modelValue', null);
+    emit('update:modelValue', null);
     return;
   }
   const n = Number(raw);
-  emit('ku:update:modelValue', Number.isNaN(n) ? null : n);
+  emit('update:modelValue', Number.isNaN(n) ? null : n);
 }
 </script>

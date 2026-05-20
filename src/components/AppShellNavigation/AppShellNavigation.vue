@@ -2,15 +2,15 @@
   <!-- ── DESKTOP: two-rail sidebar ── -->
   <aside
     v-if="!isMobile"
-    class="kiut-app-shell-nav ku:flex ku:flex-col ku:h-full ku:overflow-hidden ku:font-['Inter',system-ui,sans-serif]"
+    class="kiut-app-shell-nav flex flex-col h-full overflow-hidden font-['Inter',system-ui,sans-serif]"
     role="navigation"
     aria-label="Main navigation"
     v-bind="restAttrs"
   >
-    <div class="ku:flex ku:flex-1 ku:min-h-0">
+    <div class="flex flex-1 min-h-0">
       <!-- ── Primary rail ── -->
       <div
-        class="primary-rail ku:flex ku:flex-col ku:shrink-0 ku:[background-color:var(--kiut-lateral-bg)] ku:border-r ku:justify-center"
+        class="primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center"
         :style="{
           '--expanded-width': expandedPrimaryWidth,
           width: primaryRailWidth,
@@ -20,13 +20,13 @@
       >
         <div
           v-if="$slots.logo"
-          class="ku:flex ku:justify-center ku:items-center ku:my-4 ku:shrink-0"
+          class="flex justify-center items-center my-4 shrink-0"
         >
           <slot name="logo" :expanded="isHoveringRail" />
         </div>
 
         <nav
-          class="ku:flex-1 ku:overflow-y-auto ku:p-1 ku:flex ku:flex-col ku:gap-1"
+          class="flex-1 overflow-y-auto p-1 flex flex-col gap-1"
           aria-label="Sections"
         >
           <button
@@ -40,18 +40,18 @@
               hasSectionActiveItem(section) ? 'true' : undefined
             "
             :title="section.label"
-            class="ksn-section-btn group ku:relative ku:flex ku:flex-row ku:items-center ku:justify-start ku:gap-1 ku:px-3 ku:py-2.5 ku:rounded-xl ku:transition-all ku:duration-200 ku:focus-visible:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[var(--kiut-primary)]/20"
+            class="ksn-section-btn group relative flex flex-row items-center justify-start gap-1 px-3 py-2.5 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20"
             @click="selectSection(section)"
           >
             <component
               :is="section.icon"
               v-if="section.icon"
-              class="ku:shrink-0"
+              class="shrink-0"
               :style="{ width: primaryIconSize, height: primaryIconSize }"
               aria-hidden="true"
             />
             <span
-              class="ku:leading-tight ku:font-semibold ku:tracking-wide ku:text-left ku:w-full ku:truncate ku:px-1 color-"
+              class="leading-tight font-semibold tracking-wide text-left w-full truncate px-1 color-"
               :style="{ fontSize: primaryFontSize }"
             >
               {{ section.label }}
@@ -61,7 +61,7 @@
 
         <div
           v-if="$slots.footer"
-          class="footer-section ku:shrink-0 ku:border-t ku:[background-color:var(--kiut-lateral-bg)]"
+          class="footer-section shrink-0 border-t [background-color:var(--kiut-lateral-bg)]"
         >
           <slot name="footer" :expanded="isHoveringRail" />
         </div>
@@ -72,19 +72,19 @@
         <div
           v-if="activeSection"
           key="secondary"
-          class="secondary-panel ku:flex ku:flex-col ku:shrink-0 ku:[background-color:var(--kiut-lateral-bg)] ku:border-r ku:[border-color:var(--kiut-lateral-border-color)] ku:overflow-hidden"
+          class="secondary-panel flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r [border-color:var(--kiut-lateral-border-color)] overflow-hidden"
           :style="{ width: secondaryWidth }"
         >
-          <div class="ku:px-4 ku:py-4 ku:shrink-0">
+          <div class="px-4 py-4 shrink-0">
             <p
-              class="ku:text-[12px] ku:font-bold ku:uppercase ku:tracking-widest ku:text-start ku:[color:var(--kiut-text-subtitle)]"
+              class="text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]"
             >
               {{ activeSection.label }}
             </p>
           </div>
 
           <nav
-            class="ku:flex-1 ku:overflow-y-auto ku:px-1 ku:pb-3 ku:flex ku:flex-col ku:gap-0.5"
+            class="flex-1 overflow-y-auto px-1 pb-3 flex flex-col gap-0.5"
             aria-label="Section items"
           >
             <button
@@ -93,7 +93,7 @@
               type="button"
               :data-nav-id="item.id"
               :aria-current="isItemActive(item) ? 'page' : undefined"
-              class="ksn-item-btn group ku:flex ku:items-center ku:gap-2.5 ku:w-full ku:text-left ku:px-3 ku:py-2.5 ku:rounded-lg ku:text-sm ku:font-medium ku:transition-all ku:duration-200 ku:focus-visible:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[var(--kiut-primary)]/20"
+              class="ksn-item-btn group flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20"
               @click="navigateToItem(activeSection!, item)"
             >
               <component
@@ -101,7 +101,7 @@
                 v-if="item.icon"
                 :style="{ width: secondaryIconSize, height: secondaryIconSize }"
               />
-              <span class="ku:truncate" :style="{ fontSize: secondaryFontSize }">{{
+              <span class="truncate" :style="{ fontSize: secondaryFontSize }">{{
                 item.label
               }}</span>
             </button>
@@ -114,7 +114,7 @@
   <!-- ── MOBILE: fixed bottom tab bar + bottom sheet ── -->
   <div
     v-else
-    class="kiut-app-shell-nav ku:font-['Inter',system-ui,sans-serif]"
+    class="kiut-app-shell-nav font-['Inter',system-ui,sans-serif]"
     role="navigation"
     aria-label="Main navigation"
     v-bind="restAttrs"
@@ -123,7 +123,7 @@
     <Transition name="ksn-overlay">
       <div
         v-if="activeSection"
-        class="ku:fixed ku:inset-0 ku:bg-black/40 ku:z-40"
+        class="fixed inset-0 bg-black/40 z-40"
         aria-hidden="true"
         @click="closeSheet"
       />
@@ -133,31 +133,31 @@
     <Transition name="ksn-sheet">
       <div
         v-if="activeSection"
-        class="mobile-subsections ku:fixed ku:left-0 ku:right-0 ku:bottom-0 ku:z-50 ku:[background-color:var(--kiut-lateral-bg)] ku:rounded-t-2xl ku:shadow-2xl ku:border-t ku:max-h-[70vh] ku:flex ku:flex-col"
+        class="mobile-subsections fixed left-0 right-0 bottom-0 z-50 [background-color:var(--kiut-lateral-bg)] rounded-t-2xl shadow-2xl border-t max-h-[70vh] flex flex-col"
         :style="{ paddingBottom: props.mobileBarHeight }"
       >
         <!-- Drag handle -->
-        <div class="ku:flex ku:justify-center ku:pt-3 ku:pb-1 ku:shrink-0">
+        <div class="flex justify-center pt-3 pb-1 shrink-0">
           <div
-            class="ku:w-10 ku:h-1 ku:rounded-full ku:[background-color:var(--kiut-lateral-border-color)] ku:dark:bg-purple-500/30"
+            class="w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-purple-500/30"
           />
         </div>
 
         <!-- Sheet header -->
-        <div class="ku:flex ku:items-center ku:justify-between ku:px-5 ku:py-3 ku:shrink-0">
+        <div class="flex items-center justify-between px-5 py-3 shrink-0">
           <p
-            class="ku:text-xs ku:font-bold ku:uppercase ku:tracking-widest ku:[color:var(--kiut-text-muted)]"
+            class="text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]"
           >
             {{ activeSection.label }}
           </p>
           <button
             type="button"
-            class="ku:w-8 ku:h-8 ku:flex ku:items-center ku:justify-center ku:rounded-lg ku:[color:var(--kiut-text-muted)] ku:hover:bg-purple-50 ku:hover:text-purple-700 ku:dark:hover:bg-purple-500/20 ku:dark:hover:text-purple-300 ku:transition-colors"
+            class="w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors"
             aria-label="Close"
             @click="closeSheet"
           >
             <svg
-              class="ku:w-4 ku:h-4"
+              class="w-4 h-4"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -171,7 +171,7 @@
 
         <!-- Items list -->
         <nav
-          class="ku:overflow-y-auto ku:flex-1 ku:px-3 ku:pb-5 ku:flex ku:flex-col ku:gap-1"
+          class="overflow-y-auto flex-1 px-3 pb-5 flex flex-col gap-1"
           aria-label="Section items"
         >
           <button
@@ -180,17 +180,17 @@
             type="button"
             :data-nav-id="item.id"
             :aria-current="isItemActive(item) ? 'page' : undefined"
-            class="ksn-item-btn group ku:flex ku:items-center ku:gap-3 ku:w-full ku:text-left ku:px-4 ku:rounded-xl ku:font-medium ku:transition-all ku:duration-200 ku:focus-visible:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[var(--kiut-primary)]/20 ku:min-h-[52px]"
+            class="ksn-item-btn group flex items-center gap-3 w-full text-left px-4 rounded-xl font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--kiut-primary)]/20 min-h-[52px]"
             @click="mobileNavigateToItem(activeSection!, item)"
           >
             <component
               :is="item.icon"
               v-if="item.icon"
-              class="ku:shrink-0"
+              class="shrink-0"
               :style="{ width: '18px', height: '18px' }"
               aria-hidden="true"
             />
-            <span class="ku:truncate ku:text-[15px]">{{ item.label }}</span>
+            <span class="truncate text-[15px]">{{ item.label }}</span>
           </button>
         </nav>
       </div>
@@ -198,7 +198,7 @@
 
     <!-- Bottom tab bar -->
     <nav
-      class="ksn-mobile-bar ku:fixed ku:bottom-0 ku:left-0 ku:right-0 ku:z-50 ku:border-t ku:flex ku:items-stretch ku:justify-around ku:overflow-hidden"
+      class="ksn-mobile-bar fixed bottom-0 left-0 right-0 z-50 border-t flex items-stretch justify-around overflow-hidden"
       :style="{ height: mobileBarHeight }"
       aria-label="Sections"
     >
@@ -208,7 +208,7 @@
         type="button"
         :aria-current="selectedSectionId === section.id ? 'true' : undefined"
         :data-has-active="hasSectionActiveItem(section) ? 'true' : undefined"
-        class="ksn-section-btn ku:relative ku:flex-1 ku:flex ku:flex-col ku:items-center ku:justify-center ku:gap-1 ku:py-1 ku:px-0.5 ku:min-w-0 ku:transition-colors ku:duration-200 ku:focus-visible:outline-2 ku:focus-visible:ring-2 ku:focus-visible:ring-inset"
+        class="ksn-section-btn relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset"
         @click="selectSection(section)"
       >
         <!-- Active indicator line at top -->
@@ -216,18 +216,18 @@
           v-if="
             selectedSectionId === section.id || hasSectionActiveItem(section)
           "
-          class="ku:absolute ku:top-0 ku:w-1/2 ku:h-0.5 ku:rounded-full ku:[background-color:var(--kiut-primary)]"
+          class="absolute top-0 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]"
           aria-hidden="true"
         />
         <component
           :is="section.icon"
           v-if="section.icon"
-          class="ku:shrink-0"
+          class="shrink-0"
           :style="{ width: primaryIconSize, height: primaryIconSize }"
           aria-hidden="true"
         />
         <span
-          class="ku:text-[9px] ku:font-semibold ku:leading-none ku:truncate ku:w-full ku:text-center ku:px-0.5"
+          class="text-[9px] font-semibold leading-none truncate w-full text-center px-0.5"
         >
           {{ section.label }}
         </span>
@@ -270,7 +270,7 @@ const props = withDefaults(
     /** List of the sections and the items. */
     sections: NavSection[];
 
-    /** What Section is open and with 'ku:update:selectedSectionId' we say to the father will be the next */
+    /** What Section is open and with 'update:selectedSectionId' we say to the father will be the next */
     selectedSectionId?: string | null;
 
     /** Actual route */

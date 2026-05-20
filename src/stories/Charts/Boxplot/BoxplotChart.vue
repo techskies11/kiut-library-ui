@@ -2,7 +2,7 @@
   <div class="chart-container">
     <svg 
       :viewBox="`0 0 ${chartWidth} ${chartHeight}`" 
-      class="ku:w-full boxplot-svg"
+      class="w-full boxplot-svg"
       :style="`min-height: ${chartHeight}px;`" 
       @mousemove="handleMouseMove" 
       @mouseleave="handleMouseLeave"
@@ -251,7 +251,7 @@
             :y2="boxplot.medianY"
             stroke="#8b5cf6"
             stroke-width="3.5"
-            class="ku:hover-line"
+            class="hover-line"
             @mouseenter="showTooltip($event, `Median: ${boxplot.median.toFixed(1)}`)"
             @mouseleave="hideTooltip"
             style="cursor: pointer;"
@@ -267,7 +267,7 @@
             stroke="#f97316"
             stroke-width="3"
             stroke-dasharray="6,4"
-            class="ku:hover-line"
+            class="hover-line"
             @mouseenter="showTooltip($event, `Avg: ${boxplot.average.toFixed(1)}`)"
             @mouseleave="hideTooltip"
             style="cursor: pointer;"

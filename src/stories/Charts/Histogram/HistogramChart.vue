@@ -2,7 +2,7 @@
   <div class="chart-container" :class="{ 'chart-container--static': !interactive }">
     <svg
       :viewBox="`0 0 ${chartWidth} ${chartHeight}`"
-      class="ku:w-full histogram-svg"
+      class="w-full histogram-svg"
       :style="`min-height: ${chartHeight}px;`"
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"

@@ -39,11 +39,11 @@ export const Default: Story = {
     setup() {
       const model = ref<KiutPhoneValue>({ ...args.modelValue });
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputPhone, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: KiutPhoneValue) => {
+            'onUpdate:modelValue': (v: KiutPhoneValue) => {
               model.value = v;
             },
           }),

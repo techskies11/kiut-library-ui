@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="ku:h-full ku:min-h-0"
+    class="h-full min-h-0"
     title="Cost Per Conversation"
     subtitle="USD per conversation by agent"
     :collapsible="false"
@@ -13,7 +13,7 @@
         :loading="exportLoading"
       />
     </template>
-    <div class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
     <div class="card-body" v-if="!loading">
       <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
@@ -35,13 +35,13 @@
         </footer>
       </section>
 
-      <section v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <ChartBarIcon class="ku:empty-icon" />
+      <section v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <ChartBarIcon class="empty-icon" />
           </div>
-          <p class="ku:empty-title">No cost per conversation data</p>
-          <p class="ku:empty-description">No agent data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-title">No cost per conversation data</p>
+          <p class="empty-description">No agent data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
     </div>

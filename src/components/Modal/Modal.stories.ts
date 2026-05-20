@@ -9,7 +9,7 @@ import Modal from './Modal.vue';
 
 const discountOptions: KiutSelectOption[] = [
   { value: 'percent', label: 'Porcentaje' },
-  { value: 'ku:fixed', label: 'Importe fijo' },
+  { value: 'fixed', label: 'Importe fijo' },
 ];
 
 const meta: Meta<typeof Modal> = {
@@ -52,7 +52,7 @@ export const NuevoPromocode: Story = {
       const tipo = ref<string | number | null>('percent');
       const usosOn = ref(false);
       return () =>
-        h('div', { class: 'ku:min-h-[480px] ku:bg-[color:var(--kiut-bg-primary)] ku:p-8 ku:dark:bg-[#1a1a1c]' }, [
+        h('div', { class: 'min-h-[480px] bg-[color:var(--kiut-bg-primary)] p-8 dark:bg-[#1a1a1c]' }, [
           h(
             Button,
             {
@@ -67,7 +67,7 @@ export const NuevoPromocode: Story = {
             Modal,
             {
               modelValue: open.value,
-              'ku:onUpdate:modelValue': (v: boolean) => {
+              'onUpdate:modelValue': (v: boolean) => {
                 open.value = v;
               },
               title: args.title,
@@ -79,19 +79,19 @@ export const NuevoPromocode: Story = {
             },
             {
               default: () =>
-                h('div', { class: 'ku:space-y-5' }, [
+                h('div', { class: 'space-y-5' }, [
                   h(InputText, {
                     modelValue: codigo.value,
-                    'ku:onUpdate:modelValue': (v: string) => {
+                    'onUpdate:modelValue': (v: string) => {
                       codigo.value = v;
                     },
                     label: 'Código',
-                    placeholder: 'ku:Ej: SUMMER25',
+                    placeholder: 'Ej: SUMMER25',
                   }),
-                  h('div', { class: 'ku:grid ku:gap-4 ku:sm:grid-cols-2' }, [
+                  h('div', { class: 'grid gap-4 sm:grid-cols-2' }, [
                     h(Select, {
                       modelValue: tipo.value,
-                      'ku:onUpdate:modelValue': (v: string | number | null) => {
+                      'onUpdate:modelValue': (v: string | number | null) => {
                         tipo.value = v;
                       },
                       label: 'Tipo de descuento',
@@ -100,16 +100,16 @@ export const NuevoPromocode: Story = {
                     }),
                     h(InputText, {
                       modelValue: '',
-                      'ku:onUpdate:modelValue': () => {},
+                      'onUpdate:modelValue': () => {},
                       label: 'Valor',
                       placeholder: '0',
                     }),
                   ]),
-                  h('div', { class: 'ku:flex ku:flex-wrap ku:items-center ku:gap-3' }, [
-                    h('span', { class: 'ku:text-sm ku:font-medium ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-200' }, 'Usos'),
+                  h('div', { class: 'flex flex-wrap items-center gap-3' }, [
+                    h('span', { class: 'text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-200' }, 'Usos'),
                     h(Toggle, {
                       modelValue: usosOn.value,
-                      'ku:onUpdate:modelValue': (v: boolean) => {
+                      'onUpdate:modelValue': (v: boolean) => {
                         usosOn.value = v;
                       },
                       ariaLabel: 'Limitar usos',

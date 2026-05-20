@@ -2,26 +2,26 @@
   <span
     v-if="isLiveMode"
     role="status"
-    class="ku:inline-flex ku:w-min ku:max-w-full ku:min-h-[22px] ku:items-center ku:gap-2 ku:whitespace-nowrap ku:rounded-full ku:px-3 ku:py-1 ku:text-center ku:text-xs ku:font-['Inter',system-ui,sans-serif] ku:leading-snug"
+    class="inline-flex w-min max-w-full min-h-[22px] items-center gap-2 whitespace-nowrap rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] leading-snug"
     :class="liveContainerClass"
   >
     <span
       v-if="statusLive === true"
-      class="ku:relative ku:flex ku:h-2 ku:w-2 ku:shrink-0 ku:items-center ku:justify-center"
+      class="relative flex h-2 w-2 shrink-0 items-center justify-center"
       aria-hidden="true"
     >
       <span
-        class="ku:absolute ku:inline-flex ku:h-full ku:w-full ku:animate-ping ku:rounded-full ku:bg-emerald-500/50 ku:dark:bg-emerald-400/45"
+        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/50 dark:bg-emerald-400/45"
       />
       <span
-        class="ku:relative ku:inline-flex ku:h-2 ku:w-2 ku:rounded-full ku:bg-[color:var(--kiut-success)]"
+        class="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--kiut-success)]"
       />
     </span>
-    <span class="ku:min-w-0 ku:flex-1 ku:text-center" :class="liveTextClass">{{ liveLabel }}</span>
+    <span class="min-w-0 flex-1 text-center" :class="liveTextClass">{{ liveLabel }}</span>
   </span>
   <span
     v-else
-    class="ku:inline-flex ku:w-min ku:max-w-full ku:min-h-[22px] ku:items-center ku:justify-center ku:whitespace-nowrap ku:rounded-full ku:px-3 ku:py-1 ku:text-center ku:text-xs ku:font-['Inter',system-ui,sans-serif] ku:font-semibold ku:leading-snug ku:tracking-tight"
+    class="inline-flex w-min max-w-full min-h-[22px] items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] font-semibold leading-snug tracking-tight"
     :class="semanticClass"
   >
     <slot>{{ label }}</slot>
@@ -79,20 +79,20 @@ const liveLabel = computed(() =>
 const liveContainerClass = computed(() => {
   if (props.statusLive === true) {
     return [
-      'ku:border ku:border-emerald-200 ku:bg-emerald-50',
-      'ku:dark:border-emerald-800/80 ku:dark:bg-emerald-950/40',
+      'border border-emerald-200 bg-emerald-50',
+      'dark:border-emerald-800/80 dark:bg-emerald-950/40',
     ];
   }
   return [
-    'ku:border ku:border-transparent ku:bg-slate-100 ku:dark:border-slate-700/80 ku:dark:bg-slate-800/90',
+    'border border-transparent bg-slate-100 dark:border-slate-700/80 dark:bg-slate-800/90',
   ];
 });
 
 const liveTextClass = computed(() => {
   if (props.statusLive === true) {
-    return 'ku:text-emerald-700 ku:dark:text-emerald-300';
+    return 'text-emerald-700 dark:text-emerald-300';
   }
-  return 'ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-300';
+  return 'text-[color:var(--kiut-text-primary)] dark:text-slate-300';
 });
 
 const semanticClass = computed(() => {
@@ -100,29 +100,29 @@ const semanticClass = computed(() => {
   switch (props.color) {
     case 'purple':
       return o
-        ? 'ku:border ku:border-violet-500 ku:bg-transparent ku:text-violet-700 ku:dark:border-violet-400 ku:dark:text-violet-300'
-        : 'ku:border ku:border-violet-200 ku:bg-violet-50 ku:text-violet-700 ku:dark:border-violet-700 ku:dark:bg-violet-950/40 ku:dark:text-violet-300';
+        ? 'border border-violet-500 bg-transparent text-violet-700 dark:border-violet-400 dark:text-violet-300'
+        : 'border border-violet-200 bg-violet-50 text-violet-700 dark:border-violet-700 dark:bg-violet-950/40 dark:text-violet-300';
     case 'warning':
       return o
-        ? 'ku:border ku:border-amber-500 ku:bg-transparent ku:text-amber-800 ku:dark:border-amber-400 ku:dark:text-amber-200'
-        : 'ku:border ku:border-amber-200 ku:bg-amber-50 ku:text-amber-800 ku:dark:border-amber-800 ku:dark:bg-amber-950/35 ku:dark:text-amber-200';
+        ? 'border border-amber-500 bg-transparent text-amber-800 dark:border-amber-400 dark:text-amber-200'
+        : 'border border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/35 dark:text-amber-200';
     case 'success':
       return o
-        ? 'ku:border ku:border-emerald-500 ku:bg-transparent ku:text-emerald-800 ku:dark:border-emerald-400 ku:dark:text-emerald-200'
-        : 'ku:border ku:border-emerald-200 ku:bg-emerald-50 ku:text-emerald-800 ku:dark:border-emerald-800 ku:dark:bg-emerald-950/35 ku:dark:text-emerald-200';
+        ? 'border border-emerald-500 bg-transparent text-emerald-800 dark:border-emerald-400 dark:text-emerald-200'
+        : 'border border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/35 dark:text-emerald-200';
     case 'danger':
       return o
-        ? 'ku:border ku:border-red-500 ku:bg-transparent ku:text-red-800 ku:dark:border-red-400 ku:dark:text-red-200'
-        : 'ku:border ku:border-red-200 ku:bg-red-50 ku:text-red-800 ku:dark:border-red-800 ku:dark:bg-red-950/35 ku:dark:text-red-200';
+        ? 'border border-red-500 bg-transparent text-red-800 dark:border-red-400 dark:text-red-200'
+        : 'border border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950/35 dark:text-red-200';
     case 'orange':
       return o
-        ? 'ku:border ku:border-orange-500 ku:bg-transparent ku:text-orange-800 ku:dark:border-orange-400 ku:dark:text-orange-200'
-        : 'ku:border ku:border-orange-200 ku:bg-orange-50 ku:text-orange-800 ku:dark:border-orange-800 ku:dark:bg-orange-950/35 ku:dark:text-orange-200';
+        ? 'border border-orange-500 bg-transparent text-orange-800 dark:border-orange-400 dark:text-orange-200'
+        : 'border border-orange-200 bg-orange-50 text-orange-800 dark:border-orange-800 dark:bg-orange-950/35 dark:text-orange-200';
     case 'neutral':
     default:
       return o
-        ? 'ku:border ku:border-slate-400 ku:bg-transparent ku:text-[color:var(--kiut-text-primary)] ku:dark:border-slate-500 ku:dark:text-slate-200'
-        : 'ku:border ku:border-slate-200 ku:bg-slate-100 ku:text-[color:var(--kiut-text-primary)] ku:dark:border-slate-600 ku:dark:bg-slate-800 ku:dark:text-slate-200';
+        ? 'border border-slate-400 bg-transparent text-[color:var(--kiut-text-primary)] dark:border-slate-500 dark:text-slate-200'
+        : 'border border-slate-200 bg-slate-100 text-[color:var(--kiut-text-primary)] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200';
   }
 });
 </script>

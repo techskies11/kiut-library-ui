@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="dn-metrics-root ku:h-full ku:min-h-0"
+    class="dn-metrics-root h-full min-h-0"
     title="Disruption Notifier"
     subtitle="Passenger notification effectiveness and delivery analysis"
   >
@@ -43,14 +43,14 @@
               :node-colors="funnelColors"
               height="350px"
             />
-            <div v-else class="ku:empty-chart">
+            <div v-else class="empty-chart">
               <p class="empty-chart-text">No processing data available for visualization</p>
             </div>
           </div>
         </section>
 
         <!-- Summary cards (Total Records + business KPIs) -->
-        <div class="ku:grid ku:w-full ku:grid-cols-2 ku:gap-3 ku:sm:grid-cols-3 ku:sm:gap-4 ku:lg:grid-cols-5">
+        <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
           <CardInfo
             color="#3b82f6"
             title="Total Records"
@@ -86,7 +86,7 @@
           <div class="section-header">
             <h4 class="section-title">Why Passengers Were Not Notified</h4>
           </div>
-          <div class="ku:w-full ku:min-w-0">
+          <div class="w-full min-w-0">
             <Table
               :columns="failureTableColumns"
               :rows="failureTableRows"
@@ -109,13 +109,13 @@
           </div>
         </section>
 
-        <div class="dn-trend-health-block ku:flex ku:flex-col ku:gap-0">
+        <div class="dn-trend-health-block flex flex-col gap-0">
           <!-- 3. TREND: Notification Success Rate by Day -->
           <section v-if="trendChartData.labels.length > 0" class="chart-section dn-trend-chart-section">
             <div class="chart-header">
               <h4 class="section-title">Notification Success Rate by Day</h4>
             </div>
-            <div class="dn-trend-chart-area ku:min-h-[280px] ku:w-full ku:min-w-0 ku:flex-1">
+            <div class="dn-trend-chart-area min-h-[280px] w-full min-w-0 flex-1">
               <LineChart :data="trendChartData" :options="trendOptions" :theme="props.theme" />
             </div>
           </section>
@@ -130,7 +130,7 @@
               System Health Details
             </summary>
             <div class="system-health-content">
-              <div class="ku:grid ku:w-full ku:grid-cols-2 ku:gap-3 ku:sm:grid-cols-3 ku:sm:gap-4">
+              <div class="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
                 <CardInfo
                   title="Docs Started"
                   :value="useNumberFormat(docTotals.processing_started)"
@@ -163,15 +163,15 @@
       </template>
 
       <!-- Empty State -->
-      <section v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
           </div>
-          <p class="ku:empty-title">No disruption notifier data</p>
-          <p class="ku:empty-description">No disruption notification data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-title">No disruption notifier data</p>
+          <p class="empty-description">No disruption notification data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
     </div>

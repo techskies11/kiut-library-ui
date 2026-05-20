@@ -33,7 +33,7 @@ const meta: Meta<typeof Filters> = {
     docs: {
       description: {
         component:
-          'Barra de ku:filtros: pastillas para cada definición (selección múltiple en ku:`type: "select"` con valor `string[]`), chips en una segunda fila y «Limpiar» al lado. Estado con `v-model`. Prueba **Theme** en Storybook (clase `dark`).',
+          'Barra de filtros: pastillas para cada definición (selección múltiple en `type: "select"` con valor `string[]`), chips en una segunda fila y «Limpiar» al lado. Estado con `v-model`. Prueba **Theme** en Storybook (clase `dark`).',
       },
     },
   },
@@ -52,7 +52,7 @@ export const Default: Story = {
   args: {
     filterDefinitions: baseDefinitions,
     modelValue: {} as FiltersModelValue,
-    label: 'ku:Filtros:',
+    label: 'Filtros:',
     clearLabel: 'Limpiar filtros',
   },
   render: (args) => ({
@@ -60,13 +60,13 @@ export const Default: Story = {
     setup() {
       const model = ref<FiltersModelValue>({ ...(args.modelValue ?? {}) });
       return () =>
-        h('div', { class: 'ku:max-w-4xl ku:space-y-4' }, [
+        h('div', { class: 'max-w-4xl space-y-4' }, [
           h(Filters, {
             filterDefinitions: args.filterDefinitions,
             modelValue: model.value,
             label: args.label,
             clearLabel: args.clearLabel,
-            'ku:onUpdate:modelValue': (v: FiltersModelValue) => {
+            'onUpdate:modelValue': (v: FiltersModelValue) => {
               model.value = v;
             },
           }),
@@ -74,7 +74,7 @@ export const Default: Story = {
             'pre',
             {
               class:
-                'ku:overflow-x-auto ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-50 ku:p-3 ku:font-mono ku:text-xs ku:text-[color:var(--kiut-text-secondary)] ku:dark:bg-[#1a1a1c]',
+                'overflow-x-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-slate-50 p-3 font-mono text-xs text-[color:var(--kiut-text-secondary)] dark:bg-[#1a1a1c]',
             },
             JSON.stringify(model.value, null, 2)
           ),
@@ -91,7 +91,7 @@ export const WithActiveFilters: Story = {
       discount: ['10', '20'],
       travel: { start: '2025-06-01', end: '2025-06-15' },
     } as FiltersModelValue,
-    label: 'ku:Filtros:',
+    label: 'Filtros:',
     clearLabel: 'Limpiar filtros',
   },
   render: (args) => ({
@@ -99,13 +99,13 @@ export const WithActiveFilters: Story = {
     setup() {
       const model = ref<FiltersModelValue>({ ...(args.modelValue ?? {}) });
       return () =>
-        h('div', { class: 'ku:max-w-4xl ku:space-y-4' }, [
+        h('div', { class: 'max-w-4xl space-y-4' }, [
           h(Filters, {
             filterDefinitions: args.filterDefinitions,
             modelValue: model.value,
             label: args.label,
             clearLabel: args.clearLabel,
-            'ku:onUpdate:modelValue': (v: FiltersModelValue) => {
+            'onUpdate:modelValue': (v: FiltersModelValue) => {
               model.value = v;
             },
           }),
@@ -113,7 +113,7 @@ export const WithActiveFilters: Story = {
             'pre',
             {
               class:
-                'ku:overflow-x-auto ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-50 ku:p-3 ku:font-mono ku:text-xs ku:text-[color:var(--kiut-text-secondary)] ku:dark:bg-[#1a1a1c]',
+                'overflow-x-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-slate-50 p-3 font-mono text-xs text-[color:var(--kiut-text-secondary)] dark:bg-[#1a1a1c]',
             },
             JSON.stringify(model.value, null, 2)
           ),
@@ -133,19 +133,19 @@ export const ChangeLog: Story = {
       const model = ref<FiltersModelValue>({});
       const logs = ref<string[]>([]);
       return () =>
-        h('div', { class: 'ku:max-w-4xl ku:space-y-3' }, [
+        h('div', { class: 'max-w-4xl space-y-3' }, [
           h(Filters, {
             filterDefinitions: args.filterDefinitions,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: FiltersModelValue) => {
+            'onUpdate:modelValue': (v: FiltersModelValue) => {
               model.value = v;
             },
             onChange: (v: FiltersModelValue) => {
               logs.value = [`change → ${JSON.stringify(v)}`, ...logs.value].slice(0, 4);
             },
           }),
-          h('p', { class: 'ku:font-mono ku:text-xs ku:text-[color:var(--kiut-text-muted)]' }, [
-            'Últimos ku:change:',
+          h('p', { class: 'font-mono text-xs text-[color:var(--kiut-text-muted)]' }, [
+            'Últimos change:',
             ...logs.value.map((line) => h('div', line)),
           ]),
         ]);

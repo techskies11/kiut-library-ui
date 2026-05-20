@@ -11,7 +11,7 @@ const meta: Meta<typeof InputFile> = {
     docs: {
       description: {
         component:
-          'Carga de un documento con vista del nombre del archivo. Tema ku:claro/oscuro: toolbar **Theme** en Storybook.',
+          'Carga de un documento con vista del nombre del archivo. Tema claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -31,11 +31,11 @@ export const Default: Story = {
     setup() {
       const model = ref<File | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputFile, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: File | null) => {
+            'onUpdate:modelValue': (v: File | null) => {
               model.value = v;
             },
           }),
@@ -56,11 +56,11 @@ export const WithError: Story = {
     setup() {
       const model = ref<File | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputFile, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: File | null) => {
+            'onUpdate:modelValue': (v: File | null) => {
               model.value = v;
             },
           }),

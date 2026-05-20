@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="nps-overview-root ku:h-full ku:min-h-0"
+    class="nps-overview-root h-full min-h-0"
     title="CSAT Overview Metrics"
     subtitle="Overall CSAT Distribution"
     :collapsible="false"
@@ -45,15 +45,15 @@
           :chart-bottom-margin="chartBottomMargin"
         />
       </div>
-      <div class="overview-card-infos ku:mt-4 ku:flex ku:w-full ku:flex-col ku:gap-3 ku:sm:flex-row ku:sm:gap-4">
+      <div class="overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4">
         <CardInfo
-          class="ku:min-w-0 ku:flex-1"
+          class="min-w-0 flex-1"
           title="Responses"
           :value="String(npsData.total_nps_responses)"
         />
         <CardInfo
           v-if="npsData.p95_score > 0"
-          class="ku:min-w-0 ku:flex-1"
+          class="min-w-0 flex-1"
           title="Percentile 95"
           :value="String(npsData.p95_score)"
         />
@@ -61,15 +61,15 @@
     </div>
 
     <!-- Empty State -->
-    <div v-else class="ku:empty-state">
-      <div class="ku:empty-state-content">
-        <div class="ku:empty-icon-wrapper">
-          <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div v-else class="empty-state">
+      <div class="empty-state-content">
+        <div class="empty-icon-wrapper">
+          <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
         </div>
-        <p class="ku:empty-title">No NPS data available</p>
-        <p class="ku:empty-description">No NPS data found for the selected period. Try adjusting the date range.</p>
+        <p class="empty-title">No NPS data available</p>
+        <p class="empty-description">No NPS data found for the selected period. Try adjusting the date range.</p>
       </div>
     </div>
   </ChartMetricContainer>

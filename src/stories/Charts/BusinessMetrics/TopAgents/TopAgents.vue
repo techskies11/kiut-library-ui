@@ -1,6 +1,6 @@
 <template>
     <ChartMetricContainer
-        class="ku:top-agents-root ku:h-full ku:min-h-0"
+        class="top-agents-root h-full min-h-0"
         title="Top Agents"
         subtitle="Interactions by agent (excluding triage)"
         :collapsible="false"
@@ -17,13 +17,13 @@
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
                 <PieChart :data="chartData" :options="chartOptions" />
             </section>
-            <section v-else class="ku:empty-state">
-                <div class="ku:empty-state-content">
-                    <div class="ku:empty-icon-wrapper">
-                        <ChartPieIcon class="ku:empty-icon" />
+            <section v-else class="empty-state">
+                <div class="empty-state-content">
+                    <div class="empty-icon-wrapper">
+                        <ChartPieIcon class="empty-icon" />
                     </div>
-                    <p class="ku:empty-title">No top agents data</p>
-                    <p class="ku:empty-description">Try adjusting the date range or check your filters to see agent interaction trends.</p>
+                    <p class="empty-title">No top agents data</p>
+                    <p class="empty-description">Try adjusting the date range or check your filters to see agent interaction trends.</p>
                 </div>
             </section>
         </div>

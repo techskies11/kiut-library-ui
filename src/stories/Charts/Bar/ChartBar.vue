@@ -1,5 +1,5 @@
 <template>
-  <div class="ku:relative ku:h-[230px] ku:w-full ku:shrink-0 ku:bg-transparent ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+  <div class="relative h-[230px] w-full shrink-0 bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
     <Bar :data="chartData" :options="computedOptions" />
   </div>
 </template>

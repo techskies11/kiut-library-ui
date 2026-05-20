@@ -30,7 +30,7 @@ const meta = {
   decorators: [
     () => ({
       template:
-        '<div ku:class="ku:box-border ku:h-[560px] ku:w-full ku:max-w-5xl ku:px-2 ku:py-4"><story /></div>',
+        '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
     }),
   ],
 } satisfies Meta<typeof MessagesPerAgent>;

@@ -1,17 +1,17 @@
 <template>
   <div
-    class="kiut-table-wrap ku:overflow-hidden ku:rounded-xl ku:border ku:border-[#e5e7eb] ku:bg-[color:var(--kiut-bg-secondary)] ku:shadow-sm ku:dark:border-[color:var(--kiut-border-light)]"
+    class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
-    <div class="ku:overflow-x-auto">
-      <table class="kiut-table ku:w-full ku:min-w-[640px] ku:border-collapse ku:text-left ku:text-sm">
+    <div class="overflow-x-auto">
+      <table class="kiut-table w-full min-w-[640px] border-collapse text-left text-sm">
         <thead>
           <tr
-            class="ku:h-12 ku:border-b ku:border-[#e5e7eb] ku:bg-[#eaeaec80] ku:dark:border-[color:var(--kiut-border-light)] ku:dark:bg-[#23232f80]"
+            class="h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]"
           >
             <th
               v-if="selectable"
               scope="col"
-              class="ku:w-12 ku:px-4 ku:py-3 ku:text-center ku:align-middle"
+              class="w-12 px-4 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -27,7 +27,7 @@
               :key="col.key"
               scope="col"
               :class="[
-                'ku:px-4 ku:py-3 ku:font-semibold ku:tracking-tight ku:text-[color:var(--kiut-text-table-header)]',
+                'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 alignClass(col.align),
                 col.headerClass ?? '',
               ]"
@@ -40,11 +40,11 @@
           <tr
             v-for="(row, rowIndex) in rows"
             :key="rowKeyAt(row, rowIndex)"
-            class="ku:h-14 ku:border-b ku:border-[#e5e7eb] ku:bg-transparent ku:transition-colors ku:hover:[background:var(--kiut-bg-table-hover)] ku:dark:border-[color:var(--kiut-border-light)] ku:dark:bg-[#141419]"
+            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]"
           >
             <td
               v-if="selectable"
-              class="ku:w-12 ku:bg-transparent ku:px-4 ku:py-3 ku:text-center ku:align-middle"
+              class="w-12 bg-transparent px-4 py-3 text-center align-middle"
             >
               <input
                 type="checkbox"
@@ -58,7 +58,7 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'ku:bg-transparent ku:px-4 ku:py-3 ku:align-middle ku:text-[color:var(--kiut-text-secondary)]',
+                'bg-transparent px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
                 alignClass(col.align),
                 col.cellClass ?? '',
               ]"
@@ -115,7 +115,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'ku:update:selectedKeys': [keys: string[]];
+  'update:selectedKeys': [keys: string[]];
 }>();
 
 const selectAllRef = ref<HTMLInputElement | null>(null);
@@ -125,9 +125,9 @@ function cellSlotName(key: string): string {
 }
 
 function alignClass(align: TableColumnAlign | undefined): string {
-  if (align === 'center') return 'ku:text-center';
-  if (align === 'right') return 'ku:text-right';
-  return 'ku:text-left';
+  if (align === 'center') return 'text-center';
+  if (align === 'right') return 'text-right';
+  return 'text-left';
 }
 
 function resolveRowKey(row: Record<string, unknown>, index: number): string {
@@ -187,11 +187,11 @@ function onToggleSelectAll(): void {
   if (!props.selectable) return;
   if (allSelected.value) {
     const next = props.selectedKeys.filter((k) => !rowKeys.value.includes(k));
-    emit('ku:update:selectedKeys', next);
+    emit('update:selectedKeys', next);
   } else {
     const set = new Set(props.selectedKeys);
     rowKeys.value.forEach((k) => set.add(k));
-    emit('ku:update:selectedKeys', [...set]);
+    emit('update:selectedKeys', [...set]);
   }
 }
 
@@ -201,11 +201,11 @@ function onToggleRow(row: Record<string, unknown>, index: number): void {
   const has = props.selectedKeys.includes(k);
   if (has) {
     emit(
-      'ku:update:selectedKeys',
+      'update:selectedKeys',
       props.selectedKeys.filter((x) => x !== k)
     );
   } else {
-    emit('ku:update:selectedKeys', [...props.selectedKeys, k]);
+    emit('update:selectedKeys', [...props.selectedKeys, k]);
   }
 }
 
@@ -242,7 +242,7 @@ function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
 .kiut-table-checkbox:checked {
   background-color: var(--kiut-primary);
   border-color: var(--kiut-primary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='ku:http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
   background-size: 0.65rem;
   background-position: center;
   background-repeat: no-repeat;
@@ -251,7 +251,7 @@ function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
 .kiut-table-checkbox:indeterminate {
   background-color: var(--kiut-primary);
   border-color: var(--kiut-primary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='ku:http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='10.5' width='12' height='3' rx='1' fill='white'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='10.5' width='12' height='3' rx='1' fill='white'/%3E%3C/svg%3E");
   background-size: 0.65rem 0.25rem;
   background-position: center;
   background-repeat: no-repeat;

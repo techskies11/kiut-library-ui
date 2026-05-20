@@ -1,17 +1,17 @@
 <template>
   <div
-    class="kiut-table-root ku:table-section ku:flex ku:w-full ku:min-w-0 ku:flex-col ku:rounded-xl ku:font-sans ku:antialiased ku:text-[color:var(--kiut-text-primary,#1e293b)]"
+    class="kiut-table-root table-section flex w-full min-w-0 flex-col rounded-xl font-sans antialiased text-[color:var(--kiut-text-primary,#1e293b)]"
     data-component="kiut-table"
   >
-    <div class="ku:overflow-x-auto">
-      <table class="ku:w-full ku:table-auto ku:border-collapse ku:text-left ku:text-[14px] ku:leading-normal">
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto border-collapse text-left text-[14px] leading-normal">
         <thead>
           <tr>
             <th
               v-for="col in columns"
               :key="col.key"
               scope="col"
-              class="kiut-table-th ku:whitespace-nowrap ku:px-3 ku:py-2 ku:text-left ku:text-[#9191a1]"
+              class="kiut-table-th whitespace-nowrap px-3 py-2 text-left text-[#9191a1]"
               :class="[alignClass(col.align), col.headerClass]"
             >
               {{ col.label }}
@@ -23,7 +23,7 @@
             <td
               v-for="col in columns"
               :key="`${rowIndex}-${col.key}`"
-              class="kiut-table-td ku:px-3 ku:py-2 ku:text-[color:var(--kiut-text-primary,#1e293b)]"
+              class="kiut-table-td px-3 py-2 text-[color:var(--kiut-text-primary,#1e293b)]"
               :class="[alignClass(col.align), col.cellClass]"
             >
               <slot
@@ -113,9 +113,9 @@ function formatCell(value: unknown): string {
 }
 
 function alignClass(align: TableColumnAlign | undefined): string {
-  if (align === 'center') return 'ku:text-center'
-  if (align === 'right') return 'ku:text-right'
-  return 'ku:text-left'
+  if (align === 'center') return 'text-center'
+  if (align === 'right') return 'text-right'
+  return 'text-left'
 }
 
 function cellSlotName(key: string): string {

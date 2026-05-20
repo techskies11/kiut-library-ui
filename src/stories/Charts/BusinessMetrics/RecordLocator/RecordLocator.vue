@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="record-locator-root ku:h-full ku:min-h-0"
+    class="record-locator-root h-full min-h-0"
     title="Checkin by Record Locator Metrics"
     subtitle="Checkin by record locator retrieval and completion analysis"
     :collapsible="collapsible"
@@ -44,7 +44,7 @@
 
       <!-- Table Data (chrome: Utils/Table) -->
       <section v-if="tableData && tableData.length > 0" class="record-locator-daily-section">
-        <div class="ku:w-full ku:min-w-0">
+        <div class="w-full min-w-0">
           <Table
             :columns="recordLocatorColumns"
             :rows="recordLocatorTableRows"
@@ -52,49 +52,49 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="cell-plain ku:font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
+              <span class="cell-plain font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-checkinInit="{ row }">
-              <span class="cell-plain ku:text-center">{{ useNumberFormat(row.checkin_initiated as number) }}</span>
+              <span class="cell-plain text-center">{{ useNumberFormat(row.checkin_initiated as number) }}</span>
             </template>
             <template #cell-bookingRetrieve="{ row }">
-              <span class="cell-plain ku:text-center">{{ formatValueWithPercentage(row.record_locator_init_count as number, row.checkin_initiated as number) }}</span>
+              <span class="cell-plain text-center">{{ formatValueWithPercentage(row.record_locator_init_count as number, row.checkin_initiated as number) }}</span>
             </template>
             <template #cell-checkinStarted="{ row }">
-              <span class="cell-plain ku:text-center">{{ useNumberFormat(row.record_locator_started_count as number) }}</span>
+              <span class="cell-plain text-center">{{ useNumberFormat(row.record_locator_started_count as number) }}</span>
             </template>
             <template #cell-checkinCompleted="{ row }">
-              <span class="cell-plain ku:text-center">{{ formatValueWithPercentage(row.record_locator_completed_count as number, row.record_locator_started_count as number) }}</span>
+              <span class="cell-plain text-center">{{ formatValueWithPercentage(row.record_locator_completed_count as number, row.record_locator_started_count as number) }}</span>
             </template>
             <template #cell-checkinClosed="{ row }">
-              <span class="cell-plain ku:text-center success-value">{{ formatValueWithPercentage(row.record_locator_closed_count as number, row.record_locator_started_count as number) }}</span>
+              <span class="cell-plain text-center success-value">{{ formatValueWithPercentage(row.record_locator_closed_count as number, row.record_locator_started_count as number) }}</span>
             </template>
             <template #cell-checkinFailed="{ row }">
-              <span class="cell-plain ku:text-center failed-value">{{ formatValueWithPercentage(row.record_locator_failed_count as number, row.record_locator_started_count as number) }}</span>
+              <span class="cell-plain text-center failed-value">{{ formatValueWithPercentage(row.record_locator_failed_count as number, row.record_locator_started_count as number) }}</span>
             </template>
             <template #cell-abandoned="{ row }">
-              <span class="cell-plain ku:text-center warning-value">{{ formatValueWithPercentage(row.record_locator_abandoned_count as number, row.record_locator_started_count as number) }}</span>
+              <span class="cell-plain text-center warning-value">{{ formatValueWithPercentage(row.record_locator_abandoned_count as number, row.record_locator_started_count as number) }}</span>
             </template>
             <template #cell-createPayment="{ row }">
-              <span class="cell-plain ku:text-center">{{ useNumberFormat((row.record_locator_create_payment_count as number) ?? 0) }}</span>
+              <span class="cell-plain text-center">{{ useNumberFormat((row.record_locator_create_payment_count as number) ?? 0) }}</span>
             </template>
             <template #cell-failedPayment="{ row }">
-              <span class="cell-plain ku:text-center failed-value">{{ useNumberFormat((row.record_locator_create_payment_failed_count as number) ?? 0) }}</span>
+              <span class="cell-plain text-center failed-value">{{ useNumberFormat((row.record_locator_create_payment_failed_count as number) ?? 0) }}</span>
             </template>
           </Table>
         </div>
       </section>
 
       <!-- Empty State -->
-      <section v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
             </svg>
           </div>
-          <p class="ku:empty-title">No record locator data available</p>
-          <p class="ku:empty-description">No record locator data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-title">No record locator data available</p>
+          <p class="empty-description">No record locator data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
     </div>

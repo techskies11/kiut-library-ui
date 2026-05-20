@@ -1,22 +1,22 @@
 <template>
-  <div class="ku:font-sans">
+  <div class="font-sans">
     <label v-if="label" :for="inputId" :class="kiutLabelClass">{{ label }}</label>
     <div
-      class="ku:flex ku:flex-col ku:items-center ku:gap-2"
-      :class="orientation === 'vertical' ? 'ku:w-full' : 'ku:w-full'"
+      class="flex flex-col items-center gap-2"
+      :class="orientation === 'vertical' ? 'w-full' : 'w-full'"
     >
       <p
         v-if="orientation === 'vertical' && captionMax"
-        class="ku:order-1 ku:text-center ku:text-sm ku:text-[color:var(--kiut-text-muted)] ku:dark:text-slate-400"
+        class="order-1 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
       >
         {{ captionMax }}
       </p>
       <div
-        class="ku:flex ku:items-center ku:justify-center"
+        class="flex items-center justify-center"
         :class="[
           orientation === 'vertical'
-            ? 'ku:order-2 ku:h-[var(--kiut-range-length)] ku:w-11 ku:shrink-0'
-            : 'ku:order-none ku:w-full ku:py-1',
+            ? 'order-2 h-[var(--kiut-range-length)] w-11 shrink-0'
+            : 'order-none w-full py-1',
         ]"
         :style="cssVars"
       >
@@ -32,8 +32,8 @@
           :aria-invalid="invalid ? 'true' : undefined"
           :aria-describedby="describedBy"
           :class="[
-            'kiut-range-input ku:block ku:appearance-none ku:bg-transparent ku:focus:outline-none ku:disabled:cursor-not-allowed ku:disabled:opacity-50',
-            orientation === 'vertical' ? 'kiut-range-input--vertical' : 'kiut-range-input--horizontal ku:w-full',
+            'kiut-range-input block appearance-none bg-transparent focus:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+            orientation === 'vertical' ? 'kiut-range-input--vertical' : 'kiut-range-input--horizontal w-full',
           ]"
           @input="onInput"
         />
@@ -41,28 +41,28 @@
       <!-- Horizontal: una fila min | centro | max; o solo caption centrado -->
       <p
         v-if="orientation === 'horizontal' && simpleCaptionOnly"
-        class="ku:text-center ku:text-sm ku:text-[color:var(--kiut-text-muted)] ku:dark:text-slate-400"
+        class="text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
       >
         {{ caption }}
       </p>
       <div
         v-else-if="orientation === 'horizontal' && showCaptionEndsRow"
-        class="ku:grid ku:w-full ku:max-w-full ku:grid-cols-[1fr_auto_1fr] ku:items-start ku:gap-x-3 ku:text-sm ku:text-[color:var(--kiut-text-muted)] ku:dark:text-slate-400"
+        class="grid w-full max-w-full grid-cols-[1fr_auto_1fr] items-start gap-x-3 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
       >
-        <span class="ku:min-w-0 ku:text-left ku:leading-snug">{{ captionMin }}</span>
-        <span class="ku:max-w-[min(100%,12rem)] ku:shrink ku:px-1 ku:text-center ku:leading-snug">{{ caption }}</span>
-        <span class="ku:min-w-0 ku:text-right ku:leading-snug">{{ captionMax }}</span>
+        <span class="min-w-0 text-left leading-snug">{{ captionMin }}</span>
+        <span class="max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug">{{ caption }}</span>
+        <span class="min-w-0 text-right leading-snug">{{ captionMax }}</span>
       </div>
       <!-- Vertical: min bajo la pista, luego caption opcional -->
       <p
         v-if="orientation === 'vertical' && captionMin"
-        class="ku:order-3 ku:text-center ku:text-sm ku:text-[color:var(--kiut-text-muted)] ku:dark:text-slate-400"
+        class="order-3 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
       >
         {{ captionMin }}
       </p>
       <p
         v-if="orientation === 'vertical' && caption"
-        class="ku:order-4 ku:text-center ku:text-sm ku:text-[color:var(--kiut-text-muted)] ku:dark:text-slate-400"
+        class="order-4 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
       >
         {{ caption }}
       </p>
@@ -113,7 +113,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'ku:update:modelValue': [value: number];
+  'update:modelValue': [value: number];
 }>();
 
 const uid = `kiut-input-range-${randomInstanceSuffix()}`;
@@ -148,7 +148,7 @@ const cssVars = computed(() => ({
 
 function onInput(e: Event) {
   const v = Number((e.target as HTMLInputElement).value);
-  emit('ku:update:modelValue', Number.isNaN(v) ? props.min : v);
+  emit('update:modelValue', Number.isNaN(v) ? props.min : v);
 }
 </script>
 

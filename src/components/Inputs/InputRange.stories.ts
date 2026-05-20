@@ -11,7 +11,7 @@ const meta: Meta<typeof InputRange> = {
     docs: {
       description: {
         component:
-          'Slider de rango con pista redondeada, relleno con color primario y thumb hueco. `caption` opcional (centro); `captionMin` / `captionMax` para extremos. ku:`orientation`: `horizontal` | `vertical`. Tema ku:claro/oscuro: toolbar **Theme** en Storybook.',
+          'Slider de rango con pista redondeada, relleno con color primario y thumb hueco. `caption` opcional (centro); `captionMin` / `captionMax` para extremos. `orientation`: `horizontal` | `vertical`. Tema claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -37,11 +37,11 @@ export const Horizontal: Story = {
     setup() {
       const model = ref(args.modelValue ?? 0);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputRange, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: number) => {
+            'onUpdate:modelValue': (v: number) => {
               model.value = v;
             },
           }),
@@ -71,13 +71,13 @@ export const Vertical: Story = {
           'div',
           {
             class:
-              'dark ku:flex ku:min-h-[18rem] ku:w-48 ku:items-center ku:justify-center ku:rounded-2xl ku:bg-[#1e1e26] ku:p-6',
+              'dark flex min-h-[18rem] w-48 items-center justify-center rounded-2xl bg-[#1e1e26] p-6',
           },
           [
             h(InputRange, {
               ...args,
               modelValue: model.value,
-              'ku:onUpdate:modelValue': (v: number) => {
+              'onUpdate:modelValue': (v: number) => {
                 model.value = v;
               },
             }),
@@ -100,11 +100,11 @@ export const WithError: Story = {
     setup() {
       const model = ref(args.modelValue ?? 0);
       return () =>
-        h('div', { class: 'ku:max-w-md' }, [
+        h('div', { class: 'max-w-md' }, [
           h(InputRange, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: number) => {
+            'onUpdate:modelValue': (v: number) => {
               model.value = v;
             },
           }),

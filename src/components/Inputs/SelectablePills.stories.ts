@@ -48,12 +48,12 @@ export const RolesSingle: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue as string | null);
       return () =>
-        h('div', { class: 'ku:max-w-2xl ku:space-y-2' }, [
-          h('p', { class: 'ku:text-sm ku:font-medium ku:text-[color:var(--kiut-text-secondary)]' }, 'Roles'),
+        h('div', { class: 'max-w-2xl space-y-2' }, [
+          h('p', { class: 'text-sm font-medium text-[color:var(--kiut-text-secondary)]' }, 'Roles'),
           h(SelectablePills, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string | string[] | null) => {
+            'onUpdate:modelValue': (v: string | string[] | null) => {
               model.value = v as string | null;
             },
           }),
@@ -74,12 +74,12 @@ export const AreasWithDots: Story = {
     setup() {
       const model = ref<string[]>((args.modelValue as string[]) ?? []);
       return () =>
-        h('div', { class: 'ku:max-w-2xl ku:space-y-2' }, [
-          h('p', { class: 'ku:text-sm ku:font-medium ku:text-[color:var(--kiut-text-secondary)]' }, 'Áreas'),
+        h('div', { class: 'max-w-2xl space-y-2' }, [
+          h('p', { class: 'text-sm font-medium text-[color:var(--kiut-text-secondary)]' }, 'Áreas'),
           h(SelectablePills, {
             ...args,
             modelValue: model.value,
-            'ku:onUpdate:modelValue': (v: string | string[] | null) => {
+            'onUpdate:modelValue': (v: string | string[] | null) => {
               model.value = (v as string[]) ?? [];
             },
           }),

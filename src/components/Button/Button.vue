@@ -1,11 +1,11 @@
 <template>
   <span
     v-if="hasTooltip"
-    class="group ku:relative ku:inline-flex ku:shrink-0"
+    class="group relative inline-flex shrink-0"
   >
     <button
       :type="buttonType"
-      class="ku:inline-flex ku:items-center ku:justify-center ku:gap-2 ku:rounded-xl ku:font-sans ku:text-sm ku:font-semibold ku:tracking-tight ku:transition-colors ku:focus-visible:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary)]/40 ku:focus-visible:ring-offset-2 ku:disabled:pointer-events-none ku:disabled:opacity-45 ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
+      class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
       :class="[variantClass, attrs.class]"
       :disabled="disabled"
       :aria-label="effectiveAriaLabel"
@@ -13,15 +13,15 @@
     >
       <span
         v-if="$slots.icon"
-        class="ku:inline-flex ku:shrink-0"
-        :class="isAction ? 'ku:[&>svg]:size-4' : 'ku:[&>svg]:h-[1.125rem] ku:[&>svg]:w-[1.125rem]'"
+        class="inline-flex shrink-0"
+        :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
         aria-hidden="true"
       >
         <slot name="icon" />
       </span>
       <span
         v-if="showLabelSlot"
-        class="ku:min-w-0 ku:truncate"
+        class="min-w-0 truncate"
       >
         <slot />
       </span>
@@ -29,7 +29,7 @@
     <span
       role="tooltip"
       aria-hidden="true"
-      class="ku:pointer-events-none ku:absolute ku:bottom-full ku:left-1/2 ku:z-50 ku:mb-2 ku:-translate-x-1/2 ku:whitespace-nowrap ku:rounded-lg ku:bg-white ku:px-3 ku:py-1.5 ku:font-sans ku:text-xs ku:font-medium ku:text-[color:var(--kiut-text-primary)] ku:opacity-0 ku:shadow-lg ku:shadow-slate-900/10 ku:ring-1 ku:ring-black/5 ku:transition-opacity ku:duration-150 ku:will-change-[opacity,visibility] ku:invisible ku:group-hover:visible ku:group-hover:opacity-100 ku:group-focus-within:visible ku:group-focus-within:opacity-100 ku:dark:bg-slate-800 ku:dark:text-slate-100 ku:dark:shadow-black/40 ku:dark:ring-white/10"
+      class="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 font-sans text-xs font-medium text-[color:var(--kiut-text-primary)] opacity-0 shadow-lg shadow-slate-900/10 ring-1 ring-black/5 transition-opacity duration-150 will-change-[opacity,visibility] invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:bg-slate-800 dark:text-slate-100 dark:shadow-black/40 dark:ring-white/10"
     >
       {{ tooltip }}
     </span>
@@ -37,7 +37,7 @@
   <button
     v-else
     :type="buttonType"
-    class="ku:inline-flex ku:items-center ku:justify-center ku:gap-2 ku:rounded-xl ku:font-sans ku:text-sm ku:font-semibold ku:tracking-tight ku:transition-colors ku:focus-visible:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary)]/40 ku:focus-visible:ring-offset-2 ku:disabled:pointer-events-none ku:disabled:opacity-45 ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
+    class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
     :class="[variantClass, attrs.class]"
     :disabled="disabled"
     :aria-label="effectiveAriaLabel"
@@ -45,15 +45,15 @@
   >
     <span
       v-if="$slots.icon"
-      class="ku:inline-flex ku:shrink-0"
-      :class="isAction ? 'ku:[&>svg]:size-4' : 'ku:[&>svg]:h-[1.125rem] ku:[&>svg]:w-[1.125rem]'"
+      class="inline-flex shrink-0"
+      :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
       aria-hidden="true"
     >
       <slot name="icon" />
     </span>
     <span
       v-if="showLabelSlot"
-      class="ku:min-w-0 ku:truncate"
+      class="min-w-0 truncate"
     >
       <slot />
     </span>
@@ -113,43 +113,43 @@ const forwardedAttrs = computed(() => {
 const variantClass = computed(() => {
   if (props.variant === 'primary') {
     return [
-      'ku:px-4 ku:py-2.5',
-      'ku:bg-[color:var(--kiut-primary)] ku:text-white ku:shadow-sm',
-      'ku:hover:bg-[color:var(--kiut-primary-hover)] ku:active:bg-[color:var(--kiut-primary-dark)]',
-      'ku:dark:text-white ku:dark:hover:brightness-110 ku:dark:active:brightness-95',
+      'px-4 py-2.5',
+      'bg-[color:var(--kiut-primary)] text-white shadow-sm',
+      'hover:bg-[color:var(--kiut-primary-hover)] active:bg-[color:var(--kiut-primary-dark)]',
+      'dark:text-white dark:hover:brightness-110 dark:active:brightness-95',
     ];
   }
   if (props.variant === 'secondary') {
     return [
-      'ku:px-4 ku:py-2.5',
-      'ku:border ku:border-slate-200 ku:bg-slate-50 ku:text-[color:var(--kiut-text-primary)]',
-      'ku:hover:border-slate-300 ku:hover:bg-slate-100',
-      'ku:active:bg-slate-200/80',
-      'ku:dark:border-[color:var(--kiut-border-light)] ku:dark:bg-slate-800/80 ku:dark:text-slate-100',
-      'ku:dark:hover:border-white/[0.18] ku:dark:hover:bg-slate-800',
-      'ku:dark:active:bg-slate-700/90',
+      'px-4 py-2.5',
+      'border border-slate-200 bg-slate-50 text-[color:var(--kiut-text-primary)]',
+      'hover:border-slate-300 hover:bg-slate-100',
+      'active:bg-slate-200/80',
+      'dark:border-[color:var(--kiut-border-light)] dark:bg-slate-800/80 dark:text-slate-100',
+      'dark:hover:border-white/[0.18] dark:hover:bg-slate-800',
+      'dark:active:bg-slate-700/90',
     ];
   }
   /* action: solo icono, sin borde ni fondo por defecto */
   const danger = props.tone === 'danger';
   if (danger) {
     return [
-      'ku:h-9 ku:w-9 ku:min-h-9 ku:min-w-9 ku:shrink-0 ku:border-0 ku:bg-transparent ku:p-0 ku:shadow-none',
-      'ku:text-red-600',
-      'ku:hover:bg-red-600 ku:hover:text-white',
-      'ku:active:bg-red-700 ku:active:text-white',
-      'ku:dark:text-red-400 ku:dark:hover:bg-red-600 ku:dark:hover:text-white',
-      'ku:dark:active:bg-red-700',
+      'h-9 w-9 min-h-9 min-w-9 shrink-0 border-0 bg-transparent p-0 shadow-none',
+      'text-red-600',
+      'hover:bg-red-600 hover:text-white',
+      'active:bg-red-700 active:text-white',
+      'dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white',
+      'dark:active:bg-red-700',
     ];
   }
   return [
-    'ku:h-9 ku:w-9 ku:min-h-9 ku:min-w-9 ku:shrink-0 ku:border-0 ku:bg-transparent ku:p-0 ku:shadow-none',
-    'ku:text-[color:var(--kiut-text-primary)]',
-    'ku:hover:bg-[color:var(--kiut-primary)] ku:hover:text-white',
-    'ku:active:bg-[color:var(--kiut-primary-dark)] ku:active:text-white',
-    'ku:dark:text-slate-200',
-    'ku:dark:hover:bg-[color:var(--kiut-primary)] ku:dark:hover:text-white',
-    'ku:dark:active:bg-[color:var(--kiut-primary-dark)]',
+    'h-9 w-9 min-h-9 min-w-9 shrink-0 border-0 bg-transparent p-0 shadow-none',
+    'text-[color:var(--kiut-text-primary)]',
+    'hover:bg-[color:var(--kiut-primary)] hover:text-white',
+    'active:bg-[color:var(--kiut-primary-dark)] active:text-white',
+    'dark:text-slate-200',
+    'dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white',
+    'dark:active:bg-[color:var(--kiut-primary-dark)]',
   ];
 });
 </script>

@@ -1,32 +1,32 @@
 <template>
   <ChartMetricContainer
-    class="ku:h-full ku:min-h-0"
+    class="h-full min-h-0"
     title="Conversation Count"
     subtitle="Conversations over time"
     :collapsible="false"
   >
-    <div class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
     <div class="card-body" v-if="!loading">
       <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
         <div class="chart-container">
           <LineChart :data="chartData" :options="chartOptions" />
         </div>
-        <div class="ku:mt-4 ku:w-full ku:min-w-0">
+        <div class="mt-4 w-full min-w-0">
           <CardInfo
-            class="ku:min-w-0 ku:w-full"
+            class="min-w-0 w-full"
             title="Total"
             :value="formattedTotalConversations"
           />
         </div>
       </section>
-      <section v-else class="ku:empty-state">
-        <div class="ku:empty-state-content">
-          <div class="ku:empty-icon-wrapper">
-            <ChartBarIcon class="ku:empty-icon" />
+      <section v-else class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <ChartBarIcon class="empty-icon" />
           </div>
-          <p class="ku:empty-title">No conversation count data</p>
-          <p class="ku:empty-description">Try adjusting the date range or check your filters.</p>
+          <p class="empty-title">No conversation count data</p>
+          <p class="empty-description">Try adjusting the date range or check your filters.</p>
         </div>
       </section>
     </div>

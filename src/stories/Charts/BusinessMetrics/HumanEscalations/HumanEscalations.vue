@@ -1,15 +1,15 @@
 <template>
   <ChartMetricContainer
-    class="ku:w-full ku:min-h-0 ku:self-start"
+    class="w-full min-h-0 self-start"
     title="Human escalations"
     subtitle="% of conversations transferred to human agents"
     :collapsible="false"
   >
     <template #headerAside>
-      <div class="ku:flex ku:justify-end">
+      <div class="flex justify-end">
         <select
           v-model="selectedBreakdown"
-          class="ku:rounded-xl ku:border ku:border-[var(--kiut-border-light,#d1d5db)] ku:bg-[var(--kiut-bg-card,#ffffff)] ku:px-3 ku:py-2 ku:text-sm ku:text-[var(--kiut-text-primary,#111827)] ku:dark:border-[var(--kiut-border-light,#374151)] ku:dark:bg-[var(--kiut-bg-card,#111827)] ku:dark:text-[var(--kiut-text-primary,#f9fafb)]"
+          class="rounded-xl border border-[var(--kiut-border-light,#d1d5db)] bg-[var(--kiut-bg-card,#ffffff)] px-3 py-2 text-sm text-[var(--kiut-text-primary,#111827)] dark:border-[var(--kiut-border-light,#374151)] dark:bg-[var(--kiut-bg-card,#111827)] dark:text-[var(--kiut-text-primary,#f9fafb)]"
           @change="emitChangeBreakdown"
         >
           <option value="all">All</option>
@@ -20,23 +20,23 @@
       </div>
     </template>
     <div
-      class="ku:flex ku:min-h-0 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
-      :class="props.loading ? 'ku:flex-1' : 'ku:w-full ku:shrink-0'"
+      class="flex min-h-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
+      :class="props.loading ? 'flex-1' : 'w-full shrink-0'"
     >
       <div
         v-if="props.loading"
-        class="ku:flex ku:min-h-[380px] ku:flex-1 ku:flex-col ku:items-center ku:justify-center ku:px-4"
+        class="flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
       >
-        <div class="ku:mb-6 ku:flex ku:h-[100px] ku:items-end ku:justify-center ku:gap-2.5">
+        <div class="mb-6 flex h-[100px] items-end justify-center gap-2.5">
           <div
             v-for="(pct, i) in loaderBarHeights"
             :key="i"
-            class="ku:w-2 ku:animate-pulse ku:rounded ku:bg-gradient-to-t ku:from-violet-400 ku:via-violet-600 ku:to-violet-500 ku:opacity-70"
+            class="w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70"
             :class="loaderDelays[i]"
             :style="{ height: `${pct}%` }"
           />
         </div>
-        <p class="ku:animate-pulse ku:text-[15px] ku:font-medium ku:tracking-tight ku:text-[var(--kiut-text-secondary,#6b7280)]">
+        <p class="animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]">
           Loading human escalations...
         </p>
       </div>
@@ -44,49 +44,49 @@
       <template v-else>
         <section
           v-if="dataChart.labels && dataChart.labels.length && dataChart.datasets.length"
-          class="ku:flex ku:w-full ku:shrink-0 ku:flex-col ku:gap-4 ku:sm:gap-6"
+          class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
         >
-          <div class="chart-line-area ku:flex ku:h-[230px] ku:w-full ku:min-w-0 ku:shrink-0 ku:flex-col ku:overflow-hidden">
+          <div class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden">
             <LineChart :data="dataChart" :theme="theme" />
           </div>
 
-          <div class="ku:flex ku:flex-wrap ku:gap-4">
+          <div class="flex flex-wrap gap-4">
             <div
               v-for="item in legendItems"
               :key="`legend-${item.key}`"
-              class="ku:inline-flex ku:items-center ku:gap-2 ku:text-sm"
+              class="inline-flex items-center gap-2 text-sm"
             >
-              <span class="ku:inline-block ku:h-2.5 ku:w-2.5 ku:rounded-full" :style="{ backgroundColor: item.color }"></span>
-              <span class="ku:text-[var(--kiut-text-primary,#111827)]">{{ item.label }}</span>
+              <span class="inline-block h-2.5 w-2.5 rounded-full" :style="{ backgroundColor: item.color }"></span>
+              <span class="text-[var(--kiut-text-primary,#111827)]">{{ item.label }}</span>
             </div>
           </div>
 
-          <div class="ku:grid ku:w-full ku:grid-cols-1 ku:gap-3 ku:sm:grid-cols-2 ku:lg:grid-cols-5">
+          <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
             <div
               v-for="item in topCards"
               :key="`card-${item.key}`"
-              class="ku:rounded-xl ku:border ku:border-[var(--kiut-border-light,#e5e7eb)] ku:p-3"
+              class="rounded-xl border border-[var(--kiut-border-light,#e5e7eb)] p-3"
             >
-              <p class="ku:flex ku:items-center ku:gap-2 ku:truncate ku:text-sm ku:font-medium ku:text-[var(--kiut-text-secondary,#6b7280)]">
-                <span class="ku:inline-block ku:h-2.5 ku:w-2.5 ku:rounded-full" :style="{ backgroundColor: item.color }"></span>
-                <span class="ku:truncate">{{ item.label }}</span>
+              <p class="flex items-center gap-2 truncate text-sm font-medium text-[var(--kiut-text-secondary,#6b7280)]">
+                <span class="inline-block h-2.5 w-2.5 rounded-full" :style="{ backgroundColor: item.color }"></span>
+                <span class="truncate">{{ item.label }}</span>
               </p>
-              <p class="ku:mt-1 ku:text-2xl ku:font-bold ku:text-[var(--kiut-text-primary,#111827)]">
+              <p class="mt-1 text-2xl font-bold text-[var(--kiut-text-primary,#111827)]">
                 {{ item.percentage.toFixed(1) }}%
               </p>
             </div>
           </div>
         </section>
 
-        <section v-else class="ku:flex ku:min-h-[280px] ku:flex-1 ku:items-center ku:justify-center">
-          <div class="ku:max-w-[360px] ku:px-4 ku:text-center">
+        <section v-else class="flex min-h-[280px] flex-1 items-center justify-center">
+          <div class="max-w-[360px] px-4 text-center">
             <p
-              class="ku:mb-2 ku:text-lg ku:font-semibold ku:tracking-tight ku:text-[var(--kiut-text-primary,#171717)] ku:dark:text-[var(--kiut-text-primary,#e5e5e5)]"
+              class="mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]"
             >
               No human escalations data available
             </p>
             <p
-              class="ku:m-0 ku:text-sm ku:leading-relaxed ku:text-[var(--kiut-text-secondary,#737373)] ku:dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
+              class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
             >
               No escalation data found for the selected period. Try adjusting the date range.
             </p>
@@ -159,7 +159,7 @@ const emit = defineEmits<{
 }>()
 
 const loaderBarHeights = [30, 50, 70, 50, 40]
-const loaderDelays = ['', 'ku:delay-100', 'ku:delay-200', 'ku:delay-300', 'ku:delay-[400ms]']
+const loaderDelays = ['', 'delay-100', 'delay-200', 'delay-300', 'delay-[400ms]']
 const theme = toRef(props, 'theme')
 const { isDark } = useThemeDetection(theme)
 const selectedBreakdown = ref(props.breakdownBy)

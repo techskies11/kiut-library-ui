@@ -1,24 +1,24 @@
 <template>
   <div
-    class="kiut-filters ku:font-[Inter] ku:text-xs"
+    class="kiut-filters font-[Inter] text-xs"
     role="region"
     :aria-label="regionAriaLabel"
   >
     <!-- Fila 1: etiqueta + pastillas de todos los filtros -->
-    <div class="ku:flex ku:flex-wrap ku:items-center ku:gap-x-2 ku:gap-y-1.5">
+    <div class="flex flex-wrap items-center gap-x-2 gap-y-1.5">
       <span
-        class="ku:shrink-0 ku:font-medium ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-slate-400"
+        class="shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
       >
         {{ label }}
       </span>
 
-      <div class="ku:flex ku:min-w-0 ku:flex-1 ku:flex-wrap ku:items-center ku:gap-1.5">
+      <div class="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
         <button
           v-for="def in filterDefinitions"
           :key="`pill-${def.id}`"
           :ref="(el) => setTriggerRef(def.id, el)"
           type="button"
-          class="ku:inline-flex ku:h-[26px] ku:max-w-full ku:shrink-0 ku:items-center ku:gap-0.5 ku:rounded-full ku:px-2 ku:font-medium ku:transition-colors"
+          class="inline-flex h-[26px] max-w-full shrink-0 items-center gap-0.5 rounded-full px-2 font-medium transition-colors"
           :class="filterPillClass(def)"
           :aria-label="filterPillAriaLabel(def)"
           :aria-expanded="openFilterId === def.id"
@@ -26,11 +26,11 @@
           :aria-controls="openFilterId === def.id ? panelId : undefined"
           @click="toggleAddPanel(def, $event)"
         >
-          <PlusIcon class="ku:h-2.5 ku:w-2.5 ku:shrink-0" aria-hidden="true" />
-          <span class="ku:truncate">{{ def.label }}</span>
+          <PlusIcon class="h-2.5 w-2.5 shrink-0" aria-hidden="true" />
+          <span class="truncate">{{ def.label }}</span>
           <span
             v-if="def.type === 'select' && selectCount(def) > 0"
-            class="ku:ml-0.5 ku:inline-flex ku:min-h-[1.125rem] ku:min-w-[1.125rem] ku:shrink-0 ku:items-center ku:justify-center ku:rounded-full ku:bg-[color:var(--kiut-primary)]/20 ku:px-1 ku:text-[10px] ku:font-semibold ku:tabular-nums ku:text-[color:var(--kiut-primary-default)] ku:dark:bg-[color:var(--kiut-primary)]/25 ku:dark:text-[color:var(--kiut-primary-light)]"
+            class="ml-0.5 inline-flex min-h-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full bg-[color:var(--kiut-primary)]/20 px-1 text-[10px] font-semibold tabular-nums text-[color:var(--kiut-primary-default)] dark:bg-[color:var(--kiut-primary)]/25 dark:text-[color:var(--kiut-primary-light)]"
           >
             {{ selectCount(def) }}
           </span>
@@ -41,18 +41,18 @@
     <!-- Fila 2: chips de valores + limpiar -->
     <div
       v-if="hasActiveFilters"
-      class="ku:mt-2 ku:flex ku:flex-wrap ku:items-center ku:gap-x-3 ku:gap-y-1.5"
+      class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5"
     >
-      <div class="ku:flex ku:min-w-0 ku:flex-wrap ku:items-center ku:gap-1.5">
+      <div class="flex min-w-0 flex-wrap items-center gap-1.5">
         <div
           v-for="item in chipItems"
           :key="item.key"
           data-kiut-filter-chip
-          class="ku:inline-flex ku:h-[26px] ku:max-w-full ku:items-center ku:gap-1 ku:rounded-full ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-100/90 ku:pl-2 ku:pr-1 ku:text-[color:var(--kiut-text-primary)] ku:dark:bg-white/[0.08] ku:dark:text-slate-100"
+          class="inline-flex h-[26px] max-w-full items-center gap-1 rounded-full border border-[color:var(--kiut-border-light)] bg-slate-100/90 pl-2 pr-1 text-[color:var(--kiut-text-primary)] dark:bg-white/[0.08] dark:text-slate-100"
         >
           <button
             type="button"
-            class="ku:min-w-0 ku:flex-1 ku:truncate ku:text-left ku:transition ku:hover:opacity-90"
+            class="min-w-0 flex-1 truncate text-left transition hover:opacity-90"
             :aria-label="chipAriaEdit(item)"
             @click="openChipPanel(item.def, $event)"
           >
@@ -67,18 +67,18 @@
           </button>
           <button
             type="button"
-            class="ku:shrink-0 ku:rounded ku:p-0.5 ku:text-[color:var(--kiut-text-muted)] ku:transition ku:hover:bg-black/5 ku:hover:text-[color:var(--kiut-text-primary)] ku:dark:hover:bg-white/10 ku:dark:hover:text-slate-100"
+            class="shrink-0 rounded p-0.5 text-[color:var(--kiut-text-muted)] transition hover:bg-black/5 hover:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/10 dark:hover:text-slate-100"
             :aria-label="removeChipAriaLabel(item)"
             @click="removeChipItem(item)"
           >
-            <XMarkIcon class="ku:h-3.5 ku:w-3.5" aria-hidden="true" />
+            <XMarkIcon class="h-3.5 w-3.5" aria-hidden="true" />
           </button>
         </div>
       </div>
 
       <button
         type="button"
-        class="ku:shrink-0 ku:text-[color:var(--kiut-text-secondary)] ku:underline-offset-2 ku:transition ku:hover:text-[color:var(--kiut-primary)] ku:hover:underline ku:dark:text-slate-400 ku:dark:hover:text-[color:var(--kiut-primary-light)]"
+        class="shrink-0 text-[color:var(--kiut-text-secondary)] underline-offset-2 transition hover:text-[color:var(--kiut-primary)] hover:underline dark:text-slate-400 dark:hover:text-[color:var(--kiut-primary-light)]"
         :aria-label="clearAriaLabel"
         @click="clearAll"
       >
@@ -94,7 +94,7 @@
         role="dialog"
         :aria-modal="true"
         :aria-label="panelAriaLabel"
-        class="ku:fixed ku:z-[100] ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-3 ku:shadow-lg ku:dark:bg-[#252528]"
+        class="fixed z-[100] rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-3 shadow-lg dark:bg-[#252528]"
         :style="panelStyle"
         @keydown.stop
       >
@@ -108,11 +108,11 @@
             :update-value="updateDraft"
           />
           <template v-else>
-            <div class="ku:space-y-2">
+            <div class="space-y-2">
               <template v-if="openDefinition.type === 'text'">
                 <label
                   :for="`${panelId}-text`"
-                  class="ku:block ku:text-xs ku:font-medium ku:leading-tight ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-slate-400"
+                  class="block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 >
                   {{ openDefinition.label }}
                 </label>
@@ -120,7 +120,7 @@
                   :id="`${panelId}-text`"
                   v-model="draftText"
                   type="text"
-                  class="ku:w-full ku:rounded-md ku:border ku:border-[color:var(--kiut-border-table)] ku:bg-white ku:px-2 ku:py-1.5 ku:text-xs ku:text-[color:var(--kiut-text-primary)] ku:outline-none ku:ring-[color:var(--kiut-primary)]/25 ku:placeholder:text-[color:var(--kiut-text-muted)] ku:focus:border-[color:var(--kiut-primary)] ku:focus:ring-2 ku:dark:bg-[#1e1e20] ku:dark:text-slate-100 ku:dark:placeholder:text-slate-500"
+                  class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500"
                   :placeholder="openDefinition.placeholder ?? '…'"
                   @keydown.enter.prevent="applyDraft"
                 />
@@ -128,12 +128,12 @@
 
               <template v-else-if="openDefinition.type === 'select'">
                 <p
-                  class="ku:text-xs ku:font-medium ku:leading-tight ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-slate-400"
+                  class="text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
                 >
                   {{ openDefinition.label }}
                 </p>
                 <ul
-                  class="ku:max-h-[min(280px,50vh)] ku:space-y-0.5 ku:overflow-y-auto"
+                  class="max-h-[min(280px,50vh)] space-y-0.5 overflow-y-auto"
                   role="listbox"
                   :aria-label="openDefinition.label"
                   :aria-multiselectable="true"
@@ -143,29 +143,29 @@
                     :key="opt.value"
                   >
                     <label
-                      class="ku:flex ku:cursor-pointer ku:items-center ku:gap-2.5 ku:rounded-md ku:px-2 ku:py-1.5 ku:text-xs ku:text-[color:var(--kiut-text-primary)] ku:transition ku:hover:bg-black/[0.04] ku:dark:text-slate-100 ku:dark:hover:bg-white/[0.06]"
+                      class="flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]"
                     >
                       <input
                         type="checkbox"
-                        class="kiut-filter-ms-checkbox ku:shrink-0"
+                        class="kiut-filter-ms-checkbox shrink-0"
                         :checked="draftSelectValues.includes(opt.value)"
                         @change="toggleDraftSelect(opt.value)"
                       />
-                      <span class="ku:min-w-0 ku:flex-1">{{ opt.label }}</span>
+                      <span class="min-w-0 flex-1">{{ opt.label }}</span>
                     </label>
                   </li>
                 </ul>
               </template>
 
               <template v-else-if="openDefinition.type === 'dateRange'">
-                <p class="ku:text-xs ku:font-medium ku:leading-tight ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-slate-400">
+                <p class="text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400">
                   {{ openDefinition.label }}
                 </p>
-                <div class="ku:flex ku:flex-wrap ku:items-end ku:gap-2">
-                  <div class="ku:min-w-[120px] ku:flex-1">
+                <div class="flex flex-wrap items-end gap-2">
+                  <div class="min-w-[120px] flex-1">
                     <label
                       :for="`${panelId}-start`"
-                      class="ku:mb-0.5 ku:block ku:text-xs ku:leading-tight ku:text-[color:var(--kiut-text-muted)]"
+                      class="mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     >
                       Desde
                     </label>
@@ -173,13 +173,13 @@
                       :id="`${panelId}-start`"
                       v-model="draftRangeStart"
                       type="date"
-                      class="ku:w-full ku:rounded-md ku:border ku:border-[color:var(--kiut-border-table)] ku:bg-white ku:px-1.5 ku:py-1.5 ku:text-xs ku:text-[color:var(--kiut-text-primary)] ku:outline-none ku:focus:border-[color:var(--kiut-primary)] ku:focus:ring-2 ku:focus:ring-[color:var(--kiut-primary)]/25 ku:dark:bg-[#1e1e20] ku:dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
-                  <div class="ku:min-w-[120px] ku:flex-1">
+                  <div class="min-w-[120px] flex-1">
                     <label
                       :for="`${panelId}-end`"
-                      class="ku:mb-0.5 ku:block ku:text-xs ku:leading-tight ku:text-[color:var(--kiut-text-muted)]"
+                      class="mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
                     >
                       Hasta
                     </label>
@@ -187,7 +187,7 @@
                       :id="`${panelId}-end`"
                       v-model="draftRangeEnd"
                       type="date"
-                      class="ku:w-full ku:rounded-md ku:border ku:border-[color:var(--kiut-border-table)] ku:bg-white ku:px-1.5 ku:py-1.5 ku:text-xs ku:text-[color:var(--kiut-text-primary)] ku:outline-none ku:focus:border-[color:var(--kiut-primary)] ku:focus:ring-2 ku:focus:ring-[color:var(--kiut-primary)]/25 ku:dark:bg-[#1e1e20] ku:dark:text-slate-100"
+                      class="w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
                     />
                   </div>
                 </div>
@@ -268,14 +268,14 @@ const props = withDefaults(
     regionAriaLabel?: string;
   }>(),
   {
-    label: 'ku:Filtros:',
+    label: 'Filtros:',
     clearLabel: 'Limpiar filtros',
     regionAriaLabel: 'Filtros',
   }
 );
 
 const emit = defineEmits<{
-  'ku:update:modelValue': [value: FiltersModelValue];
+  'update:modelValue': [value: FiltersModelValue];
   change: [value: FiltersModelValue];
 }>();
 
@@ -408,9 +408,9 @@ function filterPillClass(def: FilterDefinition): string {
   const open = openFilterId.value === def.id && panelOpen.value;
   const has = !isEmptyForDefinition(def, valueFor(def.id));
   if (open || has) {
-    return 'ku:border ku:border-solid ku:border-[color:var(--kiut-primary)] ku:bg-[color:var(--kiut-primary)]/10 ku:text-[color:var(--kiut-primary-default)] ku:dark:border-[color:var(--kiut-primary-light)] ku:dark:bg-[color:var(--kiut-primary)]/15 ku:dark:text-[color:var(--kiut-primary-light)]';
+    return 'border border-solid border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)] dark:bg-[color:var(--kiut-primary)]/15 dark:text-[color:var(--kiut-primary-light)]';
   }
-  return 'ku:border ku:border-dashed ku:border-[#838395] ku:text-[color:var(--kiut-text-secondary)] ku:hover:border-[#838395] ku:hover:bg-slate-50 ku:dark:border-[#838395] ku:dark:text-slate-400 ku:dark:hover:border-[#838395] ku:dark:hover:bg-white/[0.04]';
+  return 'border border-dashed border-[#838395] text-[color:var(--kiut-text-secondary)] hover:border-[#838395] hover:bg-slate-50 dark:border-[#838395] dark:text-slate-400 dark:hover:border-[#838395] dark:hover:bg-white/[0.04]';
 }
 
 function filterPillAriaLabel(def: FilterDefinition): string {
@@ -440,7 +440,7 @@ function emitSelectFromDraft() {
   const next = { ...props.modelValue };
   if (draftSelectValues.value.length === 0) delete next[def.id];
   else next[def.id] = [...draftSelectValues.value];
-  emit('ku:update:modelValue', next);
+  emit('update:modelValue', next);
   emit('change', next);
 }
 
@@ -512,7 +512,7 @@ function focusPanelFirstControl() {
   const root = panelRef.value;
   if (!root) return;
   const focusable = root.querySelector<HTMLElement>(
-    'input[type="text"], input[type="date"], input[type="checkbox"], select, button, ku:[href], textarea, ku:[tabindex]:not([tabindex="-1"])'
+    'input[type="text"], input[type="date"], input[type="checkbox"], select, button, [href], textarea, [tabindex]:not([tabindex="-1"])'
   );
   focusable?.focus();
 }
@@ -550,7 +550,7 @@ function applyDraft() {
     const next = { ...props.modelValue };
     if (t === '') delete next[def.id];
     else next[def.id] = t;
-    emit('ku:update:modelValue', next);
+    emit('update:modelValue', next);
     emit('change', next);
     closePanel();
     return;
@@ -570,7 +570,7 @@ function applyDraft() {
   } else {
     next[def.id] = { start, end };
   }
-  emit('ku:update:modelValue', next);
+  emit('update:modelValue', next);
   emit('change', next);
   closePanel();
 }
@@ -578,7 +578,7 @@ function applyDraft() {
 function removeFilter(id: string) {
   const next = { ...props.modelValue };
   delete next[id];
-  emit('ku:update:modelValue', next);
+  emit('update:modelValue', next);
   emit('change', next);
   if (openFilterId.value === id) closePanel();
 }
@@ -593,14 +593,14 @@ function removeChipItem(item: ChipItem) {
   const filtered = cur.filter((v) => v !== item.optionValue);
   if (filtered.length === 0) delete next[item.def.id];
   else next[item.def.id] = filtered;
-  emit('ku:update:modelValue', next);
+  emit('update:modelValue', next);
   emit('change', next);
   if (openFilterId.value === item.def.id) syncDraftFromValue(item.def);
 }
 
 function clearAll() {
   const next: FiltersModelValue = {};
-  emit('ku:update:modelValue', next);
+  emit('update:modelValue', next);
   emit('change', next);
   closePanel();
 }
@@ -641,7 +641,7 @@ function onDocPointerDown(ev: MouseEvent) {
   const t = ev.target as Node;
   if (panelRef.value.contains(t)) return;
   const el = t instanceof Element ? t : null;
-  if (el?.closest('ku:[data-kiut-filter-chip]')) return;
+  if (el?.closest('[data-kiut-filter-chip]')) return;
   for (const tr of triggerRefs.values()) {
     if (tr?.contains(t)) return;
   }
@@ -704,7 +704,7 @@ watch(
 .kiut-filter-ms-checkbox:checked {
   background-color: var(--kiut-primary);
   border-color: var(--kiut-primary);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='ku:http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
   background-size: 0.65rem;
   background-position: center;
   background-repeat: no-repeat;

@@ -53,7 +53,7 @@ export default meta
 type Story = StoryObj<typeof ChartMetricContainer>
 
 const sampleBody = `
-  <div style="min-height: 120px; display: ku:flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px dashed var(--kiut-border-light, #d9d9dd); color: var(--kiut-text-secondary, #73737c); font-size: 0.875rem;">
+  <div style="min-height: 120px; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px dashed var(--kiut-border-light, #d9d9dd); color: var(--kiut-text-secondary, #73737c); font-size: 0.875rem;">
     Contenido del chart (slot)
   </div>
 `
@@ -115,7 +115,7 @@ const exportSlot = `
 export const WithHeaderExport: Story = {
   args: {
     title: 'Métrica con export',
-    subtitle: 'PDF/CSV en la cabecera (variante ku:inline de FooterExport).',
+    subtitle: 'PDF/CSV en la cabecera (variante inline de FooterExport).',
     collapsible: false,
   },
   render: (args) => ({
