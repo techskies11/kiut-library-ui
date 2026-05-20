@@ -342,13 +342,12 @@ defineExpose({ isDark })
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 /* Chart Container: ChartBar.vue usa altura fija en su raíz; forzar altura al slot aquí */
 .chart-container {
   height: 100px;
-  margin-bottom: 4px;
   flex-shrink: 0;
   overflow: hidden;
   position: relative;

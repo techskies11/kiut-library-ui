@@ -40,7 +40,7 @@
       <template v-else>
         <section
           v-if="dataChart.labels && dataChart.labels.length"
-          class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
+          class="flex w-full shrink-0 flex-col gap-3"
         >
           <div
             class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"

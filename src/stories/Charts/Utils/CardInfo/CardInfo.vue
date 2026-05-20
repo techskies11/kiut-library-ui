@@ -1,7 +1,7 @@
 <template>
   <div
     class="card-info box-border flex w-full min-w-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl px-3 py-2 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[color:var(--kiut-text-secondary,#64748b)]"
-    :class="subvalue ? 'h-[72px]' : 'h-[58px]'"
+    :class="subvalue ? 'h-[75px]' : 'h-[58px]'"
   >
     <div class="flex w-full min-w-0 justify-center">
       <div class="flex max-w-full min-w-0 items-center gap-2">

@@ -202,7 +202,7 @@ const handleExport = (format: ExportFormat) => {
   color: var(--kiut-text-secondary, #64748b);
   background: transparent;
   border: 1px solid var(--kiut-border-light, rgba(0, 0, 0, 0.05));
-  border-radius: 6px;
+  border-radius: 12px;
   text-decoration: none;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -224,8 +224,8 @@ const handleExport = (format: ExportFormat) => {
 }
 
 .export-btn:hover:not(:disabled) {
-  color: var(--kiut-primary, #8b5cf6);
-  background: var(--kiut-bg-stats-badge, #fafafa);
+  color: rgb(227, 227, 232);
+  background: var(--kiut-primary, #8b5cf6);
   border-color: var(--kiut-border-color, rgba(93, 75, 147, 0.1));
 }
 

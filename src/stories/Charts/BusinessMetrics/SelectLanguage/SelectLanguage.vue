@@ -23,7 +23,7 @@
     <div v-else class="card-body">
       <template v-if="hasData">
         <div
-          class="distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-4 min-h-0"
+          class="distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-3 min-h-0"
         >
           <section class="pie-section">
             <PieChart :data="pieData" :options="pieOptions" />

@@ -201,15 +201,14 @@ defineExpose({ isDark })
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .chart-section {
-  margin-bottom: 12px;
   animation: fadeIn 0.5s ease-out;
   width: 100%;
 }
 .comparison-section {
-  margin-top: 24px;
   width: 100%;
   animation: fadeIn 0.6s ease-out 0.15s backwards;
 }
