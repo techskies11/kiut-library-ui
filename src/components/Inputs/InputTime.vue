@@ -1,9 +1,9 @@
 <template>
-  <div class="font-sans">
+  <div class="ku:font-sans">
     <label v-if="label" :for="inputId" :class="kiutLabelClass">{{ label }}</label>
-    <div class="relative">
+    <div class="ku:relative">
       <ClockIcon
-        class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400"
+        class="ku:pointer-events-none ku:absolute ku:left-3 ku:top-1/2 ku:h-5 ku:w-5 -translate-y-1/2 ku:text-gray-500 ku:dark:text-slate-400"
         aria-hidden="true"
       />
       <input
@@ -13,7 +13,7 @@
         autocomplete="off"
         :class="[
           kiutInputControlClass,
-          'pl-10',
+          'ku:pl-10',
           invalid ? kiutInputControlInvalidClass : '',
         ]"
         :name="name"
@@ -90,7 +90,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: KiutTimeValue];
+  'ku:update:modelValue': [value: KiutTimeValue];
 }>();
 
 const uid = `kiut-input-time-${randomInstanceSuffix()}`;
@@ -105,6 +105,6 @@ const displayValue = computed(() => {
 
 function onInput(e: Event) {
   const raw = (e.target as HTMLInputElement).value;
-  emit('update:modelValue', normalizeTimeInput(raw));
+  emit('ku:update:modelValue', normalizeTimeInput(raw));
 }
 </script>

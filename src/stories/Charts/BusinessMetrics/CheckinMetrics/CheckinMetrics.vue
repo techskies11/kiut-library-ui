@@ -1,6 +1,6 @@
 <template>
     <ChartMetricContainer
-        class="checkin-metrics-root h-full min-h-0"
+        class="checkin-metrics-root ku:h-full ku:min-h-0"
         title="Check-in Metrics"
         subtitle="Check-in performance and failure analysis"
         :default-open="initiallyOpen"
@@ -42,7 +42,7 @@
 
             <!-- Table Data (chrome de tabla: Utils/Table) -->
             <div v-if="tableData && tableData.length > 0" class="checkin-metrics-daily-section">
-                <div class="w-full min-w-0">
+                <div class="ku:w-full ku:min-w-0">
                     <Table
                         :columns="checkinMetricsTableColumns"
                         :rows="checkinMetricsTableRows"
@@ -50,7 +50,7 @@
                         row-key="id"
                     >
                         <template #cell-date="{ row }">
-                            <span class="font-medium whitespace-nowrap">{{ formatDate(String(row.date)) }}</span>
+                            <span class="ku:font-medium ku:whitespace-nowrap">{{ formatDate(String(row.date)) }}</span>
                         </template>
                         <template #cell-checkinInit="{ row }">
                             <span>{{ formatNumber(row.checkin_initiated as number) }}</span>
@@ -84,13 +84,13 @@
             </div>
 
             <!-- Empty State -->
-            <div v-else class="empty-state">
-                <div class="empty-state-content">
-                    <div class="empty-icon-wrapper">
-                        <ChartBarIcon class="empty-icon" />
+            <div v-else class="ku:empty-state">
+                <div class="ku:empty-state-content">
+                    <div class="ku:empty-icon-wrapper">
+                        <ChartBarIcon class="ku:empty-icon" />
                     </div>
-                    <p class="empty-title">No check-in data available</p>
-                    <p class="empty-description">Try adjusting the date range or check your filters to see check-in metrics.</p>
+                    <p class="ku:empty-title">No check-in data available</p>
+                    <p class="ku:empty-description">Try adjusting the date range or check your filters to see check-in metrics.</p>
                 </div>
             </div>
         </div>

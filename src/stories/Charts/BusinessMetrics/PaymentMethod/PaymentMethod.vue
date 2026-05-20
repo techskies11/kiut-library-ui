@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="payment-method-root h-full min-h-0"
+    class="payment-method-root ku:h-full ku:min-h-0"
     title="Payment Method Metrics"
     subtitle="Sales breakdown by payment method"
   >
@@ -35,7 +35,7 @@
           <CardInfo
             v-for="(pm, index) in metricsData.payment_method_breakdown"
             :key="pm.payment_method"
-            class="payment-method-card-item min-w-0"
+            class="payment-method-card-item ku:min-w-0"
             :color="cardAccentColors[index % cardAccentColors.length]"
             :title="formatPaymentMethod(pm.payment_method)"
             :value="formatPaymentCardValue(pm)"
@@ -45,20 +45,20 @@
       </section>
 
       <!-- Empty State for Cards -->
-      <section v-else class="empty-state">
-        <div class="empty-state-content">
-          <div class="empty-icon-wrapper">
-            <CreditCardIcon class="empty-icon" />
+      <section v-else class="ku:empty-state">
+        <div class="ku:empty-state-content">
+          <div class="ku:empty-icon-wrapper">
+            <CreditCardIcon class="ku:empty-icon" />
           </div>
-          <p class="empty-title">No payment data available</p>
-          <p class="empty-description">No payment method data found for the selected period. Try adjusting the date range.</p>
+          <p class="ku:empty-title">No payment data available</p>
+          <p class="ku:empty-description">No payment method data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
 
       <!-- Daily Breakdown Table (chrome: Utils/Table) -->
       <section v-if="hasDailyBreakdown" class="payment-method-daily-section">
         <p class="section-label">Daily Breakdown</p>
-        <div class="w-full min-w-0">
+        <div class="ku:w-full ku:min-w-0">
           <Table
             :columns="paymentDailyColumns"
             :rows="paymentDailyTableRows"
@@ -66,13 +66,13 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="font-medium">{{ formatDate(String(row.date)) }}</span>
+              <span class="ku:font-medium">{{ formatDate(String(row.date)) }}</span>
             </template>
             <template #cell-totalSales="{ row }">
-              <span class="text-center">{{ useNumberFormat((row.total_count as number) ?? 0) }}</span>
+              <span class="ku:text-center">{{ useNumberFormat((row.total_count as number) ?? 0) }}</span>
             </template>
             <template #cell-totalAmount="{ row }">
-              <span class="text-center success-value">
+              <span class="ku:text-center success-value">
                 <template v-if="Array.isArray(row.total_amount_by_currency) && row.total_amount_by_currency.length > 0">
                   <div class="currency-cell-list">
                     <span
@@ -110,8 +110,8 @@
       </section>
 
       <!-- Empty State for Table when no daily breakdown -->
-      <div v-else-if="hasPaymentMethods" class="empty-table-state">
-        <p class="empty-table-text">No daily breakdown available</p>
+      <div v-else-if="hasPaymentMethods" class="ku:empty-table-state">
+        <p class="ku:empty-table-text">No daily breakdown available</p>
       </div>
     </div>
   </ChartMetricContainer>
@@ -305,7 +305,7 @@ const searchData = async () => {
     const response = await props.fetchFunction(props.airlineName, startDate, endDate)
     metricsData.value = normalizePaymentMethodData(response)
   } catch (error) {
-    console.error('Error fetching payment method metrics:', error)
+    console.error('Error fetching payment method ku:metrics:', error)
     metricsData.value = normalizePaymentMethodData(null)
   } finally {
     loading.value = false

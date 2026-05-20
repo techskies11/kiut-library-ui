@@ -1,23 +1,23 @@
 <template>
   <div
-    class="card-info box-border flex w-full min-w-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl px-3 py-2 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[color:var(--kiut-text-secondary,#64748b)]"
-    :class="subvalue ? 'h-[75px]' : 'h-[58px]'"
+    class="card-info ku:box-border ku:flex ku:w-full ku:min-w-0 ku:flex-col ku:items-center ku:justify-center ku:gap-1 ku:overflow-hidden ku:rounded-2xl ku:px-3 ku:py-2 ku:text-center ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] ku:text-[color:var(--kiut-text-secondary,#64748b)]"
+    :class="subvalue ? 'ku:h-[75px]' : 'ku:h-[58px]'"
   >
-    <div class="flex w-full min-w-0 justify-center">
-      <div class="flex max-w-full min-w-0 items-center gap-2">
+    <div class="ku:flex ku:w-full ku:min-w-0 ku:justify-center">
+      <div class="ku:flex ku:max-w-full ku:min-w-0 ku:items-center ku:gap-2">
         <span
           v-if="color"
-          class="inline-block h-2.5 w-2.5 shrink-0 rounded-full align-middle"
+          class="ku:inline-block ku:h-2.5 ku:w-2.5 ku:shrink-0 ku:rounded-full ku:align-middle"
           :style="{ backgroundColor: color }"
           aria-hidden="true"
         />
-        <span class="min-w-0 truncate text-[12px] leading-normal">{{ title }}</span>
+        <span class="ku:min-w-0 ku:truncate ku:text-[12px] ku:leading-normal">{{ title }}</span>
       </div>
     </div>
-    <p class="text-[14px] font-bold leading-tight text-[color:var(--kiut-text-primary,#1e293b)]">
+    <p class="ku:text-[14px] ku:font-bold ku:leading-tight ku:text-[color:var(--kiut-text-primary,#1e293b)]">
       {{ value }}
     </p>
-    <p v-if="subvalue" class="min-w-0 w-full truncate text-[10px] leading-normal">
+    <p v-if="subvalue" class="ku:min-w-0 ku:w-full ku:truncate ku:text-[10px] ku:leading-normal">
       {{ subvalue }}
     </p>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="font-sans">
+  <div class="ku:font-sans">
     <label v-if="label" :for="inputId" :class="kiutLabelClass">{{ label }}</label>
     <input
       :id="inputId"
@@ -44,7 +44,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string];
+  'ku:update:modelValue': [value: string];
 }>();
 
 const uid = `kiut-input-text-${randomInstanceSuffix()}`;
@@ -53,6 +53,6 @@ const errorId = computed(() => `${inputId.value}-err`);
 
 const model = computed({
   get: () => props.modelValue,
-  set: (v: string) => emit('update:modelValue', v),
+  set: (v: string) => emit('ku:update:modelValue', v),
 });
 </script>

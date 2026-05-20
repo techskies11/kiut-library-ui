@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="seller-metrics-root h-full min-h-0"
+    class="seller-metrics-root ku:h-full ku:min-h-0"
     title="Seller Metrics"
     subtitle="Sales performance and failure analysis"
     :default-open="initiallyOpen"
@@ -43,15 +43,15 @@
       </section>
 
       <!-- Empty State for Chart -->
-      <section v-else class="empty-state">
-        <div class="empty-state-content">
-          <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="ku:empty-state">
+        <div class="ku:empty-state-content">
+          <div class="ku:empty-icon-wrapper">
+            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <p class="empty-title">No sales data available</p>
-          <p class="empty-description">No sales data found for the selected period. Try adjusting the date range.</p>
+          <p class="ku:empty-title">No sales data available</p>
+          <p class="ku:empty-description">No sales data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
 
@@ -78,7 +78,7 @@
 
       <!-- Table Data (chrome: Utils/Table) -->
       <section v-if="tableData && tableData.length > 0" class="seller-daily-section">
-        <div class="w-full min-w-0">
+        <div class="ku:w-full ku:min-w-0">
           <Table
             :columns="sellerTableColumns"
             :rows="sellerTableRows"
@@ -86,25 +86,25 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="sl-cell font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
+              <span class="sl-cell ku:font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-sellInitiated="{ row }">
-              <span class="sl-cell text-center">{{ useNumberFormat(Number(row.seller_conversations) || 0) }}</span>
+              <span class="sl-cell ku:text-center">{{ useNumberFormat(Number(row.seller_conversations) || 0) }}</span>
             </template>
             <template #cell-sellStarted="{ row }">
-              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_started_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+              <span class="sl-cell ku:text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_started_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
             </template>
             <template #cell-getQuote="{ row }">
-              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_get_quote_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+              <span class="sl-cell ku:text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_get_quote_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
             </template>
             <template #cell-bookingCreated="{ row }">
-              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_booking_created_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+              <span class="sl-cell ku:text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_booking_created_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
             </template>
             <template #cell-bankTransfer="{ row }">
-              <span class="sl-cell text-center">{{ useNumberFormat(Number(row.sell_bank_transfer_count) || 0) }}</span>
+              <span class="sl-cell ku:text-center">{{ useNumberFormat(Number(row.sell_bank_transfer_count) || 0) }}</span>
             </template>
             <template #cell-btValue="{ row }">
-              <span class="sl-cell text-center success-value">
+              <span class="sl-cell ku:text-center success-value">
                 <div
                   v-if="Array.isArray(sellerDayFromRow(row).daily_value_sell_success_bank_transfer) && (sellerDayFromRow(row).daily_value_sell_success_bank_transfer as CurrencyValue[]).length > 0"
                   class="currency-cell-list"
@@ -116,17 +116,17 @@
                     {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
                   </span>
                 </div>
-                <span v-else class="empty-cell">-</span>
+                <span v-else class="ku:empty-cell">-</span>
               </span>
             </template>
             <template #cell-btSuccess="{ row }">
-              <span class="sl-cell text-center success-value">{{ useNumberFormat(Number(sellerDayFromRow(row).sell_success_bank_transfer_count) || 0) }}</span>
+              <span class="sl-cell ku:text-center success-value">{{ useNumberFormat(Number(sellerDayFromRow(row).sell_success_bank_transfer_count) || 0) }}</span>
             </template>
             <template #cell-cashOption="{ row }">
-              <span class="sl-cell text-center">{{ useNumberFormat(Number(row.sell_cash_option_count) || 0) }}</span>
+              <span class="sl-cell ku:text-center">{{ useNumberFormat(Number(row.sell_cash_option_count) || 0) }}</span>
             </template>
             <template #cell-coValue="{ row }">
-              <span class="sl-cell text-center success-value">
+              <span class="sl-cell ku:text-center success-value">
                 <div
                   v-if="Array.isArray(sellerDayFromRow(row).daily_value_sell_success_cash) && (sellerDayFromRow(row).daily_value_sell_success_cash as CurrencyValue[]).length > 0"
                   class="currency-cell-list"
@@ -138,17 +138,17 @@
                     {{ item.currency }} {{ useCompactCurrencyFormat(item.total_value) }}
                   </span>
                 </div>
-                <span v-else class="empty-cell">-</span>
+                <span v-else class="ku:empty-cell">-</span>
               </span>
             </template>
             <template #cell-cashSuccess="{ row }">
-              <span class="sl-cell text-center success-value">{{ useNumberFormat(Number(sellerDayFromRow(row).sell_success_cash_count) || 0) }}</span>
+              <span class="sl-cell ku:text-center success-value">{{ useNumberFormat(Number(sellerDayFromRow(row).sell_success_cash_count) || 0) }}</span>
             </template>
             <template #cell-sellSuccess="{ row }">
-              <span class="sl-cell text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_success_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
+              <span class="sl-cell ku:text-center">{{ formatValueWithPercentage(sellerDayFromRow(row).sell_success_count, sellerDayFromRow(row).seller_conversations || sellerDayFromRow(row).sell_started_count) }}</span>
             </template>
             <template #cell-totalSalesValue="{ row }">
-              <span class="sl-cell text-center success-value">
+              <span class="sl-cell ku:text-center success-value">
                 <div
                   v-if="Array.isArray(row.daily_value_sell_success) && row.daily_value_sell_success.length > 0"
                   class="currency-cell-list"
@@ -174,7 +174,7 @@
                   <span class="reason-count">{{ reason.failed_count }}</span>
                 </div>
               </div>
-              <div v-else class="empty-cell">-</div>
+              <div v-else class="ku:empty-cell">-</div>
             </template>
           </Table>
         </div>
@@ -572,10 +572,10 @@ const sankeyData = computed(() => {
 
     if (withoutReason > 0) {
       const percentage = Math.round((withoutReason / conversations) * 100)
-      nodes.push({ name: 'Failed: Without Reason', value: withoutReason })
+      nodes.push({ name: 'ku:Failed: Without Reason', value: withoutReason })
       links.push({
         source: 'Failed at Booking',
-        target: 'Failed: Without Reason',
+        target: 'ku:Failed: Without Reason',
         value: withoutReason,
         label: `${withoutReason.toLocaleString()} (${percentage}%)`,
       })
@@ -601,15 +601,15 @@ const SANKEY_SELLER_COLORS: Record<string, string> = {
   'Failed at Quote': '#FCA5A5',
   'Failed at Booking': '#F87171',
   'Failed at Completion': '#EF4444',
-  'Failed: rejected': '#F87171',
-  'Failed: payment_processing': '#EF4444',
-  'Failed: seat_selection': '#F87171',
-  'Failed: booking_validation': '#EF4444',
-  'Failed: flight_availability': '#DC2626',
-  'Failed: passenger_data': '#F87171',
-  'Failed: system_error': '#DC2626',
-  'Failed: timeout': '#EF4444',
-  'Failed: Without Reason': '#F87171',
+  'ku:Failed: rejected': '#F87171',
+  'ku:Failed: payment_processing': '#EF4444',
+  'ku:Failed: seat_selection': '#F87171',
+  'ku:Failed: booking_validation': '#EF4444',
+  'ku:Failed: flight_availability': '#DC2626',
+  'ku:Failed: passenger_data': '#F87171',
+  'ku:Failed: system_error': '#DC2626',
+  'ku:Failed: timeout': '#EF4444',
+  'ku:Failed: Without Reason': '#F87171',
 }
 
 const sankeyNodeColors = computed(() => SANKEY_SELLER_COLORS)

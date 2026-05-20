@@ -162,7 +162,7 @@ const meta = {
   argTypes: {
     dates: {
       control: 'object',
-      description: 'Array of dates [startDate, endDate] for the date range',
+      description: 'Array of dates ku:[startDate, endDate] for the date range',
     },
     airlineName: {
       control: 'text',
@@ -190,7 +190,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Component to display payment method metrics including a grid of payment method cards with totals and a detailed table with daily breakdown by payment method. Now supports internal data fetching with dates and airline name props.',
+          'Component to display payment method metrics including a ku:grid of payment method cards with totals and a detailed table with daily ku:breakdown by payment method. Now supports internal data fetching with dates and airline name props.',
       },
     },
     backgrounds: {

@@ -34,11 +34,11 @@ export const Default: Story = {
     setup() {
       const model = ref<number | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-xs' }, [
+        h('div', { class: 'ku:max-w-xs' }, [
           h(InputNumber, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: number | null) => {
+            'ku:onUpdate:modelValue': (v: number | null) => {
               model.value = v;
             },
           }),

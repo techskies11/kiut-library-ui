@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="checkin-segments-root h-full min-h-0"
+    class="checkin-segments-root ku:h-full ku:min-h-0"
     title="Checkin Segments"
     subtitle="Breakdown by flight segment with connection when applicable"
     :collapsible="collapsible"
@@ -31,7 +31,7 @@
     <!-- Content when loaded -->
     <div v-else class="card-body">
       <section v-if="props.data.length > 0" class="checkin-segments-daily-section">
-        <div class="w-full min-w-0">
+        <div class="ku:w-full ku:min-w-0">
           <Table
             :columns="tableColumns"
             :rows="tableRows"
@@ -76,15 +76,15 @@
       </section>
 
       <!-- Empty State -->
-      <section v-else class="empty-state">
-        <div class="empty-state-content">
-          <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="ku:empty-state">
+        <div class="ku:empty-state-content">
+          <div class="ku:empty-icon-wrapper">
+            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <p class="empty-title">No segment data available</p>
-          <p class="empty-description">No flight segment data found for the selected period. Try adjusting the date range.</p>
+          <p class="ku:empty-title">No segment data available</p>
+          <p class="ku:empty-description">No flight segment data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
     </div>

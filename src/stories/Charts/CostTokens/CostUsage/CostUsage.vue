@@ -1,11 +1,11 @@
 <template>
   <ChartMetricContainer
-    class="h-full min-h-0"
+    class="ku:h-full ku:min-h-0"
     title="Cost Usage"
     subtitle="Cost breakdown over time (stacked)"
     :collapsible="false"
   >
-    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+    <div class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
         <div class="card-body" v-if="!loading">
             <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
@@ -14,7 +14,7 @@
                 </div>
                 
                 <footer
-                    class="mt-auto grid grid-cols-2 gap-3 sm:grid-cols-3 max-[768px]:gap-2"
+                    class="ku:mt-auto ku:grid ku:grid-cols-2 ku:gap-3 ku:sm:grid-cols-3 ku:max-[768px]:gap-2"
                 >
                     <CardInfo title="Total Cost" :value="useCurrencyFormat(data.total_cost)" />
                     <CardInfo
@@ -43,13 +43,13 @@
                     />
                 </footer>
             </section>
-            <section v-else class="empty-state">
-                <div class="empty-state-content">
-                    <div class="empty-icon-wrapper">
-                        <ChartBarIcon class="empty-icon" />
+            <section v-else class="ku:empty-state">
+                <div class="ku:empty-state-content">
+                    <div class="ku:empty-icon-wrapper">
+                        <ChartBarIcon class="ku:empty-icon" />
                     </div>
-                    <p class="empty-title">No cost usage data</p>
-                    <p class="empty-description">Try adjusting the date range or check your filters to see cost breakdown trends.</p>
+                    <p class="ku:empty-title">No cost usage data</p>
+                    <p class="ku:empty-description">Try adjusting the date range or check your filters to see cost breakdown trends.</p>
                 </div>
             </section>
         </div>

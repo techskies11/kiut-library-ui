@@ -49,7 +49,7 @@ export const Default: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'max-w-xl' }, [
+        h('div', { class: 'ku:max-w-xl' }, [
           h(Tabs, {
             ...args,
             modelValue: model.value,
@@ -61,7 +61,7 @@ export const Default: Story = {
               h(
                 'p',
                 {
-                  class: 'text-[color:var(--kiut-text-secondary)] text-sm',
+                  class: 'ku:text-[color:var(--kiut-text-secondary)] ku:text-sm',
                 },
                 `Contenido asociado al valor activo: ${model.value}`
               ),
@@ -83,7 +83,7 @@ export const FullWidth: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'w-full max-w-2xl' }, [
+        h('div', { class: 'ku:w-full ku:max-w-2xl' }, [
           h(Tabs, {
             ...args,
             modelValue: model.value,
@@ -111,7 +111,7 @@ export const WithIcons: Story = {
     setup() {
       const model = ref(args.modelValue);
       return () =>
-        h('div', { class: 'max-w-2xl' }, [
+        h('div', { class: 'ku:max-w-2xl' }, [
           h(Tabs, {
             ...args,
             modelValue: model.value,
@@ -163,7 +163,7 @@ export const Controlled: Story = {
         logs.value = [`change → ${payload.previousValue} → ${payload.value}`, ...logs.value].slice(0, 5);
       };
       return () =>
-        h('div', { class: 'max-w-xl space-y-4' }, [
+        h('div', { class: 'ku:max-w-xl ku:space-y-4' }, [
           h(Tabs, {
             ...args,
             modelValue: model.value,
@@ -172,8 +172,8 @@ export const Controlled: Story = {
             },
             onChange,
           }),
-          h('p', { class: 'font-mono text-xs text-[color:var(--kiut-text-muted)]' }, [
-            'Últimos eventos change:',
+          h('p', { class: 'ku:font-mono ku:text-xs ku:text-[color:var(--kiut-text-muted)]' }, [
+            'Últimos eventos ku:change:',
             ...logs.value.map((line) => h('div', line)),
           ]),
         ]);

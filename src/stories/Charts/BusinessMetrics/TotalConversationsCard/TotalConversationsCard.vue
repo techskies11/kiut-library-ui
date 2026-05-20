@@ -2,7 +2,7 @@
   <ChartMetricContainer
     title=""
     :collapsible="false"
-    :class="['total-conv-metric', 'w-full', { 'total-conv-metric--dark': isDark }]"
+    :class="['total-conv-metric', 'ku:w-full', { 'total-conv-metric--dark': isDark }]"
   >
     <template #title>
       <div class="header-title-group">

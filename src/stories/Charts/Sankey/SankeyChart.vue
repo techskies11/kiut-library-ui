@@ -393,7 +393,7 @@ const setOptions = () => {
     chartInstance.setOption(chartOptions);
     chartInstance.resize();
   } catch (error) {
-    console.error('Error setting Sankey chart options:', error);
+    console.error('Error setting Sankey chart ku:options:', error);
     loadError.value = true;
   }
 };
@@ -406,7 +406,7 @@ const initChart = async () => {
     setOptions();
     window.addEventListener('resize', handleResize);
   } catch (error) {
-    console.error('Error initializing Sankey chart:', error);
+    console.error('Error initializing Sankey ku:chart:', error);
     loadError.value = true;
   } finally {
     isLoading.value = false;

@@ -130,7 +130,7 @@ Props \`viewMoreLabel\` / \`viewLessLabel\`; en “more”, \`{count}\` son las 
     rows: { control: 'object', description: 'Todas las filas (se truncan hasta maxVisibleRows si aplica)' },
     maxVisibleRows: {
       control: 'number',
-      description: 'Máximo de filas visibles antes del toggle (default 3, como Checkin)',
+      description: 'Máximo de filas ku:visibles antes del toggle (default 3, como Checkin)',
     },
     viewMoreLabel: {
       control: 'text',
@@ -161,7 +161,7 @@ export const TravelDark: Story = {
       return { args }
     },
     template: `
-      <div class="dark min-h-[280px] p-6 font-sans">
+      <div class="dark ku:min-h-[280px] ku:p-6 ku:font-sans">
         <Table v-bind="args" />
       </div>
     `,
@@ -182,7 +182,7 @@ export const PaymentsLight: Story = {
       return { args }
     },
     template: `
-      <div class="min-h-[260px] p-6 font-sans">
+      <div class="ku:min-h-[260px] ku:p-6 ku:font-sans">
         <Table v-bind="args" />
       </div>
     `,

@@ -1,7 +1,7 @@
 <template>
   <ChartMetricContainer
     :collapsible="false"
-    :class="['ai-revenue-metric', 'w-full', { 'ai-revenue-metric--dark': isDark }]"
+    :class="['ai-revenue-metric', 'ku:w-full', { 'ai-revenue-metric--dark': isDark }]"
   >
     <template #title>
       <div class="header-title-group">

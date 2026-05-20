@@ -88,24 +88,8 @@ const handleExport = async (format) => {
   decorators: [
     () => ({
       template: `
-        <div style="
-          background: var(--kiut-bg-card-gradient, linear-gradient(to bottom, #ffffff 0%, #fafafa 100%));
-          border-radius: 16px;
-          padding: 24px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-        ">
-          <div style="
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--kiut-text-secondary, #64748b);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            border: 2px dashed var(--kiut-border-color, rgba(93, 75, 147, 0.1));
-            border-radius: 12px;
-            margin-bottom: 0;
-          ">
+        <div style="background: var(--kiut-bg-card-gradient, linear-gradient(to ku:bottom, #ffffff 0%, #fafafa 100%)); border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.08);">
+          <div style="height: 200px; display: ku:flex; align-items: center; justify-content: center; color: var(--kiut-text-secondary, #64748b); font-family: 'DM Sans', sans-serif; font-size: 14px; border: 2px dashed var(--kiut-border-color, rgba(93, 75, 147, 0.1)); border-radius: 12px; margin-bottom: 0;">
             Chart Content Area
           </div>
           <story />
@@ -141,15 +125,7 @@ export const Inline: Story = {
   decorators: [
     () => ({
       template: `
-        <div style="
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 16px;
-          border-radius: 12px;
-          border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.08));
-          background: var(--kiut-bg-card, #fff);
-        ">
+        <div style="display: ku:flex; align-items: ku:flex-start; gap: 12px; padding: 16px; border-radius: 12px; border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.08)); background: var(--kiut-bg-card, #fff);">
           <div style="flex: 1; min-width: 0;">
             <div style="font-weight: 600; font-size: 1.125rem; font-family: Inter, sans-serif;">Título</div>
             <div style="font-size: 0.875rem; color: var(--kiut-text-secondary, #737373);">Subtítulo</div>

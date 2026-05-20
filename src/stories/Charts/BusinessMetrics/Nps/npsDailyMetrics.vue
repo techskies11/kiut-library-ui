@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="nps-daily-root h-full min-h-0"
+    class="nps-daily-root ku:h-full ku:min-h-0"
     title="CSAT Daily Metrics"
     subtitle="Daily CSAT Distribution"
     :collapsible="false"
@@ -86,25 +86,25 @@
           </div>
         </div>
       </div>
-      <div class="mt-4 flex w-full justify-start">
+      <div class="ku:mt-4 ku:flex ku:w-full ku:justify-start">
         <CardInfo
           title="Days"
           :value="String(npsData.nps_by_day.length)"
-          class="min-w-0 w-full max-w-xs"
+          class="ku:min-w-0 ku:w-full ku:max-w-xs"
         />
       </div>
     </div>
 
     <!-- Empty State -->
-    <div v-else class="empty-state">
-      <div class="empty-state-content">
-        <div class="empty-icon-wrapper">
-          <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div v-else class="ku:empty-state">
+      <div class="ku:empty-state-content">
+        <div class="ku:empty-icon-wrapper">
+          <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
         </div>
-        <p class="empty-title">No daily NPS data available</p>
-        <p class="empty-description">No daily NPS data found for the selected period. Try adjusting the date range.</p>
+        <p class="ku:empty-title">No daily NPS data available</p>
+        <p class="ku:empty-description">No daily NPS data found for the selected period. Try adjusting the date range.</p>
       </div>
     </div>
   </ChartMetricContainer>

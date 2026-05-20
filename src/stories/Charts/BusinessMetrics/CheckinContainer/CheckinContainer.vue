@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="checkin-container-root w-full"
+    class="checkin-container-root ku:w-full"
     title="Check in"
     subtitle="Check-in flows, metrics by record locator and segment breakdown."
     :default-open="containerInitiallyOpen"
@@ -8,7 +8,7 @@
     <div class="checkin-container__body">
       <Checkin
         v-if="showCheckin"
-        class="w-full min-h-0"
+        class="ku:w-full ku:min-h-0"
         :collapsible="false"
         :initially-open="childrenInitiallyOpen"
         :loading="effectiveCheckinLoading"

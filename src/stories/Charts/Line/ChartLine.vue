@@ -1,33 +1,33 @@
 <template>
   <div
-    class="chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] min-w-0"
+    class="chart-line-root ku:flex ku:h-full ku:min-h-[230px] ku:w-full ku:shrink-0 ku:flex-col ku:bg-transparent ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] ku:min-w-0"
   >
-    <div class="chart-line-canvas-host relative min-h-0 w-full flex-1">
+    <div class="chart-line-canvas-host ku:relative ku:min-h-0 ku:w-full ku:flex-1">
       <Line ref="lineChartRef" :data="chartData" :options="computedOptions" />
     </div>
     <!-- Leyenda HTML: círculo + trazos horizontales (Chart.js solo dibuja elipse en canvas). -->
     <ul
       v-if="legendEntries.length > 0"
-      class="chart-line-indicators mt-0 flex shrink-0 list-none flex-nowrap items-center justify-center gap-x-4 overflow-x-auto overflow-y-hidden px-1 pb-0.5 pt-0.5"
+      class="chart-line-indicators ku:mt-0 ku:flex ku:shrink-0 ku:list-none ku:flex-nowrap ku:items-center ku:justify-center ku:gap-x-4 ku:overflow-x-auto ku:overflow-y-hidden ku:px-1 ku:pb-0.5 ku:pt-0.5"
       role="list"
     >
       <li v-for="(entry, i) in legendEntries" :key="entry.key" role="listitem">
         <button
           type="button"
-          class="inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[11px] font-medium leading-snug transition-opacity outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-secondary)] dark:focus-visible:ring-offset-[#1a1a1d]"
-          :class="datasetVisible[i] !== false ? 'opacity-100' : 'opacity-45 line-through'"
+          class="ku:inline-flex ku:cursor-pointer ku:items-center ku:gap-1 ku:border-0 ku:bg-transparent ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] ku:text-[11px] ku:font-medium ku:leading-snug ku:transition-opacity outline-none ku:focus-visible:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary)]/40 ku:focus-visible:ring-offset-2 ku:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)] ku:dark:focus-visible:ring-offset-[#1a1a1d]"
+          :class="datasetVisible[i] !== false ? 'ku:opacity-100' : 'ku:opacity-45 line-through'"
           :style="{ color: entry.color }"
           :aria-pressed="datasetVisible[i] !== false"
           :aria-label="`${entry.label}. ${datasetVisible[i] !== false ? 'Visible' : 'Oculta'}. Pulsa para alternar.`"
           @click="toggleLegend(i)"
         >
-          <span class="inline-flex shrink-0 items-center" aria-hidden="true">
-            <span class="h-0.5 w-2 shrink-0 rounded-full bg-current" />
+          <span class="ku:inline-flex ku:shrink-0 ku:items-center" aria-hidden="true">
+            <span class="ku:h-0.5 ku:w-2 ku:shrink-0 ku:rounded-full ku:bg-current" />
             <span
-              class="relative z-[1] box-border size-2 shrink-0 rounded-full border-2 bg-transparent"
+              class="ku:relative ku:z-[1] ku:box-border ku:size-2 ku:shrink-0 ku:rounded-full ku:border-2 ku:bg-transparent"
               :style="{ borderColor: entry.color }"
             />
-            <span class="h-0.5 w-2 shrink-0 rounded-full bg-current" />
+            <span class="ku:h-0.5 ku:w-2 ku:shrink-0 ku:rounded-full ku:bg-current" />
           </span>
           <span>{{ entry.label }}</span>
         </button>

@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="disruption-metrics-root h-full min-h-0"
+    class="disruption-metrics-root ku:h-full ku:min-h-0"
     title="Disruption Manager Metrics"
     subtitle="Disruption workflow performance and completion tracking"
   >
@@ -38,7 +38,7 @@
             :node-colors="nodeColors"
             height="500px"
           />
-          <div v-else class="empty-chart">
+          <div v-else class="ku:empty-chart">
             <p class="empty-chart-text">No disruption data available for visualization</p>
           </div>
         </div>
@@ -58,7 +58,7 @@
           <h4 class="section-title">Daily Overview</h4>
         </div>
 
-        <div class="w-full min-w-0">
+        <div class="ku:w-full ku:min-w-0">
           <Table
             :columns="disruptionTableColumns"
             :rows="disruptionTableRows"
@@ -66,13 +66,13 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="font-medium text-center">{{ moment(String(row.date)).format('MMM DD') }}</span>
+              <span class="ku:font-medium ku:text-center">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-initiated="{ row }">
-              <span class="text-center">{{ useNumberFormat(Number(row.disruption_conversations)) }}</span>
+              <span class="ku:text-center">{{ useNumberFormat(Number(row.disruption_conversations)) }}</span>
             </template>
             <template #cell-started="{ row }">
-              <span class="text-center">
+              <span class="ku:text-center">
                 {{ useNumberFormat(Number(row.disruption_initiated_count)) }}
                 <span class="percentage-text">
                   ({{ calculatePercentage(Number(row.disruption_initiated_count), Number(row.disruption_conversations)) }})
@@ -80,7 +80,7 @@
               </span>
             </template>
             <template #cell-abandoned="{ row }">
-              <span class="text-center">
+              <span class="ku:text-center">
                 <span class="abandoned-value">
                   {{ useNumberFormat(Number(row.disruption_initiated_count) - Number(row.voluntary_count) - Number(row.involuntary_count)) }}
                   ({{ calculatePercentage(Number(row.disruption_initiated_count) - Number(row.voluntary_count) - Number(row.involuntary_count), Number(row.disruption_conversations)) }})
@@ -147,15 +147,15 @@
       </section>
 
       <!-- Empty State -->
-      <section v-else class="empty-state">
-        <div class="empty-state-content">
-          <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="ku:empty-state">
+        <div class="ku:empty-state-content">
+          <div class="ku:empty-icon-wrapper">
+            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <p class="empty-title">No disruption data available</p>
-          <p class="empty-description">No disruption data found for the selected period. Try adjusting the date range.</p>
+          <p class="ku:empty-title">No disruption data available</p>
+          <p class="ku:empty-description">No disruption data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
     </div>

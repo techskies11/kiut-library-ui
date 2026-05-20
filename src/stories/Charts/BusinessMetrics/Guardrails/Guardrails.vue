@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="guardrails-root h-full min-h-0"
+    class="guardrails-root ku:h-full ku:min-h-0"
     title="Guardrails Metrics"
     subtitle="Content safety guardrail events and actions"
     :collapsible="false"
@@ -33,7 +33,7 @@
       <template v-if="hasData">
         <!-- Daily Grouped Table (chrome: Utils/Table) -->
         <section v-if="groupedTableData.length > 0" class="guardrails-daily-section">
-          <div class="w-full min-w-0">
+          <div class="ku:w-full ku:min-w-0">
             <Table
               :columns="guardrailsTableColumns"
               :rows="guardrailsTableRows"
@@ -41,10 +41,10 @@
               row-key="id"
             >
               <template #cell-date="{ row }">
-                <span class="font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
+                <span class="ku:font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
               </template>
               <template #cell-count="{ row }">
-                <span class="font-semibold">{{ useNumberFormat(row.total as number) }}</span>
+                <span class="ku:font-semibold">{{ useNumberFormat(row.total as number) }}</span>
               </template>
               <template #cell-types="{ row }">
                 <div class="type-badges-row">
@@ -62,7 +62,7 @@
         </section>
 
         <!-- KPI cards debajo del contenido principal (tabla / vista diaria) -->
-        <section class="guardrails-kpis grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <section class="guardrails-kpis ku:grid ku:grid-cols-2 ku:gap-3 ku:lg:grid-cols-4">
           <CardInfo title="Total Events" :value="useNumberFormat(totalCount)" />
           <CardInfo
             title="Top type"
@@ -83,15 +83,15 @@
       </template>
 
       <!-- Empty State -->
-      <section v-else class="empty-state">
-        <div class="empty-state-content">
-          <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="ku:empty-state">
+        <div class="ku:empty-state-content">
+          <div class="ku:empty-icon-wrapper">
+            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
           </div>
-          <p class="empty-title">No guardrail events</p>
-          <p class="empty-description">No content safety events found for the selected period. This is a good sign!</p>
+          <p class="ku:empty-title">No guardrail events</p>
+          <p class="ku:empty-description">No content safety events found for the selected period. This is a good sign!</p>
         </div>
       </section>
     </div>

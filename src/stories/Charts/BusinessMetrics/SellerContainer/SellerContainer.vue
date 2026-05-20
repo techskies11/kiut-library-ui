@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="seller-container-root w-full"
+    class="seller-container-root ku:w-full"
     title="Seller"
     subtitle="Sales funnel performance and successful sales by communication channel."
     :default-open="containerInitiallyOpen"

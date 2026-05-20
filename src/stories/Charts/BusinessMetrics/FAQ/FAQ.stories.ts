@@ -71,7 +71,7 @@ const meta = {
   decorators: [
     () => ({
       template:
-        '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
+        '<div ku:class="ku:box-border ku:h-[560px] ku:w-full ku:max-w-5xl ku:px-2 ku:py-4"><story /></div>',
     }),
   ],
 } satisfies Meta<typeof FAQ>;
@@ -197,7 +197,7 @@ export const WithoutExport: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Componente sin los botones de exportación (enableExport: false).'
+        story: 'Componente sin los botones de exportación ku:(enableExport: false).'
       }
     }
   }

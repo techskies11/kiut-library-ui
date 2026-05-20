@@ -3,11 +3,11 @@
     <Transition name="kiut-modal">
       <div
         v-if="modelValue"
-        class="fixed inset-0 z-[200] flex items-center justify-center p-4 [font-family:'Inter',sans-serif]"
+        class="ku:fixed ku:inset-0 ku:z-[200] ku:flex ku:items-center ku:justify-center ku:p-4 ku:[font-family:'Inter',sans-serif]"
         aria-hidden="false"
       >
       <div
-        class="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] dark:bg-black/60"
+        class="ku:absolute ku:inset-0 ku:bg-slate-900/50 ku:backdrop-blur-[2px] ku:dark:bg-black/60"
         aria-hidden="true"
         @click="handleCancel"
       />
@@ -17,23 +17,23 @@
         aria-modal="true"
         :aria-labelledby="titleId"
         tabindex="-1"
-        class="kiut-modal-panel relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] shadow-[var(--kiut-shadow-card)] dark:bg-[#252528] dark:shadow-black/40"
+        class="kiut-modal-panel ku:relative ku:z-10 ku:flex ku:max-h-[min(90vh,880px)] ku:w-full ku:max-w-lg ku:flex-col ku:overflow-hidden ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:shadow-[var(--kiut-shadow-card)] ku:dark:bg-[#252528] ku:dark:shadow-black/40"
         @click.stop
       >
         <header
-          class="flex shrink-0 justify-between gap-4 border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.02]"
-          :class="subtitle ? 'items-start' : 'items-center'"
+          class="ku:flex ku:shrink-0 ku:justify-between ku:gap-4 ku:border-b ku:border-slate-100 ku:bg-slate-50/50 ku:px-6 ku:py-5 ku:dark:border-[color:var(--kiut-border-light)] ku:dark:bg-white/[0.02]"
+          :class="subtitle ? 'ku:items-start' : 'ku:items-center'"
         >
-          <div class="min-w-0 flex-1 space-y-1">
+          <div class="ku:min-w-0 ku:flex-1 ku:space-y-1">
             <h2
               :id="titleId"
-              class="text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
+              class="ku:text-xl ku:font-semibold ku:leading-tight ku:tracking-tight ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100"
             >
               {{ title }}
             </h2>
             <p
               v-if="subtitle"
-              class="text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
+              class="ku:text-sm ku:leading-snug ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-slate-400"
             >
               {{ subtitle }}
             </p>
@@ -41,20 +41,20 @@
           <Button
             variant="action"
             type="button"
-            class="shrink-0"
+            class="ku:shrink-0"
             @click="handleCancel"
           >
             <template #icon>
-              <XMarkIcon class="h-5 w-5" />
+              <XMarkIcon class="ku:h-5 ku:w-5" />
             </template>
           </Button>
         </header>
 
-        <div class="min-h-0 flex-1 overflow-y-auto px-6 py-6">
+        <div class="ku:min-h-0 ku:flex-1 ku:overflow-y-auto ku:px-6 ku:py-6">
           <slot />
         </div>
 
-        <footer class="flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2">
+        <footer class="ku:flex ku:shrink-0 ku:justify-end ku:gap-3 ku:px-6 ku:pb-6 ku:pt-2">
           <Button variant="secondary" type="button" @click="handleCancel">
             {{ cancelLabel }}
           </Button>
@@ -92,7 +92,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean];
+  'ku:update:modelValue': [value: boolean];
   cancel: [];
   confirm: [];
 }>();
@@ -103,7 +103,7 @@ const panelRef = ref<HTMLElement | null>(null);
 
 function handleCancel() {
   emit('cancel');
-  emit('update:modelValue', false);
+  emit('ku:update:modelValue', false);
 }
 
 function handleConfirm() {

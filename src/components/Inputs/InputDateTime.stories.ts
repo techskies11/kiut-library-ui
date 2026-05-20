@@ -11,7 +11,7 @@ const meta: Meta<typeof InputDateTime> = {
     docs: {
       description: {
         component:
-          'Fecha y hora con el selector nativo (`datetime-local`). El valor es una cadena `YYYY-MM-DDTHH:mm` o `null`. Tema claro/oscuro: toolbar **Theme** en Storybook.',
+          'Fecha y hora con el selector nativo (`datetime-local`). El valor es una cadena ku:`YYYY-MM-DDTHH:mm` o `null`. Tema ku:claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -30,11 +30,11 @@ export const Default: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(InputDateTime, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string | null) => {
+            'ku:onUpdate:modelValue': (v: string | null) => {
               model.value = v;
             },
           }),
@@ -45,10 +45,10 @@ export const Default: Story = {
 
 export const WithValue: Story = {
   args: {
-    modelValue: '2026-04-08T09:30',
+    modelValue: 'ku:2026-04-08T09:30',
     label: 'Cita',
-    min: '2026-01-01T00:00',
-    max: '2026-12-31T23:59',
+    min: 'ku:2026-01-01T00:00',
+    max: 'ku:2026-12-31T23:59',
     step: 60,
   },
   render: (args) => ({
@@ -56,11 +56,11 @@ export const WithValue: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(InputDateTime, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string | null) => {
+            'ku:onUpdate:modelValue': (v: string | null) => {
               model.value = v;
             },
           }),
@@ -81,11 +81,11 @@ export const WithError: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(InputDateTime, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string | null) => {
+            'ku:onUpdate:modelValue': (v: string | null) => {
               model.value = v;
             },
           }),

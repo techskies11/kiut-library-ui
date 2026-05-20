@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="csat-container-root w-full"
+    class="csat-container-root ku:w-full"
     title="CSAT"
     subtitle="Customer satisfaction score distribution and daily trend metrics."
     :default-open="containerInitiallyOpen"

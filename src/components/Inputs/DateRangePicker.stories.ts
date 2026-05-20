@@ -35,11 +35,11 @@ export const Default: Story = {
     setup() {
       const model = ref<KiutDateRange>({ ...args.modelValue });
       return () =>
-        h('div', { class: 'max-w-2xl' }, [
+        h('div', { class: 'ku:max-w-2xl' }, [
           h(DateRangePicker, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: KiutDateRange) => {
+            'ku:onUpdate:modelValue': (v: KiutDateRange) => {
               model.value = v;
             },
           }),
@@ -60,12 +60,12 @@ export const AlignedEnd: Story = {
     setup() {
       const model = ref<KiutDateRange>({ ...args.modelValue });
       return () =>
-        h('div', { class: 'flex w-full max-w-4xl justify-end' }, [
-          h('div', { class: 'w-full max-w-md' }, [
+        h('div', { class: 'ku:flex ku:w-full ku:max-w-4xl ku:justify-end' }, [
+          h('div', { class: 'ku:w-full ku:max-w-md' }, [
             h(DateRangePicker, {
               ...args,
               modelValue: model.value,
-              'onUpdate:modelValue': (v: KiutDateRange) => {
+              'ku:onUpdate:modelValue': (v: KiutDateRange) => {
                 model.value = v;
               },
             }),

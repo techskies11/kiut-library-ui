@@ -2,7 +2,7 @@
   <div
     role="tablist"
     :aria-label="ariaLabel"
-    class="inline-flex w-full max-w-full rounded-lg border border-gray-300 bg-transparent p-0.5 font-sans dark:border-[color:var(--kiut-border-light)]"
+    class="ku:inline-flex ku:w-full ku:max-w-full ku:rounded-lg ku:border ku:border-gray-300 ku:bg-transparent ku:p-0.5 ku:font-sans ku:dark:border-[color:var(--kiut-border-light)]"
   >
     <button
       v-for="(item, index) in items"
@@ -18,7 +18,7 @@
       @click="onSelect(item, index, $event)"
       @keydown="onKeydown($event, index)"
     >
-      <span class="truncate px-3 py-2 text-sm font-medium">{{ item.label }}</span>
+      <span class="ku:truncate ku:px-3 ku:py-2 ku:text-sm ku:font-medium">{{ item.label }}</span>
     </button>
   </div>
 </template>
@@ -47,7 +47,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string];
+  'ku:update:modelValue': [value: string];
 }>();
 
 const uid = `kiut-seg-${randomInstanceSuffix()}`;
@@ -66,7 +66,7 @@ function isActive(item: SegmentedItem): boolean {
 function segmentClass(item: SegmentedItem) {
   const active = isActive(item);
   const base =
-    'flex min-w-0 flex-1 cursor-pointer items-center justify-center rounded-md outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]';
+    'ku:flex ku:min-w-0 ku:flex-1 ku:cursor-pointer ku:items-center ku:justify-center ku:rounded-md ku:outline-none ku:transition-colors ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary)]/40 ku:focus-visible:ring-offset-2 ku:focus-visible:ring-offset-white ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]';
   if (item.disabled) {
     return `${base} cursor-not-allowed opacity-40`;
   }
@@ -79,7 +79,7 @@ function segmentClass(item: SegmentedItem) {
 function select(item: SegmentedItem) {
   if (item.disabled) return;
   if (item.value === props.modelValue) return;
-  emit('update:modelValue', item.value);
+  emit('ku:update:modelValue', item.value);
 }
 
 function onSelect(item: SegmentedItem, index: number, _e: MouseEvent) {

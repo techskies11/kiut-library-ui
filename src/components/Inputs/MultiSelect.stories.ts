@@ -19,7 +19,7 @@ const meta: Meta<typeof MultiSelect> = {
     docs: {
       description: {
         component:
-          'Listbox múltiple con los mismos estilos que Select: chips en el trigger y check en opciones activas.',
+          'Listbox múltiple con los mismos estilos que ku:Select: chips en el trigger y check en opciones activas.',
       },
     },
   },
@@ -40,11 +40,11 @@ export const Default: Story = {
     setup() {
       const model = ref<string[]>([...(args.modelValue ?? [])]);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(MultiSelect, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string[]) => {
+            'ku:onUpdate:modelValue': (v: string[]) => {
               model.value = v;
             },
           }),

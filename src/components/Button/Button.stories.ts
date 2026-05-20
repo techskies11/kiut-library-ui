@@ -34,13 +34,13 @@ const iconPlus = () =>
   h(
     'svg',
     {
-      xmlns: 'http://www.w3.org/2000/svg',
+      xmlns: 'ku:http://www.w3.org/2000/svg',
       viewBox: '0 0 24 24',
       fill: 'none',
       stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
+      'ku:stroke-width': '2',
+      'ku:stroke-linecap': 'round',
+      'ku:stroke-linejoin': 'round',
     },
     [h('path', { d: 'M12 5v14M5 12h14' })]
   );
@@ -49,13 +49,13 @@ const iconRefresh = () =>
   h(
     'svg',
     {
-      xmlns: 'http://www.w3.org/2000/svg',
+      xmlns: 'ku:http://www.w3.org/2000/svg',
       viewBox: '0 0 24 24',
       fill: 'none',
       stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
+      'ku:stroke-width': '2',
+      'ku:stroke-linecap': 'round',
+      'ku:stroke-linejoin': 'round',
     },
     [
       h('path', { d: 'M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8' }),
@@ -69,13 +69,13 @@ const iconPencil = () =>
   h(
     'svg',
     {
-      xmlns: 'http://www.w3.org/2000/svg',
+      xmlns: 'ku:http://www.w3.org/2000/svg',
       viewBox: '0 0 24 24',
       fill: 'none',
       stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
+      'ku:stroke-width': '2',
+      'ku:stroke-linecap': 'round',
+      'ku:stroke-linejoin': 'round',
     },
     [h('path', { d: 'M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z' }), h('path', { d: 'm15 5 4 4' })]
   );
@@ -84,13 +84,13 @@ const iconDownload = () =>
   h(
     'svg',
     {
-      xmlns: 'http://www.w3.org/2000/svg',
+      xmlns: 'ku:http://www.w3.org/2000/svg',
       viewBox: '0 0 24 24',
       fill: 'none',
       stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
+      'ku:stroke-width': '2',
+      'ku:stroke-linecap': 'round',
+      'ku:stroke-linejoin': 'round',
     },
     [
       h('path', { d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4' }),
@@ -103,13 +103,13 @@ const iconTrash = () =>
   h(
     'svg',
     {
-      xmlns: 'http://www.w3.org/2000/svg',
+      xmlns: 'ku:http://www.w3.org/2000/svg',
       viewBox: '0 0 24 24',
       fill: 'none',
       stroke: 'currentColor',
-      'stroke-width': '2',
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
+      'ku:stroke-width': '2',
+      'ku:stroke-linecap': 'round',
+      'ku:stroke-linejoin': 'round',
     },
     [
       h('path', { d: 'M3 6h18' }),
@@ -169,7 +169,7 @@ export const Disabled: Story = {
     components: { Button },
     setup() {
       return () =>
-        h('div', { class: 'flex flex-wrap items-center gap-3' }, [
+        h('div', { class: 'ku:flex ku:flex-wrap ku:items-center ku:gap-3' }, [
           h(Button, { variant: 'primary', disabled: true }, () => 'Primary deshabilitado'),
           h(Button, { variant: 'secondary', disabled: true }, () => 'Secondary deshabilitado'),
         ]);
@@ -182,7 +182,7 @@ export const SideBySide: Story = {
     components: { Button },
     setup() {
       return () =>
-        h('div', { class: 'flex flex-wrap items-center gap-3' }, [
+        h('div', { class: 'ku:flex ku:flex-wrap ku:items-center ku:gap-3' }, [
           h(Button, { variant: 'primary' }, { icon: iconPlus, default: () => 'Agregar idioma' }),
           h(Button, { variant: 'secondary' }, { icon: iconRefresh, default: () => 'Refresh' }),
         ]);
@@ -196,11 +196,11 @@ export const ActionableRow: Story = {
     components: { Button },
     setup() {
       return () =>
-        h('div', { class: 'flex flex-col gap-2' }, [
-          h('p', { class: 'text-sm font-semibold text-[color:var(--kiut-text-primary)]' }, 'Acciones'),
+        h('div', { class: 'ku:flex ku:flex-col ku:gap-2' }, [
+          h('p', { class: 'ku:text-sm ku:font-semibold ku:text-[color:var(--kiut-text-primary)]' }, 'Acciones'),
           h(
             'div',
-            { class: 'flex items-center gap-1' },
+            { class: 'ku:flex ku:items-center ku:gap-1' },
             [
               h(
                 Button,

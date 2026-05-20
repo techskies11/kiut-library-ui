@@ -12,7 +12,7 @@ const meta: Meta<typeof Section> = {
     docs: {
       description: {
         component:
-          'Marco de vista con tres slots: **#description** (título, texto, filtros u otra información a la izquierda), **#actions** (acciones alineadas a la derecha en la misma fila) y **#content** o slot por defecto (cuerpo debajo). La primera fila usa `justify-between` en `sm+`. Usa la toolbar **Theme** para revisar claro/oscuro.',
+          'Marco de vista con tres ku:slots: **#description** (título, texto, filtros u otra información a la izquierda), **#actions** (acciones alineadas a la derecha en la misma fila) y **#content** o slot por defecto (cuerpo debajo). La primera fila usa `justify-between` en `sm+`. Usa la toolbar **Theme** para revisar claro/oscuro.',
       },
     },
   },
@@ -25,18 +25,18 @@ export const Default: Story = {
   render: () => ({
     components: { Section, Button, BuildingStorefrontIcon },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+      <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-6 ku:dark:bg-[#1a1a1d]">
         <Section>
           <template #description>
-            <div class="flex min-w-0 items-center gap-2.5">
-              <span class="inline-flex shrink-0 items-center text-[color:var(--kiut-text-primary)] dark:text-slate-100 [&>svg]:size-6" aria-hidden="true">
+            <div class="ku:flex ku:min-w-0 ku:items-center ku:gap-2.5">
+              <span class="ku:inline-flex ku:shrink-0 ku:items-center ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100 ku:[&>svg]:size-6" aria-hidden="true">
                 <BuildingStorefrontIcon />
               </span>
-              <div class="min-w-0">
-                <h2 class="text-3xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100">
+              <div class="ku:min-w-0">
+                <h2 class="ku:text-3xl ku:font-semibold ku:leading-tight ku:tracking-tight ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100">
                   Puntos de Venta
                 </h2>
-                <p class="mt-1.5 text-base leading-snug text-[color:var(--kiut-text-secondary)] dark:text-[#838395]">
+                <p class="ku:mt-1.5 ku:text-base ku:leading-snug ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-[#838395]">
                   Administra los puntos de venta y dispositivos asociados.
                 </p>
               </div>
@@ -45,13 +45,13 @@ export const Default: Story = {
           <template #actions>
             <Button variant="primary" type="button">
               <template #icon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ku:h-5 ku:w-5"><path d="M12 5v14M5 12h14"/></svg>
               </template>
               Agregar punto de venta
             </Button>
           </template>
           <template #content>
-            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+            <div class="ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:p-4 ku:text-sm ku:text-[color:var(--kiut-text-secondary)] ku:dark:bg-black/20 ku:dark:text-slate-400">
               Slot de contenido: filtros, tablas, formularios, etc.
             </div>
           </template>
@@ -65,25 +65,25 @@ export const DescripcionConSlotDeIcono: Story = {
   render: () => ({
     components: { Section, BuildingStorefrontIcon },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+      <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-6 ku:dark:bg-[#1a1a1d]">
         <Section>
           <template #description>
-            <div class="flex min-w-0 items-start gap-2.5">
-              <span class="inline-flex shrink-0 items-center text-[color:var(--kiut-text-primary)] dark:text-slate-100 [&>svg]:size-6" aria-hidden="true">
+            <div class="ku:flex ku:min-w-0 ku:items-start ku:gap-2.5">
+              <span class="ku:inline-flex ku:shrink-0 ku:items-center ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100 ku:[&>svg]:size-6" aria-hidden="true">
                 <BuildingStorefrontIcon />
               </span>
-              <div class="min-w-0">
-                <h2 class="text-3xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100">
+              <div class="ku:min-w-0">
+                <h2 class="ku:text-3xl ku:font-semibold ku:leading-tight ku:tracking-tight ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100">
                   Con icono en la descripción
                 </h2>
-                <p class="mt-1.5 text-base text-[color:var(--kiut-text-secondary)] dark:text-[#838395]">
-                  El icono y el texto viven dentro del slot <code class="rounded bg-black/5 px-1 py-0.5 text-sm dark:bg-white/10">#description</code>.
+                <p class="ku:mt-1.5 ku:text-base ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-[#838395]">
+                  El icono y el texto viven dentro del slot <code class="ku:rounded ku:bg-black/5 ku:px-1 ku:py-0.5 ku:text-sm ku:dark:bg-white/10">#description</code>.
                 </p>
               </div>
             </div>
           </template>
           <template #content>
-            <p class="text-sm text-[color:var(--kiut-text-secondary)] dark:text-slate-400">Contenido principal.</p>
+            <p class="ku:text-sm ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-slate-400">Contenido principal.</p>
           </template>
         </Section>
       </div>
@@ -103,15 +103,15 @@ export const ConFiltros: Story = {
   render: () => ({
     components: { Section, Button },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+      <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-6 ku:dark:bg-[#1a1a1d]">
         <Section>
           <template #description>
-            <div class="min-w-0">
-              <h2 class="text-3xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100">
+            <div class="ku:min-w-0">
+              <h2 class="ku:text-3xl ku:font-semibold ku:leading-tight ku:tracking-tight ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100">
                 Con filtros y acciones
               </h2>
-              <p class="mt-1.5 text-base text-[color:var(--kiut-text-secondary)] dark:text-[#838395]">
-                El slot <code class="rounded bg-black/5 px-1 dark:bg-white/10">#filters</code> aparece sobre las acciones, ambos alineados a la derecha.
+              <p class="ku:mt-1.5 ku:text-base ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-[#838395]">
+                El slot <code class="ku:rounded ku:bg-black/5 ku:px-1 ku:dark:bg-white/10">#filters</code> aparece sobre las acciones, ambos alineados a la derecha.
               </p>
             </div>
           </template>
@@ -119,9 +119,9 @@ export const ConFiltros: Story = {
             <input
               type="text"
               placeholder="Buscar..."
-              class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:ring-2 focus:ring-[color:var(--kiut-primary)]/30 dark:bg-black/20 dark:text-slate-100"
+              class="ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-1.5 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:outline-none ku:focus:ring-2 ku:focus:ring-[color:var(--kiut-primary)]/30 ku:dark:bg-black/20 ku:dark:text-slate-100"
             />
-            <select class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] dark:bg-black/20 dark:text-slate-100">
+            <select class="ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-1.5 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:dark:bg-black/20 ku:dark:text-slate-100">
               <option>Todos los estados</option>
               <option>Activo</option>
               <option>Inactivo</option>
@@ -130,13 +130,13 @@ export const ConFiltros: Story = {
           <template #actions>
             <Button variant="primary" type="button">
               <template #icon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ku:h-5 ku:w-5"><path d="M12 5v14M5 12h14"/></svg>
               </template>
               Agregar
             </Button>
           </template>
           <template #content>
-            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+            <div class="ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:p-4 ku:text-sm ku:text-[color:var(--kiut-text-secondary)] ku:dark:bg-black/20 ku:dark:text-slate-400">
               Contenido de la sección.
             </div>
           </template>
@@ -157,21 +157,21 @@ export const SoloFiltros: Story = {
   render: () => ({
     components: { Section },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+      <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-6 ku:dark:bg-[#1a1a1d]">
         <Section>
           <template #filters>
             <input
               type="text"
               placeholder="Buscar..."
-              class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:ring-2 focus:ring-[color:var(--kiut-primary)]/30 dark:bg-black/20 dark:text-slate-100"
+              class="ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-1.5 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:outline-none ku:focus:ring-2 ku:focus:ring-[color:var(--kiut-primary)]/30 ku:dark:bg-black/20 ku:dark:text-slate-100"
             />
-            <select class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] dark:bg-black/20 dark:text-slate-100">
+            <select class="ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-1.5 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:dark:bg-black/20 ku:dark:text-slate-100">
               <option>Todos</option>
               <option>Activo</option>
             </select>
           </template>
           <template #content>
-            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+            <div class="ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:p-4 ku:text-sm ku:text-[color:var(--kiut-text-secondary)] ku:dark:bg-black/20 ku:dark:text-slate-400">
               Contenido de la sección.
             </div>
           </template>
@@ -193,15 +193,15 @@ export const FiltrosYAcciones: Story = {
   render: () => ({
     components: { Section, Button },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+      <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-6 ku:dark:bg-[#1a1a1d]">
         <Section>
           <template #filters>
             <input
               type="text"
               placeholder="Buscar..."
-              class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:ring-2 focus:ring-[color:var(--kiut-primary)]/30 dark:bg-black/20 dark:text-slate-100"
+              class="ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-1.5 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:outline-none ku:focus:ring-2 ku:focus:ring-[color:var(--kiut-primary)]/30 ku:dark:bg-black/20 ku:dark:text-slate-100"
             />
-            <select class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] dark:bg-black/20 dark:text-slate-100">
+            <select class="ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-1.5 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:dark:bg-black/20 ku:dark:text-slate-100">
               <option>Todos los estados</option>
               <option>Activo</option>
               <option>Inactivo</option>
@@ -210,13 +210,13 @@ export const FiltrosYAcciones: Story = {
           <template #actions>
             <Button variant="primary" type="button">
               <template #icon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ku:h-5 ku:w-5"><path d="M12 5v14M5 12h14"/></svg>
               </template>
               Agregar
             </Button>
           </template>
           <template #content>
-            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+            <div class="ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:p-4 ku:text-sm ku:text-[color:var(--kiut-text-secondary)] ku:dark:bg-black/20 ku:dark:text-slate-400">
               Contenido de la sección.
             </div>
           </template>
@@ -241,16 +241,16 @@ export const Mobile: Story = {
   render: () => ({
     components: { Section, Button, BuildingStorefrontIcon },
     template: `
-      <div class="min-h-screen bg-[color:var(--kiut-bg-primary)] dark:bg-black p-4">
-        <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-4 dark:bg-[#1a1a1d]">
+      <div class="ku:min-h-screen ku:bg-[color:var(--kiut-bg-primary)] ku:dark:bg-black ku:p-4">
+        <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-4 ku:dark:bg-[#1a1a1d]">
           <Section>
             <template #filters>
               <input
                 type="text"
                 placeholder="Buscar..."
-                class="w-full rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-2 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:ring-2 focus:ring-[color:var(--kiut-primary)]/30 dark:bg-black/20 dark:text-slate-100"
+                class="ku:w-full ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-2 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:outline-none ku:focus:ring-2 ku:focus:ring-[color:var(--kiut-primary)]/30 ku:dark:bg-black/20 ku:dark:text-slate-100"
               />
-              <select class="w-full rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-2 text-sm text-[color:var(--kiut-text-primary)] dark:bg-black/20 dark:text-slate-100">
+              <select class="ku:w-full ku:rounded-lg ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:px-3 ku:py-2 ku:text-sm ku:text-[color:var(--kiut-text-primary)] ku:dark:bg-black/20 ku:dark:text-slate-100">
                 <option>Todos los estados</option>
                 <option>Activo</option>
                 <option>Inactivo</option>
@@ -258,16 +258,16 @@ export const Mobile: Story = {
             </template>
 
             <template #actions>
-              <Button variant="primary" type="button" class="w-full justify-center">
+              <Button variant="primary" type="button" class="ku:w-full ku:justify-center">
                 <template #icon>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M12 5v14M5 12h14"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ku:h-4 ku:w-4"><path d="M12 5v14M5 12h14"/></svg>
                 </template>
                 Agregar punto de venta
               </Button>
             </template>
 
             <template #content>
-              <div class="space-y-3">
+              <div class="ku:space-y-3">
                 <div
                   v-for="(item, i) in [
                     { name: 'Caja Central', status: 'Activo', devices: 3 },
@@ -275,17 +275,15 @@ export const Mobile: Story = {
                     { name: 'Mostrador 2', status: 'Activo', devices: 2 },
                   ]"
                   :key="i"
-                  class="flex items-center justify-between rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-3 dark:bg-black/20"
+                  class="ku:flex ku:items-center ku:justify-between ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:p-3 ku:dark:bg-black/20"
                 >
-                  <div class="min-w-0">
-                    <p class="truncate text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100">{{ item.name }}</p>
-                    <p class="mt-0.5 text-xs text-[color:var(--kiut-text-secondary)] dark:text-[#838395]">{{ item.devices }} dispositivo{{ item.devices !== 1 ? 's' : '' }}</p>
+                  <div class="ku:min-w-0">
+                    <p class="ku:truncate ku:text-sm ku:font-medium ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100">{{ item.name }}</p>
+                    <p class="ku:mt-0.5 ku:text-xs ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-[#838395]">{{ item.devices }} dispositivo{{ item.devices !== 1 ? 's' : '' }}</p>
                   </div>
                   <span
-                    :class="item.status === 'Activo'
-                      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400'
-                      : 'bg-slate-100 text-slate-500 dark:bg-slate-700/40 dark:text-slate-400'"
-                    class="ml-3 shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium"
+                    :class="item.status === 'Activo' ? 'ku:bg-emerald-100 ku:text-emerald-700 ku:dark:bg-emerald-900/40 ku:dark:text-emerald-400' : 'ku:bg-slate-100 ku:text-slate-500 ku:dark:bg-slate-700/40 ku:dark:text-slate-400'"
+                    class="ku:ml-3 ku:shrink-0 ku:rounded-full ku:px-2.5 ku:py-0.5 ku:text-xs ku:font-medium"
                   >
                     {{ item.status }}
                   </span>
@@ -311,18 +309,18 @@ export const SoloAcciones: Story = {
   render: () => ({
     components: { Section, Button },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+      <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-6 ku:dark:bg-[#1a1a1d]">
         <Section>
           <template #actions>
             <Button variant="primary" type="button">
               <template #icon>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ku:h-5 ku:w-5"><path d="M12 5v14M5 12h14"/></svg>
               </template>
               Agregar
             </Button>
           </template>
           <template #content>
-            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+            <div class="ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-primary)] ku:p-4 ku:text-sm ku:text-[color:var(--kiut-text-secondary)] ku:dark:bg-black/20 ku:dark:text-slate-400">
               Contenido de la sección.
             </div>
           </template>
@@ -336,19 +334,19 @@ export const SoloDescripcionYContenido: Story = {
   render: () => ({
     components: { Section },
     template: `
-      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+      <div class="ku:rounded-2xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-[color:var(--kiut-bg-secondary)] ku:p-6 ku:dark:bg-[#1a1a1d]">
         <Section>
           <template #description>
-            <div class="min-w-0">
-              <h2 class="text-3xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100">
+            <div class="ku:min-w-0">
+              <h2 class="ku:text-3xl ku:font-semibold ku:leading-tight ku:tracking-tight ku:text-[color:var(--kiut-text-primary)] ku:dark:text-slate-100">
                 Solo título y subtítulo
               </h2>
-              <p class="mt-1.5 text-base text-[color:var(--kiut-text-secondary)] dark:text-[#838395]">
+              <p class="ku:mt-1.5 ku:text-base ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-[#838395]">
                 Sin acciones en la cabecera.
               </p>
             </div>
           </template>
-          <p class="text-sm text-[color:var(--kiut-text-secondary)] dark:text-slate-400">Contenido con slot por defecto (sin <code class="rounded bg-black/5 px-1 dark:bg-white/10">#content</code>).</p>
+          <p class="ku:text-sm ku:text-[color:var(--kiut-text-secondary)] ku:dark:text-slate-400">Contenido con slot por defecto (sin <code class="ku:rounded ku:bg-black/5 ku:px-1 ku:dark:bg-white/10">#content</code>).</p>
         </Section>
       </div>
     `,

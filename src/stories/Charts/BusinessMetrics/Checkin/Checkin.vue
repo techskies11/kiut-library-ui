@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="checkin-metrics-root h-full min-h-0"
+    class="checkin-metrics-root ku:h-full ku:min-h-0"
     title="Check-in Metrics"
     subtitle="Check-in performance and failure analysis"
     :collapsible="collapsible"
@@ -45,7 +45,7 @@
 
       <!-- Table Data (estilos de tabla: Utils/Table) -->
       <section v-if="tableData && tableData.length > 0" class="checkin-daily-section">
-        <div class="w-full min-w-0">
+        <div class="ku:w-full ku:min-w-0">
           <Table
             :columns="checkinTableColumns"
             :rows="checkinTableRows"
@@ -53,7 +53,7 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
+              <span class="ku:font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
             </template>
             <template #cell-checkinInit="{ row }">
               <span>{{ useNumberFormat(row.checkin_initiated_count) }}</span>
@@ -91,15 +91,15 @@
       </section>
 
       <!-- Empty State -->
-      <section v-else class="empty-state">
-        <div class="empty-state-content">
-          <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <section v-else class="ku:empty-state">
+        <div class="ku:empty-state-content">
+          <div class="ku:empty-icon-wrapper">
+            <svg class="ku:empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
-          <p class="empty-title">No check-in data available</p>
-          <p class="empty-description">Try adjusting the date range or check your filters to see check-in performance data.</p>
+          <p class="ku:empty-title">No check-in data available</p>
+          <p class="ku:empty-description">Try adjusting the date range or check your filters to see check-in performance data.</p>
         </div>
       </section>
     </div>

@@ -11,7 +11,7 @@ const meta: Meta<typeof InputTime> = {
     docs: {
       description: {
         component:
-          'Hora en 24 h con el selector nativo (`time`), solo horas y minutos (`step` 60). El valor es `HH:mm` o `null`. Tema claro/oscuro: toolbar **Theme** en Storybook.',
+          'Hora en 24 h con el selector nativo (`time`), solo horas y minutos (`step` 60). El valor es ku:`HH:mm` o `null`. Tema ku:claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -30,11 +30,11 @@ export const Default: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(InputTime, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string | null) => {
+            'ku:onUpdate:modelValue': (v: string | null) => {
               model.value = v;
             },
           }),
@@ -45,7 +45,7 @@ export const Default: Story = {
 
 export const WithValue: Story = {
   args: {
-    modelValue: '14:30',
+    modelValue: 'ku:14:30',
     label: 'Fin del turno',
   },
   render: (args) => ({
@@ -53,11 +53,11 @@ export const WithValue: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(InputTime, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string | null) => {
+            'ku:onUpdate:modelValue': (v: string | null) => {
               model.value = v;
             },
           }),
@@ -68,21 +68,21 @@ export const WithValue: Story = {
 
 export const WithBounds: Story = {
   args: {
-    modelValue: '09:00',
+    modelValue: 'ku:09:00',
     label: 'Horario permitido',
-    min: '08:00',
-    max: '18:00',
+    min: 'ku:08:00',
+    max: 'ku:18:00',
   },
   render: (args) => ({
     components: { InputTime },
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(InputTime, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string | null) => {
+            'ku:onUpdate:modelValue': (v: string | null) => {
               model.value = v;
             },
           }),
@@ -103,11 +103,11 @@ export const WithError: Story = {
     setup() {
       const model = ref<string | null>(args.modelValue ?? null);
       return () =>
-        h('div', { class: 'max-w-md' }, [
+        h('div', { class: 'ku:max-w-md' }, [
           h(InputTime, {
             ...args,
             modelValue: model.value,
-            'onUpdate:modelValue': (v: string | null) => {
+            'ku:onUpdate:modelValue': (v: string | null) => {
               model.value = v;
             },
           }),

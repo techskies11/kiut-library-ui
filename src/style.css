@@ -81,9 +81,14 @@
 
 /* ============================================
    CSS Variables - Dark Mode
+   Requiere class="dark" en <html> (recomendado) o ancestro .dark / .dark-mode.
+   html.dark body asegura tokens en Teleport to="body" (Modal, Select, Filters).
    ============================================ */
+html.dark,
+html.dark body,
 :root.dark,
-.dark {
+.dark,
+.dark-mode {
   /* Backgrounds */
   --kiut-bg-primary: #000000;
   --kiut-bg-secondary: #1a1a1d;
@@ -170,56 +175,6 @@
 }
 
 .storybook-wrapper.dark-mode {
+  /* Variables dark vienen de html.dark (preview.ts); solo fondo del contenedor */
   background-color: var(--kiut-bg-primary);
-}
-
-/* Ensure dark mode variables are applied to dark-mode wrapper */
-.storybook-wrapper.dark-mode {
-  /* Backgrounds */
-  --kiut-bg-primary: #000000;
-  --kiut-bg-secondary: #1a1a1d;
-  --kiut-bg-card: #1a1a1d;
-  --kiut-bg-card-gradient: linear-gradient(to bottom, #1a1a1d 0%, #0f0f11 100%);
-  --kiut-bg-table: #1a1a1d;
-  --kiut-bg-table-header: linear-gradient(to bottom, #252528 0%, #1f1f22 100%);
-  --kiut-bg-table-hover: linear-gradient(to right, #252528 0%, #1f1f22 100%);
-  --kiut-bg-chart-wrapper: linear-gradient(to bottom, #252528 0%, #1a1a1d 100%);
-  --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
-  --kiut-bg-stats-badge: #23232f80;
-  
-  /* Text Colors */
-  --kiut-text-primary: #e3e3e8;
-  --kiut-text-secondary: #9191a1;
-  --kiut-text-muted: #6b7280;
-  --kiut-text-table-header: #d1d5db;
-
-  /* Borders */
-  --kiut-border-color: #2d2d39;
-  --kiut-border-light: #2d2d39;
-  --kiut-border-table: #2d2d39;
-  --kiut-border-table-row: #2d2d39;
-
-  /* Grid Lines (Charts) */
-  --kiut-grid-lines: rgba(198, 125, 255, 0.12);
-
-  /* Shadows */
-  --kiut-shadow-card:
-    0 1px 3px rgba(0, 0, 0, 0.3), 0 10px 15px -3px rgba(0, 0, 0, 0.4),
-    0 0 0 1px #2d2d39;
-  --kiut-shadow-card-hover:
-    0 4px 6px rgba(0, 0, 0, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5),
-    0 0 0 1px #2d2d39;
-  --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
-  --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
-
-  /* Tooltips (Charts) */
-  --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
-  --kiut-tooltip-text: #f8f9fa;
-  --kiut-tooltip-text-secondary: #d1d5db;
-  --kiut-tooltip-border: #2d2d39;
-
-  /* Chart Specific */
-  --kiut-chart-legend-color: #d1d5db;
-  --kiut-chart-tick-color: #9ca3af;
 }

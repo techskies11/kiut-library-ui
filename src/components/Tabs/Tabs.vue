@@ -1,11 +1,11 @@
 <template>
-  <div class="tabs text-sm">
+  <div class="tabs ku:text-sm">
     <div
       role="tablist"
       :aria-label="ariaLabel"
       :class="[
-        'box-border min-h-10 flex-wrap items-center gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-0.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none',
-        fullWidth ? 'flex w-full' : 'inline-flex w-fit max-w-full',
+        'ku:box-border ku:min-h-10 ku:flex-wrap ku:items-center ku:gap-0.5 ku:rounded-xl ku:border ku:border-[color:var(--kiut-border-light)] ku:bg-slate-100/95 ku:px-0.5 ku:py-1 ku:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] ku:transition-colors ku:dark:bg-[color:var(--kiut-bg-secondary)] ku:dark:shadow-none',
+        fullWidth ? 'ku:flex ku:w-full' : 'ku:inline-flex ku:w-fit ku:max-w-full',
       ]"
     >
       <button
@@ -23,21 +23,24 @@
         @keydown="onKeydown($event, index)"
       >
         <span
-          class="flex h-full min-h-0 min-w-0 items-center justify-center gap-2 px-3"
-          :class="{ 'min-w-0 flex-1': fullWidth }"
+          class="tabs-tab__label ku:flex ku:min-h-0 ku:min-w-0 ku:items-center ku:justify-center ku:gap-2 ku:px-3"
+          :class="[
+            { 'ku:min-w-0 ku:flex-1': fullWidth },
+            isActive(item) && 'ku:py-1',
+          ]"
         >
           <component
             :is="item.icon"
             v-if="item.icon"
-            class="h-[1.125rem] w-[1.125rem] shrink-0"
+            class="ku:h-[1.125rem] ku:w-[1.125rem] ku:shrink-0"
             aria-hidden="true"
           />
-          <span class="truncate whitespace-nowrap font-medium tracking-tight">{{ item.label }}</span>
+          <span class="ku:truncate ku:whitespace-nowrap ku:font-medium ku:tracking-tight">{{ item.label }}</span>
         </span>
       </button>
     </div>
     <Transition v-if="$slots.default" name="tabs-panel" mode="out-in">
-      <div :key="modelValue" class="tabs-panel mt-4">
+      <div :key="modelValue" class="tabs-panel ku:mt-4">
         <slot :active="modelValue" />
       </div>
     </Transition>
@@ -94,16 +97,16 @@ function tabButtonClass(item: TabItem): string {
   const active = isActive(item);
   const width =
     props.fullWidth
-      ? 'relative flex min-w-0 flex-1'
-      : 'relative inline-flex max-w-full shrink-0';
-  const base = `${width} h-full min-h-0 cursor-pointer rounded-lg border border-transparent text-center outline-none transition-[background-color,color,box-shadow,opacity,transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100`;
+      ? 'ku:relative ku:flex ku:min-w-0 ku:flex-1'
+      : 'ku:relative ku:inline-flex ku:max-w-full ku:shrink-0';
+  const base = `${width} ku:items-stretch ku:cursor-pointer ku:rounded-lg ku:border ku:border-transparent ku:text-center ku:outline-none ku:focus-visible:ring-2 ku:focus-visible:ring-[color:var(--kiut-primary-light)] ku:focus-visible:ring-offset-2 ku:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] ku:active:scale-[0.99] ku:motion-reduce:active:scale-100`;
   if (item.disabled) {
-    return `${base} cursor-not-allowed opacity-40`;
+    return `${base} ku:cursor-not-allowed ku:opacity-40`;
   }
   if (active) {
-    return `${base} bg-white text-[color:var(--kiut-text-primary)] shadow-sm ring-1 ring-black/[0.04] dark:bg-black/45 dark:text-[color:var(--kiut-text-primary)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)] dark:ring-white/[0.06]`;
+    return `${base} ku:bg-white ku:text-[color:var(--kiut-text-primary)] ku:shadow-sm ku:ring-1 ku:ring-black/[0.04] ku:dark:bg-black/45 ku:dark:text-[color:var(--kiut-text-primary)] ku:dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)] ku:dark:ring-white/[0.06]`;
   }
-  return `${base} text-[color:var(--kiut-text-secondary)] hover:text-[color:var(--kiut-text-primary)] dark:text-[color:var(--kiut-text-muted)] dark:hover:text-[color:var(--kiut-text-secondary)]`;
+  return `${base} ku:text-[color:var(--kiut-text-secondary)] ku:hover:text-[color:var(--kiut-text-primary)] ku:dark:text-[color:var(--kiut-text-muted)] ku:dark:hover:text-[color:var(--kiut-text-secondary)]`;
 }
 
 function select(value: string, previousValue: string) {
@@ -159,6 +162,34 @@ async function onKeydown(e: KeyboardEvent, index: number) {
 <style scoped>
 .tabs {
   font-family: var(--tabs-font, 'Inter', system-ui, sans-serif);
+}
+
+.tabs-tab__label {
+  height: stretch;
+}
+
+/* Altura: activa más alta que inactivas (no depende del scanner de Tailwind) */
+.tabs :deep([role='tablist'] [role='tab']) {
+  box-sizing: border-box;
+  min-height: 1.625rem;
+  transition:
+    min-height 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    background-color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    box-shadow 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.tabs :deep([role='tablist'] [role='tab'][aria-selected='true']) {
+  min-height: 2.375rem;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabs :deep([role='tablist'] [role='tab']) {
+    transition: none;
+  }
 }
 
 /* Panel: fade mínimo al cambiar de pestaña */

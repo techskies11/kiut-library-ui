@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="h-full min-h-0"
+    class="ku:h-full ku:min-h-0"
     title="Model Usage"
     subtitle="AI model performance and costs"
     :collapsible="false"
@@ -13,7 +13,7 @@
         :loading="exportLoading"
       />
     </template>
-    <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+    <div class="ku:flex ku:min-h-0 ku:flex-1 ku:flex-col ku:font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
     <!-- Loading State -->
     <div v-if="loading" class="loading-state">
       <div class="loading-container">
@@ -39,7 +39,7 @@
         <template #default>
           <!-- Table Data -->
           <div v-if="currentData && Object.keys(currentData).length > 0" class="model-usage-table-block">
-            <div class="w-full min-w-0">
+            <div class="ku:w-full ku:min-w-0">
               <Table
                 :columns="modelUsageColumns"
                 :rows="modelUsageTableRows"
@@ -50,13 +50,13 @@
           </div>
 
           <!-- Empty State -->
-          <div v-else class="empty-state">
-            <div class="empty-state-content">
-              <div class="empty-icon-wrapper">
-                <ChartBarIcon class="empty-icon" />
+          <div v-else class="ku:empty-state">
+            <div class="ku:empty-state-content">
+              <div class="ku:empty-icon-wrapper">
+                <ChartBarIcon class="ku:empty-icon" />
               </div>
-              <p class="empty-title">No model usage data available</p>
-              <p class="empty-description">Try adjusting the date range or check your filters to see model performance metrics.</p>
+              <p class="ku:empty-title">No model usage data available</p>
+              <p class="ku:empty-description">Try adjusting the date range or check your filters to see model performance metrics.</p>
             </div>
           </div>
         </template>

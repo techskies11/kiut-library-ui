@@ -291,7 +291,7 @@ export const WithoutExport: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Componente sin los botones de exportación (enableExport: false).'
+        story: 'Componente sin los botones de exportación ku:(enableExport: false).'
       }
     }
   }
