@@ -4,7 +4,7 @@
       role="tablist"
       :aria-label="ariaLabel"
       :class="[
-        'box-border min-h-10 flex-wrap items-center gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 p-0.5 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none',
+        'box-border h-10 max-h-10 min-h-10 flex-wrap items-center gap-0.5 rounded-xl border border-[color:var(--kiut-border-light)] bg-slate-100/95 px-0.5 py-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.6)] transition-colors dark:bg-[color:var(--kiut-bg-secondary)] dark:shadow-none',
         fullWidth ? 'flex w-full' : 'inline-flex w-fit max-w-full',
       ]"
     >
@@ -23,7 +23,7 @@
         @keydown="onKeydown($event, index)"
       >
         <span
-          class="flex h-full min-h-0 min-w-0 items-center justify-center gap-2 px-3"
+          class="tabs-tab__label flex min-h-0 min-w-0 items-center justify-center gap-2 px-3"
           :class="{ 'min-w-0 flex-1': fullWidth }"
         >
           <component
@@ -96,7 +96,7 @@ function tabButtonClass(item: TabItem): string {
     props.fullWidth
       ? 'relative flex min-w-0 flex-1'
       : 'relative inline-flex max-w-full shrink-0';
-  const base = `${width} h-full min-h-0 cursor-pointer rounded-lg border border-transparent text-center outline-none transition-[background-color,color,box-shadow,opacity,transform] duration-300 ease-[cubic-bezier(0.33,1,0.68,1)] motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100`;
+  const base = `${width} h-8 max-h-8 min-h-8 items-stretch cursor-pointer rounded-lg border border-transparent text-center outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100`;
   if (item.disabled) {
     return `${base} cursor-not-allowed opacity-40`;
   }
@@ -159,6 +159,40 @@ async function onKeydown(e: KeyboardEvent, index: number) {
 <style scoped>
 .tabs {
   font-family: var(--tabs-font, 'Inter', system-ui, sans-serif);
+}
+
+.tabs-tab__label {
+  height: stretch;
+}
+
+/* Alturas fijas: track 40px, botones 32px */
+.tabs :deep([role='tablist']) {
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+}
+
+.tabs :deep([role='tablist'] [role='tab']) {
+  box-sizing: border-box;
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+  transition:
+    background-color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    box-shadow 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.tabs :deep([role='tablist'] [role='tab'][aria-selected='true']) {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabs :deep([role='tablist'] [role='tab']) {
+    transition: none;
+  }
 }
 
 /* Panel: fade mínimo al cambiar de pestaña */
