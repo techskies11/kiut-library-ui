@@ -48,11 +48,12 @@
             <LineChart :data="dataChart" :theme="theme" />
           </div>
           <div
-            v-if="channelTotalsTop4.length"
-            class="grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4"
+            v-if="channelTotalsCards.length"
+            class="grid w-full gap-3 md:gap-4"
+            :style="cardInfoGridStyle"
           >
             <CardInfo
-              v-for="ch in channelTotalsTop4"
+              v-for="ch in channelTotalsCards"
               :key="ch.name"
               class="min-w-0"
               :color="ch.color"
@@ -67,9 +68,9 @@
           v-else-if="channelTotals.length"
           class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
         >
-          <div class="grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4">
+          <div class="grid w-full gap-3 md:gap-4" :style="cardInfoGridStyle">
             <CardInfo
-              v-for="ch in channelTotalsTop4"
+              v-for="ch in channelTotalsCards"
               :key="ch.name"
               class="min-w-0"
               :color="ch.color"
@@ -203,7 +204,15 @@ const channelTotals = computed(() => {
     }))
 })
 
-const channelTotalsTop4 = computed(() => channelTotals.value.slice(0, 4))
+const MAX_CARD_INFO_COLUMNS = 5
+
+const channelTotalsCards = computed(() => channelTotals.value.slice(0, MAX_CARD_INFO_COLUMNS))
+
+const cardInfoGridStyle = computed(() => {
+  const cols = Math.min(channelTotalsCards.value.length, MAX_CARD_INFO_COLUMNS)
+  if (cols <= 0) return undefined
+  return { gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }
+})
 
 const processChartData = (data: MetricsData | null) => {
   if (!data || !data.channels_by_day) {
