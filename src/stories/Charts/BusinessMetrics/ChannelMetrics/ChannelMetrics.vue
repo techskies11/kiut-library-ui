@@ -49,11 +49,12 @@
           </div>
           <div
             v-if="channelTotalsTop4.length"
-            :class="cardInfoGridClass"
+            class="grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
           >
             <CardInfo
               v-for="ch in channelTotalsTop4"
               :key="ch.name"
+              class="min-w-0"
               :color="ch.color"
               :title="ch.label"
               :value="`${ch.percentage}%`"
@@ -66,10 +67,11 @@
           v-else-if="channelTotals.length"
           class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
         >
-          <div :class="cardInfoGridClass">
+          <div class="grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
             <CardInfo
               v-for="ch in channelTotalsTop4"
               :key="ch.name"
+              class="min-w-0"
               :color="ch.color"
               :title="ch.label"
               :value="`${ch.percentage}%`"
@@ -202,15 +204,6 @@ const channelTotals = computed(() => {
 })
 
 const channelTotalsTop4 = computed(() => channelTotals.value.slice(0, 4))
-
-/** Reparto horizontal: 3 cards → 3 columnas al 100% del ancho. */
-const cardInfoGridClass = computed(() => {
-  const n = channelTotalsTop4.value.length
-  if (n <= 1) return 'grid w-full grid-cols-1 gap-3 sm:gap-4'
-  if (n === 2) return 'grid w-full grid-cols-2 gap-3 sm:gap-4'
-  if (n === 3) return 'grid w-full grid-cols-3 gap-3 sm:gap-4'
-  return 'grid w-full grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4'
-})
 
 const processChartData = (data: MetricsData | null) => {
   if (!data || !data.channels_by_day) {

@@ -47,10 +47,11 @@
           >
             <LineChart :data="dataChart" :theme="theme" />
           </div>
-          <div :class="cardInfoGridClass">
+          <div class="grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
             <CardInfo
               v-for="card in faqMetricCards"
               :key="card.name"
+              class="min-w-0"
               :color="card.color"
               :title="card.label"
               :value="card.value"
@@ -215,15 +216,6 @@ const faqMetricCards = computed(() => {
       subvalue: docSubvalue,
     },
   ]
-})
-
-/** Reparto horizontal: 3 cards → 3 columnas al 100% del ancho. */
-const cardInfoGridClass = computed(() => {
-  const n = faqMetricCards.value.length
-  if (n <= 1) return 'grid w-full grid-cols-1 gap-3 sm:gap-4'
-  if (n === 2) return 'grid w-full grid-cols-2 gap-3 sm:gap-4'
-  if (n === 3) return 'grid w-full grid-cols-3 gap-3 sm:gap-4'
-  return 'grid w-full grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4'
 })
 
 const processChartData = (data: MetricsData | null) => {
