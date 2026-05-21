@@ -47,7 +47,7 @@
           >
             <LineChart :data="dataChart" :theme="theme" />
           </div>
-          <div class="grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          <div class="grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4">
             <CardInfo
               v-for="card in faqMetricCards"
               :key="card.name"

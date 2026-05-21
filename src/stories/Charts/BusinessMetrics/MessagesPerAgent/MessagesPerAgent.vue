@@ -49,7 +49,7 @@
           </div>
           <div
             v-if="agentTotalsTop4.length"
-            class="grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+            class="grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4"
           >
             <CardInfo
               v-for="agent in agentTotalsTop4"
@@ -67,7 +67,7 @@
           v-else-if="agentTotals.length"
           class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
         >
-          <div class="grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+          <div class="grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4">
             <CardInfo
               v-for="agent in agentTotalsTop4"
               :key="agent.name"
