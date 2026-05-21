@@ -78,12 +78,6 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.csat-p95-metric.chart-metric-container--static {
-  padding: 16px;
-  border-radius: 20px;
-  border-color: var(--kiut-border-table);
-}
-
 .csat-p95-metric :deep(.card-header) {
   margin-bottom: 0;
 }

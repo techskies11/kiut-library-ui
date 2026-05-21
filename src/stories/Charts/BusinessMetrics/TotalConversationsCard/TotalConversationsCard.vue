@@ -80,13 +80,6 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-/* Tarjeta: borde redondeado, padding y borde al estilo de la maqueta light/dark (tokens Kiut) */
-.total-conv-metric.chart-metric-container--static {
-  padding: 16px;
-  border-radius: 20px;
-  border-color: var(--kiut-border-table);
-}
-
 .total-conv-metric :deep(.card-header) {
   margin-bottom: 0;
 }

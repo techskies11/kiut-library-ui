@@ -94,12 +94,6 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.ai-revenue-metric.chart-metric-container--static {
-  padding: 16px;
-  border-radius: 20px;
-  border-color: var(--kiut-border-table);
-}
-
 .ai-revenue-metric :deep(.card-header) {
   margin-bottom: 0;
 }
