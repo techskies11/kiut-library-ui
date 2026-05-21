@@ -37,35 +37,61 @@
     </button>
 
     <Teleport to="body">
-      <ul
+      <div
         v-show="open"
-        :id="listboxId"
-        ref="listRef"
-        role="listbox"
-        tabindex="-1"
+        ref="panelRef"
         :style="floatingStyle"
-        class="fixed z-[300] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-[color:var(--kiut-border-light)]"
-        @keydown.stop="onListKeydown"
+        class="fixed z-[300] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-lg dark:border-[color:var(--kiut-border-light)]"
       >
-        <li
-          v-for="(opt, index) in enabledOptions"
-          :key="optionKey(opt)"
-          role="option"
-          :aria-selected="isSelected(opt)"
-          :class="optionClass(opt, index)"
-          @click.stop="choose(opt)"
-          @mouseenter="highlightIndex = index"
+        <div
+          v-if="searchable"
+          class="sticky top-0 z-10 border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-2 dark:border-[color:var(--kiut-border-light)]"
         >
-          <span
-            v-if="showOptionCheck"
-            class="flex w-5 shrink-0 justify-center"
-            aria-hidden="true"
+          <input
+            ref="searchInputRef"
+            v-model="searchQuery"
+            type="search"
+            :class="[kiutInputControlClass, 'min-h-0 py-1.5 text-sm']"
+            :placeholder="searchPlaceholder"
+            :aria-label="searchPlaceholder"
+            @click.stop
+            @keydown.stop="onSearchKeydown"
+          />
+        </div>
+        <ul
+          :id="listboxId"
+          ref="listRef"
+          role="listbox"
+          tabindex="-1"
+          class="py-1"
+          @keydown.stop="onListKeydown"
+        >
+          <li
+            v-if="visibleOptions.length === 0"
+            class="px-3 py-2 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-500"
           >
-            <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
-          </span>
-          <span class="min-w-0 flex-1">{{ opt.label }}</span>
-        </li>
-      </ul>
+            {{ noResultsText }}
+          </li>
+          <li
+            v-for="(opt, index) in visibleOptions"
+            :key="optionKey(opt)"
+            role="option"
+            :aria-selected="isSelected(opt)"
+            :class="optionClass(opt, index)"
+            @click.stop="choose(opt)"
+            @mouseenter="highlightIndex = index"
+          >
+            <span
+              v-if="showOptionCheck"
+              class="flex w-5 shrink-0 justify-center"
+              aria-hidden="true"
+            >
+              <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
+            </span>
+            <span class="min-w-0 flex-1">{{ opt.label }}</span>
+          </li>
+        </ul>
+      </div>
     </Teleport>
   </div>
 </template>
@@ -73,7 +99,7 @@
 <script setup lang="ts">
 import { ChevronDownIcon } from '@heroicons/vue/24/outline';
 import { CheckIcon } from '@heroicons/vue/24/solid';
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
 import { kiutInputControlClass, kiutLabelClass } from './inputFieldStyles';
 
@@ -98,10 +124,17 @@ const props = withDefaults(
     disabled?: boolean;
     /** Si es false, la opción activa solo se distingue por el fondo (sin columna de check). */
     showOptionCheck?: boolean;
+    /** Muestra un buscador dentro del panel desplegable para filtrar opciones por label. */
+    searchable?: boolean;
+    searchPlaceholder?: string;
+    noResultsText?: string;
   }>(),
   {
     placeholder: 'Seleccionar…',
     showOptionCheck: true,
+    searchable: false,
+    searchPlaceholder: 'Buscar…',
+    noResultsText: 'Sin resultados',
   }
 );
 
@@ -116,9 +149,12 @@ const listboxId = `${uid}-listbox`;
 
 const rootRef = ref<HTMLElement | null>(null);
 const buttonRef = ref<HTMLElement | null>(null);
+const panelRef = ref<HTMLElement | null>(null);
 const listRef = ref<HTMLElement | null>(null);
+const searchInputRef = ref<HTMLInputElement | null>(null);
 const open = ref(false);
 const highlightIndex = ref(0);
+const searchQuery = ref('');
 const floatingStyle = ref<Record<string, string>>({});
 
 function updatePosition() {
@@ -133,6 +169,13 @@ function updatePosition() {
 }
 
 const enabledOptions = computed(() => props.options.filter((o) => !o.disabled));
+
+const visibleOptions = computed(() => {
+  if (!props.searchable) return enabledOptions.value;
+  const q = searchQuery.value.trim().toLowerCase();
+  if (!q) return enabledOptions.value;
+  return enabledOptions.value.filter((o) => o.label.toLowerCase().includes(q));
+});
 
 const resolvedTriggerAriaLabel = computed(
   () => props.ariaLabelTrigger ?? props.placeholder ?? 'Seleccionar opción'
@@ -166,38 +209,61 @@ function optionClass(opt: KiutSelectOption<KiutSelectValue>, index: number) {
   ];
 }
 
+function syncHighlightToValue() {
+  highlightIndex.value = Math.max(
+    0,
+    visibleOptions.value.findIndex((o) => o.value === props.modelValue)
+  );
+}
+
+function focusPanel() {
+  if (props.searchable) {
+    searchInputRef.value?.focus();
+    return;
+  }
+  listRef.value?.focus();
+}
+
+function openPanel() {
+  updatePosition();
+  searchQuery.value = '';
+  syncHighlightToValue();
+  void nextTick(() => focusPanel());
+}
+
+function closePanel() {
+  open.value = false;
+  searchQuery.value = '';
+}
+
 function choose(opt: KiutSelectOption<KiutSelectValue>) {
   emit('update:modelValue', opt.value);
-  open.value = false;
+  closePanel();
 }
 
 function toggle() {
   if (props.disabled) return;
-  open.value = !open.value;
+  if (open.value) {
+    closePanel();
+    return;
+  }
+  open.value = true;
+  openPanel();
 }
 
 function onTriggerClick(e: MouseEvent) {
   e.stopPropagation();
   if (props.disabled) return;
   toggle();
-  if (open.value) {
-    updatePosition();
-    const i = Math.max(
-      0,
-      enabledOptions.value.findIndex((o) => o.value === props.modelValue)
-    );
-    highlightIndex.value = i;
-    void nextTick(() => listRef.value?.focus());
-  }
 }
 
 function onDocumentClick(e: MouseEvent) {
   if (!open.value) return;
   const target = e.target as Node;
   const el = rootRef.value;
-  const list = listRef.value;
-  if (el && !el.contains(target) && (!list || !list.contains(target))) {
-    open.value = false;
+  const panel = panelRef.value;
+  if (el && !el.contains(target) && (!panel || !panel.contains(target))) {
+    closePanel();
   }
 }
 
@@ -207,24 +273,47 @@ function onTriggerKeydown(e: KeyboardEvent) {
     e.preventDefault();
     if (!open.value) {
       open.value = true;
-      updatePosition();
-      highlightIndex.value = Math.max(
-        0,
-        enabledOptions.value.findIndex((o) => o.value === props.modelValue)
-      );
-      void nextTick(() => listRef.value?.focus());
+      openPanel();
     }
   }
 }
 
-function onListKeydown(e: KeyboardEvent) {
-  const opts = enabledOptions.value;
-  if (opts.length === 0) return;
+function onSearchKeydown(e: KeyboardEvent) {
+  const opts = visibleOptions.value;
   if (e.key === 'Escape') {
     e.preventDefault();
-    open.value = false;
+    closePanel();
     return;
   }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (opts.length === 0) return;
+    highlightIndex.value = 0;
+    listRef.value?.focus();
+    return;
+  }
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (opts.length === 0) return;
+    highlightIndex.value = opts.length - 1;
+    listRef.value?.focus();
+    return;
+  }
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const opt = opts[highlightIndex.value];
+    if (opt) choose(opt);
+  }
+}
+
+function onListKeydown(e: KeyboardEvent) {
+  const opts = visibleOptions.value;
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    closePanel();
+    return;
+  }
+  if (opts.length === 0) return;
   if (e.key === 'ArrowDown') {
     e.preventDefault();
     highlightIndex.value = Math.min(highlightIndex.value + 1, opts.length - 1);
@@ -232,6 +321,10 @@ function onListKeydown(e: KeyboardEvent) {
   }
   if (e.key === 'ArrowUp') {
     e.preventDefault();
+    if (highlightIndex.value === 0 && props.searchable) {
+      searchInputRef.value?.focus();
+      return;
+    }
     highlightIndex.value = Math.max(highlightIndex.value - 1, 0);
     return;
   }
@@ -241,6 +334,10 @@ function onListKeydown(e: KeyboardEvent) {
     if (opt) choose(opt);
   }
 }
+
+watch(searchQuery, () => {
+  highlightIndex.value = 0;
+});
 
 onMounted(() => {
   document.addEventListener('click', onDocumentClick);
