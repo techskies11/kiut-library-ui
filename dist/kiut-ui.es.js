@@ -13153,7 +13153,7 @@ const up = {
 }, R0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, O0 = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-3"
-}, z0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, V0 = { class: "grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4" }, N0 = {
+}, z0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, V0 = { class: "grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4" }, N0 = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
 }, j0 = /* @__PURE__ */ Q({
@@ -13330,7 +13330,7 @@ const up = {
       _: 1
     }));
   }
-}), W0 = /* @__PURE__ */ at(j0, [["__scopeId", "data-v-c49b5d1a"]]), H0 = {
+}), W0 = /* @__PURE__ */ at(j0, [["__scopeId", "data-v-791a0ba7"]]), H0 = {
   key: 0,
   class: "flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
 }, Y0 = { class: "mb-6 flex h-[100px] items-end justify-center gap-2.5" }, K0 = {
@@ -13338,11 +13338,11 @@ const up = {
   class: "flex w-full shrink-0 flex-col gap-3"
 }, q0 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, U0 = {
   key: 0,
-  class: "grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+  class: "grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4"
 }, X0 = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, G0 = { class: "grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4" }, Z0 = {
+}, G0 = { class: "grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4" }, Z0 = {
   key: 2,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
 }, Q0 = { class: "max-w-[360px] px-4 text-center" }, J0 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, tb = /* @__PURE__ */ Q({
@@ -13479,7 +13479,7 @@ const up = {
       _: 1
     }));
   }
-}), eb = /* @__PURE__ */ at(tb, [["__scopeId", "data-v-5b6c18da"]]), nb = {
+}), eb = /* @__PURE__ */ at(tb, [["__scopeId", "data-v-443fc360"]]), nb = {
   key: 0,
   class: "loading-state"
 }, ab = {
@@ -14941,11 +14941,11 @@ const up = {
   class: "flex w-full shrink-0 flex-col gap-3"
 }, ky = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, wy = {
   key: 0,
-  class: "grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+  class: "grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4"
 }, Cy = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, $y = { class: "grid w-full grid-cols-2 gap-3 md:grid-cols-4 md:gap-4" }, My = {
+}, $y = { class: "grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4" }, My = {
   key: 2,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
 }, Sy = { class: "max-w-[360px] px-4 text-center" }, Dy = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, Ay = /* @__PURE__ */ Q({
@@ -15091,7 +15091,7 @@ const up = {
       _: 1
     }));
   }
-}), Ty = /* @__PURE__ */ at(Ay, [["__scopeId", "data-v-15bd8246"]]), By = {
+}), Ty = /* @__PURE__ */ at(Ay, [["__scopeId", "data-v-d8c2846f"]]), By = {
   key: 0,
   class: "card-body"
 }, Ly = { class: "chart-container" }, Fy = { class: "triage-table-block w-full min-w-0" }, Ey = { class: "triage-row-label" }, Py = {
