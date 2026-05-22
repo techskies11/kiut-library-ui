@@ -41,6 +41,7 @@ const props = defineProps<{
   }
   options?: Record<string, any>
   stacked?: boolean
+  uppercaseLegendLabels?: boolean
   theme?: Theme
 }>()
 
@@ -60,6 +61,12 @@ const capitalizeText = (text: any): any => {
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
   }
   return text
+}
+
+const formatLegendText = (text: any): any => {
+  if (typeof text !== 'string') return text
+  if (props.uppercaseLegendLabels) return text.toUpperCase()
+  return capitalizeText(text)
 }
 
 function deepMergeChartOptions(
@@ -123,7 +130,7 @@ const computedOptions = computed(() => {
                     ? fillRaw
                     : colors.value.textSecondary
               return {
-                text: capitalizeText(dataset.label || ''),
+                text: formatLegendText(dataset.label || ''),
                 fillStyle: typeof fillRaw === 'string' ? fillRaw : stroke,
                 strokeStyle: stroke,
                 lineWidth: 0,

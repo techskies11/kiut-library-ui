@@ -23,39 +23,18 @@ const mockNpsData = {
     { score: 9, count: 312 },
     { score: 10, count: 132 },
   ],
-  nps_by_day: [
+  csat_p95_by_day: [
     {
       date: '2024-11-01',
-      nps_responses_count: 45,
-      min_score: 2,
-      max_score: 10,
-      q1_score: 6,
-      median_score: 8,
-      q3_score: 9,
       p95_score: 10,
-      average_score: 7.6,
     },
     {
       date: '2024-11-02',
-      nps_responses_count: 52,
-      min_score: 1,
-      max_score: 10,
-      q1_score: 5,
-      median_score: 7,
-      q3_score: 9,
       p95_score: 10,
-      average_score: 7.2,
     },
     {
       date: '2024-11-03',
-      nps_responses_count: 48,
-      min_score: 3,
-      max_score: 10,
-      q1_score: 6,
-      median_score: 8,
-      q3_score: 9,
       p95_score: 10,
-      average_score: 7.8,
     },
   ],
 };
@@ -85,7 +64,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Dashboard component for NPS (Net Promoter Score) analytics. Displays an overview histogram with score distribution and a daily candlestick chart showing NPS trends over time.'
+        component: 'Dashboard component for CSAT analytics. Displays histogram distribution and daily P95 trend.'
       }
     },
     backgrounds: {
@@ -113,7 +92,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Muestra el dashboard completo de NPS con el histograma de distribución y el gráfico de velas diario.'
+        story: 'Muestra el dashboard de CSAT con histograma y tendencia diaria de P95.'
       }
     }
   }
@@ -151,7 +130,7 @@ export const EmptyData: Story = {
       p95_score: 0,
       average_score: 0,
       histogram: [],
-      nps_by_day: [],
+      csat_p95_by_day: [],
     },
     loading: false,
   },
@@ -171,29 +150,15 @@ export const WithMoreDays: Story = {
   args: {
     data: {
       ...mockNpsData,
-      nps_by_day: [
-        ...mockNpsData.nps_by_day,
+      csat_p95_by_day: [
+        ...mockNpsData.csat_p95_by_day,
         {
           date: '2024-11-04',
-          nps_responses_count: 55,
-          min_score: 2,
-          max_score: 10,
-          q1_score: 6,
-          median_score: 8,
-          q3_score: 9,
           p95_score: 10,
-          average_score: 7.9,
         },
         {
           date: '2024-11-05',
-          nps_responses_count: 42,
-          min_score: 1,
-          max_score: 10,
-          q1_score: 5,
-          median_score: 7,
-          q3_score: 9,
           p95_score: 10,
-          average_score: 7.1,
         },
       ],
     },
