@@ -101,7 +101,8 @@ export type { KiutPillItem } from './components/Inputs/SelectablePills.vue';
 import SegmentedControl from './components/Inputs/SegmentedControl.vue';
 export type { SegmentedItem } from './components/Inputs/SegmentedControl.vue';
 import DateRangePicker from './components/Inputs/DateRangePicker.vue';
-export type { KiutDateRange } from './components/Inputs/DateRangePicker.vue';
+export type { KiutDateRange, KiutDatePresetId, KiutDateLocale } from './components/Inputs/dateRangeUtils';
+import DatePickerPresets from './components/Inputs/DatePickerPresets.vue';
 import Tag from './components/Tag/Tag.vue';
 export type { KiutTagColor } from './components/Tag/Tag.vue';
 import Button from './components/Button/Button.vue';
@@ -192,6 +193,7 @@ export {
   SelectablePills,
   SegmentedControl,
   DateRangePicker,
+  DatePickerPresets,
   Tag,
   Button,
   Modal,
@@ -275,6 +277,7 @@ export const KiutUIPlugin = {
     app.component('SelectablePills', SelectablePills);
     app.component('SegmentedControl', SegmentedControl);
     app.component('DateRangePicker', DateRangePicker);
+    app.component('DatePickerPresets', DatePickerPresets);
     app.component('Tag', Tag);
     app.component('Button', Button);
     app.component('Modal', Modal);
