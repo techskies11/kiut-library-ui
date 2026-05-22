@@ -79,6 +79,7 @@ const props = defineProps<{
     }>;
   };
   options?: Record<string, any>;
+  uppercaseLegendLabels?: boolean;
   theme?: Theme;
 }>();
 
@@ -142,6 +143,12 @@ const capitalizeText = (text: any): any => {
   return text;
 };
 
+const formatLegendText = (text: any): any => {
+  if (typeof text !== 'string') return text;
+  if (props.uppercaseLegendLabels) return text.toUpperCase();
+  return capitalizeText(text);
+};
+
 function lineColorForDataset(dataset: (typeof props.data.datasets)[0]): string {
   const c = dataset.borderColor;
   const raw = Array.isArray(c) ? c[0] : c;
@@ -151,7 +158,7 @@ function lineColorForDataset(dataset: (typeof props.data.datasets)[0]): string {
 const legendEntries = computed(() =>
   chartData.value.datasets.map((ds, i) => ({
     key: `${ds.label ?? 'dataset'}-${i}`,
-    label: capitalizeText(ds.label || ''),
+    label: formatLegendText(ds.label || ''),
     color: lineColorForDataset(ds as (typeof props.data.datasets)[0]),
   })),
 );

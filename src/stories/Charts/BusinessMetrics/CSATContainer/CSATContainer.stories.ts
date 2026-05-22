@@ -22,39 +22,18 @@ const mockCSATData = {
     { score: 9, count: 312 },
     { score: 10, count: 132 },
   ],
-  nps_by_day: [
+  csat_p95_by_day: [
     {
       date: '2024-11-01',
-      nps_responses_count: 45,
-      min_score: 2,
-      max_score: 10,
-      q1_score: 6,
-      median_score: 8,
-      q3_score: 9,
       p95_score: 10,
-      average_score: 7.6,
     },
     {
       date: '2024-11-02',
-      nps_responses_count: 52,
-      min_score: 1,
-      max_score: 10,
-      q1_score: 5,
-      median_score: 7,
-      q3_score: 9,
       p95_score: 10,
-      average_score: 7.2,
     },
     {
       date: '2024-11-03',
-      nps_responses_count: 48,
-      min_score: 3,
-      max_score: 10,
-      q1_score: 6,
-      median_score: 8,
-      q3_score: 9,
       p95_score: 10,
-      average_score: 7.8,
     },
   ],
 }
@@ -89,7 +68,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa las métricas CSAT bajo un único colapsable y reutiliza NpsMetrics para mostrar distribución de score y tendencia diaria.',
+          'Agrupa las métricas CSAT bajo un único colapsable y reutiliza NpsMetrics para mostrar distribución y tendencia diaria P95.',
       },
     },
     backgrounds: {

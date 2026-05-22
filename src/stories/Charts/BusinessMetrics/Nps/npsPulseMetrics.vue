@@ -1,46 +1,29 @@
 <template>
   <ChartMetricContainer
-    class="nps-daily-root h-full min-h-0"
-    title="CSAT P95 by Date"
-    subtitle="Daily P95 trend for CSAT responses"
+    class="nps-pulse-root h-full min-h-0"
+    title="CSAT Pulse"
+    subtitle="Weighted index: Σ(frequency × weight) / total surveys × 100"
     :collapsible="false"
   >
-    <template #headerExport>
-      <FooterExport
-        v-if="enableExport && !props.loading"
-        variant="inline"
-        @export="handleExport"
-        :loading="exportLoading"
-      />
-    </template>
-
     <div v-if="props.loading" class="loading-state">
-      <p class="loading-text">Loading daily CSAT P95...</p>
+      <p class="loading-text">Loading CSAT Pulse trend...</p>
     </div>
 
-    <div v-else-if="hasData" class="card-body">
+    <div v-else-if="hasPulseData" class="card-body">
       <ChartLine :data="lineData" :options="lineOptions" :uppercase-legend-labels="true" />
     </div>
 
     <div v-else class="empty-state">
-      <p class="empty-title">No daily CSAT P95 available</p>
-      <p class="empty-description">No CSAT P95 points were found for the selected date range.</p>
+      <p class="empty-title">No CSAT Pulse data available</p>
+      <p class="empty-description">No CSAT pulse points were found for the selected date range.</p>
     </div>
   </ChartMetricContainer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
-import moment from 'moment'
 import ChartLine from '../../Line/ChartLine.vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import { FooterExport } from '../../Utils/FooterExport'
-
-const emit = defineEmits(['export'])
-
-const handleExport = format => {
-  emit('export', format)
-}
 
 const props = defineProps({
   data: {
@@ -51,27 +34,19 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  enableExport: {
-    type: Boolean,
-    default: false,
-  },
-  exportLoading: {
-    type: Boolean,
-    default: false,
-  },
 })
 
-const series = computed(() => props.data?.csat_p95_by_day || [])
-const hasData = computed(() => series.value.length > 0)
+const pulseByDay = computed(() => props.data?.csat_pulse_by_day || [])
+const hasPulseData = computed(() => pulseByDay.value.length > 0)
 
 const lineData = computed(() => ({
-  labels: series.value.map(point => moment(point.date).format('DD-MM-YYYY')),
+  labels: pulseByDay.value.map((point: any) => point.date || ''),
   datasets: [
     {
-      label: 'CSAT P95',
-      data: series.value.map(point => Number(point.p95_score || 0)),
-      borderColor: '#7C3AED',
-      pointBorderColor: '#7C3AED',
+      label: 'CSAT Pulse',
+      data: pulseByDay.value.map((point: any) => Number(point.csat_pulse || 0)),
+      borderColor: '#2563EB',
+      pointBorderColor: '#2563EB',
       pointBackgroundColor: '#FFFFFF',
       tension: 0.25,
     },
@@ -81,17 +56,17 @@ const lineData = computed(() => ({
 const lineOptions = {
   scales: {
     y: {
-      min: 0,
-      max: 11,
+      min: -200,
+      max: 100,
       ticks: {
-        callback: value => Number(value).toFixed(2),
+        callback: (value: number) => `${value}%`,
       },
     },
   },
   plugins: {
     tooltip: {
       callbacks: {
-        label: context => context.parsed.y.toFixed(2),
+        label: (context: any) => `${context.parsed.y.toFixed(2)}%`,
       },
     },
   },

@@ -10,6 +10,8 @@
         :data="data"
         :loading="loading"
         :enable-export="enableExport"
+        :show-resolution-chart="showResolutionChart"
+        :show-csat-pulse-chart="showCsatPulseChart"
         @export="handleExport"
       />
     </div>
@@ -33,12 +35,16 @@ withDefaults(
     enableExport?: boolean
     /** Shape NpsMetrics.vue */
     data?: object
+    showResolutionChart?: boolean
+    showCsatPulseChart?: boolean
   }>(),
   {
     containerInitiallyOpen: false,
     loading: false,
     enableExport: false,
     data: undefined,
+    showResolutionChart: false,
+    showCsatPulseChart: false,
   }
 )
 

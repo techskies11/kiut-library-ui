@@ -37,6 +37,7 @@ import Guardrails from './stories/Charts/BusinessMetrics/Guardrails/Guardrails.v
 import DisruptionNotifier from './stories/Charts/BusinessMetrics/DisruptionNotifier/DisruptionNotifier.vue';
 import TotalConversationsCard from './stories/Charts/BusinessMetrics/TotalConversationsCard/TotalConversationsCard.vue';
 import CsatP95Card from './stories/Charts/BusinessMetrics/CsatP95Card/CsatP95Card.vue';
+import CsatPulseCard from './stories/Charts/BusinessMetrics/CsatPulseCard/CsatPulseCard.vue';
 import CSATContainer from './stories/Charts/BusinessMetrics/CSATContainer/CSATContainer.vue';
 import AiGeneratedRevenueCard from './stories/Charts/BusinessMetrics/AiGeneratedRevenueCard/AiGeneratedRevenueCard.vue';
 import HumanEscalations from './stories/Charts/BusinessMetrics/HumanEscalations/HumanEscalations.vue';
@@ -152,6 +153,7 @@ export {
   DisruptionNotifier,
   TotalConversationsCard,
   CsatP95Card,
+  CsatPulseCard,
   CSATContainer,
   AiGeneratedRevenueCard,
   HumanEscalations,
@@ -235,6 +237,7 @@ export const KiutUIPlugin = {
     app.component('KiutDisruptionNotifier', DisruptionNotifier);
     app.component('KiutTotalConversationsCard', TotalConversationsCard);
     app.component('KiutCsatP95Card', CsatP95Card);
+    app.component('KiutCsatPulseCard', CsatPulseCard);
     app.component('KiutCSATContainer', CSATContainer);
     app.component('KiutAiGeneratedRevenueCard', AiGeneratedRevenueCard);
     app.component('KiutHumanEscalations', HumanEscalations);
