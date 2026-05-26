@@ -21329,7 +21329,7 @@ const I5 = ["aria-expanded", "aria-labelledby", "aria-label"], R5 = ["onKeydown"
         type: "button",
         class: K([
           L(de),
-          "flex w-full items-center gap-2 text-left",
+          "group flex w-full items-center gap-2 text-left hover:bg-[#6b35e9] hover:text-white",
           c.value ? "border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25" : ""
         ]),
         "aria-expanded": c.value,
@@ -21339,13 +21339,13 @@ const I5 = ["aria-expanded", "aria-labelledby", "aria-label"], R5 = ["onKeydown"
         onClick: J
       }, [
         V(L(cs), {
-          class: "h-5 w-5 shrink-0 text-gray-500 dark:text-slate-400",
+          class: "h-5 w-5 shrink-0 text-gray-500 transition-colors group-hover:text-white dark:text-slate-400",
           "aria-hidden": "true"
         }),
         r("span", {
           class: K([
             "min-w-0 flex-1 truncate",
-            h.value ? "" : "text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+            h.value ? "" : "text-[color:var(--kiut-text-muted)] group-hover:text-white dark:text-slate-500"
           ])
         }, A(S.value), 3)
       ], 10, eC),
