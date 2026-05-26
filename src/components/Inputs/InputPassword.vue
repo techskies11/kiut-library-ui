@@ -3,16 +3,20 @@
     <label v-if="label" :for="inputId" :class="kiutLabelClass">{{ label }}</label>
     <div class="relative">
       <input
-        v-bind="$attrs"
+        v-bind="inputAttrs"
         :id="inputId"
-        v-model="internalValue"
+        :name="fieldName"
         :type="showPassword ? 'text' : 'password'"
         autocomplete="current-password"
-        :class="[kiutInputControlClass, invalid ? kiutInputControlInvalidClass : '', 'pr-10']"
+        :class="[kiutInputControlClass, isInvalid ? kiutInputControlInvalidClass : '', 'pr-10']"
         :placeholder="placeholder"
         :disabled="disabled"
-        :aria-invalid="invalid ? 'true' : undefined"
+        :value="fieldValue"
+        :aria-invalid="isInvalid ? 'true' : undefined"
         :aria-describedby="errorText ? errorId : undefined"
+        @input="onInputHandler"
+        @change="onChangeHandler"
+        @blur="onBlurHandler"
       />
       <button
         type="button"
@@ -65,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, inject, onMounted, onUnmounted, ref, useAttrs, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
 import {
   kiutFieldErrorTextClass,
@@ -82,6 +86,7 @@ const props = withDefaults(
     label?: string;
     placeholder?: string;
     id?: string;
+    name?: string;
     disabled?: boolean;
     invalid?: boolean;
     errorText?: string;
@@ -93,9 +98,15 @@ const emit = defineEmits<{
   'update:modelValue': [value: string];
 }>();
 
+const attrs = useAttrs();
+
+// @primevue/forms integration
+const $pcForm = inject<any>('$pcForm', null);
+
 const uid = `kiut-input-password-${randomInstanceSuffix()}`;
 const inputId = computed(() => props.id ?? uid);
 const errorId = computed(() => `${inputId.value}-err`);
+const fieldName = computed(() => props.name ?? (attrs.name as string) ?? '');
 const showPassword = ref(false);
 
 const internalValue = ref(props.modelValue ?? '');
@@ -107,5 +118,60 @@ watch(
   }
 );
 
-watch(internalValue, (v) => emit('update:modelValue', v));
+onMounted(() => {
+  if ($pcForm && fieldName.value) {
+    $pcForm.register?.(fieldName.value, {});
+  }
+});
+
+onUnmounted(() => {
+  if ($pcForm && fieldName.value) {
+    $pcForm.deregister?.(fieldName.value);
+  }
+});
+
+const fieldValue = computed(() => {
+  if ($pcForm && fieldName.value) {
+    return $pcForm.fields?.[fieldName.value]?.states?.value ?? internalValue.value;
+  }
+  return internalValue.value;
+});
+
+const isInvalid = computed(() => {
+  if ($pcForm && fieldName.value) {
+    return $pcForm.fields?.[fieldName.value]?.states?.invalid ?? props.invalid ?? false;
+  }
+  return props.invalid ?? false;
+});
+
+function onInputHandler(event: Event) {
+  const value = (event.target as HTMLInputElement).value;
+  internalValue.value = value;
+  emit('update:modelValue', value);
+
+  const formFieldProps = $pcForm?.fields?.[fieldName.value]?.props;
+  if (formFieldProps?.onInput) {
+    formFieldProps.onInput(event);
+  }
+}
+
+function onChangeHandler(event: Event) {
+  const formFieldProps = $pcForm?.fields?.[fieldName.value]?.props;
+  if (formFieldProps?.onChange) {
+    formFieldProps.onChange(event);
+  }
+}
+
+function onBlurHandler(event: Event) {
+  const formFieldProps = $pcForm?.fields?.[fieldName.value]?.props;
+  if (formFieldProps?.onBlur) {
+    formFieldProps.onBlur(event);
+  }
+}
+
+// Pass through any extra attrs (except name/id which we handle manually)
+const inputAttrs = computed(() => {
+  const { name: _n, id: _i, ...rest } = attrs as Record<string, unknown>;
+  return rest;
+});
 </script>
