@@ -79,6 +79,7 @@ export type {
 } from './components/Filters/Filters.vue';
 
 import InputText from './components/Inputs/InputText.vue';
+import InputPassword from './components/Inputs/InputPassword.vue';
 import InputTextarea from './components/Inputs/InputTextarea.vue';
 import InputFile from './components/Inputs/InputFile.vue';
 import InputDateTime from './components/Inputs/InputDateTime.vue';
@@ -176,6 +177,7 @@ export {
   Table,
   Filters,
   InputText,
+  InputPassword,
   InputTextarea,
   InputFile,
   InputDateTime,
@@ -258,6 +260,7 @@ export const KiutUIPlugin = {
     app.component('Table', Table);
     app.component('Filters', Filters);
     app.component('InputText', InputText);
+    app.component('InputPassword', InputPassword);
     app.component('InputTextarea', InputTextarea);
     app.component('InputFile', InputFile);
     app.component('InputDateTime', InputDateTime);
