@@ -5,7 +5,7 @@
       <input
         v-bind="$attrs"
         :id="inputId"
-        v-model="model"
+        v-model="internalValue"
         :type="showPassword ? 'text' : 'password'"
         autocomplete="current-password"
         :class="[kiutInputControlClass, invalid ? kiutInputControlInvalidClass : '', 'pr-10']"
@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
 import {
   kiutFieldErrorTextClass,
@@ -98,8 +98,14 @@ const inputId = computed(() => props.id ?? uid);
 const errorId = computed(() => `${inputId.value}-err`);
 const showPassword = ref(false);
 
-const model = computed({
-  get: () => props.modelValue ?? '',
-  set: (v: string) => emit('update:modelValue', v),
-});
+const internalValue = ref(props.modelValue ?? '');
+
+watch(
+  () => props.modelValue,
+  (v) => {
+    if (v !== undefined && v !== internalValue.value) internalValue.value = v;
+  }
+);
+
+watch(internalValue, (v) => emit('update:modelValue', v));
 </script>
