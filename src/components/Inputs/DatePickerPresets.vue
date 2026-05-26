@@ -5,7 +5,7 @@
       type="button"
       :class="[
         kiutInputControlClass,
-        'flex w-full items-center gap-2 text-left',
+        'group flex w-full items-center gap-2 text-left hover:bg-[#6b35e9] hover:text-white',
         open ? 'border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25' : '',
       ]"
       :aria-expanded="open"
@@ -15,13 +15,15 @@
       @click="toggleCalendar"
     >
       <CalendarDaysIcon
-        class="h-5 w-5 shrink-0 text-gray-500 dark:text-slate-400"
+        class="h-5 w-5 shrink-0 text-gray-500 transition-colors group-hover:text-white dark:text-slate-400"
         aria-hidden="true"
       />
       <span
         class="min-w-0 flex-1 truncate"
         :class="
-          !hasRange ? 'text-[color:var(--kiut-text-muted)] dark:text-slate-500' : ''
+          !hasRange
+            ? 'text-[color:var(--kiut-text-muted)] group-hover:text-white dark:text-slate-500'
+            : ''
         "
       >
         {{ displayRange }}
