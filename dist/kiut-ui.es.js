@@ -15024,8 +15024,8 @@ const bp = {
       { deep: !0, immediate: !0 }
     ), t({ isDark: d }), (m, f) => (b(), q(ht, {
       class: "w-full min-h-0 self-start",
-      title: "Interactions by Channel",
-      subtitle: "Responses sent by AI agents",
+      title: "Conversations by Channel",
+      subtitle: "Conversations sent by AI agents",
       collapsible: !1
     }, {
       headerExport: I(() => [
@@ -15101,7 +15101,7 @@ const bp = {
       _: 1
     }));
   }
-}), Py = /* @__PURE__ */ lt(Fy, [["__scopeId", "data-v-a464c58f"]]), Ey = {
+}), Py = /* @__PURE__ */ lt(Fy, [["__scopeId", "data-v-f274af30"]]), Ey = {
   key: 0,
   class: "card-body"
 }, Iy = { class: "chart-container" }, Ry = { class: "triage-table-block w-full min-w-0" }, Oy = { class: "triage-row-label" }, Vy = {
