@@ -1,8 +1,8 @@
 <template>
   <ChartMetricContainer
     class="w-full min-h-0 self-start"
-    title="Interactions by Channel"
-    subtitle="Responses sent by AI agents"
+    title="Conversations by Channel"
+    subtitle="Conversations sent by AI agents"
     :collapsible="false"
   >
     <template #headerExport>
