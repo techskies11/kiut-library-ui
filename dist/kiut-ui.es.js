@@ -16179,7 +16179,7 @@ const vp = {
       return r === 0 ? n.currentValue > 0 ? 100 : 0 : (n.currentValue - r) / r * 100;
     }), i = C(() => {
       const r = o.value.toFixed(1);
-      return o.value > 0 ? `+${r}% vs prev.` : `${r}% vs prev.`;
+      return o.value > 0 ? `+${r}%` : `${r}%`;
     }), l = C(() => o.value > 0 ? "change-badge--up" : o.value < 0 ? "change-badge--down" : "change-badge--neutral");
     return t({ isDark: a, changePercent: o }), (r, d) => (b(), q(pt, {
       collapsible: !1,
@@ -16221,7 +16221,7 @@ const vp = {
       _: 3
     }, 8, ["class"]));
   }
-}), In = /* @__PURE__ */ rt(K1, [["__scopeId", "data-v-b69b8f90"]]), U1 = /* @__PURE__ */ J({
+}), In = /* @__PURE__ */ rt(K1, [["__scopeId", "data-v-5099e568"]]), U1 = /* @__PURE__ */ J({
   __name: "TotalConversationsCard",
   props: {
     totalConversations: { default: 0 },
