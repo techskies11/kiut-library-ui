@@ -3,6 +3,7 @@
     title="Agents Total Messages per Day"
     subtitle="Daily agent interactions (stacked)"
     :collapsible="false"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
@@ -22,11 +23,6 @@
         aria-label="Loading chart"
         :class="['sk-root', { 'sk-root--dark': isDark }]"
       >
-        <div class="flex flex-col gap-2">
-          <div class="skeleton-shimmer skeleton-title" aria-hidden="true" />
-          <div class="skeleton-shimmer skeleton-label" aria-hidden="true" />
-        </div>
-        
         <div
           class="flex-1 skeleton-shimmer"
           style="border-radius: 10px"
