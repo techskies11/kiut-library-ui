@@ -4,6 +4,7 @@
     title="Distribution of Number of Intents"
     subtitle="Analysis of intent combinations per conversation"
     :collapsible="false"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
@@ -42,44 +43,58 @@
                 v-if="row.id === 'pct'"
                 class="triage-pct"
                 :style="{ color: borderFromBg(colors.c0) }"
-              >{{ formatPercent(Number(row.b0)) }}%</span>
-              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b0)) }}</span>
+                >{{ formatPercent(Number(row.b0)) }}%</span
+              >
+              <span v-else class="triage-count">{{
+                useNumberFormat(Number(row.b0))
+              }}</span>
             </template>
             <template #cell-b1="{ row }">
               <span
                 v-if="row.id === 'pct'"
                 class="triage-pct"
                 :style="{ color: borderFromBg(colors.c1) }"
-              >{{ formatPercent(Number(row.b1)) }}%</span>
-              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b1)) }}</span>
+                >{{ formatPercent(Number(row.b1)) }}%</span
+              >
+              <span v-else class="triage-count">{{
+                useNumberFormat(Number(row.b1))
+              }}</span>
             </template>
             <template #cell-b2="{ row }">
               <span
                 v-if="row.id === 'pct'"
                 class="triage-pct"
                 :style="{ color: borderFromBg(colors.c2) }"
-              >{{ formatPercent(Number(row.b2)) }}%</span>
-              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b2)) }}</span>
+                >{{ formatPercent(Number(row.b2)) }}%</span
+              >
+              <span v-else class="triage-count">{{
+                useNumberFormat(Number(row.b2))
+              }}</span>
             </template>
             <template #cell-b3="{ row }">
               <span
                 v-if="row.id === 'pct'"
                 class="triage-pct"
                 :style="{ color: borderFromBg(colors.c3) }"
-              >{{ formatPercent(Number(row.b3)) }}%</span>
-              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b3)) }}</span>
+                >{{ formatPercent(Number(row.b3)) }}%</span
+              >
+              <span v-else class="triage-count">{{
+                useNumberFormat(Number(row.b3))
+              }}</span>
             </template>
             <template #cell-b4p="{ row }">
               <span
                 v-if="row.id === 'pct'"
                 class="triage-pct"
                 :style="{ color: borderFromBg(colors.c4p) }"
-              >{{ formatPercent(Number(row.b4p)) }}%</span>
-              <span v-else class="triage-count">{{ useNumberFormat(Number(row.b4p)) }}</span>
+                >{{ formatPercent(Number(row.b4p)) }}%</span
+              >
+              <span v-else class="triage-count">{{
+                useNumberFormat(Number(row.b4p))
+              }}</span>
             </template>
           </Table>
         </div>
-
       </template>
 
       <template v-else>
@@ -89,38 +104,40 @@
               <ChartBarIcon class="empty-icon" />
             </div>
             <p class="empty-title">No triage combinations data</p>
-            <p class="empty-description">No intent distribution data found for the selected period. Try adjusting the date range.</p>
+            <p class="empty-description">
+              No intent distribution data found for the selected period. Try
+              adjusting the date range.
+            </p>
           </div>
         </div>
       </template>
     </div>
 
     <!-- Loading State -->
-    <div class="loading-state" v-else>
-      <div class="loading-container">
-        <div class="chart-bars-loader">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="bar bar-4"></div>
-          <div class="bar bar-5"></div>
-        </div>
-        <p class="loading-text">Loading intent distribution...</p>
-      </div>
+    <div
+      v-else
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
   </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
-import BarChart from '../../Bar/ChartBar.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import { ChartBarIcon } from '@heroicons/vue/24/outline'
-import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
-import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
+import { computed, toRef } from "vue";
+import BarChart from "../../Bar/ChartBar.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import { ChartBarIcon } from "@heroicons/vue/24/outline";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import Table, { type TableColumn } from "../../Utils/Table/Table.vue";
 
 // Modelo de datos que recibe el componente
 interface TriageCombinationsData {
@@ -133,86 +150,91 @@ interface TriageCombinationsData {
   };
 }
 
-const props = withDefaults(defineProps<{
-  data?: TriageCombinationsData;
-  loading?: boolean;
-  theme?: Theme;
-  enableExport?: boolean;
-  exportLoading?: boolean;
-}>(), {
-  data: () => ({ combinations: {} }),
-  loading: false,
-  theme: undefined,
-  enableExport: false,
-  exportLoading: false
-});
+const props = withDefaults(
+  defineProps<{
+    data?: TriageCombinationsData;
+    loading?: boolean;
+    theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
+  }>(),
+  {
+    data: () => ({ combinations: {} }),
+    loading: false,
+    theme: undefined,
+    enableExport: false,
+    exportLoading: false,
+  },
+);
 
 const emit = defineEmits<{
-  export: [format: ExportFormat]
-}>()
+  export: [format: ExportFormat];
+}>();
 
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
-}
+  emit("export", format);
+};
 
 // Theme detection with prop fallback
-const { isDark, colors: themeColors } = useThemeDetection(toRef(props, 'theme'))
+const { isDark, colors: themeColors } = useThemeDetection(
+  toRef(props, "theme"),
+);
 
 // Computed para contar conversaciones por número de intenciones (además de triage)
 const countsByIntentions = computed(() => {
-  const combos = props.data?.combinations || {}
-  const map = { 0: 0, 1: 0, 2: 0, 3: 0, '4p': 0 }
-  
+  const combos = props.data?.combinations || {};
+  const map = { 0: 0, 1: 0, 2: 0, 3: 0, "4p": 0 };
+
   for (const [combo, count] of Object.entries(combos)) {
-    const intentions = combo.split('+').filter(Boolean)
+    const intentions = combo.split("+").filter(Boolean);
     // Only consider combos that include triage
-    if (!intentions.includes('triage')) continue
+    if (!intentions.includes("triage")) continue;
     // 0 intentions = only triage
-    const others = intentions.filter(i => i !== 'triage').length
-    if (others >= 4) map['4p'] += Number(count) || 0
-    else map[others] += Number(count) || 0
+    const others = intentions.filter((i) => i !== "triage").length;
+    if (others >= 4) map["4p"] += Number(count) || 0;
+    else map[others] += Number(count) || 0;
   }
-  return map
-})
+  return map;
+});
 
 const totalIncluded = computed(() => {
-  const c = countsByIntentions.value
-  return c[0] + c[1] + c[2] + c[3] + c['4p'] || 0
-})
+  const c = countsByIntentions.value;
+  return c[0] + c[1] + c[2] + c[3] + c["4p"] || 0;
+});
 
 const hasValue = computed(() => {
-  return Object.keys(props.data?.combinations || {}).length > 0
-})
+  return Object.keys(props.data?.combinations || {}).length > 0;
+});
 
 const buckets = computed(() => {
-  const total = totalIncluded.value
-  if (!total) return { pct0: 0, pct1: 0, pct2: 0, pct3: 0, pct4p: 0 }
-  const c = countsByIntentions.value
+  const total = totalIncluded.value;
+  if (!total) return { pct0: 0, pct1: 0, pct2: 0, pct3: 0, pct4p: 0 };
+  const c = countsByIntentions.value;
   return {
     pct0: (c[0] / total) * 100,
     pct1: (c[1] / total) * 100,
     pct2: (c[2] / total) * 100,
     pct3: (c[3] / total) * 100,
-    pct4p: (c['4p'] / total) * 100,
-  }
-})
+    pct4p: (c["4p"] / total) * 100,
+  };
+});
 
 const triageTableColumns: TableColumn[] = [
-  { key: 'metric', label: 'Number of intentions', align: 'left' },
-  { key: 'b0', label: '0', align: 'center' },
-  { key: 'b1', label: '1', align: 'center' },
-  { key: 'b2', label: '2', align: 'center' },
-  { key: 'b3', label: '3', align: 'center' },
-  { key: 'b4p', label: '4 or more', align: 'center' },
-]
+  { key: "metric", label: "Number of intentions", align: "left" },
+  { key: "b0", label: "0", align: "center" },
+  { key: "b1", label: "1", align: "center" },
+  { key: "b2", label: "2", align: "center" },
+  { key: "b3", label: "3", align: "center" },
+  { key: "b4p", label: "4 or more", align: "center" },
+];
 
 const triageTableRows = computed((): Record<string, unknown>[] => {
-  const b = buckets.value
-  const c = countsByIntentions.value
+  const b = buckets.value;
+  const c = countsByIntentions.value;
   return [
     {
-      id: 'pct',
-      metric: '% of total',
+      id: "pct",
+      metric: "% of total",
       b0: b.pct0,
       b1: b.pct1,
       b2: b.pct2,
@@ -220,73 +242,73 @@ const triageTableRows = computed((): Record<string, unknown>[] => {
       b4p: b.pct4p,
     },
     {
-      id: 'count',
-      metric: 'Count',
+      id: "count",
+      metric: "Count",
       b0: c[0],
       b1: c[1],
       b2: c[2],
       b3: c[3],
-      b4p: c['4p'],
+      b4p: c["4p"],
     },
-  ]
-})
+  ];
+});
 
 // Colores para cada bucket
 const colors = {
-  c0: '#ef444480',    // Rojo (0 intenciones adicionales)
-  c1: '#10b98180',    // Verde (1 intención adicional)
-  c2: '#f59e0b80',    // Ámbar (2 intenciones adicionales)
-  c3: '#a78bfa80',    // Púrpura (3 intenciones adicionales)
-  c4p: '#94a3b880',   // Gris (4+ intenciones adicionales)
-}
+  c0: "#ef444480", // Rojo (0 intenciones adicionales)
+  c1: "#10b98180", // Verde (1 intención adicional)
+  c2: "#f59e0b80", // Ámbar (2 intenciones adicionales)
+  c3: "#a78bfa80", // Púrpura (3 intenciones adicionales)
+  c4p: "#94a3b880", // Gris (4+ intenciones adicionales)
+};
 
-const borderFromBg = (bg: string) => bg?.replace('80', '') || '#888888'
+const borderFromBg = (bg: string) => bg?.replace("80", "") || "#888888";
 
 const barData = computed(() => ({
-  labels: ['Distribution'],
+  labels: ["Distribution"],
   datasets: [
     {
-      label: '0',
+      label: "0",
       data: [buckets.value.pct0],
       backgroundColor: colors.c0,
       borderColor: borderFromBg(colors.c0),
       borderWidth: 1,
     },
     {
-      label: '1',
+      label: "1",
       data: [buckets.value.pct1],
       backgroundColor: colors.c1,
       borderColor: borderFromBg(colors.c1),
       borderWidth: 1,
     },
     {
-      label: '2',
+      label: "2",
       data: [buckets.value.pct2],
       backgroundColor: colors.c2,
       borderColor: borderFromBg(colors.c2),
       borderWidth: 1,
     },
     {
-      label: '3',
+      label: "3",
       data: [buckets.value.pct3],
       backgroundColor: colors.c3,
       borderColor: borderFromBg(colors.c3),
       borderWidth: 1,
     },
     {
-      label: '4+',
+      label: "4+",
       data: [buckets.value.pct4p],
       backgroundColor: colors.c4p,
       borderColor: borderFromBg(colors.c4p),
       borderWidth: 1,
     },
   ],
-}))
+}));
 
 const barOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
-  indexAxis: 'y' as const,
+  indexAxis: "y" as const,
   plugins: {
     legend: { display: false },
     tooltip: {
@@ -294,7 +316,9 @@ const barOptions = computed(() => ({
       backgroundColor: themeColors.value.tooltipBg,
       titleColor: themeColors.value.tooltipText,
       bodyColor: themeColors.value.tooltipText,
-      borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
+      borderColor: isDark.value
+        ? "rgba(198, 125, 255, 0.2)"
+        : "rgba(148, 163, 184, 0.2)",
       borderWidth: 1,
       padding: 12,
       cornerRadius: 8,
@@ -309,7 +333,8 @@ const barOptions = computed(() => ({
         weight: 500 as any,
       },
       callbacks: {
-        label: (ctx: any) => `${ctx.dataset.label} intent(s): ${Number(ctx.raw || 0).toFixed(0)}%`,
+        label: (ctx: any) =>
+          `${ctx.dataset.label} intent(s): ${Number(ctx.raw || 0).toFixed(0)}%`,
       },
     },
   },
@@ -329,11 +354,11 @@ const barOptions = computed(() => ({
       border: { display: false },
     },
   },
-}))
+}));
 
-const formatPercent = (n: number) => `${(Number(n) || 0).toFixed(0)}`
+const formatPercent = (n: number) => `${(Number(n) || 0).toFixed(0)}`;
 
-defineExpose({ isDark })
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -367,7 +392,7 @@ defineExpose({ isDark })
 
 .triage-pct {
   font-weight: 700;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   letter-spacing: -0.01em;
   font-size: 0.875rem;
 }
@@ -426,56 +451,10 @@ defineExpose({ isDark })
   margin: 0;
 }
 
-/* Loading State */
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 380px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-bars-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: 100px;
-  margin-bottom: 24px;
-}
-
-.bar {
-  width: 8px;
-  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
-  border-radius: 4px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
-}
-
-.bar-1 { height: 30%; animation-delay: 0s; }
-.bar-2 { height: 50%; animation-delay: 0.1s; }
-.bar-3 { height: 70%; animation-delay: 0.2s; }
-.bar-4 { height: 50%; animation-delay: 0.3s; }
-.bar-5 { height: 40%; animation-delay: 0.4s; }
-
-.loading-text {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  letter-spacing: -0.01em;
-}
-
 /* Animations */
 @keyframes wave {
-  0%, 100% {
+  0%,
+  100% {
     transform: scaleY(1);
     opacity: 0.7;
   }
@@ -486,8 +465,13 @@ defineExpose({ isDark })
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes fadeIn {
@@ -507,4 +491,7 @@ defineExpose({ isDark })
     height: 80px;
   }
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

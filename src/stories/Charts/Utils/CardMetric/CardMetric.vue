@@ -6,7 +6,7 @@
     <template #title>
       <div
         v-if="loading"
-        class="skeleton-shimmer skeleton-icon"
+        class="ut-skeleton-blink skeleton-icon"
         aria-hidden="true"
       />
       <div v-else class="header-title-group">
@@ -19,7 +19,7 @@
     <template #headerAside>
       <div
         v-if="loading"
-        class="skeleton-shimmer skeleton-badge"
+        class="ut-skeleton-blink skeleton-badge"
         aria-hidden="true"
       />
       <slot v-else name="headerAside">
@@ -33,8 +33,8 @@
     </template>
 
     <div v-if="loading" class="skeleton-body" aria-busy="true" aria-label="Loading metric">
-      <div class="skeleton-shimmer skeleton-value" />
-      <div class="skeleton-shimmer skeleton-label" />
+      <div class="ut-skeleton-blink skeleton-value" />
+      <div class="ut-skeleton-blink skeleton-label" />
     </div>
 
     <div v-else class="highlight-inner">
@@ -108,6 +108,8 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
+@import '../ut-shared.css';
+
 .card-metric {
   gap: 8px;
 }
@@ -261,28 +263,6 @@ defineExpose({ isDark, changePercent })
   text-align: left;
 }
 
-.skeleton-shimmer {
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    rgba(93, 75, 147, 0.06) 25%,
-    rgba(93, 75, 147, 0.12) 50%,
-    rgba(93, 75, 147, 0.06) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.8s ease-in-out infinite;
-}
-
-.card-metric--dark .skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(198, 125, 255, 0.06) 25%,
-    rgba(198, 125, 255, 0.14) 50%,
-    rgba(198, 125, 255, 0.06) 75%
-  );
-  background-size: 200% 100%;
-}
-
 .skeleton-icon {
   width: 24px;
   height: 24px;
@@ -303,20 +283,5 @@ defineExpose({ isDark, changePercent })
 .skeleton-label {
   width: 38%;
   height: 15px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skeleton-shimmer {
-    animation: none;
-  }
 }
 </style>

@@ -4,6 +4,7 @@
     title="Seller"
     subtitle="Sales funnel performance and successful sales by communication channel."
     :default-open="containerInitiallyOpen"
+    :loading="loading"
   >
     <div class="seller-container__body">
       <Seller

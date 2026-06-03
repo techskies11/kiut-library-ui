@@ -3,6 +3,7 @@
     class="booking-manager-root h-full min-h-0"
     title="Booking Manager Metrics"
     subtitle="Booking manager workflow tracking and analysis"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
@@ -13,26 +14,32 @@
       />
     </template>
 
-    <!-- Loading State con animación CSS personalizada -->
-    <div class="loading-state" v-if="props.loading">
-      <div class="loading-container">
-        <div class="chart-flow-loader">
-          <div class="flow-line flow-1"></div>
-          <div class="flow-line flow-2"></div>
-          <div class="flow-line flow-3"></div>
-          <div class="flow-line flow-4"></div>
-          <div class="flow-line flow-5"></div>
-        </div>
-        <p class="loading-text">Loading booking data...</p>
-      </div>
+    <!-- Loading State-->
+    <div
+      v-if="loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
 
     <!-- Error State -->
     <div v-else-if="props.error" class="error-state">
       <div class="error-content">
         <div class="error-icon-wrapper">
-          <svg class="error-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          <svg
+            class="error-icon"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
           </svg>
         </div>
         <p class="error-title">Error loading data</p>
@@ -75,37 +82,61 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
+              <span class="font-medium">{{
+                moment(String(row.date)).format("MMM DD")
+              }}</span>
             </template>
             <template #cell-initiated="{ row }">
-              <span>{{ useNumberFormat(Number(row.booking_initiated_count)) }}</span>
+              <span>{{
+                useNumberFormat(Number(row.booking_initiated_count))
+              }}</span>
             </template>
             <template #cell-started="{ row }">
               <span>
                 {{ useNumberFormat(Number(row.booking_started_count)) }}
                 <span class="percentage-text">
-                  ({{ calculatePercentage(Number(row.booking_started_count), Number(row.booking_initiated_count)) }})
+                  ({{
+                    calculatePercentage(
+                      Number(row.booking_started_count),
+                      Number(row.booking_initiated_count),
+                    )
+                  }})
                 </span>
               </span>
             </template>
             <template #cell-paymentInitiated="{ row }">
-              <span>{{ useNumberFormat(Number(row.payment_initiated_count)) }}</span>
+              <span>{{
+                useNumberFormat(Number(row.payment_initiated_count))
+              }}</span>
             </template>
             <template #cell-paymentResults="{ row }">
               <div class="badges-container">
                 <Tag color="success">
-                  Success: {{ useNumberFormat(getPaymentSuccessCount(bookingDayFromRow(row))) }}
+                  Success:
+                  {{
+                    useNumberFormat(
+                      getPaymentSuccessCount(bookingDayFromRow(row)),
+                    )
+                  }}
                 </Tag>
                 <Tag color="danger">
-                  Failed: {{ useNumberFormat(Number(row.payment_failed_count) || 0) }}
+                  Failed:
+                  {{ useNumberFormat(Number(row.payment_failed_count) || 0) }}
                 </Tag>
               </div>
             </template>
             <template #cell-paymentValue="{ row }">
-              <template v-if="getPaymentSuccessValueByCurrency(bookingDayFromRow(row)).length > 0">
+              <template
+                v-if="
+                  getPaymentSuccessValueByCurrency(bookingDayFromRow(row))
+                    .length > 0
+                "
+              >
                 <div class="badges-container">
                   <span
-                    v-for="item in getPaymentSuccessValueByCurrency(bookingDayFromRow(row))"
+                    v-for="item in getPaymentSuccessValueByCurrency(
+                      bookingDayFromRow(row),
+                    )"
                     :key="`${row.date}-${item.currency}`"
                     class="badge badge-currency"
                   >
@@ -118,16 +149,36 @@
             <template #cell-outcomes="{ row }">
               <div class="badges-container">
                 <Tag color="danger">
-                  Not Found: {{ row.not_found_count ? useNumberFormat(Number(row.not_found_count)) : 'N/A' }}
+                  Not Found:
+                  {{
+                    row.not_found_count
+                      ? useNumberFormat(Number(row.not_found_count))
+                      : "N/A"
+                  }}
                 </Tag>
                 <Tag color="warning">
-                  Cancelled: {{ row.cancelled_count ? useNumberFormat(Number(row.cancelled_count)) : 'N/A' }}
+                  Cancelled:
+                  {{
+                    row.cancelled_count
+                      ? useNumberFormat(Number(row.cancelled_count))
+                      : "N/A"
+                  }}
                 </Tag>
                 <Tag color="orange">
-                  No Balance: {{ row.no_pending_balance_count ? useNumberFormat(Number(row.no_pending_balance_count)) : 'N/A' }}
+                  No Balance:
+                  {{
+                    row.no_pending_balance_count
+                      ? useNumberFormat(Number(row.no_pending_balance_count))
+                      : "N/A"
+                  }}
                 </Tag>
                 <Tag color="danger">
-                  Errors: {{ row.error_count ? useNumberFormat(Number(row.error_count)) : 'N/A' }}
+                  Errors:
+                  {{
+                    row.error_count
+                      ? useNumberFormat(Number(row.error_count))
+                      : "N/A"
+                  }}
                 </Tag>
               </div>
             </template>
@@ -139,12 +190,25 @@
       <section v-else class="empty-state">
         <div class="empty-state-content">
           <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            <svg
+              class="empty-icon"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
             </svg>
           </div>
           <p class="empty-title">No booking manager data available</p>
-          <p class="empty-description">No booking manager data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-description">
+            No booking manager data found for the selected period. Try adjusting
+            the date range.
+          </p>
         </div>
       </section>
     </div>
@@ -152,15 +216,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import moment from 'moment'
-import SankeyChart from '../../Sankey/SankeyChart.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
-import Tag from '../../../../components/Tag/Tag.vue'
-import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useCurrencyFormat, useCompactCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
-import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
+import { computed } from "vue";
+import moment from "moment";
+import SankeyChart from "../../Sankey/SankeyChart.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import Tag from "../../../../components/Tag/Tag.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import {
+  useCurrencyFormat,
+  useCompactCurrencyFormat,
+  useNumberFormat,
+} from "../../../../plugins/numberFormat";
+import Table, { type TableColumn } from "../../Utils/Table/Table.vue";
 
 interface BookingDayData {
   date: string;
@@ -177,7 +245,7 @@ interface BookingDayData {
 }
 
 function bookingDayFromRow(row: Record<string, unknown>): BookingDayData {
-  return row as unknown as BookingDayData
+  return row as unknown as BookingDayData;
 }
 
 interface BookingData {
@@ -201,259 +269,287 @@ interface BookingManagerCurrencyBreakdown {
   count: number;
 }
 
-const props = withDefaults(defineProps<{
-  data?: BookingData;
-  loading?: boolean;
-  error?: string | null;
-  enableExport?: boolean;
-  exportLoading?: boolean;
-}>(), {
-  data: () => ({
-    total_booking_initiated: 0,
-    total_booking_started: 0,
-    total_payment_initiated: 0,
-    total_not_found: 0,
-    total_cancelled: 0,
-    total_no_pending_balance: 0,
-    total_errors: 0,
-    total_payment_success: 0,
-    total_payment_failed: 0,
-    total_payment_success_value: [],
-    booking_manager_by_day: [],
-  }),
-  loading: false,
-  error: null,
-  enableExport: false,
-  exportLoading: false
-})
+const props = withDefaults(
+  defineProps<{
+    data?: BookingData;
+    loading?: boolean;
+    error?: string | null;
+    enableExport?: boolean;
+    exportLoading?: boolean;
+  }>(),
+  {
+    data: () => ({
+      total_booking_initiated: 0,
+      total_booking_started: 0,
+      total_payment_initiated: 0,
+      total_not_found: 0,
+      total_cancelled: 0,
+      total_no_pending_balance: 0,
+      total_errors: 0,
+      total_payment_success: 0,
+      total_payment_failed: 0,
+      total_payment_success_value: [],
+      booking_manager_by_day: [],
+    }),
+    loading: false,
+    error: null,
+    enableExport: false,
+    exportLoading: false,
+  },
+);
 
 const emit = defineEmits<{
-  export: [format: ExportFormat]
-}>()
+  export: [format: ExportFormat];
+}>();
 
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
-}
+  emit("export", format);
+};
 
 // Computed para ordenar los datos por día
 const sortedDayData = computed(() => {
-  if (!props.data?.booking_manager_by_day) return []
+  if (!props.data?.booking_manager_by_day) return [];
   return [...props.data.booking_manager_by_day].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-  )
-})
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  );
+});
 
 const bookingManagerColumns: TableColumn[] = [
-  { key: 'date', label: 'Date', align: 'center' },
-  { key: 'initiated', label: 'Initiated', align: 'center' },
-  { key: 'started', label: 'Started', align: 'center' },
-  { key: 'paymentInitiated', label: 'Payment Initiated', align: 'center' },
-  { key: 'paymentResults', label: 'Payment Results', align: 'left' },
-  { key: 'paymentValue', label: 'Payment Value', align: 'left' },
-  { key: 'outcomes', label: 'Outcomes', align: 'left' },
-]
+  { key: "date", label: "Date", align: "center" },
+  { key: "initiated", label: "Initiated", align: "center" },
+  { key: "started", label: "Started", align: "center" },
+  { key: "paymentInitiated", label: "Payment Initiated", align: "center" },
+  { key: "paymentResults", label: "Payment Results", align: "left" },
+  { key: "paymentValue", label: "Payment Value", align: "left" },
+  { key: "outcomes", label: "Outcomes", align: "left" },
+];
 
 const bookingManagerTableRows = computed((): Record<string, unknown>[] =>
   sortedDayData.value.map((day) => ({
     id: day.date,
     ...day,
-  }))
-)
+  })),
+);
 
 const totalPaymentSuccessValueByCurrency = computed(() => {
-  return props.data?.total_payment_success_value || []
-})
+  return props.data?.total_payment_success_value || [];
+});
 
 const paymentSuccessCardValue = computed(() => {
-  const items = totalPaymentSuccessValueByCurrency.value
-  if (items.length === 0) return formatCompactCurrency(0)
+  const items = totalPaymentSuccessValueByCurrency.value;
+  if (items.length === 0) return formatCompactCurrency(0);
   return items
-    .map((item) => `${item.currency} ${formatCompactCurrency(item.total_value)}`)
-    .join(' · ')
-})
+    .map(
+      (item) => `${item.currency} ${formatCompactCurrency(item.total_value)}`,
+    )
+    .join(" · ");
+});
 
-const getPaymentSuccessValueByCurrency = (day: BookingDayData): BookingManagerCurrencyBreakdown[] => {
-  return day.payment_success_value || []
-}
+const getPaymentSuccessValueByCurrency = (
+  day: BookingDayData,
+): BookingManagerCurrencyBreakdown[] => {
+  return day.payment_success_value || [];
+};
 
 const getPaymentSuccessCount = (day: BookingDayData): number => {
-  if (typeof day.payment_success_count === 'number') {
-    return day.payment_success_count
+  if (typeof day.payment_success_count === "number") {
+    return day.payment_success_count;
   }
-  return (day.payment_success_value || []).reduce((total, item) => total + (item.count || 0), 0)
-}
+  return (day.payment_success_value || []).reduce(
+    (total, item) => total + (item.count || 0),
+    0,
+  );
+};
 
 const formatCurrency = (value: number): string => {
-  return useCurrencyFormat(value)
-}
+  return useCurrencyFormat(value);
+};
 
 const formatCompactCurrency = (value: number | undefined | null): string => {
-  if (value === null || value === undefined) return '0'
-  return useCompactCurrencyFormat(value)
-}
+  if (value === null || value === undefined) return "0";
+  return useCompactCurrencyFormat(value);
+};
 
 const totalPaymentSuccessUsd = computed(() => {
-  return (props.data?.total_payment_success_value || [])
-    .reduce((sum, item) => sum + (item.total_value || 0), 0)
-})
+  return (props.data?.total_payment_success_value || []).reduce(
+    (sum, item) => sum + (item.total_value || 0),
+    0,
+  );
+});
 
 const sankeyData = computed(() => {
-  const data = props.data
-  const initiated = data.total_booking_initiated || 0
-  const started = data.total_booking_started || 0
-  const paymentInitiated = data.total_payment_initiated || 0
-  const notFound = data.total_not_found || 0
-  const cancelled = data.total_cancelled || 0
-  const noPendingBalance = data.total_no_pending_balance || 0
-  const errors = data.total_errors || 0
+  const data = props.data;
+  const initiated = data.total_booking_initiated || 0;
+  const started = data.total_booking_started || 0;
+  const paymentInitiated = data.total_payment_initiated || 0;
+  const notFound = data.total_not_found || 0;
+  const cancelled = data.total_cancelled || 0;
+  const noPendingBalance = data.total_no_pending_balance || 0;
+  const errors = data.total_errors || 0;
   const paymentSuccess =
-    typeof data.total_payment_success === 'number'
+    typeof data.total_payment_success === "number"
       ? data.total_payment_success
-      : (data.total_payment_success_value || []).reduce((total, item) => total + (item.count || 0), 0)
-  const paymentFailed = data.total_payment_failed || 0
+      : (data.total_payment_success_value || []).reduce(
+          (total, item) => total + (item.count || 0),
+          0,
+        );
+  const paymentFailed = data.total_payment_failed || 0;
 
   // Calculate abandoned values
-  const abandonedFromInitiated = Math.max(0, initiated - started)
-  const abandonedFromStarted = Math.max(0, started - paymentInitiated - notFound - cancelled - noPendingBalance - errors)
+  const abandonedFromInitiated = Math.max(0, initiated - started);
+  const abandonedFromStarted = Math.max(
+    0,
+    started -
+      paymentInitiated -
+      notFound -
+      cancelled -
+      noPendingBalance -
+      errors,
+  );
 
   // Helper function to format label with percentage
   const formatLabel = (value: number, total: number): string => {
-    const percentage = total > 0 ? Math.round((value / total) * 100) : 0
-    return `${useNumberFormat(value)} (${percentage}%)`
-  }
+    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+    return `${useNumberFormat(value)} (${percentage}%)`;
+  };
 
   // Define nodes
   const nodes = [
-    { name: 'Initiated' },
-    { name: 'Started' },
-    { name: 'Payment Initiated' },
-    { name: 'Not Found' },
-    { name: 'Cancelled' },
-    { name: 'No Pending Balance' },
-    { name: 'Errors' },
-    { name: 'Payment Success' },
-    { name: 'Payment Failed' },
-    { name: 'Abandoned (Init)' },
-    { name: 'Abandoned (Start)' },
-  ]
+    { name: "Initiated" },
+    { name: "Started" },
+    { name: "Payment Initiated" },
+    { name: "Not Found" },
+    { name: "Cancelled" },
+    { name: "No Pending Balance" },
+    { name: "Errors" },
+    { name: "Payment Success" },
+    { name: "Payment Failed" },
+    { name: "Abandoned (Init)" },
+    { name: "Abandoned (Start)" },
+  ];
 
   // Define links with flows
-  const links: { source: string; target: string; value: number; label: string }[] = []
+  const links: {
+    source: string;
+    target: string;
+    value: number;
+    label: string;
+  }[] = [];
 
   // First level: Initiated splits
   if (started > 0) {
     links.push({
-      source: 'Initiated',
-      target: 'Started',
+      source: "Initiated",
+      target: "Started",
       value: started,
       label: formatLabel(started, initiated),
-    })
+    });
   }
 
   if (abandonedFromInitiated > 0) {
     links.push({
-      source: 'Initiated',
-      target: 'Abandoned (Init)',
+      source: "Initiated",
+      target: "Abandoned (Init)",
       value: abandonedFromInitiated,
       label: formatLabel(abandonedFromInitiated, initiated),
-    })
+    });
   }
 
   // Second level: Started splits
   if (paymentInitiated > 0) {
     links.push({
-      source: 'Started',
-      target: 'Payment Initiated',
+      source: "Started",
+      target: "Payment Initiated",
       value: paymentInitiated,
       label: formatLabel(paymentInitiated, started),
-    })
+    });
   }
 
   if (notFound > 0) {
     links.push({
-      source: 'Started',
-      target: 'Not Found',
+      source: "Started",
+      target: "Not Found",
       value: notFound,
       label: formatLabel(notFound, started),
-    })
+    });
   }
 
   if (cancelled > 0) {
     links.push({
-      source: 'Started',
-      target: 'Cancelled',
+      source: "Started",
+      target: "Cancelled",
       value: cancelled,
       label: formatLabel(cancelled, started),
-    })
+    });
   }
 
   if (noPendingBalance > 0) {
     links.push({
-      source: 'Started',
-      target: 'No Pending Balance',
+      source: "Started",
+      target: "No Pending Balance",
       value: noPendingBalance,
       label: formatLabel(noPendingBalance, started),
-    })
+    });
   }
 
   if (errors > 0) {
     links.push({
-      source: 'Started',
-      target: 'Errors',
+      source: "Started",
+      target: "Errors",
       value: errors,
       label: formatLabel(errors, started),
-    })
+    });
   }
 
   if (abandonedFromStarted > 0) {
     links.push({
-      source: 'Started',
-      target: 'Abandoned (Start)',
+      source: "Started",
+      target: "Abandoned (Start)",
       value: abandonedFromStarted,
       label: formatLabel(abandonedFromStarted, started),
-    })
+    });
   }
 
   // Third level: Payment Initiated splits
   if (paymentSuccess > 0) {
     links.push({
-      source: 'Payment Initiated',
-      target: 'Payment Success',
+      source: "Payment Initiated",
+      target: "Payment Success",
       value: paymentSuccess,
       label: formatLabel(paymentSuccess, paymentInitiated),
-    })
+    });
   }
 
   if (paymentFailed > 0) {
     links.push({
-      source: 'Payment Initiated',
-      target: 'Payment Failed',
+      source: "Payment Initiated",
+      target: "Payment Failed",
       value: paymentFailed,
       label: formatLabel(paymentFailed, paymentInitiated),
-    })
+    });
   }
 
-  return { nodes, links }
-})
+  return { nodes, links };
+});
 
 const nodeColors: Record<string, string> = {
-  'Initiated': '#DBEAFE',
-  'Started': '#93C5FD',
-  'Payment Initiated': '#FED7AA',
-  'Not Found': '#FECACA',
-  'Cancelled': '#FED7AA',
-  'No Pending Balance': '#FEF08A',
-  'Errors': '#FCA5A5',
-  'Payment Success': '#86EFAC',
-  'Payment Failed': '#FCA5A5',
-  'Abandoned (Init)': '#FEE2E2',
-  'Abandoned (Start)': '#FEE2E2',
-}
+  Initiated: "#DBEAFE",
+  Started: "#93C5FD",
+  "Payment Initiated": "#FED7AA",
+  "Not Found": "#FECACA",
+  Cancelled: "#FED7AA",
+  "No Pending Balance": "#FEF08A",
+  Errors: "#FCA5A5",
+  "Payment Success": "#86EFAC",
+  "Payment Failed": "#FCA5A5",
+  "Abandoned (Init)": "#FEE2E2",
+  "Abandoned (Start)": "#FEE2E2",
+};
 
 const calculatePercentage = (value: number, total: number): string => {
-  if (!total || total === 0) return '0%'
-  return `${Math.round((value / total) * 100)}%`
-}
+  if (!total || total === 0) return "0%";
+  return `${Math.round((value / total) * 100)}%`;
+};
 </script>
 
 <style scoped>
@@ -483,7 +579,7 @@ const calculatePercentage = (value: number, total: number): string => {
 }
 
 .section-title {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-family: "Space Grotesk", "DM Sans", sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
   color: var(--kiut-text-primary);
@@ -641,93 +737,6 @@ const calculatePercentage = (value: number, total: number): string => {
   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
 
-/* Loading State */
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-flow-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 12px;
-  height: 120px;
-  margin-bottom: 24px;
-}
-
-.flow-line {
-  width: 10px;
-  background: linear-gradient(to top, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
-  border-radius: 5px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-}
-
-.flow-1 {
-  height: 35%;
-  animation-delay: 0s;
-}
-
-.flow-2 {
-  height: 55%;
-  animation-delay: 0.1s;
-}
-
-.flow-3 {
-  height: 75%;
-  animation-delay: 0.2s;
-}
-
-.flow-4 {
-  height: 55%;
-  animation-delay: 0.3s;
-}
-
-.flow-5 {
-  height: 45%;
-  animation-delay: 0.4s;
-}
-
-.loading-text {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  letter-spacing: -0.01em;
-}
-
-/* Animations */
-@keyframes wave {
-  0%, 100% {
-    transform: scaleY(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scaleY(1.6);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -752,4 +761,6 @@ const calculatePercentage = (value: number, total: number): string => {
   }
 }
 </style>
-
+<style>
+@import "../bm-shared.css";
+</style>

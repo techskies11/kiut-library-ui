@@ -4,6 +4,7 @@
     title="Interactions by Agent"
     subtitle="Responses sent by AI agents"
     :collapsible="false"
+    :loading="props.loading"
   >
     <template #headerExport>
       <FooterExport
@@ -19,22 +20,11 @@
     >
       <div
         v-if="props.loading"
-        class="flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
       >
-        <div class="mb-6 flex h-[100px] items-end justify-center gap-2.5">
-          <div
-            v-for="(pct, i) in loaderBarHeights"
-            :key="i"
-            class="w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 shadow-[var(--kiut-shadow-loader,0_4px_14px_rgba(139,92,246,0.25))] dark:from-violet-500 dark:via-violet-400 dark:to-violet-300"
-            :class="loaderDelays[i]"
-            :style="{ height: `${pct}%` }"
-          />
-        </div>
-        <p
-          class="animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]"
-        >
-          Loading agent metrics...
-        </p>
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
       </div>
 
       <template v-else>
@@ -80,12 +70,17 @@
           </div>
         </section>
 
-        <section v-if="!agentTotals.length" class="flex min-h-[280px] flex-1 items-center justify-center">
+        <section
+          v-if="!agentTotals.length"
+          class="flex min-h-[280px] flex-1 items-center justify-center"
+        >
           <div class="max-w-[360px] px-4 text-center">
             <div
               class="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]"
             >
-              <ChartBarIcon class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" />
+              <ChartBarIcon
+                class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]"
+              />
             </div>
             <p
               class="mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]"
@@ -95,7 +90,8 @@
             <p
               class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
             >
-              Try adjusting the date range or check your filters to see agent interaction trends.
+              Try adjusting the date range or check your filters to see agent
+              interaction trends.
             </p>
           </div>
         </section>
@@ -105,53 +101,62 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
-import moment from 'moment'
-import { ChartBarIcon } from '@heroicons/vue/24/outline'
-import LineChart from '../../Line/ChartLine.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
-import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { computed, toRef } from "vue";
+import moment from "moment";
+import { ChartBarIcon } from "@heroicons/vue/24/outline";
+import LineChart from "../../Line/ChartLine.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
 
-const loaderBarHeights = [30, 50, 70, 50, 40]
-const loaderDelays = ['', 'delay-100', 'delay-200', 'delay-300', 'delay-[400ms]']
+const loaderBarHeights = [30, 50, 70, 50, 40];
+const loaderDelays = [
+  "",
+  "delay-100",
+  "delay-200",
+  "delay-300",
+  "delay-[400ms]",
+];
 
 interface AgentsByDay {
   [date: string]: {
-    [category: string]: number
-  }
+    [category: string]: number;
+  };
 }
 
 interface AgentInteractionsData {
-  airline_name?: string
-  start_date?: string
-  end_date?: string
-  agents_by_day?: AgentsByDay
-  total_unique_agents?: number
+  airline_name?: string;
+  start_date?: string;
+  end_date?: string;
+  agents_by_day?: AgentsByDay;
+  total_unique_agents?: number;
 }
 
 const colorMap: Record<string, string> = {
-  checkin: '#3B82F6',
-  faq: '#EF4444',
-  disruption_manager: '#F59E0B',
-  booking_manager: '#a78bfa',
-  triage: '#10B981',
-  seller: '#06B6D4',
-  human: '#F472B6',
-  agency: '#6366F1',
-  loyalty: '#EAB308',
-}
+  checkin: "#3B82F6",
+  faq: "#EF4444",
+  disruption_manager: "#F59E0B",
+  booking_manager: "#a78bfa",
+  triage: "#10B981",
+  seller: "#06B6D4",
+  human: "#F472B6",
+  agency: "#6366F1",
+  loyalty: "#EAB308",
+};
 
 const props = withDefaults(
   defineProps<{
-    data?: AgentInteractionsData
-    loading?: boolean
-    options?: Record<string, any>
-    theme?: Theme
-    enableExport?: boolean
-    exportLoading?: boolean
+    data?: AgentInteractionsData;
+    loading?: boolean;
+    options?: Record<string, any>;
+    theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
   }>(),
   {
     data: () => ({}),
@@ -161,81 +166,82 @@ const props = withDefaults(
     enableExport: false,
     exportLoading: false,
   },
-)
+);
 
 const emit = defineEmits<{
-  export: [format: ExportFormat]
-}>()
+  export: [format: ExportFormat];
+}>();
 
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
-}
+  emit("export", format);
+};
 
-const theme = toRef(props, 'theme')
-const { isDark } = useThemeDetection(theme)
+const theme = toRef(props, "theme");
+const { isDark } = useThemeDetection(theme);
 
 const dataChart = computed(() => {
-  const daysData = props.data?.agents_by_day || {}
-  const sortedLabels = Object.keys(daysData).sort()
+  const daysData = props.data?.agents_by_day || {};
+  const sortedLabels = Object.keys(daysData).sort();
 
   if (sortedLabels.length === 0) {
-    return { labels: [], datasets: [] }
+    return { labels: [], datasets: [] };
   }
 
-  const categoriesSet = new Set<string>()
+  const categoriesSet = new Set<string>();
   for (const dayData of Object.values(daysData)) {
     for (const category of Object.keys(dayData)) {
-      categoriesSet.add(category)
+      categoriesSet.add(category);
     }
   }
-  const categories = Array.from(categoriesSet)
+  const categories = Array.from(categoriesSet);
 
   const datasets = categories.map((category) => {
-    const normalized = category.toLowerCase()
-    const color = colorMap[normalized] || colorMap[category] || '#94a3b8'
+    const normalized = category.toLowerCase();
+    const color = colorMap[normalized] || colorMap[category] || "#94a3b8";
     return {
-      label: category.charAt(0).toUpperCase() + category.slice(1).replace(/_/g, ' '),
+      label:
+        category.charAt(0).toUpperCase() + category.slice(1).replace(/_/g, " "),
       data: sortedLabels.map((date) => daysData[date]?.[category] || 0),
       borderColor: color,
-    }
-  })
+    };
+  });
 
   return {
-    labels: sortedLabels.map((date) => moment(date).format('MMM DD')),
+    labels: sortedLabels.map((date) => moment(date).format("MMM DD")),
     datasets,
-  }
-})
+  };
+});
 
 const agentTotals = computed(() => {
-  const daysData = props.data?.agents_by_day || {}
-  const totalsMap: Record<string, number> = {}
+  const daysData = props.data?.agents_by_day || {};
+  const totalsMap: Record<string, number> = {};
 
   for (const dayData of Object.values(daysData)) {
     for (const [agent, count] of Object.entries(dayData)) {
-      totalsMap[agent] = (totalsMap[agent] || 0) + count
+      totalsMap[agent] = (totalsMap[agent] || 0) + count;
     }
   }
 
-  const grandTotal = Object.values(totalsMap).reduce((sum, v) => sum + v, 0)
-  if (grandTotal === 0) return []
+  const grandTotal = Object.values(totalsMap).reduce((sum, v) => sum + v, 0);
+  if (grandTotal === 0) return [];
 
   return Object.entries(totalsMap)
     .sort(([, a], [, b]) => b - a)
     .map(([name, total]) => {
-      const normalized = name.toLowerCase()
+      const normalized = name.toLowerCase();
       return {
         name,
-        label: name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, ' '),
+        label: name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, " "),
         total,
         percentage: ((total / grandTotal) * 100).toFixed(1),
-        color: colorMap[normalized] || colorMap[name] || '#94a3b8',
-      }
-    })
-})
+        color: colorMap[normalized] || colorMap[name] || "#94a3b8",
+      };
+    });
+});
 
-const agentTotalsTop4 = computed(() => agentTotals.value.slice(0, 4))
+const agentTotalsTop4 = computed(() => agentTotals.value.slice(0, 4));
 
-defineExpose({ isDark })
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -244,4 +250,7 @@ defineExpose({ isDark })
   position: relative;
   min-height: 0;
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

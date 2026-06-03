@@ -209,7 +209,7 @@ const handleExport = (format: ExportFormat) => {
 }
 
 .chart-export-inline .export-btn {
-  padding: 0 6px;
+  padding: 4px 8px;
   font-size: 10px;
   font-family:
     'Inter',
