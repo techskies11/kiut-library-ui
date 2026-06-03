@@ -9,16 +9,25 @@
       <div class="header-content metric-header-content">
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
-            <slot name="title">
-              <h3 v-if="title" class="card-title">{{ title }}</h3>
-            </slot>
-            <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
-            <slot name="headerAppend" />
+            <template v-if="loading">
+              <div
+                class="ut-skeleton-blink ut-skeleton-title"
+                aria-hidden="true"
+              />
+              <div
+                class="ut-skeleton-blink ut-skeleton-subtitle"
+                aria-hidden="true"
+              />
+            </template>
+            <template v-else>
+              <slot name="title">
+                <h3 v-if="title" class="card-title">{{ title }}</h3>
+              </slot>
+              <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
+              <slot name="headerAppend" />
+            </template>
           </div>
-          <div
-            v-if="showHeaderExport"
-            class="metric-header-content__export"
-          >
+          <div v-if="showHeaderExport" class="metric-header-content__export">
             <slot name="headerExport" />
           </div>
         </div>
@@ -33,7 +42,12 @@
         stroke="currentColor"
         aria-hidden="true"
       >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        />
       </svg>
     </summary>
 
@@ -47,16 +61,33 @@
       <div class="header-content metric-header-content">
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
-            <slot name="title">
-              <h3 v-if="title" class="card-title">{{ title }}</h3>
-            </slot>
-            <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
-            <slot name="headerAppend" />
+            <template v-if="loading">
+              <div class="ut-skeleton-container">
+                <div class="ut-skeleton-title-subtitle">
+                  <div
+                    class="ut-skeleton-blink ut-skeleton-title"
+                    aria-hidden="true"
+                  />
+                  <div
+                    class="ut-skeleton-blink ut-skeleton-subtitle"
+                    aria-hidden="true"
+                  />
+                </div>
+                <div
+                  class="ut-skeleton-blink ut-skeleton-options"
+                  aria-hidden="true"
+                />
+              </div>
+            </template>
+            <template v-else>
+              <slot name="title">
+                <h3 v-if="title" class="card-title">{{ title }}</h3>
+              </slot>
+              <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
+              <slot name="headerAppend" />
+            </template>
           </div>
-          <div
-            v-if="showHeaderExport"
-            class="metric-header-content__export"
-          >
+          <div v-if="showHeaderExport" class="metric-header-content__export">
             <slot name="headerExport" />
           </div>
         </div>
@@ -73,69 +104,71 @@
 </template>
 
 <script setup lang="ts">
-import { Comment, computed, ref, useSlots, watch, type VNode } from 'vue'
+import { Comment, computed, ref, useSlots, watch, type VNode } from "vue";
 
 const props = withDefaults(
   defineProps<{
-    title?: string
-    subtitle?: string
-    collapsible?: boolean
-    defaultOpen?: boolean
+    title?: string;
+    subtitle?: string;
+    collapsible?: boolean;
+    defaultOpen?: boolean;
+    loading?: boolean;
   }>(),
   {
-    title: '',
+    title: "",
     collapsible: true,
     defaultOpen: false,
+    loading: false,
   },
-)
+);
 
-const isOpen = ref(props.defaultOpen)
+const isOpen = ref(props.defaultOpen);
 
-const slots = useSlots()
+const slots = useSlots();
 
 function slotHasVisibleContent(vnodes: VNode[]): boolean {
   return vnodes.some((vnode) => {
-    if (vnode.type === Comment) return false
+    if (vnode.type === Comment) return false;
     if (vnode.type === Text) {
-      const children = vnode.children
-      return typeof children === 'string' && children.trim().length > 0
+      const children = vnode.children;
+      return typeof children === "string" && children.trim().length > 0;
     }
-    return Boolean(vnode.type)
-  })
+    return Boolean(vnode.type);
+  });
 }
 
 /** Export en cabecera: slot siempre montado; visibilidad según contenido y estado colapsable */
 const showHeaderExport = computed(() => {
-  if (props.collapsible && !isOpen.value) return false
-  const render = slots.headerExport
-  if (!render) return false
-  return slotHasVisibleContent(render())
-})
+  if (props.collapsible && !isOpen.value) return false;
+  const render = slots.headerExport;
+  if (!render) return false;
+  return slotHasVisibleContent(render());
+});
 
 watch(
   () => props.defaultOpen,
   (value) => {
     if (props.collapsible) {
-      isOpen.value = value
+      isOpen.value = value;
     }
   },
-)
+);
 
 function onToggle(event: Event): void {
-  const el = event.currentTarget as HTMLDetailsElement | null
-  if (el?.tagName === 'DETAILS') {
-    isOpen.value = el.open
+  const el = event.currentTarget as HTMLDetailsElement | null;
+  if (el?.tagName === "DETAILS") {
+    isOpen.value = el.open;
   }
 }
 </script>
 
 <style scoped>
-@import '../../BusinessMetrics/metric-collapsible.css';
+@import "../ut-shared.css";
+@import "../../BusinessMetrics/metric-collapsible.css";
 
 .chart-metric-container {
   font-family:
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
-    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), "Inter",
     sans-serif;
   background-color: var(--kiut-bg-card, #ffffff);
   border-radius: 0.75rem;
@@ -170,7 +203,8 @@ details.chart-metric-container.metric-collapsible {
   border: 1px solid #d9d9dd;
 }
 
-details.chart-metric-container.metric-collapsible:not([open]) .metric-collapsible__summary {
+details.chart-metric-container.metric-collapsible:not([open])
+  .metric-collapsible__summary {
   padding-block: 0;
   padding-inline: 0;
   min-height: 0;
@@ -189,7 +223,9 @@ details.chart-metric-container.metric-collapsible .metric-collapsible__chevron {
   margin-top: 0.15em;
 }
 
-details.chart-metric-container.metric-collapsible .metric-collapsible__summary .card-title {
+details.chart-metric-container.metric-collapsible
+  .metric-collapsible__summary
+  .card-title {
   line-height: 1.75rem;
 }
 
@@ -213,7 +249,8 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 }
 
 @supports not (selector(details::details-content)) {
-  details.chart-metric-container.metric-collapsible[open] .chart-metric-container__body {
+  details.chart-metric-container.metric-collapsible[open]
+    .chart-metric-container__body {
     animation: cmcBodyEnter 0.24s ease-out both;
   }
 }
@@ -224,11 +261,14 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
   }
 
   details.chart-metric-container.metric-collapsible[open]::details-content,
-  details.chart-metric-container.metric-collapsible:not([open])::details-content {
+  details.chart-metric-container.metric-collapsible:not(
+      [open]
+    )::details-content {
     opacity: 1;
   }
 
-  details.chart-metric-container.metric-collapsible[open] .chart-metric-container__body {
+  details.chart-metric-container.metric-collapsible[open]
+    .chart-metric-container__body {
     animation: none;
   }
 
@@ -290,8 +330,7 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 
 .chart-metric-container .card-title {
   font-family:
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
-    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), "Inter",
     sans-serif;
   margin: 0;
   letter-spacing: -0.02em;
@@ -310,7 +349,9 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 }
 
 .chart-metric-container .card-subtitle,
-details.chart-metric-container.metric-collapsible .metric-collapsible__summary .card-subtitle {
+details.chart-metric-container.metric-collapsible
+  .metric-collapsible__summary
+  .card-subtitle {
   font-size: 0.875rem;
   font-weight: 400;
   color: #61616b;
@@ -319,7 +360,10 @@ details.chart-metric-container.metric-collapsible .metric-collapsible__summary .
 }
 
 .dark .chart-metric-container .card-subtitle,
-.dark details.chart-metric-container.metric-collapsible .metric-collapsible__summary .card-subtitle {
+.dark
+  details.chart-metric-container.metric-collapsible
+  .metric-collapsible__summary
+  .card-subtitle {
   color: #9191a1;
 }
 
@@ -330,7 +374,8 @@ details.chart-metric-container.metric-collapsible .metric-collapsible__summary .
   min-height: 0;
 }
 
-details.chart-metric-container.metric-collapsible .chart-metric-container__body {
+details.chart-metric-container.metric-collapsible
+  .chart-metric-container__body {
   animation: none;
 }
 
@@ -361,5 +406,34 @@ details.chart-metric-container.metric-collapsible .chart-metric-container__body 
   .card-header {
     margin-bottom: 8px;
   }
+}
+
+.ut-skeleton-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ut-skeleton-title-subtitle {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.ut-skeleton-title {
+  height: 22px;
+  width: 38%;
+  margin-bottom: 8px;
+}
+
+.ut-skeleton-subtitle {
+  height: 20px;
+  width: 56%;
+}
+
+.ut-skeleton-options {
+  height: 50px;
+  width: 15%;
 }
 </style>

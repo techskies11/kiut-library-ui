@@ -3,6 +3,7 @@
     class="payment-method-root h-full min-h-0"
     title="Payment Method Metrics"
     subtitle="Sales breakdown by payment method"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
@@ -13,17 +14,13 @@
       />
     </template>
     <!-- Loading State -->
-    <div class="loading-state" v-if="loading">
-      <div class="loading-container">
-        <div class="chart-lines-loader">
-          <div class="line line-1"></div>
-          <div class="line line-2"></div>
-          <div class="line line-3"></div>
-          <div class="line line-4"></div>
-          <div class="line line-5"></div>
-        </div>
-        <p class="loading-text">Loading payment data...</p>
-      </div>
+    <div
+      v-if="loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
 
     <!-- Content when loaded -->
@@ -51,7 +48,10 @@
             <CreditCardIcon class="empty-icon" />
           </div>
           <p class="empty-title">No payment data available</p>
-          <p class="empty-description">No payment method data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-description">
+            No payment method data found for the selected period. Try adjusting
+            the date range.
+          </p>
         </div>
       </section>
 
@@ -66,14 +66,23 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="font-medium">{{ formatDate(String(row.date)) }}</span>
+              <span class="font-medium">{{
+                formatDate(String(row.date))
+              }}</span>
             </template>
             <template #cell-totalSales="{ row }">
-              <span class="text-center">{{ useNumberFormat((row.total_count as number) ?? 0) }}</span>
+              <span class="text-center">{{
+                useNumberFormat((row.total_count as number) ?? 0)
+              }}</span>
             </template>
             <template #cell-totalAmount="{ row }">
               <span class="text-center success-value">
-                <template v-if="Array.isArray(row.total_amount_by_currency) && row.total_amount_by_currency.length > 0">
+                <template
+                  v-if="
+                    Array.isArray(row.total_amount_by_currency) &&
+                    row.total_amount_by_currency.length > 0
+                  "
+                >
                   <div class="currency-cell-list">
                     <span
                       v-for="item in row.total_amount_by_currency"
@@ -83,23 +92,42 @@
                     </span>
                   </div>
                 </template>
-                <template v-else>{{ formatCurrency(Number(row.total_amount ?? 0)) }}</template>
+                <template v-else>{{
+                  formatCurrency(Number(row.total_amount ?? 0))
+                }}</template>
               </span>
             </template>
             <template #cell-paymentMethods="{ row }">
               <div class="payment-tags">
                 <div
-                  v-for="pm in (Array.isArray(row.payment_methods) ? row.payment_methods : [])"
+                  v-for="pm in Array.isArray(row.payment_methods)
+                    ? row.payment_methods
+                    : []"
                   :key="pm.payment_method"
                   class="payment-tag"
                 >
-                  <span class="tag-name">{{ formatPaymentMethod(pm.payment_method) }}</span>
+                  <span class="tag-name">{{
+                    formatPaymentMethod(pm.payment_method)
+                  }}</span>
                   <span class="tag-separator">•</span>
-                  <span class="tag-amount" v-if="!pm.total_amount_by_currency || pm.total_amount_by_currency.length === 0">
+                  <span
+                    class="tag-amount"
+                    v-if="
+                      !pm.total_amount_by_currency ||
+                      pm.total_amount_by_currency.length === 0
+                    "
+                  >
                     {{ formatCurrency(pm.total_amount) }}
                   </span>
                   <span v-else class="tag-amount">
-                    {{ pm.total_amount_by_currency.map(c => `${c.currency} ${formatCurrency(c.total_value)}`).join(' / ') }}
+                    {{
+                      pm.total_amount_by_currency
+                        .map(
+                          (c) =>
+                            `${c.currency} ${formatCurrency(c.total_value)}`,
+                        )
+                        .join(" / ")
+                    }}
                   </span>
                   <span class="tag-count">({{ formatCount(pm.count) }})</span>
                 </div>
@@ -118,119 +146,141 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, toRef, onMounted, watch } from 'vue'
-import moment from 'moment'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
-import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat, useCurrencyFormat } from '../../../../plugins/numberFormat'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import { CreditCardIcon } from '@heroicons/vue/24/outline'
-import Table, { type TableColumn } from '../../Utils/Table/Table.vue'
+import { ref, computed, toRef, onMounted, watch } from "vue";
+import moment from "moment";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import {
+  useNumberFormat,
+  useCurrencyFormat,
+} from "../../../../plugins/numberFormat";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
+import { CreditCardIcon } from "@heroicons/vue/24/outline";
+import Table, { type TableColumn } from "../../Utils/Table/Table.vue";
 
 // Types
 interface PaymentMethodItem {
-  payment_method: string
-  count: number
-  total_amount: number
-  total_amount_by_currency?: CurrencyBreakdown[]
+  payment_method: string;
+  count: number;
+  total_amount: number;
+  total_amount_by_currency?: CurrencyBreakdown[];
 }
 
 interface DayBreakdown {
-  date: string
-  total_count: number
-  total_amount: number
-  total_amount_by_currency?: CurrencyBreakdown[]
-  payment_methods: PaymentMethodItem[]
+  date: string;
+  total_count: number;
+  total_amount: number;
+  total_amount_by_currency?: CurrencyBreakdown[];
+  payment_methods: PaymentMethodItem[];
 }
 
 interface PaymentMethodData {
-  airline_name?: string
-  start_date?: string
-  end_date?: string
-  total_conversations?: number
-  total_amount?: number
-  total_sell_usd?: number
-  total_amount_by_currency?: CurrencyBreakdown[]
-  payment_method_breakdown?: PaymentMethodItem[]
-  payment_method_by_day?: DayBreakdown[]
+  airline_name?: string;
+  start_date?: string;
+  end_date?: string;
+  total_conversations?: number;
+  total_amount?: number;
+  total_sell_usd?: number;
+  total_amount_by_currency?: CurrencyBreakdown[];
+  payment_method_breakdown?: PaymentMethodItem[];
+  payment_method_by_day?: DayBreakdown[];
 }
 
 interface CurrencyBreakdown {
-  currency: string
-  total_value: number
-  total_sell_usd?: number
-  count: number
+  currency: string;
+  total_value: number;
+  total_sell_usd?: number;
+  count: number;
 }
 
 // Props
-const props = withDefaults(defineProps<{
-  /** Optional: pass API response directly instead of using fetchFunction */
-  data?: PaymentMethodData | null
-  dates?: Date[] | string[]
-  airlineName?: string
-  fetchFunction?: (airlineName: string, startDate: string, endDate: string) => Promise<PaymentMethodData>
-  theme?: Theme
-  enableExport?: boolean
-  exportLoading?: boolean
-}>(), {
-  data: undefined,
-  dates: () => [],
-  airlineName: '',
-  fetchFunction: undefined,
-  theme: undefined,
-  enableExport: false,
-  exportLoading: false
-})
+const props = withDefaults(
+  defineProps<{
+    /** Optional: pass API response directly instead of using fetchFunction */
+    data?: PaymentMethodData | null;
+    dates?: Date[] | string[];
+    airlineName?: string;
+    fetchFunction?: (
+      airlineName: string,
+      startDate: string,
+      endDate: string,
+    ) => Promise<PaymentMethodData>;
+    theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
+  }>(),
+  {
+    data: undefined,
+    dates: () => [],
+    airlineName: "",
+    fetchFunction: undefined,
+    theme: undefined,
+    enableExport: false,
+    exportLoading: false,
+  },
+);
 
 // Emits
 const emit = defineEmits<{
-  export: [format: ExportFormat]
-}>()
+  export: [format: ExportFormat];
+}>();
 
 // Theme detection
-const { isDark } = useThemeDetection(toRef(props, 'theme'))
+const { isDark } = useThemeDetection(toRef(props, "theme"));
 
 // State
-const loading = ref(false)
+const loading = ref(false);
 const metricsData = ref<PaymentMethodData>({
-  airline_name: '',
-  start_date: '',
-  end_date: '',
+  airline_name: "",
+  start_date: "",
+  end_date: "",
   total_conversations: 0,
   total_amount: 0,
   total_amount_by_currency: [],
   payment_method_breakdown: [],
   payment_method_by_day: [],
-})
+});
 
 // Constants
-const UNREGISTERED_PAYMENT_LABEL = 'Not Registered'
+const UNREGISTERED_PAYMENT_LABEL = "Not Registered";
 
 // Computed
 const hasPaymentMethods = computed(() => {
-  return metricsData.value.payment_method_breakdown && metricsData.value.payment_method_breakdown.length > 0
-})
+  return (
+    metricsData.value.payment_method_breakdown &&
+    metricsData.value.payment_method_breakdown.length > 0
+  );
+});
 
 const hasDailyBreakdown = computed(() => {
-  return metricsData.value.payment_method_by_day && metricsData.value.payment_method_by_day.length > 0
-})
+  return (
+    metricsData.value.payment_method_by_day &&
+    metricsData.value.payment_method_by_day.length > 0
+  );
+});
 
 const sortedPaymentMethodByDay = computed(() => {
-  if (!metricsData.value.payment_method_by_day || metricsData.value.payment_method_by_day.length === 0) {
-    return []
+  if (
+    !metricsData.value.payment_method_by_day ||
+    metricsData.value.payment_method_by_day.length === 0
+  ) {
+    return [];
   }
   return [...metricsData.value.payment_method_by_day].sort((a, b) => {
-    return moment(a.date).valueOf() - moment(b.date).valueOf()
-  })
-})
+    return moment(a.date).valueOf() - moment(b.date).valueOf();
+  });
+});
 
 const paymentDailyColumns: TableColumn[] = [
-  { key: 'date', label: 'Date', align: 'left' },
-  { key: 'totalSales', label: 'Total Sales', align: 'center' },
-  { key: 'totalAmount', label: 'Total Amount', align: 'center' },
-  { key: 'paymentMethods', label: 'Payment Methods', align: 'left' },
-]
+  { key: "date", label: "Date", align: "left" },
+  { key: "totalSales", label: "Total Sales", align: "center" },
+  { key: "totalAmount", label: "Total Amount", align: "center" },
+  { key: "paymentMethods", label: "Payment Methods", align: "left" },
+];
 
 const paymentDailyTableRows = computed((): Record<string, unknown>[] =>
   sortedPaymentMethodByDay.value.map((day) => ({
@@ -240,163 +290,191 @@ const paymentDailyTableRows = computed((): Record<string, unknown>[] =>
     total_amount: day.total_amount,
     total_amount_by_currency: day.total_amount_by_currency,
     payment_methods: day.payment_methods,
-  }))
-)
+  })),
+);
 
 // Normalize payment method data to ensure all fields are present
-const normalizePaymentMethodData = (data: PaymentMethodData | null): PaymentMethodData => {
+const normalizePaymentMethodData = (
+  data: PaymentMethodData | null,
+): PaymentMethodData => {
   if (!data) {
     return {
       airline_name: props.airlineName,
-      start_date: '',
-      end_date: '',
+      start_date: "",
+      end_date: "",
       total_conversations: 0,
       total_amount: 0,
       total_amount_by_currency: [],
       payment_method_breakdown: [],
       payment_method_by_day: [],
-    }
+    };
   }
 
   // Normalize payment_method_breakdown
-  const normalizedBreakdown = (data.payment_method_breakdown || []).map(pm => ({
-    payment_method: pm.payment_method || 'Unknown',
-    total_amount: pm.total_amount ?? 0,
-    count: pm.count ?? 0,
-    total_amount_by_currency: pm.total_amount_by_currency ?? [],
-  }))
+  const normalizedBreakdown = (data.payment_method_breakdown || []).map(
+    (pm) => ({
+      payment_method: pm.payment_method || "Unknown",
+      total_amount: pm.total_amount ?? 0,
+      count: pm.count ?? 0,
+      total_amount_by_currency: pm.total_amount_by_currency ?? [],
+    }),
+  );
 
   // Normalize payment_method_by_day
-  const normalizedByDay = (data.payment_method_by_day || []).map(day => ({
-    date: day.date || '',
+  const normalizedByDay = (data.payment_method_by_day || []).map((day) => ({
+    date: day.date || "",
     total_count: day.total_count ?? 0,
     total_amount: day.total_amount ?? 0,
     total_amount_by_currency: day.total_amount_by_currency ?? [],
-    payment_methods: (day.payment_methods || []).map(pm => ({
-      payment_method: pm.payment_method || 'Unknown',
+    payment_methods: (day.payment_methods || []).map((pm) => ({
+      payment_method: pm.payment_method || "Unknown",
       total_amount: pm.total_amount ?? 0,
       count: pm.count ?? 0,
       total_amount_by_currency: pm.total_amount_by_currency ?? [],
     })),
-  }))
+  }));
 
   return {
     airline_name: data.airline_name || props.airlineName,
-    start_date: data.start_date || '',
-    end_date: data.end_date || '',
+    start_date: data.start_date || "",
+    end_date: data.end_date || "",
     total_conversations: data.total_conversations ?? 0,
     total_amount: data.total_amount ?? 0,
     total_sell_usd: data.total_sell_usd,
     total_amount_by_currency: data.total_amount_by_currency ?? [],
     payment_method_breakdown: normalizedBreakdown,
     payment_method_by_day: normalizedByDay,
-  }
-}
+  };
+};
 
 // Fetch data function
 const searchData = async () => {
-  if (!props.fetchFunction || !props.dates || props.dates.length < 2 || !props.airlineName) {
-    return
+  if (
+    !props.fetchFunction ||
+    !props.dates ||
+    props.dates.length < 2 ||
+    !props.airlineName
+  ) {
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
   try {
-    const [startDate, endDate] = props.dates.map(date => moment(date).format('YYYY-MM-DD'))
-    const response = await props.fetchFunction(props.airlineName, startDate, endDate)
-    metricsData.value = normalizePaymentMethodData(response)
+    const [startDate, endDate] = props.dates.map((date) =>
+      moment(date).format("YYYY-MM-DD"),
+    );
+    const response = await props.fetchFunction(
+      props.airlineName,
+      startDate,
+      endDate,
+    );
+    metricsData.value = normalizePaymentMethodData(response);
   } catch (error) {
-    console.error('Error fetching payment method metrics:', error)
-    metricsData.value = normalizePaymentMethodData(null)
+    console.error("Error fetching payment method metrics:", error);
+    metricsData.value = normalizePaymentMethodData(null);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 /** Accent color for CardInfo indicator dot (cycles by index) */
-const cardAccentColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#f43f5e', '#06b6d4']
+const cardAccentColors = [
+  "#10b981",
+  "#3b82f6",
+  "#8b5cf6",
+  "#f59e0b",
+  "#f43f5e",
+  "#06b6d4",
+];
 
 // Format payment method name
 const formatPaymentMethod = (method: string) => {
-  if (!method || method.toLowerCase() === 'unknown') return UNREGISTERED_PAYMENT_LABEL
-  return method.replace(/_/g, ' ')
-}
+  if (!method || method.toLowerCase() === "unknown")
+    return UNREGISTERED_PAYMENT_LABEL;
+  return method.replace(/_/g, " ");
+};
 
 // Format currency
 const formatCurrency = (value: number | undefined | null) => {
-  if (value === null || value === undefined) return '$0.00'
-  return useCurrencyFormat(value)
-}
+  if (value === null || value === undefined) return "$0.00";
+  return useCurrencyFormat(value);
+};
 
 const formatPaymentCardValue = (pm: PaymentMethodItem): string => {
-  const byCur = pm.total_amount_by_currency
+  const byCur = pm.total_amount_by_currency;
   if (byCur && byCur.length > 0) {
-    return byCur.map((item) => `${item.currency} ${formatCurrency(item.total_value)}`).join(' · ')
+    return byCur
+      .map((item) => `${item.currency} ${formatCurrency(item.total_value)}`)
+      .join(" · ");
   }
-  return formatCurrency(pm.total_amount)
-}
+  return formatCurrency(pm.total_amount);
+};
 
 // Format date
 const formatDate = (dateStr: string) => {
-  if (!dateStr) return '-'
-  return moment(dateStr).format('MMM DD')
-}
+  if (!dateStr) return "-";
+  return moment(dateStr).format("MMM DD");
+};
 
 // Format count with default value
 const formatCount = (count: number | undefined | null): number => {
-  if (count === null || count === undefined || Number.isNaN(Number(count))) return 0
-  return Number(count)
-}
+  if (count === null || count === undefined || Number.isNaN(Number(count)))
+    return 0;
+  return Number(count);
+};
 
 // Handle export
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
-}
+  emit("export", format);
+};
 
 // Sync metricsData when data prop is provided (no fetch)
 function applyDataProp() {
-  const d = props.data
-  const hasData = d && (
-    (Array.isArray(d.payment_method_breakdown) && d.payment_method_breakdown.length > 0) ||
-    (Array.isArray(d.payment_method_by_day) && d.payment_method_by_day.length > 0)
-  )
+  const d = props.data;
+  const hasData =
+    d &&
+    ((Array.isArray(d.payment_method_breakdown) &&
+      d.payment_method_breakdown.length > 0) ||
+      (Array.isArray(d.payment_method_by_day) &&
+        d.payment_method_by_day.length > 0));
   if (hasData) {
-    loading.value = false
-    metricsData.value = normalizePaymentMethodData(d)
+    loading.value = false;
+    metricsData.value = normalizePaymentMethodData(d);
   }
 }
 
 // Lifecycle hooks
 onMounted(() => {
   if (props.data) {
-    applyDataProp()
+    applyDataProp();
   } else {
-    searchData()
+    searchData();
   }
-})
+});
 
 watch(
   () => props.data,
   (newData) => {
     if (newData) {
-      applyDataProp()
+      applyDataProp();
     }
   },
-  { deep: true }
-)
+  { deep: true },
+);
 
 watch(
   () => props.dates,
   (newDates) => {
-    if (props.data) return
+    if (props.data) return;
     if (newDates && newDates[0] && newDates[1]) {
-      searchData()
+      searchData();
     }
   },
-  { deep: true }
-)
+  { deep: true },
+);
 
 // Expose for potential use
-defineExpose({ isDark })
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -409,7 +487,7 @@ defineExpose({ isDark })
 }
 
 .badge-value {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--kiut-text-primary);
@@ -425,7 +503,7 @@ defineExpose({ isDark })
 }
 
 .currency-breakdown-item {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--kiut-text-primary);
@@ -609,75 +687,6 @@ defineExpose({ isDark })
   margin: 0;
 }
 
-/* Loading State */
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 320px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-lines-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: 100px;
-  margin-bottom: 24px;
-}
-
-.line {
-  width: 8px;
-  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
-  border-radius: 4px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
-}
-
-.line-1 { height: 30%; animation-delay: 0s; }
-.line-2 { height: 50%; animation-delay: 0.1s; }
-.line-3 { height: 70%; animation-delay: 0.2s; }
-.line-4 { height: 50%; animation-delay: 0.3s; }
-.line-5 { height: 40%; animation-delay: 0.4s; }
-
-.loading-text {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  letter-spacing: -0.01em;
-  margin: 0;
-}
-
-/* Animations */
-@keyframes wave {
-  0%, 100% {
-    transform: scaleY(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scaleY(1.6);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -695,8 +704,7 @@ defineExpose({ isDark })
     overflow-x: auto;
   }
 }
-
 </style>
-
-
-
+<style>
+@import "../bm-shared.css";
+</style>

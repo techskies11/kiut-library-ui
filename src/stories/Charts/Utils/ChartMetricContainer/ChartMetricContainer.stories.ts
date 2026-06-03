@@ -45,6 +45,10 @@ Contenedor reutilizable para charts/métricas: cabecera con título, subtítulo 
       control: 'boolean',
       description: 'Inicia abierto cuando es colapsable',
     },
+    loading: {
+      control: 'boolean',
+      description: 'Muestra skeleton en cabecera y cuerpo mientras carga',
+    },
   },
 }
 
@@ -130,6 +134,41 @@ export const WithHeaderExport: Story = {
         ${sampleBody}
       </ChartMetricContainer>
     `,
+  }),
+}
+
+export const Loading: Story = {
+  name: 'Loading (skeleton)',
+  args: {
+    title: 'Agents Total Messages per Day',
+    subtitle: 'Daily agent interactions (stacked)',
+    collapsible: false,
+    loading: true,
+  },
+  render: (args) => ({
+    components: { ChartMetricContainer },
+    setup() {
+      return { args }
+    },
+    template: `<ChartMetricContainer v-bind="args" />`,
+  }),
+}
+
+export const LoadingCollapsible: Story = {
+  name: 'Loading – colapsable',
+  args: {
+    title: 'Agents Total Messages per Day',
+    subtitle: 'Daily agent interactions (stacked)',
+    collapsible: true,
+    defaultOpen: true,
+    loading: true,
+  },
+  render: (args) => ({
+    components: { ChartMetricContainer },
+    setup() {
+      return { args }
+    },
+    template: `<ChartMetricContainer v-bind="args" />`,
   }),
 }
 

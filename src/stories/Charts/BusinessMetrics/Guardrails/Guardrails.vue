@@ -4,6 +4,7 @@
     title="Guardrails Metrics"
     subtitle="Content safety guardrail events and actions"
     :collapsible="false"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
@@ -15,17 +16,13 @@
     </template>
 
     <!-- Loading State -->
-    <div class="loading-state" v-if="props.loading">
-      <div class="loading-container">
-        <div class="chart-bars-loader">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="bar bar-4"></div>
-          <div class="bar bar-5"></div>
-        </div>
-        <p class="loading-text">Loading guardrails data...</p>
-      </div>
+    <div
+      v-if="loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
 
     <!-- Content when loaded -->
@@ -232,15 +229,8 @@ defineExpose({ isDark })
 .empty-icon { width: 40px; height: 40px; color: #10b981; }
 .empty-title { font-size: 18px; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0 0 8px 0; }
 .empty-description { font-size: 14px; font-weight: 400; color: var(--kiut-text-secondary, #64748b); line-height: 1.6; margin: 0; }
-
-/* Loading State */
-.loading-state { display: flex; align-items: center; justify-content: center; min-height: 380px; }
-.loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
-.chart-bars-loader { display: flex; align-items: flex-end; justify-content: center; gap: 10px; height: 100px; margin-bottom: 24px; }
-.bar { width: 8px; background: linear-gradient(to top, var(--kiut-primary-light, #c67dff), var(--kiut-primary, #8b5cf6), var(--kiut-primary-hover, #7c3aed)); border-radius: 4px; animation: wave 1.5s ease-in-out infinite; box-shadow: var(--kiut-shadow-loader, 0 4px 12px rgba(139, 92, 246, 0.4)); }
-.bar-1 { height: 30%; animation-delay: 0s; } .bar-2 { height: 50%; animation-delay: 0.1s; } .bar-3 { height: 70%; animation-delay: 0.2s; } .bar-4 { height: 50%; animation-delay: 0.3s; } .bar-5 { height: 40%; animation-delay: 0.4s; }
-.loading-text { font-size: 15px; font-weight: 500; color: var(--kiut-text-secondary, #64748b); animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-@keyframes wave { 0%, 100% { transform: scaleY(1); opacity: 0.7; } 50% { transform: scaleY(1.6); opacity: 1; } }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

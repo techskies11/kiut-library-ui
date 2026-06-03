@@ -4,6 +4,7 @@
     title="Check in"
     subtitle="Check-in flows, metrics by record locator and segment breakdown."
     :default-open="containerInitiallyOpen"
+    :loading="loading"
   >
     <div class="checkin-container__body">
       <Checkin

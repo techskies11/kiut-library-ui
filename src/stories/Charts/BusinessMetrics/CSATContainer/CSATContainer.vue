@@ -4,6 +4,7 @@
     title="CSAT"
     subtitle="Customer satisfaction score distribution and daily trend metrics."
     :default-open="containerInitiallyOpen"
+    :loading="loading"
   >
     <div class="csat-container__body">
       <NpsMetrics

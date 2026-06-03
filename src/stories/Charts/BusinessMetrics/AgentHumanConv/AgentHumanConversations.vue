@@ -3,6 +3,7 @@
     class="agent-human-conv-root h-full min-h-0"
     title="Agent Human Conversations"
     subtitle="Human conversation assignments and closures by agent"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
@@ -13,17 +14,13 @@
       />
     </template>
     <!-- Loading State -->
-    <div v-if="loading" class="loading-state">
-      <div class="loading-container">
-        <div class="chart-bars-loader">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="bar bar-4"></div>
-          <div class="bar bar-5"></div>
-        </div>
-        <p class="loading-text">Loading agent data...</p>
-      </div>
+    <div
+      v-if="loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
 
     <!-- Content when loaded -->
@@ -36,7 +33,9 @@
           <div class="summary-card-content">
             <div class="card-content enqueued-content">
               <p class="card-label">Total Enqueued</p>
-              <p class="card-value enqueued-value">{{ formatNumber(data.total_enqueued) }}</p>
+              <p class="card-value enqueued-value">
+                {{ formatNumber(data.total_enqueued) }}
+              </p>
             </div>
           </div>
         </div>
@@ -47,11 +46,15 @@
           <div class="summary-card-content">
             <div class="card-content">
               <p class="card-label">Total Assigned</p>
-              <p class="card-value assigned-value">{{ formatNumber(data.total_assigned) }}</p>
+              <p class="card-value assigned-value">
+                {{ formatNumber(data.total_assigned) }}
+              </p>
             </div>
             <div class="card-content">
               <p class="card-label">AVG time to assign</p>
-              <p class="card-value assigned-value">{{ formatDurationSeconds(data.avg_time_to_assign_seconds) }}</p>
+              <p class="card-value assigned-value">
+                {{ formatDurationSeconds(data.avg_time_to_assign_seconds) }}
+              </p>
             </div>
           </div>
         </div>
@@ -62,11 +65,17 @@
           <div class="summary-card-content">
             <div class="card-content">
               <p class="card-label">Total Closed</p>
-              <p class="card-value closed-value">{{ formatNumber(data.total_closed) }}</p>
+              <p class="card-value closed-value">
+                {{ formatNumber(data.total_closed) }}
+              </p>
             </div>
             <div class="card-content">
               <p class="card-label">AVG time to close</p>
-              <p class="card-value closed-value">{{ formatDurationSeconds(data.avg_conversation_duration_seconds) }}</p>
+              <p class="card-value closed-value">
+                {{
+                  formatDurationSeconds(data.avg_conversation_duration_seconds)
+                }}
+              </p>
             </div>
           </div>
         </div>
@@ -83,28 +92,47 @@
           <div class="date-header">
             <h4 class="date-title">{{ formatDate(date) }}</h4>
             <div class="date-stats">
-              <span v-if="getDailyTotalEnqueued(agents)" class="stat-item enqueued-stat">
-                <span class="stat-value">{{ formatNumber(getDailyTotalEnqueued(agents)) }}</span>
+              <span
+                v-if="getDailyTotalEnqueued(agents)"
+                class="stat-item enqueued-stat"
+              >
+                <span class="stat-value">{{
+                  formatNumber(getDailyTotalEnqueued(agents))
+                }}</span>
                 Enqueued
               </span>
               <span class="stat-item assigned-stat">
-                <span class="stat-value">{{ formatNumber(getDailyTotalAssigned(agents)) }}</span>
+                <span class="stat-value">{{
+                  formatNumber(getDailyTotalAssigned(agents))
+                }}</span>
                 Assigned
-                <span class="stat-value">{{ formatDurationSeconds(getDailyAvgTimeToAssign(agents)) }}</span>
+                <span class="stat-value">{{
+                  formatDurationSeconds(getDailyAvgTimeToAssign(agents))
+                }}</span>
               </span>
               <span class="stat-item closed-stat">
-                <span class="stat-value">{{ formatNumber(getDailyTotalClosed(agents)) }}</span>
+                <span class="stat-value">{{
+                  formatNumber(getDailyTotalClosed(agents))
+                }}</span>
                 Closed
-                <span class="stat-value">{{ formatDurationSeconds(getDailyAvgTimeToClose(agents)) }}</span>
+                <span class="stat-value">{{
+                  formatDurationSeconds(getDailyAvgTimeToClose(agents))
+                }}</span>
               </span>
             </div>
           </div>
 
           <!-- Agents Table -->
           <div class="w-full min-w-0">
-            <Table :columns="agentTableColumns" :rows="agentRowsForTable(String(date), agents)" row-key="id">
+            <Table
+              :columns="agentTableColumns"
+              :rows="agentRowsForTable(String(date), agents)"
+              row-key="id"
+            >
               <template #cell-agentName="{ row }">
-                <span class="ah-cell name-cell">{{ row.agent_name || '-' }}</span>
+                <span class="ah-cell name-cell">{{
+                  row.agent_name || "-"
+                }}</span>
               </template>
               <template #cell-email="{ row }">
                 <span class="ah-cell email-cell">{{ row.agent_email }}</span>
@@ -115,7 +143,11 @@
                     {{ formatNumber(Number(row.assigned_count)) }}
                   </span>
                   <span class="metric-cell-avg">
-                    {{ formatDurationSeconds(Number(row.avg_time_to_assign_seconds)) }}
+                    {{
+                      formatDurationSeconds(
+                        Number(row.avg_time_to_assign_seconds),
+                      )
+                    }}
                   </span>
                 </div>
               </template>
@@ -125,7 +157,11 @@
                     {{ formatNumber(Number(row.closed_count)) }}
                   </span>
                   <span class="metric-cell-avg">
-                    {{ formatDurationSeconds(Number(row.avg_conversation_duration_seconds)) }}
+                    {{
+                      formatDurationSeconds(
+                        Number(row.avg_conversation_duration_seconds),
+                      )
+                    }}
                   </span>
                 </div>
               </template>
@@ -137,12 +173,26 @@
             class="view-more-btn"
             @click="toggleAgentsDate(String(date))"
           >
-            {{ showAllAgentsByDate[date] ? 'View less' : `View more (${agentRemainingForDate(agents)} rows)` }}
+            {{
+              showAllAgentsByDate[date]
+                ? "View less"
+                : `View more (${agentRemainingForDate(agents)} rows)`
+            }}
             <svg
-              :class="['view-more-icon', { 'view-more-icon-rotated': showAllAgentsByDate[date] }]"
-              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              :class="[
+                'view-more-icon',
+                { 'view-more-icon-rotated': showAllAgentsByDate[date] },
+              ]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </button>
         </div>
@@ -152,7 +202,12 @@
       <div v-else class="empty-state">
         <div class="empty-state-content">
           <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              class="empty-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -162,7 +217,9 @@
             </svg>
           </div>
           <p class="empty-title">No agent human conversation data available</p>
-          <p class="empty-description">Try adjusting the date range or check your filters.</p>
+          <p class="empty-description">
+            Try adjusting the date range or check your filters.
+          </p>
         </div>
       </div>
     </div>
@@ -170,12 +227,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRef } from 'vue'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import Table, { type TableColumn } from '../../../../components/Table/Table.vue'
+import { computed, ref, toRef } from "vue";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import Table, {
+  type TableColumn,
+} from "../../../../components/Table/Table.vue";
 
 // Types
 interface AgentDayData {
@@ -205,40 +267,44 @@ interface AgentHumanConvData {
   agents_by_day?: AgentDayData[];
 }
 
-const props = withDefaults(defineProps<{
-  data?: AgentHumanConvData;
-  loading?: boolean;
-  theme?: Theme;
-  enableExport?: boolean;
-  exportLoading?: boolean;
-}>(), {
-  data: () => ({
-    total_assigned: 0,
-    total_closed: 0,
-    avg_time_to_assign_seconds: null,
-    avg_conversation_duration_seconds: null,
-    agents_by_day: [],
-  }),
-  loading: false,
-  theme: undefined,
-  enableExport: false,
-  exportLoading: false,
-});
+const props = withDefaults(
+  defineProps<{
+    data?: AgentHumanConvData;
+    loading?: boolean;
+    theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
+  }>(),
+  {
+    data: () => ({
+      total_assigned: 0,
+      total_closed: 0,
+      avg_time_to_assign_seconds: null,
+      avg_conversation_duration_seconds: null,
+      agents_by_day: [],
+    }),
+    loading: false,
+    theme: undefined,
+    enableExport: false,
+    exportLoading: false,
+  },
+);
 
 const emit = defineEmits<{
-  export: [format: ExportFormat]
-}>()
+  export: [format: ExportFormat];
+}>();
 
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
-}
+  emit("export", format);
+};
 
 // Theme detection with prop fallback
-const { isDark } = useThemeDetection(toRef(props, 'theme'))
+const { isDark } = useThemeDetection(toRef(props, "theme"));
 
 // Check if we have data (including enqueued-only scenarios)
 const hasData = computed(() => {
-  const hasAgents = props.data?.agents_by_day && props.data.agents_by_day.length > 0;
+  const hasAgents =
+    props.data?.agents_by_day && props.data.agents_by_day.length > 0;
   const hasEnqueued = (props.data?.total_enqueued ?? 0) > 0;
   return hasAgents || hasEnqueued;
 });
@@ -248,7 +314,7 @@ const groupedByDate = computed(() => {
   if (!hasData.value) return {};
 
   const grouped: Record<string, AgentDayData[]> = {};
-  
+
   for (const agent of props.data!.agents_by_day!) {
     if (!grouped[agent.date]) {
       grouped[agent.date] = [];
@@ -269,37 +335,43 @@ const groupedByDate = computed(() => {
   return sortedGrouped;
 });
 
-const MAX_AGENT_ROWS = 3
-const showAllAgentsByDate = ref<Record<string, boolean>>({})
+const MAX_AGENT_ROWS = 3;
+const showAllAgentsByDate = ref<Record<string, boolean>>({});
 
 function toggleAgentsDate(date: string): void {
   showAllAgentsByDate.value = {
     ...showAllAgentsByDate.value,
     [date]: !showAllAgentsByDate.value[date],
-  }
+  };
 }
 
-function visibleAgentsForDate(date: string, agents: AgentDayData[]): AgentDayData[] {
-  if (showAllAgentsByDate.value[date]) return agents
-  return agents.slice(0, MAX_AGENT_ROWS)
+function visibleAgentsForDate(
+  date: string,
+  agents: AgentDayData[],
+): AgentDayData[] {
+  if (showAllAgentsByDate.value[date]) return agents;
+  return agents.slice(0, MAX_AGENT_ROWS);
 }
 
 function agentRemainingForDate(agents: AgentDayData[]): number {
-  return Math.max(0, agents.length - MAX_AGENT_ROWS)
+  return Math.max(0, agents.length - MAX_AGENT_ROWS);
 }
 
 function agentsMoreThanMax(agents: AgentDayData[]): boolean {
-  return agents.length > MAX_AGENT_ROWS
+  return agents.length > MAX_AGENT_ROWS;
 }
 
 const agentTableColumns: TableColumn[] = [
-  { key: 'agentName', label: 'Agent Name', align: 'left' },
-  { key: 'email', label: 'Email', align: 'left' },
-  { key: 'assigned', label: 'Assigned (AVG time to assign)', align: 'center' },
-  { key: 'closed', label: 'Closed (AVG time to close)', align: 'center' },
-]
+  { key: "agentName", label: "Agent Name", align: "left" },
+  { key: "email", label: "Email", align: "left" },
+  { key: "assigned", label: "Assigned (AVG time to assign)", align: "center" },
+  { key: "closed", label: "Closed (AVG time to close)", align: "center" },
+];
 
-function agentRowsForTable(date: string, agents: AgentDayData[]): Record<string, unknown>[] {
+function agentRowsForTable(
+  date: string,
+  agents: AgentDayData[],
+): Record<string, unknown>[] {
   return visibleAgentsForDate(date, agents).map((agent, idx) => ({
     id: `${date}-${agent.agent_email}-${idx}`,
     agent_name: agent.agent_name,
@@ -308,18 +380,18 @@ function agentRowsForTable(date: string, agents: AgentDayData[]): Record<string,
     closed_count: agent.closed_count,
     avg_time_to_assign_seconds: agent.avg_time_to_assign_seconds,
     avg_conversation_duration_seconds: agent.avg_conversation_duration_seconds,
-  }))
+  }));
 }
 
 // Utility functions
 const formatNumber = (value: number | undefined): string => {
-  if (value === undefined || value === null) return '0';
+  if (value === undefined || value === null) return "0";
   return useNumberFormat(value);
 };
 
 const formatDurationSeconds = (value: number | null | undefined): string => {
   if (value === undefined || value === null) {
-    return 'AVG';
+    return "AVG";
   }
   if (value < 60) {
     return `${Math.round(value)}s`;
@@ -339,12 +411,12 @@ const formatDurationSeconds = (value: number | null | undefined): string => {
 
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
-  const options: Intl.DateTimeFormatOptions = { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   };
-  return date.toLocaleDateString('en-US', options);
+  return date.toLocaleDateString("en-US", options);
 };
 
 const getDailyTotalEnqueued = (agents: AgentDayData[]): number => {
@@ -373,11 +445,11 @@ const getDailyAvgTimeToClose = (agents: AgentDayData[]): number | null => {
 };
 
 // Expose isDark for potential use in templates
-defineExpose({ isDark })
+defineExpose({ isDark });
 </script>
 
 <style scoped>
-@import '../view-more-cta.css';
+@import "../view-more-cta.css";
 
 /* Card Body */
 .card-body {
@@ -431,15 +503,27 @@ defineExpose({ isDark })
 }
 
 .enqueued-card {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.05) 0%,
+    rgba(251, 191, 36, 0.05) 100%
+  );
 }
 
 .assigned-card {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.05) 0%,
+    rgba(168, 85, 247, 0.05) 100%
+  );
 }
 
 .closed-card {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(20, 184, 166, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.05) 0%,
+    rgba(20, 184, 166, 0.05) 100%
+  );
 }
 
 .card-decoration {
@@ -454,15 +538,27 @@ defineExpose({ isDark })
 }
 
 .enqueued-card .card-decoration {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(251, 191, 36, 0.3) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.3) 0%,
+    rgba(251, 191, 36, 0.3) 100%
+  );
 }
 
 .assigned-card .card-decoration {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(168, 85, 247, 0.3) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.3) 0%,
+    rgba(168, 85, 247, 0.3) 100%
+  );
 }
 
 .closed-card .card-decoration {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(20, 184, 166, 0.3) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.3) 0%,
+    rgba(20, 184, 166, 0.3) 100%
+  );
 }
 
 .card-content {
@@ -520,7 +616,7 @@ defineExpose({ isDark })
 }
 
 .card-value {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
@@ -717,56 +813,10 @@ defineExpose({ isDark })
   margin: 0;
 }
 
-/* Loading State */
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 380px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-bars-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: 100px;
-  margin-bottom: 24px;
-}
-
-.bar {
-  width: 8px;
-  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
-  border-radius: 4px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
-}
-
-.bar-1 { height: 30%; animation-delay: 0s; }
-.bar-2 { height: 50%; animation-delay: 0.1s; }
-.bar-3 { height: 70%; animation-delay: 0.2s; }
-.bar-4 { height: 50%; animation-delay: 0.3s; }
-.bar-5 { height: 40%; animation-delay: 0.4s; }
-
-.loading-text {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  letter-spacing: -0.01em;
-}
-
 /* Animations */
 @keyframes wave {
-  0%, 100% {
+  0%,
+  100% {
     transform: scaleY(1);
     opacity: 0.7;
   }
@@ -774,11 +824,6 @@ defineExpose({ isDark })
     transform: scaleY(1.6);
     opacity: 1;
   }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
 }
 
 @keyframes fadeIn {
@@ -830,4 +875,7 @@ defineExpose({ isDark })
     max-width: 150px;
   }
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

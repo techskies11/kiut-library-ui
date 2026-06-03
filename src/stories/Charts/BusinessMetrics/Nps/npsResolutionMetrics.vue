@@ -4,28 +4,38 @@
     title="CSAT Resolution"
     subtitle="Resolution answers distribution (1=Si, 2=No)"
     :collapsible="false"
+    :loading="props.loading"
   >
-    <div v-if="props.loading" class="loading-state">
-      <p class="loading-text">Loading resolution data...</p>
+    <div
+      v-if="props.loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
-
     <div v-else-if="hasResolutionData" class="card-body">
-      <ChartBar :data="barData" :options="barOptions" :uppercase-legend-labels="true" />
+      <ChartBar
+        :data="barData"
+        :options="barOptions"
+        :uppercase-legend-labels="true"
+      />
     </div>
 
     <div v-else class="empty-state">
       <p class="empty-title">No resolution answers available</p>
       <p class="empty-description">
-        This airline has the resolution survey configured, but no responses were found for the selected dates.
+        This airline has the resolution survey configured, but no responses were
+        found for the selected dates.
       </p>
     </div>
   </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import ChartBar from '../../Bar/ChartBar.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import { computed } from "vue";
+import ChartBar from "../../Bar/ChartBar.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 
 const props = defineProps({
   data: {
@@ -36,25 +46,29 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 
-const resolutionBreakdown = computed(() => props.data?.resolution_breakdown || [])
-const hasResolutionData = computed(() => resolutionBreakdown.value.some((item: any) => Number(item.count || 0) > 0))
+const resolutionBreakdown = computed(
+  () => props.data?.resolution_breakdown || [],
+);
+const hasResolutionData = computed(() =>
+  resolutionBreakdown.value.some((item: any) => Number(item.count || 0) > 0),
+);
 
 const barData = computed(() => {
-  const rows = resolutionBreakdown.value
+  const rows = resolutionBreakdown.value;
   return {
     labels: rows.map((item: any) => item.label || String(item.score)),
     datasets: [
       {
-        label: 'Resolution %',
+        label: "Resolution %",
         data: rows.map((item: any) => Number(item.percentage || 0)),
-        backgroundColor: ['#10B981', '#EF4444'],
+        backgroundColor: ["#10B981", "#EF4444"],
         borderRadius: 8,
       },
     ],
-  }
-})
+  };
+});
 
 const barOptions = {
   plugins: {
@@ -73,7 +87,7 @@ const barOptions = {
       },
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -81,9 +95,9 @@ const barOptions = {
   animation: fadeIn 0.5s ease-out;
 }
 
-.loading-state,
+.bm-status,
 .empty-state {
-  min-height: 220px;
+  min-height: 220px !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -119,4 +133,7 @@ const barOptions = {
     transform: translateY(0);
   }
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

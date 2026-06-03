@@ -4,6 +4,7 @@
     title="Conversations by Channel"
     subtitle="Conversations sent by AI agents"
     :collapsible="false"
+    :loading="props.loading"
   >
     <template #headerExport>
       <FooterExport
@@ -19,22 +20,11 @@
     >
       <div
         v-if="props.loading"
-        class="flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
       >
-        <div class="mb-6 flex h-[100px] items-end justify-center gap-2.5">
-          <div
-            v-for="(pct, i) in loaderBarHeights"
-            :key="i"
-            class="w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 shadow-[var(--kiut-shadow-loader,0_4px_14px_rgba(139,92,246,0.25))] dark:from-violet-500 dark:via-violet-400 dark:to-violet-300"
-            :class="loaderDelays[i]"
-            :style="{ height: `${pct}%` }"
-          />
-        </div>
-        <p
-          class="animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]"
-        >
-          Loading channel metrics...
-        </p>
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
       </div>
 
       <template v-else>
@@ -81,12 +71,17 @@
           </div>
         </section>
 
-        <section v-if="!channelTotals.length" class="flex min-h-[280px] flex-1 items-center justify-center">
+        <section
+          v-if="!channelTotals.length"
+          class="flex min-h-[280px] flex-1 items-center justify-center"
+        >
           <div class="max-w-[360px] px-4 text-center">
             <div
               class="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]"
             >
-              <ChartBarIcon class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" />
+              <ChartBarIcon
+                class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]"
+              />
             </div>
             <p
               class="mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]"
@@ -96,7 +91,8 @@
             <p
               class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
             >
-              No channel data found for the selected period. Try adjusting the date range.
+              No channel data found for the selected period. Try adjusting the
+              date range.
             </p>
           </div>
         </section>
@@ -106,45 +102,54 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, toRef } from 'vue'
-import moment from 'moment'
-import { ChartBarIcon } from '@heroicons/vue/24/outline'
-import LineChart from '../../Line/ChartLine.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
-import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { ref, watch, computed, toRef } from "vue";
+import moment from "moment";
+import { ChartBarIcon } from "@heroicons/vue/24/outline";
+import LineChart from "../../Line/ChartLine.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
 
-const loaderBarHeights = [30, 50, 70, 50, 40]
-const loaderDelays = ['', 'delay-100', 'delay-200', 'delay-300', 'delay-[400ms]']
+const loaderBarHeights = [30, 50, 70, 50, 40];
+const loaderDelays = [
+  "",
+  "delay-100",
+  "delay-200",
+  "delay-300",
+  "delay-[400ms]",
+];
 
 interface ChannelsByDay {
   [date: string]: {
-    [channel: string]: number
-  }
+    [channel: string]: number;
+  };
 }
 
 interface TotalByChannel {
-  [channel: string]: number
+  [channel: string]: number;
 }
 
 interface MetricsData {
-  airline_name?: string
-  start_date?: string
-  end_date?: string
-  channels_by_day: ChannelsByDay
-  total_by_channel: TotalByChannel
-  total_conversations: number
+  airline_name?: string;
+  start_date?: string;
+  end_date?: string;
+  channels_by_day: ChannelsByDay;
+  total_by_channel: TotalByChannel;
+  total_conversations: number;
 }
 
 const props = withDefaults(
   defineProps<{
-    loading?: boolean
-    data?: MetricsData | null
-    theme?: Theme
-    enableExport?: boolean
-    exportLoading?: boolean
+    loading?: boolean;
+    data?: MetricsData | null;
+    theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
   }>(),
   {
     loading: false,
@@ -153,32 +158,35 @@ const props = withDefaults(
     enableExport: false,
     exportLoading: false,
   },
-)
+);
 
 const emit = defineEmits<{
-  export: [format: ExportFormat]
-}>()
+  export: [format: ExportFormat];
+}>();
 
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
-}
+  emit("export", format);
+};
 
-const theme = toRef(props, 'theme')
-const { isDark } = useThemeDetection(theme)
+const theme = toRef(props, "theme");
+const { isDark } = useThemeDetection(theme);
 
 const channelColorMap: Record<string, string> = {
-  wsp: '#25D366',
-  whatsapp: '#25D366',
-  voice: '#8b5cf6',
-  sms: '#f59e0b',
-  web_chat: '#06b6d4',
-  email: '#ec4899',
-  messenger: '#0084ff',
-  telegram: '#0088cc',
-  instagram: '#E4405F',
-}
+  wsp: "#25D366",
+  whatsapp: "#25D366",
+  voice: "#8b5cf6",
+  sms: "#f59e0b",
+  web_chat: "#06b6d4",
+  email: "#ec4899",
+  messenger: "#0084ff",
+  telegram: "#0088cc",
+  instagram: "#E4405F",
+};
 
-const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
+const dataChart = ref<{ labels: string[]; datasets: any[] }>({
+  labels: [],
+  datasets: [],
+});
 const metricsData = computed<MetricsData>(
   () =>
     props.data ?? {
@@ -186,12 +194,15 @@ const metricsData = computed<MetricsData>(
       total_by_channel: {},
       total_conversations: 0,
     },
-)
+);
 
 const channelTotals = computed(() => {
-  const totalByChannel = metricsData.value.total_by_channel || {}
-  const grandTotal = Object.values(totalByChannel).reduce((sum, v) => sum + v, 0)
-  if (grandTotal === 0) return []
+  const totalByChannel = metricsData.value.total_by_channel || {};
+  const grandTotal = Object.values(totalByChannel).reduce(
+    (sum, v) => sum + v,
+    0,
+  );
+  if (grandTotal === 0) return [];
 
   return Object.entries(totalByChannel)
     .sort(([, a], [, b]) => b - a)
@@ -200,68 +211,70 @@ const channelTotals = computed(() => {
       label: name.toUpperCase(),
       total,
       percentage: ((total / grandTotal) * 100).toFixed(1),
-      color: channelColorMap[name.toLowerCase()] || '#9ca3af',
-    }))
-})
+      color: channelColorMap[name.toLowerCase()] || "#9ca3af",
+    }));
+});
 
-const MAX_CARD_INFO_COLUMNS = 5
+const MAX_CARD_INFO_COLUMNS = 5;
 
-const channelTotalsCards = computed(() => channelTotals.value.slice(0, MAX_CARD_INFO_COLUMNS))
+const channelTotalsCards = computed(() =>
+  channelTotals.value.slice(0, MAX_CARD_INFO_COLUMNS),
+);
 
 const cardInfoGridStyle = computed(() => {
-  const cols = Math.min(channelTotalsCards.value.length, MAX_CARD_INFO_COLUMNS)
-  if (cols <= 0) return undefined
-  return { gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }
-})
+  const cols = Math.min(channelTotalsCards.value.length, MAX_CARD_INFO_COLUMNS);
+  if (cols <= 0) return undefined;
+  return { gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` };
+});
 
 const processChartData = (data: MetricsData | null) => {
   if (!data || !data.channels_by_day) {
-    dataChart.value = { labels: [], datasets: [] }
-    return
+    dataChart.value = { labels: [], datasets: [] };
+    return;
   }
 
-  const daysData = data.channels_by_day
-  const labels = Object.keys(daysData).sort()
+  const daysData = data.channels_by_day;
+  const labels = Object.keys(daysData).sort();
 
   if (labels.length === 0) {
-    dataChart.value = { labels: [], datasets: [] }
-    return
+    dataChart.value = { labels: [], datasets: [] };
+    return;
   }
 
-  const categoriesSet = new Set<string>()
+  const categoriesSet = new Set<string>();
   for (const dayData of Object.values(daysData)) {
     for (const category of Object.keys(dayData)) {
-      categoriesSet.add(category)
+      categoriesSet.add(category);
     }
   }
-  const categories = Array.from(categoriesSet)
+  const categories = Array.from(categoriesSet);
 
   const datasets = categories.map((category) => {
-    const normalizedCategory = category.toLowerCase()
-    const color = channelColorMap[normalizedCategory] || '#9ca3af'
+    const normalizedCategory = category.toLowerCase();
+    const color = channelColorMap[normalizedCategory] || "#9ca3af";
 
     return {
       label: category.toUpperCase(),
       data: labels.map((date) => daysData[date]?.[category] || 0),
       borderColor: color,
-    }
-  })
+    };
+  });
 
   dataChart.value = {
-    labels: labels.map((date) => moment(date).format('MMM DD')),
+    labels: labels.map((date) => moment(date).format("MMM DD")),
     datasets,
-  }
-}
+  };
+};
 
 watch(
   () => props.data,
   (newData) => {
-    processChartData(newData ?? null)
+    processChartData(newData ?? null);
   },
   { deep: true, immediate: true },
-)
+);
 
-defineExpose({ isDark })
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -270,4 +283,7 @@ defineExpose({ isDark })
   position: relative;
   min-height: 0;
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

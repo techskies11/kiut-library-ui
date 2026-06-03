@@ -4,6 +4,7 @@
     title="FAQ Metrics"
     subtitle="FAQ volume by category"
     :collapsible="false"
+    :loading="props.loading"
   >
     <template #headerExport>
       <FooterExport
@@ -19,22 +20,11 @@
     >
       <div
         v-if="props.loading"
-        class="flex min-h-[380px] flex-1 flex-col items-center justify-center px-4"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
       >
-        <div class="mb-6 flex h-[100px] items-end justify-center gap-2.5">
-          <div
-            v-for="(pct, i) in loaderBarHeights"
-            :key="i"
-            class="w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 shadow-[var(--kiut-shadow-loader,0_4px_14px_rgba(139,92,246,0.25))] dark:from-violet-500 dark:via-violet-400 dark:to-violet-300"
-            :class="loaderDelays[i]"
-            :style="{ height: `${pct}%` }"
-          />
-        </div>
-        <p
-          class="animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]"
-        >
-          Loading FAQ metrics...
-        </p>
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
       </div>
 
       <template v-else>
@@ -60,7 +50,10 @@
           </div>
         </section>
 
-        <section v-else class="flex min-h-[280px] flex-1 items-center justify-center">
+        <section
+          v-else
+          class="flex min-h-[280px] flex-1 items-center justify-center"
+        >
           <div class="max-w-[360px] px-4 text-center">
             <div
               class="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]"
@@ -88,7 +81,8 @@
             <p
               class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
             >
-              No FAQ consultation data found for the selected period. Try adjusting the date range.
+              No FAQ consultation data found for the selected period. Try
+              adjusting the date range.
             </p>
           </div>
         </section>
@@ -98,43 +92,52 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, toRef } from 'vue'
-import moment from 'moment'
-import LineChart from '../../Line/ChartLine.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
-import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { ref, watch, computed, toRef } from "vue";
+import moment from "moment";
+import LineChart from "../../Line/ChartLine.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
 
-const loaderBarHeights = [30, 50, 70, 50, 40]
-const loaderDelays = ['', 'delay-100', 'delay-200', 'delay-300', 'delay-[400ms]']
+const loaderBarHeights = [30, 50, 70, 50, 40];
+const loaderDelays = [
+  "",
+  "delay-100",
+  "delay-200",
+  "delay-300",
+  "delay-[400ms]",
+];
 
 interface FaqDayData {
-  date: string
-  faq_events_count: number
-  documents_found_count: number
-  airline_information_retrieved_count: number
-  booking_info_retrieved_count: number
-  flight_status_retrieved_count: number
+  date: string;
+  faq_events_count: number;
+  documents_found_count: number;
+  airline_information_retrieved_count: number;
+  booking_info_retrieved_count: number;
+  flight_status_retrieved_count: number;
 }
 
 interface MetricsData {
-  total_faq_events: number
-  total_documents_found: number
-  total_airline_information_retrieved: number
-  total_booking_info_retrieved: number
-  total_flight_status_retrieved: number
-  faq_by_day: FaqDayData[]
+  total_faq_events: number;
+  total_documents_found: number;
+  total_airline_information_retrieved: number;
+  total_booking_info_retrieved: number;
+  total_flight_status_retrieved: number;
+  faq_by_day: FaqDayData[];
 }
 
 const props = withDefaults(
   defineProps<{
-    loading?: boolean
-    data?: MetricsData | null
-    theme?: Theme
-    enableExport?: boolean
-    exportLoading?: boolean
+    loading?: boolean;
+    data?: MetricsData | null;
+    theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
   }>(),
   {
     loading: false,
@@ -143,26 +146,29 @@ const props = withDefaults(
     enableExport: false,
     exportLoading: false,
   },
-)
+);
 
 const emit = defineEmits<{
-  export: [format: ExportFormat]
-}>()
+  export: [format: ExportFormat];
+}>();
 
 const handleExport = (format: ExportFormat) => {
-  emit('export', format)
-}
+  emit("export", format);
+};
 
-const theme = toRef(props, 'theme')
-const { isDark } = useThemeDetection(theme)
+const theme = toRef(props, "theme");
+const { isDark } = useThemeDetection(theme);
 
 const faqColorMap: Record<string, string> = {
-  airline_information: '#8b5cf6',
-  booking_info: '#f59e0b',
-  flight_status: '#06b6d4',
-}
+  airline_information: "#8b5cf6",
+  booking_info: "#f59e0b",
+  flight_status: "#06b6d4",
+};
 
-const dataChart = ref<{ labels: string[]; datasets: any[] }>({ labels: [], datasets: [] })
+const dataChart = ref<{ labels: string[]; datasets: any[] }>({
+  labels: [],
+  datasets: [],
+});
 const metricsData = computed<MetricsData>(
   () =>
     props.data ?? {
@@ -173,105 +179,116 @@ const metricsData = computed<MetricsData>(
       total_flight_status_retrieved: 0,
       faq_by_day: [],
     },
-)
+);
 
 const faqMetricCards = computed(() => {
-  const m = metricsData.value
+  const m = metricsData.value;
   const catSum =
     m.total_airline_information_retrieved +
     m.total_booking_info_retrieved +
-    m.total_flight_status_retrieved
-  const catPct = (n: number) => (catSum > 0 ? ((n / catSum) * 100).toFixed(1) : '0.0')
-  const faqEvents = m.total_faq_events
+    m.total_flight_status_retrieved;
+  const catPct = (n: number) =>
+    catSum > 0 ? ((n / catSum) * 100).toFixed(1) : "0.0";
+  const faqEvents = m.total_faq_events;
   const docSubvalue =
-    faqEvents > 0 ? `${((m.total_documents_found / faqEvents) * 100).toFixed(1)}% of FAQ events` : undefined
+    faqEvents > 0
+      ? `${((m.total_documents_found / faqEvents) * 100).toFixed(1)}% of FAQ events`
+      : undefined;
 
   return [
     {
-      name: 'airline_information',
-      label: 'Airline Info',
+      name: "airline_information",
+      label: "Airline Info",
       color: faqColorMap.airline_information,
       value: `${catPct(m.total_airline_information_retrieved)}%`,
       subvalue: `${useNumberFormat(m.total_airline_information_retrieved)} consultas`,
     },
     {
-      name: 'booking_info',
-      label: 'Booking Info',
+      name: "booking_info",
+      label: "Booking Info",
       color: faqColorMap.booking_info,
       value: `${catPct(m.total_booking_info_retrieved)}%`,
       subvalue: `${useNumberFormat(m.total_booking_info_retrieved)} consultas`,
     },
     {
-      name: 'flight_status',
-      label: 'Flight Status',
+      name: "flight_status",
+      label: "Flight Status",
       color: faqColorMap.flight_status,
       value: `${catPct(m.total_flight_status_retrieved)}%`,
       subvalue: `${useNumberFormat(m.total_flight_status_retrieved)} consultas`,
     },
     {
-      name: 'documents_found',
-      label: 'Documents found',
-      color: '#64748b',
+      name: "documents_found",
+      label: "Documents found",
+      color: "#64748b",
       value: useNumberFormat(m.total_documents_found),
       subvalue: docSubvalue,
     },
-  ]
-})
+  ];
+});
 
 const processChartData = (data: MetricsData | null) => {
   if (!data) {
-    dataChart.value = { labels: [], datasets: [] }
-    return
+    dataChart.value = { labels: [], datasets: [] };
+    return;
   }
 
-  const faqData = data.faq_by_day || []
+  const faqData = data.faq_by_day || [];
 
   if (faqData.length > 0) {
-    const labels = faqData.map((item: FaqDayData) => moment(item.date).format('MMM DD'))
-    const airlineInfo = faqData.map((item: FaqDayData) => item.airline_information_retrieved_count || 0)
-    const flightStatus = faqData.map((item: FaqDayData) => item.flight_status_retrieved_count || 0)
-    const bookingInfo = faqData.map((item: FaqDayData) => item.booking_info_retrieved_count || 0)
+    const labels = faqData.map((item: FaqDayData) =>
+      moment(item.date).format("MMM DD"),
+    );
+    const airlineInfo = faqData.map(
+      (item: FaqDayData) => item.airline_information_retrieved_count || 0,
+    );
+    const flightStatus = faqData.map(
+      (item: FaqDayData) => item.flight_status_retrieved_count || 0,
+    );
+    const bookingInfo = faqData.map(
+      (item: FaqDayData) => item.booking_info_retrieved_count || 0,
+    );
 
     dataChart.value = {
       labels,
       datasets: [
         {
-          label: 'Airline Information',
+          label: "Airline Information",
           data: airlineInfo,
           borderColor: faqColorMap.airline_information,
-          backgroundColor: 'rgba(139, 92, 246, 0.1)',
+          backgroundColor: "rgba(139, 92, 246, 0.1)",
           fill: true,
         },
         {
-          label: 'Flight Status',
+          label: "Flight Status",
           data: flightStatus,
           borderColor: faqColorMap.flight_status,
-          backgroundColor: 'rgba(6, 182, 212, 0.1)',
+          backgroundColor: "rgba(6, 182, 212, 0.1)",
           fill: true,
         },
         {
-          label: 'Booking Information',
+          label: "Booking Information",
           data: bookingInfo,
           borderColor: faqColorMap.booking_info,
-          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          backgroundColor: "rgba(245, 158, 11, 0.1)",
           fill: true,
         },
       ],
-    }
+    };
   } else {
-    dataChart.value = { labels: [], datasets: [] }
+    dataChart.value = { labels: [], datasets: [] };
   }
-}
+};
 
 watch(
   () => props.data,
   (newData) => {
-    processChartData(newData ?? null)
+    processChartData(newData ?? null);
   },
   { deep: true, immediate: true },
-)
+);
 
-defineExpose({ isDark })
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -280,4 +297,7 @@ defineExpose({ isDark })
   position: relative;
   min-height: 0;
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

@@ -1,0 +1,39 @@
+/* ── Skeleton shimmer (compartido entre todos los componentes) ─────────── */
+
+.ut-skeleton-blink {
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(93, 75, 147, 0.06) 25%,
+    rgba(93, 75, 147, 0.12) 50%,
+    rgba(93, 75, 147, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.dark .ut-skeleton-blink {
+  background: linear-gradient(
+    90deg,
+    rgba(198, 125, 255, 0.06) 25%,
+    rgba(198, 125, 255, 0.14) 50%,
+    rgba(198, 125, 255, 0.06) 75%
+  );
+  background-size: 200% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ut-skeleton-blink {
+    animation: none;
+  }
+}

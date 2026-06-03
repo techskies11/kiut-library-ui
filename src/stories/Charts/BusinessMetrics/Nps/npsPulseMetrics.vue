@@ -4,26 +4,37 @@
     title="CSAT Pulse"
     subtitle="Weighted index: Σ(frequency × weight) / total surveys × 100"
     :collapsible="false"
+    :loading="props.loading"
   >
-    <div v-if="props.loading" class="loading-state">
-      <p class="loading-text">Loading CSAT Pulse trend...</p>
+    <div
+      v-if="props.loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
-
     <div v-else-if="hasPulseData" class="card-body">
-      <ChartLine :data="lineData" :options="lineOptions" :uppercase-legend-labels="true" />
+      <ChartLine
+        :data="lineData"
+        :options="lineOptions"
+        :uppercase-legend-labels="true"
+      />
     </div>
 
     <div v-else class="empty-state">
       <p class="empty-title">No CSAT Pulse data available</p>
-      <p class="empty-description">No CSAT pulse points were found for the selected date range.</p>
+      <p class="empty-description">
+        No CSAT pulse points were found for the selected date range.
+      </p>
     </div>
   </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import ChartLine from '../../Line/ChartLine.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import { computed } from "vue";
+import ChartLine from "../../Line/ChartLine.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 
 const props = defineProps({
   data: {
@@ -34,24 +45,24 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 
-const pulseByDay = computed(() => props.data?.csat_pulse_by_day || [])
-const hasPulseData = computed(() => pulseByDay.value.length > 0)
+const pulseByDay = computed(() => props.data?.csat_pulse_by_day || []);
+const hasPulseData = computed(() => pulseByDay.value.length > 0);
 
 const lineData = computed(() => ({
-  labels: pulseByDay.value.map((point: any) => point.date || ''),
+  labels: pulseByDay.value.map((point: any) => point.date || ""),
   datasets: [
     {
-      label: 'CSAT Pulse',
+      label: "CSAT Pulse",
       data: pulseByDay.value.map((point: any) => Number(point.csat_pulse || 0)),
-      borderColor: '#2563EB',
-      pointBorderColor: '#2563EB',
-      pointBackgroundColor: '#FFFFFF',
+      borderColor: "#2563EB",
+      pointBorderColor: "#2563EB",
+      pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
     },
   ],
-}))
+}));
 
 const lineOptions = {
   scales: {
@@ -70,7 +81,7 @@ const lineOptions = {
       },
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -78,19 +89,14 @@ const lineOptions = {
   animation: fadeIn 0.5s ease-out;
 }
 
-.loading-state,
+.bm-status,
 .empty-state {
-  min-height: 220px;
+  min-height: 220px !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-.loading-text {
-  font-size: 15px;
-  color: var(--kiut-text-secondary);
 }
 
 .empty-title {
@@ -115,4 +121,7 @@ const lineOptions = {
     transform: translateY(0);
   }
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

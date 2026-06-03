@@ -5,27 +5,24 @@
     subtitle="Check-in performance and failure analysis"
     :collapsible="collapsible"
     :default-open="initiallyOpen"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
-        v-if="enableExport && !props.loading"
+        v-if="enableExport && !loading"
         variant="inline"
         @export="handleExport"
         :loading="exportLoading"
       />
     </template>
     <!-- Loading State -->
-    <div class="loading-state" v-if="props.loading">
-      <div class="loading-container">
-        <div class="chart-bars-loader">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="bar bar-4"></div>
-          <div class="bar bar-5"></div>
-        </div>
-        <p class="loading-text">Loading check-in data...</p>
-      </div>
+    <div
+      v-if="loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart" 
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
 
     <!-- Content when loaded -->
@@ -44,7 +41,10 @@
       </section>
 
       <!-- Table Data (estilos de tabla: Utils/Table) -->
-      <section v-if="tableData && tableData.length > 0" class="checkin-daily-section">
+      <section
+        v-if="tableData && tableData.length > 0"
+        class="checkin-daily-section"
+      >
         <div class="w-full min-w-0">
           <Table
             :columns="checkinTableColumns"
@@ -53,34 +53,61 @@
             row-key="id"
           >
             <template #cell-date="{ row }">
-              <span class="font-medium">{{ moment(String(row.date)).format('MMM DD') }}</span>
+              <span class="font-medium">{{
+                moment(String(row.date)).format("MMM DD")
+              }}</span>
             </template>
             <template #cell-checkinInit="{ row }">
               <span>{{ useNumberFormat(row.checkin_initiated_count) }}</span>
             </template>
             <template #cell-bookingRetrieve="{ row }">
-              <span>{{ formatValueWithPercentage(row.checkin_init_count, row.checkin_initiated_count) }}</span>
+              <span>{{
+                formatValueWithPercentage(
+                  row.checkin_init_count,
+                  row.checkin_initiated_count,
+                )
+              }}</span>
             </template>
             <template #cell-passengers="{ row }">
               <span>{{ useNumberFormat(row.checkin_started_count) }}</span>
             </template>
             <template #cell-completed="{ row }">
-              <span>{{ formatValueWithPercentage(row.checkin_completed_count, row.checkin_started_count) }}</span>
+              <span>{{
+                formatValueWithPercentage(
+                  row.checkin_completed_count,
+                  row.checkin_started_count,
+                )
+              }}</span>
             </template>
             <template #cell-closed="{ row }">
-              <span class="cell-success">{{ formatValueWithPercentage(row.checkin_closed_count, row.checkin_started_count) }}</span>
+              <span class="cell-success">{{
+                formatValueWithPercentage(
+                  row.checkin_closed_count,
+                  row.checkin_started_count,
+                )
+              }}</span>
             </template>
             <template #cell-failed="{ row }">
-              <span class="cell-danger">{{ formatValueWithPercentage(getTotalFailedSteps(row.failed_steps), row.checkin_started_count) }}</span>
+              <span class="cell-danger">{{
+                formatValueWithPercentage(
+                  getTotalFailedSteps(row.failed_steps),
+                  row.checkin_started_count,
+                )
+              }}</span>
             </template>
             <template #cell-reasons="{ row }">
-              <div v-if="row.failed_steps && row.failed_steps.length > 0" class="reasons-list">
+              <div
+                v-if="row.failed_steps && row.failed_steps.length > 0"
+                class="reasons-list"
+              >
                 <div
                   v-for="step in row.failed_steps"
                   :key="step.step_name"
                   class="reason-item"
                 >
-                  <span class="reason-name">{{ step.step_name.replace(/_/g, ' ') }}:</span>
+                  <span class="reason-name"
+                    >{{ step.step_name.replace(/_/g, " ") }}:</span
+                  >
                   <span class="reason-count">{{ step.failed_count }}</span>
                 </div>
               </div>
@@ -94,12 +121,25 @@
       <section v-else class="empty-state">
         <div class="empty-state-content">
           <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            <svg
+              class="empty-icon"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
             </svg>
           </div>
           <p class="empty-title">No check-in data available</p>
-          <p class="empty-description">Try adjusting the date range or check your filters to see check-in performance data.</p>
+          <p class="empty-description">
+            Try adjusting the date range or check your filters to see check-in
+            performance data.
+          </p>
         </div>
       </section>
     </div>
@@ -107,407 +147,419 @@
 </template>
 
 <script setup>
-  import { ref, computed, watch } from 'vue'
-  import moment from 'moment'
-  import { useNumberFormat } from '../../../../plugins/numberFormat'
-  import SankeyChart from '../../Sankey/SankeyChart.vue'
-  import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-  import { FooterExport } from '../../Utils/FooterExport'
-  import Table from '../../Utils/Table/Table.vue'
+import { ref, computed, watch } from "vue";
+import moment from "moment";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
+import SankeyChart from "../../Sankey/SankeyChart.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import { FooterExport } from "../../Utils/FooterExport";
+import Table from "../../Utils/Table/Table.vue";
 
+const emit = defineEmits(["export"]);
 
-  const emit = defineEmits(['export'])
+const handleExport = (format) => {
+  emit("export", format);
+};
 
-  const handleExport = (format) => {
-    emit('export', format)
+const props = defineProps({
+  /** Si es false, el bloque no usa <details> ni chevron (p. ej. anidado en CheckinContainer). */
+  collapsible: {
+    type: Boolean,
+    default: true,
+  },
+  initiallyOpen: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  enableExport: {
+    type: Boolean,
+    default: false,
+  },
+  exportLoading: {
+    type: Boolean,
+    default: false,
+  },
+  /** Single API response (checkin shape). If passed, used as checkinData. */
+  data: {
+    type: Object,
+    default: undefined,
+  },
+  checkinData: {
+    type: Object,
+    default: () => ({
+      total_checkin_init: 0,
+      total_checkin_initiated: 0,
+      total_checkin_init_abandoned: 0,
+      total_checkin_started: 0,
+      total_checkin_completed: 0,
+      total_checkin_closed: 0,
+      total_checkin_unrecovered: 0,
+      checkin_by_day: [],
+    }),
+  },
+  failedData: {
+    type: Object,
+    default: () => ({
+      total_checkin_failed: 0,
+      failed_by_step_by_day: [],
+      unrecovered_by_step: [],
+      unrecovered_by_day: [],
+    }),
+  },
+});
+
+const DEFAULT_CHECKIN_DATA = {
+  total_checkin_init: 0,
+  total_checkin_initiated: 0,
+  total_checkin_init_abandoned: 0,
+  total_checkin_started: 0,
+  total_checkin_completed: 0,
+  total_checkin_closed: 0,
+  total_checkin_unrecovered: 0,
+  checkin_by_day: [],
+};
+
+const DEFAULT_FAILED_DATA = {
+  total_checkin_failed: 0,
+  failed_by_step_by_day: [],
+  unrecovered_by_step: [],
+  unrecovered_by_day: [],
+};
+
+const tableData = ref([]);
+
+const checkinTableColumns = [
+  { key: "date", label: "Date", align: "center" },
+  { key: "checkinInit", label: "Checkin Init", align: "center" },
+  { key: "bookingRetrieve", label: "Booking Retrieve (%)", align: "center" },
+  { key: "passengers", label: "Number of Passengers", align: "center" },
+  { key: "completed", label: "Completed (%)", align: "center" },
+  { key: "closed", label: "Closed with BP (%)", align: "center" },
+  { key: "failed", label: "Failed (%)", align: "center" },
+  { key: "reasons", label: "Failed (Reasons)", align: "left" },
+];
+
+const checkinTableRows = computed(() =>
+  (tableData.value || []).map((row) => ({
+    id: row.date,
+    date: row.date,
+    checkin_initiated_count: row.checkin_initiated_count,
+    checkin_init_count: row.checkin_init_count,
+    checkin_started_count: row.checkin_started_count,
+    checkin_completed_count: row.checkin_completed_count,
+    checkin_closed_count: row.checkin_closed_count,
+    failed_steps: row.failed_steps,
+  })),
+);
+
+// data = merged object (checkin + failed). Use it for both when it has the right keys.
+const checkinDataInternal = computed(() => {
+  const d = props.data;
+  const hasCheckin =
+    d &&
+    ((Array.isArray(d.checkin_by_day) && d.checkin_by_day.length > 0) ||
+      (d.total_checkin_initiated ?? 0) > 0);
+  if (hasCheckin) {
+    return { ...DEFAULT_CHECKIN_DATA, ...d };
+  }
+  return props.checkinData ?? DEFAULT_CHECKIN_DATA;
+});
+
+const failedDataInternal = computed(() => {
+  const d = props.data;
+  const hasFailed =
+    d &&
+    ((Array.isArray(d.failed_by_step_by_day) &&
+      d.failed_by_step_by_day.length > 0) ||
+      (Array.isArray(d.unrecovered_by_step) &&
+        d.unrecovered_by_step.length > 0));
+  if (hasFailed) {
+    return {
+      ...DEFAULT_FAILED_DATA,
+      total_checkin_failed: d.total_checkin_failed ?? 0,
+      total_checkin_unrecovered: d.total_checkin_unrecovered ?? 0,
+      failed_by_step_by_day: d.failed_by_step_by_day ?? [],
+      unrecovered_by_step: d.unrecovered_by_step ?? [],
+      unrecovered_by_day: d.unrecovered_by_day ?? [],
+    };
+  }
+  return props.failedData ?? DEFAULT_FAILED_DATA;
+});
+
+// Computed para colores dinámicos del Sankey (basado en sellerMetrics)
+const sankeyNodeColors = computed(() => {
+  const baseColors = {
+    // Main flow progression - from blue to purple to green
+    "Checkin Init": "#93C5FD", // Blue for started state
+    "Booking retrive": "#C7D2FE", // Light purple
+    "Booking retrive success": "#A5B4FC", // Medium purple for success
+    "Number of Passengers": "#8B8CF6", // Medium purple
+    Completed: "#A7F3D0", // Light green
+    "Closed with BP": "#7BE39E", // Green for success
+
+    // Abandoned states - progressive yellow/orange
+    "Abandoned (Init)": "#FCA5A5", // Light red
+    "Abandoned (Started)": "#F87171", // Medium red
+    "Abandoned (Flow)": "#EF4444", // Darker red
+
+    "BP Error": "#EF4444", // Darker red for boarding pass error
+    // Failed states - progressive red intensity
+    Unrecovered: "#F87171", // Medium red for main unrecovered node
+  };
+
+  // Agregar colores para pasos específicos de unrecovered dinámicamente
+  const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || [];
+  unrecoveredSteps.forEach((step) => {
+    const stepName = step.step_name.replace(/_/g, " ");
+    const capitalizedStepName = stepName
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
+    // Different red intensities for different error types
+    const errorColors = {
+      "Get Seatmap": "#DC2626",
+      "Save Missing Info": "#F87171",
+      "Checkin Segments": "#EF4444",
+      "Assign Seat": "#F87171",
+    };
+
+    baseColors[capitalizedStepName] =
+      errorColors[capitalizedStepName] || "#DC2626";
+  });
+
+  return baseColors;
+});
+
+const calculatePercentage = (value, total) => {
+  if (!total || total === 0) return "0%";
+  return `${Math.round((value / total) * 100)}%`;
+};
+
+const formatValueWithPercentage = (value, total) => {
+  const formattedValue = useNumberFormat(value);
+  const percentage = calculatePercentage(value, total);
+  return `${formattedValue} (${percentage})`;
+};
+
+const getTotalFailedSteps = (failedSteps) => {
+  return failedSteps.reduce((acc, step) => acc + step.failed_count, 0);
+};
+
+// Computed para generar datos del Sankey
+const sankeyData = computed(() => {
+  const nodes = [];
+  const links = [];
+
+  if (!checkinDataInternal.value.total_checkin_initiated) {
+    return { nodes, links };
   }
 
-  const props = defineProps({
-    /** Si es false, el bloque no usa <details> ni chevron (p. ej. anidado en CheckinContainer). */
-    collapsible: {
-      type: Boolean,
-      default: true,
-    },
-    initiallyOpen: {
-      type: Boolean,
-      default: false,
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    enableExport: {
-      type: Boolean,
-      default: false,
-    },
-    exportLoading: {
-      type: Boolean,
-      default: false,
-    },
-    /** Single API response (checkin shape). If passed, used as checkinData. */
-    data: {
-      type: Object,
-      default: undefined,
-    },
-    checkinData: {
-      type: Object,
-      default: () => ({
-        total_checkin_init: 0,
-        total_checkin_initiated: 0,
-        total_checkin_init_abandoned: 0,
-        total_checkin_started: 0,
-        total_checkin_completed: 0,
-        total_checkin_closed: 0,
-        total_checkin_unrecovered: 0,
-        checkin_by_day: [],
-      }),
-    },
-    failedData: {
-      type: Object,
-      default: () => ({
-        total_checkin_failed: 0,
-        failed_by_step_by_day: [],
-        unrecovered_by_step: [],
-        unrecovered_by_day: [],
-      }),
-    },
-  })
+  // Nodos principales del flujo
+  nodes.push({ name: "Checkin Init" });
+  nodes.push({ name: "Booking retrive" });
+  nodes.push({ name: "Booking retrive success" });
+  nodes.push({ name: "Number of Passengers" });
+  nodes.push({ name: "Completed" });
+  nodes.push({ name: "Closed with BP" });
 
-  const DEFAULT_CHECKIN_DATA = {
-    total_checkin_init: 0,
-    total_checkin_initiated: 0,
-    total_checkin_init_abandoned: 0,
-    total_checkin_started: 0,
-    total_checkin_completed: 0,
-    total_checkin_closed: 0,
-    total_checkin_unrecovered: 0,
-    checkin_by_day: [],
+  // Enlaces del flujo feliz
+  const initiated = checkinDataInternal.value.total_checkin_initiated;
+  const init = checkinDataInternal.value.total_checkin_init;
+  const abandonedInit = checkinDataInternal.value.total_checkin_init_abandoned;
+  const bookingSuccess = init - abandonedInit;
+  const started = checkinDataInternal.value.total_checkin_started;
+  const completed = checkinDataInternal.value.total_checkin_completed;
+  const closed = checkinDataInternal.value.total_checkin_closed;
+  const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || [];
+  const totalUnrecovered = unrecoveredSteps.reduce(
+    (sum, step) => sum + step.count,
+    0,
+  );
+
+  // Flujo principal: Checkin Init -> Booking retrive (usar initiated como base 100%)
+  if (init > 0) {
+    const percentage = Math.round((init / initiated) * 100);
+    links.push({
+      source: "Checkin Init",
+      target: "Booking retrive",
+      value: init,
+      label: `${init.toLocaleString()} (${percentage}%)`,
+    });
   }
 
-  const DEFAULT_FAILED_DATA = {
-    total_checkin_failed: 0,
-    failed_by_step_by_day: [],
-    unrecovered_by_step: [],
-    unrecovered_by_day: [],
+  // Abandono 1: Checkin Init -> Abandonados (antes de Booking retrive) (usar initiated como base)
+  const abandonedBeforeInit = initiated - init;
+  if (abandonedBeforeInit > 0) {
+    const percentage = Math.round((abandonedBeforeInit / initiated) * 100);
+    nodes.push({ name: "Abandoned (Init)" });
+    links.push({
+      source: "Checkin Init",
+      target: "Abandoned (Init)",
+      value: abandonedBeforeInit,
+      label: `${abandonedBeforeInit.toLocaleString()} (${percentage}%)`,
+    });
   }
 
-  const tableData = ref([])
+  // Abandono 2: Booking retrive -> Abandonados (después de Booking retrive) (usar initiated como base)
+  if (abandonedInit > 0) {
+    const percentage = Math.round((abandonedInit / initiated) * 100);
+    nodes.push({ name: "Abandoned (Started)" });
+    links.push({
+      source: "Booking retrive",
+      target: "Abandoned (Started)",
+      value: abandonedInit,
+      label: `${abandonedInit.toLocaleString()} (${percentage}%)`,
+    });
+  }
 
-  const checkinTableColumns = [
-    { key: 'date', label: 'Date', align: 'center' },
-    { key: 'checkinInit', label: 'Checkin Init', align: 'center' },
-    { key: 'bookingRetrieve', label: 'Booking Retrieve (%)', align: 'center' },
-    { key: 'passengers', label: 'Number of Passengers', align: 'center' },
-    { key: 'completed', label: 'Completed (%)', align: 'center' },
-    { key: 'closed', label: 'Closed with BP (%)', align: 'center' },
-    { key: 'failed', label: 'Failed (%)', align: 'center' },
-    { key: 'reasons', label: 'Failed (Reasons)', align: 'left' },
-  ]
+  // Flujo principal: Booking retrive -> Booking retrive success (usar initiated como base 100%)
+  if (bookingSuccess > 0) {
+    const percentage = Math.round((bookingSuccess / initiated) * 100);
+    links.push({
+      source: "Booking retrive",
+      target: "Booking retrive success",
+      value: bookingSuccess,
+      label: `${bookingSuccess.toLocaleString()} (${percentage}%)`,
+    });
+  }
 
-  const checkinTableRows = computed(() =>
-    (tableData.value || []).map((row) => ({
-      id: row.date,
-      date: row.date,
-      checkin_initiated_count: row.checkin_initiated_count,
-      checkin_init_count: row.checkin_init_count,
-      checkin_started_count: row.checkin_started_count,
-      checkin_completed_count: row.checkin_completed_count,
-      checkin_closed_count: row.checkin_closed_count,
-      failed_steps: row.failed_steps,
-    }))
-  )
+  // Flujo principal: Booking retrive success -> Number of Passengers (usar initiated como base 100%)
+  if (started > 0) {
+    const percentage = Math.round((started / initiated) * 100);
+    links.push({
+      source: "Booking retrive success",
+      target: "Number of Passengers",
+      value: started,
+      label: `${started.toLocaleString()} (${percentage}%)`,
+    });
+  }
 
-  // data = merged object (checkin + failed). Use it for both when it has the right keys.
-  const checkinDataInternal = computed(() => {
-    const d = props.data
-    const hasCheckin = d && ((Array.isArray(d.checkin_by_day) && d.checkin_by_day.length > 0) || (d.total_checkin_initiated ?? 0) > 0)
-    if (hasCheckin) {
-      return { ...DEFAULT_CHECKIN_DATA, ...d }
-    }
-    return props.checkinData ?? DEFAULT_CHECKIN_DATA
-  })
+  // Desde aquí, usar Number of Passengers como base 100%
+  // Flujo principal: Number of Passengers -> Completed
+  if (completed > 0) {
+    const percentage = Math.round((completed / started) * 100);
+    links.push({
+      source: "Number of Passengers",
+      target: "Completed",
+      value: completed,
+      label: `${completed.toLocaleString()} (${percentage}%)`,
+    });
+  }
 
-  const failedDataInternal = computed(() => {
-    const d = props.data
-    const hasFailed = d && ((Array.isArray(d.failed_by_step_by_day) && d.failed_by_step_by_day.length > 0) || (Array.isArray(d.unrecovered_by_step) && d.unrecovered_by_step.length > 0))
-    if (hasFailed) {
-      return {
-        ...DEFAULT_FAILED_DATA,
-        total_checkin_failed: d.total_checkin_failed ?? 0,
-        total_checkin_unrecovered: d.total_checkin_unrecovered ?? 0,
-        failed_by_step_by_day: d.failed_by_step_by_day ?? [],
-        unrecovered_by_step: d.unrecovered_by_step ?? [],
-        unrecovered_by_day: d.unrecovered_by_day ?? [],
-      }
-    }
-    return props.failedData ?? DEFAULT_FAILED_DATA
-  })
+  // Errores no recuperables por paso (usar started como base)
+  if (unrecoveredSteps.length > 0 && totalUnrecovered > 0) {
+    nodes.push({ name: "Unrecovered" });
 
-  // Computed para colores dinámicos del Sankey (basado en sellerMetrics)
-  const sankeyNodeColors = computed(() => {
-    const baseColors = {
-      // Main flow progression - from blue to purple to green
-      'Checkin Init': '#93C5FD', // Blue for started state
-      'Booking retrive': '#C7D2FE', // Light purple
-      'Booking retrive success': '#A5B4FC', // Medium purple for success
-      'Number of Passengers': '#8B8CF6', // Medium purple
-      Completed: '#A7F3D0', // Light green
-      'Closed with BP': '#7BE39E', // Green for success
+    // Number of Passengers -> Unrecovered (nodo intermedio)
+    const percentage = Math.round((totalUnrecovered / started) * 100);
+    links.push({
+      source: "Number of Passengers",
+      target: "Unrecovered",
+      value: totalUnrecovered,
+      label: `${totalUnrecovered.toLocaleString()} (${percentage}%)`,
+    });
 
-      // Abandoned states - progressive yellow/orange
-      'Abandoned (Init)': '#FCA5A5', // Light red
-      'Abandoned (Started)': '#F87171', // Medium red
-      'Abandoned (Flow)': '#EF4444', // Darker red
-
-      'BP Error': '#EF4444', // Darker red for boarding pass error
-      // Failed states - progressive red intensity
-      Unrecovered: '#F87171', // Medium red for main unrecovered node
-    }
-
-    // Agregar colores para pasos específicos de unrecovered dinámicamente
-    const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || []
-    unrecoveredSteps.forEach(step => {
-      const stepName = step.step_name.replace(/_/g, ' ')
+    // Unrecovered -> cada paso específico (usar started como base)
+    unrecoveredSteps.forEach((step) => {
+      const stepName = step.step_name.replace(/_/g, " ");
       const capitalizedStepName = stepName
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
 
-      // Different red intensities for different error types
-      const errorColors = {
-        'Get Seatmap': '#DC2626',
-        'Save Missing Info': '#F87171',
-        'Checkin Segments': '#EF4444',
-        'Assign Seat': '#F87171',
-      }
-
-      baseColors[capitalizedStepName] = errorColors[capitalizedStepName] || '#DC2626'
-    })
-
-    return baseColors
-  })
-
-  const calculatePercentage = (value, total) => {
-    if (!total || total === 0) return '0%'
-    return `${Math.round((value / total) * 100)}%`
+      const stepPercentage = Math.round((step.count / started) * 100);
+      nodes.push({ name: capitalizedStepName });
+      links.push({
+        source: "Unrecovered",
+        target: capitalizedStepName,
+        value: step.count,
+        label: `${step.count.toLocaleString()} (${stepPercentage}%)`,
+      });
+    });
   }
 
-  const formatValueWithPercentage = (value, total) => {
-    const formattedValue = useNumberFormat(value)
-    const percentage = calculatePercentage(value, total)
-    return `${formattedValue} (${percentage})`
+  // Abandono 3: Number of Passengers -> Abandonados (en flujo) (usar started como base)
+  // Usuarios que llegaron a Number of Passengers pero no completaron ni tuvieron error no recuperable
+  const abandonedFlow = started - (completed + totalUnrecovered);
+  if (abandonedFlow > 0) {
+    const percentage = Math.round((abandonedFlow / started) * 100);
+    nodes.push({ name: "Abandoned (Flow)" });
+    links.push({
+      source: "Number of Passengers",
+      target: "Abandoned (Flow)",
+      value: abandonedFlow,
+      label: `${abandonedFlow.toLocaleString()} (${percentage}%)`,
+    });
   }
 
-  const getTotalFailedSteps = failedSteps => {
-    return failedSteps.reduce((acc, step) => acc + step.failed_count, 0)
+  // Error Boarding Pass: Completed -> BP Error (usar started como base)
+  // Se agrega después de todos los errores para mantener el orden vertical
+  const bpError = completed - closed;
+  if (bpError > 0) {
+    const percentage = Math.round((bpError / started) * 100);
+    nodes.push({ name: "BP Error" });
+    links.push({
+      source: "Completed",
+      target: "BP Error",
+      value: bpError,
+      label: `${bpError.toLocaleString()} (${percentage}%)`,
+    });
   }
 
-  // Computed para generar datos del Sankey
-  const sankeyData = computed(() => {
-    const nodes = []
-    const links = []
-
-    if (!checkinDataInternal.value.total_checkin_initiated) {
-      return { nodes, links }
-    }
-
-    // Nodos principales del flujo
-    nodes.push({ name: 'Checkin Init' })
-    nodes.push({ name: 'Booking retrive' })
-    nodes.push({ name: 'Booking retrive success' })
-    nodes.push({ name: 'Number of Passengers' })
-    nodes.push({ name: 'Completed' })
-    nodes.push({ name: 'Closed with BP' })
-
-    // Enlaces del flujo feliz
-    const initiated = checkinDataInternal.value.total_checkin_initiated
-    const init = checkinDataInternal.value.total_checkin_init
-    const abandonedInit = checkinDataInternal.value.total_checkin_init_abandoned
-    const bookingSuccess = init - abandonedInit
-    const started = checkinDataInternal.value.total_checkin_started
-    const completed = checkinDataInternal.value.total_checkin_completed
-    const closed = checkinDataInternal.value.total_checkin_closed
-    const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || []
-    const totalUnrecovered = unrecoveredSteps.reduce((sum, step) => sum + step.count, 0)
-
-    // Flujo principal: Checkin Init -> Booking retrive (usar initiated como base 100%)
-    if (init > 0) {
-      const percentage = Math.round((init / initiated) * 100)
-      links.push({
-        source: 'Checkin Init',
-        target: 'Booking retrive',
-        value: init,
-        label: `${init.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Abandono 1: Checkin Init -> Abandonados (antes de Booking retrive) (usar initiated como base)
-    const abandonedBeforeInit = initiated - init
-    if (abandonedBeforeInit > 0) {
-      const percentage = Math.round((abandonedBeforeInit / initiated) * 100)
-      nodes.push({ name: 'Abandoned (Init)' })
-      links.push({
-        source: 'Checkin Init',
-        target: 'Abandoned (Init)',
-        value: abandonedBeforeInit,
-        label: `${abandonedBeforeInit.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Abandono 2: Booking retrive -> Abandonados (después de Booking retrive) (usar initiated como base)
-    if (abandonedInit > 0) {
-      const percentage = Math.round((abandonedInit / initiated) * 100)
-      nodes.push({ name: 'Abandoned (Started)' })
-      links.push({
-        source: 'Booking retrive',
-        target: 'Abandoned (Started)',
-        value: abandonedInit,
-        label: `${abandonedInit.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Flujo principal: Booking retrive -> Booking retrive success (usar initiated como base 100%)
-    if (bookingSuccess > 0) {
-      const percentage = Math.round((bookingSuccess / initiated) * 100)
-      links.push({
-        source: 'Booking retrive',
-        target: 'Booking retrive success',
-        value: bookingSuccess,
-        label: `${bookingSuccess.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Flujo principal: Booking retrive success -> Number of Passengers (usar initiated como base 100%)
-    if (started > 0) {
-      const percentage = Math.round((started / initiated) * 100)
-      links.push({
-        source: 'Booking retrive success',
-        target: 'Number of Passengers',
-        value: started,
-        label: `${started.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Desde aquí, usar Number of Passengers como base 100%
-    // Flujo principal: Number of Passengers -> Completed
-    if (completed > 0) {
-      const percentage = Math.round((completed / started) * 100)
-      links.push({
-        source: 'Number of Passengers',
-        target: 'Completed',
-        value: completed,
-        label: `${completed.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Errores no recuperables por paso (usar started como base)
-    if (unrecoveredSteps.length > 0 && totalUnrecovered > 0) {
-      nodes.push({ name: 'Unrecovered' })
-
-      // Number of Passengers -> Unrecovered (nodo intermedio)
-      const percentage = Math.round((totalUnrecovered / started) * 100)
-      links.push({
-        source: 'Number of Passengers',
-        target: 'Unrecovered',
-        value: totalUnrecovered,
-        label: `${totalUnrecovered.toLocaleString()} (${percentage}%)`,
-      })
-
-      // Unrecovered -> cada paso específico (usar started como base)
-      unrecoveredSteps.forEach(step => {
-        const stepName = step.step_name.replace(/_/g, ' ')
-        const capitalizedStepName = stepName
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(' ')
-
-        const stepPercentage = Math.round((step.count / started) * 100)
-        nodes.push({ name: capitalizedStepName })
-        links.push({
-          source: 'Unrecovered',
-          target: capitalizedStepName,
-          value: step.count,
-          label: `${step.count.toLocaleString()} (${stepPercentage}%)`,
-        })
-      })
-    }
-
-    // Abandono 3: Number of Passengers -> Abandonados (en flujo) (usar started como base)
-    // Usuarios que llegaron a Number of Passengers pero no completaron ni tuvieron error no recuperable
-    const abandonedFlow = started - (completed + totalUnrecovered)
-    if (abandonedFlow > 0) {
-      const percentage = Math.round((abandonedFlow / started) * 100)
-      nodes.push({ name: 'Abandoned (Flow)' })
-      links.push({
-        source: 'Number of Passengers',
-        target: 'Abandoned (Flow)',
-        value: abandonedFlow,
-        label: `${abandonedFlow.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Error Boarding Pass: Completed -> BP Error (usar started como base)
-    // Se agrega después de todos los errores para mantener el orden vertical
-    const bpError = completed - closed
-    if (bpError > 0) {
-      const percentage = Math.round((bpError / started) * 100)
-      nodes.push({ name: 'BP Error' })
-      links.push({
-        source: 'Completed',
-        target: 'BP Error',
-        value: bpError,
-        label: `${bpError.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    // Flujo principal: Completed -> Closed with BP (usar started como base)
-    if (closed > 0) {
-      const percentage = Math.round((closed / started) * 100)
-      links.push({
-        source: 'Completed',
-        target: 'Closed with BP',
-        value: closed,
-        label: `${closed.toLocaleString()} (${percentage}%)`,
-      })
-    }
-
-    return { nodes, links }
-  })
-
-  // Procesa los datos para la tabla cuando cambian los props
-  const processTableData = () => {
-    const checkinByDay = checkinDataInternal.value.checkin_by_day || []
-    const failedByStepByDay = failedDataInternal.value.failed_by_step_by_day || []
-
-    if (checkinByDay.length === 0) {
-      tableData.value = []
-      return
-    }
-
-    // Combine data for table
-    tableData.value = [...checkinByDay].map(dayData => {
-      const failedDayData = failedByStepByDay.find(
-        failedDay => failedDay.date === dayData.date
-      )
-
-      return {
-        ...dayData,
-        failed_steps: failedDayData?.steps || [],
-      }
-    })
-
-    // Sort by date ascending
-    tableData.value.sort((a, b) => new Date(a.date) - new Date(b.date))
+  // Flujo principal: Completed -> Closed with BP (usar started como base)
+  if (closed > 0) {
+    const percentage = Math.round((closed / started) * 100);
+    links.push({
+      source: "Completed",
+      target: "Closed with BP",
+      value: closed,
+      label: `${closed.toLocaleString()} (${percentage}%)`,
+    });
   }
 
-  // Watch para procesar datos cuando cambien los props (incluye data para cuando se pasa la respuesta unida)
-  watch(
-    [() => props.data, () => props.checkinData, () => props.failedData],
-    () => {
-      processTableData()
-    },
-    { deep: true, immediate: true }
-  )
+  return { nodes, links };
+});
+
+// Procesa los datos para la tabla cuando cambian los props
+const processTableData = () => {
+  const checkinByDay = checkinDataInternal.value.checkin_by_day || [];
+  const failedByStepByDay =
+    failedDataInternal.value.failed_by_step_by_day || [];
+
+  if (checkinByDay.length === 0) {
+    tableData.value = [];
+    return;
+  }
+
+  // Combine data for table
+  tableData.value = [...checkinByDay].map((dayData) => {
+    const failedDayData = failedByStepByDay.find(
+      (failedDay) => failedDay.date === dayData.date,
+    );
+
+    return {
+      ...dayData,
+      failed_steps: failedDayData?.steps || [],
+    };
+  });
+
+  // Sort by date ascending
+  tableData.value.sort((a, b) => new Date(a.date) - new Date(b.date));
+};
+
+// Watch para procesar datos cuando cambien los props (incluye data para cuando se pasa la respuesta unida)
+watch(
+  [() => props.data, () => props.checkinData, () => props.failedData],
+  () => {
+    processTableData();
+  },
+  { deep: true, immediate: true },
+);
 </script>
 
 <style scoped>
@@ -531,7 +583,7 @@
 }
 
 .section-title {
-  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-family: "Space Grotesk", "DM Sans", sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
   color: var(--kiut-text-primary);
@@ -640,74 +692,6 @@
   margin: 0;
 }
 
-/* Loading State */
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 380px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-bars-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: 100px;
-  margin-bottom: 24px;
-}
-
-.bar {
-  width: 8px;
-  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
-  border-radius: 4px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
-}
-
-.bar-1 { height: 30%; animation-delay: 0s; }
-.bar-2 { height: 50%; animation-delay: 0.1s; }
-.bar-3 { height: 70%; animation-delay: 0.2s; }
-.bar-4 { height: 50%; animation-delay: 0.3s; }
-.bar-5 { height: 40%; animation-delay: 0.4s; }
-
-.loading-text {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  letter-spacing: -0.01em;
-}
-
-/* Animations */
-@keyframes wave {
-  0%, 100% {
-    transform: scaleY(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scaleY(1.6);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -739,4 +723,7 @@
     padding: 16px;
   }
 }
+</style>
+<style>
+@import "../bm-shared.css";
 </style>

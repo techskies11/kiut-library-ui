@@ -4,19 +4,16 @@
     title="Language Selection"
     subtitle="Language distribution across conversations"
     :collapsible="false"
+    :loading="props.loading"
   >
     <!-- Loading State -->
-    <div class="loading-state" v-if="props.loading">
-      <div class="loading-container">
-        <div class="chart-bars-loader">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="bar bar-4"></div>
-          <div class="bar bar-5"></div>
-        </div>
-        <p class="loading-text">Loading language data...</p>
-      </div>
+    <div
+      v-if="props.loading"
+      class="bm-status shrink-0"
+      aria-busy="true"
+      aria-label="Loading chart"
+    >
+      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
     </div>
 
     <!-- Content when loaded -->
@@ -41,12 +38,25 @@
       <section v-else class="empty-state">
         <div class="empty-state-content">
           <div class="empty-icon-wrapper">
-            <svg class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+            <svg
+              class="empty-icon"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+              />
             </svg>
           </div>
           <p class="empty-title">No language data available</p>
-          <p class="empty-description">No language selection data found for the selected period. Try adjusting the date range.</p>
+          <p class="empty-description">
+            No language selection data found for the selected period. Try
+            adjusting the date range.
+          </p>
         </div>
       </section>
     </div>
@@ -54,12 +64,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
-import PieChart from '../../Pie/PieChart.vue'
-import CardInfo from '../../Utils/CardInfo/CardInfo.vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { computed, toRef } from "vue";
+import PieChart from "../../Pie/PieChart.vue";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import { useNumberFormat } from "../../../../plugins/numberFormat";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
 
 interface LanguageDayItem {
   date: string;
@@ -71,83 +84,100 @@ interface SelectLanguageData {
   items: LanguageDayItem[];
 }
 
-const props = withDefaults(defineProps<{
-  data?: SelectLanguageData;
-  loading?: boolean;
-  theme?: Theme;
-  enableExport?: boolean;
-  exportLoading?: boolean;
-}>(), {
-  data: () => ({ items: [] }),
-  loading: false,
-  theme: undefined,
-  enableExport: false,
-  exportLoading: false
-})
+const props = withDefaults(
+  defineProps<{
+    data?: SelectLanguageData;
+    loading?: boolean;
+    theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
+  }>(),
+  {
+    data: () => ({ items: [] }),
+    loading: false,
+    theme: undefined,
+    enableExport: false,
+    exportLoading: false,
+  },
+);
 
-const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
+const { isDark, colors } = useThemeDetection(toRef(props, "theme"));
 
 const languageColors = [
-  '#8b5cf6', '#06b6d4', '#f59e0b', '#10b981', '#ef4444',
-  '#ec4899', '#6366f1', '#14b8a6', '#f97316', '#84cc16',
-]
+  "#8b5cf6",
+  "#06b6d4",
+  "#f59e0b",
+  "#10b981",
+  "#ef4444",
+  "#ec4899",
+  "#6366f1",
+  "#14b8a6",
+  "#f97316",
+  "#84cc16",
+];
 
 const LANGUAGE_MAP: Record<string, { label: string }> = {
-  es: { label: 'Spanish' },
-  en: { label: 'English' },
-  pt: { label: 'Portuguese' },
-  fr: { label: 'French' },
-  de: { label: 'German' },
-  it: { label: 'Italian' },
-  ja: { label: 'Japanese' },
-  zh: { label: 'Chinese' },
-  ko: { label: 'Korean' },
-  ru: { label: 'Russian' },
-}
+  es: { label: "Spanish" },
+  en: { label: "English" },
+  pt: { label: "Portuguese" },
+  fr: { label: "French" },
+  de: { label: "German" },
+  it: { label: "Italian" },
+  ja: { label: "Japanese" },
+  zh: { label: "Chinese" },
+  ko: { label: "Korean" },
+  ru: { label: "Russian" },
+};
 
 const getLanguageLabel = (code: string): string =>
-  LANGUAGE_MAP[code]?.label || code.toUpperCase()
+  LANGUAGE_MAP[code]?.label || code.toUpperCase();
 
-const hasData = computed(() =>
-  props.data?.items && props.data.items.length > 0
-)
+const hasData = computed(
+  () => props.data?.items && props.data.items.length > 0,
+);
 
 const totalCount = computed(() =>
-  (props.data?.items || []).reduce((sum, item) => sum + item.count, 0)
-)
+  (props.data?.items || []).reduce((sum, item) => sum + item.count, 0),
+);
 
 const languageSummary = computed(() => {
-  const map: Record<string, number> = {}
+  const map: Record<string, number> = {};
   for (const item of props.data?.items || []) {
-    map[item.language] = (map[item.language] || 0) + item.count
+    map[item.language] = (map[item.language] || 0) + item.count;
   }
   return Object.entries(map)
     .map(([language, count]) => ({ language, count }))
-    .sort((a, b) => b.count - a.count)
-})
+    .sort((a, b) => b.count - a.count);
+});
 
 const pieData = computed(() => ({
-  labels: languageSummary.value.map(lang => getLanguageLabel(lang.language)),
-  datasets: [{
-    data: languageSummary.value.map(lang => lang.count),
-    backgroundColor: languageSummary.value.map((_, idx) => languageColors[idx % languageColors.length] + '80'),
-    borderColor: languageSummary.value.map((_, idx) => languageColors[idx % languageColors.length]),
-    borderWidth: 2,
-    hoverOffset: 6,
-  }],
-}))
+  labels: languageSummary.value.map((lang) => getLanguageLabel(lang.language)),
+  datasets: [
+    {
+      data: languageSummary.value.map((lang) => lang.count),
+      backgroundColor: languageSummary.value.map(
+        (_, idx) => languageColors[idx % languageColors.length] + "80",
+      ),
+      borderColor: languageSummary.value.map(
+        (_, idx) => languageColors[idx % languageColors.length],
+      ),
+      borderWidth: 2,
+      hoverOffset: 6,
+    },
+  ],
+}));
 
 const pieOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
-  cutout: '55%',
+  cutout: "55%",
   plugins: {
     legend: {
       display: true,
-      position: 'bottom' as const,
+      position: "bottom" as const,
       labels: {
         usePointStyle: true,
-        pointStyle: 'circle',
+        pointStyle: "circle",
         padding: 16,
         font: { family: "'DM Sans', sans-serif", size: 12 },
         color: colors.value.textSecondary,
@@ -157,24 +187,33 @@ const pieOptions = computed(() => ({
       backgroundColor: colors.value.tooltipBg,
       titleColor: colors.value.tooltipText,
       bodyColor: colors.value.tooltipText,
-      borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)',
+      borderColor: isDark.value
+        ? "rgba(198, 125, 255, 0.2)"
+        : "rgba(0, 0, 0, 0.1)",
       borderWidth: 1,
       padding: 12,
       cornerRadius: 8,
-      titleFont: { family: "'Space Grotesk', sans-serif", size: 13, weight: 600 as any },
+      titleFont: {
+        family: "'Space Grotesk', sans-serif",
+        size: 13,
+        weight: 600 as any,
+      },
       bodyFont: { family: "'DM Sans', sans-serif", size: 12 },
       callbacks: {
         label: (ctx: any) => {
-          const value = ctx.raw || 0
-          const pct = totalCount.value > 0 ? ((value / totalCount.value) * 100).toFixed(1) : '0'
-          return ` ${ctx.label}: ${value} (${pct}%)`
+          const value = ctx.raw || 0;
+          const pct =
+            totalCount.value > 0
+              ? ((value / totalCount.value) * 100).toFixed(1)
+              : "0";
+          return ` ${ctx.label}: ${value} (${pct}%)`;
         },
       },
     },
   },
-}))
+}));
 
-defineExpose({ isDark })
+defineExpose({ isDark });
 </script>
 
 <style scoped>
@@ -185,20 +224,55 @@ defineExpose({ isDark })
   flex-direction: column;
   min-height: 0;
 }
-.language-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
-.language-card {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 16px; background: var(--kiut-bg-stats-badge, #f8fafc);
-  border: 1px solid var(--kiut-border-light, rgba(0,0,0,0.05));
-  border-left: 4px solid; border-radius: 12px; transition: all 0.2s ease;
+.language-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
 }
-.language-card:hover { background: var(--kiut-bg-card, #fff); transform: translateY(-1px); }
-.language-info { display: flex; align-items: center; gap: 8px; }
-.language-flag { font-size: 1.25rem; }
-.language-name { font-size: 0.875rem; font-weight: 500; color: var(--kiut-text-primary, #1e293b); }
-.language-stats { display: flex; flex-direction: column; align-items: flex-end; }
-.language-count { font-family: 'Space Grotesk', sans-serif; font-size: 1.125rem; font-weight: 700; color: var(--kiut-text-primary, #1e293b); }
-.language-pct { font-size: 0.75rem; color: var(--kiut-text-secondary, #64748b); }
+.language-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--kiut-bg-stats-badge, #f8fafc);
+  border: 1px solid var(--kiut-border-light, rgba(0, 0, 0, 0.05));
+  border-left: 4px solid;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.language-card:hover {
+  background: var(--kiut-bg-card, #fff);
+  transform: translateY(-1px);
+}
+.language-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.language-flag {
+  font-size: 1.25rem;
+}
+.language-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--kiut-text-primary, #1e293b);
+}
+.language-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.language-count {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--kiut-text-primary, #1e293b);
+}
+.language-pct {
+  font-size: 0.75rem;
+  color: var(--kiut-text-secondary, #64748b);
+}
 /*
  * PieChart.vue usa min-height fijo (~320px) en .chart-container; sin esto la sección a 260px desborda.
  */
@@ -214,25 +288,73 @@ defineExpose({ isDark })
   height: 100% !important;
   max-height: 100% !important;
 }
-.section-header { margin-bottom: 16px; }
-.section-title { font-family: 'Space Grotesk', 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0; }
-.empty-state { display: flex; align-items: center; justify-content: center; min-height: 280px; }
-.empty-state-content { text-align: center; max-width: 360px; animation: fadeIn 0.6s ease-out; }
-.empty-icon-wrapper { display: inline-flex; align-items: center; justify-content: center; width: 80px; height: 80px; background: var(--kiut-bg-empty-icon, linear-gradient(135deg, #ede9fe, #ddd6fe)); border-radius: 20px; margin: 0 auto 20px; box-shadow: var(--kiut-shadow-empty-icon, 0 4px 12px rgba(139, 92, 246, 0.15)); }
-.empty-icon { width: 40px; height: 40px; color: var(--kiut-primary, #8b5cf6); }
-.empty-title { font-size: 18px; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0 0 8px 0; }
-.empty-description { font-size: 14px; font-weight: 400; color: var(--kiut-text-secondary, #64748b); line-height: 1.6; margin: 0; }
-.loading-state { display: flex; align-items: center; justify-content: center; min-height: 380px; }
-.loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
-.chart-bars-loader { display: flex; align-items: flex-end; justify-content: center; gap: 10px; height: 100px; margin-bottom: 24px; }
-.bar { width: 8px; background: linear-gradient(to top, var(--kiut-primary-light, #c67dff), var(--kiut-primary, #8b5cf6), var(--kiut-primary-hover, #7c3aed)); border-radius: 4px; animation: wave 1.5s ease-in-out infinite; box-shadow: var(--kiut-shadow-loader, 0 4px 12px rgba(139, 92, 246, 0.4)); }
-.bar-1 { height: 30%; animation-delay: 0s; }
-.bar-2 { height: 50%; animation-delay: 0.1s; }
-.bar-3 { height: 70%; animation-delay: 0.2s; }
-.bar-4 { height: 50%; animation-delay: 0.3s; }
-.bar-5 { height: 40%; animation-delay: 0.4s; }
-.loading-text { font-size: 15px; font-weight: 500; color: var(--kiut-text-secondary, #64748b); animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-@keyframes wave { 0%, 100% { transform: scaleY(1); opacity: 0.7; } 50% { transform: scaleY(1.6); opacity: 1; } }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.section-header {
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: "Space Grotesk", "DM Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--kiut-text-primary, #1e293b);
+  margin: 0;
+}
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+}
+.empty-state-content {
+  text-align: center;
+  max-width: 360px;
+  animation: fadeIn 0.6s ease-out;
+}
+.empty-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: var(
+    --kiut-bg-empty-icon,
+    linear-gradient(135deg, #ede9fe, #ddd6fe)
+  );
+  border-radius: 20px;
+  margin: 0 auto 20px;
+  box-shadow: var(
+    --kiut-shadow-empty-icon,
+    0 4px 12px rgba(139, 92, 246, 0.15)
+  );
+}
+.empty-icon {
+  width: 40px;
+  height: 40px;
+  color: var(--kiut-primary, #8b5cf6);
+}
+.empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--kiut-text-primary, #1e293b);
+  margin: 0 0 8px 0;
+}
+.empty-description {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--kiut-text-secondary, #64748b);
+  line-height: 1.6;
+  margin: 0;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+<style>
+@import "../bm-shared.css";
 </style>
