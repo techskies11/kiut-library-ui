@@ -14773,7 +14773,8 @@ const yp = {
     ariaLabelSelectAll: { default: "Seleccionar todas las filas" },
     ariaLabelSelectRow: { default: "Seleccionar fila" },
     fixedLayout: { type: Boolean, default: !1 },
-    fullWidth: { type: Boolean, default: !0 }
+    fullWidth: { type: Boolean, default: !0 },
+    minWidth: { default: "640px" }
   },
   emits: ["update:selectedKeys"],
   setup(t, { emit: e }) {
@@ -14846,10 +14847,11 @@ const yp = {
       u("div", Mv, [
         u("table", {
           class: U([
-            "kiut-table min-w-[680px] border-collapse text-left text-sm",
+            "kiut-table border-collapse text-left text-sm",
             t.fullWidth ? "w-full" : "w-auto",
             t.fixedLayout ? "table-fixed" : ""
-          ])
+          ]),
+          style: yt({ minWidth: t.minWidth })
         }, [
           u("thead", null, [
             u("tr", Sv, [
@@ -14907,11 +14909,11 @@ const yp = {
               ], 2))), 128))
             ]))), 128))
           ])
-        ], 2)
+        ], 6)
       ])
     ]));
   }
-}), Gi = /* @__PURE__ */ rt(Lv, [["__scopeId", "data-v-6fedc774"]]), Fv = {
+}), Gi = /* @__PURE__ */ rt(Lv, [["__scopeId", "data-v-ab9b9244"]]), Fv = {
   key: 0,
   class: "bm-status shrink-0",
   "aria-busy": "true",
