@@ -2,7 +2,7 @@
   <div
     class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
-    <div class="overflow-x-auto">
+    <div class="w-full overflow-x-auto overflow-y-hidden">
       <table
         :class="[
           'kiut-table min-w-[640px] border-collapse text-left text-sm',
@@ -86,11 +86,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from "vue";
 
-defineOptions({ name: 'Table' });
+defineOptions({ name: "Table" });
 
-export type TableColumnAlign = 'left' | 'center' | 'right';
+export type TableColumnAlign = "left" | "center" | "right";
 
 export interface TableColumn {
   key: string;
@@ -125,17 +125,17 @@ const props = withDefaults(
   }>(),
   {
     selectable: false,
-    rowKey: 'id',
+    rowKey: "id",
     selectedKeys: () => [],
-    ariaLabelSelectAll: 'Seleccionar todas las filas',
-    ariaLabelSelectRow: 'Seleccionar fila',
+    ariaLabelSelectAll: "Seleccionar todas las filas",
+    ariaLabelSelectRow: "Seleccionar fila",
     fixedLayout: false,
     fullWidth: true,
-  }
+  },
 );
 
 const emit = defineEmits<{
-  'update:selectedKeys': [keys: string[]];
+  "update:selectedKeys": [keys: string[]];
 }>();
 
 const selectAllRef = ref<HTMLInputElement | null>(null);
@@ -145,13 +145,13 @@ function cellSlotName(key: string): string {
 }
 
 function alignClass(align: TableColumnAlign | undefined): string {
-  if (align === 'center') return 'text-center';
-  if (align === 'right') return 'text-right';
-  return 'text-left';
+  if (align === "center") return "text-center";
+  if (align === "right") return "text-right";
+  return "text-left";
 }
 
 function resolveRowKey(row: Record<string, unknown>, index: number): string {
-  if (typeof props.rowKey === 'function') {
+  if (typeof props.rowKey === "function") {
     return props.rowKey(row);
   }
   const raw = row[props.rowKey];
@@ -164,8 +164,8 @@ function cellValue(row: Record<string, unknown>, key: string): unknown {
 }
 
 function formatCell(v: unknown): string {
-  if (v === null || v === undefined) return '';
-  if (typeof v === 'object') return '';
+  if (v === null || v === undefined) return "";
+  if (typeof v === "object") return "";
   return String(v);
 }
 
@@ -173,7 +173,9 @@ function rowKeyAt(row: Record<string, unknown>, index: number): string {
   return resolveRowKey(row, index);
 }
 
-const rowKeys = computed(() => props.rows.map((row, i) => resolveRowKey(row, i)));
+const rowKeys = computed(() =>
+  props.rows.map((row, i) => resolveRowKey(row, i)),
+);
 
 function isRowSelected(row: Record<string, unknown>, index: number): boolean {
   const k = resolveRowKey(row, index);
@@ -200,18 +202,18 @@ watch(
       el.indeterminate = someSelected.value && !allSelected.value;
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function onToggleSelectAll(): void {
   if (!props.selectable) return;
   if (allSelected.value) {
     const next = props.selectedKeys.filter((k) => !rowKeys.value.includes(k));
-    emit('update:selectedKeys', next);
+    emit("update:selectedKeys", next);
   } else {
     const set = new Set(props.selectedKeys);
     rowKeys.value.forEach((k) => set.add(k));
-    emit('update:selectedKeys', [...set]);
+    emit("update:selectedKeys", [...set]);
   }
 }
 
@@ -221,11 +223,11 @@ function onToggleRow(row: Record<string, unknown>, index: number): void {
   const has = props.selectedKeys.includes(k);
   if (has) {
     emit(
-      'update:selectedKeys',
-      props.selectedKeys.filter((x) => x !== k)
+      "update:selectedKeys",
+      props.selectedKeys.filter((x) => x !== k),
     );
   } else {
-    emit('update:selectedKeys', [...props.selectedKeys, k]);
+    emit("update:selectedKeys", [...props.selectedKeys, k]);
   }
 }
 
@@ -237,7 +239,7 @@ function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
 
 <style scoped>
 .kiut-table {
-  font-family: var(--kiut-table-font, 'Inter', system-ui, sans-serif);
+  font-family: var(--kiut-table-font, "Inter", system-ui, sans-serif);
 }
 
 /* Selección: checkbox circular (referencia UI) */
