@@ -14754,7 +14754,7 @@ const yp = {
       _: 1
     }, 8, ["loading"]));
   }
-}), Cv = /* @__PURE__ */ rt(wv, [["__scopeId", "data-v-252ffe28"]]), $v = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, Mv = { class: "overflow-x-auto" }, Sv = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, Dv = {
+}), Cv = /* @__PURE__ */ rt(wv, [["__scopeId", "data-v-252ffe28"]]), $v = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, Mv = { class: "w-full overflow-x-auto overflow-y-hidden" }, Sv = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, Dv = {
   key: 0,
   scope: "col",
   class: "w-12 px-4 py-3 text-center align-middle"
@@ -14799,7 +14799,9 @@ const yp = {
     function d(g, x) {
       return l(g, x);
     }
-    const h = C(() => n.rows.map((g, x) => l(g, x)));
+    const h = C(
+      () => n.rows.map((g, x) => l(g, x))
+    );
     function p(g, x) {
       const w = l(g, x);
       return n.selectedKeys.includes(w);
@@ -14909,7 +14911,7 @@ const yp = {
       ])
     ]));
   }
-}), Gi = /* @__PURE__ */ rt(Lv, [["__scopeId", "data-v-d50b70af"]]), Fv = {
+}), Gi = /* @__PURE__ */ rt(Lv, [["__scopeId", "data-v-d683ab28"]]), Fv = {
   key: 0,
   class: "bm-status shrink-0",
   "aria-busy": "true",
