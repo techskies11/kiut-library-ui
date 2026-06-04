@@ -3,7 +3,12 @@
     class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
     <div class="overflow-x-auto">
-      <table class="kiut-table w-full min-w-[640px] border-collapse text-left text-sm">
+      <table
+        :class="[
+          'kiut-table w-full min-w-[640px] border-collapse text-left text-sm',
+          fixedLayout ? 'table-fixed' : '',
+        ]"
+      >
         <thead>
           <tr
             class="h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]"
@@ -104,6 +109,12 @@ const props = withDefaults(
     selectedKeys?: string[];
     ariaLabelSelectAll?: string;
     ariaLabelSelectRow?: string;
+    /**
+     * Activa `table-layout: fixed`. Las columnas respetan los anchos definidos
+     * en `headerClass`/`cellClass` (p. ej. `w-[160px]`) sin redistribuirse
+     * según el contenido. El texto sobrante se trunca con `overflow-hidden`.
+     */
+    fixedLayout?: boolean;
   }>(),
   {
     selectable: false,
@@ -111,6 +122,7 @@ const props = withDefaults(
     selectedKeys: () => [],
     ariaLabelSelectAll: 'Seleccionar todas las filas',
     ariaLabelSelectRow: 'Seleccionar fila',
+    fixedLayout: false,
   }
 );
 
