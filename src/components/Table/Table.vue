@@ -5,7 +5,8 @@
     <div class="overflow-x-auto">
       <table
         :class="[
-          'kiut-table w-full min-w-[640px] border-collapse text-left text-sm',
+          'kiut-table min-w-[640px] border-collapse text-left text-sm',
+          fullWidth ? 'w-full' : 'w-auto',
           fixedLayout ? 'table-fixed' : '',
         ]"
       >
@@ -45,7 +46,7 @@
           <tr
             v-for="(row, rowIndex) in rows"
             :key="rowKeyAt(row, rowIndex)"
-            class="h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]"
+            class="h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]"
           >
             <td
               v-if="selectable"
@@ -115,6 +116,12 @@ const props = withDefaults(
      * según el contenido. El texto sobrante se trunca con `overflow-hidden`.
      */
     fixedLayout?: boolean;
+    /**
+     * Por defecto `true`: la tabla ocupa el 100 % del contenedor (`w-full`).
+     * Ponlo en `false` para que la tabla se ajuste al ancho de su contenido
+     * y no genere espacio vacío en columnas con poco texto.
+     */
+    fullWidth?: boolean;
   }>(),
   {
     selectable: false,
@@ -123,6 +130,7 @@ const props = withDefaults(
     ariaLabelSelectAll: 'Seleccionar todas las filas',
     ariaLabelSelectRow: 'Seleccionar fila',
     fixedLayout: false,
+    fullWidth: true,
   }
 );
 
