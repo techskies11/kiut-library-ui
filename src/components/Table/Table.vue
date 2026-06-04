@@ -2,7 +2,7 @@
   <div
     class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
-    <div class="w-full overflow-x-auto overflow-y-hidden">
+    <div class="w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden">
       <table
         :class="[
           'kiut-table min-w-[640px] border-collapse text-left text-sm',
