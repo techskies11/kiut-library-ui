@@ -14846,7 +14846,7 @@ const yp = {
       u("div", Mv, [
         u("table", {
           class: U([
-            "kiut-table min-w-[600px] border-collapse text-left text-sm",
+            "kiut-table min-w-[680px] border-collapse text-left text-sm",
             t.fullWidth ? "w-full" : "w-auto",
             t.fixedLayout ? "table-fixed" : ""
           ])
@@ -14911,7 +14911,7 @@ const yp = {
       ])
     ]));
   }
-}), Gi = /* @__PURE__ */ rt(Lv, [["__scopeId", "data-v-81329205"]]), Fv = {
+}), Gi = /* @__PURE__ */ rt(Lv, [["__scopeId", "data-v-6fedc774"]]), Fv = {
   key: 0,
   class: "bm-status shrink-0",
   "aria-busy": "true",
