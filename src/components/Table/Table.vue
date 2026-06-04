@@ -5,10 +5,11 @@
     <div class="w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden">
       <table
         :class="[
-          'kiut-table min-w-[680px] border-collapse text-left text-sm',
+          'kiut-table border-collapse text-left text-sm',
           fullWidth ? 'w-full' : 'w-auto',
           fixedLayout ? 'table-fixed' : '',
         ]"
+        :style="{ minWidth }"
       >
         <thead>
           <tr
@@ -122,6 +123,14 @@ const props = withDefaults(
      * y no genere espacio vacío en columnas con poco texto.
      */
     fullWidth?: boolean;
+    /**
+     * Ancho mínimo de la tabla. Por defecto `"600px"` para garantizar
+     * legibilidad en viewports estrechos; el contenedor `overflow-x-auto`
+     * se encarga del scroll horizontal cuando el viewport es más angosto.
+     * Úsalo para tablas con muchas columnas que necesiten un piso mayor.
+     * Acepta cualquier valor CSS válido, p. ej. `"900px"` o `"60rem"`.
+     */
+    minWidth?: string;
   }>(),
   {
     selectable: false,
@@ -131,6 +140,7 @@ const props = withDefaults(
     ariaLabelSelectRow: "Seleccionar fila",
     fixedLayout: false,
     fullWidth: true,
+    minWidth: "640px",
   },
 );
 
