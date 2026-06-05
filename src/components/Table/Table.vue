@@ -5,7 +5,7 @@
     <div class="w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden">
       <table
         :class="[
-          'kiut-table min-w-[640px] overflow-hidden border-collapse text-left text-sm',
+          'kiut-table w-full min-w-[640px] overflow-hidden border-collapse text-left text-sm',
           fixedLayout ? 'table-fixed' : '',
         ]"
       >
