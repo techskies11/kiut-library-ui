@@ -5,11 +5,9 @@
     <div class="w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden">
       <table
         :class="[
-          'kiut-table border-collapse text-left text-sm',
-          fullWidth ? 'w-full' : 'w-auto',
+          'kiut-table min-w-[640px] overflow-hidden border-collapse text-left text-sm',
           fixedLayout ? 'table-fixed' : '',
         ]"
-        :style="{ minWidth }"
       >
         <thead>
           <tr
@@ -117,20 +115,6 @@ const props = withDefaults(
      * según el contenido. El texto sobrante se trunca con `overflow-hidden`.
      */
     fixedLayout?: boolean;
-    /**
-     * Por defecto `true`: la tabla ocupa el 100 % del contenedor (`w-full`).
-     * Ponlo en `false` para que la tabla se ajuste al ancho de su contenido
-     * y no genere espacio vacío en columnas con poco texto.
-     */
-    fullWidth?: boolean;
-    /**
-     * Ancho mínimo de la tabla. Por defecto `"600px"` para garantizar
-     * legibilidad en viewports estrechos; el contenedor `overflow-x-auto`
-     * se encarga del scroll horizontal cuando el viewport es más angosto.
-     * Úsalo para tablas con muchas columnas que necesiten un piso mayor.
-     * Acepta cualquier valor CSS válido, p. ej. `"900px"` o `"60rem"`.
-     */
-    minWidth?: string;
   }>(),
   {
     selectable: false,
@@ -139,8 +123,6 @@ const props = withDefaults(
     ariaLabelSelectAll: "Seleccionar todas las filas",
     ariaLabelSelectRow: "Seleccionar fila",
     fixedLayout: false,
-    fullWidth: true,
-    minWidth: "640px",
   },
 );
 
