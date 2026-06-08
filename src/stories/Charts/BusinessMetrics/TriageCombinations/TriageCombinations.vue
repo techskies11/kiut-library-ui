@@ -15,7 +15,12 @@
       />
     </template>
 
-    <div class="card-body" v-if="!loading">
+    <Transition name="bm-fade" mode="out-in">
+      <div v-if="loading" key="loading" class="bm-status shrink-0" aria-busy="true" aria-label="Loading chart">
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
+      </div>
+
+      <div v-else key="content" class="card-body">
       <template v-if="hasValue">
         <div class="chart-container">
           <BarChart :data="barData" :options="barOptions" />
@@ -112,16 +117,7 @@
         </div>
       </template>
     </div>
-
-    <!-- Loading State -->
-    <div
-      v-else
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 

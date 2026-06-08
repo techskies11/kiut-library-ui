@@ -54,3 +54,20 @@
   width: 100%;
   height: 100%;
 }
+
+.bm-fade-enter-active,
+.bm-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.bm-fade-enter-from,
+.bm-fade-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bm-fade-enter-active,
+  .bm-fade-leave-active {
+    transition: none;
+  }
+}

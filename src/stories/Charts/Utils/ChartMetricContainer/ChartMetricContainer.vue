@@ -9,23 +9,22 @@
       <div class="header-content metric-header-content">
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
-            <template v-if="loading">
+            <Transition name="chart-metric-fade" mode="out-in">
               <div
-                class="ut-skeleton-blink ut-skeleton-title"
+                v-if="loading"
+                key="header-skeleton"
+                class="ut-skeleton-blink ut-skeleton-collapsible-title"
                 aria-hidden="true"
+                aria-busy="true"
               />
-              <div
-                class="ut-skeleton-blink ut-skeleton-subtitle"
-                aria-hidden="true"
-              />
-            </template>
-            <template v-else>
-              <slot name="title">
-                <h3 v-if="title" class="card-title">{{ title }}</h3>
-              </slot>
-              <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
-              <slot name="headerAppend" />
-            </template>
+              <div v-else key="header-content" class="metric-header-content__loaded">
+                <slot name="title">
+                  <h3 v-if="title" class="card-title">{{ title }}</h3>
+                </slot>
+                <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
+                <slot name="headerAppend" />
+              </div>
+            </Transition>
           </div>
           <div v-if="showHeaderExport" class="metric-header-content__export">
             <slot name="headerExport" />
@@ -61,31 +60,28 @@
       <div class="header-content metric-header-content">
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
-            <template v-if="loading">
-              <div class="ut-skeleton-container">
+            <Transition name="chart-metric-fade" mode="out-in">
+              <div
+                v-if="loading"
+                key="header-skeleton"
+                class="ut-skeleton-container"
+                aria-hidden="true"
+                aria-busy="true"
+              >
                 <div class="ut-skeleton-title-subtitle">
-                  <div
-                    class="ut-skeleton-blink ut-skeleton-title"
-                    aria-hidden="true"
-                  />
-                  <div
-                    class="ut-skeleton-blink ut-skeleton-subtitle"
-                    aria-hidden="true"
-                  />
+                  <div class="ut-skeleton-blink ut-skeleton-title" />
+                  <div class="ut-skeleton-blink ut-skeleton-subtitle" />
                 </div>
-                <div
-                  class="ut-skeleton-blink ut-skeleton-options"
-                  aria-hidden="true"
-                />
+                <div class="ut-skeleton-blink ut-skeleton-options" />
               </div>
-            </template>
-            <template v-else>
-              <slot name="title">
-                <h3 v-if="title" class="card-title">{{ title }}</h3>
-              </slot>
-              <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
-              <slot name="headerAppend" />
-            </template>
+              <div v-else key="header-content" class="metric-header-content__loaded">
+                <slot name="title">
+                  <h3 v-if="title" class="card-title">{{ title }}</h3>
+                </slot>
+                <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
+                <slot name="headerAppend" />
+              </div>
+            </Transition>
           </div>
           <div v-if="showHeaderExport" class="metric-header-content__export">
             <slot name="headerExport" />
@@ -435,5 +431,33 @@ details.chart-metric-container.metric-collapsible
 .ut-skeleton-options {
   height: 50px;
   width: 15%;
+}
+
+.ut-skeleton-collapsible-title {
+  height: 22px;
+  width: 38%;
+}
+
+.metric-header-content__loaded {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.chart-metric-fade-enter-active,
+.chart-metric-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.chart-metric-fade-enter-from,
+.chart-metric-fade-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-metric-fade-enter-active,
+  .chart-metric-fade-leave-active {
+    transition: none;
+  }
 }
 </style>

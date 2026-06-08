@@ -15,21 +15,22 @@
       />
     </template>
 
-    <!-- Loading State -->
-    <div
-      v-if="props.loading"
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
+    <Transition name="bm-fade" mode="out-in">
+      <div
+        v-if="props.loading"
+        key="loading"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
+      >
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
+      </div>
 
-    <!-- Histogram Section -->
-    <div
-      v-else-if="npsData && npsData.total_nps_responses > 0"
-      class="card-body"
-    >
+      <div v-else key="content">
+        <div
+          v-if="npsData && npsData.total_nps_responses > 0"
+          class="card-body"
+        >
       <div class="chart-wrapper">
         <HistogramChart
           :histogram="npsData.histogram || []"
@@ -60,33 +61,34 @@
           :value="String(npsData.p95_score)"
         />
       </div>
-    </div>
-
-    <!-- Empty State -->
-    <div v-else class="empty-state">
-      <div class="empty-state-content">
-        <div class="empty-icon-wrapper">
-          <svg
-            class="empty-icon"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-            />
-          </svg>
         </div>
-        <p class="empty-title">No NPS data available</p>
-        <p class="empty-description">
-          No NPS data found for the selected period. Try adjusting the date
-          range.
-        </p>
+
+        <div v-else class="empty-state">
+          <div class="empty-state-content">
+            <div class="empty-icon-wrapper">
+              <svg
+                class="empty-icon"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+            </div>
+            <p class="empty-title">No NPS data available</p>
+            <p class="empty-description">
+              No NPS data found for the selected period. Try adjusting the date
+              range.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 

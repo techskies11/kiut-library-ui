@@ -13,19 +13,18 @@
         :loading="exportLoading"
       />
     </template>
+    <Transition name="bm-fade" mode="out-in">
+      <div
+        v-if="loading"
+        key="loading"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
+      >
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
+      </div>
 
-    <!-- Loading State con animación CSS personalizada -->
-    <div
-      v-if="loading"
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
-
-    <!-- Content when loaded -->
-    <div v-else class="card-body">
+      <div v-else key="content" class="card-body">
       <!-- Sankey Visualization -->
       <section class="chart-section">
         <div class="chart-wrapper">
@@ -262,6 +261,7 @@
         </div>
       </section>
     </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 

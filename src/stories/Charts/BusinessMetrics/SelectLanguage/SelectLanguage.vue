@@ -6,18 +6,18 @@
     :collapsible="false"
     :loading="props.loading"
   >
-    <!-- Loading State -->
-    <div
-      v-if="props.loading"
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
+    <Transition name="bm-fade" mode="out-in">
+      <div
+        v-if="props.loading"
+        key="loading"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
+      >
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
+      </div>
 
-    <!-- Content when loaded -->
-    <div v-else class="card-body">
+      <div v-else key="content" class="card-body">
       <template v-if="hasData">
         <div
           class="distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-3 min-h-0"
@@ -60,6 +60,7 @@
         </div>
       </section>
     </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 

@@ -4,52 +4,68 @@
     :class="['card-metric', 'w-full', { 'card-metric--dark': isDark }]"
   >
     <template #title>
-      <div
-        v-if="loading"
-        class="ut-skeleton-blink skeleton-icon"
-        aria-hidden="true"
-      />
-      <div v-else class="header-title-group">
-        <div class="icon-wrapper" aria-hidden="true">
-          <slot name="icon" />
+      <Transition name="card-metric-fade" mode="out-in">
+        <div
+          v-if="loading"
+          key="title-skeleton"
+          class="ut-skeleton-blink skeleton-icon"
+          aria-hidden="true"
+        />
+        <div v-else key="title-content" class="header-title-group">
+          <div class="icon-wrapper" aria-hidden="true">
+            <slot name="icon" />
+          </div>
         </div>
-      </div>
+      </Transition>
     </template>
 
     <template #headerAside>
-      <div
-        v-if="loading"
-        class="ut-skeleton-blink skeleton-badge"
-        aria-hidden="true"
-      />
-      <slot v-else name="headerAside">
+      <Transition name="card-metric-fade" mode="out-in">
         <div
-          v-if="hasPreviousData"
-          :class="['change-badge', changeBadgeClass]"
-        >
-          {{ changeLabel }}
+          v-if="loading"
+          key="aside-skeleton"
+          class="ut-skeleton-blink skeleton-badge"
+          aria-hidden="true"
+        />
+        <div v-else key="aside-content">
+          <slot name="headerAside">
+            <div
+              v-if="hasPreviousData"
+              :class="['change-badge', changeBadgeClass]"
+            >
+              {{ changeLabel }}
+            </div>
+          </slot>
         </div>
-      </slot>
+      </Transition>
     </template>
 
-    <div v-if="loading" class="skeleton-body" aria-busy="true" aria-label="Loading metric">
-      <div class="ut-skeleton-blink skeleton-value" />
-      <div class="ut-skeleton-blink skeleton-label" />
-    </div>
-
-    <div v-else class="highlight-inner">
-      <div class="card-body">
-        <slot name="value">
-          <div class="metric-row">
-            <span v-if="prefix" class="metric-prefix">{{ prefix }}</span>
-            <span :class="['metric-value', valueSize === 'large' ? 'metric-value--large' : '']">
-              {{ value }}
-            </span>
-          </div>
-        </slot>
-        <span class="metric-label">{{ label }}</span>
+    <Transition name="card-metric-fade" mode="out-in">
+      <div
+        v-if="loading"
+        key="body-skeleton"
+        class="skeleton-body"
+        aria-busy="true"
+        aria-label="Loading metric"
+      >
+        <div class="ut-skeleton-blink skeleton-value" />
+        <div class="ut-skeleton-blink skeleton-label" />
       </div>
-    </div>
+
+      <div v-else key="body-content" class="highlight-inner">
+        <div class="card-body">
+          <slot name="value">
+            <div class="metric-row">
+              <span v-if="prefix" class="metric-prefix">{{ prefix }}</span>
+              <span :class="['metric-value', valueSize === 'large' ? 'metric-value--large' : '']">
+                {{ value }}
+              </span>
+            </div>
+          </slot>
+          <span class="metric-label">{{ label }}</span>
+        </div>
+      </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -259,7 +275,7 @@ defineExpose({ isDark, changePercent })
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 6px;
   text-align: left;
 }
 
@@ -271,17 +287,34 @@ defineExpose({ isDark, changePercent })
 
 .skeleton-badge {
   width: 72px;
-  height: 20px;
+  height: 24px;
   border-radius: 999px;
 }
 
 .skeleton-value {
   width: 55%;
-  height: 32px;
+  height: 29px;
 }
 
 .skeleton-label {
   width: 38%;
   height: 15px;
+}
+
+.card-metric-fade-enter-active,
+.card-metric-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.card-metric-fade-enter-from,
+.card-metric-fade-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-metric-fade-enter-active,
+  .card-metric-fade-leave-active {
+    transition: none;
+  }
 }
 </style>

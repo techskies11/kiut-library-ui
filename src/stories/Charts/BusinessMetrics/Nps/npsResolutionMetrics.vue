@@ -6,29 +6,35 @@
     :collapsible="false"
     :loading="props.loading"
   >
-    <div
-      v-if="props.loading"
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
-    <div v-else-if="hasResolutionData" class="card-body">
-      <ChartBar
-        :data="barData"
-        :options="barOptions"
-        :uppercase-legend-labels="true"
-      />
-    </div>
+    <Transition name="bm-fade" mode="out-in">
+      <div
+        v-if="props.loading"
+        key="loading"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
+      >
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
+      </div>
 
-    <div v-else class="empty-state">
-      <p class="empty-title">No resolution answers available</p>
-      <p class="empty-description">
-        This airline has the resolution survey configured, but no responses were
-        found for the selected dates.
-      </p>
-    </div>
+      <div v-else key="content">
+        <div v-if="hasResolutionData" class="card-body">
+          <ChartBar
+            :data="barData"
+            :options="barOptions"
+            :uppercase-legend-labels="true"
+          />
+        </div>
+
+        <div v-else class="empty-state">
+          <p class="empty-title">No resolution answers available</p>
+          <p class="empty-description">
+            This airline has the resolution survey configured, but no responses were
+            found for the selected dates.
+          </p>
+        </div>
+      </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 

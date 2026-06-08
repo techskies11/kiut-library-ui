@@ -13,42 +13,40 @@
         :loading="exportLoading"
       />
     </template>
-
-    <!-- Loading State-->
-    <div
-      v-if="loading"
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
-
-    <!-- Error State -->
-    <div v-else-if="props.error" class="error-state">
-      <div class="error-content">
-        <div class="error-icon-wrapper">
-          <svg
-            class="error-icon"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-            />
-          </svg>
-        </div>
-        <p class="error-title">Error loading data</p>
-        <p class="error-description">{{ props.error }}</p>
+    <Transition name="bm-fade" mode="out-in">
+      <div
+        v-if="loading"
+        key="loading"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
+      >
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
       </div>
-    </div>
 
-    <!-- Content when loaded -->
-    <div v-else class="card-body">
+      <div v-else-if="props.error" key="error" class="error-state">
+        <div class="error-content">
+          <div class="error-icon-wrapper">
+            <svg
+              class="error-icon"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <p class="error-title">Error loading data</p>
+          <p class="error-description">{{ props.error }}</p>
+        </div>
+      </div>
+
+      <div v-else key="content" class="card-body">
       <!-- Sankey Flow Chart -->
       <section class="chart-section">
         <div class="chart-wrapper">
@@ -212,6 +210,7 @@
         </div>
       </section>
     </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 

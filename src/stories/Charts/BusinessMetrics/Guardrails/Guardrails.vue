@@ -14,19 +14,18 @@
         :loading="exportLoading"
       />
     </template>
+    <Transition name="bm-fade" mode="out-in">
+      <div
+        v-if="loading"
+        key="loading"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
+      >
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
+      </div>
 
-    <!-- Loading State -->
-    <div
-      v-if="loading"
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
-
-    <!-- Content when loaded -->
-    <div v-else class="card-body">
+      <div v-else key="content" class="card-body">
       <template v-if="hasData">
         <!-- Daily Grouped Table (chrome: Utils/Table) -->
         <section v-if="groupedTableData.length > 0" class="guardrails-daily-section">
@@ -92,6 +91,7 @@
         </div>
       </section>
     </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 

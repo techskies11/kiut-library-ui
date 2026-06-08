@@ -6,28 +6,34 @@
     :collapsible="false"
     :loading="props.loading"
   >
-    <div
-      v-if="props.loading"
-      class="bm-status shrink-0"
-      aria-busy="true"
-      aria-label="Loading chart"
-    >
-      <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-    </div>
-    <div v-else-if="hasPulseData" class="card-body">
-      <ChartLine
-        :data="lineData"
-        :options="lineOptions"
-        :uppercase-legend-labels="true"
-      />
-    </div>
+    <Transition name="bm-fade" mode="out-in">
+      <div
+        v-if="props.loading"
+        key="loading"
+        class="bm-status shrink-0"
+        aria-busy="true"
+        aria-label="Loading chart"
+      >
+        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
+      </div>
 
-    <div v-else class="empty-state">
-      <p class="empty-title">No CSAT Pulse data available</p>
-      <p class="empty-description">
-        No CSAT pulse points were found for the selected date range.
-      </p>
-    </div>
+      <div v-else key="content">
+        <div v-if="hasPulseData" class="card-body">
+          <ChartLine
+            :data="lineData"
+            :options="lineOptions"
+            :uppercase-legend-labels="true"
+          />
+        </div>
+
+        <div v-else class="empty-state">
+          <p class="empty-title">No CSAT Pulse data available</p>
+          <p class="empty-description">
+            No CSAT pulse points were found for the selected date range.
+          </p>
+        </div>
+      </div>
+    </Transition>
   </ChartMetricContainer>
 </template>
 
