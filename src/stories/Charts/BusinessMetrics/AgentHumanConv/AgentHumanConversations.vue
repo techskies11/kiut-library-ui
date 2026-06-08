@@ -23,7 +23,7 @@
         aria-label="Loading agent human conversations"
       >
         <div
-          class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4 md:gap-4"
+          class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
           aria-hidden="true"
         >
           <CardMetric
@@ -65,7 +65,7 @@
       <div v-else key="content" class="card-body">
         <div
           v-if="hasData"
-          class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4 md:gap-4"
+          class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
           :class="{ 'agent-human-conv--dark': isDark }"
         >
           <CardMetric
@@ -195,14 +195,13 @@
           :collapsible="false"
         >
           <template #headerAside>
-            <div class="flex justify-end">
-              <select
+            <div class="table-view-select flex justify-end">
+              <Select
                 v-model="tableViewMode"
-                class="rounded-xl border border-[var(--kiut-border-light,#d1d5db)] bg-[var(--kiut-bg-card,#ffffff)] px-3 py-2 text-sm text-[var(--kiut-text-primary,#111827)] dark:border-[var(--kiut-border-light,#374151)] dark:bg-[var(--kiut-bg-card,#111827)] dark:text-[var(--kiut-text-primary,#f9fafb)]"
-              >
-                <option value="by_date">By date</option>
-                <option value="aggregated">Aggregated</option>
-              </select>
+                :options="tableViewModeOptions"
+                aria-label-trigger="Table view mode"
+                :show-option-check="false"
+              />
             </div>
           </template>
 
@@ -323,6 +322,9 @@ import Table, {
   type TableColumn,
   type TableSortDirection,
 } from "../../../../components/Table/Table.vue";
+import Select, {
+  type KiutSelectOption,
+} from "../../../../components/Inputs/Select.vue";
 
 interface AgentDayData {
   date: string;
@@ -450,6 +452,10 @@ const hasData = computed(() => {
 });
 
 const tableViewMode = ref<TableViewMode>("by_date");
+const tableViewModeOptions: KiutSelectOption<TableViewMode>[] = [
+  { value: "by_date", label: "By date" },
+  { value: "aggregated", label: "Aggregated" },
+];
 const sortKey = ref<SortKey>("date");
 const sortDirection = ref<TableSortDirection>("desc");
 const showAllTableRows = ref(false);
@@ -870,6 +876,18 @@ defineExpose({ isDark });
 :global(.dark) .skeleton-table-row,
 .agent-human-conv--dark .skeleton-table-row {
   border-top-color: var(--kiut-border-light, #2d2d39);
+}
+
+.table-view-select {
+  width: 132px;
+  min-width: 132px;
+}
+
+.table-view-select :deep(button) {
+  min-height: 38px;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  font-size: 0.875rem;
 }
 
 .agent-table-section {
