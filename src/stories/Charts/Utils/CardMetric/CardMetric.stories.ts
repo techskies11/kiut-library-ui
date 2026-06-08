@@ -19,10 +19,11 @@ const meta: Meta<typeof CardMetric> = {
 Contenedor reutilizable para tarjetas KPI compactas: icono, badge de cambio, valor y etiqueta.
 
 ## Props
-- \`label\`: texto descriptivo bajo el valor.
+- \`label\`: texto descriptivo bajo el valor o en el header (según \`labelPosition\`).
 - \`value\`: valor formateado para mostrar.
 - \`prefix\`: prefijo opcional (ej. código de moneda).
 - \`valueSize\`: \`default\` (24px) o \`large\` (28px).
+- \`labelPosition\`: \`below\` (default) o \`header\` (junto al icono).
 - \`loading\`: muestra skeleton completo con animación shimmer.
 - \`currentValue\` / \`previousValue\`: calculan el badge de cambio
         `,
@@ -114,6 +115,28 @@ export const NoPreviousData: Story = {
     currentValue: 87.5,
     previousValue: null,
     loading: false,
+  },
+  render: renderWithIcon,
+}
+
+export const LabelInHeader: Story = {
+  args: {
+    label: 'Conversations Opened',
+    value: '1,284',
+    labelPosition: 'header',
+    currentValue: 1284,
+    previousValue: 1185,
+    loading: false,
+  },
+  render: renderWithIcon,
+}
+
+export const LabelInHeaderLoading: Story = {
+  args: {
+    label: 'Conversations Opened',
+    value: '',
+    labelPosition: 'header',
+    loading: true,
   },
   render: renderWithIcon,
 }

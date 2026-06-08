@@ -1,20 +1,36 @@
 <template>
   <ChartMetricContainer
     :collapsible="false"
-    :class="['card-metric', 'w-full', { 'card-metric--dark': isDark }]"
+    :class="[
+      'card-metric',
+      'w-full',
+      {
+        'card-metric--dark': isDark,
+        'card-metric--label-header': labelInHeader,
+      },
+    ]"
   >
     <template #title>
       <Transition name="card-metric-fade" mode="out-in">
         <div
           v-if="loading"
           key="title-skeleton"
-          class="ut-skeleton-blink skeleton-icon"
+          class="header-title-group"
           aria-hidden="true"
-        />
+        >
+          <div class="ut-skeleton-blink skeleton-icon" />
+          <div
+            v-if="labelInHeader"
+            class="ut-skeleton-blink skeleton-header-label"
+          />
+        </div>
         <div v-else key="title-content" class="header-title-group">
           <div class="icon-wrapper" aria-hidden="true">
             <slot name="icon" />
           </div>
+          <span v-if="labelInHeader" class="metric-label metric-label--header">{{
+            label
+          }}</span>
         </div>
       </Transition>
     </template>
@@ -49,7 +65,7 @@
         aria-label="Loading metric"
       >
         <div class="ut-skeleton-blink skeleton-value" />
-        <div class="ut-skeleton-blink skeleton-label" />
+        <div v-if="!labelInHeader" class="ut-skeleton-blink skeleton-label" />
       </div>
 
       <div v-else key="body-content" class="highlight-inner">
@@ -62,7 +78,7 @@
               </span>
             </div>
           </slot>
-          <span class="metric-label">{{ label }}</span>
+          <span v-if="!labelInHeader" class="metric-label">{{ label }}</span>
         </div>
       </div>
     </Transition>
@@ -80,6 +96,8 @@ const props = withDefaults(
     value: string
     prefix?: string
     valueSize?: 'default' | 'large'
+    /** Ubicación de la etiqueta: bajo el valor (default) o en la fila del header junto al icono. */
+    labelPosition?: 'below' | 'header'
     loading?: boolean
     theme?: Theme
     currentValue?: number
@@ -88,6 +106,7 @@ const props = withDefaults(
   {
     prefix: undefined,
     valueSize: 'default',
+    labelPosition: 'below',
     loading: false,
     theme: undefined,
     currentValue: 0,
@@ -96,6 +115,8 @@ const props = withDefaults(
 )
 
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
+
+const labelInHeader = computed(() => props.labelPosition === 'header')
 
 const hasPreviousData = computed(
   () => props.previousValue !== null && props.previousValue !== undefined,
@@ -144,10 +165,21 @@ defineExpose({ isDark, changePercent })
   align-items: center;
 }
 
+.card-metric--label-header :deep(.header-content.metric-header-content) {
+  height: auto;
+  min-height: 24px;
+}
+
+.card-metric--label-header .card-body {
+  gap: 0;
+}
+
 .header-title-group {
   display: inline-flex;
   align-items: center;
   min-width: 0;
+  flex: 1;
+  gap: 6px;
 }
 
 .highlight-inner {
@@ -271,6 +303,18 @@ defineExpose({ isDark, changePercent })
   color: #61616b;
 }
 
+.metric-label--header {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-metric--dark .metric-label--header {
+  color: #9191a1;
+}
+
 .skeleton-body {
   display: flex;
   flex-direction: column;
@@ -282,7 +326,15 @@ defineExpose({ isDark, changePercent })
 .skeleton-icon {
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
   border-radius: 8px;
+}
+
+.skeleton-header-label {
+  flex: 1;
+  min-width: 0;
+  height: 14px;
+  border-radius: 6px;
 }
 
 .skeleton-badge {

@@ -37,7 +37,20 @@
                 col.headerClass ?? '',
               ]"
             >
-              {{ col.label }}
+              <button
+                v-if="col.sortable"
+                type="button"
+                class="kiut-table-sort-btn inline-flex items-center gap-1"
+                :class="alignClass(col.align)"
+                :aria-sort="ariaSortForColumn(col.key)"
+                @click="onSortColumn(col.key)"
+              >
+                <span>{{ col.label }}</span>
+                <span class="kiut-table-sort-icon" aria-hidden="true">{{
+                  sortIndicator(col.key)
+                }}</span>
+              </button>
+              <template v-else>{{ col.label }}</template>
             </th>
           </tr>
         </thead>
@@ -97,7 +110,11 @@ export interface TableColumn {
   align?: TableColumnAlign;
   headerClass?: string;
   cellClass?: string;
+  /** Header clickeable; requiere `sortKey` / `sortDirection` en la tabla y escuchar `@sort`. */
+  sortable?: boolean;
 }
+
+export type TableSortDirection = "asc" | "desc";
 
 const props = withDefaults(
   defineProps<{
@@ -115,6 +132,8 @@ const props = withDefaults(
      * según el contenido. El texto sobrante se trunca con `overflow-hidden`.
      */
     fixedLayout?: boolean;
+    sortKey?: string | null;
+    sortDirection?: TableSortDirection | null;
   }>(),
   {
     selectable: false,
@@ -123,11 +142,14 @@ const props = withDefaults(
     ariaLabelSelectAll: "Seleccionar todas las filas",
     ariaLabelSelectRow: "Seleccionar fila",
     fixedLayout: false,
+    sortKey: null,
+    sortDirection: null,
   },
 );
 
 const emit = defineEmits<{
   "update:selectedKeys": [keys: string[]];
+  sort: [key: string];
 }>();
 
 const selectAllRef = ref<HTMLInputElement | null>(null);
@@ -227,6 +249,24 @@ function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
   const k = resolveRowKey(row, index);
   return `${props.ariaLabelSelectRow} ${k}`;
 }
+
+function onSortColumn(key: string): void {
+  emit("sort", key);
+}
+
+function sortIndicator(key: string): string {
+  if (props.sortKey !== key) return "↕";
+  if (props.sortDirection === "asc") return "↑";
+  if (props.sortDirection === "desc") return "↓";
+  return "↕";
+}
+
+function ariaSortForColumn(
+  key: string,
+): "none" | "ascending" | "descending" {
+  if (props.sortKey !== key || !props.sortDirection) return "none";
+  return props.sortDirection === "asc" ? "ascending" : "descending";
+}
 </script>
 
 <style scoped>
@@ -280,5 +320,43 @@ function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
   .kiut-table-checkbox {
     transition: none;
   }
+}
+
+.kiut-table-sort-btn {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.kiut-table-sort-btn.text-left {
+  justify-content: flex-start;
+}
+
+.kiut-table-sort-btn.text-center {
+  justify-content: center;
+  width: 100%;
+}
+
+.kiut-table-sort-btn.text-right {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.kiut-table-sort-btn:focus-visible {
+  outline: 2px solid var(--kiut-primary-light, #a78bfa);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.kiut-table-sort-icon {
+  font-size: 0.75rem;
+  line-height: 1;
+  opacity: 0.75;
 }
 </style>
