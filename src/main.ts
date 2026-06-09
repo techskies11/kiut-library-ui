@@ -107,7 +107,11 @@ import DatePickerPresets from './components/Inputs/DatePickerPresets.vue';
 import Tag from './components/Tag/Tag.vue';
 export type { KiutTagColor } from './components/Tag/Tag.vue';
 import Button from './components/Button/Button.vue';
-export type { KiutButtonVariant, KiutButtonActionTone } from './components/Button/Button.vue';
+export type {
+  KiutButtonVariant,
+  KiutButtonActionTone,
+  KiutButtonMenuOption,
+} from './components/Button/Button.vue';
 import Modal from './components/Modal/Modal.vue';
 import Section from './components/Section/Section.vue';
 import AppShellNavigation from './components/AppShellNavigation/AppShellNavigation.vue';

@@ -1,6 +1,8 @@
+import { ArrowUpTrayIcon, LinkIcon } from '@heroicons/vue/24/outline';
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { h } from 'vue';
 import Button from './Button.vue';
+import type { KiutButtonMenuOption } from './Button.vue';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -11,14 +13,14 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component:
-          'Variantes **primary**, **secondary** y **action** (solo icono, fondo transparente; hover con acento de marca). Prop **`tooltip`** para burbuja encima del botón. **`tone="danger"`** en `action` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
+          'Variantes **primary**, **secondary**, **action** (solo icono, fondo transparente; hover con acento de marca) y **dropdown** (menú con opciones de icono, título y descripción). Prop **`tooltip`** para burbuja encima del botón. **`tone="danger"`** en `action` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
       },
     },
   },
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'action'],
+      options: ['primary', 'secondary', 'action', 'dropdown'],
     },
     tone: {
       control: 'select',
@@ -191,6 +193,55 @@ export const SideBySide: Story = {
 };
 
 /** Fila tipo columna "Acciones": solo icono, tooltip arriba, borde/fondo transparentes por defecto */
+const addDocumentOptions: KiutButtonMenuOption[] = [
+  {
+    value: 'attach',
+    label: 'Adjuntar documento',
+    description: 'Sube un archivo PDF',
+    icon: ArrowUpTrayIcon,
+  },
+  {
+    value: 'url',
+    label: 'Generar desde URL',
+    description: 'Extrae contenido de una página web',
+    icon: LinkIcon,
+  },
+];
+
+export const Dropdown: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' },
+  },
+  render: () => ({
+    components: { Button },
+    setup() {
+      const onSelect = (option: KiutButtonMenuOption) => {
+        // eslint-disable-next-line no-console
+        console.log('select', option.value);
+      };
+      return () =>
+        h(
+          'div',
+          { class: 'rounded-xl bg-[color:var(--kiut-bg-primary)] p-6 dark:bg-[#1a1a1c]' },
+          [
+            h(
+              Button,
+              {
+                variant: 'dropdown',
+                options: addDocumentOptions,
+                onSelect,
+              },
+              {
+                icon: iconPlus,
+                default: () => 'Agregar documento',
+              }
+            ),
+          ]
+        );
+    },
+  }),
+};
+
 export const ActionableRow: Story = {
   render: () => ({
     components: { Button },
