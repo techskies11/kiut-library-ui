@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="nps-pulse-root h-full min-h-0"
+    class="nps-pulse-root min-h-0"
     title="CSAT Pulse"
     subtitle="Weighted index: Σ(frequency × weight) / total surveys × 100"
     :collapsible="false"
@@ -19,11 +19,15 @@
 
       <div v-else key="content">
         <div v-if="hasPulseData" class="card-body">
-          <ChartLine
-            :data="lineData"
-            :options="lineOptions"
-            :uppercase-legend-labels="true"
-          />
+          <div
+            class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"
+          >
+            <ChartLine
+              :data="lineData"
+              :options="lineOptions"
+              :uppercase-legend-labels="true"
+            />
+          </div>
         </div>
 
         <div v-else class="empty-state">

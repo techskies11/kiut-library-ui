@@ -1,7 +1,7 @@
 <template>
   <ChartMetricContainer
-    class="nps-daily-root h-full min-h-0"
-    title="CSAT P95 by Date"
+    class="nps-daily-root min-h-0"
+    title="CSAT P95"
     subtitle="Daily P95 trend for CSAT responses"
     :collapsible="false"
     :loading="props.loading"
@@ -28,11 +28,15 @@
 
       <div v-else key="content">
         <div v-if="hasData" class="card-body">
-          <ChartLine
-            :data="lineData"
-            :options="lineOptions"
-            :uppercase-legend-labels="true"
-          />
+          <div
+            class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"
+          >
+            <ChartLine
+              :data="lineData"
+              :options="lineOptions"
+              :uppercase-legend-labels="true"
+            />
+          </div>
         </div>
 
         <div v-else class="empty-state">
@@ -91,6 +95,7 @@ const lineData = computed(() => ({
       pointBorderColor: "#7C3AED",
       pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
+      clip: false,
     },
   ],
 }));
@@ -99,9 +104,15 @@ const lineOptions = {
   scales: {
     y: {
       min: 0,
-      max: 11,
+      max: 10,
+      grace: 1,
       ticks: {
-        callback: (value) => Number(value).toFixed(2),
+        stepSize: 1,
+        callback: (value) => {
+          const num = Number(value);
+          if (!Number.isInteger(num) || num < 0 || num > 10) return "";
+          return String(num);
+        },
       },
     },
   },

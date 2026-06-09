@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="nps-resolution-root h-full min-h-0"
+    class="nps-resolution-root min-h-0"
     title="CSAT Resolution"
     subtitle="Resolution answers distribution (1=Si, 2=No)"
     :collapsible="false"

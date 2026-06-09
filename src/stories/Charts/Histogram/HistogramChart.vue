@@ -891,9 +891,7 @@ defineExpose({ isDark });
 <style scoped>
 .chart-container {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  height: 100%;
-  min-height: 450px;
-  max-height: 550px;
+  width: 100%;
   border-radius: 16px;
   position: relative;
 }
@@ -932,16 +930,4 @@ defineExpose({ isDark });
   stroke-width: 2.5;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .chart-container {
-    min-height: 400px;
-  }
-}
-
-@media (max-width: 480px) {
-  .chart-container {
-    min-height: 350px;
-  }
-}
 </style>

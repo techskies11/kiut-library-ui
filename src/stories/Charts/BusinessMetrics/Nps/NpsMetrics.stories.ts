@@ -37,6 +37,17 @@ const mockNpsData = {
       p95_score: 10,
     },
   ],
+  resolution_breakdown: [
+    { score: 1, label: 'Si', count: 820, percentage: 68.5 },
+    { score: 2, label: 'No', count: 377, percentage: 31.5 },
+  ],
+  csat_pulse_by_day: [
+    { date: '2024-11-01', csat_pulse: 42.5 },
+    { date: '2024-11-02', csat_pulse: 38.2 },
+    { date: '2024-11-03', csat_pulse: 45.8 },
+    { date: '2024-11-04', csat_pulse: 41.0 },
+    { date: '2024-11-05', csat_pulse: 47.3 },
+  ],
 };
 
 const meta = {
@@ -55,6 +66,14 @@ const meta = {
     enableExport: {
       control: 'boolean',
       description: 'Habilita o deshabilita el footer de exportación',
+    },
+    showResolutionChart: {
+      control: 'boolean',
+      description: 'Muestra el gráfico de distribución de respuestas de resolución (CSAT Resolution)',
+    },
+    showCsatPulseChart: {
+      control: 'boolean',
+      description: 'Muestra el gráfico de tendencia CSAT Pulse',
     },
     onExport: {
       action: 'export',
@@ -141,6 +160,27 @@ export const EmptyData: Story = {
       }
     }
   }
+};
+
+/**
+ * Vista completa con gráficos de resolución y CSAT Pulse habilitados
+ */
+export const WithResolutionAndPulse: Story = {
+  args: {
+    data: mockNpsData,
+    loading: false,
+    enableExport: true,
+    showResolutionChart: true,
+    showCsatPulseChart: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Muestra el dashboard completo de CSAT incluyendo CSAT Resolution y CSAT Pulse cuando ambos flags están activos.',
+      },
+    },
+  },
 };
 
 /**

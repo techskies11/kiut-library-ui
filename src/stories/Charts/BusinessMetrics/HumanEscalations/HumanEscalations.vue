@@ -47,48 +47,20 @@
           <div
             class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"
           >
-            <LineChart :data="dataChart" :theme="theme" />
-          </div>
-
-          <div class="flex flex-wrap gap-4">
-            <div
-              v-for="item in legendItems"
-              :key="`legend-${item.key}`"
-              class="inline-flex items-center gap-2 text-sm"
-            >
-              <span
-                class="inline-block h-2.5 w-2.5 rounded-full"
-                :style="{ backgroundColor: item.color }"
-              ></span>
-              <span class="text-[var(--kiut-text-primary,#111827)]">{{
-                item.label
-              }}</span>
-            </div>
+            <LineChart :data="dataChart" :options="chartOptions" :theme="theme" />
           </div>
 
           <div
             class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5"
           >
-            <div
+            <CardInfo
               v-for="item in topCards"
               :key="`card-${item.key}`"
-              class="rounded-xl border border-[var(--kiut-border-light,#e5e7eb)] p-3"
-            >
-              <p
-                class="flex items-center gap-2 truncate text-sm font-medium text-[var(--kiut-text-secondary,#6b7280)]"
-              >
-                <span
-                  class="inline-block h-2.5 w-2.5 rounded-full"
-                  :style="{ backgroundColor: item.color }"
-                ></span>
-                <span class="truncate">{{ item.label }}</span>
-              </p>
-              <p
-                class="mt-1 text-2xl font-bold text-[var(--kiut-text-primary,#111827)]"
-              >
-                {{ item.percentage.toFixed(1) }}%
-              </p>
-            </div>
+              class="min-w-0"
+              :color="item.color"
+              :title="item.label"
+              :value="`${item.percentage.toFixed(1)}%`"
+            />
           </div>
         </section>
 
@@ -121,6 +93,7 @@ import { computed, ref, toRef, watch } from "vue";
 import moment from "moment";
 import LineChart from "../../Line/ChartLine.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
 import {
   useThemeDetection,
   type Theme,
@@ -227,6 +200,19 @@ const palette = [
 ];
 
 const getColor = (index: number): string => palette[index % palette.length];
+
+const chartOptions = {
+  scales: {
+    y: {
+      min: 0,
+      max: 100,
+      ticks: {
+        stepSize: 25,
+        callback: (value: number | string) => `${value}%`,
+      },
+    },
+  },
+};
 
 const emitChangeBreakdown = (): void => {
   emit("changeBreakdown", selectedBreakdown.value);

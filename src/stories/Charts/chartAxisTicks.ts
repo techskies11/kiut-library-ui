@@ -38,7 +38,20 @@ export function applyChartAxisTickLimits(
     }
 
     if (Y_KEYS.test(key)) {
-      ticksCopy.maxTicksLimit = CHART_Y_MAX_TICKS
+      if (Array.isArray(ticksCopy.values) && ticksCopy.values.length > 0) {
+        ticksCopy.maxTicksLimit = ticksCopy.values.length
+      } else if (ticksCopy.stepSize != null) {
+        const min = Number(scaleCopy.min ?? scaleCopy.suggestedMin ?? 0)
+        const max = Number(scaleCopy.max ?? scaleCopy.suggestedMax ?? 0)
+        const step = Number(ticksCopy.stepSize)
+        if (max > min && step > 0) {
+          ticksCopy.maxTicksLimit = Math.floor((max - min) / step) + 1
+        } else {
+          ticksCopy.maxTicksLimit = CHART_Y_MAX_TICKS
+        }
+      } else {
+        ticksCopy.maxTicksLimit = CHART_Y_MAX_TICKS
+      }
     }
 
     scaleCopy.ticks = ticksCopy

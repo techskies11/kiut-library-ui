@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="nps-overview-root h-full min-h-0"
+    class="nps-overview-root min-h-0"
     title="CSAT Overview Metrics"
     subtitle="Overall CSAT Distribution"
     :collapsible="false"
@@ -134,13 +134,10 @@ const { isDark } = useThemeDetection(toRef(props, "theme"));
 
 const npsData = computed(() => props.data);
 
-// Chart dimensions (responsive to container width)
-const chartWidth = computed(() => {
-  return Math.max(600, window.innerWidth * 0.85);
-});
-const chartHeight = 500;
-const chartMargin = 60;
-const chartBottomMargin = 80;
+const chartWidth = 520;
+const chartHeight = 280;
+const chartMargin = 44;
+const chartBottomMargin = 52;
 
 // Expose isDark for potential use in templates
 defineExpose({ isDark });
@@ -150,9 +147,12 @@ defineExpose({ isDark });
 /* Card Body */
 .card-body {
   animation: fadeIn 0.5s ease-out;
-  flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.chart-wrapper {
+  width: 100%;
 }
 
 /* Empty State */
