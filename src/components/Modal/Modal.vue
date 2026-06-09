@@ -17,7 +17,8 @@
         aria-modal="true"
         :aria-labelledby="titleId"
         tabindex="-1"
-        class="kiut-modal-panel relative z-10 flex max-h-[min(90vh,880px)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] shadow-[var(--kiut-shadow-card)] dark:bg-[#252528] dark:shadow-black/40"
+        class="kiut-modal-panel relative z-10 flex max-h-[min(90vh,880px)] w-full flex-col overflow-hidden rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] shadow-[var(--kiut-shadow-card)] dark:bg-[#252528] dark:shadow-black/40"
+        :style="widthStyle"
         @click.stop
       >
         <header
@@ -70,7 +71,7 @@
 
 <script setup lang="ts">
 import { XMarkIcon } from '@heroicons/vue/24/outline';
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
 import Button from '../Button/Button.vue';
 
@@ -84,12 +85,17 @@ const props = withDefaults(
     subtitle?: string;
     cancelLabel?: string;
     confirmLabel?: string;
+    /** Ancho máximo del panel en px. Por defecto `512`. */
+    width?: number;
   }>(),
   {
     cancelLabel: 'Cancelar',
     confirmLabel: 'Guardar',
+    width: 512,
   }
 );
+
+const widthStyle = computed(() => ({ maxWidth: `${props.width}px` }));
 
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
