@@ -13,7 +13,7 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component:
-          'Variantes **primary**, **secondary**, **action** (solo icono, fondo transparente; hover con acento de marca) y **dropdown** (menú con opciones de icono, título y descripción). Prop **`tooltip`** para burbuja encima del botón. **`tone="danger"`** en `action` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
+          'Variantes **primary**, **secondary**, **action** (solo icono, fondo transparente; hover con acento de marca) y **dropdown** (menú con opciones de icono, título y descripción). Prop **`menuAlign`** (`left` | `right`) para anclar el panel al borde izquierdo o derecho del botón. Prop **`tooltip`** para burbuja encima del botón. **`tone="danger"`** en `action` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
       },
     },
   },
@@ -228,6 +228,43 @@ export const Dropdown: Story = {
               Button,
               {
                 variant: 'dropdown',
+                options: addDocumentOptions,
+                onSelect,
+              },
+              {
+                icon: iconPlus,
+                default: () => 'Agregar documento',
+              }
+            ),
+          ]
+        );
+    },
+  }),
+};
+
+/** Botón al borde derecho: `menuAlign="right"` evita que el panel se salga de la pantalla. */
+export const DropdownAlignRight: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' },
+    layout: 'fullscreen',
+  },
+  render: () => ({
+    components: { Button },
+    setup() {
+      const onSelect = (option: KiutButtonMenuOption) => {
+        // eslint-disable-next-line no-console
+        console.log('select', option.value);
+      };
+      return () =>
+        h(
+          'div',
+          { class: 'flex min-h-[12rem] items-start justify-end rounded-xl bg-[color:var(--kiut-bg-primary)] p-6 dark:bg-[#1a1a1c]' },
+          [
+            h(
+              Button,
+              {
+                variant: 'dropdown',
+                menuAlign: 'right',
                 options: addDocumentOptions,
                 onSelect,
               },

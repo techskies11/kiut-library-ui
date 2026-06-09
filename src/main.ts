@@ -111,6 +111,7 @@ export type {
   KiutButtonVariant,
   KiutButtonActionTone,
   KiutButtonMenuOption,
+  KiutButtonMenuAlign,
 } from './components/Button/Button.vue';
 import Modal from './components/Modal/Modal.vue';
 import Section from './components/Section/Section.vue';

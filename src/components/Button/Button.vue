@@ -172,6 +172,9 @@ export interface KiutButtonMenuOption {
   disabled?: boolean;
 }
 
+/** Alineación horizontal del panel respecto al botón disparador. */
+export type KiutButtonMenuAlign = 'left' | 'right';
+
 const props = withDefaults(
   defineProps<{
     variant?: KiutButtonVariant;
@@ -184,6 +187,12 @@ const props = withDefaults(
     options?: KiutButtonMenuOption[];
     /** Ancho mínimo del panel desplegable (CSS length). */
     menuMinWidth?: string;
+    /**
+     * Alineación del panel respecto al botón.
+     * `left`: borde izquierdo del menú con el borde izquierdo del botón.
+     * `right`: borde derecho del menú con el borde derecho del botón (útil cuando el botón está al borde derecho).
+     */
+    menuAlign?: KiutButtonMenuAlign;
   }>(),
   {
     variant: 'primary',
@@ -191,6 +200,7 @@ const props = withDefaults(
     disabled: false,
     options: () => [],
     menuMinWidth: '280px',
+    menuAlign: 'left',
   }
 );
 
@@ -288,11 +298,20 @@ function updatePosition() {
   const btn = buttonRef.value;
   if (!btn) return;
   const rect = btn.getBoundingClientRect();
-  floatingStyle.value = {
+  const style: Record<string, string> = {
     top: `${rect.bottom - 3}px`,
-    left: `${rect.left}px`,
     minWidth: `max(${rect.width}px, ${props.menuMinWidth})`,
   };
+
+  if (props.menuAlign === 'right') {
+    style.right = `${window.innerWidth - rect.right}px`;
+    style.left = 'auto';
+  } else {
+    style.left = `${rect.left}px`;
+    style.right = 'auto';
+  }
+
+  floatingStyle.value = style;
 }
 
 function menuItemClass(index: number) {
