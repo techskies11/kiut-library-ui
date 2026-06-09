@@ -1,7 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import { BuildingStorefrontIcon } from '@heroicons/vue/24/outline';
+import { ref } from 'vue';
+import { BuildingStorefrontIcon, UsersIcon, TagIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline';
 import Button from '../Button/Button.vue';
+import Tabs from '../Tabs/Tabs.vue';
+import type { TabItem } from '../Tabs/Tabs.vue';
 import Section from './Section.vue';
+
+const tabItems: TabItem[] = [
+  { value: 'users', label: 'Usuarios', icon: UsersIcon },
+  { value: 'tags', label: 'Etiquetas', icon: TagIcon },
+  { value: 'roles', label: 'Roles', icon: ShieldCheckIcon },
+];
 
 const meta: Meta<typeof Section> = {
   title: 'Components/Section',
@@ -11,8 +20,19 @@ const meta: Meta<typeof Section> = {
     layout: 'padded',
     docs: {
       description: {
-        component:
-          'Marco de vista con tres slots: **#description** (título, texto, filtros u otra información a la izquierda), **#actions** (acciones alineadas a la derecha en la misma fila) y **#content** o slot por defecto (cuerpo debajo). La primera fila usa `justify-between` en `sm+`. Usa la toolbar **Theme** para revisar claro/oscuro.',
+        component: `
+Marco de vista con slots de cabecera flexibles y un slot de contenido.
+
+| Slot | Descripción |
+|---|---|
+| \`#description\` | Bloque propio encima de todo (título, subtítulo, icono). |
+| \`#tabs\` | Fila de pestañas. Si **no hay** \`#filters\`, las \`#actions\` se colocan en la misma fila a la derecha. Si **hay** \`#filters\`, los tabs quedan solos en esta fila. |
+| \`#filters\` | Fila de filtros (izquierda). Cuando coexiste con \`#tabs\`, aparece debajo de ellos. |
+| \`#actions\` | Acciones (derecha). Si hay \`#tabs\` sin \`#filters\` → misma fila que tabs. Si hay \`#filters\` → misma fila que filtros. Si no hay nada más → fila propia alineada a la derecha. |
+| \`#content\` / default | Cuerpo de la sección. |
+
+Usa la toolbar **Theme** para revisar claro/oscuro.
+        `,
       },
     },
   },
@@ -349,6 +369,129 @@ export const SoloDescripcionYContenido: Story = {
             </div>
           </template>
           <p class="text-sm text-[color:var(--kiut-text-secondary)] dark:text-slate-400">Contenido con slot por defecto (sin <code class="rounded bg-black/5 px-1 dark:bg-white/10">#content</code>).</p>
+        </Section>
+      </div>
+    `,
+  }),
+};
+
+export const TabsSinFiltros: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Slot **#tabs** sin **#filters**: los tabs quedan a la izquierda y las **#actions** se colocan en la misma fila a la derecha.',
+      },
+    },
+  },
+  render: () => ({
+    components: { Section, Button, Tabs },
+    setup() {
+      const activeTab = ref('users');
+      return { activeTab, tabItems };
+    },
+    template: `
+      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+        <Section>
+          <template #tabs>
+            <Tabs v-model="activeTab" :items="tabItems" aria-label="Secciones" />
+          </template>
+          <template #actions>
+            <Button variant="primary" type="button">
+              <template #icon>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+              </template>
+              Agregar
+            </Button>
+          </template>
+          <template #content>
+            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+              Contenido de la pestaña <strong>{{ activeTab }}</strong>.
+            </div>
+          </template>
+        </Section>
+      </div>
+    `,
+  }),
+};
+
+export const TabsConFiltros: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Slot **#tabs** con **#filters**: los tabs ocupan su propia fila arriba, y debajo los filtros quedan a la izquierda alineados con las **#actions** a la derecha.',
+      },
+    },
+  },
+  render: () => ({
+    components: { Section, Button, Tabs },
+    setup() {
+      const activeTab = ref('users');
+      return { activeTab, tabItems };
+    },
+    template: `
+      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+        <Section>
+          <template #tabs>
+            <Tabs v-model="activeTab" :items="tabItems" aria-label="Secciones" />
+          </template>
+          <template #filters>
+            <input
+              type="text"
+              placeholder="Buscar..."
+              class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] outline-none focus:ring-2 focus:ring-[color:var(--kiut-primary)]/30 dark:bg-black/20 dark:text-slate-100"
+            />
+            <select class="rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] px-3 py-1.5 text-sm text-[color:var(--kiut-text-primary)] dark:bg-black/20 dark:text-slate-100">
+              <option>Todos los estados</option>
+              <option>Activo</option>
+              <option>Inactivo</option>
+            </select>
+          </template>
+          <template #actions>
+            <Button variant="primary" type="button">
+              <template #icon>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M12 5v14M5 12h14"/></svg>
+              </template>
+              Agregar
+            </Button>
+          </template>
+          <template #content>
+            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+              Contenido de la pestaña <strong>{{ activeTab }}</strong>.
+            </div>
+          </template>
+        </Section>
+      </div>
+    `,
+  }),
+};
+
+export const TabsSolos: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: 'Solo el slot **#tabs** sin filtros ni acciones.',
+      },
+    },
+  },
+  render: () => ({
+    components: { Section, Tabs },
+    setup() {
+      const activeTab = ref('users');
+      return { activeTab, tabItems };
+    },
+    template: `
+      <div class="rounded-2xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-6 dark:bg-[#1a1a1d]">
+        <Section>
+          <template #tabs>
+            <Tabs v-model="activeTab" :items="tabItems" aria-label="Secciones" />
+          </template>
+          <template #content>
+            <div class="rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] p-4 text-sm text-[color:var(--kiut-text-secondary)] dark:bg-black/20 dark:text-slate-400">
+              Contenido de la pestaña <strong>{{ activeTab }}</strong>.
+            </div>
+          </template>
         </Section>
       </div>
     `,
