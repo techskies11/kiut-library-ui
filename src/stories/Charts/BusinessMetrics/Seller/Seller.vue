@@ -31,9 +31,7 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            height="500px"
-            :use-gradient="false"
-            :node-gap="24"
+            height="560px"
           />
         </div>
       </section>
@@ -513,6 +511,14 @@ const cashOptionCardValue = computed((): string =>
   formatCurrencyBreakdownCard(cashOptionByCurrency.value),
 );
 
+const humanizeFailureReason = (reason: string): string =>
+  reason
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+const formatFailureNodeLabel = (reason: string): string =>
+  `Failed:\n${humanizeFailureReason(reason)}`;
+
 const sankeyData = computed(() => {
   const {
     total_seller_conversations: conversations = 0,
@@ -534,11 +540,16 @@ const sankeyData = computed(() => {
     success - (successBankTransfer ?? 0) - (successCash ?? 0),
   );
 
-  const nodes: { name: string; value: number }[] = [
-    { name: "Sell Initiated", value: conversations },
-    { name: "Sell Started", value: started },
-    { name: "Booking Created", value: bookingCreated },
-    { name: "Sell Success", value: successOnline },
+  const nodes: {
+    name: string;
+    value: number;
+    status?: "success" | "abandon" | "error";
+    label?: string;
+  }[] = [
+    { name: "Sell Initiated", value: conversations, status: "success" },
+    { name: "Sell Started", value: started, status: "success" },
+    { name: "Booking Created", value: bookingCreated, status: "success" },
+    { name: "Sell Success", value: successOnline, status: "success" },
   ];
 
   const links: {
@@ -551,7 +562,11 @@ const sankeyData = computed(() => {
   // Initial drop-off
   const droppedBeforeSales = conversations - started;
   if (droppedBeforeSales > 0) {
-    nodes.push({ name: "Abandoned (Init)", value: droppedBeforeSales });
+    nodes.push({
+      name: "Abandoned (Init)",
+      value: droppedBeforeSales,
+      status: "abandon",
+    });
     links.push({
       source: "Sell Initiated",
       target: "Abandoned (Init)",
@@ -595,7 +610,7 @@ const sankeyData = computed(() => {
   }
 
   if (bankTransfer > 0) {
-    nodes.push({ name: "Bank Transfer", value: bankTransfer });
+    nodes.push({ name: "Bank Transfer", value: bankTransfer, status: "success" });
     links.push({
       source: "Booking Created",
       target: "Bank Transfer",
@@ -605,7 +620,7 @@ const sankeyData = computed(() => {
   }
 
   if (cashOption > 0) {
-    nodes.push({ name: "Cash Option", value: cashOption });
+    nodes.push({ name: "Cash Option", value: cashOption, status: "success" });
     links.push({
       source: "Booking Created",
       target: "Cash Option",
@@ -627,6 +642,7 @@ const sankeyData = computed(() => {
     nodes.push({
       name: "Bank Transfer Success",
       value: successBankTransfer ?? 0,
+      status: "success",
     });
     links.push({
       source: "Bank Transfer",
@@ -637,7 +653,11 @@ const sankeyData = computed(() => {
   }
 
   if ((successCash ?? 0) > 0) {
-    nodes.push({ name: "Cash Option Success", value: successCash ?? 0 });
+    nodes.push({
+      name: "Cash Option Success",
+      value: successCash ?? 0,
+      status: "success",
+    });
     links.push({
       source: "Cash Option",
       target: "Cash Option Success",
@@ -649,7 +669,11 @@ const sankeyData = computed(() => {
   const failedAtCompletion =
     bookingCreated - successOnline - bankTransfer - cashOption;
   if (failedAtCompletion > 0) {
-    nodes.push({ name: "Failed at Completion", value: failedAtCompletion });
+    nodes.push({
+      name: "Failed at Completion",
+      value: failedAtCompletion,
+      status: "error",
+    });
     links.push({
       source: "Booking Created",
       target: "Failed at Completion",
@@ -660,7 +684,11 @@ const sankeyData = computed(() => {
 
   const failedAtBooking = started - bookingCreated;
   if (failedAtBooking > 0) {
-    nodes.push({ name: "Failed at Booking", value: failedAtBooking });
+    nodes.push({
+      name: "Failed at Booking",
+      value: failedAtBooking,
+      status: "error",
+    });
     links.push({
       source: "Sell Started",
       target: "Failed at Booking",
@@ -680,17 +708,28 @@ const sankeyData = computed(() => {
       .filter(([, count]) => count > 0)
       .sort(([, a], [, b]) => b - a)
       .forEach(([reason, count]) => {
-        nodes.push({ name: `Failed: ${reason}`, value: count });
+        const nodeName = `Failed: ${reason}`;
+        nodes.push({
+          name: nodeName,
+          value: count,
+          status: "error",
+          label: formatFailureNodeLabel(reason),
+        });
         links.push({
           source: "Failed at Booking",
-          target: `Failed: ${reason}`,
+          target: nodeName,
           value: count,
           label: formatSankeyLinkLabel(count, conversations),
         });
       });
 
     if (withoutReason > 0) {
-      nodes.push({ name: "Failed: Without Reason", value: withoutReason });
+      nodes.push({
+        name: "Failed: Without Reason",
+        value: withoutReason,
+        status: "error",
+        label: "Failed:\nWithout Reason",
+      });
       links.push({
         source: "Failed at Booking",
         target: "Failed: Without Reason",

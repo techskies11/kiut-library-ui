@@ -51,8 +51,8 @@ interface SankeyNode {
   status?: SankeyNodeStatus;
   /** Valor del paso; si falta, se infiere de links entrantes/salientes */
   value?: number;
-  /** Etiqueta ya formateada; si falta, se genera */
-  label?: string;
+  /** Etiqueta ya formateada (string) o config ECharts por nodo (objeto, generado al procesar) */
+  label?: string | Record<string, unknown>;
   displayLabel?: string;
   [key: string]: any;
 }
@@ -190,13 +190,18 @@ const responsiveConfig = computed(() => {
   };
 });
 
-/**
- * Salto de línea real (`\\n`) para etiquetas; sin "...".
- * Respeta palabras; si no caben, recorta por longitud fija.
- */
-const wrapLabelName = (name: string, maxCharsPerLine: number): string => {
-  const t = name.trim();
-  if (!t || maxCharsPerLine < 1) return name;
+const prepareLabelText = (text: string): string => {
+  const normalized = text.replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+  const failedMatch = normalized.match(/^Failed:\s*(.+)$/i);
+  if (failedMatch) {
+    return `Failed:\n${failedMatch[1].trim()}`;
+  }
+  return normalized;
+};
+
+const wrapSingleLine = (line: string, maxCharsPerLine: number): string => {
+  const t = line.trim();
+  if (!t || maxCharsPerLine < 1) return t;
   if (t.length <= maxCharsPerLine) return t;
 
   const lines: string[] = [];
@@ -220,6 +225,21 @@ const wrapLabelName = (name: string, maxCharsPerLine: number): string => {
     }
   }
   return lines.join('\n');
+};
+
+/**
+ * Salto de línea real (`\\n`) para etiquetas; sin "...".
+ * Respeta saltos existentes y palabras; si no caben, recorta por longitud fija.
+ */
+const wrapLabelName = (name: string, maxCharsPerLine: number): string => {
+  const trimmed = name.trim();
+  if (!trimmed || maxCharsPerLine < 1) return name;
+
+  return trimmed
+    .split('\n')
+    .map((segment) => wrapSingleLine(segment.trim(), maxCharsPerLine))
+    .filter(Boolean)
+    .join('\n');
 };
 
 interface LabelBox {
@@ -409,9 +429,11 @@ const buildNodeDisplayLabel = (
   links: SankeyLink[],
   maxCharsPerLine: number,
 ): string => {
-  if (node.label) return wrapLabelName(node.label, maxCharsPerLine);
+  if (typeof node.label === 'string' && node.label) {
+    return wrapLabelName(prepareLabelText(node.label), maxCharsPerLine);
+  }
 
-  const wrappedName = wrapLabelName(node.name, maxCharsPerLine);
+  const wrappedName = wrapLabelName(prepareLabelText(node.name), maxCharsPerLine);
   if (status === 'success' && originTotal > 0) {
     const stepValue = getNodeStepValue(node.name, links, node);
     const pct = formatPercentage(stepValue, originTotal);
@@ -559,9 +581,17 @@ const processSankeyData = (
       STATUS_COLORS[status] ||
       DEFAULT_COLORS[index % DEFAULT_COLORS.length];
 
+    const labelWidth = Math.max(Math.ceil(box.nodeWidth - LABEL_PADDING * 2), 48);
+
     return {
       ...node,
       displayLabel,
+      label: {
+        width: labelWidth,
+        overflow: 'none' as const,
+        lineHeight,
+        fontSize: cfg.labelFontSize,
+      },
       itemStyle: {
         color,
         borderRadius: 4,
@@ -734,9 +764,11 @@ const setOptions = () => {
             align: 'center',
             verticalAlign: 'middle',
             overflow: 'none' as const,
-            ...(cfg.labelWrap && cfg.labelTextWidth > 0
-              ? { width: cfg.labelTextWidth, overflow: 'none' as const }
-              : {}),
+            ...(cfg.orient === 'horizontal'
+              ? { width: Math.max(maxNodeWidth - LABEL_PADDING * 2, 48), overflow: 'none' as const }
+              : cfg.labelWrap && cfg.labelTextWidth > 0
+                ? { width: cfg.labelTextWidth, overflow: 'none' as const }
+                : {}),
             ...(cfg.labelDistance > 0 ? { distance: cfg.labelDistance } : {}),
             fontFamily: "'Inter', 'DM Sans', sans-serif",
             formatter: (params: any) => params.data?.displayLabel || params.name || '',
