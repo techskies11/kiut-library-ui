@@ -28,9 +28,9 @@
       <!-- Grid lines -->
       <template v-for="(tick, index) in yAxisTicks" :key="`grid-${index}`">
         <line
-          :x1="chartMargin"
+          :x1="plotLeft"
           :y1="tick.y"
-          :x2="chartWidth - chartMargin"
+          :x2="plotRight"
           :y2="tick.y"
           :stroke="svgColors.gridLine"
           stroke-width="1"
@@ -94,9 +94,9 @@
 
       <!-- X-axis (horizontal axis for scores 1-10) -->
       <line
-        :x1="chartMargin"
+        :x1="plotLeft"
         :y1="chartHeight - chartBottomMargin"
-        :x2="chartWidth - chartMargin"
+        :x2="plotRight"
         :y2="chartHeight - chartBottomMargin"
         :stroke="svgColors.axis"
         stroke-width="2"
@@ -104,22 +104,22 @@
 
       <!-- X-axis arrow -->
       <polygon
-        :points="`${chartWidth - chartMargin},${chartHeight - chartBottomMargin - 4} ${chartWidth - chartMargin},${chartHeight - chartBottomMargin + 4} ${chartWidth - chartMargin + 10},${chartHeight - chartBottomMargin}`"
+        :points="`${plotRight - 4},${chartHeight - chartBottomMargin - 4} ${plotRight - 4},${chartHeight - chartBottomMargin + 4} ${plotRight},${chartHeight - chartBottomMargin}`"
         :fill="svgColors.axis"
       />
 
       <!-- X-axis ticks and labels (scores 1-10) -->
-      <template v-for="(bar, index) in histogramData" :key="`tick-${index}`">
+      <template v-for="tick in xAxisTicks" :key="`tick-${tick.score}`">
         <line
-          :x1="bar.x"
+          :x1="tick.x"
           :y1="chartHeight - chartBottomMargin"
-          :x2="bar.x"
+          :x2="tick.x"
           :y2="chartHeight - chartBottomMargin + 5"
           :stroke="svgColors.tickLine"
           stroke-width="1"
         />
         <text
-          :x="bar.x"
+          :x="tick.x"
           :y="chartHeight - chartBottomMargin + 20"
           text-anchor="middle"
           :fill="svgColors.labelText"
@@ -127,7 +127,7 @@
           font-weight="600"
           font-family="'DM Sans', sans-serif"
         >
-          {{ bar.score }}
+          {{ tick.score }}
         </text>
       </template>
 
@@ -176,7 +176,7 @@
       <!-- Statistical lines -->
       <!-- Min line -->
       <line
-        v-if="minX"
+        v-if="showStatLabels && minX"
         :x1="minX"
         :y1="chartMargin"
         :x2="minX"
@@ -187,7 +187,7 @@
         opacity="0.8"
       />
       <text
-        v-if="minX"
+        v-if="showStatLabels && minX"
         :x="minX"
         :y="chartHeight - chartBottomMargin + 60"
         text-anchor="middle"
@@ -201,7 +201,7 @@
 
       <!-- Q1 line -->
       <line
-        v-if="q1X"
+        v-if="showStatLabels && q1X"
         :x1="q1X"
         :y1="chartMargin"
         :x2="q1X"
@@ -212,7 +212,7 @@
         opacity="0.8"
       />
       <text
-        v-if="q1X"
+        v-if="showStatLabels && q1X"
         :x="q1X"
         :y="getLabelY('q1')"
         text-anchor="middle"
@@ -226,7 +226,7 @@
 
       <!-- Median line -->
       <line
-        v-if="medianX"
+        v-if="showStatLabels && medianX"
         :x1="medianX"
         :y1="chartMargin"
         :x2="medianX"
@@ -237,7 +237,7 @@
         opacity="0.9"
       />
       <text
-        v-if="medianX"
+        v-if="showStatLabels && medianX"
         :x="medianX"
         :y="getLabelY('median')"
         text-anchor="middle"
@@ -251,7 +251,7 @@
 
       <!-- Average line -->
       <line
-        v-if="averageX"
+        v-if="showStatLabels && averageX"
         :x1="averageX"
         :y1="chartMargin"
         :x2="averageX"
@@ -262,7 +262,7 @@
         opacity="0.9"
       />
       <text
-        v-if="averageX"
+        v-if="showStatLabels && averageX"
         :x="averageX"
         :y="getLabelY('avg')"
         text-anchor="middle"
@@ -276,7 +276,7 @@
 
       <!-- Q3 line -->
       <line
-        v-if="q3X"
+        v-if="showStatLabels && q3X"
         :x1="q3X"
         :y1="chartMargin"
         :x2="q3X"
@@ -287,7 +287,7 @@
         opacity="0.8"
       />
       <text
-        v-if="q3X"
+        v-if="showStatLabels && q3X"
         :x="q3X"
         :y="getLabelY('q3')"
         text-anchor="middle"
@@ -301,7 +301,7 @@
 
       <!-- Max line -->
       <line
-        v-if="maxX"
+        v-if="showStatLabels && maxX"
         :x1="maxX"
         :y1="chartMargin"
         :x2="maxX"
@@ -312,7 +312,7 @@
         opacity="0.8"
       />
       <text
-        v-if="maxX"
+        v-if="showStatLabels && maxX"
         :x="maxX"
         :y="chartHeight - chartBottomMargin + 60"
         text-anchor="middle"
@@ -449,8 +449,11 @@ const props = withDefaults(defineProps<{
   chartWidth?: number;
   chartHeight?: number;
   chartMargin?: number;
+  chartMarginRight?: number;
   chartBottomMargin?: number;
+  plotInset?: number;
   showLegend?: boolean;
+  showStatLabels?: boolean;
   /** When false, disables tooltip, cursor change, and hover styling on bars/container/curve */
   interactive?: boolean;
   theme?: Theme;
@@ -465,8 +468,11 @@ const props = withDefaults(defineProps<{
   chartWidth: 800,
   chartHeight: 450,
   chartMargin: 60,
+  chartMarginRight: undefined,
   chartBottomMargin: 80,
+  plotInset: 6,
   showLegend: true,
+  showStatLabels: true,
   interactive: true,
   theme: undefined
 });
@@ -553,9 +559,31 @@ const tooltip = ref({
   anchorX: null as number | null,
 });
 
-const plotWidth = computed(() => props.chartWidth - props.chartMargin * 2);
+const chartMarginRightResolved = computed(
+  () => props.chartMarginRight ?? props.chartMargin,
+);
+
+const plotLeft = computed(() => props.chartMargin + props.plotInset);
+const plotRight = computed(
+  () => props.chartWidth - chartMarginRightResolved.value - props.plotInset,
+);
+const plotWidth = computed(() => Math.max(plotRight.value - plotLeft.value, 1));
 const plotHeight = computed(() => props.chartHeight - props.chartMargin - props.chartBottomMargin);
-const barWidth = computed(() => plotWidth.value / 10 * 0.6);
+const barWidth = computed(() => (plotWidth.value / 10) * 0.52);
+
+function valueToX(value: number): number | null {
+  if (value < 1 || value > 10) return null;
+  const barSpacing = plotWidth.value / 10;
+  return plotLeft.value + (value - 0.5) * barSpacing;
+}
+
+const xAxisTicks = computed(() =>
+  Array.from({ length: 10 }, (_, index) => {
+    const score = index + 1;
+    const x = valueToX(score);
+    return x === null ? null : { score, x };
+  }).filter((tick): tick is { score: number; x: number } => tick !== null),
+);
 
 const maxCount = computed(() => {
   if (!props.histogram || props.histogram.length === 0) return 1;
@@ -634,26 +662,24 @@ const histogramData = computed(() => {
   if (!props.histogram || props.histogram.length === 0) return [];
   
   const barSpacing = plotWidth.value / 10;
-  return props.histogram.map((item, index) => {
-    const x = props.chartMargin + (index + 0.5) * barSpacing;
+  return props.histogram.map((item) => {
+    const score = Number(item.score);
+    if (!Number.isFinite(score) || score < 1 || score > 10) {
+      return null;
+    }
+    const x = plotLeft.value + (score - 0.5) * barSpacing;
     const height = item.count > 0 ? (item.count / maxCount.value) * plotHeight.value : 0;
     const y = props.chartHeight - props.chartBottomMargin - height;
     
     return {
-      score: item.score,
+      score,
       count: item.count,
       x,
       y,
-      height
+      height,
     };
-  });
+  }).filter((bar): bar is NonNullable<typeof bar> => bar !== null);
 });
-
-const valueToX = (value: number): number | null => {
-  if (value < 1 || value > 10) return null;
-  const barSpacing = plotWidth.value / 10;
-  return props.chartMargin + (value - 0.5) * barSpacing;
-};
 
 const minX = computed(() => valueToX(props.minScore));
 const maxX = computed(() => valueToX(props.maxScore));
@@ -902,6 +928,7 @@ defineExpose({ isDark });
 
 .histogram-svg {
   display: block;
+  overflow: visible;
 }
 
 .histogram-bar {

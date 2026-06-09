@@ -43,7 +43,11 @@
           :chart-width="chartWidth"
           :chart-height="chartHeight"
           :chart-margin="chartMargin"
+          :chart-margin-right="chartMarginRight"
           :chart-bottom-margin="chartBottomMargin"
+          :plot-inset="10"
+          :show-legend="false"
+          :show-stat-labels="false"
         />
       </div>
       <div
@@ -135,9 +139,10 @@ const { isDark } = useThemeDetection(toRef(props, "theme"));
 const npsData = computed(() => props.data);
 
 const chartWidth = 520;
-const chartHeight = 280;
-const chartMargin = 44;
-const chartBottomMargin = 52;
+const chartHeight = 300;
+const chartMargin = 40;
+const chartMarginRight = 48;
+const chartBottomMargin = 48;
 
 // Expose isDark for potential use in templates
 defineExpose({ isDark });
@@ -153,6 +158,7 @@ defineExpose({ isDark });
 
 .chart-wrapper {
   width: 100%;
+  overflow: visible;
 }
 
 /* Empty State */
