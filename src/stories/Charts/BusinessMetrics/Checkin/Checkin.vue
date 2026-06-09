@@ -32,10 +32,9 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            :height="'500px'"
-            :node-colors="sankeyNodeColors"
+            height="500px"
             :use-gradient="false"
-            :node-gap="30"
+            :node-gap="24"
           />
         </div>
       </section>
@@ -152,6 +151,7 @@ import { ref, computed, watch } from "vue";
 import moment from "moment";
 import { useNumberFormat } from "../../../../plugins/numberFormat";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
+import { formatSankeyLinkLabel, formatSankeyPercentage } from "../../Sankey/sankeyFormatters";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import { FooterExport } from "../../Utils/FooterExport";
 import Table from "../../Utils/Table/Table.vue";
@@ -291,54 +291,9 @@ const failedDataInternal = computed(() => {
   return props.failedData ?? DEFAULT_FAILED_DATA;
 });
 
-// Computed para colores dinámicos del Sankey (basado en sellerMetrics)
-const sankeyNodeColors = computed(() => {
-  const baseColors = {
-    // Main flow progression - from blue to purple to green
-    "Checkin Init": "#93C5FD", // Blue for started state
-    "Booking retrive": "#C7D2FE", // Light purple
-    "Booking retrive success": "#A5B4FC", // Medium purple for success
-    "Number of Passengers": "#8B8CF6", // Medium purple
-    Completed: "#A7F3D0", // Light green
-    "Closed with BP": "#7BE39E", // Green for success
-
-    // Abandoned states - progressive yellow/orange
-    "Abandoned (Init)": "#FCA5A5", // Light red
-    "Abandoned (Started)": "#F87171", // Medium red
-    "Abandoned (Flow)": "#EF4444", // Darker red
-
-    "BP Error": "#EF4444", // Darker red for boarding pass error
-    // Failed states - progressive red intensity
-    Unrecovered: "#F87171", // Medium red for main unrecovered node
-  };
-
-  // Agregar colores para pasos específicos de unrecovered dinámicamente
-  const unrecoveredSteps = failedDataInternal.value.unrecovered_by_step || [];
-  unrecoveredSteps.forEach((step) => {
-    const stepName = step.step_name.replace(/_/g, " ");
-    const capitalizedStepName = stepName
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
-    // Different red intensities for different error types
-    const errorColors = {
-      "Get Seatmap": "#DC2626",
-      "Save Missing Info": "#F87171",
-      "Checkin Segments": "#EF4444",
-      "Assign Seat": "#F87171",
-    };
-
-    baseColors[capitalizedStepName] =
-      errorColors[capitalizedStepName] || "#DC2626";
-  });
-
-  return baseColors;
-});
-
 const calculatePercentage = (value, total) => {
-  if (!total || total === 0) return "0%";
-  return `${Math.round((value / total) * 100)}%`;
+  if (!total || total === 0) return "0.0%";
+  return formatSankeyPercentage(value, total);
 };
 
 const formatValueWithPercentage = (value, total) => {
@@ -384,88 +339,79 @@ const sankeyData = computed(() => {
 
   // Flujo principal: Checkin Init -> Booking retrive (usar initiated como base 100%)
   if (init > 0) {
-    const percentage = Math.round((init / initiated) * 100);
     links.push({
       source: "Checkin Init",
       target: "Booking retrive",
       value: init,
-      label: `${init.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(init, initiated),
     });
   }
 
   // Abandono 1: Checkin Init -> Abandonados (antes de Booking retrive) (usar initiated como base)
   const abandonedBeforeInit = initiated - init;
   if (abandonedBeforeInit > 0) {
-    const percentage = Math.round((abandonedBeforeInit / initiated) * 100);
-    nodes.push({ name: "Abandoned (Init)" });
+    nodes.push({ name: "Abandoned (Init)", status: "abandon" });
     links.push({
       source: "Checkin Init",
       target: "Abandoned (Init)",
       value: abandonedBeforeInit,
-      label: `${abandonedBeforeInit.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(abandonedBeforeInit, initiated),
     });
   }
 
   // Abandono 2: Booking retrive -> Abandonados (después de Booking retrive) (usar initiated como base)
   if (abandonedInit > 0) {
-    const percentage = Math.round((abandonedInit / initiated) * 100);
-    nodes.push({ name: "Abandoned (Started)" });
+    nodes.push({ name: "Abandoned (Started)", status: "abandon" });
     links.push({
       source: "Booking retrive",
       target: "Abandoned (Started)",
       value: abandonedInit,
-      label: `${abandonedInit.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(abandonedInit, initiated),
     });
   }
 
   // Flujo principal: Booking retrive -> Booking retrive success (usar initiated como base 100%)
   if (bookingSuccess > 0) {
-    const percentage = Math.round((bookingSuccess / initiated) * 100);
     links.push({
       source: "Booking retrive",
       target: "Booking retrive success",
       value: bookingSuccess,
-      label: `${bookingSuccess.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(bookingSuccess, initiated),
     });
   }
 
   // Flujo principal: Booking retrive success -> Number of Passengers (usar initiated como base 100%)
   if (started > 0) {
-    const percentage = Math.round((started / initiated) * 100);
     links.push({
       source: "Booking retrive success",
       target: "Number of Passengers",
       value: started,
-      label: `${started.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(started, initiated),
     });
   }
 
   // Desde aquí, usar Number of Passengers como base 100%
   // Flujo principal: Number of Passengers -> Completed
   if (completed > 0) {
-    const percentage = Math.round((completed / started) * 100);
     links.push({
       source: "Number of Passengers",
       target: "Completed",
       value: completed,
-      label: `${completed.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(completed, started),
     });
   }
 
   // Errores no recuperables por paso (usar started como base)
   if (unrecoveredSteps.length > 0 && totalUnrecovered > 0) {
-    nodes.push({ name: "Unrecovered" });
+    nodes.push({ name: "Unrecovered", status: "error" });
 
-    // Number of Passengers -> Unrecovered (nodo intermedio)
-    const percentage = Math.round((totalUnrecovered / started) * 100);
     links.push({
       source: "Number of Passengers",
       target: "Unrecovered",
       value: totalUnrecovered,
-      label: `${totalUnrecovered.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(totalUnrecovered, started),
     });
 
-    // Unrecovered -> cada paso específico (usar started como base)
     unrecoveredSteps.forEach((step) => {
       const stepName = step.step_name.replace(/_/g, " ");
       const capitalizedStepName = stepName
@@ -473,53 +419,47 @@ const sankeyData = computed(() => {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 
-      const stepPercentage = Math.round((step.count / started) * 100);
-      nodes.push({ name: capitalizedStepName });
+      nodes.push({ name: capitalizedStepName, status: "error" });
       links.push({
         source: "Unrecovered",
         target: capitalizedStepName,
         value: step.count,
-        label: `${step.count.toLocaleString()} (${stepPercentage}%)`,
+        label: formatSankeyLinkLabel(step.count, started),
       });
     });
   }
 
   // Abandono 3: Number of Passengers -> Abandonados (en flujo) (usar started como base)
-  // Usuarios que llegaron a Number of Passengers pero no completaron ni tuvieron error no recuperable
   const abandonedFlow = started - (completed + totalUnrecovered);
   if (abandonedFlow > 0) {
-    const percentage = Math.round((abandonedFlow / started) * 100);
-    nodes.push({ name: "Abandoned (Flow)" });
+    nodes.push({ name: "Abandoned (Flow)", status: "abandon" });
     links.push({
       source: "Number of Passengers",
       target: "Abandoned (Flow)",
       value: abandonedFlow,
-      label: `${abandonedFlow.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(abandonedFlow, started),
     });
   }
 
   // Error Boarding Pass: Completed -> BP Error (usar started como base)
-  // Se agrega después de todos los errores para mantener el orden vertical
   const bpError = completed - closed;
   if (bpError > 0) {
-    const percentage = Math.round((bpError / started) * 100);
-    nodes.push({ name: "BP Error" });
+    nodes.push({ name: "BP Error", status: "error" });
     links.push({
       source: "Completed",
       target: "BP Error",
       value: bpError,
-      label: `${bpError.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(bpError, started),
     });
   }
 
   // Flujo principal: Completed -> Closed with BP (usar started como base)
   if (closed > 0) {
-    const percentage = Math.round((closed / started) * 100);
     links.push({
       source: "Completed",
       target: "Closed with BP",
       value: closed,
-      label: `${closed.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(closed, started),
     });
   }
 

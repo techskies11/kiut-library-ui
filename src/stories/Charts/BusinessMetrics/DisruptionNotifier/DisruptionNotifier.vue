@@ -37,8 +37,9 @@
             <SankeyChart
               v-if="funnelData.nodes.length > 0 && funnelData.links.length > 0"
               :data="funnelData"
-              :node-colors="funnelColors"
               height="350px"
+              :use-gradient="false"
+              :node-gap="24"
             />
             <div v-else class="empty-chart">
               <p class="empty-chart-text">
@@ -231,6 +232,7 @@
 import { computed, toRef } from "vue";
 import moment from "moment";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
+import { formatSankeyLinkLabel } from "../../Sankey/sankeyFormatters";
 import LineChart from "../../Line/ChartLine.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
@@ -406,19 +408,16 @@ const funnelData = computed(() => {
   const dqTotal = procTotals.value.totalDqErrors;
   const notContactable = Math.max(0, contactable - notified);
 
-  const fl = (v: number, t: number): string => {
-    const p = t > 0 ? Math.round((v / t) * 100) : 0;
-    return `${v.toLocaleString()} (${p}%)`;
-  };
+  const fl = (v: number, t: number): string => formatSankeyLinkLabel(v, t);
 
   const nodes = [
-    { name: "Records Detected" },
-    { name: "Valid Reservations" },
-    { name: "Invalid / Unprocessed" },
-    { name: "Contactable" },
-    { name: "Data Quality Issues" },
-    { name: "Notified" },
-    { name: "Not Delivered" },
+    { name: "Records Detected", status: "success" as const },
+    { name: "Valid Reservations", status: "success" as const },
+    { name: "Invalid / Unprocessed", status: "error" as const },
+    { name: "Contactable", status: "success" as const },
+    { name: "Data Quality Issues", status: "error" as const },
+    { name: "Notified", status: "success" as const },
+    { name: "Not Delivered", status: "abandon" as const },
   ];
 
   const links: {
@@ -473,16 +472,6 @@ const funnelData = computed(() => {
 
   return { nodes, links };
 });
-
-const funnelColors: Record<string, string> = {
-  "Records Detected": "#DBEAFE",
-  "Valid Reservations": "#D1FAE5",
-  "Invalid / Unprocessed": "#FEE2E2",
-  Contactable: "#BBF7D0",
-  "Data Quality Issues": "#FED7AA",
-  Notified: "#86EFAC",
-  "Not Delivered": "#FCA5A5",
-};
 
 // Trend: notification success rate per day
 const trendChartData = computed(() => {

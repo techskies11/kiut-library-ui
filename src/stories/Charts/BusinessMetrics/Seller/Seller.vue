@@ -31,9 +31,9 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            :node-colors="sankeyNodeColors"
-            title=""
-            height="320px"
+            height="500px"
+            :use-gradient="false"
+            :node-gap="24"
           />
         </div>
       </section>
@@ -274,6 +274,10 @@
 import { computed, toRef } from "vue";
 import moment from "moment";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
+import {
+  formatSankeyLinkLabel,
+  formatSankeyPercentage,
+} from "../../Sankey/sankeyFormatters";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
 import {
@@ -547,24 +551,21 @@ const sankeyData = computed(() => {
   // Initial drop-off
   const droppedBeforeSales = conversations - started;
   if (droppedBeforeSales > 0) {
-    const percentage = Math.round((droppedBeforeSales / conversations) * 100);
     nodes.push({ name: "Abandoned (Init)", value: droppedBeforeSales });
     links.push({
       source: "Sell Initiated",
       target: "Abandoned (Init)",
       value: droppedBeforeSales,
-      label: `${droppedBeforeSales.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(droppedBeforeSales, conversations),
     });
   }
 
-  // Flow from Conversations to Sell Started
   if (started > 0) {
-    const percentage = Math.round((started / conversations) * 100);
     links.push({
       source: "Sell Initiated",
       target: "Sell Started",
       value: started,
-      label: `${started.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(started, conversations),
     });
   }
 
@@ -584,55 +585,45 @@ const sankeyData = computed(() => {
       {} as Record<string, number>,
     );
 
-  // Main sequential flow
   if (bookingCreated > 0) {
-    const percentage = Math.round((bookingCreated / conversations) * 100);
     links.push({
       source: "Sell Started",
       target: "Booking Created",
       value: bookingCreated,
-      label: `${bookingCreated.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(bookingCreated, conversations),
     });
   }
 
-  // From Booking Created: independent branches for payment methods, success, and failure
   if (bankTransfer > 0) {
-    const percentage = Math.round((bankTransfer / conversations) * 100);
     nodes.push({ name: "Bank Transfer", value: bankTransfer });
     links.push({
       source: "Booking Created",
       target: "Bank Transfer",
       value: bankTransfer,
-      label: `${bankTransfer.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(bankTransfer, conversations),
     });
   }
 
   if (cashOption > 0) {
-    const percentage = Math.round((cashOption / conversations) * 100);
     nodes.push({ name: "Cash Option", value: cashOption });
     links.push({
       source: "Booking Created",
       target: "Cash Option",
       value: cashOption,
-      label: `${cashOption.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(cashOption, conversations),
     });
   }
 
   if (successOnline > 0) {
-    const percentage = Math.round((successOnline / conversations) * 100);
     links.push({
       source: "Booking Created",
       target: "Sell Success",
       value: successOnline,
-      label: `${successOnline.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(successOnline, conversations),
     });
   }
 
-  // ETL-confirmed success nodes after Bank Transfer and Cash Option
   if ((successBankTransfer ?? 0) > 0) {
-    const percentage = Math.round(
-      ((successBankTransfer ?? 0) / conversations) * 100,
-    );
     nodes.push({
       name: "Bank Transfer Success",
       value: successBankTransfer ?? 0,
@@ -641,48 +632,43 @@ const sankeyData = computed(() => {
       source: "Bank Transfer",
       target: "Bank Transfer Success",
       value: successBankTransfer ?? 0,
-      label: `${(successBankTransfer ?? 0).toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(successBankTransfer ?? 0, conversations),
     });
   }
 
   if ((successCash ?? 0) > 0) {
-    const percentage = Math.round(((successCash ?? 0) / conversations) * 100);
     nodes.push({ name: "Cash Option Success", value: successCash ?? 0 });
     links.push({
       source: "Cash Option",
       target: "Cash Option Success",
       value: successCash ?? 0,
-      label: `${(successCash ?? 0).toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(successCash ?? 0, conversations),
     });
   }
 
   const failedAtCompletion =
     bookingCreated - successOnline - bankTransfer - cashOption;
   if (failedAtCompletion > 0) {
-    const percentage = Math.round((failedAtCompletion / conversations) * 100);
     nodes.push({ name: "Failed at Completion", value: failedAtCompletion });
     links.push({
       source: "Booking Created",
       target: "Failed at Completion",
       value: failedAtCompletion,
-      label: `${failedAtCompletion.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(failedAtCompletion, conversations),
     });
   }
 
-  // Failed flows from Sell Started
   const failedAtBooking = started - bookingCreated;
   if (failedAtBooking > 0) {
-    const percentage = Math.round((failedAtBooking / conversations) * 100);
     nodes.push({ name: "Failed at Booking", value: failedAtBooking });
     links.push({
       source: "Sell Started",
       target: "Failed at Booking",
       value: failedAtBooking,
-      label: `${failedAtBooking.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(failedAtBooking, conversations),
     });
   }
 
-  // Specific failure reasons
   if (Object.keys(failedByReasons).length > 0) {
     const totalFailedReasons = Object.values(failedByReasons).reduce(
       (sum, count) => sum + count,
@@ -694,24 +680,22 @@ const sankeyData = computed(() => {
       .filter(([, count]) => count > 0)
       .sort(([, a], [, b]) => b - a)
       .forEach(([reason, count]) => {
-        const percentage = Math.round((count / conversations) * 100);
         nodes.push({ name: `Failed: ${reason}`, value: count });
         links.push({
           source: "Failed at Booking",
           target: `Failed: ${reason}`,
           value: count,
-          label: `${count.toLocaleString()} (${percentage}%)`,
+          label: formatSankeyLinkLabel(count, conversations),
         });
       });
 
     if (withoutReason > 0) {
-      const percentage = Math.round((withoutReason / conversations) * 100);
       nodes.push({ name: "Failed: Without Reason", value: withoutReason });
       links.push({
         source: "Failed at Booking",
         target: "Failed: Without Reason",
         value: withoutReason,
-        label: `${withoutReason.toLocaleString()} (${percentage}%)`,
+        label: formatSankeyLinkLabel(withoutReason, conversations),
       });
     }
   }
@@ -719,39 +703,9 @@ const sankeyData = computed(() => {
   return { nodes, links };
 });
 
-const SANKEY_SELLER_COLORS: Record<string, string> = {
-  "Sell Initiated": "#DBEAFE",
-  "Abandoned (Init)": "#FEE2E2",
-  "Sell Started": "#93C5FD",
-  "Get Quote": "#C7D2FE",
-  "Booking Created": "#8B8CF6",
-  "Bank Transfer": "#fde68a",
-  "Cash Option": "#fde68a",
-  "Bank Transfer Success": "#4ade80",
-  "Cash Option Success": "#4ade80",
-  "Other Payment": "#818CF8",
-  "Sell Success": "#7BE39E",
-  "Sell Failed": "#FCA5A5",
-  "Failed at Quote": "#FCA5A5",
-  "Failed at Booking": "#F87171",
-  "Failed at Completion": "#EF4444",
-  "Failed: rejected": "#F87171",
-  "Failed: payment_processing": "#EF4444",
-  "Failed: seat_selection": "#F87171",
-  "Failed: booking_validation": "#EF4444",
-  "Failed: flight_availability": "#DC2626",
-  "Failed: passenger_data": "#F87171",
-  "Failed: system_error": "#DC2626",
-  "Failed: timeout": "#EF4444",
-  "Failed: Without Reason": "#F87171",
-};
 
-const sankeyNodeColors = computed(() => SANKEY_SELLER_COLORS);
-
-const calculatePercentage = (value: number, total: number): string => {
-  if (!total || total === 0) return "0%";
-  return `${Math.round((value / total) * 100)}%`;
-};
+const calculatePercentage = (value: number, total: number): string =>
+  formatSankeyPercentage(value, total);
 
 const formatValueWithPercentage = (value: number, total: number): string => {
   const formattedValue = useNumberFormat(value);

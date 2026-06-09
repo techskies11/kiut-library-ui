@@ -44,8 +44,16 @@ import { useBreakpoint, type Breakpoint } from '../../../composables/useBreakpoi
 
 echarts.use([TooltipComponent, TitleComponent, SankeyChart, CanvasRenderer]);
 
+type SankeyNodeStatus = 'success' | 'abandon' | 'error';
+
 interface SankeyNode {
   name: string;
+  status?: SankeyNodeStatus;
+  /** Valor del paso; si falta, se infiere de links entrantes/salientes */
+  value?: number;
+  /** Etiqueta ya formateada; si falta, se genera */
+  label?: string;
+  displayLabel?: string;
   [key: string]: any;
 }
 
@@ -100,13 +108,33 @@ let containerObserver: ResizeObserver | null = null;
 
 const CHART_CONFIG = {
   animation: { duration: 1000, easing: 'cubicOut' as const },
-  margins: { left: '2%', right: '2%', top: '2%', bottom: '2%' },
-  node: { width: 70, gap: 20, align: 'left' as const, iterations: 64 },
+  margins: { left: '3%', right: '8%', top: '4%', bottom: '4%' },
+  node: { width: 88, gap: 24, align: 'left' as const, iterations: 0 },
   style: {
-    shadowBlur: 4,
-    shadowColor: 'rgba(139, 92, 246, 0.15)',
+    shadowBlur: 0,
+    shadowColor: 'transparent',
   },
 };
+
+const LABEL_PADDING = 12;
+
+/** Colores sólidos tipo dashboard BM (verde / naranja / rojo sobre fondo oscuro). */
+const STATUS_COLORS: Record<SankeyNodeStatus, string> = {
+  success: '#66BB6A',
+  abandon: '#FFA726',
+  error: '#EF5350',
+};
+
+const STATUS_PRIORITY: Record<SankeyNodeStatus, number> = {
+  success: 0,
+  abandon: 1,
+  error: 2,
+};
+
+const ABANDON_PATTERN =
+  /abandon|exit|lost|bounce|cancelled|no pending|not paid|not confirmed|not delivered/i;
+const ERROR_PATTERN =
+  /error|failed|unrecovered|not retreiv|bp error|not found|rejected|redirect to human|invalid|unprocessed|data quality|failed:/i;
 
 /** Opciones de layout/labels según viewport (mobile: vertical, tablet: compacto, desktop: actual). */
 const responsiveConfig = computed(() => {
@@ -116,7 +144,6 @@ const responsiveConfig = computed(() => {
       orient: 'vertical' as const,
       nodeWidth: 18,
       nodeGap: 12,
-      // "top" recorta (clip interno) la etiqueta del nodo raíz; "right" deja el texto al lado de la franja
       labelPosition: 'right' as const,
       labelFontSize: 10,
       edgeLabelShow: true,
@@ -125,26 +152,23 @@ const responsiveConfig = computed(() => {
       labelCharsPerLine: 10,
       labelLineHeight: 12,
       labelTextWidth: 200,
-      labelMaxChars: 0,
       labelDistance: 6,
-      // Márgenes en px: más fiables que % para dejar aire a etiquetas/fluos
       contentMargins: { left: 10, right: 10, top: 28, bottom: 20 },
     };
   }
   if (bp === 'tablet') {
     return {
       orient: 'horizontal' as const,
-      nodeWidth: 40,
-      nodeGap: 16,
+      nodeWidth: 72,
+      nodeGap: 20,
       labelPosition: 'inside' as const,
       labelFontSize: 11,
-      edgeLabelShow: false,
+      edgeLabelShow: true,
       edgeLabelFontSize: 10,
-      labelWrap: false as const,
-      labelCharsPerLine: 0,
-      labelLineHeight: 0,
+      labelWrap: true as const,
+      labelCharsPerLine: 11,
+      labelLineHeight: 14,
       labelTextWidth: 0,
-      labelMaxChars: 12,
       labelDistance: 0,
       contentMargins: { ...CHART_CONFIG.margins },
     };
@@ -154,14 +178,13 @@ const responsiveConfig = computed(() => {
     nodeWidth: CHART_CONFIG.node.width,
     nodeGap: props.nodeGap,
     labelPosition: 'inside' as const,
-    labelFontSize: 12,
+    labelFontSize: 11,
     edgeLabelShow: true,
-    edgeLabelFontSize: 11,
-    labelWrap: false as const,
-    labelCharsPerLine: 0,
-    labelLineHeight: 0,
+    edgeLabelFontSize: 10,
+    labelWrap: true as const,
+    labelCharsPerLine: 12,
+    labelLineHeight: 15,
     labelTextWidth: 0,
-    labelMaxChars: 15,
     labelDistance: 0,
     contentMargins: { ...CHART_CONFIG.margins },
   };
@@ -199,6 +222,375 @@ const wrapLabelName = (name: string, maxCharsPerLine: number): string => {
   return lines.join('\n');
 };
 
+interface LabelBox {
+  lines: string[];
+  width: number;
+  height: number;
+  nodeWidth: number;
+}
+
+const resolveNodeStatus = (node: SankeyNode): SankeyNodeStatus => {
+  if (node.status) return node.status;
+  if (ABANDON_PATTERN.test(node.name)) return 'abandon';
+  if (ERROR_PATTERN.test(node.name)) return 'error';
+  return 'success';
+};
+
+const getLinkValue = (link: SankeyLink): number => link.originalValue ?? link.value;
+
+const computeOriginTotal = (nodes: SankeyNode[], links: SankeyLink[]): number => {
+  const hasIncoming = new Set(links.map((link) => link.target));
+  const roots = nodes.filter((node) => !hasIncoming.has(node.name));
+
+  for (const root of roots) {
+    if (typeof root.value === 'number' && root.value > 0) return root.value;
+    const outgoing = links.filter((link) => link.source === root.name);
+    if (outgoing.length > 0) {
+      return outgoing.reduce((sum, link) => sum + getLinkValue(link), 0);
+    }
+  }
+
+  return links.reduce((max, link) => Math.max(max, getLinkValue(link)), 0);
+};
+
+const getNodeStepValue = (
+  nodeName: string,
+  links: SankeyLink[],
+  node?: SankeyNode,
+): number => {
+  if (node && typeof node.value === 'number') return node.value;
+  const incoming = links.filter((link) => link.target === nodeName);
+  if (incoming.length > 0) {
+    return incoming.reduce((sum, link) => sum + getLinkValue(link), 0);
+  }
+  const outgoing = links.filter((link) => link.source === nodeName);
+  return outgoing.reduce((sum, link) => sum + getLinkValue(link), 0);
+};
+
+const computeNodeDepths = (nodes: SankeyNode[], links: SankeyLink[]): Map<string, number> => {
+  const depths = new Map<string, number>();
+  const hasIncoming = new Set(links.map((link) => link.target));
+  const queue: { name: string; depth: number }[] = nodes
+    .filter((node) => !hasIncoming.has(node.name))
+    .map((node) => ({ name: node.name, depth: 0 }));
+
+  while (queue.length > 0) {
+    const { name, depth } = queue.shift()!;
+    const existing = depths.get(name);
+    if (existing !== undefined && existing >= depth) continue;
+    depths.set(name, depth);
+
+    for (const link of links) {
+      if (link.source === name) {
+        queue.push({ name: link.target, depth: depth + 1 });
+      }
+    }
+  }
+
+  for (const node of nodes) {
+    if (!depths.has(node.name)) depths.set(node.name, 0);
+  }
+
+  return depths;
+};
+
+/** Camino principal success: raíz → mayor flujo success en cada paso. */
+const computeMainSuccessPathOrder = (
+  nodes: SankeyNode[],
+  links: SankeyLink[],
+): Map<string, number> => {
+  const order = new Map<string, number>();
+  const hasIncoming = new Set(links.map((link) => link.target));
+  const roots = nodes.filter((node) => !hasIncoming.has(node.name));
+
+  let index = 0;
+  const visit = (start: string) => {
+    let current: string | undefined = start;
+    while (current && !order.has(current)) {
+      order.set(current, index);
+      index += 1;
+
+      const successLinks = links
+        .filter(
+          (link) =>
+            link.source === current &&
+            resolveNodeStatus({ name: link.target } as SankeyNode) === 'success',
+        )
+        .sort((a, b) => getLinkValue(b) - getLinkValue(a));
+
+      current = successLinks[0]?.target;
+    }
+  };
+
+  roots.forEach((root) => visit(root.name));
+  return order;
+};
+
+const getNodeLayoutRank = (
+  node: SankeyNode,
+  links: SankeyLink[],
+  mainPathOrder: Map<string, number>,
+): number => {
+  const status = resolveNodeStatus(node);
+
+  if (status === 'success' && mainPathOrder.has(node.name)) {
+    return mainPathOrder.get(node.name)!;
+  }
+
+  if (status === 'success') {
+    const incoming = links.filter((link) => link.target === node.name);
+    const parentRank = incoming.length
+      ? Math.min(
+          ...incoming.map((link) =>
+            mainPathOrder.has(link.source)
+              ? (mainPathOrder.get(link.source) ?? 0) + 0.01
+              : 500,
+          ),
+        )
+      : 500;
+    return 200 + parentRank;
+  }
+
+  if (status === 'abandon') return 1000;
+  return 2000;
+};
+
+const prepareSankeyLayout = (nodes: SankeyNode[], links: SankeyLink[]): SankeyNode[] => {
+  const depths = computeNodeDepths(nodes, links);
+  const mainPathOrder = computeMainSuccessPathOrder(nodes, links);
+
+  return [...nodes].sort((a, b) => {
+    const depthA = depths.get(a.name) ?? 0;
+    const depthB = depths.get(b.name) ?? 0;
+    if (depthA !== depthB) return depthA - depthB;
+
+    const prioA = STATUS_PRIORITY[resolveNodeStatus(a)];
+    const prioB = STATUS_PRIORITY[resolveNodeStatus(b)];
+    if (prioA !== prioB) return prioA - prioB;
+
+    const rankA = getNodeLayoutRank(a, links, mainPathOrder);
+    const rankB = getNodeLayoutRank(b, links, mainPathOrder);
+    if (rankA !== rankB) return rankA - rankB;
+
+    return a.name.localeCompare(b.name);
+  });
+};
+
+const measureLabelBox = (
+  text: string,
+  fontSize: number,
+  lineHeight: number,
+  maxCharsPerLine: number,
+): LabelBox => {
+  const wrapped = wrapLabelName(text, maxCharsPerLine);
+  const lines = wrapped.split('\n');
+  const charWidth = fontSize * 0.58;
+  const maxLineChars = Math.max(...lines.map((line) => line.length), 1);
+  const width = maxLineChars * charWidth;
+  const height = lines.length * lineHeight;
+
+  return {
+    lines,
+    width,
+    height,
+    nodeWidth: width + LABEL_PADDING * 2,
+  };
+};
+
+const formatPercentage = (value: number, total: number): string => {
+  if (!total) return '0.0%';
+  return `${((value / total) * 100).toFixed(1)}%`;
+};
+
+const buildNodeDisplayLabel = (
+  node: SankeyNode,
+  status: SankeyNodeStatus,
+  originTotal: number,
+  links: SankeyLink[],
+  maxCharsPerLine: number,
+): string => {
+  if (node.label) return wrapLabelName(node.label, maxCharsPerLine);
+
+  const wrappedName = wrapLabelName(node.name, maxCharsPerLine);
+  if (status === 'success' && originTotal > 0) {
+    const stepValue = getNodeStepValue(node.name, links, node);
+    const pct = formatPercentage(stepValue, originTotal);
+    return `${wrappedName}\n(${pct})`;
+  }
+
+  return wrappedName;
+};
+
+interface ProcessedSankeyData {
+  nodes: SankeyNode[];
+  maxNodeWidth: number;
+  contentMargins: Record<string, number | string>;
+  originTotal: number;
+}
+
+const parseChartHeightPx = (height: string, elementHeight = 0): number => {
+  if (elementHeight > 0) return elementHeight;
+  const pxMatch = height.match(/^(\d+(?:\.\d+)?)px$/);
+  if (pxMatch) return Number(pxMatch[1]);
+  const vhMatch = height.match(/^(\d+(?:\.\d+)?)vh$/);
+  if (vhMatch && typeof window !== 'undefined') {
+    return (Number(vhMatch[1]) / 100) * window.innerHeight;
+  }
+  return 500;
+};
+
+/**
+ * ECharts calcula la altura del nodo según el valor del flujo.
+ * Aumentamos `value` (conservando `originalValue`) para garantizar altura mínima legible.
+ */
+const applyMinNodeHeights = (
+  links: SankeyLink[],
+  processedNodes: SankeyNode[],
+  cfg: {
+    labelFontSize: number;
+    labelLineHeight: number;
+    labelCharsPerLine: number;
+    nodeGap: number;
+  },
+  chartHeightPx: number,
+  originTotal: number,
+): SankeyLink[] => {
+  if (!processedNodes.length || !links.length || originTotal <= 0) return links;
+
+  const adjusted = links.map((link) => ({ ...link }));
+  const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
+  const maxCharsPerLine = Math.max(4, cfg.labelCharsPerLine);
+  const usableHeight = Math.max(chartHeightPx * 0.88, 260);
+  const depths = computeNodeDepths(processedNodes, adjusted);
+
+  const nodesPerDepth = new Map<number, number>();
+  processedNodes.forEach((node) => {
+    const depth = depths.get(node.name) ?? 0;
+    nodesPerDepth.set(depth, (nodesPerDepth.get(depth) ?? 0) + 1);
+  });
+
+  const getMinValue = (nodeName: string): number => {
+    const node = processedNodes.find((item) => item.name === nodeName);
+    const label = node?.displayLabel || nodeName;
+    const box = measureLabelBox(label, cfg.labelFontSize, lineHeight, maxCharsPerLine);
+    const minPx = box.height + LABEL_PADDING * 2;
+    const depth = depths.get(nodeName) ?? 0;
+    const columnCount = nodesPerDepth.get(depth) ?? 1;
+    const gapPerNode = ((Math.max(columnCount, 1) - 1) * cfg.nodeGap) / Math.max(columnCount, 1);
+    const effectiveHeight = Math.max(usableHeight - gapPerNode, minPx);
+    return Math.max(1, (minPx / effectiveHeight) * originTotal);
+  };
+
+  const getNodeFlow = (nodeName: string): number => {
+    const incoming = adjusted.filter((link) => link.target === nodeName);
+    if (incoming.length > 0) {
+      return incoming.reduce((sum, link) => sum + link.value, 0);
+    }
+    return adjusted
+      .filter((link) => link.source === nodeName)
+      .reduce((sum, link) => sum + link.value, 0);
+  };
+
+  for (let pass = 0; pass < 16; pass += 1) {
+    let changed = false;
+    for (const node of processedNodes) {
+      const minVal = getMinValue(node.name);
+      const current = getNodeFlow(node.name);
+      if (current >= minVal) continue;
+
+      const incoming = adjusted.filter((link) => link.target === node.name);
+      const outgoing = adjusted.filter((link) => link.source === node.name);
+      const linksToScale = incoming.length > 0 ? incoming : outgoing;
+      if (linksToScale.length === 0) continue;
+
+      const factor = minVal / Math.max(current, 1e-6);
+      linksToScale.forEach((link) => {
+        link.value *= factor;
+      });
+      changed = true;
+    }
+    if (!changed) break;
+  }
+
+  return adjusted;
+};
+
+const processSankeyData = (
+  nodes: SankeyNode[],
+  links: SankeyLink[],
+  cfg: {
+    orient: 'horizontal' | 'vertical';
+    labelFontSize: number;
+    labelLineHeight: number;
+    labelCharsPerLine: number;
+    labelDistance: number;
+    nodeWidth: number;
+    contentMargins: Record<string, number | string>;
+  },
+): ProcessedSankeyData => {
+  const originTotal = computeOriginTotal(nodes, links);
+  const sortedNodes = prepareSankeyLayout(nodes, links);
+  const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
+  const maxCharsPerLine = Math.max(4, cfg.labelCharsPerLine);
+
+  let maxNodeWidth = cfg.nodeWidth;
+  const displayLabels: string[] = [];
+
+  const processedNodes = sortedNodes.map((node, index) => {
+    const status = resolveNodeStatus(node);
+    const displayLabel = buildNodeDisplayLabel(
+      node,
+      status,
+      originTotal,
+      links,
+      maxCharsPerLine,
+    );
+    displayLabels.push(displayLabel);
+
+    const box = measureLabelBox(displayLabel, cfg.labelFontSize, lineHeight, maxCharsPerLine);
+    if (cfg.orient === 'vertical') {
+      maxNodeWidth = Math.max(maxNodeWidth, box.height + LABEL_PADDING * 2);
+    } else {
+      maxNodeWidth = Math.max(maxNodeWidth, box.nodeWidth);
+    }
+
+    const color =
+      props.nodeColors[node.name] ||
+      STATUS_COLORS[status] ||
+      DEFAULT_COLORS[index % DEFAULT_COLORS.length];
+
+    return {
+      ...node,
+      displayLabel,
+      itemStyle: {
+        color,
+        borderRadius: 4,
+        borderWidth: 0,
+        shadowBlur: 0,
+        shadowColor: 'transparent',
+      },
+    };
+  });
+
+  let contentMargins = { ...cfg.contentMargins };
+  if (cfg.orient === 'vertical') {
+    const maxLabelWidth = Math.max(
+      ...displayLabels.map((label) =>
+        measureLabelBox(label, cfg.labelFontSize, lineHeight, maxCharsPerLine).width,
+      ),
+      0,
+    );
+    const baseRight =
+      typeof contentMargins.right === 'number' ? contentMargins.right : 10;
+    contentMargins = {
+      ...contentMargins,
+      right: Math.max(baseRight, maxLabelWidth + LABEL_PADDING + cfg.labelDistance),
+    };
+  }
+
+  return { nodes: processedNodes, maxNodeWidth, contentMargins, originTotal };
+};
+
 // Default purple colors from design system
 const DEFAULT_COLORS = [
   '#C67DFF', // Primary light
@@ -229,15 +621,6 @@ const validateData = () => {
   };
 };
 
-const createNodesWithColors = (nodes: SankeyNode[]) =>
-  nodes.map((node, index) => ({
-    ...node,
-    itemStyle: {
-      color: props.nodeColors[node.name] || DEFAULT_COLORS[index % DEFAULT_COLORS.length],
-      borderRadius: 8,
-    },
-  }));
-
 const createTooltipFormatter = (validLinks: SankeyLink[]) => (params: any) => {
   const isNode = params.dataType === 'node';
   const tooltipTextColor = colors.value.tooltipText;
@@ -267,24 +650,44 @@ const setOptions = () => {
   if (!chartInstance || !props.data.nodes?.length || !props.data.links?.length) return;
 
   const cfg = responsiveConfig.value;
-  /** Flujos entre nodos (sin color de origen ni gradientes). */
-  const linkColor = isDark.value
-    ? 'rgb(34, 34, 45)'
-    : 'rgb(240, 240, 242)';
-  const linkColorEmphasis = isDark.value
-    ? 'rgb(34, 34, 45)'
-    : 'rgb(240, 240, 242)';
+  /** Flujos entre nodos: cintas grises semitransparentes sobre fondo oscuro/claro. */
+  const linkColor = isDark.value ? 'rgba(110, 110, 120, 0.35)' : 'rgba(148, 163, 184, 0.45)';
+  const linkColorEmphasis = isDark.value ? 'rgba(130, 130, 140, 0.5)' : 'rgba(100, 116, 139, 0.55)';
+  const edgeLabelColor = isDark.value ? 'rgba(203, 213, 225, 0.92)' : '#64748b';
+  const nodeLabelColor =
+    cfg.labelPosition === 'inside'
+      ? '#ffffff'
+      : isDark.value
+        ? colors.value.textPrimary
+        : '#334155';
 
   try {
     const { nodes: validNodes, links: validLinks } = validateData();
-    const nodesWithColors = createNodesWithColors(validNodes);
+    const { nodes: processedNodes, maxNodeWidth, contentMargins, originTotal } = processSankeyData(
+      validNodes,
+      validLinks,
+      cfg,
+    );
+    const chartHeightPx = parseChartHeightPx(props.height, chartEl.value?.clientHeight ?? 0);
+    const layoutLinks = applyMinNodeHeights(
+      validLinks,
+      processedNodes,
+      {
+        labelFontSize: cfg.labelFontSize,
+        labelLineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
+        labelCharsPerLine: cfg.labelCharsPerLine,
+        nodeGap: cfg.nodeGap,
+      },
+      chartHeightPx,
+      originTotal,
+    );
 
     const chartOptions = {
       tooltip: {
         trigger: 'item',
         triggerOn: 'mousemove|click',
         confine: true,
-        formatter: createTooltipFormatter(validLinks),
+        formatter: createTooltipFormatter(layoutLinks),
         backgroundColor: colors.value.tooltipBg,
         borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
         borderWidth: 1,
@@ -302,8 +705,8 @@ const setOptions = () => {
       series: [
         {
           type: 'sankey',
-          data: nodesWithColors,
-          links: validLinks,
+          data: processedNodes,
+          links: layoutLinks,
           emphasis: {
             focus: 'adjacency',
             lineStyle: {
@@ -311,77 +714,59 @@ const setOptions = () => {
               opacity: 1,
             },
           },
-          levels: [
-            {
-              depth: 0,
-              itemStyle: { 
-                color: '#8b5cf6',
-                borderRadius: 8,
-              },
-              lineStyle: { color: linkColor, opacity: 1 },
-            },
-            {
-              depth: 1,
-              itemStyle: { 
-                color: '#8b5cf6',
-                borderRadius: 8,
-              },
-              lineStyle: { color: linkColor, opacity: 1 },
-            },
-          ],
           lineStyle: {
             color: linkColor,
             curveness: 0.5,
             opacity: 1,
           },
-          itemStyle: CHART_CONFIG.style,
+          itemStyle: {
+            ...CHART_CONFIG.style,
+            borderWidth: 0,
+          },
           label: {
             show: true,
             position: cfg.labelPosition,
-            /** Dark: external labels (e.g. mobile `right`) use light text; inside nodes stay dark for contrast on pastel bars. */
-            color:
-              cfg.labelPosition === 'right' && isDark.value
-                ? colors.value.textPrimary
-                : '#0f172a',
-            fontWeight: 600,
+            color: nodeLabelColor,
+            fontWeight: 700,
             fontSize: cfg.labelFontSize,
-            ...(cfg.labelWrap && cfg.labelLineHeight > 0
-              ? { lineHeight: cfg.labelLineHeight }
-              : {}),
+            lineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
+            padding: LABEL_PADDING,
+            align: 'center',
+            verticalAlign: 'middle',
+            overflow: 'none' as const,
             ...(cfg.labelWrap && cfg.labelTextWidth > 0
               ? { width: cfg.labelTextWidth, overflow: 'none' as const }
               : {}),
             ...(cfg.labelDistance > 0 ? { distance: cfg.labelDistance } : {}),
-            fontFamily: "'DM Sans', sans-serif",
-            formatter: (params: any) => {
-              const name = params.name || '';
-              if (cfg.labelWrap) {
-                return wrapLabelName(name, Math.max(4, cfg.labelCharsPerLine));
-              }
-              const max = cfg.labelMaxChars;
-              return name.length > max ? `${name.substring(0, max)}...` : name;
-            },
+            fontFamily: "'Inter', 'DM Sans', sans-serif",
+            formatter: (params: any) => params.data?.displayLabel || params.name || '',
           },
           edgeLabel: cfg.edgeLabelShow
             ? {
                 show: true,
                 fontSize: cfg.edgeLabelFontSize,
-                color: colors.value.textSecondary,
-                fontWeight: 600,
-                fontFamily: "'DM Sans', sans-serif",
+                color: edgeLabelColor,
+                fontWeight: 500,
+                fontFamily: "'Inter', 'DM Sans', sans-serif",
                 formatter: (params: any) => {
-                  const originalValue = params.data?.originalValue || params.value || 0;
-                  return params.data?.label || `${originalValue.toLocaleString()}`;
+                  if (params.data?.label) return params.data.label;
+                  const originalValue = params.data?.originalValue ?? params.value ?? 0;
+                  const sourceName = params.data?.source ?? params.source;
+                  const sourceTotal = layoutLinks
+                    .filter((link) => link.source === sourceName)
+                    .reduce((sum, link) => sum + getLinkValue(link), 0);
+                  const pct = formatPercentage(originalValue, sourceTotal);
+                  return `${Number(originalValue).toLocaleString()} (${pct})`;
                 },
               }
             : { show: false },
           nodeAlign: CHART_CONFIG.node.align,
           nodeGap: cfg.nodeGap,
-          nodeWidth: cfg.nodeWidth,
+          nodeWidth: maxNodeWidth,
           layoutIterations: CHART_CONFIG.node.iterations,
           orient: cfg.orient,
           draggable: false,
-          ...cfg.contentMargins,
+          ...contentMargins,
         },
       ],
       backgroundColor: 'transparent',

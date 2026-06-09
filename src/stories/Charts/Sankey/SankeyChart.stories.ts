@@ -175,6 +175,50 @@ const customColors = {
   'Exit': '#cbd5e1',
 };
 
+// Data: BM funnel with semantic status (success / abandon / error)
+const bmFunnelData = {
+  nodes: [
+    { name: 'Checkin Init', status: 'success' as const },
+    { name: 'Booking retrive', status: 'success' as const },
+    { name: 'Checkin Started', status: 'success' as const },
+    { name: 'Checkin Completed', status: 'success' as const },
+    { name: 'Checkin Closed', status: 'success' as const },
+    { name: 'Abandoned (Init)', status: 'abandon' as const },
+    { name: 'Abandoned (Started)', status: 'abandon' as const },
+    { name: 'Booking not retreived', status: 'error' as const },
+    { name: 'Checkin Failed', status: 'error' as const },
+  ],
+  links: [
+    { source: 'Checkin Init', target: 'Booking retrive', value: 850, label: '850 (85.0%)' },
+    { source: 'Checkin Init', target: 'Abandoned (Init)', value: 100, label: '100 (10.0%)' },
+    { source: 'Checkin Init', target: 'Booking not retreived', value: 50, label: '50 (5.0%)' },
+    { source: 'Booking retrive', target: 'Checkin Started', value: 700, label: '700 (70.0%)' },
+    { source: 'Booking retrive', target: 'Abandoned (Started)', value: 100, label: '100 (10.0%)' },
+    { source: 'Booking retrive', target: 'Checkin Failed', value: 50, label: '50 (5.0%)' },
+    { source: 'Checkin Started', target: 'Checkin Completed', value: 600, label: '600 (60.0%)' },
+    { source: 'Checkin Completed', target: 'Checkin Closed', value: 550, label: '550 (55.0%)' },
+  ],
+};
+
+// Story: BM funnel with semantic colors and success percentages
+export const BusinessMetricsFunnel: Story = {
+  args: {
+    data: bmFunnelData,
+    title: 'Check-in Funnel (Semantic Status)',
+    height: '560px',
+    useGradient: true,
+    nodeGap: 20,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Flujo tipo Business Metrics con colores semánticos (verde/amarillo/rojo), orden success→abandon→error por columna, y porcentaje respecto al origen en nodos exitosos.',
+      },
+    },
+  },
+};
+
 // Story: Default - Customer journey
 export const Default: Story = {
   args: {

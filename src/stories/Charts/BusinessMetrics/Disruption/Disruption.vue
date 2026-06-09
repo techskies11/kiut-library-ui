@@ -31,8 +31,9 @@
           <SankeyChart
             v-if="sankeyData.nodes.length > 0 && sankeyData.links.length > 0"
             :data="sankeyData"
-            :node-colors="nodeColors"
             height="500px"
+            :use-gradient="false"
+            :node-gap="24"
           />
           <div v-else class="empty-chart">
             <p class="empty-chart-text">
@@ -274,6 +275,7 @@ import {
 } from "../../../../plugins/numberFormat";
 import Tag from "../../../../components/Tag/Tag.vue";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
+import { formatSankeyLinkLabel, formatSankeyPercentage } from "../../Sankey/sankeyFormatters";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
 import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
@@ -387,10 +389,8 @@ const paymentSuccessCardValue = computed(() => {
     .join(" · ");
 });
 
-const calculatePercentage = (value: number, total: number): string => {
-  if (!total || total === 0) return "0%";
-  return `${Math.round((value / total) * 100)}%`;
-};
+const calculatePercentage = (value: number, total: number): string =>
+  formatSankeyPercentage(value, total);
 
 const formatCurrency = (value: number): string => {
   return useCurrencyFormat(value);
@@ -434,26 +434,24 @@ const sankeyData = computed(() => {
   const notPaid = Math.max(0, confirmed - sellSuccess - rejected);
 
   // Helper function to format label with percentage
-  const formatLabel = (value: number, total: number): string => {
-    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
-    return `${value.toLocaleString()} (${percentage}%)`;
-  };
+  const formatLabel = (value: number, total: number): string =>
+    formatSankeyLinkLabel(value, total);
 
   // Define nodes
   const nodes = [
-    { name: "Initiated" },
-    { name: "Started" },
-    { name: "Voluntary" },
-    { name: "Confirmed" },
-    { name: "Paid" },
-    { name: "Not Paid" },
-    { name: "Rejected" },
-    { name: "Not Confirmed" },
-    { name: "Involuntary" },
-    { name: "Accepted" },
-    { name: "Redirect to Human" },
-    { name: "Abandoned (Init)" },
-    { name: "Abandoned (Start)" },
+    { name: "Initiated", status: "success" as const },
+    { name: "Started", status: "success" as const },
+    { name: "Voluntary", status: "success" as const },
+    { name: "Confirmed", status: "success" as const },
+    { name: "Paid", status: "success" as const },
+    { name: "Not Paid", status: "abandon" as const },
+    { name: "Rejected", status: "error" as const },
+    { name: "Not Confirmed", status: "abandon" as const },
+    { name: "Involuntary", status: "success" as const },
+    { name: "Accepted", status: "success" as const },
+    { name: "Redirect to Human", status: "error" as const },
+    { name: "Abandoned (Init)", status: "abandon" as const },
+    { name: "Abandoned (Start)", status: "abandon" as const },
   ];
 
   // Define links with flows
@@ -572,22 +570,6 @@ const sankeyData = computed(() => {
 
   return { nodes, links };
 });
-
-const nodeColors: Record<string, string> = {
-  Initiated: "#E5E7EB",
-  Started: "#DBEAFE",
-  "Abandoned (Start)": "#FEE2E2",
-  Voluntary: "#FED7AA",
-  Involuntary: "#E9D5FF",
-  "Abandoned (Init)": "#FEE2E2",
-  Accepted: "#86EFAC",
-  "Redirect to Human": "#FCA5A5",
-  Confirmed: "#BFDBFE",
-  "Not Confirmed": "#FED7AA",
-  Paid: "#86EFAC",
-  Rejected: "#FCA5A5",
-  "Not Paid": "#FED7AA",
-};
 </script>
 
 <style scoped>

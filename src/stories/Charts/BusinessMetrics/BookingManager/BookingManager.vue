@@ -52,9 +52,9 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            :node-colors="nodeColors"
             height="500px"
-            :node-gap="15"
+            :use-gradient="false"
+            :node-gap="24"
           />
         </div>
       </section>
@@ -218,6 +218,7 @@
 import { computed } from "vue";
 import moment from "moment";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
+import { formatSankeyLinkLabel, formatSankeyPercentage } from "../../Sankey/sankeyFormatters";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
 import Tag from "../../../../components/Tag/Tag.vue";
@@ -407,24 +408,22 @@ const sankeyData = computed(() => {
   );
 
   // Helper function to format label with percentage
-  const formatLabel = (value: number, total: number): string => {
-    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
-    return `${useNumberFormat(value)} (${percentage}%)`;
-  };
+  const formatLabel = (value: number, total: number): string =>
+    formatSankeyLinkLabel(value, total);
 
   // Define nodes
   const nodes = [
-    { name: "Initiated" },
-    { name: "Started" },
-    { name: "Payment Initiated" },
-    { name: "Not Found" },
-    { name: "Cancelled" },
-    { name: "No Pending Balance" },
-    { name: "Errors" },
-    { name: "Payment Success" },
-    { name: "Payment Failed" },
-    { name: "Abandoned (Init)" },
-    { name: "Abandoned (Start)" },
+    { name: "Initiated", status: "success" as const },
+    { name: "Started", status: "success" as const },
+    { name: "Payment Initiated", status: "success" as const },
+    { name: "Not Found", status: "error" as const },
+    { name: "Cancelled", status: "abandon" as const },
+    { name: "No Pending Balance", status: "abandon" as const },
+    { name: "Errors", status: "error" as const },
+    { name: "Payment Success", status: "success" as const },
+    { name: "Payment Failed", status: "error" as const },
+    { name: "Abandoned (Init)", status: "abandon" as const },
+    { name: "Abandoned (Start)", status: "abandon" as const },
   ];
 
   // Define links with flows
@@ -531,24 +530,8 @@ const sankeyData = computed(() => {
   return { nodes, links };
 });
 
-const nodeColors: Record<string, string> = {
-  Initiated: "#DBEAFE",
-  Started: "#93C5FD",
-  "Payment Initiated": "#FED7AA",
-  "Not Found": "#FECACA",
-  Cancelled: "#FED7AA",
-  "No Pending Balance": "#FEF08A",
-  Errors: "#FCA5A5",
-  "Payment Success": "#86EFAC",
-  "Payment Failed": "#FCA5A5",
-  "Abandoned (Init)": "#FEE2E2",
-  "Abandoned (Start)": "#FEE2E2",
-};
-
-const calculatePercentage = (value: number, total: number): string => {
-  if (!total || total === 0) return "0%";
-  return `${Math.round((value / total) * 100)}%`;
-};
+const calculatePercentage = (value: number, total: number): string =>
+  formatSankeyPercentage(value, total);
 </script>
 
 <style scoped>

@@ -32,9 +32,8 @@
           <SankeyChart
             :data="sankeyData"
             :height="'500px'"
-            :node-colors="sankeyNodeColors"
             :use-gradient="false"
-            :node-gap="30"
+            :node-gap="24"
           />
         </div>
       </section>
@@ -160,6 +159,10 @@ import { computed, toRef } from "vue";
 import moment from "moment";
 import { useNumberFormat } from "../../../../plugins/numberFormat";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
+import {
+  formatSankeyLinkLabel,
+  formatSankeyPercentage,
+} from "../../Sankey/sankeyFormatters";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
 import {
@@ -294,30 +297,8 @@ const recordLocatorTableRows = computed((): Record<string, unknown>[] =>
 
 const recordLocatorData = computed(() => props.data);
 
-// Computed para colores dinámicos del Sankey
-const sankeyNodeColors = computed(() => ({
-  // Main flow progression - from blue to cyan to green
-  "Checkin Init": "#93C5FD", // Blue for started state
-  "Booking retrive": "#67E8F9", // Light cyan
-  "Checkin Started": "#22D3EE", // Medium cyan
-  "Checkin Completed": "#A7F3D0", // Light green
-  "Checkin Closed": "#7BE39E", // Green for success
-
-  // Abandoned states
-  "Abandoned (Init)": "#FACC15",
-  "Booking not retreived": "#F87171",
-  "Abandoned (Started)": "#FACC15",
-  Error: "#F87171",
-  "Abandoned (Flow)": "#FACC15",
-
-  // Failed states
-  "Checkin Failed": "#F87171", // Medium red for main failed node
-}));
-
-const calculatePercentage = (value: number, total: number): string => {
-  if (!total || total === 0) return "0%";
-  return `${Math.round((value / total) * 100)}%`;
-};
+const calculatePercentage = (value: number, total: number): string =>
+  formatSankeyPercentage(value, total);
 
 const formatValueWithPercentage = (value: number, total: number): string => {
   const formattedValue = useNumberFormat(value);
@@ -400,12 +381,11 @@ const sankeyData = computed(() => {
 
   // Flujo principal: Checkin Init -> Booking retrive
   if (recordLocatorInit > 0) {
-    const percentage = Math.round((recordLocatorInit / initiated) * 100);
     links.push({
       source: "Checkin Init",
       target: "Booking retrive",
       value: recordLocatorInit,
-      label: `${recordLocatorInit.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(recordLocatorInit, initiated),
     });
   }
 
@@ -413,137 +393,114 @@ const sankeyData = computed(() => {
   const abandonedBeforeInit = initiated - recordLocatorInit;
   if (hasPreInitAbandonedSplit) {
     if (preInitAbandonedVoluntary > 0) {
-      const percentage = Math.round(
-        (preInitAbandonedVoluntary / initiated) * 100,
-      );
       addNode("Abandoned (Init)");
       links.push({
         source: "Checkin Init",
         target: "Abandoned (Init)",
         value: preInitAbandonedVoluntary,
-        label: `${preInitAbandonedVoluntary.toLocaleString()} (${percentage}%)`,
+        label: formatSankeyLinkLabel(preInitAbandonedVoluntary, initiated),
       });
     }
 
     if (preInitAbandonedError > 0) {
-      const percentage = Math.round((preInitAbandonedError / initiated) * 100);
       addNode("Booking not retreived");
       links.push({
         source: "Checkin Init",
         target: "Booking not retreived",
         value: preInitAbandonedError,
-        label: `${preInitAbandonedError.toLocaleString()} (${percentage}%)`,
+        label: formatSankeyLinkLabel(preInitAbandonedError, initiated),
       });
     }
   } else if (abandonedBeforeInit > 0) {
-    const percentage = Math.round((abandonedBeforeInit / initiated) * 100);
     addNode("Abandoned (Init)");
     links.push({
       source: "Checkin Init",
       target: "Abandoned (Init)",
       value: abandonedBeforeInit,
-      label: `${abandonedBeforeInit.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(abandonedBeforeInit, initiated),
     });
   }
 
   // Flujo principal: Booking retrive -> Checkin Started
   if (recordLocatorStarted > 0) {
-    const percentage = Math.round((recordLocatorStarted / initiated) * 100);
     links.push({
       source: "Booking retrive",
       target: "Checkin Started",
       value: recordLocatorStarted,
-      label: `${recordLocatorStarted.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(recordLocatorStarted, initiated),
     });
   }
 
   // Abandono 2: Booking retrive -> Abandonados
   if (hasInitAbandonedSplit) {
     if (initAbandonedError > 0) {
-      const percentage = Math.round((initAbandonedError / initiated) * 100);
       addNode("Error");
       links.push({
         source: "Booking retrive",
         target: "Error",
         value: initAbandonedError,
-        label: `${initAbandonedError.toLocaleString()} (${percentage}%)`,
+        label: formatSankeyLinkLabel(initAbandonedError, initiated),
       });
     }
 
     if (initAbandonedVoluntary > 0) {
-      const percentage = Math.round((initAbandonedVoluntary / initiated) * 100);
       addNode("Abandoned (Started)");
       links.push({
         source: "Booking retrive",
         target: "Abandoned (Started)",
         value: initAbandonedVoluntary,
-        label: `${initAbandonedVoluntary.toLocaleString()} (${percentage}%)`,
+        label: formatSankeyLinkLabel(initAbandonedVoluntary, initiated),
       });
     }
   } else if (recordLocatorInitAbandoned > 0) {
-    const percentage = Math.round(
-      (recordLocatorInitAbandoned / initiated) * 100,
-    );
     addNode("Abandoned (Started)");
     links.push({
       source: "Booking retrive",
       target: "Abandoned (Started)",
       value: recordLocatorInitAbandoned,
-      label: `${recordLocatorInitAbandoned.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(recordLocatorInitAbandoned, initiated),
     });
   }
 
   // Flujo principal: Checkin Started -> Checkin Completed
   if (recordLocatorCompleted > 0) {
-    const percentage = Math.round(
-      (recordLocatorCompleted / recordLocatorStarted) * 100,
-    );
     links.push({
       source: "Checkin Started",
       target: "Checkin Completed",
       value: recordLocatorCompleted,
-      label: `${recordLocatorCompleted.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(recordLocatorCompleted, recordLocatorStarted),
     });
   }
 
   // Flujo principal: Checkin Completed -> Checkin Closed
   if (recordLocatorClosed > 0) {
-    const percentage = Math.round(
-      (recordLocatorClosed / recordLocatorStarted) * 100,
-    );
     links.push({
       source: "Checkin Completed",
       target: "Checkin Closed",
       value: recordLocatorClosed,
-      label: `${recordLocatorClosed.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(recordLocatorClosed, recordLocatorStarted),
     });
   }
 
   // Failed: Checkin Started -> Checkin Failed
   if (recordLocatorFailed > 0) {
-    const percentage = Math.round(
-      (recordLocatorFailed / recordLocatorStarted) * 100,
-    );
     addNode("Checkin Failed");
     links.push({
       source: "Checkin Started",
       target: "Checkin Failed",
       value: recordLocatorFailed,
-      label: `${recordLocatorFailed.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(recordLocatorFailed, recordLocatorStarted),
     });
   }
 
   // Abandoned: Checkin Started -> Abandoned
   if (recordLocatorAbandoned > 0) {
-    const percentage = Math.round(
-      (recordLocatorAbandoned / recordLocatorStarted) * 100,
-    );
     addNode("Abandoned (Flow)");
     links.push({
       source: "Checkin Started",
       target: "Abandoned (Flow)",
       value: recordLocatorAbandoned,
-      label: `${recordLocatorAbandoned.toLocaleString()} (${percentage}%)`,
+      label: formatSankeyLinkLabel(recordLocatorAbandoned, recordLocatorStarted),
     });
   }
 
