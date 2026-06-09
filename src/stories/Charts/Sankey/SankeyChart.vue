@@ -13,12 +13,11 @@
         <p class="error-description">Please check the data format.</p>
       </div>
     </div>
-    <div v-else class="chart-wrapper">
-      <div v-show="!isLoading" ref="chartEl" class="chart-content" :style="{ height }"></div>
+    <div v-else class="chart-wrapper" :style="{ height }">
+      <div ref="chartEl" class="chart-content"></div>
       <div
-        v-show="isLoading"
-        class="loading-state"
-        :style="{ height }"
+        v-if="isLoading"
+        class="loading-state loading-overlay"
       >
         <div class="loading-container">
           <div class="sankey-loader">
@@ -97,6 +96,7 @@ const isLoading = ref(true);
 const loadError = ref(false);
 
 let chartInstance: echarts.ECharts | null = null;
+let containerObserver: ResizeObserver | null = null;
 
 const CHART_CONFIG = {
   animation: { duration: 1000, easing: 'cubicOut' as const },
@@ -413,32 +413,46 @@ const initChart = async () => {
   }
 };
 
-const waitForContainerAndInit = async (maxTries = 40) => {
+const hasContainerSize = () => {
+  const el = chartEl.value;
+  return Boolean(el && el.clientWidth > 0 && el.clientHeight > 0);
+};
+
+const waitForContainerAndInit = async () => {
   await nextTick();
+  if (hasContainerSize()) return initChart();
 
-  for (let tries = 0; tries < maxTries; tries++) {
-    if (chartEl.value?.clientWidth && chartEl.value.clientWidth > 0 && 
-        chartEl.value?.clientHeight && chartEl.value.clientHeight > 0) {
-      return await initChart();
+  await new Promise<void>((resolve) => {
+    const el = chartEl.value;
+    if (!el) {
+      resolve();
+      return;
     }
-    await new Promise(resolve => setTimeout(resolve, 50));
-  }
 
-  await initChart();
-  setTimeout(handleResize, 50);
+    containerObserver = new ResizeObserver(() => {
+      if (!hasContainerSize()) return;
+      containerObserver?.disconnect();
+      containerObserver = null;
+      initChart().then(resolve);
+    });
+
+    containerObserver.observe(el);
+  });
 };
 
 const handleResize = () => chartInstance?.resize();
 
 const cleanup = () => {
   window.removeEventListener('resize', handleResize);
+  containerObserver?.disconnect();
+  containerObserver = null;
   if (chartInstance) {
     chartInstance.dispose();
     chartInstance = null;
   }
 };
 
-onMounted(() => chartEl.value && waitForContainerAndInit());
+onMounted(() => waitForContainerAndInit());
 onBeforeUnmount(cleanup);
 watch(() => props.data, setOptions, { deep: true });
 watch(isDark, setOptions); // Re-render when theme changes
@@ -456,8 +470,15 @@ defineExpose({ isDark });
   background-color: transparent;
 }
 
-.chart-wrapper,
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: transparent;
+}
+
 .chart-content {
+  width: 100%;
+  height: 100%;
   background-color: transparent;
 }
 
@@ -469,8 +490,13 @@ defineExpose({ isDark });
 }
 
 .chart-content {
-  width: 100%;
   animation: fadeIn 0.5s ease-out;
+}
+
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 /* Error State */
@@ -513,6 +539,7 @@ defineExpose({ isDark });
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
 }
 
 .loading-container {
