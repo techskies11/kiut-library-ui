@@ -57,8 +57,6 @@
               class="bm-skeleton-blink skeleton-table-row"
             />
           </div>
-
-          <div class="bm-skeleton-blink skeleton-view-more" />
         </section>
       </div>
 
@@ -207,76 +205,48 @@
 
           <div class="table-section w-full min-w-0">
             <Table
+              :key="`${tableViewMode}-${sortKey}-${sortDirection}`"
               :columns="agentTableColumns"
-              :rows="visibleTableRows"
+              :rows="tableRows"
               :sort-key="sortKey"
               :sort-direction="sortDirection"
+              :max-visible-rows="MAX_VISIBLE_ROWS"
               row-key="id"
               @sort="onSortColumn"
             >
               <template #cell-date="{ row }">
-                <span class="ah-cell name-cell">{{
+                <span class="cell-plain">{{
                   formatCompactDate(String(row.date))
                 }}</span>
               </template>
               <template #cell-name="{ row }">
-                <span class="ah-cell name-cell">{{
+                <span class="cell-plain">{{
                   formatAgentName(row.agent_name as string | null)
                 }}</span>
               </template>
               <template #cell-email="{ row }">
-                <span class="ah-cell email-cell">{{ row.agent_email }}</span>
+                <span class="cell-plain cell-plain--muted">{{ row.agent_email }}</span>
               </template>
               <template #cell-handled="{ row }">
-                <span class="ah-cell">{{
+                <span class="cell-plain">{{
                   formatNumber(Number(row.handled))
                 }}</span>
               </template>
               <template #cell-avgAssignation="{ row }">
-                <span class="ah-cell">{{
+                <span class="cell-plain">{{
                   formatDurationSeconds(
                     row.avg_assignation_seconds as number | null,
                   )
                 }}</span>
               </template>
               <template #cell-avgResolution="{ row }">
-                <span class="ah-cell">{{
+                <span class="cell-plain">{{
                   formatDurationSeconds(
                     row.avg_resolution_seconds as number | null,
                   )
                 }}</span>
               </template>
             </Table>
-
-            <button
-              v-if="tableHasMoreRows"
-              type="button"
-              class="view-more-btn"
-              @click="showAllTableRows = !showAllTableRows"
-            >
-              {{
-                showAllTableRows
-                  ? "View less"
-                  : `View more (${hiddenTableRowCount} rows)`
-              }}
-              <svg
-                :class="[
-                  'view-more-icon',
-                  { 'view-more-icon-rotated': showAllTableRows },
-                ]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
           </div>
         </ChartMetricContainer>
 
@@ -321,7 +291,7 @@ import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
 import Table, {
   type TableColumn,
   type TableSortDirection,
-} from "../../../../components/Table/Table.vue";
+} from "../../Utils/Table/Table.vue";
 import Select, {
   type KiutSelectOption,
 } from "../../../../components/Inputs/Select.vue";
@@ -458,13 +428,11 @@ const tableViewModeOptions: KiutSelectOption<TableViewMode>[] = [
 ];
 const sortKey = ref<SortKey>("date");
 const sortDirection = ref<TableSortDirection>("desc");
-const showAllTableRows = ref(false);
 
 const MAX_VISIBLE_ROWS = 6;
 const TABLE_SKELETON_ROWS = MAX_VISIBLE_ROWS;
 
 watch(tableViewMode, (mode) => {
-  showAllTableRows.value = false;
   if (mode === "aggregated") {
     sortKey.value = "name";
     sortDirection.value = "asc";
@@ -682,6 +650,10 @@ const sortedTableRows = computed(() => {
   return rows;
 });
 
+const tableRows = computed((): Record<string, unknown>[] =>
+  sortedTableRows.value as unknown as Record<string, unknown>[],
+);
+
 const agentTableColumns = computed<TableColumn[]>(() => {
   const cols: TableColumn[] = [];
 
@@ -715,25 +687,8 @@ const agentTableColumns = computed<TableColumn[]>(() => {
   return cols;
 });
 
-const hiddenTableRowCount = computed(() =>
-  Math.max(0, sortedTableRows.value.length - MAX_VISIBLE_ROWS),
-);
-
-const tableHasMoreRows = computed(
-  () => sortedTableRows.value.length > MAX_VISIBLE_ROWS,
-);
-
-const visibleTableRows = computed((): Record<string, unknown>[] => {
-  const rows =
-    showAllTableRows.value || !tableHasMoreRows.value
-      ? sortedTableRows.value
-      : sortedTableRows.value.slice(0, MAX_VISIBLE_ROWS);
-  return rows as unknown as Record<string, unknown>[];
-});
-
 function onSortColumn(key: string): void {
   const sortableKey = key as SortKey;
-  showAllTableRows.value = false;
 
   if (sortKey.value === sortableKey) {
     sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
@@ -787,8 +742,6 @@ defineExpose({ isDark });
 </script>
 
 <style scoped>
-@import "../view-more-cta.css";
-
 .card-body {
   animation: fadeIn 0.5s ease-out;
   flex: 0 1 auto;
@@ -838,44 +791,28 @@ defineExpose({ isDark });
 
 .table-skeleton__table {
   overflow: hidden;
-  border-radius: 12px;
-  border: 1px solid var(--kiut-border-light, #e5e7eb);
-  background: var(--kiut-bg-secondary, #ffffff);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .skeleton-table-head {
-  height: 48px;
+  height: 36px;
   border-radius: 0;
+  border-bottom: 1px solid var(--kiut-border-light, #e5e7eb);
 }
 
 .skeleton-table-row {
-  height: 56px;
+  height: 40px;
   border-radius: 0;
-  border-top: 1px solid var(--kiut-border-light, #e5e7eb);
+  border-top: 1px solid var(--kiut-border-table-row, #f3f4f6);
 }
 
-.skeleton-table-row:last-child {
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.skeleton-view-more {
-  width: 148px;
-  height: 14px;
-  margin-top: 10px;
-  border-radius: 6px;
-}
-
-:global(.dark) .table-skeleton__table,
-.agent-human-conv--dark .table-skeleton__table {
-  border-color: var(--kiut-border-light, #2d2d39);
-  background: var(--kiut-bg-secondary, #141419);
+:global(.dark) .skeleton-table-head,
+.agent-human-conv--dark .skeleton-table-head {
+  border-bottom-color: var(--kiut-border-light, #2d2d39);
 }
 
 :global(.dark) .skeleton-table-row,
 .agent-human-conv--dark .skeleton-table-row {
-  border-top-color: var(--kiut-border-light, #2d2d39);
+  border-top-color: #2d2d3980;
 }
 
 .table-view-select {
@@ -985,26 +922,19 @@ defineExpose({ isDark });
   flex-direction: column;
 }
 
-.ah-cell {
-  display: inline-block;
-  width: 100%;
+.cell-plain {
   font-size: 0.875rem;
+  font-weight: 500;
   color: var(--kiut-text-primary);
 }
 
-.name-cell {
-  font-weight: 500;
-  text-align: left !important;
-  white-space: nowrap;
-}
-
-.email-cell {
-  text-align: left !important;
+.cell-plain--muted {
   color: var(--kiut-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 250px;
+  display: inline-block;
 }
 
 .empty-state {
@@ -1076,7 +1006,7 @@ defineExpose({ isDark });
     width: 100%;
   }
 
-  .email-cell {
+  .cell-plain--muted {
     max-width: 150px;
   }
 }

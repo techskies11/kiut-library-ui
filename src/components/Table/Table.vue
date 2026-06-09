@@ -46,9 +46,22 @@
                 @click="onSortColumn(col.key)"
               >
                 <span>{{ col.label }}</span>
-                <span class="kiut-table-sort-icon" aria-hidden="true">{{
-                  sortIndicator(col.key)
-                }}</span>
+                <span class="kiut-table-sort-icons inline-flex items-center" aria-hidden="true">
+                  <template v-if="isActiveSortColumn(col.key)">
+                    <span
+                      v-if="sortDirection === 'asc'"
+                      class="kiut-table-sort-arrow kiut-table-sort-arrow--active"
+                    >↑</span>
+                    <span
+                      v-else-if="sortDirection === 'desc'"
+                      class="kiut-table-sort-arrow kiut-table-sort-arrow--active"
+                    >↓</span>
+                  </template>
+                  <template v-else>
+                    <span class="kiut-table-sort-arrow kiut-table-sort-arrow--muted">↑</span>
+                    <span class="kiut-table-sort-arrow kiut-table-sort-arrow--muted">↓</span>
+                  </template>
+                </span>
               </button>
               <template v-else>{{ col.label }}</template>
             </th>
@@ -254,17 +267,14 @@ function onSortColumn(key: string): void {
   emit("sort", key);
 }
 
-function sortIndicator(key: string): string {
-  if (props.sortKey !== key) return "↕";
-  if (props.sortDirection === "asc") return "↑";
-  if (props.sortDirection === "desc") return "↓";
-  return "↕";
+function isActiveSortColumn(key: string): boolean {
+  return props.sortKey === key && props.sortDirection != null;
 }
 
 function ariaSortForColumn(
   key: string,
 ): "none" | "ascending" | "descending" {
-  if (props.sortKey !== key || !props.sortDirection) return "none";
+  if (!isActiveSortColumn(key)) return "none";
   return props.sortDirection === "asc" ? "ascending" : "descending";
 }
 </script>
@@ -354,9 +364,16 @@ function ariaSortForColumn(
   border-radius: 4px;
 }
 
-.kiut-table-sort-icon {
-  font-size: 0.75rem;
+.kiut-table-sort-arrow {
+  font-size: inherit;
   line-height: 1;
-  opacity: 0.75;
+}
+
+.kiut-table-sort-arrow--active {
+  opacity: 1;
+}
+
+.kiut-table-sort-arrow--muted {
+  opacity: 0.45;
 }
 </style>

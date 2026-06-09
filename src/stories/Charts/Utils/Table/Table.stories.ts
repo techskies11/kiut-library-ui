@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
-import Table from './Table.vue'
+import { ref } from 'vue'
+import Table, { type TableColumn, type TableSortDirection } from './Table.vue'
 
 const travelColumns = [
   { key: 'departure', label: 'Departure', emphasis: true },
@@ -196,4 +197,69 @@ export const SinViewMore: Story = {
     maxVisibleRows: 10,
   },
   render: PaymentsLight.render,
+}
+
+const sortableColumns: TableColumn[] = [
+  { key: 'date', label: 'Date', align: 'left', sortable: true },
+  { key: 'name', label: 'Name', align: 'left', sortable: true },
+  { key: 'handled', label: 'Handled', align: 'center', sortable: true },
+]
+
+const sortableRows = [
+  { id: '1', date: 'Mar 15', name: 'Sofia Martinez', handled: 54 },
+  { id: '2', date: 'Mar 14', name: 'James Chen', handled: 60 },
+  { id: '3', date: 'Mar 13', name: 'Maria Garcia', handled: 46 },
+  { id: '4', date: 'Mar 12', name: 'David Lee', handled: 37 },
+  { id: '5', date: 'Mar 11', name: 'Sarah Johnson', handled: 43 },
+]
+
+export const Sortable: Story = {
+  render: () => ({
+    components: { Table },
+    setup() {
+      const sortKey = ref<string>('date')
+      const sortDirection = ref<TableSortDirection>('desc')
+
+      const sortedRows = ref([...sortableRows])
+
+      function onSort(key: string) {
+        if (sortKey.value === key) {
+          sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
+        } else {
+          sortKey.value = key
+          sortDirection.value = key === 'name' ? 'asc' : 'desc'
+        }
+
+        const dir = sortDirection.value === 'asc' ? 1 : -1
+        sortedRows.value = [...sortableRows].sort((a, b) => {
+          const av = a[key as keyof typeof a]
+          const bv = b[key as keyof typeof b]
+          if (typeof av === 'number' && typeof bv === 'number') {
+            return (av - bv) * dir
+          }
+          return String(av).localeCompare(String(bv)) * dir
+        })
+      }
+
+      return {
+        sortableColumns,
+        sortedRows,
+        sortKey,
+        sortDirection,
+        onSort,
+      }
+    },
+    template: `
+      <div class="min-h-[260px] p-6 font-sans">
+        <Table
+          :columns="sortableColumns"
+          :rows="sortedRows"
+          :sort-key="sortKey"
+          :sort-direction="sortDirection"
+          :max-visible-rows="3"
+          @sort="onSort"
+        />
+      </div>
+    `,
+  }),
 }

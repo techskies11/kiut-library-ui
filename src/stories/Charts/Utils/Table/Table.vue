@@ -14,7 +14,33 @@
               class="kiut-table-th whitespace-nowrap px-3 py-2 text-left text-[#9191a1]"
               :class="[alignClass(col.align), col.headerClass]"
             >
-              {{ col.label }}
+              <button
+                v-if="col.sortable"
+                type="button"
+                class="kiut-table-sort-btn inline-flex items-center gap-1"
+                :class="alignClass(col.align)"
+                :aria-sort="ariaSortForColumn(col.key)"
+                @click="onSortColumn(col.key)"
+              >
+                <span>{{ col.label }}</span>
+                <span class="kiut-table-sort-icons inline-flex items-center" aria-hidden="true">
+                  <template v-if="isActiveSortColumn(col.key)">
+                    <span
+                      v-if="sortDirection === 'asc'"
+                      class="kiut-table-sort-arrow kiut-table-sort-arrow--active"
+                    >↑</span>
+                    <span
+                      v-else-if="sortDirection === 'desc'"
+                      class="kiut-table-sort-arrow kiut-table-sort-arrow--active"
+                    >↓</span>
+                  </template>
+                  <template v-else>
+                    <span class="kiut-table-sort-arrow kiut-table-sort-arrow--muted">↑</span>
+                    <span class="kiut-table-sort-arrow kiut-table-sort-arrow--muted">↓</span>
+                  </template>
+                </span>
+              </button>
+              <template v-else>{{ col.label }}</template>
             </th>
           </tr>
         </thead>
@@ -64,6 +90,8 @@
 <script lang="ts">
 export type TableColumnAlign = 'left' | 'center' | 'right'
 
+export type TableSortDirection = 'asc' | 'desc'
+
 export interface TableColumn {
   key: string
   label: string
@@ -72,6 +100,8 @@ export interface TableColumn {
   align?: TableColumnAlign
   headerClass?: string
   cellClass?: string
+  /** Header clickeable; requiere `sortKey` / `sortDirection` en la tabla y escuchar `@sort`. */
+  sortable?: boolean
 }
 
 export interface TableProps {
@@ -85,6 +115,8 @@ export interface TableProps {
   viewLessLabel?: string
   /** Campo en cada fila o función que devuelve un id estable (claves de fila en `<tbody>`). */
   rowKey?: string | ((row: Record<string, unknown>) => string | number)
+  sortKey?: string | null
+  sortDirection?: TableSortDirection | null
 }
 </script>
 
@@ -98,8 +130,14 @@ const props = withDefaults(
     viewMoreLabel: 'View more ({count} rows)',
     viewLessLabel: 'View less',
     rowKey: 'id',
+    sortKey: null,
+    sortDirection: null,
   },
 )
+
+const emit = defineEmits<{
+  sort: [key: string]
+}>()
 
 const expanded = ref(false)
 
@@ -139,6 +177,21 @@ function resolveRowKey(row: Record<string, unknown>, index: number): string | nu
 
 function rowKeyFn(row: Record<string, unknown>, index: number): string | number {
   return resolveRowKey(row, index)
+}
+
+function isActiveSortColumn(key: string): boolean {
+  return props.sortKey === key && props.sortDirection != null
+}
+
+function onSortColumn(key: string): void {
+  emit('sort', key)
+}
+
+function ariaSortForColumn(
+  key: string,
+): 'none' | 'ascending' | 'descending' {
+  if (!isActiveSortColumn(key)) return 'none'
+  return props.sortDirection === 'asc' ? 'ascending' : 'descending'
 }
 
 const rowCount = computed(() => props.rows?.length ?? 0)
@@ -189,5 +242,50 @@ const viewMoreCollapsedLabel = computed(() =>
 .dark .kiut-table-root tbody tr:not(:first-child) td.kiut-table-td,
 .dark-mode .kiut-table-root tbody tr:not(:first-child) td.kiut-table-td {
   border-top-color: #2d2d3980;
+}
+
+.kiut-table-sort-btn {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.kiut-table-sort-btn.text-left {
+  justify-content: flex-start;
+}
+
+.kiut-table-sort-btn.text-center {
+  justify-content: center;
+  width: 100%;
+}
+
+.kiut-table-sort-btn.text-right {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.kiut-table-sort-btn:focus-visible {
+  outline: 2px solid var(--kiut-primary-light, #a78bfa);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.kiut-table-sort-arrow {
+  font-size: inherit;
+  line-height: 1;
+}
+
+.kiut-table-sort-arrow--active {
+  opacity: 1;
+}
+
+.kiut-table-sort-arrow--muted {
+  opacity: 0.45;
 }
 </style>
