@@ -2,7 +2,10 @@
   <div
     class="nps-metrics-container flex flex-col gap-6 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
   >
-    <div class="grid w-full grid-cols-1 items-start gap-6 md:grid-cols-2">
+    <div
+      v-if="layoutMode !== 'three'"
+      class="grid w-full grid-cols-1 items-start gap-6 md:grid-cols-2"
+    >
       <NpsOverviewMetrics
         class="min-w-0"
         :data="data"
@@ -19,11 +22,26 @@
       />
     </div>
 
+    <NpsOverviewMetrics
+      v-else
+      class="min-w-0"
+      :data="data"
+      :loading="loading"
+      :enable-export="enableExport"
+      @export="handleExport"
+    />
+
     <div
-      v-if="showOptionalCharts"
-      class="grid w-full items-start gap-6"
-      :class="optionalChartsGridClass"
+      v-if="layoutMode === 'three'"
+      class="grid w-full grid-cols-1 items-start gap-6 md:grid-cols-2"
     >
+      <NpsDailyMetrics
+        class="min-w-0"
+        :data="data"
+        :loading="loading"
+        :enable-export="enableExport"
+        @export="handleExport"
+      />
       <NpsResolutionMetrics
         v-if="showResolutionChart"
         class="min-w-0"
@@ -32,6 +50,22 @@
       />
       <NpsPulseMetrics
         v-if="showCsatPulseChart"
+        class="min-w-0"
+        :data="data"
+        :loading="loading"
+      />
+    </div>
+
+    <div
+      v-if="layoutMode === 'four'"
+      class="grid w-full grid-cols-1 items-start gap-6 md:grid-cols-2"
+    >
+      <NpsResolutionMetrics
+        class="min-w-0"
+        :data="data"
+        :loading="loading"
+      />
+      <NpsPulseMetrics
         class="min-w-0"
         :data="data"
         :loading="loading"
@@ -84,9 +118,9 @@ const optionalChartsCount = computed(
     (showResolutionChart.value ? 1 : 0) + (showCsatPulseChart.value ? 1 : 0),
 )
 
-const showOptionalCharts = computed(() => optionalChartsCount.value > 0)
-
-const optionalChartsGridClass = computed(() =>
-  optionalChartsCount.value > 1 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1',
-)
+const layoutMode = computed(() => {
+  if (optionalChartsCount.value === 1) return 'three'
+  if (optionalChartsCount.value === 2) return 'four'
+  return 'two'
+})
 </script>

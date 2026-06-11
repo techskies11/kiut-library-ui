@@ -66,8 +66,8 @@ const lineData = computed(() => ({
     {
       label: "CSAT Pulse",
       data: pulseByDay.value.map((point: any) => Number(point.csat_pulse || 0)),
-      borderColor: "#2563EB",
-      pointBorderColor: "#2563EB",
+      borderColor: "#7C3AED",
+      pointBorderColor: "#7C3AED",
       pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
     },
