@@ -48,6 +48,7 @@
           :plot-inset="10"
           :show-legend="false"
           :show-stat-labels="false"
+          style="max-height: 300px;"
         />
       </div>
       <div
