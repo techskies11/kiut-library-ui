@@ -127,9 +127,9 @@
           <CardMetric
             label="Avg Time to Assign"
             label-position="header"
-            :value="formatDurationSeconds(avgAssignSeconds)"
+            :value="avgAssignSeconds ?? '—'"
             :theme="theme"
-            :current-value="avgAssignSeconds ?? 0"
+            :current-value="hhmmssToSeconds(avgAssignSeconds) ?? 0"
             :previous-value="previousAvgTimeToAssignSeconds"
           >
             <template #icon>
@@ -156,9 +156,9 @@
           <CardMetric
             label="Avg Resolution Time"
             label-position="header"
-            :value="formatDurationSeconds(avgResolutionSeconds)"
+            :value="avgResolutionSeconds ?? '—'"
             :theme="theme"
-            :current-value="avgResolutionSeconds ?? 0"
+            :current-value="hhmmssToSeconds(avgResolutionSeconds) ?? 0"
             :previous-value="previousAvgConversationDurationSeconds"
           >
             <template #icon>
@@ -233,18 +233,10 @@
                 }}</span>
               </template>
               <template #cell-avgAssignation="{ row }">
-                <span class="cell-plain">{{
-                  formatDurationSeconds(
-                    row.avg_assignation_seconds as number | null,
-                  )
-                }}</span>
+                <span class="cell-plain">{{ row.avg_assignation_display }}</span>
               </template>
               <template #cell-avgResolution="{ row }">
-                <span class="cell-plain">{{
-                  formatDurationSeconds(
-                    row.avg_resolution_seconds as number | null,
-                  )
-                }}</span>
+                <span class="cell-plain">{{ row.avg_resolution_display }}</span>
               </template>
             </Table>
           </div>
@@ -303,13 +295,13 @@ interface AgentDayData {
   agent_tag?: string | null;
   assigned_count: number;
   closed_count: number;
-  avg_time_to_assign_seconds?: number | null;
-  avg_conversation_duration_seconds?: number | null;
+  avg_time_to_assign_seconds?: string | null;
+  avg_conversation_duration_seconds?: string | null;
   day_total_assigned?: number;
   day_total_closed?: number;
   day_total_enqueued?: number;
-  day_avg_time_to_assign_seconds?: number | null;
-  day_avg_conversation_duration_seconds?: number | null;
+  day_avg_time_to_assign_seconds?: string | null;
+  day_avg_conversation_duration_seconds?: string | null;
 }
 
 interface AgentHumanConvData {
@@ -319,8 +311,8 @@ interface AgentHumanConvData {
   total_assigned?: number;
   total_closed?: number;
   total_enqueued?: number;
-  avg_time_to_assign_seconds?: number | null;
-  avg_conversation_duration_seconds?: number | null;
+  avg_time_to_assign_seconds?: string | null;
+  avg_conversation_duration_seconds?: string | null;
   agents_by_day?: AgentDayData[];
 }
 
@@ -333,6 +325,8 @@ interface AgentTableRow {
   handled: number;
   avg_assignation_seconds: number | null;
   avg_resolution_seconds: number | null;
+  avg_assignation_display: string;
+  avg_resolution_display: string;
 }
 
 type TableViewMode = "by_date" | "aggregated";
@@ -361,8 +355,8 @@ const props = withDefaults(
       total_assigned: 0,
       total_closed: 0,
       total_enqueued: 0,
-      avg_time_to_assign_seconds: null,
-      avg_conversation_duration_seconds: null,
+      avg_time_to_assign_seconds: null as string | null,
+      avg_conversation_duration_seconds: null as string | null,
       agents_by_day: [],
     }),
     loading: false,
@@ -480,6 +474,21 @@ function buildDurationTrend(
   };
 }
 
+function hhmmssToSeconds(val: string | null | undefined): number | null {
+  if (!val) return null;
+  const parts = val.split(":").map(Number);
+  if (parts.length !== 3 || parts.some(isNaN)) return null;
+  return parts[0] * 3600 + parts[1] * 60 + parts[2];
+}
+
+function secondsToHhmmss(seconds: number): string {
+  const total = Math.round(seconds);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
 const totalEnqueued = computed(() => props.data?.total_enqueued ?? 0);
 const totalClosed = computed(() => props.data?.total_closed ?? 0);
 const avgAssignSeconds = computed(
@@ -497,14 +506,14 @@ const closedPctLabel = computed(() => {
 
 const assignDurationTrend = computed(() =>
   buildDurationTrend(
-    avgAssignSeconds.value,
+    hhmmssToSeconds(avgAssignSeconds.value),
     props.previousAvgTimeToAssignSeconds,
   ),
 );
 
 const resolutionDurationTrend = computed(() =>
   buildDurationTrend(
-    avgResolutionSeconds.value,
+    hhmmssToSeconds(avgResolutionSeconds.value),
     props.previousAvgConversationDurationSeconds,
   ),
 );
@@ -517,8 +526,10 @@ function mapAgentToRow(agent: AgentDayData, index: number): AgentTableRow {
     agent_name: agent.agent_name ?? "",
     agent_email: agent.agent_email,
     handled: getHandledCount(agent),
-    avg_assignation_seconds: agent.avg_time_to_assign_seconds ?? null,
-    avg_resolution_seconds: agent.avg_conversation_duration_seconds ?? null,
+    avg_assignation_seconds: hhmmssToSeconds(agent.avg_time_to_assign_seconds),
+    avg_resolution_seconds: hhmmssToSeconds(agent.avg_conversation_duration_seconds),
+    avg_assignation_display: agent.avg_time_to_assign_seconds ?? "—",
+    avg_resolution_display: agent.avg_conversation_duration_seconds ?? "—",
   };
 }
 
@@ -561,29 +572,33 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       acc.agent_name = agent.agent_name.trim();
     }
 
-    if (agent.avg_time_to_assign_seconds != null && assigned > 0) {
-      acc.assignSum += agent.avg_time_to_assign_seconds * assigned;
+    const assignSec = hhmmssToSeconds(agent.avg_time_to_assign_seconds);
+    if (assignSec !== null && assigned > 0) {
+      acc.assignSum += assignSec * assigned;
       acc.assignWeight += assigned;
     }
 
-    if (agent.avg_conversation_duration_seconds != null && closed > 0) {
-      acc.resolutionSum += agent.avg_conversation_duration_seconds * closed;
+    const resSec = hhmmssToSeconds(agent.avg_conversation_duration_seconds);
+    if (resSec !== null && closed > 0) {
+      acc.resolutionSum += resSec * closed;
       acc.resolutionWeight += closed;
     }
   }
 
-  return Array.from(map.values()).map((acc, index) => ({
-    id: `agg-${acc.agent_email}-${index}`,
-    agent_name: acc.agent_name,
-    agent_email: acc.agent_email,
-    handled: acc.handled,
-    avg_assignation_seconds:
-      acc.assignWeight > 0 ? acc.assignSum / acc.assignWeight : null,
-    avg_resolution_seconds:
-      acc.resolutionWeight > 0
-        ? acc.resolutionSum / acc.resolutionWeight
-        : null,
-  }));
+  return Array.from(map.values()).map((acc, index) => {
+    const assignAvg = acc.assignWeight > 0 ? acc.assignSum / acc.assignWeight : null;
+    const resAvg = acc.resolutionWeight > 0 ? acc.resolutionSum / acc.resolutionWeight : null;
+    return {
+      id: `agg-${acc.agent_email}-${index}`,
+      agent_name: acc.agent_name,
+      agent_email: acc.agent_email,
+      handled: acc.handled,
+      avg_assignation_seconds: assignAvg,
+      avg_resolution_seconds: resAvg,
+      avg_assignation_display: assignAvg !== null ? secondsToHhmmss(assignAvg) : "—",
+      avg_resolution_display: resAvg !== null ? secondsToHhmmss(resAvg) : "—",
+    };
+  });
 }
 
 const baseTableRows = computed<AgentTableRow[]>(() => {
