@@ -48,7 +48,6 @@
           :plot-inset="10"
           :show-legend="false"
           :show-stat-labels="false"
-          style="max-height: 300px;"
         />
       </div>
       <div
@@ -159,7 +158,19 @@ defineExpose({ isDark });
 
 .chart-wrapper {
   width: 100%;
-  overflow: visible;
+  height: 230px;
+  overflow: hidden;
+}
+
+.chart-wrapper :deep(.chart-container) {
+  height: 100%;
+}
+
+.chart-wrapper :deep(.histogram-svg) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0 !important;
 }
 
 /* Empty State */
