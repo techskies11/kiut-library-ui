@@ -17191,8 +17191,7 @@ const rt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary
                     "chart-bottom-margin": ex,
                     "plot-inset": 10,
                     "show-legend": !1,
-                    "show-stat-labels": !1,
-                    style: { "max-height": "300px" }
+                    "show-stat-labels": !1
                   }, null, 8, ["histogram", "min-score", "max-score", "q1-score", "median-score", "q3-score", "average-score"])
                 ]),
                 u("div", q1, [
@@ -17237,7 +17236,7 @@ const rt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary
       _: 1
     }, 8, ["loading"]));
   }
-}, Ja = /* @__PURE__ */ pe(tx, [["__scopeId", "data-v-ebf6e97f"]]), nx = {
+}, Ja = /* @__PURE__ */ pe(tx, [["__scopeId", "data-v-3a3f4c10"]]), nx = {
   key: "loading",
   class: "bm-status shrink-0",
   "aria-busy": "true",
