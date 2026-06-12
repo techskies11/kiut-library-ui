@@ -23,7 +23,7 @@
     <template #headerAside>
       <div
         v-if="hasPreviousData"
-        :class="['change-badge', invertedBadgeClass]"
+        :class="['change-badge', invertedBadgeClass, { 'change-badge--dark': isDark }]"
       >
         {{ changeLabel }}
       </div>
@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, unref } from 'vue'
+import { computed, ref, toRef } from 'vue'
 import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
-import type { Theme } from '../../../../composables/useThemeDetection'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 
 const COST_PER_CONVERSATION_USD = 1
@@ -52,6 +52,7 @@ const props = withDefaults(defineProps<{
 })
 
 const cardMetricRef = ref<InstanceType<typeof CardMetric> | null>(null)
+const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
 const cost = computed(() => props.totalConversations * COST_PER_CONVERSATION_USD)
 
@@ -87,8 +88,6 @@ const invertedBadgeClass = computed(() => {
   return 'change-badge--neutral'
 })
 
-const isDark = computed(() => unref(cardMetricRef.value?.isDark) ?? false)
-
 defineExpose({ isDark, changePercent })
 </script>
 
@@ -121,17 +120,20 @@ defineExpose({ isDark, changePercent })
   color: #64748b;
 }
 
-:deep(.card-metric--dark) .change-badge--up {
-  background: #162d24;
+.change-badge--dark.change-badge--up,
+:global(.dark) .change-badge--up {
+  background: rgba(74, 222, 128, 0.14);
   color: #4ade80;
 }
 
-:deep(.card-metric--dark) .change-badge--down {
-  background: #3f1d20;
+.change-badge--dark.change-badge--down,
+:global(.dark) .change-badge--down {
+  background: rgba(251, 113, 133, 0.16);
   color: #fb7185;
 }
 
-:deep(.card-metric--dark) .change-badge--neutral {
+.change-badge--dark.change-badge--neutral,
+:global(.dark) .change-badge--neutral {
   background: rgba(148, 163, 184, 0.12);
   color: #94a3b8;
 }

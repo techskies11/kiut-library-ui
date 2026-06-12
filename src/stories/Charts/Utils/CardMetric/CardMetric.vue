@@ -237,12 +237,12 @@ defineExpose({ isDark, changePercent })
 }
 
 .card-metric--dark .change-badge--up {
-  background: #162d24;
+  background: rgba(74, 222, 128, 0.14);
   color: #4ade80;
 }
 
 .card-metric--dark .change-badge--down {
-  background: #3f1d20;
+  background: rgba(251, 113, 133, 0.16);
   color: #fb7185;
 }
 
