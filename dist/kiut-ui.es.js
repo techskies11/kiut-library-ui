@@ -14942,7 +14942,7 @@ Without Reason`
       _: 3
     }, 8, ["class"]));
   }
-}), vt = /* @__PURE__ */ me(ay, [["__scopeId", "data-v-291e9a9e"]]);
+}), vt = /* @__PURE__ */ me(ay, [["__scopeId", "data-v-0bc3fac6"]]);
 function cl(e, t) {
   return p(), k("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -17705,19 +17705,19 @@ const rt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary
     theme: { default: void 0 }
   },
   setup(e, { expose: t }) {
-    const n = e, a = ae(null), s = $(() => n.totalConversations * Qo), o = $(() => n.previousTotalConversations === null || n.previousTotalConversations === void 0 ? null : n.previousTotalConversations * Qo), i = $(() => se(s.value)), l = $(
-      () => o.value !== null && o.value !== void 0
-    ), r = $(() => {
-      if (!l.value) return 0;
-      const m = o.value;
-      return m === 0 ? s.value > 0 ? 100 : 0 : (s.value - m) / m * 100;
-    }), c = $(() => {
-      const m = r.value.toFixed(1);
-      return r.value > 0 ? `+${m}%` : `${m}%`;
-    }), d = $(() => r.value < 0 ? "change-badge--up" : r.value > 0 ? "change-badge--down" : "change-badge--neutral"), h = $(() => T(a.value?.isDark) ?? !1);
-    return t({ isDark: h, changePercent: r }), (m, v) => (p(), ee(vt, {
+    const n = e, a = ae(null), { isDark: s } = Ce(we(n, "theme")), o = $(() => n.totalConversations * Qo), i = $(() => n.previousTotalConversations === null || n.previousTotalConversations === void 0 ? null : n.previousTotalConversations * Qo), l = $(() => se(o.value)), r = $(
+      () => i.value !== null && i.value !== void 0
+    ), c = $(() => {
+      if (!r.value) return 0;
+      const m = i.value;
+      return m === 0 ? o.value > 0 ? 100 : 0 : (o.value - m) / m * 100;
+    }), d = $(() => {
+      const m = c.value.toFixed(1);
+      return c.value > 0 ? `+${m}%` : `${m}%`;
+    }), h = $(() => c.value < 0 ? "change-badge--up" : c.value > 0 ? "change-badge--down" : "change-badge--neutral");
+    return t({ isDark: s, changePercent: c }), (m, v) => (p(), ee(vt, {
       label: "Cost",
-      value: i.value,
+      value: l.value,
       prefix: "USD",
       loading: e.loading,
       theme: e.theme,
@@ -17737,15 +17737,15 @@ const rt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary
         ], -1)
       ])]),
       headerAside: B(() => [
-        l.value ? (p(), k("div", {
+        r.value ? (p(), k("div", {
           key: 0,
-          class: Q(["change-badge", d.value])
-        }, D(c.value), 3)) : z("", !0)
+          class: Q(["change-badge", h.value, { "change-badge--dark": T(s) }])
+        }, D(d.value), 3)) : z("", !0)
       ]),
       _: 1
     }, 8, ["value", "loading", "theme"]));
   }
-}), Mx = /* @__PURE__ */ me(Sx, [["__scopeId", "data-v-b8836eda"]]), Dx = { class: "flex justify-end" }, Tx = {
+}), Mx = /* @__PURE__ */ me(Sx, [["__scopeId", "data-v-411e0735"]]), Dx = { class: "flex justify-end" }, Tx = {
   key: "loading",
   class: "bm-status shrink-0",
   "aria-busy": "true",
