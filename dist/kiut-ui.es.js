@@ -22663,19 +22663,23 @@ const R5 = ["aria-expanded", "aria-labelledby", "aria-label"], F5 = ["onKeydown"
     subtitle: {},
     cancelLabel: { default: "Cancelar" },
     confirmLabel: { default: "Guardar" },
-    width: { default: 512 }
+    width: { default: 512 },
+    loading: { type: Boolean, default: !1 }
   },
   emits: ["update:modelValue", "cancel", "confirm"],
   setup(e, { emit: t }) {
     const n = e, a = $(() => ({ maxWidth: `${n.width}px` })), s = t, i = `${`kiut-modal-${Ue()}`}-title`, l = ne(null);
     function r() {
-      s("cancel"), s("update:modelValue", !1);
+      n.loading || (s("cancel"), s("update:modelValue", !1));
     }
     function c() {
       s("confirm");
     }
     function d(h) {
-      n.modelValue && h.key === "Escape" && (h.preventDefault(), r());
+      if (n.modelValue && h.key === "Escape") {
+        if (n.loading) return;
+        h.preventDefault(), r();
+      }
     }
     return Oe(
       () => n.modelValue,
@@ -22723,13 +22727,14 @@ const R5 = ["aria-expanded", "aria-labelledby", "aria-label"], F5 = ["onKeydown"
                   variant: "action",
                   type: "button",
                   class: "shrink-0",
+                  disabled: e.loading,
                   onClick: r
                 }, {
                   icon: B(() => [
                     F(T(sl), { class: "h-5 w-5" })
                   ]),
                   _: 1
-                })
+                }, 8, ["disabled"])
               ], 2),
               u("div", jC, [
                 $e(h.$slots, "default", {}, void 0, !0)
@@ -22738,23 +22743,25 @@ const R5 = ["aria-expanded", "aria-labelledby", "aria-label"], F5 = ["onKeydown"
                 F(ua, {
                   variant: "secondary",
                   type: "button",
+                  disabled: e.loading,
                   onClick: r
                 }, {
                   default: B(() => [
                     Be(D(e.cancelLabel), 1)
                   ]),
                   _: 1
-                }),
+                }, 8, ["disabled"]),
                 F(ua, {
                   variant: "primary",
                   type: "button",
+                  loading: e.loading,
                   onClick: c
                 }, {
                   default: B(() => [
                     Be(D(e.confirmLabel), 1)
                   ]),
                   _: 1
-                })
+                }, 8, ["loading"])
               ])
             ], 4)
           ])) : N("", !0)
@@ -22763,7 +22770,7 @@ const R5 = ["aria-expanded", "aria-labelledby", "aria-label"], F5 = ["onKeydown"
       })
     ]));
   }
-}), UC = /* @__PURE__ */ fe(KC, [["__scopeId", "data-v-1c80d9ea"]]), qC = { class: "text-left font-['Inter',system-ui,sans-serif]" }, XC = {
+}), UC = /* @__PURE__ */ fe(KC, [["__scopeId", "data-v-1815ac92"]]), qC = { class: "text-left font-['Inter',system-ui,sans-serif]" }, XC = {
   key: 0,
   class: ""
 }, GC = {
