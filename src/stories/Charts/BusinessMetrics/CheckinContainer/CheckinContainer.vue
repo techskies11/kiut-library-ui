@@ -2,7 +2,7 @@
   <ChartMetricContainer
     class="checkin-container-root w-full"
     title="Check in"
-    subtitle="Check-in flows, metrics by record locator and segment breakdown."
+    subtitle="Check-in flows and segment breakdown."
     :default-open="containerInitiallyOpen"
     :loading="loading"
   >
@@ -18,16 +18,6 @@
         :enable-export="enableExport"
         :export-loading="exportLoading"
         @export="(fmt) => handleChildExport('checkin', fmt)"
-      />
-      <RecordLocator
-        :collapsible="false"
-        :loading="effectiveRecordLocatorLoading"
-        :data="effectiveRecordLocatorData"
-        :is-avianca="isAvianca"
-        :theme="theme"
-        :enable-export="enableExport"
-        :export-loading="exportLoading"
-        @export="(fmt) => handleChildExport('recordLocator', fmt)"
       />
       <CheckinSegments
         :collapsible="false"
@@ -46,7 +36,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import RecordLocator from '../RecordLocator/RecordLocator.vue'
 import Checkin from '../Checkin/Checkin.vue'
 import CheckinSegments from '../CheckinSegments/checkinSegments.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
@@ -62,37 +51,8 @@ interface SegmentDatum {
   segment_closed_count: number;
 }
 
-interface RecordLocatorDayData {
-  date: string;
-  checkin_initiated: number;
-  record_locator_init_count: number;
-  record_locator_started_count: number;
-  record_locator_completed_count: number;
-  record_locator_closed_count: number;
-  record_locator_failed_count: number;
-  record_locator_abandoned_count: number;
-  record_locator_create_payment_count?: number;
-  record_locator_create_payment_failed_count?: number;
-}
-
-interface RecordLocatorData {
-  total_checkin_initiated: number;
-  total_record_locator_init: number;
-  total_record_locator_started: number;
-  total_record_locator_completed: number;
-  total_record_locator_closed: number;
-  total_record_locator_failed: number;
-  total_record_locator_abandoned: number;
-  total_record_locator_init_abandoned: number;
-  total_record_locator_init_abandoned_error?: number | null;
-  total_record_locator_init_abandoned_voluntary?: number | null;
-  total_checkin_pre_init_abandoned_error?: number | null;
-  total_checkin_pre_init_abandoned_voluntary?: number | null;
-  record_locator_by_day: RecordLocatorDayData[];
-}
-
 /** Origen dentro del grupo Check in (para rutear exports en la app consumidora). */
-export type CheckinContainerExportSource = 'recordLocator' | 'checkin' | 'checkinMetrics' | 'checkinSegments'
+export type CheckinContainerExportSource = 'checkin' | 'checkinSegments'
 
 export interface CheckinContainerExportPayload {
   source: CheckinContainerExportSource
@@ -108,23 +68,14 @@ const props = withDefaults(
     /** Si es true, aplica loading a todas las vistas hijas. */
     loading?: boolean
     checkinLoading?: boolean
-    checkinMetricsLoading?: boolean
-    recordLocatorLoading?: boolean
     segmentsLoading?: boolean
     showCheckin?: boolean
-    showCheckinMetrics?: boolean
     enableExport?: boolean
     exportLoading?: boolean
-    isAvianca?: boolean
     theme?: Theme
     /** Shape Checkin.vue (métricas de flujo) */
     checkinData?: object
     checkinFailedData?: object
-    /** Shape CheckinMetrics.vue */
-    checkinMetricsData?: object
-    checkinMetricsFailedData?: object
-    /** Shape RecordLocator.vue. Si no se pasa, usa checkinMetricsData por compatibilidad. */
-    recordLocatorData?: RecordLocatorData
     /** Shape CheckinSegments */
     segmentsData?: SegmentDatum[];
   }>(),
@@ -133,14 +84,10 @@ const props = withDefaults(
     childrenInitiallyOpen: true,
     loading: false,
     checkinLoading: false,
-    checkinMetricsLoading: false,
-    recordLocatorLoading: false,
     segmentsLoading: false,
     showCheckin: true,
-    showCheckinMetrics: false,
     enableExport: false,
     exportLoading: false,
-    isAvianca: false,
     theme: undefined,
   }
 )
@@ -150,10 +97,7 @@ const emit = defineEmits<{
 }>()
 
 const effectiveCheckinLoading = computed(() => props.loading || props.checkinLoading)
-const effectiveCheckinMetricsLoading = computed(() => props.loading || props.checkinMetricsLoading)
-const effectiveRecordLocatorLoading = computed(() => props.loading || props.recordLocatorLoading || props.checkinMetricsLoading)
 const effectiveSegmentsLoading = computed(() => props.loading || props.segmentsLoading)
-const effectiveRecordLocatorData = computed(() => props.recordLocatorData ?? props.checkinMetricsData as RecordLocatorData | undefined)
 
 function handleChildExport(source: CheckinContainerExportSource, format: ExportFormat) {
   emit('export', { source, format })

@@ -50,61 +50,6 @@ const mockCheckinFailedData = {
   ],
 }
 
-const mockCheckinMetricsData = {
-  airline_name: 'Clic Air',
-  start_date: '2025-11-01',
-  end_date: '2025-12-05',
-  total_record_locator_init: 36,
-  total_record_locator_started: 137,
-  total_record_locator_completed: 24,
-  total_record_locator_closed: 9,
-  total_record_locator_failed: 3,
-  total_record_locator_abandoned: 1,
-  total_record_locator_init_abandoned: 21,
-  total_checkin_initiated: 167,
-  record_locator_by_day: [
-    {
-      date: '2025-12-03',
-      record_locator_init_count: 5,
-      record_locator_started_count: 5,
-      record_locator_completed_count: 3,
-      record_locator_closed_count: 3,
-      record_locator_failed_count: 1,
-      record_locator_abandoned_count: 0,
-      checkin_initiated: 3,
-    },
-    {
-      date: '2025-12-02',
-      record_locator_init_count: 2,
-      record_locator_started_count: 2,
-      record_locator_completed_count: 1,
-      record_locator_closed_count: 1,
-      record_locator_failed_count: 0,
-      record_locator_abandoned_count: 0,
-      checkin_initiated: 2,
-    },
-  ],
-}
-
-const mockCheckinMetricsFailedData = {
-  airline_name: 'Clic Air',
-  start_date: '2025-11-01',
-  end_date: '2025-12-05',
-  total_checkin_failed: 5,
-  total_checkin_unrecovered: 0,
-  total_checkin_init_abandoned: 12,
-  failed_by_step_by_day: [
-    {
-      date: '2025-11-05',
-      steps: [
-        { step_name: 'save_missing_info', failed_count: 2 },
-        { step_name: 'checkin_segments', failed_count: 1 },
-      ],
-    },
-  ],
-  unrecovered_by_step: [],
-}
-
 const mockSegmentsData = [
   {
     departure_airport: 'MEX',
@@ -144,20 +89,12 @@ const meta = {
       description: 'Loading en todos los bloques',
     },
     checkinLoading: { control: 'boolean' },
-    checkinMetricsLoading: { control: 'boolean' },
-    recordLocatorLoading: { control: 'boolean' },
     segmentsLoading: { control: 'boolean' },
     showCheckin: {
       control: 'boolean',
       description:
-        'Muestra el bloque Sankey/tablas Checkin.vue (métricas de flujo `checkin_*`) entre Record locator y Segmentos',
+        'Muestra el bloque Sankey/tablas Checkin.vue (métricas de flujo `checkin_*`) antes de Segmentos',
     },
-    showCheckinMetrics: {
-      control: 'boolean',
-      description:
-        'Reservado para un bloque CheckinMetrics en este contenedor; hoy solo afecta la API del componente.',
-    },
-    isAvianca: { control: 'boolean' },
     enableExport: { control: 'boolean' },
     exportLoading: { control: 'boolean' },
     onExport: {
@@ -169,7 +106,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa Record locator, métricas de flujo Check-in (Sankey Checkin.vue) y Checkin Segments bajo un único colapsable “Check in”. Los exports pueden indicar origen recordLocator | checkin | checkinSegments.',
+          'Agrupa métricas de flujo Check-in (Sankey Checkin.vue) y Checkin Segments bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments.',
       },
     },
   },
@@ -184,19 +121,12 @@ export const Default: Story = {
     childrenInitiallyOpen: true,
     loading: false,
     checkinLoading: false,
-    checkinMetricsLoading: false,
-    recordLocatorLoading: false,
     segmentsLoading: false,
     showCheckin: true,
-    showCheckinMetrics: false,
-    isAvianca: false,
     enableExport: true,
     exportLoading: false,
     checkinData: mockCheckinData,
     checkinFailedData: mockCheckinFailedData,
-    recordLocatorData: mockCheckinMetricsData,
-    checkinMetricsData: mockCheckinMetricsData,
-    checkinMetricsFailedData: mockCheckinMetricsFailedData,
     segmentsData: mockSegmentsData,
   },
 }
