@@ -1,6 +1,6 @@
 import { ArrowUpTrayIcon, LinkIcon } from '@heroicons/vue/24/outline';
 import type { Meta, StoryObj } from '@storybook/vue3';
-import { h } from 'vue';
+import { h, ref } from 'vue';
 import Button from './Button.vue';
 import type { KiutButtonMenuOption } from './Button.vue';
 
@@ -13,7 +13,7 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component:
-          'Variantes **primary**, **secondary**, **action** (solo icono, fondo transparente; hover con acento de marca) y **dropdown** (menú con opciones de icono, título y descripción). Prop **`menuAlign`** (`left` | `right`) para anclar el panel al borde izquierdo o derecho del botón. Prop **`tooltip`** para burbuja encima del botón. **`tone="danger"`** en `action` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
+          'Variantes **primary**, **secondary**, **action** (solo icono, fondo transparente; hover con acento de marca) y **dropdown** (menú con opciones de icono, título y descripción). Prop **`loading`** en primary/secondary/action: spinner, cursor de espera y clics bloqueados mientras se espera respuesta de backend. Prop **`menuAlign`** (`left` | `right`) para anclar el panel al borde izquierdo o derecho del botón. Prop **`tooltip`** para burbuja encima del botón. **`tone="danger"`** en `action` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
       },
     },
   },
@@ -25,6 +25,9 @@ const meta: Meta<typeof Button> = {
     tone: {
       control: 'select',
       options: ['default', 'danger'],
+    },
+    loading: {
+      control: 'boolean',
     },
   },
 };
@@ -306,6 +309,107 @@ export const ActionableRow: Story = {
                 { icon: iconTrash }
               ),
             ]
+          ),
+        ]);
+    },
+  }),
+};
+
+export const PrimaryLoading: Story = {
+  args: {
+    variant: 'primary',
+    loading: true,
+  },
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return () =>
+        h(Button, { variant: args.variant, loading: args.loading }, {
+          icon: iconPlus,
+          default: () => 'Agregar idioma',
+        });
+    },
+  }),
+};
+
+export const SecondaryLoading: Story = {
+  args: {
+    variant: 'secondary',
+    loading: true,
+  },
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return () =>
+        h(Button, { variant: args.variant, loading: args.loading }, {
+          icon: iconRefresh,
+          default: () => 'Refresh',
+        });
+    },
+  }),
+};
+
+export const ActionLoading: Story = {
+  args: {
+    variant: 'action',
+    loading: true,
+    tooltip: 'Guardando cambios',
+  },
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return () =>
+        h(Button, {
+          variant: args.variant,
+          loading: args.loading,
+          tooltip: args.tooltip,
+        }, {
+          icon: iconPencil,
+        });
+    },
+  }),
+};
+
+/** Simula una llamada a backend de 2 s al hacer clic. */
+export const LoadingInteractive: Story = {
+  render: () => ({
+    components: { Button },
+    setup() {
+      const loading = ref(false);
+
+      const handleClick = () => {
+        if (loading.value) return;
+        loading.value = true;
+        window.setTimeout(() => {
+          loading.value = false;
+        }, 2000);
+      };
+
+      return () =>
+        h('div', { class: 'flex flex-wrap items-center gap-3' }, [
+          h(
+            Button,
+            {
+              variant: 'primary',
+              loading: loading.value,
+              onClick: handleClick,
+            },
+            {
+              icon: iconPlus,
+              default: () => 'Guardar',
+            }
+          ),
+          h(
+            Button,
+            {
+              variant: 'secondary',
+              loading: loading.value,
+              onClick: handleClick,
+            },
+            {
+              icon: iconRefresh,
+              default: () => 'Sincronizar',
+            }
           ),
         ]);
     },

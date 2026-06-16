@@ -90,14 +90,16 @@
   >
     <button
       :type="buttonType"
-      class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
-      :class="[variantClass, attrs.class]"
-      :disabled="disabled"
+      class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
+      :class="[buttonStateClass, variantClass, attrs.class]"
+      :disabled="isEffectivelyDisabled"
+      :aria-busy="loading || undefined"
       :aria-label="effectiveAriaLabel"
       v-bind="forwardedAttrs"
     >
+      <ButtonLoadingSpinner v-if="loading" :compact="isAction" />
       <span
-        v-if="$slots.icon"
+        v-else-if="$slots.icon"
         class="inline-flex shrink-0"
         :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
         aria-hidden="true"
@@ -122,14 +124,16 @@
   <button
     v-else
     :type="buttonType"
-    class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
-    :class="[variantClass, attrs.class]"
-    :disabled="disabled"
+    class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
+    :class="[buttonStateClass, variantClass, attrs.class]"
+    :disabled="isEffectivelyDisabled"
+    :aria-busy="loading || undefined"
     :aria-label="effectiveAriaLabel"
     v-bind="forwardedAttrs"
   >
+    <ButtonLoadingSpinner v-if="loading" :compact="isAction" />
     <span
-      v-if="$slots.icon"
+      v-else-if="$slots.icon"
       class="inline-flex shrink-0"
       :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
       aria-hidden="true"
@@ -157,6 +161,7 @@ import {
   type Component,
 } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
+import ButtonLoadingSpinner from './ButtonLoadingSpinner.vue';
 
 defineOptions({ name: 'Button', inheritAttrs: false });
 
@@ -181,6 +186,11 @@ const props = withDefaults(
     /** Solo aplica a `variant="action"`: icono rojo y hover destructivo. */
     tone?: KiutButtonActionTone;
     disabled?: boolean;
+    /**
+     * Espera de respuesta de backend: muestra spinner, bloquea clics y cursor de espera.
+     * Aplica a `primary`, `secondary` y `action` (no a `dropdown`).
+     */
+    loading?: boolean;
     /** Texto del tooltip (posición superior). Útil en acciones solo icono. */
     tooltip?: string;
     /** Opciones del menú. Requerido cuando `variant="dropdown"`. */
@@ -198,6 +208,7 @@ const props = withDefaults(
     variant: 'primary',
     tone: 'default',
     disabled: false,
+    loading: false,
     options: () => [],
     menuMinWidth: '280px',
     menuAlign: 'left',
@@ -215,6 +226,14 @@ const isDropdown = computed(() => props.variant === 'dropdown');
 const isAction = computed(() => props.variant === 'action');
 
 const showLabelSlot = computed(() => !isAction.value);
+
+const isEffectivelyDisabled = computed(() => props.disabled || props.loading);
+
+const buttonStateClass = computed(() =>
+  props.loading
+    ? 'cursor-wait disabled:pointer-events-none'
+    : 'disabled:pointer-events-none disabled:opacity-45'
+);
 
 const effectiveAriaLabel = computed(() => {
   const fromAttrs = attrs['aria-label'];
