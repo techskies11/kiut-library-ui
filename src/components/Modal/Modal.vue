@@ -43,6 +43,7 @@
             variant="action"
             type="button"
             class="shrink-0"
+            :disabled="loading"
             @click="handleCancel"
           >
             <template #icon>
@@ -56,10 +57,10 @@
         </div>
 
         <footer class="flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2">
-          <Button variant="secondary" type="button" @click="handleCancel">
+          <Button variant="secondary" type="button" :disabled="loading" @click="handleCancel">
             {{ cancelLabel }}
           </Button>
-          <Button variant="primary" type="button" @click="handleConfirm">
+          <Button variant="primary" type="button" :loading="loading" @click="handleConfirm">
             {{ confirmLabel }}
           </Button>
         </footer>
@@ -87,11 +88,17 @@ const props = withDefaults(
     confirmLabel?: string;
     /** Ancho máximo del panel en px. Por defecto `512`. */
     width?: number;
+    /**
+     * Espera de respuesta de backend tras confirmar: spinner en el botón primario
+     * y bloqueo de cancelar, cerrar y Escape.
+     */
+    loading?: boolean;
   }>(),
   {
     cancelLabel: 'Cancelar',
     confirmLabel: 'Guardar',
     width: 512,
+    loading: false,
   }
 );
 
@@ -108,6 +115,7 @@ const titleId = `${uid}-title`;
 const panelRef = ref<HTMLElement | null>(null);
 
 function handleCancel() {
+  if (props.loading) return;
   emit('cancel');
   emit('update:modelValue', false);
 }
@@ -119,6 +127,7 @@ function handleConfirm() {
 function onDocumentKeydown(e: KeyboardEvent) {
   if (!props.modelValue) return;
   if (e.key === 'Escape') {
+    if (props.loading) return;
     e.preventDefault();
     handleCancel();
   }

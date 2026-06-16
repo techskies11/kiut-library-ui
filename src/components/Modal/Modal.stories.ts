@@ -21,7 +21,7 @@ const meta: Meta<typeof Modal> = {
     docs: {
       description: {
         component:
-          'Diálogo modal con cabecera (título, subtítulo, cierre), cuerpo con **slot** y pie con **Cancelar** / **Guardar**. Usa `v-model` para la visibilidad y emite **`cancel`** y **`confirm`**. Revisa **Theme** en Storybook para modo claro y oscuro.',
+          'Diálogo modal con cabecera (título, subtítulo, cierre), cuerpo con **slot** y pie con **Cancelar** / **Guardar**. Usa `v-model` para la visibilidad y emite **`cancel`** y **`confirm`**. Prop **`loading`**: spinner en confirmar y bloqueo de cierre mientras se espera respuesta de backend. Revisa **Theme** en Storybook para modo claro y oscuro.',
       },
     },
   },
@@ -36,6 +36,7 @@ const meta: Meta<typeof Modal> = {
       description: 'Ancho máximo del panel en px. Por defecto `512`.',
       table: { defaultValue: { summary: '512' } },
     },
+    loading: { control: 'boolean' },
   },
 };
 
@@ -131,6 +132,74 @@ export const NuevoPromocode: Story = {
 };
 
 const WIDTHS = [400, 512, 640, 768, 960];
+
+export const Guardando: Story = {
+  args: {
+    title: 'Nuevo promocode',
+    subtitle: 'Simula guardado en backend al confirmar.',
+    confirmLabel: 'Guardar',
+    loading: false,
+  },
+  render: (args) => ({
+    components: { Modal, Button, InputText },
+    setup() {
+      const open = ref(true);
+      const loading = ref(false);
+      const codigo = ref('SUMMER25');
+
+      const handleConfirm = () => {
+        if (loading.value) return;
+        loading.value = true;
+        window.setTimeout(() => {
+          loading.value = false;
+          open.value = false;
+        }, 2000);
+      };
+
+      return () =>
+        h('div', { class: 'min-h-[480px] bg-[color:var(--kiut-bg-primary)] p-8 dark:bg-[#1a1a1c]' }, [
+          h(
+            Button,
+            {
+              variant: 'primary',
+              onClick: () => {
+                open.value = true;
+              },
+            },
+            () => 'Abrir modal'
+          ),
+          h(
+            Modal,
+            {
+              modelValue: open.value,
+              'onUpdate:modelValue': (v: boolean) => {
+                open.value = v;
+              },
+              title: args.title,
+              subtitle: args.subtitle,
+              cancelLabel: args.cancelLabel,
+              confirmLabel: args.confirmLabel,
+              width: args.width ?? 512,
+              loading: loading.value,
+              onCancel: () => {},
+              onConfirm: handleConfirm,
+            },
+            {
+              default: () =>
+                h(InputText, {
+                  modelValue: codigo.value,
+                  'onUpdate:modelValue': (v: string) => {
+                    codigo.value = v;
+                  },
+                  label: 'Código',
+                  placeholder: 'Ej: SUMMER25',
+                }),
+            }
+          ),
+        ]);
+    },
+  }),
+};
 
 export const Tamaños: Story = {
   parameters: {
