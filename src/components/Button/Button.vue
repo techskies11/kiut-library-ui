@@ -84,6 +84,82 @@
       </div>
     </Teleport>
   </div>
+  <div
+    v-else-if="isSplit"
+    ref="rootRef"
+    class="relative inline-flex shrink-0 font-sans"
+  >
+    <button
+      ref="buttonRef"
+      type="button"
+      class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
+      :class="[variantClass, attrs.class]"
+      :disabled="disabled"
+      :aria-expanded="open"
+      aria-haspopup="menu"
+      :aria-controls="menuId"
+      :aria-label="effectiveAriaLabel"
+      v-bind="forwardedAttrs"
+      @click="onTriggerClick"
+      @keydown="onTriggerKeydown"
+    >
+      <span
+        v-if="$slots.icon"
+        class="inline-flex shrink-0 [&>svg]:size-4"
+        aria-hidden="true"
+      >
+        <slot name="icon" />
+      </span>
+    </button>
+
+    <Teleport to="body">
+      <div
+        v-show="open"
+        ref="panelRef"
+        :id="menuId"
+        role="menu"
+        tabindex="-1"
+        class="fixed z-[300] overflow-hidden rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-[color:var(--kiut-border-light)]"
+        :style="floatingStyle"
+        @keydown.stop="onMenuKeydown"
+      >
+        <button
+          v-for="(opt, index) in enabledOptions"
+          :key="optionKey(opt)"
+          type="button"
+          role="menuitem"
+          :disabled="opt.disabled"
+          :class="menuItemClass(index)"
+          @click.stop="selectOption(opt)"
+          @mouseenter="highlightIndex = index"
+        >
+          <span
+            v-if="opt.icon"
+            class="inline-flex shrink-0 text-[color:var(--kiut-text-muted)] dark:text-slate-400"
+            aria-hidden="true"
+          >
+            <component :is="opt.icon" class="h-5 w-5" />
+          </span>
+          <span
+            v-else
+            class="h-5 w-5 shrink-0"
+            aria-hidden="true"
+          />
+          <span class="min-w-0 flex-1 text-left">
+            <span class="block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100">
+              {{ opt.label }}
+            </span>
+            <span
+              v-if="opt.description"
+              class="mt-0.5 block text-xs text-[color:var(--kiut-text-muted)] dark:text-slate-400"
+            >
+              {{ opt.description }}
+            </span>
+          </span>
+        </button>
+      </div>
+    </Teleport>
+  </div>
   <span
     v-else-if="hasTooltip"
     class="group relative inline-flex shrink-0"
@@ -165,7 +241,7 @@ import ButtonLoadingSpinner from './ButtonLoadingSpinner.vue';
 
 defineOptions({ name: 'Button', inheritAttrs: false });
 
-export type KiutButtonVariant = 'primary' | 'secondary' | 'action' | 'dropdown';
+export type KiutButtonVariant = 'primary' | 'secondary' | 'action' | 'dropdown' | 'split';
 
 export type KiutButtonActionTone = 'default' | 'danger';
 
@@ -183,17 +259,17 @@ export type KiutButtonMenuAlign = 'left' | 'right';
 const props = withDefaults(
   defineProps<{
     variant?: KiutButtonVariant;
-    /** Solo aplica a `variant="action"`: icono rojo y hover destructivo. */
+    /** Solo aplica a `variant="action"` y `variant="split"`: icono rojo y hover destructivo. */
     tone?: KiutButtonActionTone;
     disabled?: boolean;
     /**
      * Espera de respuesta de backend: muestra spinner, bloquea clics y cursor de espera.
-     * Aplica a `primary`, `secondary` y `action` (no a `dropdown`).
+     * Aplica a `primary`, `secondary` y `action` (no a `dropdown` ni `split`).
      */
     loading?: boolean;
-    /** Texto del tooltip (posición superior). Útil en acciones solo icono. */
+    /** Texto del tooltip (posición superior). Útil en acciones solo icono. No aplica a `split`. */
     tooltip?: string;
-    /** Opciones del menú. Requerido cuando `variant="dropdown"`. */
+    /** Opciones del menú. Requerido cuando `variant="dropdown"` o `variant="split"`. */
     options?: KiutButtonMenuOption[];
     /** Ancho mínimo del panel desplegable (CSS length). */
     menuMinWidth?: string;
@@ -220,12 +296,18 @@ const emit = defineEmits<{
 }>();
 
 const attrs = useAttrs();
-const hasTooltip = computed(() => Boolean(props.tooltip?.trim()) && props.variant !== 'dropdown');
+const hasTooltip = computed(
+  () =>
+    Boolean(props.tooltip?.trim()) &&
+    props.variant !== 'dropdown' &&
+    props.variant !== 'split'
+);
 
 const isDropdown = computed(() => props.variant === 'dropdown');
+const isSplit = computed(() => props.variant === 'split');
 const isAction = computed(() => props.variant === 'action');
 
-const showLabelSlot = computed(() => !isAction.value);
+const showLabelSlot = computed(() => !isAction.value && !isSplit.value);
 
 const isEffectivelyDisabled = computed(() => props.disabled || props.loading);
 
@@ -238,7 +320,7 @@ const buttonStateClass = computed(() =>
 const effectiveAriaLabel = computed(() => {
   const fromAttrs = attrs['aria-label'];
   if (typeof fromAttrs === 'string' && fromAttrs.length > 0) return fromAttrs;
-  if (isAction.value && props.tooltip?.trim()) return props.tooltip.trim();
+  if ((isAction.value || isSplit.value) && props.tooltip?.trim()) return props.tooltip.trim();
   return undefined;
 });
 
@@ -273,7 +355,7 @@ const variantClass = computed(() => {
       'dark:active:bg-slate-700/90',
     ];
   }
-  /* action: solo icono, sin borde ni fondo por defecto */
+  /* action / split: solo icono, sin borde ni fondo por defecto */
   const danger = props.tone === 'danger';
   if (danger) {
     return [
@@ -369,7 +451,6 @@ function selectOption(opt: KiutButtonMenuOption) {
 
 function onTriggerClick(e: MouseEvent) {
   e.stopPropagation();
-  if (props.disabled) return;
   toggle();
 }
 

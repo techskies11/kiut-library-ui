@@ -13,14 +13,14 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component:
-          'Variantes **primary**, **secondary**, **action** (solo icono, fondo transparente; hover con acento de marca) y **dropdown** (menú con opciones de icono, título y descripción). Prop **`loading`** en primary/secondary/action: spinner, cursor de espera y clics bloqueados mientras se espera respuesta de backend. Prop **`menuAlign`** (`left` | `right`) para anclar el panel al borde izquierdo o derecho del botón. Prop **`tooltip`** para burbuja encima del botón. **`tone="danger"`** en `action` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
+          'Variantes **primary**, **secondary**, **action** (solo icono, fondo transparente; hover con acento de marca), **dropdown** (menú con opciones de icono, título y descripción) y **split** (solo icono como `action`, sin tooltip: clic abre el menú). Prop **`loading`** en primary/secondary/action: spinner, cursor de espera y clics bloqueados mientras se espera respuesta de backend. Prop **`menuAlign`** (`left` | `right`) para anclar el panel al borde izquierdo o derecho del botón. Prop **`tooltip`** para burbuja encima del botón (no aplica a `split`). **`tone="danger"`** en `action` y `split` para acciones destructivas. Usar la toolbar **Theme** para revisar claro/oscuro.',
       },
     },
   },
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'action', 'dropdown'],
+      options: ['primary', 'secondary', 'action', 'dropdown', 'split'],
     },
     tone: {
       control: 'select',
@@ -309,6 +309,99 @@ export const ActionableRow: Story = {
                 { icon: iconTrash }
               ),
             ]
+          ),
+        ]);
+    },
+  }),
+};
+
+const editDocumentOptions: KiutButtonMenuOption[] = [
+  {
+    value: 'edit-metadata',
+    label: 'Editar metadatos',
+    description: 'Título, idioma y categoría',
+    icon: ArrowUpTrayIcon,
+  },
+  {
+    value: 'edit-content',
+    label: 'Editar contenido',
+    description: 'Abre el editor de texto',
+    icon: LinkIcon,
+  },
+];
+
+/** Solo icono (estilo action): clic abre el menú; sin tooltip en hover. */
+export const SplitAction: Story = {
+  render: () => ({
+    components: { Button },
+    setup() {
+      const onSelect = (option: KiutButtonMenuOption) => {
+        // eslint-disable-next-line no-console
+        console.log('select', option.value);
+      };
+      const deleteOptions: KiutButtonMenuOption[] = [
+        {
+          value: 'archive',
+          label: 'Archivar',
+          description: 'Oculta el documento sin borrarlo',
+        },
+        {
+          value: 'delete',
+          label: 'Eliminar permanentemente',
+          description: 'Esta acción no se puede deshacer',
+        },
+      ];
+      return () =>
+        h('div', { class: 'flex flex-col gap-6' }, [
+          h('div', { class: 'flex flex-col gap-2' }, [
+            h(
+              'p',
+              { class: 'text-sm font-semibold text-[color:var(--kiut-text-primary)]' },
+              'Split (icono + menú)'
+            ),
+            h(
+              'div',
+              { class: 'flex items-center gap-1' },
+              [
+                h(
+                  Button,
+                  {
+                    variant: 'split',
+                    'aria-label': 'Editar documento',
+                    options: editDocumentOptions,
+                    onSelect,
+                  },
+                  { icon: iconPencil }
+                ),
+                h(
+                  Button,
+                  {
+                    variant: 'split',
+                    tone: 'danger',
+                    'aria-label': 'Eliminar',
+                    options: deleteOptions,
+                    onSelect,
+                  },
+                  { icon: iconTrash }
+                ),
+                h(
+                  Button,
+                  {
+                    variant: 'split',
+                    disabled: true,
+                    'aria-label': 'Deshabilitado',
+                    options: editDocumentOptions,
+                    onSelect,
+                  },
+                  { icon: iconDownload }
+                ),
+              ]
+            ),
+          ]),
+          h(
+            'p',
+            { class: 'text-xs text-[color:var(--kiut-text-muted)] dark:text-slate-400' },
+            'Clic en el icono abre el menú de opciones.'
           ),
         ]);
     },
