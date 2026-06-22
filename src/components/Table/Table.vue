@@ -69,9 +69,12 @@
         </thead>
         <tbody>
           <tr
-            v-for="(row, rowIndex) in rows"
-            :key="rowKeyAt(row, rowIndex)"
-            class="h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]"
+            v-for="entry in visibleRows"
+            :key="entry.key"
+            :class="[
+              'h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
+              entry.depth > 0 ? 'kiut-table-row--child dark:bg-[#1a1a22]' : '',
+            ]"
           >
             <td
               v-if="selectable"
@@ -80,9 +83,9 @@
               <input
                 type="checkbox"
                 class="kiut-table-checkbox"
-                :checked="isRowSelected(row, rowIndex)"
-                :aria-label="ariaLabelForRow(row, rowIndex)"
-                @change="onToggleRow(row, rowIndex)"
+                :checked="isRowSelectedByKey(entry.key)"
+                :aria-label="ariaLabelForKey(entry.key)"
+                @change="onToggleRowByKey(entry.key)"
               />
             </td>
             <td
@@ -94,13 +97,54 @@
                 col.cellClass ?? '',
               ]"
             >
-              <slot
-                :name="cellSlotName(col.key)"
-                :row="row"
-                :column="col"
-                :value="cellValue(row, col.key)"
+              <div
+                v-if="isExpandColumn(col.key)"
+                class="flex min-w-0 items-center gap-1"
+                :style="{ paddingLeft: `${entry.depth * 1.25}rem` }"
               >
-                {{ formatCell(cellValue(row, col.key)) }}
+                <slot
+                  name="row-expand"
+                  :row="entry.row"
+                  :expanded="entry.isExpanded"
+                  :has-children="entry.hasChildren"
+                  :depth="entry.depth"
+                  :toggle="() => toggleExpand(entry)"
+                >
+                  <button
+                    v-if="canExpandRow(entry)"
+                    type="button"
+                    class="kiut-table-expand-btn shrink-0"
+                    :aria-expanded="entry.isExpanded"
+                    :aria-label="entry.isExpanded ? ariaLabelCollapseRow : ariaLabelExpandRow"
+                    @click.stop="toggleExpand(entry)"
+                  >
+                    <ChevronDownIcon
+                      class="h-4 w-4 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
+                      :class="{ '-rotate-90': !entry.isExpanded }"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <span
+                    v-else
+                    class="inline-block w-4 shrink-0"
+                    aria-hidden="true"
+                  />
+                </slot>
+                <div class="min-w-0 flex-1">
+                  <slot
+                    :name="cellSlotName(col.key)"
+                    v-bind="cellSlotProps(entry, col)"
+                  >
+                    {{ formatCell(cellValue(entry.row, col.key)) }}
+                  </slot>
+                </div>
+              </div>
+              <slot
+                v-else
+                :name="cellSlotName(col.key)"
+                v-bind="cellSlotProps(entry, col)"
+              >
+                {{ formatCell(cellValue(entry.row, col.key)) }}
               </slot>
             </td>
           </tr>
@@ -111,9 +155,17 @@
 </template>
 
 <script setup lang="ts">
+import { ChevronDownIcon } from "@heroicons/vue/24/outline";
 import { computed, nextTick, ref, watch } from "vue";
+import {
+  collectAllTableRowKeys,
+  flattenVisibleTableRows,
+  type FlatTableRow,
+} from "./tableTree";
 
 defineOptions({ name: "Table" });
+
+export type { FlatTableRow } from "./tableTree";
 
 export type TableColumnAlign = "left" | "center" | "right";
 
@@ -128,6 +180,16 @@ export interface TableColumn {
 }
 
 export type TableSortDirection = "asc" | "desc";
+
+export interface TableCellSlotProps {
+  row: Record<string, unknown>;
+  column: TableColumn;
+  value: unknown;
+  depth: number;
+  isChild: boolean;
+  hasChildren: boolean;
+  expanded: boolean;
+}
 
 const props = withDefaults(
   defineProps<{
@@ -147,6 +209,24 @@ const props = withDefaults(
     fixedLayout?: boolean;
     sortKey?: string | null;
     sortDirection?: TableSortDirection | null;
+    /** Activa filas en cascada (padre → hijos en `childrenKey`). */
+    expandable?: boolean;
+    /** Campo en cada fila donde están los hijos. */
+    childrenKey?: string;
+    /** Columna que muestra chevron e indentación. Default: primera columna. */
+    expandColumnKey?: string;
+    /** Keys de filas expandidas (controlado). */
+    expandedKeys?: string[];
+    /** Keys expandidas al montar (no controlado). */
+    defaultExpandedKeys?: string[];
+    /** Solo una fila expandida a la vez. */
+    singleExpand?: boolean;
+    /** Profundidad máxima del árbol (0 = solo raíces). */
+    maxDepth?: number;
+    /** Fila expandible aunque no tenga hijos (p. ej. carga lazy). */
+    isRowExpandable?: (row: Record<string, unknown>) => boolean;
+    ariaLabelExpandRow?: string;
+    ariaLabelCollapseRow?: string;
   }>(),
   {
     selectable: false,
@@ -157,15 +237,68 @@ const props = withDefaults(
     fixedLayout: false,
     sortKey: null,
     sortDirection: null,
+    expandable: false,
+    childrenKey: "children",
+    expandColumnKey: undefined,
+    expandedKeys: undefined,
+    defaultExpandedKeys: () => [],
+    singleExpand: false,
+    maxDepth: undefined,
+    isRowExpandable: undefined,
+    ariaLabelExpandRow: "Expandir fila",
+    ariaLabelCollapseRow: "Contraer fila",
   },
 );
 
 const emit = defineEmits<{
   "update:selectedKeys": [keys: string[]];
+  "update:expandedKeys": [keys: string[]];
   sort: [key: string];
+  expand: [key: string, row: Record<string, unknown>];
+  collapse: [key: string, row: Record<string, unknown>];
 }>();
 
 const selectAllRef = ref<HTMLInputElement | null>(null);
+const internalExpandedKeys = ref<string[]>([...props.defaultExpandedKeys]);
+
+const expandedKeysModel = computed({
+  get(): string[] {
+    return props.expandedKeys ?? internalExpandedKeys.value;
+  },
+  set(keys: string[]): void {
+    internalExpandedKeys.value = keys;
+    emit("update:expandedKeys", keys);
+  },
+});
+
+const expandedKeysSet = computed(
+  () => new Set(expandedKeysModel.value),
+);
+
+const effectiveExpandColumnKey = computed(
+  () => props.expandColumnKey ?? props.columns[0]?.key ?? "",
+);
+
+const treeOptions = computed(() => ({
+  childrenKey: props.childrenKey,
+  expandedKeys: expandedKeysSet.value,
+  resolveRowKey,
+  maxDepth: props.maxDepth,
+}));
+
+const visibleRows = computed((): FlatTableRow[] => {
+  if (!props.expandable) {
+    return props.rows.map((row, index) => ({
+      row,
+      key: resolveRowKey(row, index),
+      depth: 0,
+      hasChildren: false,
+      isExpanded: false,
+      parentKey: null,
+    }));
+  }
+  return flattenVisibleTableRows(props.rows, treeOptions.value);
+});
 
 function cellSlotName(key: string): string {
   return `cell-${key}`;
@@ -196,28 +329,69 @@ function formatCell(v: unknown): string {
   return String(v);
 }
 
-function rowKeyAt(row: Record<string, unknown>, index: number): string {
-  return resolveRowKey(row, index);
+function isExpandColumn(colKey: string): boolean {
+  return props.expandable && colKey === effectiveExpandColumnKey.value;
 }
 
-const rowKeys = computed(() =>
-  props.rows.map((row, i) => resolveRowKey(row, i)),
-);
+function canExpandRow(entry: FlatTableRow): boolean {
+  return entry.hasChildren || (props.isRowExpandable?.(entry.row) ?? false);
+}
 
-function isRowSelected(row: Record<string, unknown>, index: number): boolean {
-  const k = resolveRowKey(row, index);
-  return props.selectedKeys.includes(k);
+function cellSlotProps(
+  entry: FlatTableRow,
+  column: TableColumn,
+): TableCellSlotProps {
+  return {
+    row: entry.row,
+    column,
+    value: cellValue(entry.row, column.key),
+    depth: entry.depth,
+    isChild: entry.depth > 0,
+    hasChildren: entry.hasChildren,
+    expanded: entry.isExpanded,
+  };
+}
+
+function toggleExpand(entry: FlatTableRow): void {
+  if (!canExpandRow(entry)) return;
+
+  const set = new Set(expandedKeysModel.value);
+  if (set.has(entry.key)) {
+    set.delete(entry.key);
+    emit("collapse", entry.key, entry.row);
+  } else {
+    if (props.singleExpand) {
+      set.clear();
+    }
+    set.add(entry.key);
+    emit("expand", entry.key, entry.row);
+  }
+  expandedKeysModel.value = [...set];
+}
+
+const rowKeys = computed(() => {
+  if (props.expandable) {
+    return collectAllTableRowKeys(props.rows, {
+      childrenKey: props.childrenKey,
+      resolveRowKey,
+    });
+  }
+  return props.rows.map((row, i) => resolveRowKey(row, i));
+});
+
+function isRowSelectedByKey(key: string): boolean {
+  return props.selectedKeys.includes(key);
 }
 
 const allSelected = computed(() => {
-  if (!props.selectable || props.rows.length === 0) return false;
+  if (!props.selectable || rowKeys.value.length === 0) return false;
   return rowKeys.value.every((k) => props.selectedKeys.includes(k));
 });
 
 const someSelected = computed(() => {
-  if (!props.selectable || props.rows.length === 0) return false;
+  if (!props.selectable || rowKeys.value.length === 0) return false;
   const selected = rowKeys.value.filter((k) => props.selectedKeys.includes(k));
-  return selected.length > 0 && selected.length < props.rows.length;
+  return selected.length > 0 && selected.length < rowKeys.value.length;
 });
 
 watch(
@@ -244,23 +418,21 @@ function onToggleSelectAll(): void {
   }
 }
 
-function onToggleRow(row: Record<string, unknown>, index: number): void {
+function onToggleRowByKey(key: string): void {
   if (!props.selectable) return;
-  const k = resolveRowKey(row, index);
-  const has = props.selectedKeys.includes(k);
+  const has = props.selectedKeys.includes(key);
   if (has) {
     emit(
       "update:selectedKeys",
-      props.selectedKeys.filter((x) => x !== k),
+      props.selectedKeys.filter((x) => x !== key),
     );
   } else {
-    emit("update:selectedKeys", [...props.selectedKeys, k]);
+    emit("update:selectedKeys", [...props.selectedKeys, key]);
   }
 }
 
-function ariaLabelForRow(row: Record<string, unknown>, index: number): string {
-  const k = resolveRowKey(row, index);
-  return `${props.ariaLabelSelectRow} ${k}`;
+function ariaLabelForKey(key: string): string {
+  return `${props.ariaLabelSelectRow} ${key}`;
 }
 
 function onSortColumn(key: string): void {
@@ -282,6 +454,29 @@ function ariaSortForColumn(
 <style scoped>
 .kiut-table {
   font-family: var(--kiut-table-font, "Inter", system-ui, sans-serif);
+}
+
+.kiut-table-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.kiut-table-expand-btn:focus-visible {
+  outline: 2px solid var(--kiut-primary-light, #a78bfa);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kiut-table-expand-btn :deep(svg) {
+    transition: none;
+  }
 }
 
 /* Selección: checkbox circular (referencia UI) */

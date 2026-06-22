@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { h, ref } from 'vue';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import {
+  ArrowDownTrayIcon,
+  PencilSquareIcon,
+  SparklesIcon,
+  TrashIcon,
+} from '@heroicons/vue/24/outline';
+import Tag, { type KiutTagColor } from '../Tag/Tag.vue';
 import Table from './Table.vue';
 import type { TableColumn } from './Table.vue';
 
@@ -39,7 +45,7 @@ const meta: Meta<typeof Table> = {
     docs: {
       description: {
         component:
-          'Tabla declarativa con tokens Kiut. La selección múltiple es opcional (`selectable`). Prueba **Theme** en la toolbar de Storybook para modo claro y oscuro (clase `dark`).',
+          'Tabla declarativa con tokens Kiut. La selección múltiple es opcional (`selectable`). Con `expandable` y `children` en cada fila, las filas hijas se muestran en cascada con chevron e indentación. Prueba **Theme** en la toolbar de Storybook para modo claro y oscuro (clase `dark`).',
       },
     },
   },
@@ -131,6 +137,191 @@ const usersRows = [
   { id: '4', name: 'Diego Medina',   email: 'diego@empresa.com',   phone: '+54 379 4444-4444', groups: ['Admin'],                 area: '',    status: 'Confirmed',      active: false },
   { id: '5', name: 'Sofía Herrera',  email: 'sofia@empresa.com',   phone: '+57 316 5555555',  groups: ['Admin', 'Chats'],        area: '',    status: 'Change required', active: true },
 ];
+
+type KbRow = {
+  id: string;
+  description: string;
+  created_at: string;
+  status: string;
+  statusCount?: number;
+  aiGenerated?: boolean;
+  children?: KbRow[];
+};
+
+const KB_STATUS_COLORS: Record<string, KiutTagColor> = {
+  processed: 'success',
+  pending: 'warning',
+  rejected: 'danger',
+  processing: 'neutral',
+};
+
+const KB_STATUS_LABELS: Record<string, string> = {
+  processed: 'Procesado',
+  pending: 'Pendiente de aprobación',
+  rejected: 'Rechazado',
+  processing: 'Procesando',
+};
+
+const kbColumns: TableColumn[] = [
+  { key: 'description', label: 'DESCRIPCIÓN', headerClass: 'min-w-0', cellClass: 'min-w-0' },
+  { key: 'created_at', label: 'FECHA DE CREACIÓN', headerClass: 'w-40', cellClass: 'w-40' },
+  { key: 'status', label: 'ESTADO', headerClass: 'w-52', cellClass: 'w-52' },
+  { key: 'actions', label: 'ACCIONES', headerClass: 'w-28', cellClass: 'w-28', align: 'right' },
+];
+
+const kbRows: KbRow[] = [
+  {
+    id: 'doc-1',
+    description: 'Política de equipaje actualizada 2026',
+    created_at: '2026-01-15',
+    status: 'processed',
+    aiGenerated: true,
+  },
+  {
+    id: 'site-1',
+    description: 'www.vivaaerobus.com',
+    created_at: '2026-01-15',
+    status: 'processing',
+    statusCount: 23,
+    children: [
+      {
+        id: 'site-1-page-1',
+        description: 'Página principal — www.vivaaerobus.com',
+        created_at: '2026-01-15',
+        status: 'processed',
+        aiGenerated: true,
+      },
+      {
+        id: 'site-1-page-2',
+        description: 'About — www.vivaaerobus.com',
+        created_at: '2026-01-15',
+        status: 'pending',
+        aiGenerated: true,
+      },
+      {
+        id: 'site-1-page-3',
+        description: 'Contact — www.vivaaerobus.com',
+        created_at: '2026-01-15',
+        status: 'rejected',
+      },
+      {
+        id: 'site-1-page-4',
+        description: 'FAQ — www.vivaaerobus.com',
+        created_at: '2026-01-15',
+        status: 'processing',
+      },
+    ],
+  },
+  {
+    id: 'doc-2',
+    description: 'Manual de check-in digital',
+    created_at: '2026-01-14',
+    status: 'pending',
+  },
+  {
+    id: 'doc-3',
+    description: 'Términos y condiciones v3',
+    created_at: '2026-01-12',
+    status: 'rejected',
+  },
+];
+
+export const NestedRows: Story = {
+  name: 'Nested Rows (Knowledge Base)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Filas en cascada con `expandable`, `children` en cada fila padre y chevron en la columna `description`. Usa `v-model:expanded-keys` para controlar qué filas están abiertas.',
+      },
+    },
+  },
+  render: () => ({
+    components: { Table, Tag },
+    setup() {
+      const expandedKeys = ref<string[]>(['site-1']);
+
+      const statusLabel = (row: KbRow) => {
+        const base = KB_STATUS_LABELS[row.status] ?? row.status;
+        if (row.status === 'processing' && row.statusCount != null) {
+          return `${base} (${row.statusCount} documentos)`;
+        }
+        return base;
+      };
+
+      return () =>
+        h('div', { class: 'w-full' }, [
+          h(Table, {
+            columns: kbColumns,
+            rows: kbRows,
+            rowKey: 'id',
+            expandable: true,
+            expandColumnKey: 'description',
+            fixedLayout: true,
+            expandedKeys: expandedKeys.value,
+            'onUpdate:expandedKeys': (keys: string[]) => {
+              expandedKeys.value = keys;
+            },
+          }, {
+            'cell-description': ({ row }: { row: KbRow }) =>
+              h('div', { class: 'flex min-w-0 items-center gap-1.5' }, [
+                row.aiGenerated
+                  ? h(SparklesIcon, {
+                      class: 'h-4 w-4 shrink-0 text-violet-400',
+                      'aria-hidden': 'true',
+                    })
+                  : null,
+                h(
+                  'span',
+                  {
+                    class: [
+                      'truncate',
+                      row.children?.length
+                        ? 'font-medium text-[color:var(--kiut-text-primary)]'
+                        : 'text-[color:var(--kiut-text-secondary)]',
+                    ].join(' '),
+                  },
+                  row.description,
+                ),
+              ]),
+
+            'cell-created_at': ({ row }: { row: KbRow }) =>
+              h(
+                'span',
+                { class: 'text-[color:var(--kiut-text-secondary)] text-xs whitespace-nowrap' },
+                row.created_at,
+              ),
+
+            'cell-status': ({ row }: { row: KbRow }) =>
+              h(
+                Tag,
+                { color: KB_STATUS_COLORS[row.status] ?? 'neutral', outlined: false },
+                () => statusLabel(row),
+              ),
+
+            'cell-actions': () =>
+              h('div', { class: 'flex items-center justify-end gap-2' }, [
+                h('button', {
+                  class: 'text-gray-400 hover:text-violet-500 transition-colors',
+                  title: 'Editar',
+                  type: 'button',
+                }, [h(PencilSquareIcon, { class: 'h-4 w-4' })]),
+                h('button', {
+                  class: 'text-gray-400 hover:text-violet-500 transition-colors',
+                  title: 'Descargar',
+                  type: 'button',
+                }, [h(ArrowDownTrayIcon, { class: 'h-4 w-4' })]),
+                h('button', {
+                  class: 'text-gray-400 hover:text-red-500 transition-colors',
+                  title: 'Eliminar',
+                  type: 'button',
+                }, [h(TrashIcon, { class: 'h-4 w-4' })]),
+              ]),
+          }),
+        ]);
+    },
+  }),
+};
 
 export const FixedLayout: Story = {
   name: 'Fixed Layout (Users)',
