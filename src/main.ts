@@ -69,7 +69,13 @@ import CostPerConversations from './stories/Charts/CostTokens/CostPerConversatio
 import Tabs from './components/Tabs/Tabs.vue';
 export type { TabItem } from './components/Tabs/Tabs.vue';
 import Table from './components/Table/Table.vue';
-export type { TableColumn, TableColumnAlign } from './components/Table/Table.vue';
+export type {
+  FlatTableRow,
+  TableCellSlotProps,
+  TableColumn,
+  TableColumnAlign,
+  TableSortDirection,
+} from './components/Table/Table.vue';
 import Filters from './components/Filters/Filters.vue';
 export type {
   FilterDefinition,
