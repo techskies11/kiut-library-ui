@@ -17,6 +17,7 @@
         :failed-data="checkinFailedData"
         :enable-export="enableExport"
         :export-loading="exportLoading"
+        :show-payment-links="showPaymentLinks"
         @export="(fmt) => handleChildExport('checkin', fmt)"
       />
       <CheckinSegments
@@ -78,6 +79,8 @@ const props = withDefaults(
     checkinFailedData?: object
     /** Shape CheckinSegments */
     segmentsData?: SegmentDatum[];
+    /** Show Create Payment column in check-in table (Avianca). */
+    showPaymentLinks?: boolean
   }>(),
   {
     containerInitiallyOpen: false,
@@ -89,6 +92,7 @@ const props = withDefaults(
     enableExport: false,
     exportLoading: false,
     theme: undefined,
+    showPaymentLinks: false,
   }
 )
 
