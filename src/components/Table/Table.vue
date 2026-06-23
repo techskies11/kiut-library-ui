@@ -79,8 +79,10 @@
             <td
               v-if="selectable"
               class="w-12 bg-transparent px-4 py-3 text-center align-middle"
+              :class="!selectable ? 'hidden' : 'block'"
             >
               <input
+                v-if="isEntrySelectable(entry)"
                 type="checkbox"
                 class="kiut-table-checkbox"
                 :checked="isRowSelectedByKey(entry.key)"
@@ -92,7 +94,7 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'bg-transparent px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
+                'bg-transparent px-1 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
                 alignClass(col.align),
                 col.cellClass ?? '',
               ]"
@@ -126,7 +128,7 @@
                   </button>
                   <span
                     v-else
-                    class="inline-block w-4 shrink-0"
+                    class="inline-block shrink-0"
                     aria-hidden="true"
                   />
                 </slot>
@@ -158,14 +160,15 @@
 import { ChevronDownIcon } from "@heroicons/vue/24/outline";
 import { computed, nextTick, ref, watch } from "vue";
 import {
-  collectAllTableRowKeys,
+  collectSelectableTableRowKeys,
   flattenVisibleTableRows,
   type FlatTableRow,
+  type TableRowSelectableContext,
 } from "./tableTree";
 
 defineOptions({ name: "Table" });
 
-export type { FlatTableRow } from "./tableTree";
+export type { FlatTableRow, TableRowSelectableContext } from "./tableTree";
 
 export type TableColumnAlign = "left" | "center" | "right";
 
@@ -225,6 +228,11 @@ const props = withDefaults(
     maxDepth?: number;
     /** Fila expandible aunque no tenga hijos (p. ej. carga lazy). */
     isRowExpandable?: (row: Record<string, unknown>) => boolean;
+    /** Si la fila muestra checkbox de selección (p. ej. ocultar en filas padre de un grupo). */
+    isRowSelectable?: (
+      row: Record<string, unknown>,
+      context: TableRowSelectableContext,
+    ) => boolean;
     ariaLabelExpandRow?: string;
     ariaLabelCollapseRow?: string;
   }>(),
@@ -245,6 +253,7 @@ const props = withDefaults(
     singleExpand: false,
     maxDepth: undefined,
     isRowExpandable: undefined,
+    isRowSelectable: undefined,
     ariaLabelExpandRow: "Expandir fila",
     ariaLabelCollapseRow: "Contraer fila",
   },
@@ -369,14 +378,48 @@ function toggleExpand(entry: FlatTableRow): void {
   expandedKeysModel.value = [...set];
 }
 
-const rowKeys = computed(() => {
+function rowSelectableContext(entry: FlatTableRow): TableRowSelectableContext {
+  return {
+    depth: entry.depth,
+    isChild: entry.depth > 0,
+    hasChildren: entry.hasChildren,
+  };
+}
+
+function isRowSelectableByRow(
+  row: Record<string, unknown>,
+  context: TableRowSelectableContext,
+): boolean {
+  return props.isRowSelectable?.(row, context) ?? true;
+}
+
+function isEntrySelectable(entry: FlatTableRow): boolean {
+  return isRowSelectableByRow(entry.row, rowSelectableContext(entry));
+}
+
+const selectableRowKeys = computed(() => {
+  const { isRowSelectable } = props;
+
   if (props.expandable) {
-    return collectAllTableRowKeys(props.rows, {
+    return collectSelectableTableRowKeys(props.rows, {
       childrenKey: props.childrenKey,
       resolveRowKey,
+      isRowSelectable,
     });
   }
-  return props.rows.map((row, i) => resolveRowKey(row, i));
+
+  return props.rows
+    .map((row, index) => ({
+      row,
+      key: resolveRowKey(row, index),
+      context: {
+        depth: 0,
+        isChild: false,
+        hasChildren: false,
+      } satisfies TableRowSelectableContext,
+    }))
+    .filter(({ row, context }) => isRowSelectableByRow(row, context))
+    .map(({ key }) => key);
 });
 
 function isRowSelectedByKey(key: string): boolean {
@@ -384,14 +427,16 @@ function isRowSelectedByKey(key: string): boolean {
 }
 
 const allSelected = computed(() => {
-  if (!props.selectable || rowKeys.value.length === 0) return false;
-  return rowKeys.value.every((k) => props.selectedKeys.includes(k));
+  if (!props.selectable || selectableRowKeys.value.length === 0) return false;
+  return selectableRowKeys.value.every((k) => props.selectedKeys.includes(k));
 });
 
 const someSelected = computed(() => {
-  if (!props.selectable || rowKeys.value.length === 0) return false;
-  const selected = rowKeys.value.filter((k) => props.selectedKeys.includes(k));
-  return selected.length > 0 && selected.length < rowKeys.value.length;
+  if (!props.selectable || selectableRowKeys.value.length === 0) return false;
+  const selected = selectableRowKeys.value.filter((k) =>
+    props.selectedKeys.includes(k),
+  );
+  return selected.length > 0 && selected.length < selectableRowKeys.value.length;
 });
 
 watch(
@@ -409,17 +454,19 @@ watch(
 function onToggleSelectAll(): void {
   if (!props.selectable) return;
   if (allSelected.value) {
-    const next = props.selectedKeys.filter((k) => !rowKeys.value.includes(k));
+    const next = props.selectedKeys.filter(
+      (k) => !selectableRowKeys.value.includes(k),
+    );
     emit("update:selectedKeys", next);
   } else {
     const set = new Set(props.selectedKeys);
-    rowKeys.value.forEach((k) => set.add(k));
+    selectableRowKeys.value.forEach((k) => set.add(k));
     emit("update:selectedKeys", [...set]);
   }
 }
 
 function onToggleRowByKey(key: string): void {
-  if (!props.selectable) return;
+  if (!props.selectable || !selectableRowKeys.value.includes(key)) return;
   const has = props.selectedKeys.includes(key);
   if (has) {
     emit(

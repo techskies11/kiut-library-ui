@@ -14,6 +14,12 @@ export interface FlattenTableRowsOptions {
   maxDepth?: number;
 }
 
+export interface TableRowSelectableContext {
+  depth: number;
+  isChild: boolean;
+  hasChildren: boolean;
+}
+
 function readChildren(
   row: Record<string, unknown>,
   childrenKey: string,
@@ -88,6 +94,45 @@ export function collectAllTableRowKeys(
     const children = readChildren(row, childrenKey);
     if (children.length > 0) {
       keys.push(...collectAllTableRowKeys(children, options, 0));
+    }
+  });
+
+  return keys;
+}
+
+/** Collects row keys that pass `isRowSelectable` (for select-all and bulk selection). */
+export function collectSelectableTableRowKeys(
+  rows: Record<string, unknown>[],
+  options: Pick<FlattenTableRowsOptions, "childrenKey" | "resolveRowKey"> & {
+    isRowSelectable?: (
+      row: Record<string, unknown>,
+      context: TableRowSelectableContext,
+    ) => boolean;
+  },
+  depth = 0,
+  indexOffset = 0,
+): string[] {
+  const { childrenKey, resolveRowKey, isRowSelectable } = options;
+  const keys: string[] = [];
+
+  rows.forEach((row, index) => {
+    const key = resolveRowKey(row, indexOffset + index);
+    const children = readChildren(row, childrenKey);
+    const hasChildren = children.length > 0;
+    const context: TableRowSelectableContext = {
+      depth,
+      isChild: depth > 0,
+      hasChildren,
+    };
+
+    if (isRowSelectable?.(row, context) ?? true) {
+      keys.push(key);
+    }
+
+    if (children.length > 0) {
+      keys.push(
+        ...collectSelectableTableRowKeys(children, options, depth + 1, 0),
+      );
     }
   });
 
