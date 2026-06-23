@@ -16,7 +16,7 @@
             <th
               v-if="selectable"
               scope="col"
-              class="w-12 bg-transparent pl-4 pr-0 py-3 text-center align-middle"
+              class="w-12 bg-transparent px-4 pr-0 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -32,7 +32,7 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                'px-2 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 isExpandColumn(col.key) && selectable ? '!pl-0' : '',
                 alignClass(col.align),
                 col.headerClass ?? '',
