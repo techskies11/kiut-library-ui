@@ -20068,7 +20068,7 @@ function pl(e, t, n = 0, a = 0) {
 const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, jk = { class: "w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, Kk = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, Yk = {
   key: 0,
   scope: "col",
-  class: "w-12 bg-transparent px-4 pr-0 py-3 text-center align-middle"
+  class: "w-14 bg-transparent px-4 py-3 text-center align-middle"
 }, Uk = ["checked", "aria-label"], qk = ["aria-sort", "onClick"], Xk = {
   class: "kiut-table-sort-icons inline-flex items-center",
   "aria-hidden": "true"
@@ -20380,7 +20380,7 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
-}), s2 = /* @__PURE__ */ pe(a2, [["__scopeId", "data-v-134910e0"]]);
+}), s2 = /* @__PURE__ */ pe(a2, [["__scopeId", "data-v-15aa925c"]]);
 function o2(e, t) {
   return m(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
