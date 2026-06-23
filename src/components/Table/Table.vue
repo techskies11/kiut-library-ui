@@ -16,7 +16,7 @@
             <th
               v-if="selectable"
               scope="col"
-              class="w-12 bg-transparent px-4 pr-0 py-3 text-center align-middle"
+              class="w-14 bg-transparent px-4 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
