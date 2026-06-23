@@ -73,7 +73,7 @@
             v-for="entry in visibleRows"
             :key="entry.key"
             :class="[
-              'h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
+              'min-h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
               entry.depth > 0 ? 'kiut-table-row--child dark:bg-[#1a1a22]' : '',
             ]"
           >
@@ -102,7 +102,7 @@
             >
               <div
                 v-if="isExpandColumn(col.key)"
-                class="flex min-w-0 items-center gap-0"
+                class="flex min-w-0 items-start gap-0"
                 :style="{ paddingLeft: `${entry.depth * 1}rem` }"
               >
                 <slot
