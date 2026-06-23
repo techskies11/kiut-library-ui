@@ -20338,8 +20338,8 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
               }, [
                 b(U.key) ? (m(), x("div", {
                   key: 0,
-                  class: "flex min-w-0 items-start gap-0",
-                  style: Ce({ paddingLeft: `${ae.depth * 1}rem` })
+                  class: "flex min-w-0 items-start gap-1",
+                  style: Ce({ paddingLeft: `${ae.depth * 1.25}rem` })
                 }, [
                   we(z.$slots, "row-expand", {
                     row: ae.row,
@@ -20357,7 +20357,7 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                       onClick: qe((H) => k(ae), ["stop"])
                     }, [
                       I(A(Da), {
-                        class: ee(["h-4 w-4 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !ae.isExpanded }]),
+                        class: ee(["h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !ae.isExpanded }]),
                         "aria-hidden": "true"
                       }, null, 8, ["class"])
                     ], 8, e2)) : (m(), x("span", t2))
@@ -20380,7 +20380,7 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
-}), s2 = /* @__PURE__ */ pe(a2, [["__scopeId", "data-v-585f44d7"]]);
+}), s2 = /* @__PURE__ */ pe(a2, [["__scopeId", "data-v-b96bcb8a"]]);
 function o2(e, t) {
   return m(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
