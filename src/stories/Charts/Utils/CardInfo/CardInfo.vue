@@ -11,7 +11,7 @@
           :style="{ backgroundColor: color }"
           aria-hidden="true"
         />
-        <span class="min-w-0 truncate text-[12px] leading-normal">{{ title }}</span>
+        <span class="min-w-0 truncate text-[12px] leading-normal capitalize">{{ title }}</span>
       </div>
     </div>
     <p class="text-[14px] font-bold leading-tight text-[color:var(--kiut-text-primary,#1e293b)]">

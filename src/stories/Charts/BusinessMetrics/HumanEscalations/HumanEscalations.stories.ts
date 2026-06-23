@@ -1,19 +1,53 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import HumanEscalations from './HumanEscalations.vue'
 
-const meta: Meta<typeof HumanEscalations> = {
+const meta = {
   title: 'Charts/BusinessMetrics/HumanEscalations',
   component: HumanEscalations,
   tags: ['autodocs'],
-}
+  argTypes: {
+    loading: {
+      control: 'boolean',
+      description: 'Estado de carga del componente',
+    },
+    data: {
+      control: 'object',
+      description: 'Datos de escalaciones humanas incluyendo totales, breakdown y tendencia diaria',
+    },
+    breakdownBy: {
+      control: 'select',
+      options: ['all', 'agent'],
+      description: 'Tipo de desglose del gráfico',
+    },
+    enableExport: {
+      control: 'boolean',
+      description: 'Muestra el footer con botones de exportación',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Evento emitido cuando se hace clic en un botón de exportación (pdf | csv | xlsx)',
+    },
+    onChangeBreakdown: {
+      action: 'changeBreakdown',
+      description: 'Evento emitido al cambiar el desglose del gráfico',
+    },
+  },
+  decorators: [
+    () => ({
+      template:
+        '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
+    }),
+  ],
+} satisfies Meta<typeof HumanEscalations>
 
 export default meta
-type Story = StoryObj<typeof HumanEscalations>
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
     loading: false,
     breakdownBy: 'agent',
+    enableExport: true,
     data: {
       total_conversations: 1200,
       total_escalated_conversations: 132,

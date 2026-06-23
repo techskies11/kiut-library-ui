@@ -6,6 +6,14 @@
     :collapsible="false"
     :loading="props.loading"
   >
+    <template #headerExport>
+      <FooterExport
+        v-if="enableExport && !props.loading"
+        variant="inline"
+        :loading="exportLoading"
+        @export="handleExport"
+      />
+    </template>
     <Transition name="bm-fade" mode="out-in">
       <div
         v-if="props.loading"
@@ -45,6 +53,13 @@
 import { computed } from "vue";
 import ChartLine from "../../Line/ChartLine.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import { FooterExport } from "../../Utils/FooterExport";
+
+const emit = defineEmits(["export"]);
+
+const handleExport = (format) => {
+  emit("export", format);
+};
 
 const props = defineProps({
   data: {
@@ -52,6 +67,14 @@ const props = defineProps({
     default: () => null,
   },
   loading: {
+    type: Boolean,
+    default: false,
+  },
+  enableExport: {
+    type: Boolean,
+    default: false,
+  },
+  exportLoading: {
     type: Boolean,
     default: false,
   },
@@ -70,12 +93,24 @@ const lineData = computed(() => ({
       pointBorderColor: "#7C3AED",
       pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
+      clip: false,
     },
   ],
 }));
 
 const lineOptions = {
+  layout: {
+    padding: {
+      top: 18,
+      bottom: 10,
+      left: 10,
+      right: 10,
+    },
+  },
   scales: {
+    x: {
+      offset: true,
+    },
     y: {
       min: -200,
       max: 100,

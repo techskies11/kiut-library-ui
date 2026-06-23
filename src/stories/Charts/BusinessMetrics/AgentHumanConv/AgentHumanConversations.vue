@@ -127,7 +127,7 @@
           <CardMetric
             label="Avg Time to Assign"
             label-position="header"
-            :value="avgAssignSeconds ?? '—'"
+            :value="formatDurationDisplay(avgAssignSeconds)"
             :theme="theme"
             :current-value="hhmmssToSeconds(avgAssignSeconds) ?? 0"
             :previous-value="previousAvgTimeToAssignSeconds"
@@ -156,7 +156,7 @@
           <CardMetric
             label="Avg Resolution Time"
             label-position="header"
-            :value="avgResolutionSeconds ?? '—'"
+            :value="formatDurationDisplay(avgResolutionSeconds)"
             :theme="theme"
             :current-value="hhmmssToSeconds(avgResolutionSeconds) ?? 0"
             :previous-value="previousAvgConversationDurationSeconds"
@@ -295,13 +295,13 @@ interface AgentDayData {
   agent_tag?: string | null;
   assigned_count: number;
   closed_count: number;
-  avg_time_to_assign_seconds?: string | null;
-  avg_conversation_duration_seconds?: string | null;
+  avg_time_to_assign_seconds?: DurationInput;
+  avg_conversation_duration_seconds?: DurationInput;
   day_total_assigned?: number;
   day_total_closed?: number;
   day_total_enqueued?: number;
-  day_avg_time_to_assign_seconds?: string | null;
-  day_avg_conversation_duration_seconds?: string | null;
+  day_avg_time_to_assign_seconds?: DurationInput;
+  day_avg_conversation_duration_seconds?: DurationInput;
 }
 
 interface AgentHumanConvData {
@@ -311,8 +311,8 @@ interface AgentHumanConvData {
   total_assigned?: number;
   total_closed?: number;
   total_enqueued?: number;
-  avg_time_to_assign_seconds?: string | null;
-  avg_conversation_duration_seconds?: string | null;
+  avg_time_to_assign_seconds?: DurationInput;
+  avg_conversation_duration_seconds?: DurationInput;
   agents_by_day?: AgentDayData[];
 }
 
@@ -329,6 +329,7 @@ interface AgentTableRow {
   avg_resolution_display: string;
 }
 
+type DurationInput = string | number | null | undefined;
 type TableViewMode = "by_date" | "aggregated";
 type SortKey =
   | "date"
@@ -396,7 +397,7 @@ function isDisplayableAgentRow(agent: AgentDayData): boolean {
 }
 
 function getHandledCount(agent: AgentDayData): number {
-  return (agent.assigned_count ?? 0) + (agent.closed_count ?? 0);
+  return agent.closed_count ?? 0;
 }
 
 function formatAgentName(name: string | null | undefined): string {
@@ -474,11 +475,20 @@ function buildDurationTrend(
   };
 }
 
-function hhmmssToSeconds(val: string | null | undefined): number | null {
-  if (!val) return null;
-  const parts = val.split(":").map(Number);
-  if (parts.length !== 3 || parts.some(isNaN)) return null;
-  return parts[0] * 3600 + parts[1] * 60 + parts[2];
+function hhmmssToSeconds(val: DurationInput): number | null {
+  if (val === null || val === undefined || val === "") return null;
+  if (typeof val === "number") {
+    return Number.isFinite(val) ? val : null;
+  }
+  const trimmed = val.trim();
+  if (!trimmed) return null;
+  if (trimmed.includes(":")) {
+    const parts = trimmed.split(":").map(Number);
+    if (parts.length !== 3 || parts.some(isNaN)) return null;
+    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  }
+  const numeric = Number(trimmed);
+  return Number.isFinite(numeric) ? numeric : null;
 }
 
 function secondsToHhmmss(seconds: number): string {
@@ -487,6 +497,13 @@ function secondsToHhmmss(seconds: number): string {
   const m = Math.floor((total % 3600) / 60);
   const s = total % 60;
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function formatDurationDisplay(val: DurationInput): string {
+  const seconds = hhmmssToSeconds(val);
+  if (seconds === null) return "—";
+  if (typeof val === "string" && val.includes(":")) return val.trim();
+  return secondsToHhmmss(seconds);
 }
 
 const totalEnqueued = computed(() => props.data?.total_enqueued ?? 0);
@@ -528,8 +545,8 @@ function mapAgentToRow(agent: AgentDayData, index: number): AgentTableRow {
     handled: getHandledCount(agent),
     avg_assignation_seconds: hhmmssToSeconds(agent.avg_time_to_assign_seconds),
     avg_resolution_seconds: hhmmssToSeconds(agent.avg_conversation_duration_seconds),
-    avg_assignation_display: agent.avg_time_to_assign_seconds ?? "—",
-    avg_resolution_display: agent.avg_conversation_duration_seconds ?? "—",
+    avg_assignation_display: formatDurationDisplay(agent.avg_time_to_assign_seconds),
+    avg_resolution_display: formatDurationDisplay(agent.avg_conversation_duration_seconds),
   };
 }
 

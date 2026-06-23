@@ -112,6 +112,11 @@
               </div>
               <div v-else class="no-reasons">-</div>
             </template>
+            <template #cell-createPayment="{ row }">
+              <span>{{
+                useNumberFormat(row.record_locator_create_payment_count ?? 0)
+              }}</span>
+            </template>
           </Table>
         </div>
       </section>
@@ -184,6 +189,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  /** Muestra la columna de links de pago generados (record_locator_create_payment_count). */
+  showPaymentLinks: {
+    type: Boolean,
+    default: false,
+  },
   /** Single API response (checkin shape). If passed, used as checkinData. */
   data: {
     type: Object,
@@ -233,16 +243,28 @@ const DEFAULT_FAILED_DATA = {
 
 const tableData = ref([]);
 
-const checkinTableColumns = [
-  { key: "date", label: "Date", align: "center" },
-  { key: "checkinInit", label: "Checkin Init", align: "center" },
-  { key: "bookingRetrieve", label: "Booking Retrieve (%)", align: "center" },
-  { key: "passengers", label: "Number of Passengers", align: "center" },
-  { key: "completed", label: "Completed (%)", align: "center" },
-  { key: "closed", label: "Closed with BP (%)", align: "center" },
-  { key: "failed", label: "Failed (%)", align: "center" },
-  { key: "reasons", label: "Failed (Reasons)", align: "left" },
+const baseCheckinTableColumns = [
+  { key: "date", label: "Date", align: "right" },
+  { key: "checkinInit", label: "Checkin Init", align: "right" },
+  { key: "bookingRetrieve", label: "Booking Retrieve (%)", align: "right" },
+  { key: "passengers", label: "Number of Passengers", align: "right" },
+  { key: "completed", label: "Completed (%)", align: "right" },
+  { key: "closed", label: "Closed with BP (%)", align: "right" },
+  { key: "failed", label: "Failed (%)", align: "right" },
+  { key: "reasons", label: "Failed (Reasons)", align: "right" },
 ];
+
+const paymentLinksColumn = {
+  key: "createPayment",
+  label: "Create Payment",
+  align: "right",
+};
+
+const checkinTableColumns = computed(() =>
+  props.showPaymentLinks
+    ? [...baseCheckinTableColumns, paymentLinksColumn]
+    : baseCheckinTableColumns,
+);
 
 const checkinTableRows = computed(() =>
   (tableData.value || []).map((row) => ({
@@ -254,6 +276,8 @@ const checkinTableRows = computed(() =>
     checkin_completed_count: row.checkin_completed_count,
     checkin_closed_count: row.checkin_closed_count,
     failed_steps: row.failed_steps,
+    record_locator_create_payment_count:
+      row.record_locator_create_payment_count,
   })),
 );
 
@@ -466,11 +490,20 @@ const sankeyData = computed(() => {
   return { nodes, links };
 });
 
+const getRecordLocatorByDay = () => {
+  const fromData = props.data?.record_locator_by_day;
+  if (Array.isArray(fromData) && fromData.length > 0) return fromData;
+  const fromCheckin = props.checkinData?.record_locator_by_day;
+  if (Array.isArray(fromCheckin) && fromCheckin.length > 0) return fromCheckin;
+  return [];
+};
+
 // Procesa los datos para la tabla cuando cambian los props
 const processTableData = () => {
   const checkinByDay = checkinDataInternal.value.checkin_by_day || [];
   const failedByStepByDay =
     failedDataInternal.value.failed_by_step_by_day || [];
+  const recordLocatorByDay = getRecordLocatorByDay();
 
   if (checkinByDay.length === 0) {
     tableData.value = [];
@@ -482,10 +515,17 @@ const processTableData = () => {
     const failedDayData = failedByStepByDay.find(
       (failedDay) => failedDay.date === dayData.date,
     );
+    const recordLocatorDay = recordLocatorByDay.find(
+      (day) => day.date === dayData.date,
+    );
 
     return {
       ...dayData,
       failed_steps: failedDayData?.steps || [],
+      record_locator_create_payment_count:
+        dayData.record_locator_create_payment_count ??
+        recordLocatorDay?.record_locator_create_payment_count ??
+        0,
     };
   });
 
@@ -551,6 +591,7 @@ watch(
 .reasons-list {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 4px;
 }
 
@@ -572,7 +613,7 @@ watch(
 
 .no-reasons {
   color: var(--kiut-text-muted);
-  text-align: center;
+  text-align: right;
 }
 
 .cell-success {

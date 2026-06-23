@@ -130,8 +130,10 @@ const changePercent = computed(() => {
 })
 
 const changeLabel = computed(() => {
-  const pct = changePercent.value.toFixed(1)
-  if (changePercent.value > 0) return `+${pct}%`
+  const pctValue = changePercent.value
+  if (Number.isNaN(pctValue)) return '-'
+  const pct = pctValue.toFixed(1)
+  if (pctValue > 0) return `+${pct}%`
   return `${pct}%`
 })
 

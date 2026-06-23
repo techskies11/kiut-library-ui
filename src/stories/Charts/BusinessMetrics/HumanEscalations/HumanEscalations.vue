@@ -6,6 +6,14 @@
     :collapsible="false"
     :loading="loading"
   >
+    <template #headerExport>
+      <FooterExport
+        v-if="enableExport && !loading"
+        variant="inline"
+        :loading="exportLoading"
+        @export="handleExport"
+      />
+    </template>
     <template #headerAside>
       <div class="flex justify-end">
         <select
@@ -15,8 +23,8 @@
         >
           <option value="all">All</option>
           <option value="agent">By Agent</option>
-          <option value="channel">By Channel</option>
-          <option value="agent_channel">By Agent/Channel</option>
+          <!-- <option value="channel">By Channel</option> -->
+          <!-- <option value="agent_channel">By Agent/Channel</option> -->
         </select>
       </div>
     </template>
@@ -51,7 +59,9 @@
           </div>
 
           <div
-            class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5"
+            v-if="topCards.length"
+            class="grid w-full gap-3 md:gap-4"
+            :style="cardInfoGridStyle"
           >
             <CardInfo
               v-for="item in topCards"
@@ -94,6 +104,7 @@ import moment from "moment";
 import LineChart from "../../Line/ChartLine.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
 import {
   useThemeDetection,
   type Theme,
@@ -140,18 +151,27 @@ const props = withDefaults(
     data?: HumanEscalationsData | null;
     breakdownBy?: string;
     theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
   }>(),
   {
     loading: false,
     data: null,
     breakdownBy: "all",
     theme: undefined,
+    enableExport: false,
+    exportLoading: false,
   },
 );
 
 const emit = defineEmits<{
   changeBreakdown: [value: string];
+  export: [format: ExportFormat];
 }>();
+
+const handleExport = (format: ExportFormat): void => {
+  emit("export", format);
+};
 
 const loaderBarHeights = [30, 50, 70, 50, 40];
 const loaderDelays = [
@@ -186,6 +206,11 @@ const dataChart = ref<{ labels: string[]; datasets: any[] }>({
 const topCards = ref<
   Array<{ key: string; label: string; percentage: number; color: string }>
 >([]);
+const cardInfoGridStyle = computed(() => {
+  const cols = topCards.value.length;
+  if (cols <= 0) return undefined;
+  return { gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` };
+});
 const legendItems = ref<Array<{ key: string; label: string; color: string }>>(
   [],
 );

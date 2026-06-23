@@ -125,6 +125,7 @@ const chartData = computed(() => {
       return {
         ...ds,
         fill: ds.fill ?? false,
+        clip: ds.clip ?? false,
         pointBackgroundColor: pointFill,
         pointHoverBackgroundColor: pointHoverFill,
         pointBorderColor: ds.pointBorderColor ?? lineHue,
@@ -212,6 +213,14 @@ const computedOptions = computed(() => {
     color: colors.value.textSecondary,
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 8,
+        bottom: 8,
+        left: 4,
+        right: 4,
+      },
+    },
     interaction: {
       mode: 'nearest' as const,
       axis: 'x' as const,

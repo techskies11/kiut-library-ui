@@ -64,6 +64,14 @@ const mockWeekFailedData = {
   ]
 };
 
+const mockRecordLocatorByDay = [
+  { date: '2024-11-01', record_locator_create_payment_count: 12 },
+  { date: '2024-11-02', record_locator_create_payment_count: 8 },
+  { date: '2024-11-03', record_locator_create_payment_count: 15 },
+  { date: '2024-11-04', record_locator_create_payment_count: 0 },
+  { date: '2024-11-05', record_locator_create_payment_count: 22 },
+];
+
 const meta = {
   title: 'Charts/BusinessMetrics/Checkin',
   component: Checkin,
@@ -84,6 +92,10 @@ const meta = {
     enableExport: {
       control: 'boolean',
       description: 'Habilita o deshabilita el footer de exportación',
+    },
+    showPaymentLinks: {
+      control: 'boolean',
+      description: 'Muestra la columna opcional de links de pago generados (Create Payment)',
     },
     onExport: {
       action: 'export',
@@ -186,6 +198,29 @@ export const EmptyState: Story = {
       }
     }
   }
+};
+
+/**
+ * Con columna opcional de links de pago
+ */
+export const WithPaymentLinks: Story = {
+  args: {
+    loading: false,
+    showPaymentLinks: true,
+    checkinData: {
+      ...mockCheckinData,
+      record_locator_by_day: mockRecordLocatorByDay,
+    },
+    failedData: mockFailedData,
+    enableExport: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Muestra la columna "Create Payment" con record_locator_create_payment_count enriquecido desde record_locator_by_day.',
+      },
+    },
+  },
 };
 
 /**

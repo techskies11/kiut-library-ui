@@ -35,6 +35,8 @@
         class="min-w-0"
         :data="data"
         :loading="loading"
+        :enable-export="enableExport"
+        @export="handleExport"
       />
     </div>
   </div>
