@@ -227,7 +227,12 @@ const kbRows: KbRow[] = [
 ];
 
 export const NestedRows: Story = {
+  args: {
+    selectable: true
+  },
+
   name: 'Nested Rows (Knowledge Base)',
+
   parameters: {
     docs: {
       description: {
@@ -236,6 +241,7 @@ export const NestedRows: Story = {
       },
     },
   },
+
   render: () => ({
     components: { Table, Tag },
     setup() {
@@ -249,6 +255,9 @@ export const NestedRows: Story = {
         return base;
       };
 
+      const isParentRow = (row: KbRow, context: { hasChildren: boolean }) =>
+        context.hasChildren;
+
       return () =>
         h('div', { class: 'w-full' }, [
           h(Table, {
@@ -258,6 +267,8 @@ export const NestedRows: Story = {
             expandable: true,
             expandColumnKey: 'description',
             fixedLayout: true,
+            selectable: true,
+            isRowSelectable: (row: KbRow, context) => !isParentRow(row, context),
             expandedKeys: expandedKeys.value,
             'onUpdate:expandedKeys': (keys: string[]) => {
               expandedKeys.value = keys;
@@ -320,7 +331,7 @@ export const NestedRows: Story = {
           }),
         ]);
     },
-  }),
+  })
 };
 
 export const FixedLayout: Story = {
