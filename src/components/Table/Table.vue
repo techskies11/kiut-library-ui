@@ -16,7 +16,7 @@
             <th
               v-if="selectable"
               scope="col"
-              class="w-12 px-4 py-3 text-center align-middle"
+              class="w-12 bg-transparent pl-4 pr-0 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -33,6 +33,7 @@
               scope="col"
               :class="[
                 'px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                isExpandColumn(col.key) && selectable ? '!pl-0' : '',
                 alignClass(col.align),
                 col.headerClass ?? '',
               ]"
@@ -72,14 +73,13 @@
             v-for="entry in visibleRows"
             :key="entry.key"
             :class="[
-              'h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
+              'min-h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
               entry.depth > 0 ? 'kiut-table-row--child dark:bg-[#1a1a22]' : '',
             ]"
           >
             <td
               v-if="selectable"
-              class="w-12 bg-transparent px-4 py-3 text-center align-middle"
-              :class="!selectable ? 'hidden' : 'block'"
+              class="w-12 bg-transparent pl-4 pr-0 py-3 text-center align-middle"
             >
               <input
                 v-if="isEntrySelectable(entry)"
@@ -94,15 +94,16 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'bg-transparent px-1 py-3 align-middle text-[color:var(--kiut-text-secondary)]',
+                'bg-transparent py-3 align-middle text-[color:var(--kiut-text-secondary)]',
+                isExpandColumn(col.key) ? 'pl-0 pr-2' : 'px-2',
                 alignClass(col.align),
                 col.cellClass ?? '',
               ]"
             >
               <div
                 v-if="isExpandColumn(col.key)"
-                class="flex min-w-0 items-center gap-1"
-                :style="{ paddingLeft: `${entry.depth * 1.25}rem` }"
+                class="flex min-w-0 items-start gap-0"
+                :style="{ paddingLeft: `${entry.depth * 1}rem` }"
               >
                 <slot
                   name="row-expand"
@@ -128,7 +129,7 @@
                   </button>
                   <span
                     v-else
-                    class="inline-block shrink-0"
+                    class="inline-block w-4 shrink-0"
                     aria-hidden="true"
                   />
                 </slot>
