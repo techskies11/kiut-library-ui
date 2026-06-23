@@ -89,6 +89,20 @@
                 :aria-label="ariaLabelForKey(entry.key)"
                 @change="onToggleRowByKey(entry.key)"
               />
+              <button
+                v-else-if="showExpandInSelectColumn(entry)"
+                type="button"
+                class="kiut-table-expand-btn shrink-0"
+                :aria-expanded="entry.isExpanded"
+                :aria-label="entry.isExpanded ? ariaLabelCollapseRow : ariaLabelExpandRow"
+                @click.stop="toggleExpand(entry)"
+              >
+                <ChevronDownIcon
+                  class="h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
+                  :class="{ '-rotate-90': !entry.isExpanded }"
+                  aria-hidden="true"
+                />
+              </button>
             </td>
             <td
               v-for="col in columns"
@@ -114,7 +128,7 @@
                   :toggle="() => toggleExpand(entry)"
                 >
                   <button
-                    v-if="canExpandRow(entry)"
+                    v-if="showExpandInDescriptionColumn(entry)"
                     type="button"
                     class="kiut-table-expand-btn shrink-0"
                     :aria-expanded="entry.isExpanded"
@@ -128,7 +142,7 @@
                     />
                   </button>
                   <span
-                    v-else
+                    v-else-if="shouldReserveExpandSpace(entry)"
                     class="inline-block w-4 shrink-0"
                     aria-hidden="true"
                   />
@@ -396,6 +410,21 @@ function isRowSelectableByRow(
 
 function isEntrySelectable(entry: FlatTableRow): boolean {
   return isRowSelectableByRow(entry.row, rowSelectableContext(entry));
+}
+
+/** Parent groups: chevron lives in the select column so it aligns with row start. */
+function showExpandInSelectColumn(entry: FlatTableRow): boolean {
+  return props.selectable && canExpandRow(entry) && !isEntrySelectable(entry);
+}
+
+function showExpandInDescriptionColumn(entry: FlatTableRow): boolean {
+  return canExpandRow(entry) && !showExpandInSelectColumn(entry);
+}
+
+function shouldReserveExpandSpace(entry: FlatTableRow): boolean {
+  if (showExpandInDescriptionColumn(entry)) return false;
+  if (entry.depth > 0) return true;
+  return props.selectable && !canExpandRow(entry);
 }
 
 const selectableRowKeys = computed(() => {
