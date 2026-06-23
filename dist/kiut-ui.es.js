@@ -7652,7 +7652,7 @@ function la(e, t, n) {
   const c = i - o;
   return c ? l + (r - l) * (t - o) / c : l;
 }
-class O$ extends No {
+class V$ extends No {
   static id = "timeseries";
   static defaults = No.defaults;
   constructor(t) {
@@ -20068,7 +20068,7 @@ function pl(e, t, n = 0, a = 0) {
 const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, jk = { class: "w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, Kk = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, Yk = {
   key: 0,
   scope: "col",
-  class: "w-12 px-4 py-3 text-center align-middle"
+  class: "w-12 bg-transparent pl-4 pr-0 py-3 text-center align-middle"
 }, Uk = ["checked", "aria-label"], qk = ["aria-sort", "onClick"], Xk = {
   class: "kiut-table-sort-icons inline-flex items-center",
   "aria-hidden": "true"
@@ -20078,11 +20078,14 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
 }, Zk = {
   key: 1,
   class: "kiut-table-sort-arrow kiut-table-sort-arrow--active"
-}, Qk = ["checked", "aria-label", "onChange"], Jk = ["aria-expanded", "aria-label", "onClick"], e2 = {
+}, Qk = {
+  key: 0,
+  class: "w-12 bg-transparent pl-4 pr-0 py-3 text-center align-middle"
+}, Jk = ["checked", "aria-label", "onChange"], e2 = ["aria-expanded", "aria-label", "onClick"], t2 = {
   key: 1,
-  class: "inline-block shrink-0",
+  class: "inline-block w-4 shrink-0",
   "aria-hidden": "true"
-}, t2 = { class: "min-w-0 flex-1" }, n2 = /* @__PURE__ */ ue({
+}, n2 = { class: "min-w-0 flex-1" }, a2 = /* @__PURE__ */ ue({
   name: "Table",
   __name: "Table",
   props: {
@@ -20279,6 +20282,7 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                 scope: "col",
                 class: ee([
                   "px-4 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]",
+                  b(ae.key) && e.selectable ? "!pl-0" : "",
                   g(ae.align),
                   ae.headerClass ?? ""
                 ])
@@ -20309,14 +20313,11 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
             (m(!0), x(le, null, ge(d.value, (ae) => (m(), x("tr", {
               key: ae.key,
               class: ee([
-                "h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]",
+                "min-h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]",
                 ae.depth > 0 ? "kiut-table-row--child dark:bg-[#1a1a22]" : ""
               ])
             }, [
-              e.selectable ? (m(), x("td", {
-                key: 0,
-                class: ee(["w-12 bg-transparent px-4 py-3 text-center align-middle", e.selectable ? "block" : "hidden"])
-              }, [
+              e.selectable ? (m(), x("td", Qk, [
                 S(ae) ? (m(), x("input", {
                   key: 0,
                   type: "checkbox",
@@ -20324,20 +20325,21 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                   checked: R(ae.key),
                   "aria-label": F(ae.key),
                   onChange: (U) => L(ae.key)
-                }, null, 40, Qk)) : V("", !0)
-              ], 2)) : V("", !0),
+                }, null, 40, Jk)) : V("", !0)
+              ])) : V("", !0),
               (m(!0), x(le, null, ge(e.columns, (U) => (m(), x("td", {
                 key: U.key,
                 class: ee([
-                  "bg-transparent px-1 py-3 align-middle text-[color:var(--kiut-text-secondary)]",
+                  "bg-transparent py-3 align-middle text-[color:var(--kiut-text-secondary)]",
+                  b(U.key) ? "pl-0 pr-2" : "px-2",
                   g(U.align),
                   U.cellClass ?? ""
                 ])
               }, [
                 b(U.key) ? (m(), x("div", {
                   key: 0,
-                  class: "flex min-w-0 items-center gap-1",
-                  style: Ce({ paddingLeft: `${ae.depth * 1.25}rem` })
+                  class: "flex min-w-0 items-start gap-0",
+                  style: Ce({ paddingLeft: `${ae.depth * 1}rem` })
                 }, [
                   we(z.$slots, "row-expand", {
                     row: ae.row,
@@ -20358,9 +20360,9 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                         class: ee(["h-4 w-4 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !ae.isExpanded }]),
                         "aria-hidden": "true"
                       }, null, 8, ["class"])
-                    ], 8, Jk)) : (m(), x("span", e2))
+                    ], 8, e2)) : (m(), x("span", t2))
                   ], !0),
-                  u("div", t2, [
+                  u("div", n2, [
                     we(z.$slots, h(U.key), Ct({ ref_for: !0 }, _(ae, U)), () => [
                       Be(D(y(f(ae.row, U.key))), 1)
                     ], !0)
@@ -20378,8 +20380,8 @@ const Wk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
-}), a2 = /* @__PURE__ */ pe(n2, [["__scopeId", "data-v-ee4335e1"]]);
-function s2(e, t) {
+}), s2 = /* @__PURE__ */ pe(a2, [["__scopeId", "data-v-585f44d7"]]);
+function o2(e, t) {
   return m(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
@@ -20390,7 +20392,7 @@ function s2(e, t) {
     u("path", { d: "M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" })
   ]);
 }
-function o2(e, t) {
+function i2(e, t) {
   return m(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
@@ -20401,16 +20403,16 @@ function o2(e, t) {
     u("path", { d: "M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" })
   ]);
 }
-const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, r2 = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, c2 = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, d2 = ["aria-label", "aria-expanded", "aria-controls", "onClick"], u2 = { class: "truncate" }, h2 = {
+const l2 = ["aria-label"], r2 = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, c2 = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, d2 = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, u2 = ["aria-label", "aria-expanded", "aria-controls", "onClick"], h2 = { class: "truncate" }, f2 = {
   key: 0,
   class: "ml-0.5 inline-flex min-h-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full bg-[color:var(--kiut-primary)]/20 px-1 text-[10px] font-semibold tabular-nums text-[color:var(--kiut-primary-default)] dark:bg-[color:var(--kiut-primary)]/25 dark:text-[color:var(--kiut-primary-light)]"
-}, f2 = {
+}, g2 = {
   key: 0,
   class: "mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5"
-}, g2 = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, m2 = ["aria-label", "onClick"], p2 = ["aria-label", "onClick"], b2 = ["aria-label"], v2 = ["aria-label"], y2 = {
+}, m2 = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, p2 = ["aria-label", "onClick"], b2 = ["aria-label", "onClick"], v2 = ["aria-label"], y2 = ["aria-label"], x2 = {
   key: 1,
   class: "space-y-2"
-}, x2 = ["for"], _2 = ["id", "placeholder", "onKeydown"], k2 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, w2 = ["aria-label"], C2 = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, $2 = ["checked", "onChange"], S2 = { class: "min-w-0 flex-1" }, M2 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, D2 = { class: "flex flex-wrap items-end gap-2" }, T2 = { class: "min-w-[120px] flex-1" }, A2 = ["for"], B2 = ["id"], L2 = { class: "min-w-[120px] flex-1" }, P2 = ["for"], R2 = ["id"], I2 = /* @__PURE__ */ ue({
+}, _2 = ["for"], k2 = ["id", "placeholder", "onKeydown"], w2 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, C2 = ["aria-label"], $2 = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, S2 = ["checked", "onChange"], M2 = { class: "min-w-0 flex-1" }, D2 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, T2 = { class: "flex flex-wrap items-end gap-2" }, A2 = { class: "min-w-[120px] flex-1" }, B2 = ["for"], L2 = ["id"], P2 = { class: "min-w-[120px] flex-1" }, R2 = ["for"], I2 = ["id"], E2 = /* @__PURE__ */ ue({
   name: "Filters",
   __name: "Filters",
   props: {
@@ -20666,9 +20668,9 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       role: "region",
       "aria-label": e.regionAriaLabel
     }, [
-      u("div", l2, [
-        u("span", r2, D(e.label), 1),
-        u("div", c2, [
+      u("div", r2, [
+        u("span", c2, D(e.label), 1),
+        u("div", d2, [
           (m(!0), x(le, null, ge(e.filterDefinitions, (ne) => (m(), x("button", {
             key: `pill-${ne.id}`,
             ref_for: !0,
@@ -20681,17 +20683,17 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-controls": c.value === ne.id ? i : void 0,
             onClick: (he) => U(ne, he)
           }, [
-            I(A(s2), {
+            I(A(o2), {
               class: "h-2.5 w-2.5 shrink-0",
               "aria-hidden": "true"
             }),
-            u("span", u2, D(ne.label), 1),
-            ne.type === "select" && W(ne) > 0 ? (m(), x("span", h2, D(W(ne)), 1)) : V("", !0)
-          ], 10, d2))), 128))
+            u("span", h2, D(ne.label), 1),
+            ne.type === "select" && W(ne) > 0 ? (m(), x("span", f2, D(W(ne)), 1)) : V("", !0)
+          ], 10, u2))), 128))
         ])
       ]),
-      M.value ? (m(), x("div", f2, [
-        u("div", g2, [
+      M.value ? (m(), x("div", g2, [
+        u("div", m2, [
           (m(!0), x(le, null, ge(R.value, (ne) => (m(), x("div", {
             key: ne.key,
             "data-kiut-filter-chip": "",
@@ -20710,18 +20712,18 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
               }, () => [
                 Be(D(T(ne)), 1)
               ], !0)
-            ], 8, m2),
+            ], 8, p2),
             u("button", {
               type: "button",
               class: "shrink-0 rounded p-0.5 text-[color:var(--kiut-text-muted)] transition hover:bg-black/5 hover:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/10 dark:hover:text-slate-100",
               "aria-label": N(ne),
               onClick: (he) => Se(ne)
             }, [
-              I(A(o2), {
+              I(A(i2), {
                 class: "h-3.5 w-3.5",
                 "aria-hidden": "true"
               })
-            ], 8, p2)
+            ], 8, b2)
           ]))), 128))
         ]),
         u("button", {
@@ -20729,7 +20731,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           class: "shrink-0 text-[color:var(--kiut-text-secondary)] underline-offset-2 transition hover:text-[color:var(--kiut-primary)] hover:underline dark:text-slate-400 dark:hover:text-[color:var(--kiut-primary-light)]",
           "aria-label": j.value,
           onClick: Q
-        }, D(e.clearLabel), 9, b2)
+        }, D(e.clearLabel), 9, v2)
       ])) : V("", !0),
       (m(), te(En, { to: "body" }, [
         c.value && d.value ? (m(), x("div", {
@@ -20752,12 +20754,12 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
               close: me,
               value: _.value,
               updateValue: oe
-            }, void 0, !0) : (m(), x("div", y2, [
+            }, void 0, !0) : (m(), x("div", x2, [
               p.value.type === "text" ? (m(), x(le, { key: 0 }, [
                 u("label", {
                   for: `${i}-text`,
                   class: "block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-                }, D(p.value.label), 9, x2),
+                }, D(p.value.label), 9, _2),
                 lt(u("input", {
                   id: `${i}-text`,
                   "onUpdate:modelValue": K[0] || (K[0] = (ne) => v.value = ne),
@@ -20765,11 +20767,11 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
                   class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500",
                   placeholder: p.value.placeholder ?? "…",
                   onKeydown: Fn(qe(me, ["prevent"]), ["enter"])
-                }, null, 40, _2), [
+                }, null, 40, k2), [
                   [sn, v.value]
                 ])
               ], 64)) : p.value.type === "select" ? (m(), x(le, { key: 1 }, [
-                u("p", k2, D(p.value.label), 1),
+                u("p", w2, D(p.value.label), 1),
                 u("ul", {
                   class: "max-h-[min(280px,50vh)] space-y-0.5 overflow-y-auto",
                   role: "listbox",
@@ -20779,45 +20781,45 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
                   (m(!0), x(le, null, ge(p.value.options, (ne) => (m(), x("li", {
                     key: ne.value
                   }, [
-                    u("label", C2, [
+                    u("label", $2, [
                       u("input", {
                         type: "checkbox",
                         class: "kiut-filter-ms-checkbox shrink-0",
                         checked: f.value.includes(ne.value),
                         onChange: (he) => z(ne.value)
-                      }, null, 40, $2),
-                      u("span", S2, D(ne.label), 1)
+                      }, null, 40, S2),
+                      u("span", M2, D(ne.label), 1)
                     ])
                   ]))), 128))
-                ], 8, w2)
+                ], 8, C2)
               ], 64)) : p.value.type === "dateRange" ? (m(), x(le, { key: 2 }, [
-                u("p", M2, D(p.value.label), 1),
-                u("div", D2, [
-                  u("div", T2, [
+                u("p", D2, D(p.value.label), 1),
+                u("div", T2, [
+                  u("div", A2, [
                     u("label", {
                       for: `${i}-start`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Desde ", 8, A2),
+                    }, " Desde ", 8, B2),
                     lt(u("input", {
                       id: `${i}-start`,
                       "onUpdate:modelValue": K[1] || (K[1] = (ne) => y.value = ne),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
-                    }, null, 8, B2), [
+                    }, null, 8, L2), [
                       [sn, y.value]
                     ])
                   ]),
-                  u("div", L2, [
+                  u("div", P2, [
                     u("label", {
                       for: `${i}-end`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Hasta ", 8, P2),
+                    }, " Hasta ", 8, R2),
                     lt(u("input", {
                       id: `${i}-end`,
                       "onUpdate:modelValue": K[2] || (K[2] = (ne) => b.value = ne),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
-                    }, null, 8, R2), [
+                    }, null, 8, I2), [
                       [sn, b.value]
                     ])
                   ])
@@ -20825,11 +20827,11 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
               ], 64)) : V("", !0)
             ]))
           ], 64)) : V("", !0)
-        ], 44, v2)) : V("", !0)
+        ], 44, y2)) : V("", !0)
       ]))
-    ], 8, i2));
+    ], 8, l2));
   }
-}), E2 = /* @__PURE__ */ pe(I2, [["__scopeId", "data-v-f38e0100"]]), F2 = { class: "font-sans" }, O2 = ["for"], V2 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], z2 = ["id"], N2 = /* @__PURE__ */ ue({
+}), F2 = /* @__PURE__ */ pe(E2, [["__scopeId", "data-v-f38e0100"]]), O2 = { class: "font-sans" }, V2 = ["for"], z2 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], N2 = ["id"], H2 = /* @__PURE__ */ ue({
   name: "InputText",
   inheritAttrs: !1,
   __name: "InputText",
@@ -20876,12 +20878,12 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       const { name: p, id: _, type: k, ...w } = s;
       return w;
     });
-    return (p, _) => (m(), x("div", F2, [
+    return (p, _) => (m(), x("div", O2, [
       e.label ? (m(), x("label", {
         key: 0,
         for: l.value,
         class: ee(A(ct))
-      }, D(e.label), 11, O2)) : V("", !0),
+      }, D(e.label), 11, V2)) : V("", !0),
       u("input", Ct(b.value, {
         id: l.value,
         name: c.value,
@@ -20896,16 +20898,16 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         onInput: v,
         onChange: f,
         onBlur: y
-      }), null, 16, V2),
+      }), null, 16, z2),
       e.errorText ? (m(), x("p", {
         key: 1,
         id: r.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, z2)) : V("", !0)
+      }, D(e.errorText), 11, N2)) : V("", !0)
     ]));
   }
-}), H2 = { class: "font-sans" }, W2 = ["for"], j2 = { class: "relative" }, K2 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], Y2 = ["aria-label"], U2 = {
+}), W2 = { class: "font-sans" }, j2 = ["for"], K2 = { class: "relative" }, Y2 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], U2 = ["aria-label"], q2 = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -20913,7 +20915,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
   "stroke-width": "1.5",
   stroke: "currentColor",
   class: "size-4"
-}, q2 = {
+}, X2 = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -20921,7 +20923,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
   "stroke-width": "1.5",
   stroke: "currentColor",
   class: "size-4"
-}, X2 = ["id"], G2 = /* @__PURE__ */ ue({
+}, G2 = ["id"], Z2 = /* @__PURE__ */ ue({
   name: "InputPassword",
   inheritAttrs: !1,
   __name: "InputPassword",
@@ -20967,13 +20969,13 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       const { name: _, id: k, ...w } = s;
       return w;
     });
-    return (_, k) => (m(), x("div", H2, [
+    return (_, k) => (m(), x("div", W2, [
       e.label ? (m(), x("label", {
         key: 0,
         for: l.value,
         class: ee(A(ct))
-      }, D(e.label), 11, W2)) : V("", !0),
-      u("div", j2, [
+      }, D(e.label), 11, j2)) : V("", !0),
+      u("div", K2, [
         u("input", Ct(p.value, {
           id: l.value,
           name: c.value,
@@ -20988,7 +20990,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           onInput: f,
           onChange: y,
           onBlur: b
-        }), null, 16, K2),
+        }), null, 16, Y2),
         u("button", {
           type: "button",
           tabindex: "-1",
@@ -20996,13 +20998,13 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           class: "absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors",
           "aria-label": d.value ? "Hide password" : "Show password"
         }, [
-          d.value ? (m(), x("svg", q2, [...k[2] || (k[2] = [
+          d.value ? (m(), x("svg", X2, [...k[2] || (k[2] = [
             u("path", {
               "stroke-linecap": "round",
               "stroke-linejoin": "round",
               d: "M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
             }, null, -1)
-          ])])) : (m(), x("svg", U2, [...k[1] || (k[1] = [
+          ])])) : (m(), x("svg", q2, [...k[1] || (k[1] = [
             u("path", {
               "stroke-linecap": "round",
               "stroke-linejoin": "round",
@@ -21014,17 +21016,17 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
               d: "M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
             }, null, -1)
           ])]))
-        ], 8, Y2)
+        ], 8, U2)
       ]),
       e.errorText ? (m(), x("p", {
         key: 1,
         id: r.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, X2)) : V("", !0)
+      }, D(e.errorText), 11, G2)) : V("", !0)
     ]));
   }
-}), Z2 = { class: "font-sans" }, Q2 = ["for"], J2 = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], ew = ["id"], tw = /* @__PURE__ */ ue({
+}), Q2 = { class: "font-sans" }, J2 = ["for"], ew = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], tw = ["id"], nw = /* @__PURE__ */ ue({
   name: "InputTextarea",
   __name: "InputTextarea",
   props: {
@@ -21043,12 +21045,12 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       get: () => n.modelValue,
       set: (r) => a("update:modelValue", r)
     });
-    return (r, c) => (m(), x("div", Z2, [
+    return (r, c) => (m(), x("div", Q2, [
       e.label ? (m(), x("label", {
         key: 0,
         for: o.value,
         class: ee(A(ct))
-      }, D(e.label), 11, Q2)) : V("", !0),
+      }, D(e.label), 11, J2)) : V("", !0),
       lt(u("textarea", {
         id: o.value,
         "onUpdate:modelValue": c[0] || (c[0] = (d) => l.value = d),
@@ -21059,7 +21061,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         disabled: e.disabled,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 10, J2), [
+      }, null, 10, ew), [
         [sn, l.value]
       ]),
       e.errorText ? (m(), x("p", {
@@ -21067,10 +21069,10 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         id: i.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, ew)) : V("", !0)
+      }, D(e.errorText), 11, tw)) : V("", !0)
     ]));
   }
-}), nw = { class: "font-sans" }, aw = ["for"], sw = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], ow = ["for"], iw = ["title"], lw = ["aria-label"], rw = ["id"], cw = /* @__PURE__ */ ue({
+}), aw = { class: "font-sans" }, sw = ["for"], ow = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], iw = ["for"], lw = ["title"], rw = ["aria-label"], cw = ["id"], dw = /* @__PURE__ */ ue({
   name: "InputFile",
   __name: "InputFile",
   props: {
@@ -21096,12 +21098,12 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
     function d() {
       a("update:modelValue", null), l.value && (l.value.value = "");
     }
-    return (h, g) => (m(), x("div", nw, [
+    return (h, g) => (m(), x("div", aw, [
       e.label ? (m(), x("label", {
         key: 0,
         for: o.value,
         class: ee(A(ct))
-      }, D(e.label), 11, aw)) : V("", !0),
+      }, D(e.label), 11, sw)) : V("", !0),
       u("div", {
         class: ee([
           A(mt),
@@ -21123,7 +21125,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? i.value : void 0,
           onChange: c
-        }, null, 40, sw),
+        }, null, 40, ow),
         u("label", {
           for: o.value,
           class: ee(["inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-[color:var(--kiut-text-primary)] transition hover:bg-gray-100 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]", e.disabled ? "cursor-not-allowed opacity-50" : ""])
@@ -21133,11 +21135,11 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-hidden": "true"
           }),
           Be(" " + D(e.chooseLabel), 1)
-        ], 10, ow),
+        ], 10, iw),
         u("span", {
           class: "min-w-0 flex-1 truncate text-sm text-[color:var(--kiut-text-primary)] dark:text-slate-100",
           title: r.value || void 0
-        }, D(r.value), 9, iw),
+        }, D(r.value), 9, lw),
         e.modelValue && !e.disabled ? (m(), x("button", {
           key: 0,
           type: "button",
@@ -21149,17 +21151,17 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
             class: "h-4 w-4",
             "aria-hidden": "true"
           })
-        ], 8, lw)) : V("", !0)
+        ], 8, rw)) : V("", !0)
       ], 2),
       e.errorText ? (m(), x("p", {
         key: 1,
         id: i.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, rw)) : V("", !0)
+      }, D(e.errorText), 11, cw)) : V("", !0)
     ]));
   }
-}), dw = { class: "font-sans" }, uw = ["for"], hw = { class: "relative" }, fw = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], gw = ["id"], mw = /* @__PURE__ */ ue({
+}), uw = { class: "font-sans" }, hw = ["for"], fw = { class: "relative" }, gw = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], mw = ["id"], pw = /* @__PURE__ */ ue({
   name: "InputDateTime",
   __name: "InputDateTime",
   props: {
@@ -21181,13 +21183,13 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       const d = c.target.value;
       a("update:modelValue", d === "" ? null : d);
     }
-    return (c, d) => (m(), x("div", dw, [
+    return (c, d) => (m(), x("div", uw, [
       e.label ? (m(), x("label", {
         key: 0,
         for: o.value,
         class: ee(A(ct))
-      }, D(e.label), 11, uw)) : V("", !0),
-      u("div", hw, [
+      }, D(e.label), 11, hw)) : V("", !0),
+      u("div", fw, [
         I(A(ks), {
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
@@ -21210,17 +21212,17 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? i.value : void 0,
           onInput: r
-        }, null, 42, fw)
+        }, null, 42, gw)
       ]),
       e.errorText ? (m(), x("p", {
         key: 1,
         id: i.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, gw)) : V("", !0)
+      }, D(e.errorText), 11, mw)) : V("", !0)
     ]));
   }
-}), pw = { class: "font-sans" }, bw = ["for"], vw = { class: "relative" }, yw = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], xw = ["id"], _w = /* @__PURE__ */ ue({
+}), bw = { class: "font-sans" }, vw = ["for"], yw = { class: "relative" }, xw = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], _w = ["id"], kw = /* @__PURE__ */ ue({
   name: "InputTime",
   __name: "InputTime",
   props: {
@@ -21251,13 +21253,13 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       const g = h.target.value;
       o("update:modelValue", a(g));
     }
-    return (h, g) => (m(), x("div", pw, [
+    return (h, g) => (m(), x("div", bw, [
       e.label ? (m(), x("label", {
         key: 0,
         for: l.value,
         class: ee(A(ct))
-      }, D(e.label), 11, bw)) : V("", !0),
-      u("div", vw, [
+      }, D(e.label), 11, vw)) : V("", !0),
+      u("div", yw, [
         I(A(Lm), {
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
@@ -21280,32 +21282,32 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? r.value : void 0,
           onInput: d
-        }, null, 42, yw)
+        }, null, 42, xw)
       ]),
       e.errorText ? (m(), x("p", {
         key: 1,
         id: r.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, xw)) : V("", !0)
+      }, D(e.errorText), 11, _w)) : V("", !0)
     ]));
   }
-}), kw = { class: "font-sans" }, ww = ["for"], Cw = {
+}), ww = { class: "font-sans" }, Cw = ["for"], $w = {
   key: 0,
   class: "order-1 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, $w = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], Sw = {
+}, Sw = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], Mw = {
   key: 1,
   class: "text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, Mw = {
+}, Dw = {
   key: 2,
   class: "grid w-full max-w-full grid-cols-[1fr_auto_1fr] items-start gap-x-3 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, Dw = { class: "min-w-0 text-left leading-snug" }, Tw = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, Aw = { class: "min-w-0 text-right leading-snug" }, Bw = {
+}, Tw = { class: "min-w-0 text-left leading-snug" }, Aw = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, Bw = { class: "min-w-0 text-right leading-snug" }, Lw = {
   key: 3,
   class: "order-3 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, Lw = {
+}, Pw = {
   key: 4,
   class: "order-4 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, Pw = ["id"], Rw = /* @__PURE__ */ ue({
+}, Rw = ["id"], Iw = /* @__PURE__ */ ue({
   name: "InputRange",
   __name: "InputRange",
   props: {
@@ -21344,16 +21346,16 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       const f = Number(v.target.value);
       a("update:modelValue", Number.isNaN(f) ? n.min : f);
     }
-    return (v, f) => (m(), x("div", kw, [
+    return (v, f) => (m(), x("div", ww, [
       e.label ? (m(), x("label", {
         key: 0,
         for: o.value,
         class: ee(A(ct))
-      }, D(e.label), 11, ww)) : V("", !0),
+      }, D(e.label), 11, Cw)) : V("", !0),
       u("div", {
         class: ee(["flex flex-col items-center gap-2", (e.orientation === "vertical", "w-full")])
       }, [
-        e.orientation === "vertical" && e.captionMax ? (m(), x("p", Cw, D(e.captionMax), 1)) : V("", !0),
+        e.orientation === "vertical" && e.captionMax ? (m(), x("p", $w, D(e.captionMax), 1)) : V("", !0),
         u("div", {
           class: ee(["flex items-center justify-center", [
             e.orientation === "vertical" ? "order-2 h-[var(--kiut-range-length)] w-11 shrink-0" : "order-none w-full py-1"
@@ -21376,25 +21378,25 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
               e.orientation === "vertical" ? "kiut-range-input--vertical" : "kiut-range-input--horizontal w-full"
             ]),
             onInput: g
-          }, null, 42, $w)
+          }, null, 42, Sw)
         ], 6),
-        e.orientation === "horizontal" && r.value ? (m(), x("p", Sw, D(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (m(), x("div", Mw, [
-          u("span", Dw, D(e.captionMin), 1),
-          u("span", Tw, D(e.caption), 1),
-          u("span", Aw, D(e.captionMax), 1)
+        e.orientation === "horizontal" && r.value ? (m(), x("p", Mw, D(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (m(), x("div", Dw, [
+          u("span", Tw, D(e.captionMin), 1),
+          u("span", Aw, D(e.caption), 1),
+          u("span", Bw, D(e.captionMax), 1)
         ])) : V("", !0),
-        e.orientation === "vertical" && e.captionMin ? (m(), x("p", Bw, D(e.captionMin), 1)) : V("", !0),
-        e.orientation === "vertical" && e.caption ? (m(), x("p", Lw, D(e.caption), 1)) : V("", !0)
+        e.orientation === "vertical" && e.captionMin ? (m(), x("p", Lw, D(e.captionMin), 1)) : V("", !0),
+        e.orientation === "vertical" && e.caption ? (m(), x("p", Pw, D(e.caption), 1)) : V("", !0)
       ], 2),
       e.errorText ? (m(), x("p", {
         key: 1,
         id: i.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, Pw)) : V("", !0)
+      }, D(e.errorText), 11, Rw)) : V("", !0)
     ]));
   }
-}), Iw = /* @__PURE__ */ pe(Rw, [["__scopeId", "data-v-a1343418"]]), Ew = { class: "font-sans" }, Fw = ["for"], Ow = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], Vw = ["id"], zw = /* @__PURE__ */ ue({
+}), Ew = /* @__PURE__ */ pe(Iw, [["__scopeId", "data-v-a1343418"]]), Fw = { class: "font-sans" }, Ow = ["for"], Vw = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], zw = ["id"], Nw = /* @__PURE__ */ ue({
   name: "InputNumber",
   __name: "InputNumber",
   props: {
@@ -21433,12 +21435,12 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       const g = Number(h);
       a("update:modelValue", Number.isNaN(g) ? null : g);
     }
-    return (d, h) => (m(), x("div", Ew, [
+    return (d, h) => (m(), x("div", Fw, [
       e.label ? (m(), x("label", {
         key: 0,
         for: o.value,
         class: ee(A(ct))
-      }, D(e.label), 11, Fw)) : V("", !0),
+      }, D(e.label), 11, Ow)) : V("", !0),
       u("input", {
         id: o.value,
         value: r.value,
@@ -21457,16 +21459,16 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         step: e.step,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 42, Ow),
+      }, null, 42, Vw),
       e.errorText ? (m(), x("p", {
         key: 1,
         id: i.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, Vw)) : V("", !0)
+      }, D(e.errorText), 11, zw)) : V("", !0)
     ]));
   }
-}), Nw = { class: "font-sans" }, Hw = ["for"], Ww = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], jw = ["disabled"], Kw = ["id"], Yw = "#3b82f6", Uw = "#aabbcc", qw = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", Xw = /* @__PURE__ */ ue({
+}), Hw = { class: "font-sans" }, Ww = ["for"], jw = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], Kw = ["disabled"], Yw = ["id"], Uw = "#3b82f6", qw = "#aabbcc", Xw = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", Gw = /* @__PURE__ */ ue({
   name: "InputColorPicker",
   __name: "InputColorPicker",
   props: {
@@ -21491,7 +21493,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       return null;
     }
     function a(f) {
-      return n(f) ?? Yw;
+      return n(f) ?? Uw;
     }
     const s = e, o = t, i = `kiut-input-color-${Ue()}`, l = C(() => s.id ?? i), r = C(() => `${l.value}-err`), c = C(() => a(s.modelValue)), d = re(c.value), h = re(!1);
     Oe(c, (f) => {
@@ -21510,15 +21512,15 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       if (!h.value) return;
       const y = n(f);
       y && o("update:modelValue", y);
-    }), (f, y) => (m(), x("div", Nw, [
+    }), (f, y) => (m(), x("div", Hw, [
       e.label ? (m(), x("label", {
         key: 0,
         for: l.value,
         class: ee(A(ct))
-      }, D(e.label), 11, Hw)) : V("", !0),
+      }, D(e.label), 11, Ww)) : V("", !0),
       u("div", {
         class: ee([
-          qw,
+          Xw,
           e.invalid ? A(It) : "",
           e.disabled ? "cursor-not-allowed opacity-50" : ""
         ])
@@ -21532,7 +21534,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-describedby": e.errorText ? r.value : void 0,
           class: "h-9 w-11 shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-0.5 shadow-inner outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/35 disabled:cursor-not-allowed dark:border-slate-600 dark:bg-slate-800/80",
           onInput: g
-        }, null, 40, Ww),
+        }, null, 40, jw),
         e.showHexInput ? lt((m(), x("input", {
           key: 0,
           "onUpdate:modelValue": y[0] || (y[0] = (b) => d.value = b),
@@ -21542,10 +21544,10 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           spellcheck: "false",
           "aria-label": "Código hexadecimal del color",
           class: "min-h-0 min-w-0 flex-1 border-0 bg-transparent p-0 font-mono text-sm font-medium text-[color:var(--kiut-text-primary)] outline-none ring-0 placeholder:text-[color:var(--kiut-text-muted)] focus:ring-0 disabled:cursor-not-allowed dark:text-slate-100 dark:placeholder:text-slate-500",
-          placeholder: Uw,
+          placeholder: qw,
           onFocus: y[1] || (y[1] = (b) => h.value = !0),
           onBlur: v
-        }, null, 40, jw)), [
+        }, null, 40, Kw)), [
           [sn, d.value]
         ]) : V("", !0)
       ], 2),
@@ -21554,19 +21556,19 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         id: r.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, Kw)) : V("", !0)
+      }, D(e.errorText), 11, Yw)) : V("", !0)
     ]));
   }
-}), Gw = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], Zw = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, Qw = {
+}), Zw = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], Qw = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, Jw = {
   key: 0,
   class: "block truncate text-[color:var(--kiut-text-muted)] dark:text-slate-500"
-}, Jw = {
+}, e5 = {
   key: 1,
   class: "flex flex-wrap gap-1"
-}, e5 = { class: "truncate" }, t5 = ["aria-selected", "onClick", "onMouseenter"], n5 = {
+}, t5 = { class: "truncate" }, n5 = ["aria-selected", "onClick", "onMouseenter"], a5 = {
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
-}, a5 = { class: "min-w-0 flex-1" }, s5 = /* @__PURE__ */ ue({
+}, s5 = { class: "min-w-0 flex-1" }, o5 = /* @__PURE__ */ ue({
   name: "MultiSelect",
   __name: "MultiSelect",
   props: {
@@ -21679,13 +21681,13 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         onClick: S,
         onKeydown: R
       }, [
-        u("div", Zw, [
-          f.value.length === 0 ? (m(), x("span", Qw, D(e.placeholder), 1)) : (m(), x("div", Jw, [
+        u("div", Qw, [
+          f.value.length === 0 ? (m(), x("span", Jw, D(e.placeholder), 1)) : (m(), x("div", e5, [
             (m(!0), x(le, null, ge(f.value, (L) => (m(), x("span", {
               key: b(L),
               class: "inline-flex max-w-full items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-[color:var(--kiut-text-primary)] dark:bg-white/10 dark:text-slate-100"
             }, [
-              u("span", e5, D(L.label), 1)
+              u("span", t5, D(L.label), 1)
             ]))), 128))
           ]))
         ]),
@@ -21693,7 +21695,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           class: ee(["mt-0.5 h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", d.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
-      ], 42, Gw),
+      ], 42, Zw),
       lt(u("ul", {
         id: l,
         ref_key: "listRef",
@@ -21712,20 +21714,20 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           onClick: qe((X) => k(L), ["stop"]),
           onMouseenter: (X) => h.value = F
         }, [
-          u("span", n5, [
+          u("span", a5, [
             p(L) ? (m(), te(A(cl), {
               key: 0,
               class: "h-4 w-4 text-white"
             })) : V("", !0)
           ]),
-          u("span", a5, D(L.label), 1)
-        ], 42, t5))), 128))
+          u("span", s5, D(L.label), 1)
+        ], 42, n5))), 128))
       ], 544), [
         [bn, d.value]
       ])
     ], 512));
   }
-}), o5 = ["id", "aria-checked", "aria-disabled", "disabled", "onKeydown"], i5 = { class: "sr-only" }, l5 = /* @__PURE__ */ ue({
+}), i5 = ["id", "aria-checked", "aria-disabled", "disabled", "onKeydown"], l5 = { class: "sr-only" }, r5 = /* @__PURE__ */ ue({
   name: "Toggle",
   __name: "Toggle",
   props: {
@@ -21763,10 +21765,10 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         class: ee(["pointer-events-none inline-block h-7 w-7 translate-x-0 transform rounded-full bg-white shadow-sm transition-transform duration-200 ease-out", e.modelValue ? "translate-x-7" : "translate-x-0"]),
         "aria-hidden": "true"
       }, null, 2),
-      u("span", i5, D(e.ariaLabel), 1)
-    ], 42, o5));
+      u("span", l5, D(e.ariaLabel), 1)
+    ], 42, i5));
   }
-}), r5 = { class: "font-sans" }, c5 = ["for"], d5 = { class: "flex gap-2" }, u5 = { class: "w-[7.5rem] shrink-0" }, h5 = { class: "min-w-0 flex-1" }, f5 = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], g5 = ["id"], m5 = /* @__PURE__ */ ue({
+}), c5 = { class: "font-sans" }, d5 = ["for"], u5 = { class: "flex gap-2" }, h5 = { class: "w-[7.5rem] shrink-0" }, f5 = { class: "min-w-0 flex-1" }, g5 = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], m5 = ["id"], p5 = /* @__PURE__ */ ue({
   name: "InputPhone",
   __name: "InputPhone",
   props: {
@@ -21789,14 +21791,14 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       get: () => n.modelValue.number,
       set: (c) => a("update:modelValue", { ...n.modelValue, number: c })
     });
-    return (c, d) => (m(), x("div", r5, [
+    return (c, d) => (m(), x("div", c5, [
       e.label ? (m(), x("label", {
         key: 0,
         for: o.value,
         class: ee(A(ct))
-      }, D(e.label), 11, c5)) : V("", !0),
-      u("div", d5, [
-        u("div", u5, [
+      }, D(e.label), 11, d5)) : V("", !0),
+      u("div", u5, [
+        u("div", h5, [
           I(ws, {
             modelValue: l.value,
             "onUpdate:modelValue": d[0] || (d[0] = (h) => l.value = h),
@@ -21807,7 +21809,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
             "show-option-check": !1
           }, null, 8, ["modelValue", "options", "placeholder", "disabled"])
         ]),
-        u("div", h5, [
+        u("div", f5, [
           lt(u("input", {
             id: o.value,
             "onUpdate:modelValue": d[1] || (d[1] = (h) => r.value = h),
@@ -21819,7 +21821,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
             disabled: e.disabled,
             "aria-invalid": e.invalid ? "true" : void 0,
             "aria-describedby": e.errorText ? i.value : void 0
-          }, null, 10, f5), [
+          }, null, 10, g5), [
             [sn, r.value]
           ])
         ])
@@ -21829,13 +21831,13 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         id: i.value,
         class: ee(A(Mt)),
         role: "alert"
-      }, D(e.errorText), 11, g5)) : V("", !0)
+      }, D(e.errorText), 11, m5)) : V("", !0)
     ]));
   }
-}), p5 = ["role", "aria-label"], b5 = { class: "flex flex-wrap gap-2" }, v5 = ["aria-checked", "role", "onClick"], y5 = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, x5 = {
+}), b5 = ["role", "aria-label"], v5 = { class: "flex flex-wrap gap-2" }, y5 = ["aria-checked", "role", "onClick"], x5 = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, _5 = {
   key: 0,
   class: "h-2 w-2 rounded-full bg-[color:var(--kiut-primary)]"
-}, _5 = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, k5 = /* @__PURE__ */ ue({
+}, k5 = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, w5 = /* @__PURE__ */ ue({
   name: "SelectablePills",
   __name: "SelectablePills",
   props: {
@@ -21870,7 +21872,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
       role: e.multiple ? "group" : "radiogroup",
       "aria-label": e.ariaLabel
     }, [
-      u("div", b5, [
+      u("div", v5, [
         (m(!0), x(le, null, ge(e.items, (d) => (m(), x("button", {
           key: d.value,
           type: "button",
@@ -21879,8 +21881,8 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
           role: e.multiple ? "checkbox" : "radio",
           onClick: (h) => l(d)
         }, [
-          u("span", y5, [
-            o(d) ? (m(), x("span", x5)) : V("", !0)
+          u("span", x5, [
+            o(d) ? (m(), x("span", _5)) : V("", !0)
           ]),
           d.dotColor ? (m(), x("span", {
             key: 0,
@@ -21888,12 +21890,12 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
             style: Ce({ backgroundColor: d.dotColor }),
             "aria-hidden": "true"
           }, null, 4)) : V("", !0),
-          u("span", _5, D(d.label), 1)
-        ], 10, v5))), 128))
+          u("span", k5, D(d.label), 1)
+        ], 10, y5))), 128))
       ])
-    ], 8, p5));
+    ], 8, b5));
   }
-}), w5 = ["aria-label"], C5 = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], $5 = { class: "truncate px-3 py-2 text-sm font-medium" }, S5 = /* @__PURE__ */ ue({
+}), C5 = ["aria-label"], $5 = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], S5 = { class: "truncate px-3 py-2 text-sm font-medium" }, M5 = /* @__PURE__ */ ue({
   name: "SegmentedControl",
   __name: "SegmentedControl",
   props: {
@@ -21975,17 +21977,17 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
         onClick: (k) => h(p, _),
         onKeydown: (k) => f(k, _)
       }, [
-        u("span", $5, D(p.label), 1)
-      ], 42, C5))), 128))
-    ], 8, w5));
+        u("span", S5, D(p.label), 1)
+      ], 42, $5))), 128))
+    ], 8, C5));
   }
-}), M5 = {
+}), D5 = {
   en: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
   es: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
-}, D5 = {
+}, T5 = {
   en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   es: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
-}, T5 = {
+}, A5 = {
   en: [
     "January",
     "February",
@@ -22014,7 +22016,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
     "Noviembre",
     "Diciembre"
   ]
-}, A5 = {
+}, B5 = {
   es: {
     today: "Hoy",
     yesterday: "Ayer",
@@ -22037,7 +22039,7 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
     lastMonth: "Last month",
     yearToDate: "Year to date"
   }
-}, B5 = [
+}, L5 = [
   "today",
   "yesterday",
   "last7",
@@ -22048,13 +22050,13 @@ const i2 = ["aria-label"], l2 = { class: "flex flex-wrap items-center gap-x-2 ga
   "lastMonth",
   "yearToDate"
 ];
-function L5(e = "en") {
-  return M5[e];
+function P5(e = "en") {
+  return D5[e];
 }
 function bl(e = "en") {
-  return B5.map((t) => ({ id: t, label: A5[e][t] }));
+  return L5.map((t) => ({ id: t, label: B5[e][t] }));
 }
-function P5(e = "en") {
+function R5(e = "en") {
   return "Presets";
 }
 bl("es");
@@ -22075,14 +22077,14 @@ function Pt(e) {
 function Yn(e, t) {
   return new Date(e.getFullYear(), e.getMonth() + t, e.getDate());
 }
-function R5(e, t) {
+function I5(e, t) {
   const n = new Date(e.getFullYear(), e.getMonth(), e.getDate() + t);
   return ze(n);
 }
 function Dn(e, t) {
-  return R5(e, -t);
+  return I5(e, -t);
 }
-function I5(e) {
+function E5(e) {
   return new Date(e.getFullYear(), e.getMonth() + 1, 0);
 }
 function vl(e, t = /* @__PURE__ */ new Date()) {
@@ -22106,7 +22108,7 @@ function vl(e, t = /* @__PURE__ */ new Date()) {
       return { start: Pt(n), end: n };
     case "lastMonth": {
       const a = Pt(Yn(n, -1));
-      return { start: a, end: I5(a) };
+      return { start: a, end: E5(a) };
     }
     case "yearToDate":
       return { start: new Date(n.getFullYear(), 0, 1), end: n };
@@ -22124,7 +22126,7 @@ function yl(e, t, n) {
   }
   return ja(a, s) ? { start: s, end: a } : { start: a, end: s };
 }
-function E5(e, t, n = /* @__PURE__ */ new Date(), a, s) {
+function F5(e, t, n = /* @__PURE__ */ new Date(), a, s) {
   if (!e.start || !e.end) return !1;
   const o = yl(vl(t, n), a, s);
   return ot(o.start) === e.start && ot(o.end) === e.end;
@@ -22157,12 +22159,12 @@ function kl(e) {
   return o;
 }
 function _a(e, t = "en") {
-  return `${D5[t][e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
+  return `${T5[t][e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
 }
 function Wt(e, t = "en") {
-  return `${T5[t][e.getMonth()]} ${e.getFullYear()}`;
+  return `${A5[t][e.getMonth()]} ${e.getFullYear()}`;
 }
-const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"], V5 = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, z5 = { class: "mb-4 flex items-center justify-between gap-2" }, N5 = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, H5 = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, W5 = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, j5 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, K5 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, Y5 = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, U5 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, q5 = { class: "grid grid-cols-7 gap-y-2 mt-2" }, X5 = ["disabled", "onClick"], G5 = "rounded-lg text-[#61616b]", Z5 = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", Q5 = "opacity-30", J5 = "bg-[#6b35e9] font-medium text-white", eC = "bg-[#895af6] font-semibold text-white", tC = /* @__PURE__ */ ue({
+const O5 = ["aria-expanded", "aria-labelledby", "aria-label"], V5 = ["onKeydown"], z5 = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, N5 = { class: "mb-4 flex items-center justify-between gap-2" }, H5 = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, W5 = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, j5 = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, K5 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, Y5 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, U5 = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, q5 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, X5 = { class: "grid grid-cols-7 gap-y-2 mt-2" }, G5 = ["disabled", "onClick"], Z5 = "rounded-lg text-[#61616b]", Q5 = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", J5 = "opacity-30", eC = "bg-[#6b35e9] font-medium text-white", tC = "bg-[#895af6] font-semibold text-white", nC = /* @__PURE__ */ ue({
   name: "DateRangePicker",
   __name: "DateRangePicker",
   props: {
@@ -22213,13 +22215,13 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
     function $(T, L) {
       const F = _(L, T), X = k(L), Z = n.modelValue.start ? ze(Ze(n.modelValue.start)) : null, ie = n.modelValue.end ? ze(Ze(n.modelValue.end)) : null, z = ze(L);
       if (X)
-        return G5;
-      let se = Z5;
+        return Z5;
+      let se = Q5;
       if (Z && ie && xl(z, Z) && _l(z, ie)) {
         const U = Ht(z, Z), H = Ht(z, ie);
-        se = `${w(z, Z, ie)} ${U || H ? eC : J5}`;
+        se = `${w(z, Z, ie)} ${U || H ? tC : eC}`;
       }
-      return F || (se = `${se} ${Q5}`), se;
+      return F || (se = `${se} ${J5}`), se;
     }
     function S(T) {
       if (k(T)) return;
@@ -22292,7 +22294,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
             h.value ? "" : "text-[color:var(--kiut-text-muted)] dark:text-slate-500"
           ])
         }, D(p.value), 3)
-      ], 42, F5),
+      ], 42, O5),
       lt(u("div", {
         ref_key: "panelRef",
         ref: l,
@@ -22306,8 +22308,8 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
         ]),
         onKeydown: Fn(qe(R, ["stop"]), ["escape"])
       }, [
-        u("div", V5, [
-          u("div", z5, [
+        u("div", z5, [
+          u("div", N5, [
             u("button", {
               type: "button",
               class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
@@ -22319,11 +22321,11 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                 "aria-hidden": "true"
               })
             ]),
-            u("div", N5, [
-              u("span", H5, D(y.value), 1),
-              u("div", W5, [
-                u("span", j5, D(A(Wt)(g.value[0])), 1),
-                u("span", K5, D(A(Wt)(g.value[1])), 1)
+            u("div", H5, [
+              u("span", W5, D(y.value), 1),
+              u("div", j5, [
+                u("span", K5, D(A(Wt)(g.value[0])), 1),
+                u("span", Y5, D(A(Wt)(g.value[1])), 1)
               ])
             ]),
             u("button", {
@@ -22338,32 +22340,32 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
               })
             ])
           ]),
-          u("div", Y5, [
+          u("div", U5, [
             (m(!0), x(le, null, ge(g.value, (F) => (m(), x("div", {
               key: `${F.getFullYear()}-${F.getMonth()}`,
               class: "w-full max-w-[252px] shrink-0"
             }, [
-              u("div", U5, [
+              u("div", q5, [
                 (m(), x(le, null, ge(b, (X) => u("span", { key: X }, D(X), 1)), 64))
               ]),
-              u("div", q5, [
+              u("div", X5, [
                 (m(!0), x(le, null, ge(A(kl)(F), (X) => (m(), x("button", {
                   key: A(ot)(X),
                   type: "button",
                   disabled: k(X),
                   class: ee(["relative flex h-[36px] w-[36px] items-center justify-center text-xs outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 disabled:cursor-not-allowed disabled:opacity-100", $(F, X)]),
                   onClick: (Z) => S(X)
-                }, D(X.getDate()), 11, X5))), 128))
+                }, D(X.getDate()), 11, G5))), 128))
               ])
             ]))), 128))
           ])
         ])
-      ], 42, O5), [
+      ], 42, V5), [
         [bn, r.value]
       ])
     ], 512));
   }
-}), nC = ["aria-expanded", "aria-labelledby", "aria-label"], aC = ["aria-label", "onKeydown"], sC = { class: "flex flex-col sm:flex-row" }, oC = ["aria-label"], iC = { class: "px-2 pt-1 pb-1.5 text-[10px] font-semibold uppercase dark:text-[#61616b] text-[#e3e3e8]" }, lC = { class: "flex flex-col gap-0.5" }, rC = ["onClick"], cC = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, dC = { class: "mb-4 flex items-center justify-between gap-2" }, uC = ["aria-label"], hC = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, fC = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, gC = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, mC = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, pC = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, bC = ["aria-label"], vC = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, yC = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, xC = { class: "grid grid-cols-7 gap-y-2 mt-2" }, _C = ["disabled", "onClick"], kC = "rounded-lg text-[#61616b]", wC = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", CC = "opacity-30", $C = "bg-[#6b35e9] font-medium text-white", SC = "bg-[#895af6] font-semibold text-white", MC = /* @__PURE__ */ ue({
+}), aC = ["aria-expanded", "aria-labelledby", "aria-label"], sC = ["aria-label", "onKeydown"], oC = { class: "flex flex-col sm:flex-row" }, iC = ["aria-label"], lC = { class: "px-2 pt-1 pb-1.5 text-[10px] font-semibold uppercase dark:text-[#61616b] text-[#e3e3e8]" }, rC = { class: "flex flex-col gap-0.5" }, cC = ["onClick"], dC = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, uC = { class: "mb-4 flex items-center justify-between gap-2" }, hC = ["aria-label"], fC = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, gC = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, mC = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, pC = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, bC = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, vC = ["aria-label"], yC = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, xC = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, _C = { class: "grid grid-cols-7 gap-y-2 mt-2" }, kC = ["disabled", "onClick"], wC = "rounded-lg text-[#61616b]", CC = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", $C = "opacity-30", SC = "bg-[#6b35e9] font-medium text-white", MC = "bg-[#895af6] font-semibold text-white", DC = /* @__PURE__ */ ue({
   name: "DatePickerPresets",
   __name: "DatePickerPresets",
   props: {
@@ -22383,7 +22385,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       return [U, Yn(U, 1)];
     }), v = C(
       () => n.placeholder ?? (n.locale === "es" ? "Seleccionar fechas" : "Select dates")
-    ), f = C(() => n.ariaLabel ?? v.value), y = C(() => bl(n.locale)), b = C(() => P5(n.locale)), p = C(() => L5(n.locale)), _ = C(
+    ), f = C(() => n.ariaLabel ?? v.value), y = C(() => bl(n.locale)), b = C(() => R5(n.locale)), p = C(() => P5(n.locale)), _ = C(
       () => n.locale === "es" ? "Preajustes de rango" : "Range presets"
     ), k = C(
       () => n.locale === "es" ? "Mes anterior" : "Previous month"
@@ -22423,7 +22425,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       return De && Se ? "rounded-lg" : De ? "rounded-l-lg" : Se ? "rounded-r-lg" : "rounded-none";
     }
     function L(U) {
-      const H = E5(
+      const H = F5(
         n.modelValue,
         U,
         /* @__PURE__ */ new Date(),
@@ -22435,13 +22437,13 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
     function F(U, H) {
       const J = W(H, U), oe = E(H), me = n.modelValue.start ? ze(Ze(n.modelValue.start)) : null, De = n.modelValue.end ? ze(Ze(n.modelValue.end)) : null, Se = ze(H);
       if (oe)
-        return kC;
-      let Q = wC;
+        return wC;
+      let Q = CC;
       if (me && De && xl(Se, me) && _l(Se, De)) {
         const N = Ht(Se, me), G = Ht(Se, De);
-        Q = `${T(Se, me, De)} ${N || G ? SC : $C}`;
+        Q = `${T(Se, me, De)} ${N || G ? MC : SC}`;
       }
-      return J || (Q = `${Q} ${CC}`), Q;
+      return J || (Q = `${Q} ${$C}`), Q;
     }
     function X(U) {
       const H = yl(vl(U), n.minDate, n.maxDate);
@@ -22522,7 +22524,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
             h.value ? "" : "text-[color:var(--kiut-text-muted)] group-hover:text-white dark:text-slate-500"
           ])
         }, D(R.value), 3)
-      ], 10, nC),
+      ], 10, aC),
       lt(u("div", {
         ref_key: "panelRef",
         ref: l,
@@ -22536,13 +22538,13 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
         ]),
         onKeydown: Fn(qe(z, ["stop"]), ["escape"])
       }, [
-        u("div", sC, [
+        u("div", oC, [
           u("aside", {
             class: "w-full shrink-0 border-b border-gray-200 p-3 sm:w-[176px] sm:border-r sm:border-b-0 dark:border-[color:var(--kiut-border-light)]",
             "aria-label": _.value
           }, [
-            u("p", iC, D(b.value), 1),
-            u("ul", lC, [
+            u("p", lC, D(b.value), 1),
+            u("ul", rC, [
               (m(!0), x(le, null, ge(y.value, (J) => (m(), x("li", {
                 key: J.id
               }, [
@@ -22550,12 +22552,12 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                   type: "button",
                   class: ee(["w-full rounded-lg px-2 py-1.5 text-left text-xs transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40", L(J.id)]),
                   onClick: (oe) => X(J.id)
-                }, D(J.label), 11, rC)
+                }, D(J.label), 11, cC)
               ]))), 128))
             ])
-          ], 8, oC),
-          u("div", cC, [
-            u("div", dC, [
+          ], 8, iC),
+          u("div", dC, [
+            u("div", uC, [
               u("button", {
                 type: "button",
                 class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
@@ -22566,12 +22568,12 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                   class: "h-4 w-4",
                   "aria-hidden": "true"
                 })
-              ], 8, uC),
-              u("div", hC, [
-                u("span", fC, D(M.value), 1),
-                u("div", gC, [
-                  u("span", mC, D(A(Wt)(g.value[0], e.locale)), 1),
-                  u("span", pC, D(A(Wt)(g.value[1], e.locale)), 1)
+              ], 8, hC),
+              u("div", fC, [
+                u("span", gC, D(M.value), 1),
+                u("div", mC, [
+                  u("span", pC, D(A(Wt)(g.value[0], e.locale)), 1),
+                  u("span", bC, D(A(Wt)(g.value[1], e.locale)), 1)
                 ])
               ]),
               u("button", {
@@ -22584,30 +22586,30 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                   class: "h-4 w-4",
                   "aria-hidden": "true"
                 })
-              ], 8, bC)
+              ], 8, vC)
             ]),
-            u("div", vC, [
+            u("div", yC, [
               (m(!0), x(le, null, ge(g.value, (J) => (m(), x("div", {
                 key: `${J.getFullYear()}-${J.getMonth()}`,
                 class: "w-full max-w-[252px] shrink-0"
               }, [
-                u("div", yC, [
+                u("div", xC, [
                   (m(!0), x(le, null, ge(p.value, (oe) => (m(), x("span", { key: oe }, D(oe), 1))), 128))
                 ]),
-                u("div", xC, [
+                u("div", _C, [
                   (m(!0), x(le, null, ge(A(kl)(J), (oe) => (m(), x("button", {
                     key: A(ot)(oe),
                     type: "button",
                     disabled: E(oe),
                     class: ee(["relative flex h-[36px] w-[36px] items-center justify-center text-xs outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 disabled:cursor-not-allowed disabled:opacity-100", F(J, oe)]),
                     onClick: (me) => Z(oe)
-                  }, D(oe.getDate()), 11, _C))), 128))
+                  }, D(oe.getDate()), 11, kC))), 128))
                 ])
               ]))), 128))
             ])
           ])
         ])
-      ], 42, aC), [
+      ], 42, sC), [
         [bn, r.value]
       ])
     ], 512));
@@ -22640,47 +22642,47 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       u("path", { d: "M12 2a10 10 0 0 1 10 10" }, null, -1)
     ])], 2));
   }
-}), DC = ["disabled", "aria-expanded", "aria-label"], TC = {
+}), TC = ["disabled", "aria-expanded", "aria-label"], AC = {
   key: 0,
   class: "inline-flex shrink-0 [&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]",
   "aria-hidden": "true"
-}, AC = { class: "min-w-0 truncate" }, BC = ["disabled", "onClick", "onMouseenter"], LC = {
+}, BC = { class: "min-w-0 truncate" }, LC = ["disabled", "onClick", "onMouseenter"], PC = {
   key: 0,
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] dark:text-slate-400",
   "aria-hidden": "true"
-}, PC = {
+}, RC = {
   key: 1,
   class: "h-5 w-5 shrink-0",
   "aria-hidden": "true"
-}, RC = { class: "min-w-0 flex-1 text-left" }, IC = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, EC = {
+}, IC = { class: "min-w-0 flex-1 text-left" }, EC = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, FC = {
   key: 0,
   class: "mt-0.5 block text-xs text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, FC = ["disabled", "aria-expanded", "aria-label"], OC = {
+}, OC = ["disabled", "aria-expanded", "aria-label"], VC = {
   key: 0,
   class: "inline-flex shrink-0 [&>svg]:size-4",
   "aria-hidden": "true"
-}, VC = ["disabled", "onClick", "onMouseenter"], zC = {
+}, zC = ["disabled", "onClick", "onMouseenter"], NC = {
   key: 0,
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] dark:text-slate-400",
   "aria-hidden": "true"
-}, NC = {
+}, HC = {
   key: 1,
   class: "h-5 w-5 shrink-0",
   "aria-hidden": "true"
-}, HC = { class: "min-w-0 flex-1 text-left" }, WC = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, jC = {
+}, WC = { class: "min-w-0 flex-1 text-left" }, jC = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, KC = {
   key: 0,
   class: "mt-0.5 block text-xs text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, KC = {
+}, YC = {
   key: 2,
   class: "group relative inline-flex shrink-0"
-}, YC = ["type", "disabled", "aria-busy", "aria-label"], UC = {
+}, UC = ["type", "disabled", "aria-busy", "aria-label"], qC = {
   key: 2,
   class: "min-w-0 truncate"
-}, qC = {
+}, XC = {
   role: "tooltip",
   "aria-hidden": "true",
   class: "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 font-sans text-xs font-medium text-[color:var(--kiut-text-primary)] opacity-0 shadow-lg shadow-slate-900/10 ring-1 ring-black/5 transition-opacity duration-150 will-change-[opacity,visibility] invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:bg-slate-800 dark:text-slate-100 dark:shadow-black/40 dark:ring-white/10"
-}, XC = ["type", "disabled", "aria-busy", "aria-label"], GC = {
+}, GC = ["type", "disabled", "aria-busy", "aria-label"], ZC = {
   key: 2,
   class: "min-w-0 truncate"
 }, ha = /* @__PURE__ */ ue({
@@ -22836,17 +22838,17 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
         onClick: z,
         onKeydown: ae
       }), [
-        H.$slots.icon ? (m(), x("span", TC, [
+        H.$slots.icon ? (m(), x("span", AC, [
           we(H.$slots, "icon")
         ])) : V("", !0),
-        u("span", AC, [
+        u("span", BC, [
           we(H.$slots, "default")
         ]),
         I(A(Da), {
           class: ee(["h-[1.125rem] w-[1.125rem] shrink-0 transition-transform", S.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
-      ], 16, DC),
+      ], 16, TC),
       (m(), te(En, { to: "body" }, [
         lt(u("div", {
           ref_key: "panelRef",
@@ -22867,14 +22869,14 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
             onClick: qe((De) => ie(oe), ["stop"]),
             onMouseenter: (De) => M.value = me
           }, [
-            oe.icon ? (m(), x("span", LC, [
+            oe.icon ? (m(), x("span", PC, [
               (m(), te(Ft(oe.icon), { class: "h-5 w-5" }))
-            ])) : (m(), x("span", PC)),
-            u("span", RC, [
-              u("span", IC, D(oe.label), 1),
-              oe.description ? (m(), x("span", EC, D(oe.description), 1)) : V("", !0)
+            ])) : (m(), x("span", RC)),
+            u("span", IC, [
+              u("span", EC, D(oe.label), 1),
+              oe.description ? (m(), x("span", FC, D(oe.description), 1)) : V("", !0)
             ])
-          ], 42, BC))), 128))
+          ], 42, LC))), 128))
         ], 36), [
           [bn, S.value]
         ])
@@ -22899,10 +22901,10 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
         onClick: z,
         onKeydown: ae
       }), [
-        H.$slots.icon ? (m(), x("span", OC, [
+        H.$slots.icon ? (m(), x("span", VC, [
           we(H.$slots, "icon")
         ])) : V("", !0)
-      ], 16, FC),
+      ], 16, OC),
       (m(), te(En, { to: "body" }, [
         lt(u("div", {
           ref_key: "panelRef",
@@ -22923,19 +22925,19 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
             onClick: qe((De) => ie(oe), ["stop"]),
             onMouseenter: (De) => M.value = me
           }, [
-            oe.icon ? (m(), x("span", zC, [
+            oe.icon ? (m(), x("span", NC, [
               (m(), te(Ft(oe.icon), { class: "h-5 w-5" }))
-            ])) : (m(), x("span", NC)),
-            u("span", HC, [
-              u("span", WC, D(oe.label), 1),
-              oe.description ? (m(), x("span", jC, D(oe.description), 1)) : V("", !0)
+            ])) : (m(), x("span", HC)),
+            u("span", WC, [
+              u("span", jC, D(oe.label), 1),
+              oe.description ? (m(), x("span", KC, D(oe.description), 1)) : V("", !0)
             ])
-          ], 42, VC))), 128))
+          ], 42, zC))), 128))
         ], 36), [
           [bn, S.value]
         ])
       ]))
-    ], 512)) : o.value ? (m(), x("span", KC, [
+    ], 512)) : o.value ? (m(), x("span", YC, [
       u("button", Ct({
         type: v.value,
         class: ["inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]", [h.value, y.value, A(s).class]],
@@ -22953,11 +22955,11 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
         }, [
           we(H.$slots, "icon")
         ], 2)) : V("", !0),
-        c.value ? (m(), x("span", UC, [
+        c.value ? (m(), x("span", qC, [
           we(H.$slots, "default")
         ])) : V("", !0)
-      ], 16, YC),
-      u("span", qC, D(e.tooltip), 1)
+      ], 16, UC),
+      u("span", XC, D(e.tooltip), 1)
     ])) : (m(), x("button", Ct({
       key: 3,
       type: v.value,
@@ -22976,19 +22978,19 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       }, [
         we(H.$slots, "icon")
       ], 2)) : V("", !0),
-      c.value ? (m(), x("span", GC, [
+      c.value ? (m(), x("span", ZC, [
         we(H.$slots, "default")
       ])) : V("", !0)
-    ], 16, XC));
+    ], 16, GC));
   }
-}), ZC = {
+}), QC = {
   key: 0,
   class: "fixed inset-0 z-[200] flex items-center justify-center p-4 [font-family:'Inter',sans-serif]",
   "aria-hidden": "false"
-}, QC = { class: "min-w-0 flex-1 space-y-1" }, JC = {
+}, JC = { class: "min-w-0 flex-1 space-y-1" }, e$ = {
   key: 0,
   class: "text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-}, e$ = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, t$ = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, n$ = /* @__PURE__ */ ue({
+}, t$ = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, n$ = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, a$ = /* @__PURE__ */ ue({
   name: "Modal",
   __name: "Modal",
   props: {
@@ -23029,7 +23031,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
     }), (h, g) => (m(), te(En, { to: "body" }, [
       I(Te, { name: "kiut-modal" }, {
         default: B(() => [
-          e.modelValue ? (m(), x("div", ZC, [
+          e.modelValue ? (m(), x("div", QC, [
             u("div", {
               class: "absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] dark:bg-black/60",
               "aria-hidden": "true",
@@ -23050,12 +23052,12 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
               u("header", {
                 class: ee(["flex shrink-0 justify-between gap-4 border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.02]", e.subtitle ? "items-start" : "items-center"])
               }, [
-                u("div", QC, [
+                u("div", JC, [
                   u("h2", {
                     id: i,
                     class: "text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
                   }, D(e.title), 1),
-                  e.subtitle ? (m(), x("p", JC, D(e.subtitle), 1)) : V("", !0)
+                  e.subtitle ? (m(), x("p", e$, D(e.subtitle), 1)) : V("", !0)
                 ]),
                 I(ha, {
                   variant: "action",
@@ -23070,10 +23072,10 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                   _: 1
                 }, 8, ["disabled"])
               ], 2),
-              u("div", e$, [
+              u("div", t$, [
                 we(h.$slots, "default", {}, void 0, !0)
               ]),
-              u("footer", t$, [
+              u("footer", n$, [
                 I(ha, {
                   variant: "secondary",
                   type: "button",
@@ -23104,22 +23106,22 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       })
     ]));
   }
-}), a$ = /* @__PURE__ */ pe(n$, [["__scopeId", "data-v-1815ac92"]]), s$ = { class: "text-left font-['Inter',system-ui,sans-serif]" }, o$ = {
+}), s$ = /* @__PURE__ */ pe(a$, [["__scopeId", "data-v-1815ac92"]]), o$ = { class: "text-left font-['Inter',system-ui,sans-serif]" }, i$ = {
   key: 0,
   class: ""
-}, i$ = {
+}, l$ = {
   key: 0,
   class: "flex min-w-0 flex-col gap-1.5 mb-4"
-}, l$ = { class: "flex min-w-0 flex-1 items-center" }, r$ = {
+}, r$ = { class: "flex min-w-0 flex-1 items-center" }, c$ = {
   key: 0,
   class: "flex shrink-0 flex-wrap items-center gap-2"
-}, c$ = {
+}, d$ = {
   key: 0,
   class: "flex min-w-0 flex-1 flex-wrap items-center gap-2"
-}, d$ = {
+}, u$ = {
   key: 1,
   class: "flex shrink-0 flex-wrap items-center gap-2"
-}, u$ = /* @__PURE__ */ ue({
+}, h$ = /* @__PURE__ */ ue({
   name: "Section",
   __name: "Section",
   setup(e) {
@@ -23127,19 +23129,19 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       const a = !!t.filters, s = !!t.actions;
       return a && s ? "justify-between" : s ? "justify-end" : "";
     });
-    return (a, s) => (m(), x("section", s$, [
-      a.$slots.description || a.$slots.tabs || a.$slots.filters || a.$slots.actions ? (m(), x("header", o$, [
-        a.$slots.description ? (m(), x("div", i$, [
+    return (a, s) => (m(), x("section", o$, [
+      a.$slots.description || a.$slots.tabs || a.$slots.filters || a.$slots.actions ? (m(), x("header", i$, [
+        a.$slots.description ? (m(), x("div", l$, [
           we(a.$slots, "description")
         ])) : V("", !0),
         a.$slots.tabs ? (m(), x("div", {
           key: 1,
           class: ee(["flex flex-wrap items-center gap-2", a.$slots.filters ? "" : "justify-between"])
         }, [
-          u("div", l$, [
+          u("div", r$, [
             we(a.$slots, "tabs")
           ]),
-          a.$slots.actions && !a.$slots.filters ? (m(), x("div", r$, [
+          a.$slots.actions && !a.$slots.filters ? (m(), x("div", c$, [
             we(a.$slots, "actions")
           ])) : V("", !0)
         ], 2)) : V("", !0),
@@ -23151,10 +23153,10 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
             n.value
           ])
         }, [
-          a.$slots.filters ? (m(), x("div", c$, [
+          a.$slots.filters ? (m(), x("div", d$, [
             we(a.$slots, "filters")
           ])) : V("", !0),
-          a.$slots.actions ? (m(), x("div", d$, [
+          a.$slots.actions ? (m(), x("div", u$, [
             we(a.$slots, "actions")
           ])) : V("", !0)
         ], 2)) : V("", !0)
@@ -23171,26 +23173,26 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       ], 2)) : V("", !0)
     ]));
   }
-}), h$ = { class: "flex flex-1 min-h-0" }, f$ = {
+}), f$ = { class: "flex flex-1 min-h-0" }, g$ = {
   key: 0,
   class: "flex justify-center items-center my-4 shrink-0"
-}, g$ = {
+}, m$ = {
   class: "flex-1 overflow-y-auto p-1 flex flex-col gap-1",
   "aria-label": "Sections"
-}, m$ = ["aria-current", "data-has-active", "title", "onClick"], p$ = {
+}, p$ = ["aria-current", "data-has-active", "title", "onClick"], b$ = {
   key: 1,
   class: "footer-section shrink-0 border-t [background-color:var(--kiut-lateral-bg)]"
-}, b$ = { class: "px-4 py-4 shrink-0" }, v$ = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, y$ = {
+}, v$ = { class: "px-4 py-4 shrink-0" }, y$ = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, x$ = {
   class: "flex-1 overflow-y-auto px-1 pb-3 flex flex-col gap-0.5",
   "aria-label": "Section items"
-}, x$ = ["data-nav-id", "aria-current", "onClick"], _$ = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, k$ = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, w$ = {
+}, _$ = ["data-nav-id", "aria-current", "onClick"], k$ = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, w$ = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, C$ = {
   class: "overflow-y-auto flex-1 px-3 pb-5 flex flex-col gap-1",
   "aria-label": "Section items"
-}, C$ = ["data-nav-id", "aria-current", "onClick"], $$ = { class: "truncate text-[15px]" }, S$ = ["aria-current", "data-has-active", "onClick"], M$ = {
+}, $$ = ["data-nav-id", "aria-current", "onClick"], S$ = { class: "truncate text-[15px]" }, M$ = ["aria-current", "data-has-active", "onClick"], D$ = {
   key: 0,
   class: "absolute top-0 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]",
   "aria-hidden": "true"
-}, D$ = { class: "text-[9px] font-semibold leading-none truncate w-full text-center px-0.5" }, T$ = /* @__PURE__ */ ue({
+}, T$ = { class: "text-[9px] font-semibold leading-none truncate w-full text-center px-0.5" }, A$ = /* @__PURE__ */ ue({
   name: "AppShellNavigation",
   inheritAttrs: !1,
   __name: "AppShellNavigation",
@@ -23276,8 +23278,8 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
             _[3] || (_[3] = u("div", { class: "flex justify-center pt-3 pb-1 shrink-0" }, [
               u("div", { class: "w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-purple-500/30" })
             ], -1)),
-            u("div", _$, [
-              u("p", k$, D(d.value.label), 1),
+            u("div", k$, [
+              u("p", w$, D(d.value.label), 1),
               u("button", {
                 type: "button",
                 class: "w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors",
@@ -23296,7 +23298,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                 ], -1)
               ])])
             ]),
-            u("nav", w$, [
+            u("nav", C$, [
               (m(!0), x(le, null, ge(d.value.items, (k) => (m(), x("button", {
                 key: k.id,
                 type: "button",
@@ -23311,8 +23313,8 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                   style: { width: "18px", height: "18px" },
                   "aria-hidden": "true"
                 })) : V("", !0),
-                u("span", $$, D(k.label), 1)
-              ], 8, C$))), 128))
+                u("span", S$, D(k.label), 1)
+              ], 8, $$))), 128))
             ])
           ], 4)) : V("", !0)
         ]),
@@ -23331,15 +23333,15 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
           class: "ksn-section-btn relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset",
           onClick: (w) => v(k)
         }, [
-          e.selectedSectionId === k.id || g(k) ? (m(), x("span", M$)) : V("", !0),
+          e.selectedSectionId === k.id || g(k) ? (m(), x("span", D$)) : V("", !0),
           k.icon ? (m(), te(Ft(k.icon), {
             key: 1,
             class: "shrink-0",
             style: Ce({ width: e.primaryIconSize, height: e.primaryIconSize }),
             "aria-hidden": "true"
           }, null, 8, ["style"])) : V("", !0),
-          u("span", D$, D(k.label), 1)
-        ], 8, S$))), 128))
+          u("span", T$, D(k.label), 1)
+        ], 8, M$))), 128))
       ], 4)
     ], 16)) : (m(), x("aside", Ct({
       key: 0,
@@ -23347,7 +23349,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       role: "navigation",
       "aria-label": "Main navigation"
     }, l), [
-      u("div", h$, [
+      u("div", f$, [
         u("div", {
           class: "primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center",
           style: Ce({
@@ -23357,10 +23359,10 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
           onMouseenter: _[0] || (_[0] = (k) => n.value = !0),
           onMouseleave: _[1] || (_[1] = (k) => n.value = !1)
         }, [
-          p.$slots.logo ? (m(), x("div", f$, [
+          p.$slots.logo ? (m(), x("div", g$, [
             we(p.$slots, "logo", { expanded: n.value }, void 0, !0)
           ])) : V("", !0),
-          u("nav", g$, [
+          u("nav", m$, [
             (m(!0), x(le, null, ge(e.sections, (k) => (m(), x("button", {
               key: k.id,
               type: "button",
@@ -23380,9 +23382,9 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                 class: "leading-tight font-semibold tracking-wide text-left w-full truncate px-1 color-",
                 style: Ce({ fontSize: e.primaryFontSize })
               }, D(k.label), 5)
-            ], 8, m$))), 128))
+            ], 8, p$))), 128))
           ]),
-          p.$slots.footer ? (m(), x("div", p$, [
+          p.$slots.footer ? (m(), x("div", b$, [
             we(p.$slots, "footer", { expanded: n.value }, void 0, !0)
           ])) : V("", !0)
         ], 36),
@@ -23393,10 +23395,10 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
               class: "secondary-panel flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r [border-color:var(--kiut-lateral-border-color)] overflow-hidden",
               style: Ce({ width: e.secondaryWidth })
             }, [
-              u("div", b$, [
-                u("p", v$, D(d.value.label), 1)
+              u("div", v$, [
+                u("p", y$, D(d.value.label), 1)
               ]),
-              u("nav", y$, [
+              u("nav", x$, [
                 (m(!0), x(le, null, ge(d.value.items, (k) => (m(), x("button", {
                   key: k.id,
                   type: "button",
@@ -23413,7 +23415,7 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
                     class: "truncate",
                     style: Ce({ fontSize: e.secondaryFontSize })
                   }, D(k.label), 5)
-                ], 8, x$))), 128))
+                ], 8, _$))), 128))
               ])
             ], 4)) : V("", !0)
           ]),
@@ -23422,9 +23424,9 @@ const F5 = ["aria-expanded", "aria-labelledby", "aria-label"], O5 = ["onKeydown"
       ])
     ], 16));
   }
-}), A$ = /* @__PURE__ */ pe(T$, [["__scopeId", "data-v-e0ccb96c"]]), V$ = {
+}), B$ = /* @__PURE__ */ pe(A$, [["__scopeId", "data-v-e0ccb96c"]]), z$ = {
   install(e) {
-    e.component("KiutChartBar", St), e.component("KiutChartLine", yt), e.component("KiutPieChart", Ma), e.component("KiutBoxplotChart", yf), e.component("KiutCandlestickChart", ig), e.component("KiutHistogramChart", el), e.component("KiutSankeyChart", qt), e.component("KiutAgentsPerDay", Zm), e.component("KiutBookingManager", Bp), e.component("KiutCheckin", ol), e.component("KiutCheckinContainer", C0), e.component("KiutCheckinMetrics", c0), e.component("KiutCheckinSegments", il), e.component("KiutDisruption", W0), e.component("KiutFAQ", Z0), e.component("KiutMessagesPerAgent", lb), e.component("KiutRecordLocator", Sb), e.component("KiutSalesByChannel", ll), e.component("KiutSeller", rl), e.component("KiutSellerContainer", gv), e.component("KiutTopAgents", kv), e.component("KiutPaymentMethod", jv), e.component("KiutAgentHumanConversations", By), e.component("KiutChannelMetrics", Ny), e.component("KiutTriageCombinations", n1), e.component("KiutSelectLanguage", c1), e.component("KiutGuardrails", x1), e.component("KiutDisruptionNotifier", N1), e.component("KiutTotalConversationsCard", H1), e.component("KiutCsatP95Card", W1), e.component("KiutCsatPulseCard", j1), e.component("KiutCSATContainer", Sx), e.component("KiutAiGeneratedRevenueCard", Mx), e.component("KiutCostCard", Tx), e.component("KiutHumanEscalations", Fx), e.component("KiutHumanEscalationsCard", Ox), e.component("KiutNpsDailyMetrics", ul), e.component("KiutNpsMetrics", hl), e.component("KiutNpsOverviewMetrics", dl), e.component("KiutAWSCost", qx), e.component("KiutCostUsage", o_), e.component("KiutTokenUsage", p_), e.component("KiutConversationCount", M_), e.component("KiutTopAgentsAnalysis", z_), e.component("KiutTopAgentsPie", G_), e.component("KiutDailyCostTrends", ik), e.component("KiutModelUsage", _k), e.component("KiutMessageRoles", Bk), e.component("KiutCostPerConversations", Hk), e.component("Tabs", fl), e.component("Table", a2), e.component("Filters", E2), e.component("InputText", N2), e.component("InputPassword", G2), e.component("InputTextarea", tw), e.component("InputFile", cw), e.component("InputDateTime", mw), e.component("InputTime", _w), e.component("InputRange", Iw), e.component("InputNumber", zw), e.component("InputColorPicker", Xw), e.component("Select", ws), e.component("MultiSelect", s5), e.component("Toggle", l5), e.component("InputPhone", m5), e.component("SelectablePills", k5), e.component("SegmentedControl", S5), e.component("DateRangePicker", tC), e.component("DatePickerPresets", MC), e.component("Tag", Xe), e.component("Button", ha), e.component("Modal", a$), e.component("Section", u$), e.component("KiutAppShellNavigation", A$);
+    e.component("KiutChartBar", St), e.component("KiutChartLine", yt), e.component("KiutPieChart", Ma), e.component("KiutBoxplotChart", yf), e.component("KiutCandlestickChart", ig), e.component("KiutHistogramChart", el), e.component("KiutSankeyChart", qt), e.component("KiutAgentsPerDay", Zm), e.component("KiutBookingManager", Bp), e.component("KiutCheckin", ol), e.component("KiutCheckinContainer", C0), e.component("KiutCheckinMetrics", c0), e.component("KiutCheckinSegments", il), e.component("KiutDisruption", W0), e.component("KiutFAQ", Z0), e.component("KiutMessagesPerAgent", lb), e.component("KiutRecordLocator", Sb), e.component("KiutSalesByChannel", ll), e.component("KiutSeller", rl), e.component("KiutSellerContainer", gv), e.component("KiutTopAgents", kv), e.component("KiutPaymentMethod", jv), e.component("KiutAgentHumanConversations", By), e.component("KiutChannelMetrics", Ny), e.component("KiutTriageCombinations", n1), e.component("KiutSelectLanguage", c1), e.component("KiutGuardrails", x1), e.component("KiutDisruptionNotifier", N1), e.component("KiutTotalConversationsCard", H1), e.component("KiutCsatP95Card", W1), e.component("KiutCsatPulseCard", j1), e.component("KiutCSATContainer", Sx), e.component("KiutAiGeneratedRevenueCard", Mx), e.component("KiutCostCard", Tx), e.component("KiutHumanEscalations", Fx), e.component("KiutHumanEscalationsCard", Ox), e.component("KiutNpsDailyMetrics", ul), e.component("KiutNpsMetrics", hl), e.component("KiutNpsOverviewMetrics", dl), e.component("KiutAWSCost", qx), e.component("KiutCostUsage", o_), e.component("KiutTokenUsage", p_), e.component("KiutConversationCount", M_), e.component("KiutTopAgentsAnalysis", z_), e.component("KiutTopAgentsPie", G_), e.component("KiutDailyCostTrends", ik), e.component("KiutModelUsage", _k), e.component("KiutMessageRoles", Bk), e.component("KiutCostPerConversations", Hk), e.component("Tabs", fl), e.component("Table", s2), e.component("Filters", F2), e.component("InputText", H2), e.component("InputPassword", Z2), e.component("InputTextarea", nw), e.component("InputFile", dw), e.component("InputDateTime", pw), e.component("InputTime", kw), e.component("InputRange", Ew), e.component("InputNumber", Nw), e.component("InputColorPicker", Gw), e.component("Select", ws), e.component("MultiSelect", o5), e.component("Toggle", r5), e.component("InputPhone", p5), e.component("SelectablePills", w5), e.component("SegmentedControl", M5), e.component("DateRangePicker", nC), e.component("DatePickerPresets", DC), e.component("Tag", Xe), e.component("Button", ha), e.component("Modal", s$), e.component("Section", h$), e.component("KiutAppShellNavigation", B$);
   }
 };
 export {
@@ -23432,7 +23434,7 @@ export {
   By as AgentHumanConversations,
   Zm as AgentsPerDay,
   Mx as AiGeneratedRevenueCard,
-  A$ as AppShellNavigation,
+  B$ as AppShellNavigation,
   Bp as BookingManager,
   yf as BoxplotChart,
   ha as Button,
@@ -23452,32 +23454,32 @@ export {
   W1 as CsatP95Card,
   j1 as CsatPulseCard,
   ik as DailyCostTrends,
-  MC as DatePickerPresets,
-  tC as DateRangePicker,
+  DC as DatePickerPresets,
+  nC as DateRangePicker,
   W0 as Disruption,
   N1 as DisruptionNotifier,
   Z0 as FAQ,
-  E2 as Filters,
+  F2 as Filters,
   x1 as Guardrails,
   el as HistogramChart,
   Fx as HumanEscalations,
   Ox as HumanEscalationsCard,
-  Xw as InputColorPicker,
-  mw as InputDateTime,
-  cw as InputFile,
-  zw as InputNumber,
-  G2 as InputPassword,
-  m5 as InputPhone,
-  Iw as InputRange,
-  N2 as InputText,
-  tw as InputTextarea,
-  _w as InputTime,
-  V$ as KiutUIPlugin,
+  Gw as InputColorPicker,
+  pw as InputDateTime,
+  dw as InputFile,
+  Nw as InputNumber,
+  Z2 as InputPassword,
+  p5 as InputPhone,
+  Ew as InputRange,
+  H2 as InputText,
+  nw as InputTextarea,
+  kw as InputTime,
+  z$ as KiutUIPlugin,
   Bk as MessageRoles,
   lb as MessagesPerAgent,
-  a$ as Modal,
+  s$ as Modal,
   _k as ModelUsage,
-  s5 as MultiSelect,
+  o5 as MultiSelect,
   ul as NpsDailyMetrics,
   hl as NpsMetrics,
   dl as NpsOverviewMetrics,
@@ -23486,17 +23488,17 @@ export {
   Sb as RecordLocator,
   ll as SalesByChannel,
   qt as SankeyChart,
-  u$ as Section,
-  S5 as SegmentedControl,
+  h$ as Section,
+  M5 as SegmentedControl,
   ws as Select,
   c1 as SelectLanguage,
-  k5 as SelectablePills,
+  w5 as SelectablePills,
   rl as Seller,
   gv as SellerContainer,
-  a2 as Table,
+  s2 as Table,
   fl as Tabs,
   Xe as Tag,
-  l5 as Toggle,
+  r5 as Toggle,
   p_ as TokenUsage,
   kv as TopAgents,
   z_ as TopAgentsAnalysis,
