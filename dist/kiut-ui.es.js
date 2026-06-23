@@ -12655,7 +12655,8 @@ const Im = {
     theme: { default: void 0 },
     checkinData: {},
     checkinFailedData: {},
-    segmentsData: {}
+    segmentsData: {},
+    showPaymentLinks: { type: Boolean, default: !1 }
   },
   emits: ["export"],
   setup(e, { emit: t }) {
@@ -12692,8 +12693,9 @@ const Im = {
             "failed-data": e.checkinFailedData,
             "enable-export": e.enableExport,
             "export-loading": e.exportLoading,
+            "show-payment-links": e.showPaymentLinks,
             onExport: d[0] || (d[0] = (h) => i("checkin", h))
-          }, null, 8, ["initially-open", "loading", "checkin-data", "failed-data", "enable-export", "export-loading"])) : z("", !0),
+          }, null, 8, ["initially-open", "loading", "checkin-data", "failed-data", "enable-export", "export-loading", "show-payment-links"])) : z("", !0),
           E(il, {
             collapsible: !1,
             "initially-open": e.childrenInitiallyOpen,
@@ -12709,7 +12711,7 @@ const Im = {
       _: 1
     }, 8, ["default-open", "loading"]));
   }
-}), C0 = /* @__PURE__ */ me(w0, [["__scopeId", "data-v-2a3c9d34"]]), $0 = {
+}), C0 = /* @__PURE__ */ me(w0, [["__scopeId", "data-v-e8415557"]]), $0 = {
   key: "loading",
   class: "bm-status shrink-0",
   "aria-busy": "true",
