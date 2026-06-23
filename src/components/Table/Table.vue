@@ -102,8 +102,8 @@
             >
               <div
                 v-if="isExpandColumn(col.key)"
-                class="flex min-w-0 items-start gap-0"
-                :style="{ paddingLeft: `${entry.depth * 1}rem` }"
+                class="flex min-w-0 items-start gap-1"
+                :style="{ paddingLeft: `${entry.depth * 1.25}rem` }"
               >
                 <slot
                   name="row-expand"
@@ -122,7 +122,7 @@
                     @click.stop="toggleExpand(entry)"
                   >
                     <ChevronDownIcon
-                      class="h-4 w-4 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
+                      class="h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
                       :class="{ '-rotate-90': !entry.isExpanded }"
                       aria-hidden="true"
                     />
