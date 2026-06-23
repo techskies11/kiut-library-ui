@@ -48,6 +48,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  type ChartArea,
 } from 'chart.js';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 import {
@@ -76,6 +77,7 @@ const props = defineProps<{
       pointHoverBorderColor?: string | string[];
       pointBorderWidth?: number;
       pointHoverBorderWidth?: number;
+      clip?: number | ChartArea | false;
     }>;
   };
   options?: Record<string, any>;
