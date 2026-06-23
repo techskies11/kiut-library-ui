@@ -424,18 +424,21 @@ const selectableRowKeys = computed(() => {
 });
 
 function isRowSelectedByKey(key: string): boolean {
-  return props.selectedKeys.includes(key);
+  const normalizedKey = String(key);
+  return props.selectedKeys.some((k) => String(k) === normalizedKey);
 }
 
 const allSelected = computed(() => {
   if (!props.selectable || selectableRowKeys.value.length === 0) return false;
-  return selectableRowKeys.value.every((k) => props.selectedKeys.includes(k));
+  return selectableRowKeys.value.every((k) =>
+    props.selectedKeys.some((selected) => String(selected) === String(k)),
+  );
 });
 
 const someSelected = computed(() => {
   if (!props.selectable || selectableRowKeys.value.length === 0) return false;
   const selected = selectableRowKeys.value.filter((k) =>
-    props.selectedKeys.includes(k),
+    props.selectedKeys.some((selected) => String(selected) === String(k)),
   );
   return selected.length > 0 && selected.length < selectableRowKeys.value.length;
 });
@@ -455,27 +458,41 @@ watch(
 function onToggleSelectAll(): void {
   if (!props.selectable) return;
   if (allSelected.value) {
+    const selectableSet = new Set(
+      selectableRowKeys.value.map((k) => String(k)),
+    );
     const next = props.selectedKeys.filter(
-      (k) => !selectableRowKeys.value.includes(k),
+      (k) => !selectableSet.has(String(k)),
     );
     emit("update:selectedKeys", next);
   } else {
-    const set = new Set(props.selectedKeys);
-    selectableRowKeys.value.forEach((k) => set.add(k));
+    const set = new Set(props.selectedKeys.map((k) => String(k)));
+    selectableRowKeys.value.forEach((k) => set.add(String(k)));
     emit("update:selectedKeys", [...set]);
   }
 }
 
 function onToggleRowByKey(key: string): void {
-  if (!props.selectable || !selectableRowKeys.value.includes(key)) return;
-  const has = props.selectedKeys.includes(key);
+  if (!props.selectable) return;
+
+  const normalizedKey = String(key);
+  const entry = visibleRows.value.find((e) => String(e.key) === normalizedKey);
+  if (entry && !isEntrySelectable(entry)) return;
+  if (
+    !entry &&
+    !selectableRowKeys.value.some((k) => String(k) === normalizedKey)
+  ) {
+    return;
+  }
+
+  const has = props.selectedKeys.some((k) => String(k) === normalizedKey);
   if (has) {
     emit(
       "update:selectedKeys",
-      props.selectedKeys.filter((x) => x !== key),
+      props.selectedKeys.filter((x) => String(x) !== normalizedKey),
     );
   } else {
-    emit("update:selectedKeys", [...props.selectedKeys, key]);
+    emit("update:selectedKeys", [...props.selectedKeys, normalizedKey]);
   }
 }
 
