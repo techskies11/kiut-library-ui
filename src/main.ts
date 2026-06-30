@@ -40,6 +40,7 @@ import CsatP95Card from './stories/Charts/BusinessMetrics/CsatP95Card/CsatP95Car
 import CsatPulseCard from './stories/Charts/BusinessMetrics/CsatPulseCard/CsatPulseCard.vue';
 import CSATContainer from './stories/Charts/BusinessMetrics/CSATContainer/CSATContainer.vue';
 import AiGeneratedRevenueCard from './stories/Charts/BusinessMetrics/AiGeneratedRevenueCard/AiGeneratedRevenueCard.vue';
+import AiGeneratedChart from './stories/Charts/BusinessMetrics/AiGeneratedRevenueCard/AiGeneratedChart.vue';
 import CostCard from './stories/Charts/BusinessMetrics/CostCard/CostCard.vue';
 import HumanEscalations from './stories/Charts/BusinessMetrics/HumanEscalations/HumanEscalations.vue';
 import HumanEscalationsCard from './stories/Charts/BusinessMetrics/HumanEscalationsCard/HumanEscalationsCard.vue';
@@ -190,6 +191,7 @@ export {
   CsatPulseCard,
   CSATContainer,
   AiGeneratedRevenueCard,
+  AiGeneratedChart,
   CostCard,
   HumanEscalations,
   HumanEscalationsCard,
@@ -279,6 +281,7 @@ export const KiutUIPlugin = {
     app.component('KiutCsatPulseCard', CsatPulseCard);
     app.component('KiutCSATContainer', CSATContainer);
     app.component('KiutAiGeneratedRevenueCard', AiGeneratedRevenueCard);
+    app.component('KiutAiGeneratedChart', AiGeneratedChart);
     app.component('KiutCostCard', CostCard);
     app.component('KiutHumanEscalations', HumanEscalations);
     app.component('KiutHumanEscalationsCard', HumanEscalationsCard);
