@@ -20,6 +20,22 @@ export interface TableRowSelectableContext {
   hasChildren: boolean;
 }
 
+export type TableSortDirection = "asc" | "desc";
+
+export type TableSortCompare = (
+  a: Record<string, unknown>,
+  b: Record<string, unknown>,
+  key: string,
+  direction: TableSortDirection,
+) => number;
+
+export interface SortTableRowsTreeOptions {
+  childrenKey: string;
+  sortKey: string;
+  sortDirection: TableSortDirection;
+  compare: TableSortCompare;
+}
+
 function readChildren(
   row: Record<string, unknown>,
   childrenKey: string,
@@ -37,6 +53,29 @@ export function rowHasChildren(
   childrenKey: string,
 ): boolean {
   return readChildren(row, childrenKey).length > 0;
+}
+
+/**
+ * Sorts each tree level independently (roots and nested children).
+ * Returns a shallow-cloned tree so the source rows are not mutated.
+ */
+export function sortTableRowsTree(
+  rows: Record<string, unknown>[],
+  options: SortTableRowsTreeOptions,
+): Record<string, unknown>[] {
+  const { childrenKey, sortKey, sortDirection, compare } = options;
+
+  return [...rows]
+    .sort((a, b) => compare(a, b, sortKey, sortDirection))
+    .map((row) => {
+      const children = readChildren(row, childrenKey);
+      if (children.length === 0) return row;
+
+      return {
+        ...row,
+        [childrenKey]: sortTableRowsTree(children, options),
+      };
+    });
 }
 
 /** Flattens visible rows according to expanded state (for rendering). */

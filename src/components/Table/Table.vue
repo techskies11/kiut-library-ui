@@ -177,13 +177,21 @@ import { computed, nextTick, ref, watch } from "vue";
 import {
   collectSelectableTableRowKeys,
   flattenVisibleTableRows,
+  sortTableRowsTree,
   type FlatTableRow,
   type TableRowSelectableContext,
+  type TableSortCompare,
+  type TableSortDirection,
 } from "./tableTree";
 
 defineOptions({ name: "Table" });
 
-export type { FlatTableRow, TableRowSelectableContext } from "./tableTree";
+export type {
+  FlatTableRow,
+  TableRowSelectableContext,
+  TableSortCompare,
+  TableSortDirection,
+} from "./tableTree";
 
 export type TableColumnAlign = "left" | "center" | "right";
 
@@ -196,8 +204,6 @@ export interface TableColumn {
   /** Header clickeable; requiere `sortKey` / `sortDirection` en la tabla y escuchar `@sort`. */
   sortable?: boolean;
 }
-
-export type TableSortDirection = "asc" | "desc";
 
 export interface TableCellSlotProps {
   row: Record<string, unknown>;
@@ -227,6 +233,11 @@ const props = withDefaults(
     fixedLayout?: boolean;
     sortKey?: string | null;
     sortDirection?: TableSortDirection | null;
+    /**
+     * Comparador usado cuando hay `sortKey` / `sortDirection`.
+     * Con `expandable`, ordena cada nivel del árbol (raíces e hijos).
+     */
+    sortCompare?: TableSortCompare;
     /** Activa filas en cascada (padre → hijos en `childrenKey`). */
     expandable?: boolean;
     /** Campo en cada fila donde están los hijos. */
@@ -310,9 +321,25 @@ const treeOptions = computed(() => ({
   maxDepth: props.maxDepth,
 }));
 
+const displayRows = computed((): Record<string, unknown>[] => {
+  const { sortKey, sortDirection, sortCompare, rows } = props;
+  if (!sortKey || !sortDirection || !sortCompare) return rows;
+
+  if (props.expandable) {
+    return sortTableRowsTree(rows, {
+      childrenKey: props.childrenKey,
+      sortKey,
+      sortDirection,
+      compare: sortCompare,
+    });
+  }
+
+  return [...rows].sort((a, b) => sortCompare(a, b, sortKey, sortDirection));
+});
+
 const visibleRows = computed((): FlatTableRow[] => {
   if (!props.expandable) {
-    return props.rows.map((row, index) => ({
+    return displayRows.value.map((row, index) => ({
       row,
       key: resolveRowKey(row, index),
       depth: 0,
@@ -321,7 +348,7 @@ const visibleRows = computed((): FlatTableRow[] => {
       parentKey: null,
     }));
   }
-  return flattenVisibleTableRows(props.rows, treeOptions.value);
+  return flattenVisibleTableRows(displayRows.value, treeOptions.value);
 });
 
 function cellSlotName(key: string): string {
@@ -431,14 +458,14 @@ const selectableRowKeys = computed(() => {
   const { isRowSelectable } = props;
 
   if (props.expandable) {
-    return collectSelectableTableRowKeys(props.rows, {
+    return collectSelectableTableRowKeys(displayRows.value, {
       childrenKey: props.childrenKey,
       resolveRowKey,
       isRowSelectable,
     });
   }
 
-  return props.rows
+  return displayRows.value
     .map((row, index) => ({
       row,
       key: resolveRowKey(row, index),
