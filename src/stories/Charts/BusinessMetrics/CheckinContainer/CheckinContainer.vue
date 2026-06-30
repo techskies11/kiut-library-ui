@@ -5,6 +5,8 @@
     subtitle="Check-in flows and segment breakdown."
     :default-open="containerInitiallyOpen"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <div class="checkin-container__body">
       <Checkin
@@ -97,6 +99,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
+  open: []
   export: [payload: CheckinContainerExportPayload]
 }>()
 

@@ -5,6 +5,8 @@
     subtitle="Sales funnel performance and successful sales by communication channel."
     :default-open="containerInitiallyOpen"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <div class="seller-container__body">
       <Seller
@@ -153,6 +155,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
+  open: []
   export: [payload: SellerContainerExportPayload]
 }>()
 

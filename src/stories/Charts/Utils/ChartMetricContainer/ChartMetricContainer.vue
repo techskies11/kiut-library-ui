@@ -185,8 +185,11 @@ function onToggle(event: Event): void {
   isOpen.value = nowOpen;
 
   if (nowOpen && !wasOpen) {
+    const isFirstOpen = !hasBeenOpened.value;
     hasBeenOpened.value = true;
-    emit("open");
+    if (isFirstOpen) {
+      emit("open");
+    }
   }
 
   emit("toggle", nowOpen);

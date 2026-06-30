@@ -80,10 +80,19 @@ import TableVersions from './components/TableVersions/TableVersions.vue';
 export type {
   EndpointStatus,
   HttpMethod,
+  TableVersionsColumn,
+  TableVersionsColumnAlign,
+  TableVersionsColumnType,
   TableVersionsHistoryItem,
   TableVersionsLabels,
   TableVersionsRow,
+  TableVersionsRowAction,
   VersionStatus,
+} from './components/TableVersions/tableVersionsTypes';
+export {
+  DEFAULT_TABLE_VERSIONS_LABELS,
+  ENDPOINT_TABLE_VERSIONS_COLUMNS,
+  RESOURCE_TABLE_VERSIONS_COLUMNS,
 } from './components/TableVersions/tableVersionsTypes';
 import Filters from './components/Filters/Filters.vue';
 export type {

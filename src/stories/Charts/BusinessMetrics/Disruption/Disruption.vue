@@ -4,6 +4,8 @@
     title="Disruption Manager Metrics"
     subtitle="Disruption workflow performance and completion tracking"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -334,6 +336,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 

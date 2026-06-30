@@ -4,6 +4,8 @@
     title="Agent Human Conversations"
     subtitle="Human conversation assignments and closures by agent"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -324,6 +326,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 

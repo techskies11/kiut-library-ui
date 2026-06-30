@@ -4,6 +4,8 @@
     title="Payment Method Metrics"
     subtitle="Sales breakdown by payment method"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -215,6 +217,7 @@ const props = withDefaults(
 
 // Emits
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 

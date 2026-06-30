@@ -1,9 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { h, ref } from 'vue';
 import TableVersions from './TableVersions.vue';
-import type { TableVersionsRow } from './tableVersionsTypes';
+import {
+  ENDPOINT_TABLE_VERSIONS_COLUMNS,
+  RESOURCE_TABLE_VERSIONS_COLUMNS,
+  type TableVersionsRow,
+} from './tableVersionsTypes';
 
-const mockRows: TableVersionsRow[] = [
+const endpointRows: TableVersionsRow[] = [
   {
     id: 'endpoint-1',
     method: 'GET',
@@ -47,6 +51,46 @@ const mockRows: TableVersionsRow[] = [
   },
 ];
 
+const resourceRows: TableVersionsRow[] = [
+  {
+    id: 'bot-seller',
+    name: 'Seller',
+    description: 'Asiste en ventas, cotizaciones y reservas de vuelos',
+    status: 'published',
+    version: 'v2',
+    updatedAt: '2026-06-30',
+    active: true,
+    versions: [
+      {
+        id: 'bot-seller-v1',
+        version: 'v1',
+        status: 'archived',
+        updatedAt: '2026-06-23T17:53:46',
+      },
+    ],
+  },
+  {
+    id: 'bot-checkin',
+    name: 'Check In',
+    description: 'Gestiona el check-in y emisión de boarding pass',
+    status: 'draft',
+    version: 'v1',
+    updatedAt: '2026-06-30',
+    active: false,
+    versions: [],
+  },
+  {
+    id: 'bot-faq',
+    name: 'FAQ',
+    description: 'Responde preguntas frecuentes sobre políticas y servicios',
+    status: 'published',
+    version: 'v1',
+    updatedAt: '2026-06-30',
+    active: true,
+    versions: [],
+  },
+];
+
 const meta: Meta<typeof TableVersions> = {
   title: 'Components/TableVersions',
   component: TableVersions,
@@ -56,12 +100,13 @@ const meta: Meta<typeof TableVersions> = {
     docs: {
       description: {
         component:
-          'Tabla de endpoints API con filas expandibles y panel de historial de versiones. Prueba **Theme** en la toolbar de Storybook para modo claro y oscuro (clase `dark`).',
+          'Tabla con filas expandibles y panel de historial de versiones. Configura las columnas con `columns` (presets `ENDPOINT_TABLE_VERSIONS_COLUMNS` o `RESOURCE_TABLE_VERSIONS_COLUMNS`). Prueba **Theme** en Storybook para light/dark.',
       },
     },
   },
   argTypes: {
     rows: { control: 'object' },
+    columns: { control: 'object' },
     singleExpand: { control: 'boolean' },
   },
 };
@@ -69,9 +114,12 @@ const meta: Meta<typeof TableVersions> = {
 export default meta;
 type Story = StoryObj<typeof TableVersions>;
 
-export const Default: Story = {
+export const Endpoints: Story = {
+  name: 'Endpoints (API)',
   args: {
-    rows: mockRows,
+    rows: endpointRows,
+    columns: ENDPOINT_TABLE_VERSIONS_COLUMNS,
+    expandColumnKey: 'method',
     singleExpand: false,
   },
   render: (args) => ({
@@ -83,6 +131,8 @@ export const Default: Story = {
         h('div', { class: 'w-full' }, [
           h(TableVersions, {
             rows: args.rows,
+            columns: args.columns,
+            expandColumnKey: args.expandColumnKey,
             singleExpand: args.singleExpand,
             expandedKeys: expandedKeys.value,
             'onUpdate:expandedKeys': (keys: string[]) => {
@@ -94,24 +144,55 @@ export const Default: Story = {
   }),
 };
 
-export const Expanded: Story = {
-  name: 'Expanded (historial visible)',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Fila con historial pre-expandida vía `defaultExpandedKeys`. Muestra la card archived con acciones Ver y Crear draft.',
-      },
-    },
-  },
+export const EndpointsExpanded: Story = {
+  name: 'Endpoints — historial visible',
   render: () => ({
     components: { TableVersions },
     setup() {
       return () =>
         h('div', { class: 'w-full' }, [
           h(TableVersions, {
-            rows: mockRows,
+            rows: endpointRows,
+            columns: ENDPOINT_TABLE_VERSIONS_COLUMNS,
+            expandColumnKey: 'method',
             defaultExpandedKeys: ['endpoint-2'],
+          }),
+        ]);
+    },
+  }),
+};
+
+export const Resources: Story = {
+  name: 'Resources (bots)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Preset `RESOURCE_TABLE_VERSIONS_COLUMNS`: nombre con chevron, status, versión, toggle activo y acciones view/createDraft/edit/delete.',
+      },
+    },
+  },
+  render: () => ({
+    components: { TableVersions },
+    setup() {
+      const rows = ref<TableVersionsRow[]>(resourceRows.map((r) => ({ ...r })));
+      const expandedKeys = ref<string[]>(['bot-seller']);
+
+      return () =>
+        h('div', { class: 'w-full' }, [
+          h(TableVersions, {
+            rows: rows.value,
+            columns: RESOURCE_TABLE_VERSIONS_COLUMNS,
+            expandColumnKey: 'name',
+            expandedKeys: expandedKeys.value,
+            'onUpdate:expandedKeys': (keys: string[]) => {
+              expandedKeys.value = keys;
+            },
+            onToggleActive: (row: TableVersionsRow, active: boolean) => {
+              rows.value = rows.value.map((r) =>
+                r.id === row.id ? { ...r, active } : r,
+              );
+            },
           }),
         ]);
     },
@@ -120,13 +201,6 @@ export const Expanded: Story = {
 
 export const SingleExpand: Story = {
   name: 'Single Expand',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Con `singleExpand`, solo una fila puede estar abierta a la vez.',
-      },
-    },
-  },
   render: () => ({
     components: { TableVersions },
     setup() {
@@ -135,7 +209,9 @@ export const SingleExpand: Story = {
       return () =>
         h('div', { class: 'w-full' }, [
           h(TableVersions, {
-            rows: mockRows,
+            rows: endpointRows,
+            columns: ENDPOINT_TABLE_VERSIONS_COLUMNS,
+            expandColumnKey: 'method',
             singleExpand: true,
             expandedKeys: expandedKeys.value,
             'onUpdate:expandedKeys': (keys: string[]) => {
@@ -146,3 +222,9 @@ export const SingleExpand: Story = {
     },
   }),
 };
+
+/** @deprecated Usar story `Endpoints`. */
+export const Default = Endpoints;
+
+/** @deprecated Usar story `EndpointsExpanded`. */
+export const Expanded = EndpointsExpanded;

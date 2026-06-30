@@ -4,6 +4,8 @@
     title="Booking Manager Metrics"
     subtitle="Booking manager workflow tracking and analysis"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -289,6 +291,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 

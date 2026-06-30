@@ -4,6 +4,8 @@
     title="Disruption Notifier"
     subtitle="Passenger notification effectiveness and delivery analysis"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -276,6 +278,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 
