@@ -185,14 +185,13 @@ const computedOptions = computed(() => {
     },
     scales: {
       y: {
+        type: 'linear' as const,
+        display: true,
+        position: 'left' as const,
         beginAtZero: true,
         stacked: props.stacked || false,
-        border: {
-          display: false,
-        },
         grid: {
-          display: false,
-          drawTicks: false,
+          color: colors.value.gridLines,
         },
         ticks: {
           maxTicksLimit: CHART_Y_MAX_TICKS,
@@ -209,13 +208,12 @@ const computedOptions = computed(() => {
         },
       },
       x: {
+        display: true,
         stacked: props.stacked || false,
         offset: true,
-        border: {
-          display: false,
-        },
         grid: {
-          display: false,
+          color: colors.value.gridLines,
+          lineWidth: 1,
           drawTicks: false,
         },
         ticks: {

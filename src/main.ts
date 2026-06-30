@@ -76,6 +76,15 @@ export type {
   TableColumnAlign,
   TableSortDirection,
 } from './components/Table/Table.vue';
+import TableVersions from './components/TableVersions/TableVersions.vue';
+export type {
+  EndpointStatus,
+  HttpMethod,
+  TableVersionsHistoryItem,
+  TableVersionsLabels,
+  TableVersionsRow,
+  VersionStatus,
+} from './components/TableVersions/tableVersionsTypes';
 import Filters from './components/Filters/Filters.vue';
 export type {
   FilterDefinition,
@@ -112,7 +121,9 @@ import DateRangePicker from './components/Inputs/DateRangePicker.vue';
 export type { KiutDateRange, KiutDatePresetId, KiutDateLocale } from './components/Inputs/dateRangeUtils';
 import DatePickerPresets from './components/Inputs/DatePickerPresets.vue';
 import Tag from './components/Tag/Tag.vue';
-export type { KiutTagColor } from './components/Tag/Tag.vue';
+export type { KiutTagColor } from './components/Tag/tagTypes';
+import TagSelect from './components/Tag/TagSelect.vue';
+export type { KiutTagSelectOption, KiutTagSelectValue } from './components/Tag/tagTypes';
 import Button from './components/Button/Button.vue';
 export type {
   KiutButtonVariant,
@@ -191,6 +202,7 @@ export {
   // UI
   Tabs,
   Table,
+  TableVersions,
   Filters,
   InputText,
   InputPassword,
@@ -210,6 +222,7 @@ export {
   DateRangePicker,
   DatePickerPresets,
   Tag,
+  TagSelect,
   Button,
   Modal,
   Section,
@@ -277,6 +290,7 @@ export const KiutUIPlugin = {
     app.component('KiutCostPerConversations', CostPerConversations);
     app.component('Tabs', Tabs);
     app.component('Table', Table);
+    app.component('TableVersions', TableVersions);
     app.component('Filters', Filters);
     app.component('InputText', InputText);
     app.component('InputPassword', InputPassword);
@@ -296,6 +310,7 @@ export const KiutUIPlugin = {
     app.component('DateRangePicker', DateRangePicker);
     app.component('DatePickerPresets', DatePickerPresets);
     app.component('Tag', Tag);
+    app.component('TagSelect', TagSelect);
     app.component('Button', Button);
     app.component('Modal', Modal);
     app.component('Section', Section);

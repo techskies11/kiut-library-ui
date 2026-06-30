@@ -9,7 +9,6 @@
     <div class="csat-container__body">
       <NpsMetrics
         :data="data"
-        :loading="loading"
         :enable-export="enableExport"
         :show-resolution-chart="showResolutionChart"
         :show-csat-pulse-chart="showCsatPulseChart"

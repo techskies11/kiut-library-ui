@@ -17,23 +17,8 @@
       class="flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
     >
       <Transition name="bm-fade" mode="out-in">
-        <div
-          v-if="loading"
-          key="loading"
-          class="flex h-[320px] flex-col gap-3 px-4 pb-4"
-          aria-busy="true"
-          aria-label="Loading chart"
-          :class="['sk-root', { 'sk-root--dark': isDark }]"
-        >
-          <div
-            class="flex-1 skeleton-shimmer"
-            style="border-radius: 10px"
-            aria-hidden="true"
-          />
-        </div>
-
         <section
-          v-else-if="chartData.labels && chartData.labels.length"
+          v-if="chartData.labels && chartData.labels.length"
           key="chart"
           class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
         >

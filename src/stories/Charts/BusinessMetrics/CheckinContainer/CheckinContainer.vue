@@ -100,8 +100,12 @@ const emit = defineEmits<{
   export: [payload: CheckinContainerExportPayload]
 }>()
 
-const effectiveCheckinLoading = computed(() => props.loading || props.checkinLoading)
-const effectiveSegmentsLoading = computed(() => props.loading || props.segmentsLoading)
+const effectiveCheckinLoading = computed(() =>
+  props.loading ? false : props.checkinLoading,
+)
+const effectiveSegmentsLoading = computed(() =>
+  props.loading ? false : props.segmentsLoading,
+)
 
 function handleChildExport(source: CheckinContainerExportSource, format: ExportFormat) {
   emit('export', { source, format })

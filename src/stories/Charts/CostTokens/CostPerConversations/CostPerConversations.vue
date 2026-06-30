@@ -4,6 +4,7 @@
     title="Cost Per Conversation"
     subtitle="USD per conversation by agent"
     :collapsible="false"
+    :loading="loading"
   >
     <template #headerExport>
       <FooterExport
@@ -15,7 +16,7 @@
     </template>
     <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
-    <div class="card-body" v-if="!loading">
+    <div class="card-body">
       <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
         <div class="chart-container">
           <BarChart :data="chartData" :options="chartOptions" />
@@ -44,20 +45,6 @@
           <p class="empty-description">No agent data found for the selected period. Try adjusting the date range.</p>
         </div>
       </section>
-    </div>
-    
-    <!-- Loading state con animación CSS personalizada -->
-    <div class="loading-state" v-else>
-      <div class="loading-container">
-        <div class="chart-bars-loader">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="bar bar-4"></div>
-          <div class="bar bar-5"></div>
-        </div>
-        <p class="loading-text">Loading agent costs...</p>
-      </div>
     </div>
     </div>
   </ChartMetricContainer>
@@ -381,70 +368,6 @@ defineExpose({ isDark })
   color: var(--kiut-text-secondary);
   line-height: 1.6;
   margin: 0;
-}
-
-/* Loading State */
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 380px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-bars-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: 100px;
-  margin-bottom: 24px;
-}
-
-.bar {
-  width: 8px;
-  background: linear-gradient(to top, var(--kiut-primary-light) 0%, var(--kiut-primary) 50%, var(--kiut-primary-hover) 100%);
-  border-radius: 4px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: var(--kiut-shadow-loader);
-}
-
-.bar-1 { height: 30%; animation-delay: 0s; }
-.bar-2 { height: 50%; animation-delay: 0.1s; }
-.bar-3 { height: 70%; animation-delay: 0.2s; }
-.bar-4 { height: 50%; animation-delay: 0.3s; }
-.bar-5 { height: 40%; animation-delay: 0.4s; }
-
-.loading-text {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--kiut-text-secondary);
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  letter-spacing: -0.01em;
-}
-
-/* Animations */
-@keyframes wave {
-  0%, 100% {
-    transform: scaleY(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scaleY(1.6);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
 }
 
 @keyframes fadeIn {

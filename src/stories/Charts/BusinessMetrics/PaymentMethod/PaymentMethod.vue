@@ -13,18 +13,7 @@
         :loading="exportLoading"
       />
     </template>
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content" class="card-body">
+    <div class="card-body">
       <!-- Payment Method Cards -->
       <section v-if="hasPaymentMethods" class="payment-methods-section">
         <p class="section-label">Sales by Payment Method</p>
@@ -142,7 +131,6 @@
         <p class="empty-table-text">No daily breakdown available</p>
       </div>
     </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -705,7 +693,4 @@ defineExpose({ isDark });
     overflow-x: auto;
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

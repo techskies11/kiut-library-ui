@@ -156,8 +156,12 @@ const emit = defineEmits<{
   export: [payload: SellerContainerExportPayload]
 }>()
 
-const effectiveSellerLoading = computed(() => props.loading || props.sellerLoading)
-const effectiveSalesByChannelLoading = computed(() => props.loading || props.salesByChannelLoading)
+const effectiveSellerLoading = computed(() =>
+  props.loading ? false : props.sellerLoading,
+)
+const effectiveSalesByChannelLoading = computed(() =>
+  props.loading ? false : props.salesByChannelLoading,
+)
 const effectiveSellerExportLoading = computed(() => props.exportLoading || props.sellerExportLoading)
 const effectiveSalesByChannelExportLoading = computed(() => props.exportLoading || props.salesByChannelExportLoading)
 

@@ -15,21 +15,9 @@
       />
     </template>
     <div
-      class="flex min-h-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
-      :class="props.loading ? 'flex-1' : 'w-full shrink-0'"
+      class="flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
     >
-      <Transition name="bm-fade" mode="out-in">
-        <div
-          v-if="props.loading"
-          key="loading"
-          class="bm-status shrink-0"
-          aria-busy="true"
-          aria-label="Loading chart"
-        >
-          <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-        </div>
-
-        <div v-else key="content" class="w-full shrink-0 flex min-h-0 flex-col">
+      <div class="w-full shrink-0 flex min-h-0 flex-col">
         <section
           v-if="dataChart.labels && dataChart.labels.length"
           class="flex w-full shrink-0 flex-col gap-3"
@@ -102,7 +90,6 @@
           </div>
         </section>
         </div>
-      </Transition>
     </div>
   </ChartMetricContainer>
 </template>
@@ -263,7 +250,4 @@ defineExpose({ isDark });
   position: relative;
   min-height: 0;
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

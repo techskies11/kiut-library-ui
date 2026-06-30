@@ -9,22 +9,13 @@
       <div class="header-content metric-header-content">
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
-            <Transition name="chart-metric-fade" mode="out-in">
-              <div
-                v-if="loading"
-                key="header-skeleton"
-                class="ut-skeleton-blink ut-skeleton-collapsible-title"
-                aria-hidden="true"
-                aria-busy="true"
-              />
-              <div v-else key="header-content" class="metric-header-content__loaded">
-                <slot name="title">
-                  <h3 v-if="title" class="card-title">{{ title }}</h3>
-                </slot>
-                <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
-                <slot name="headerAppend" />
-              </div>
-            </Transition>
+            <div class="metric-header-content__loaded">
+              <slot name="title">
+                <h3 v-if="title" class="card-title">{{ title }}</h3>
+              </slot>
+              <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
+              <slot name="headerAppend" />
+            </div>
           </div>
           <div v-if="showHeaderExport" class="metric-header-content__export">
             <slot name="headerExport" />
@@ -50,8 +41,23 @@
       </svg>
     </summary>
 
-    <div class="chart-metric-container__body">
-      <slot />
+    <div v-if="showBody" class="chart-metric-container__body">
+      <Transition name="chart-metric-fade" mode="out-in">
+        <div
+          v-if="showBodyLoading"
+          key="body-loading"
+          class="cmc-body-loading"
+          aria-busy="true"
+          aria-label="Loading chart"
+        >
+          <slot name="loading">
+            <div class="cmc-body-loading__skeleton ut-skeleton-blink" aria-hidden="true" />
+          </slot>
+        </div>
+        <div v-else key="body-content">
+          <slot />
+        </div>
+      </Transition>
     </div>
   </details>
 
@@ -60,28 +66,13 @@
       <div class="header-content metric-header-content">
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
-            <Transition name="chart-metric-fade" mode="out-in">
-              <div
-                v-if="loading"
-                key="header-skeleton"
-                class="ut-skeleton-container"
-                aria-hidden="true"
-                aria-busy="true"
-              >
-                <div class="ut-skeleton-title-subtitle">
-                  <div class="ut-skeleton-blink ut-skeleton-title" />
-                  <div class="ut-skeleton-blink ut-skeleton-subtitle" />
-                </div>
-                <div class="ut-skeleton-blink ut-skeleton-options" />
-              </div>
-              <div v-else key="header-content" class="metric-header-content__loaded">
-                <slot name="title">
-                  <h3 v-if="title" class="card-title">{{ title }}</h3>
-                </slot>
-                <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
-                <slot name="headerAppend" />
-              </div>
-            </Transition>
+            <div class="metric-header-content__loaded">
+              <slot name="title">
+                <h3 v-if="title" class="card-title">{{ title }}</h3>
+              </slot>
+              <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
+              <slot name="headerAppend" />
+            </div>
           </div>
           <div v-if="showHeaderExport" class="metric-header-content__export">
             <slot name="headerExport" />
@@ -93,8 +84,23 @@
       </div>
     </div>
 
-    <div class="chart-metric-container__body">
-      <slot />
+    <div v-if="showBody" class="chart-metric-container__body">
+      <Transition name="chart-metric-fade" mode="out-in">
+        <div
+          v-if="showBodyLoading"
+          key="body-loading"
+          class="cmc-body-loading"
+          aria-busy="true"
+          aria-label="Loading chart"
+        >
+          <slot name="loading">
+            <div class="cmc-body-loading__skeleton ut-skeleton-blink" aria-hidden="true" />
+          </slot>
+        </div>
+        <div v-else key="body-content">
+          <slot />
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -109,16 +115,25 @@ const props = withDefaults(
     collapsible?: boolean;
     defaultOpen?: boolean;
     loading?: boolean;
+    /** When true and collapsible, body content mounts only after first open. */
+    lazyMount?: boolean;
   }>(),
   {
     title: "",
     collapsible: true,
     defaultOpen: false,
     loading: false,
+    lazyMount: false,
   },
 );
 
+const emit = defineEmits<{
+  open: [];
+  toggle: [open: boolean];
+}>();
+
 const isOpen = ref(props.defaultOpen);
+const hasBeenOpened = ref(props.defaultOpen);
 
 const slots = useSlots();
 
@@ -133,6 +148,14 @@ function slotHasVisibleContent(vnodes: VNode[]): boolean {
   });
 }
 
+const showBody = computed(() => {
+  if (!props.collapsible) return true;
+  if (props.lazyMount) return hasBeenOpened.value;
+  return isOpen.value;
+});
+
+const showBodyLoading = computed(() => props.loading && showBody.value);
+
 /** Export en cabecera: slot siempre montado; visibilidad según contenido y estado colapsable */
 const showHeaderExport = computed(() => {
   if (props.collapsible && !isOpen.value) return false;
@@ -146,15 +169,27 @@ watch(
   (value) => {
     if (props.collapsible) {
       isOpen.value = value;
+      if (value) {
+        hasBeenOpened.value = true;
+      }
     }
   },
 );
 
 function onToggle(event: Event): void {
   const el = event.currentTarget as HTMLDetailsElement | null;
-  if (el?.tagName === "DETAILS") {
-    isOpen.value = el.open;
+  if (el?.tagName !== "DETAILS") return;
+
+  const wasOpen = isOpen.value;
+  const nowOpen = el.open;
+  isOpen.value = nowOpen;
+
+  if (nowOpen && !wasOpen) {
+    hasBeenOpened.value = true;
+    emit("open");
   }
+
+  emit("toggle", nowOpen);
 }
 </script>
 
@@ -186,16 +221,10 @@ function onToggle(event: Event): void {
   border-color: #2d2d39;
 }
 
-/*
- * metric-collapsible usa 28×32 abiertos y 0+padding en summary cerrados.
- * Un solo bloque con mayor especificidad y orden posterior al @import asegura
- * el mismo inset que el estado cerrado (12×16) también cuando está abierto.
- */
 details.chart-metric-container.metric-collapsible {
   interpolate-size: allow-keywords;
   padding: 12px 16px;
   min-height: 0;
-  /* Misma lectura visual que modo estático */
   border: 1px solid #d9d9dd;
 }
 
@@ -206,11 +235,6 @@ details.chart-metric-container.metric-collapsible:not([open])
   min-height: 0;
 }
 
-/*
- * Abrir no debe mover el título ni la flecha: sin cambio de line-height abierto/cerrado
- * (metric-collapsible usa 1.2 solo cerrado) y chevron alineado a la 1.ª línea, no al centro
- * del bloque cuando aparece el subtítulo.
- */
 details.chart-metric-container.metric-collapsible .metric-collapsible__summary {
   align-items: flex-start;
 }
@@ -225,10 +249,6 @@ details.chart-metric-container.metric-collapsible
   line-height: 1.75rem;
 }
 
-/*
- * Apertura/cierre suave: ::details-content (Chrome 131+, Safari 17.2+, etc.).
- * Fallback: solo fade-in al abrir si no hay soporte.
- */
 details.chart-metric-container.metric-collapsible::details-content {
   height: 0;
   overflow: hidden;
@@ -339,7 +359,6 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
   line-height: 1.75rem;
 }
 
-/* Violeta marca solo cuando no es colapsable (p. ej. AWSCost, NPS Overview con collapsible=false) */
 .chart-metric-container--static .card-title {
   color: var(--kiut-primary, #8b5cf6);
 }
@@ -379,6 +398,37 @@ details.chart-metric-container.metric-collapsible
   animation: cmcBodyEnter 0.28s ease-out;
 }
 
+.cmc-body-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  width: 100%;
+}
+
+.cmc-body-loading__skeleton {
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  border-radius: 10px;
+}
+
+.metric-header-content__loaded {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.chart-metric-fade-enter-active,
+.chart-metric-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.chart-metric-fade-enter-from,
+.chart-metric-fade-leave-to {
+  opacity: 0;
+}
+
 @keyframes cmcBodyEnter {
   from {
     opacity: 0;
@@ -402,56 +452,6 @@ details.chart-metric-container.metric-collapsible
   .card-header {
     margin-bottom: 8px;
   }
-}
-
-.ut-skeleton-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.ut-skeleton-title-subtitle {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 0;
-}
-
-.ut-skeleton-title {
-  height: 22px;
-  width: 38%;
-  margin-bottom: 8px;
-}
-
-.ut-skeleton-subtitle {
-  height: 20px;
-  width: 56%;
-}
-
-.ut-skeleton-options {
-  height: 50px;
-  width: 15%;
-}
-
-.ut-skeleton-collapsible-title {
-  height: 22px;
-  width: 38%;
-}
-
-.metric-header-content__loaded {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.chart-metric-fade-enter-active,
-.chart-metric-fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.chart-metric-fade-enter-from,
-.chart-metric-fade-leave-to {
-  opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

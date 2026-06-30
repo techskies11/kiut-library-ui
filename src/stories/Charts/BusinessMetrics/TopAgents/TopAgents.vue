@@ -14,12 +14,7 @@
         :loading="exportLoading"
       />
     </template>
-    <Transition name="bm-fade" mode="out-in">
-      <div v-if="loading" key="loading" class="bm-status shrink-0" aria-busy="true" aria-label="Loading chart">
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content" class="card-body">
+    <div class="card-body">
       <section
         v-if="chartData.labels && chartData.labels.length"
         class="chart-section"
@@ -39,7 +34,6 @@
         </div>
       </section>
     </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -314,7 +308,4 @@ defineExpose({ isDark });
     padding-right: 8px;
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>
