@@ -8,7 +8,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import Tag, { type KiutTagColor } from '../Tag/Tag.vue';
 import Table from './Table.vue';
-import type { TableColumn } from './Table.vue';
+import type { TableColumn, TableSortDirection } from './Table.vue';
 
 const STATUS_COLORS: Record<string, string> = {
   Confirmed: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300',
@@ -163,9 +163,9 @@ const KB_STATUS_LABELS: Record<string, string> = {
 };
 
 const kbColumns: TableColumn[] = [
-  { key: 'description', label: 'DESCRIPCIÓN', headerClass: 'min-w-0', cellClass: 'min-w-0' },
-  { key: 'created_at', label: 'FECHA DE CREACIÓN', headerClass: 'w-40', cellClass: 'w-40' },
-  { key: 'status', label: 'ESTADO', headerClass: 'w-52', cellClass: 'w-52' },
+  { key: 'description', label: 'DESCRIPCIÓN', headerClass: 'min-w-0', cellClass: 'min-w-0', sortable: true },
+  { key: 'created_at', label: 'FECHA DE CREACIÓN', headerClass: 'w-40', cellClass: 'w-40', sortable: true },
+  { key: 'status', label: 'ESTADO', headerClass: 'w-52', cellClass: 'w-52', sortable: true },
   { key: 'actions', label: 'ACCIONES', headerClass: 'w-28', cellClass: 'w-28', align: 'right' },
 ];
 
@@ -187,27 +187,27 @@ const kbRows: KbRow[] = [
       {
         id: 'site-1-page-1',
         description: 'Página principal — www.vivaaerobus.com',
-        created_at: '2026-01-15',
+        created_at: '2026-01-18',
         status: 'processed',
         aiGenerated: true,
       },
       {
         id: 'site-1-page-2',
         description: 'About — www.vivaaerobus.com',
-        created_at: '2026-01-15',
+        created_at: '2026-01-10',
         status: 'pending',
         aiGenerated: true,
       },
       {
         id: 'site-1-page-3',
         description: 'Contact — www.vivaaerobus.com',
-        created_at: '2026-01-15',
+        created_at: '2026-01-05',
         status: 'rejected',
       },
       {
         id: 'site-1-page-4',
         description: 'FAQ — www.vivaaerobus.com',
-        created_at: '2026-01-15',
+        created_at: '2026-01-12',
         status: 'processing',
       },
     ],
@@ -237,7 +237,7 @@ export const NestedRows: Story = {
     docs: {
       description: {
         story:
-          'Filas en cascada con `expandable`, `children` en cada fila padre y chevron en la columna `description`. Usa `v-model:expanded-keys` para controlar qué filas están abiertas.',
+          'Filas en cascada con `expandable`, `children` en cada fila padre y chevron en la columna `description`. Usa `v-model:expanded-keys` para controlar qué filas están abiertas. Con `sortKey`, `sortDirection`, `sortCompare` y `@sort`, ordena raíces e hijos de cada grupo (expande `www.vivaaerobus.com` y prueba ordenar por descripción o fecha).',
       },
     },
   },
@@ -246,6 +246,41 @@ export const NestedRows: Story = {
     components: { Table, Tag },
     setup() {
       const expandedKeys = ref<string[]>(['site-1']);
+      const sortKey = ref<string>('created_at');
+      const sortDirection = ref<TableSortDirection>('desc');
+
+      function compareKbRows(
+        a: Record<string, unknown>,
+        b: Record<string, unknown>,
+        key: string,
+        direction: TableSortDirection,
+      ): number {
+        const dir = direction === 'asc' ? 1 : -1;
+        let cmp = 0;
+
+        if (key === 'description') {
+          cmp = String(a.description ?? '').localeCompare(String(b.description ?? ''), undefined, {
+            sensitivity: 'base',
+          });
+        } else if (key === 'created_at') {
+          cmp = Date.parse(String(a.created_at ?? '')) - Date.parse(String(b.created_at ?? ''));
+        } else if (key === 'status') {
+          cmp = String(a.status ?? '').localeCompare(String(b.status ?? ''), undefined, {
+            sensitivity: 'base',
+          });
+        }
+
+        return cmp * dir;
+      }
+
+      function onSort(key: string) {
+        if (sortKey.value === key) {
+          sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
+        } else {
+          sortKey.value = key;
+          sortDirection.value = key === 'description' ? 'asc' : 'desc';
+        }
+      }
 
       const statusLabel = (row: KbRow) => {
         const base = KB_STATUS_LABELS[row.status] ?? row.status;
@@ -268,8 +303,12 @@ export const NestedRows: Story = {
             expandColumnKey: 'description',
             fixedLayout: true,
             selectable: true,
+            sortKey: sortKey.value,
+            sortDirection: sortDirection.value,
+            sortCompare: compareKbRows,
             isRowSelectable: (row: KbRow, context) => !isParentRow(row, context),
             expandedKeys: expandedKeys.value,
+            onSort,
             'onUpdate:expandedKeys': (keys: string[]) => {
               expandedKeys.value = keys;
             },
