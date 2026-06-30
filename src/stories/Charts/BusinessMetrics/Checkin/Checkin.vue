@@ -15,18 +15,7 @@
         :loading="exportLoading"
       />
     </template>
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content" class="card-body">
+    <div class="card-body">
       <!-- Sankey Flow Chart -->
       <section v-if="sankeyData.nodes.length > 0" class="chart-section">
         <div class="chart-wrapper">
@@ -147,7 +136,6 @@
         </div>
       </section>
     </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -705,7 +693,4 @@ watch(
     padding: 16px;
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

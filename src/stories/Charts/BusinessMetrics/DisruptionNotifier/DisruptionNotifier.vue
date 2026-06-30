@@ -4,6 +4,8 @@
     title="Disruption Notifier"
     subtitle="Passenger notification effectiveness and delivery analysis"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -13,20 +15,7 @@
         :loading="exportLoading"
       />
     </template>
-
-    <!-- Loading State -->
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content" class="card-body">
+      <div class="card-body">
       <template v-if="hasData">
         <!-- 1. PASSENGER DISRUPTION FUNNEL -->
         <section class="chart-section">
@@ -224,7 +213,6 @@
         </div>
       </section>
     </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -290,6 +278,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 
@@ -814,7 +803,4 @@ defineExpose({ isDark });
     transform: translateY(0);
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

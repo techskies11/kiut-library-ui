@@ -5,6 +5,8 @@
     subtitle="Check-in flows and segment breakdown."
     :default-open="containerInitiallyOpen"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <div class="checkin-container__body">
       <Checkin
@@ -97,11 +99,16 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
+  open: []
   export: [payload: CheckinContainerExportPayload]
 }>()
 
-const effectiveCheckinLoading = computed(() => props.loading || props.checkinLoading)
-const effectiveSegmentsLoading = computed(() => props.loading || props.segmentsLoading)
+const effectiveCheckinLoading = computed(() =>
+  props.loading ? false : props.checkinLoading,
+)
+const effectiveSegmentsLoading = computed(() =>
+  props.loading ? false : props.segmentsLoading,
+)
 
 function handleChildExport(source: CheckinContainerExportSource, format: ExportFormat) {
   emit('export', { source, format })

@@ -14,18 +14,7 @@
         :loading="exportLoading"
       />
     </template>
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content" class="card-body">
+    <div class="card-body">
       <template v-if="hasData">
         <!-- Daily Grouped Table (chrome: Utils/Table) -->
         <section v-if="groupedTableData.length > 0" class="guardrails-daily-section">
@@ -91,7 +80,6 @@
         </div>
       </section>
     </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -230,7 +218,4 @@ defineExpose({ isDark })
 .empty-title { font-size: 18px; font-weight: 600; color: var(--kiut-text-primary, #1e293b); margin: 0 0 8px 0; }
 .empty-description { font-size: 14px; font-weight: 400; color: var(--kiut-text-secondary, #64748b); line-height: 1.6; margin: 0; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

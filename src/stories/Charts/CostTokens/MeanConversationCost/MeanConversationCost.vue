@@ -3,11 +3,11 @@
     class="h-full min-h-0"
     title="Mean Conversation Cost"
     :collapsible="false"
+    :loading="loading"
   >
     <div
       class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
     >
-      <template v-if="!loading">
         <div class="container-value">
           <div class="value" :class="getCostColorClass(mean)">
             {{ meanFormatted }}
@@ -29,19 +29,6 @@
             </div>
           </div>
         </div>
-      </template>
-
-      <div v-else class="loading-state">
-        <div class="loading-container">
-          <div class="chart-lines-loader">
-            <div class="line line-1"></div>
-            <div class="line line-2"></div>
-            <div class="line line-3"></div>
-            <div class="line line-4"></div>
-            <div class="line line-5"></div>
-          </div>
-        </div>
-      </div>
     </div>
   </ChartMetricContainer>
 </template>
@@ -162,76 +149,6 @@ const getCostColorClass = (value: number) => {
   font-weight: bold;
 }
 
-.loading-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 180px;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.chart-lines-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  height: 100px;
-  margin-bottom: 24px;
-}
-
-.line {
-  width: 8px;
-  background: linear-gradient(
-    to top,
-    rgb(0, 212, 146) 0%,
-    rgb(94, 233, 181) 50%,
-    rgb(0, 213, 190) 100%
-  );
-  border-radius: 4px;
-  animation: wave 1.5s ease-in-out infinite;
-  box-shadow: 0 4px 15px -3px rgba(11, 245, 93, 0.4);
-}
-
-.line-1 {
-  height: 30%;
-  animation-delay: 0s;
-}
-.line-2 {
-  height: 50%;
-  animation-delay: 0.1s;
-}
-.line-3 {
-  height: 70%;
-  animation-delay: 0.2s;
-}
-.line-4 {
-  height: 50%;
-  animation-delay: 0.3s;
-}
-.line-5 {
-  height: 40%;
-  animation-delay: 0.4s;
-}
-
-@keyframes wave {
-  0%,
-  100% {
-    transform: scaleY(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scaleY(1.6);
-    opacity: 1;
-  }
-}
-
 @media (max-width: 768px) {
   .value {
     font-size: 1.5rem;
@@ -244,19 +161,6 @@ const getCostColorClass = (value: number) => {
 
   .stat-item {
     padding: 0.5rem;
-  }
-
-  .loading-state {
-    min-height: 150px;
-  }
-
-  .chart-lines-loader {
-    height: 80px;
-    gap: 8px;
-  }
-
-  .line {
-    width: 6px;
   }
 }
 
@@ -285,15 +189,6 @@ const getCostColorClass = (value: number) => {
 
   .stat-label {
     margin-bottom: 0;
-  }
-
-  .loading-state {
-    min-height: 120px;
-  }
-
-  .chart-lines-loader {
-    height: 60px;
-    margin-bottom: 16px;
   }
 }
 </style>

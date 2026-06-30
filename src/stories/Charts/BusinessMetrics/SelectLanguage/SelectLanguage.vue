@@ -6,18 +6,7 @@
     :collapsible="false"
     :loading="props.loading"
   >
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="props.loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content" class="card-body">
+    <div class="card-body">
       <template v-if="hasData">
         <div
           class="distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-3 min-h-0"
@@ -60,7 +49,6 @@
         </div>
       </section>
     </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -355,7 +343,4 @@ defineExpose({ isDark });
     transform: translateY(0);
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

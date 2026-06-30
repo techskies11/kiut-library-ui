@@ -14,19 +14,6 @@
         :loading="exportLoading"
       />
     </template>
-
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="props.loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content">
         <div v-if="hasData" class="card-body">
           <div
             class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"
@@ -45,8 +32,7 @@
             No CSAT P95 points were found for the selected date range.
           </p>
         </div>
-      </div>
-    </Transition>
+
   </ChartMetricContainer>
 </template>
 
@@ -131,7 +117,6 @@ const lineOptions = {
   animation: fadeIn 0.5s ease-out;
 }
 
-.bm-status,
 .empty-state {
   min-height: 220px !important;
   display: flex;
@@ -163,7 +148,4 @@ const lineOptions = {
     transform: translateY(0);
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

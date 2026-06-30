@@ -4,6 +4,8 @@
     title="Agent Human Conversations"
     subtitle="Human conversation assignments and closures by agent"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -13,54 +15,7 @@
         :loading="exportLoading"
       />
     </template>
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="loading"
-        key="loading"
-        class="card-body loading-body"
-        :class="{ 'agent-human-conv--dark': isDark }"
-        aria-busy="true"
-        aria-label="Loading agent human conversations"
-      >
-        <div
-          class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
-          aria-hidden="true"
-        >
-          <CardMetric
-            v-for="n in 4"
-            :key="`kpi-skeleton-${n}`"
-            label="Loading"
-            value=""
-            label-position="header"
-            :loading="true"
-            :theme="theme"
-          />
-        </div>
-
-        <section
-          class="table-skeleton mt-6 w-full min-w-0"
-          aria-hidden="true"
-        >
-          <div class="table-skeleton__header">
-            <div class="table-skeleton__titles">
-              <div class="bm-skeleton-blink skeleton-section-title" />
-              <div class="bm-skeleton-blink skeleton-section-subtitle" />
-            </div>
-            <div class="bm-skeleton-blink skeleton-table-select" />
-          </div>
-
-          <div class="table-skeleton__table">
-            <div class="bm-skeleton-blink skeleton-table-head" />
-            <div
-              v-for="n in TABLE_SKELETON_ROWS"
-              :key="`table-row-skeleton-${n}`"
-              class="bm-skeleton-blink skeleton-table-row"
-            />
-          </div>
-        </section>
-      </div>
-
-      <div v-else key="content" class="card-body">
+    <div class="card-body">
         <div
           v-if="hasData"
           class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
@@ -266,7 +221,6 @@
           </div>
         </div>
       </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -372,6 +326,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 
@@ -425,7 +380,6 @@ const sortKey = ref<SortKey>("date");
 const sortDirection = ref<TableSortDirection>("desc");
 
 const MAX_VISIBLE_ROWS = 6;
-const TABLE_SKELETON_ROWS = MAX_VISIBLE_ROWS;
 
 watch(tableViewMode, (mode) => {
   if (mode === "aggregated") {
@@ -782,70 +736,6 @@ defineExpose({ isDark });
   min-height: 0;
 }
 
-.loading-body {
-  animation: none;
-}
-
-.table-skeleton__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.table-skeleton__titles {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.skeleton-section-title {
-  width: min(100%, 260px);
-  height: 20px;
-  border-radius: 8px;
-}
-
-.skeleton-section-subtitle {
-  width: min(100%, 220px);
-  height: 14px;
-  border-radius: 6px;
-}
-
-.skeleton-table-select {
-  width: 120px;
-  height: 38px;
-  flex-shrink: 0;
-  border-radius: 12px;
-}
-
-.table-skeleton__table {
-  overflow: hidden;
-}
-
-.skeleton-table-head {
-  height: 36px;
-  border-radius: 0;
-  border-bottom: 1px solid var(--kiut-border-light, #e5e7eb);
-}
-
-.skeleton-table-row {
-  height: 40px;
-  border-radius: 0;
-  border-top: 1px solid var(--kiut-border-table-row, #f3f4f6);
-}
-
-:global(.dark) .skeleton-table-head,
-.agent-human-conv--dark .skeleton-table-head {
-  border-bottom-color: var(--kiut-border-light, #2d2d39);
-}
-
-:global(.dark) .skeleton-table-row,
-.agent-human-conv--dark .skeleton-table-row {
-  border-top-color: #2d2d3980;
-}
 
 .table-view-select {
   width: 132px;
@@ -1029,20 +919,8 @@ defineExpose({ isDark });
 }
 
 @media (max-width: 768px) {
-  .table-skeleton__header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .skeleton-table-select {
-    width: 100%;
-  }
-
   .cell-plain--muted {
     max-width: 150px;
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

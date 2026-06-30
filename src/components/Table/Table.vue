@@ -73,13 +73,13 @@
             v-for="entry in visibleRows"
             :key="entry.key"
             :class="[
-              'min-h-14 border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
+              'kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
               entry.depth > 0 ? 'kiut-table-row--child dark:bg-[#1a1a22]' : '',
             ]"
           >
             <td
               v-if="selectable"
-              class="w-12 bg-transparent pl-4 pr-0 py-3 text-center align-middle"
+              class="kiut-table-body-cell w-12 bg-transparent pl-4 pr-0 py-0 text-center align-middle"
             >
               <input
                 v-if="isEntrySelectable(entry)"
@@ -108,7 +108,7 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'bg-transparent py-3 align-middle text-[color:var(--kiut-text-secondary)]',
+                'kiut-table-body-cell bg-transparent py-0 align-middle text-[color:var(--kiut-text-secondary)]',
                 isExpandColumn(col.key) ? 'pl-0 pr-2' : 'px-2',
                 alignClass(col.align),
                 col.cellClass ?? '',
@@ -575,6 +575,17 @@ function ariaSortForColumn(
 <style scoped>
 .kiut-table {
   font-family: var(--kiut-table-font, "Inter", system-ui, sans-serif);
+}
+
+.kiut-table tbody .kiut-table-body-row {
+  height: 61px;
+}
+
+.kiut-table tbody .kiut-table-body-cell {
+  height: 61px;
+  max-height: 61px;
+  box-sizing: border-box;
+  vertical-align: middle;
 }
 
 .kiut-table-expand-btn {

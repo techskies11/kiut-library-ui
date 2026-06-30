@@ -12,6 +12,7 @@
         @click="handleCancel"
       />
       <div
+        :id="id"
         ref="panelRef"
         role="dialog"
         aria-modal="true"
@@ -76,7 +77,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
 import Button from '../Button/Button.vue';
 
-defineOptions({ name: 'Modal' });
+defineOptions({ name: 'Modal', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
@@ -86,6 +87,8 @@ const props = withDefaults(
     subtitle?: string;
     cancelLabel?: string;
     confirmLabel?: string;
+    /** Optional DOM id for the dialog panel (tests, automation). */
+    id?: string;
     /** Ancho máximo del panel en px. Por defecto `512`. */
     width?: number;
     /**

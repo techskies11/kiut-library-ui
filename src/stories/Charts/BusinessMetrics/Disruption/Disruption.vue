@@ -4,6 +4,8 @@
     title="Disruption Manager Metrics"
     subtitle="Disruption workflow performance and completion tracking"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -13,18 +15,7 @@
         :loading="exportLoading"
       />
     </template>
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content" class="card-body">
+    <div class="card-body">
       <!-- Sankey Visualization -->
       <section class="chart-section">
         <div class="chart-wrapper">
@@ -262,7 +253,6 @@
         </div>
       </section>
     </div>
-    </Transition>
   </ChartMetricContainer>
 </template>
 
@@ -346,6 +336,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 
@@ -718,7 +709,4 @@ const sankeyData = computed(() => {
     padding: 16px;
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>

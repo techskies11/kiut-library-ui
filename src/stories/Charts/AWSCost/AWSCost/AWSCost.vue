@@ -3,29 +3,11 @@
     :title="normalizedData.airline_name || 'AWS Cost'"
     subtitle="AWS vs Allocated costs over time"
     :collapsible="false"
+    :loading="loading"
   >
     <div class="flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
-      <!-- Loading -->
-      <div
-        v-if="loading"
-        class="flex min-h-[320px] flex-col items-center justify-center px-4"
-      >
-        <div class="mb-6 flex h-[100px] items-end justify-center gap-2.5">
-          <div
-            v-for="(pct, i) in loaderBarHeights"
-            :key="i"
-            class="w-2 animate-pulse rounded bg-gradient-to-t from-violet-400 via-violet-600 to-violet-500 opacity-70 dark:from-violet-500 dark:via-violet-400 dark:to-violet-300"
-            :class="loaderDelays[i]"
-            :style="{ height: `${pct}%` }"
-          />
-        </div>
-        <p class="animate-pulse text-[15px] font-medium tracking-tight text-[var(--kiut-text-secondary,#6b7280)]">
-          Loading chart data...
-        </p>
-      </div>
-
       <!-- Chart + totals -->
-      <div v-else-if="normalizedData.daily.length > 0" class="flex w-full shrink-0 flex-col min-h-0">
+      <div v-if="normalizedData.daily.length > 0" class="flex w-full shrink-0 flex-col min-h-0">
         <div class="flex h-[230px] max-h-[230px] w-full shrink-0 flex-col min-h-0 mb-4">
           <ChartLine class="h-full min-h-0 w-full" :data="chartData" :options="chartOptions" />
         </div>
@@ -97,9 +79,6 @@ const props = defineProps({
 })
 
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
-
-const loaderBarHeights = [30, 50, 70, 50, 40]
-const loaderDelays = ['', 'delay-100', 'delay-200', 'delay-300', 'delay-[400ms]']
 
 // Normalize data: support both API shape (daily[]) and flattened shape (days + *Series)
 const normalizedData = computed(() => {

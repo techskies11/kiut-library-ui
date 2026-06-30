@@ -4,6 +4,8 @@
     title="Booking Manager Metrics"
     subtitle="Booking manager workflow tracking and analysis"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <template #headerExport>
       <FooterExport
@@ -14,17 +16,7 @@
       />
     </template>
     <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else-if="props.error" key="error" class="error-state">
+      <div v-if="props.error" key="error" class="error-state">
         <div class="error-content">
           <div class="error-icon-wrapper">
             <svg
@@ -299,6 +291,7 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
+  open: [];
   export: [format: ExportFormat];
 }>();
 

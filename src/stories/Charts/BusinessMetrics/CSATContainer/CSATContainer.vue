@@ -5,11 +5,12 @@
     subtitle="Customer satisfaction score distribution and daily trend metrics."
     :default-open="containerInitiallyOpen"
     :loading="loading"
+    lazy-mount
+    @open="emit('open')"
   >
     <div class="csat-container__body">
       <NpsMetrics
         :data="data"
-        :loading="loading"
         :enable-export="enableExport"
         :show-resolution-chart="showResolutionChart"
         :show-csat-pulse-chart="showCsatPulseChart"
@@ -50,6 +51,7 @@ withDefaults(
 )
 
 const emit = defineEmits<{
+  open: []
   export: [payload: CSATContainerExportPayload]
 }>()
 

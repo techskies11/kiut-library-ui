@@ -6,18 +6,6 @@
     :collapsible="false"
     :loading="props.loading"
   >
-    <Transition name="bm-fade" mode="out-in">
-      <div
-        v-if="props.loading"
-        key="loading"
-        class="bm-status shrink-0"
-        aria-busy="true"
-        aria-label="Loading chart"
-      >
-        <div class="flex-1 bm-skeleton-blink" aria-hidden="true"></div>
-      </div>
-
-      <div v-else key="content">
         <div v-if="hasResolutionData" class="card-body">
           <ChartBar
             :data="barData"
@@ -33,8 +21,7 @@
             found for the selected dates.
           </p>
         </div>
-      </div>
-    </Transition>
+
   </ChartMetricContainer>
 </template>
 
@@ -101,7 +88,6 @@ const barOptions = {
   animation: fadeIn 0.5s ease-out;
 }
 
-.bm-status,
 .empty-state {
   min-height: 220px !important;
   display: flex;
@@ -139,7 +125,4 @@ const barOptions = {
     transform: translateY(0);
   }
 }
-</style>
-<style>
-@import "../bm-shared.css";
 </style>
