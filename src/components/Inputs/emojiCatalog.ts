@@ -264,21 +264,9 @@ export function buildDefaultCategories(
   }));
 }
 
-const EMOJI_REGEX = /\p{Extended_Pictographic}/u;
-
-/** Split text into individual emoji graphemes. */
+/** Split text into individual emoji graphemes (ZWJ sequences kept together). */
 export function extractEmojis(text: string): string[] {
   if (!text) return [];
-  const result: string[] = [];
-
-  if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
-    const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
-    for (const { segment } of segmenter.segment(text)) {
-      if (EMOJI_REGEX.test(segment)) result.push(segment);
-    }
-    return result;
-  }
-
   return (
     text.match(/\p{Extended_Pictographic}(\u200d\p{Extended_Pictographic})*/gu) ??
     []
