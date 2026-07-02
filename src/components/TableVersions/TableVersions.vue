@@ -74,7 +74,7 @@
               v-if="isExpanded(row, index)"
               class="border-b border-[#e5e7eb] bg-[#f9fafb] dark:border-[color:var(--kiut-border-light)] dark:bg-[#1a1a22]"
             >
-              <td :colspan="columns.length" class="px-4 pb-4 pt-1">
+              <td :colspan="columns.length" class="py-3 px-4">
                 <h4
                   class="mb-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
                 >

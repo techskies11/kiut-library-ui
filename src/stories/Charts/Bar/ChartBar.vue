@@ -1,5 +1,8 @@
 <template>
-  <div class="relative h-[230px] w-full shrink-0 bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
+  <div
+    class="relative w-full shrink-0 bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
+    :style="{ height: `${heightPx}px` }"
+  >
     <Bar :data="chartData" :options="computedOptions" />
   </div>
 </template>
@@ -43,6 +46,10 @@ const props = defineProps<{
   stacked?: boolean
   uppercaseLegendLabels?: boolean
   theme?: Theme
+  /** Altura del contenedor en px (por defecto 230). */
+  heightPx?: number
+  /** Máximo de caracteres en etiquetas del eje de categorías (barras horizontales). */
+  categoryLabelMaxLength?: number
 }>()
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
@@ -67,6 +74,11 @@ const formatLegendText = (text: any): any => {
   if (typeof text !== 'string') return text
   if (props.uppercaseLegendLabels) return text.toUpperCase()
   return capitalizeText(text)
+}
+
+const truncateCategoryLabel = (text: string, maxLength: number): string => {
+  if (text.length <= maxLength) return text
+  return `${text.slice(0, Math.max(1, maxLength - 1))}…`
 }
 
 function deepMergeChartOptions(
@@ -175,8 +187,10 @@ const computedOptions = computed(() => {
             if (label) {
               label += ': '
             }
-            if (context.parsed.y !== null) {
-              label += context.parsed.y
+            const isHorizontal = (context.chart?.options?.indexAxis ?? 'x') === 'y'
+            const value = isHorizontal ? context.parsed.x : context.parsed.y
+            if (value !== null && value !== undefined) {
+              label += value
             }
             return label
           },
@@ -252,10 +266,39 @@ const computedOptions = computed(() => {
   }
 
   const merged = props.options ? deepMergeChartOptions(defaults, props.options) : defaults
+
+  if (merged.indexAxis === 'y') {
+    merged.scales = merged.scales ?? {}
+    merged.scales.x = {
+      type: 'linear',
+      beginAtZero: true,
+      ...merged.scales.x,
+    }
+    const { beginAtZero: _beginAtZero, ticks: yTicks, ...yScaleRest } = merged.scales.y ?? {}
+    const labelCount = props.data.labels?.length ?? 0
+    const categoryLabelMaxLength = props.categoryLabelMaxLength ?? 20
+    merged.scales.y = {
+      type: 'category',
+      ...yScaleRest,
+      ticks: {
+        ...yTicks,
+        autoSkip: false,
+        maxTicksLimit: labelCount > 0 ? labelCount : CHART_Y_MAX_TICKS,
+        callback: function (this: { getLabelForValue: (value: unknown) => unknown }, value: unknown) {
+          const raw = this.getLabelForValue(value)
+          const label = typeof raw === 'string' ? raw : String(raw ?? '')
+          return truncateCategoryLabel(label, categoryLabelMaxLength)
+        },
+      },
+    }
+  }
+
   return applyInterFontToChartOptions(
     applyChartAxisTickLimits(merged as Record<string, unknown>),
   ) as Record<string, any>
 })
+
+const heightPx = computed(() => props.heightPx ?? 230)
 
 defineExpose({ isDark })
 </script>

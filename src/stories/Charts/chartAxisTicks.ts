@@ -38,6 +38,13 @@ export function applyChartAxisTickLimits(
     }
 
     if (Y_KEYS.test(key)) {
+      if (scaleCopy.type === 'category') {
+        // Eje de categorías (p. ej. barras horizontales): no limitar a 5 ticks.
+        scaleCopy.ticks = ticksCopy
+        scales[key] = scaleCopy
+        continue
+      }
+
       if (Array.isArray(ticksCopy.values) && ticksCopy.values.length > 0) {
         ticksCopy.maxTicksLimit = ticksCopy.values.length
       } else if (ticksCopy.stepSize != null) {

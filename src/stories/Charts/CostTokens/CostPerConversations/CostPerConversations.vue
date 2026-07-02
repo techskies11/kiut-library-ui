@@ -19,7 +19,12 @@
     <div class="card-body">
       <section v-if="chartData.labels && chartData.labels.length" class="chart-section">
         <div class="chart-container">
-          <BarChart :data="chartData" :options="chartOptions" />
+          <BarChart
+            :data="chartData"
+            :options="chartOptions"
+            :height-px="chartHeightPx"
+            :category-label-max-length="18"
+          />
         </div>
         
         <footer class="kpi-grid">
@@ -166,6 +171,13 @@ const topAgents = computed(() => {
   return [...agents].sort((a, b) => b.avg_cost_per_conversation - a.avg_cost_per_conversation);
 });
 
+const CHART_BAR_ROW_PX = 40
+const CHART_MIN_HEIGHT_PX = 230
+
+const chartHeightPx = computed(() =>
+  Math.max(CHART_MIN_HEIGHT_PX, topAgents.value.length * CHART_BAR_ROW_PX + 32),
+)
+
 // Computed para calcular totales
 const totalConversations = computed(() => {
   if (props.data?.total_conversations !== undefined) {
@@ -247,6 +259,10 @@ const chartOptions = computed(() => {
           weight: 500 as any,
         },
         callbacks: {
+          title: function(tooltipItems: any[]) {
+            const agent = topAgents.value[tooltipItems[0]?.dataIndex];
+            return agent ? getAgentDisplayName(agent) : '';
+          },
           label: function(context: any) {
             const agent = topAgents.value[context.dataIndex];
             return [
@@ -260,6 +276,7 @@ const chartOptions = computed(() => {
     },
     scales: {
       x: {
+        type: 'linear' as const,
         beginAtZero: true,
         border: { display: false },
         grid: {
@@ -277,6 +294,7 @@ const chartOptions = computed(() => {
         }
       },
       y: {
+        type: 'category' as const,
         border: { display: false },
         grid: { color: colors.value.gridLines, lineWidth: 1, drawTicks: false },
         ticks: {
