@@ -43,7 +43,7 @@
         role="dialog"
         :aria-label="ariaLabel"
         :style="floatingStyle"
-        class="fixed z-[300] flex max-h-[min(24rem,calc(100vh-2rem))] w-[20rem] flex-col overflow-hidden rounded-xl border border-gray-300/80 bg-white shadow-lg dark:border-[color:var(--kiut-border-light)] dark:bg-[#141416]"
+        class="fixed z-[300] flex w-[20rem] flex-col overflow-hidden rounded-xl border border-gray-300/80 bg-white shadow-lg dark:border-[color:var(--kiut-border-light)] dark:bg-[#141416]"
         @click.stop
         @keydown.stop="onPanelKeydown"
       >
@@ -207,17 +207,24 @@ function updatePosition(): void {
 
   const rect = btn.getBoundingClientRect();
   const panelWidth = 320;
+  const gap = 8;
   const viewportPadding = 8;
-  let left = rect.left;
+  let left = rect.right - panelWidth;
 
+  if (left < viewportPadding) {
+    left = rect.left;
+  }
   if (left + panelWidth > window.innerWidth - viewportPadding) {
     left = Math.max(viewportPadding, window.innerWidth - panelWidth - viewportPadding);
   }
 
+  const maxPanelHeight = Math.max(160, rect.top - gap - viewportPadding);
+
   floatingStyle.value = {
-    top: `${rect.bottom + 4}px`,
+    bottom: `${window.innerHeight - rect.top + gap}px`,
     left: `${left}px`,
     width: `${panelWidth}px`,
+    maxHeight: `${maxPanelHeight}px`,
   };
 }
 
@@ -240,10 +247,10 @@ function selectEmoji(emoji: string): void {
 }
 
 function openPanel(): void {
-  updatePosition();
   searchQuery.value = '';
   emit('open');
   void nextTick(() => {
+    updatePosition();
     searchInputRef.value?.focus();
   });
 }
