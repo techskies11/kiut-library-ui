@@ -106,7 +106,9 @@ export type {
 export {
   DEFAULT_EMOJI_CATALOG,
   DEFAULT_CATEGORY_LABELS,
+  appendEmojiToDraft,
   buildDefaultCategories,
+  extractEmojis,
   filterEmojiCatalog,
 } from './components/Inputs/emojiCatalog';
 import Select from './components/Inputs/Select.vue';
