@@ -117,6 +117,17 @@ import InputRange from './components/Inputs/InputRange.vue';
 export type { InputRangeOrientation } from './components/Inputs/InputRange.vue';
 import InputNumber from './components/Inputs/InputNumber.vue';
 import InputColorPicker from './components/Inputs/InputColorPicker.vue';
+import EmojiPicker from './components/Inputs/EmojiPicker.vue';
+export type {
+  EmojiCategoryId,
+  EmojiPickerCategory,
+} from './components/Inputs/emojiCatalog';
+export {
+  DEFAULT_EMOJI_CATALOG,
+  DEFAULT_CATEGORY_LABELS,
+  buildDefaultCategories,
+  filterEmojiCatalog,
+} from './components/Inputs/emojiCatalog';
 import Select from './components/Inputs/Select.vue';
 export type { KiutSelectOption, KiutSelectValue } from './components/Inputs/Select.vue';
 import MultiSelect from './components/Inputs/MultiSelect.vue';
@@ -224,6 +235,7 @@ export {
   InputRange,
   InputNumber,
   InputColorPicker,
+  EmojiPicker,
   Select,
   MultiSelect,
   Toggle,
@@ -313,6 +325,7 @@ export const KiutUIPlugin = {
     app.component('InputRange', InputRange);
     app.component('InputNumber', InputNumber);
     app.component('InputColorPicker', InputColorPicker);
+    app.component('EmojiPicker', EmojiPicker);
     app.component('Select', Select);
     app.component('MultiSelect', MultiSelect);
     app.component('Toggle', Toggle);
