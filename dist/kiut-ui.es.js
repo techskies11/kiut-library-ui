@@ -22097,6 +22097,7 @@ const H2 = ["aria-label"], W2 = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-describedby": r.value,
             class: te([
               "kiut-range-input block appearance-none bg-transparent focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+              "dark:[--kiut-range-track:#282836] dark:[--kiut-range-thumb-bg:#282836] dark:[--kiut-range-thumb-shadow:none]",
               e.orientation === "vertical" ? "kiut-range-input--vertical" : "kiut-range-input--horizontal w-full"
             ]),
             onInput: f
@@ -22118,7 +22119,7 @@ const H2 = ["aria-label"], W2 = { class: "flex flex-wrap items-center gap-x-2 ga
       }, A(e.errorText), 11, m5)) : z("", !0)
     ]));
   }
-}), v5 = /* @__PURE__ */ me(b5, [["__scopeId", "data-v-a1343418"]]), y5 = { class: "font-sans" }, x5 = ["for"], _5 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], k5 = ["id"], w5 = /* @__PURE__ */ re({
+}), v5 = /* @__PURE__ */ me(b5, [["__scopeId", "data-v-ce7263e4"]]), y5 = { class: "font-sans" }, x5 = ["for"], _5 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], k5 = ["id"], w5 = /* @__PURE__ */ re({
   name: "InputNumber",
   __name: "InputNumber",
   props: {
