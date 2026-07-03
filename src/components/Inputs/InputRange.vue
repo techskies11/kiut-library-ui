@@ -33,6 +33,7 @@
           :aria-describedby="describedBy"
           :class="[
             'kiut-range-input block appearance-none bg-transparent focus:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+            'dark:[--kiut-range-track:#282836] dark:[--kiut-range-thumb-bg:#282836] dark:[--kiut-range-thumb-shadow:none]',
             orientation === 'vertical' ? 'kiut-range-input--vertical' : 'kiut-range-input--horizontal w-full',
           ]"
           @input="onInput"
@@ -153,14 +154,21 @@ function onInput(e: Event) {
 </script>
 
 <style scoped>
-/* Pista gris + relleno violeta (--kiut-primary); thumb hueco. Light/dark vía variables de pista. */
+/* Pista gris + relleno violeta (--kiut-primary); thumb sólido (light) / hueco (dark). */
 
 .kiut-range-input {
   --kiut-range-track: #e2e8f0;
+  --kiut-range-thumb-bg: #ffffff;
+  --kiut-range-thumb-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.1),
+    0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
-:global(.dark) .kiut-range-input {
-  --kiut-range-track: #2c2c36;
+:global(.dark) .kiut-range-input,
+:global(.dark-mode) .kiut-range-input {
+  --kiut-range-track: #282836;
+  --kiut-range-thumb-bg: #282836;
+  --kiut-range-thumb-shadow: none;
 }
 
 /* Horizontal */
@@ -183,14 +191,18 @@ function onInput(e: Event) {
 .kiut-range-input--horizontal::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-top: -0.375rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: -0.4375rem;
   border-radius: 9999px;
   border: 3px solid var(--kiut-primary);
-  background-color: transparent;
-  box-shadow: none;
-  transition: transform 0.12s ease;
+  background-color: var(--kiut-range-thumb-bg);
+  box-shadow: var(--kiut-range-thumb-shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.kiut-range-input--horizontal:active::-webkit-slider-thumb {
+  transform: scale(1.04);
 }
 
 .kiut-range-input--horizontal:focus-visible::-webkit-slider-thumb {
@@ -211,11 +223,12 @@ function onInput(e: Event) {
 }
 
 .kiut-range-input--horizontal::-moz-range-thumb {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.375rem;
+  height: 1.375rem;
   border-radius: 9999px;
   border: 3px solid var(--kiut-primary);
-  background-color: transparent;
+  background-color: var(--kiut-range-thumb-bg);
+  box-shadow: var(--kiut-range-thumb-shadow);
 }
 
 .kiut-range-input--horizontal:focus-visible::-moz-range-thumb {
@@ -246,12 +259,18 @@ function onInput(e: Event) {
 .kiut-range-input--vertical::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-top: -0.375rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-top: -0.4375rem;
   border-radius: 9999px;
   border: 3px solid var(--kiut-primary);
-  background-color: transparent;
+  background-color: var(--kiut-range-thumb-bg);
+  box-shadow: var(--kiut-range-thumb-shadow);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.kiut-range-input--vertical:active::-webkit-slider-thumb {
+  transform: scale(1.04);
 }
 
 .kiut-range-input--vertical:focus-visible::-webkit-slider-thumb {
@@ -272,10 +291,11 @@ function onInput(e: Event) {
 }
 
 .kiut-range-input--vertical::-moz-range-thumb {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.375rem;
+  height: 1.375rem;
   border-radius: 9999px;
   border: 3px solid var(--kiut-primary);
-  background-color: transparent;
+  background-color: var(--kiut-range-thumb-bg);
+  box-shadow: var(--kiut-range-thumb-shadow);
 }
 </style>

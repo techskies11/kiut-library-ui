@@ -85,6 +85,13 @@
                 )
               }}</span>
             </template>
+            <template #cell-createPayment="{ row }">
+              <span>{{
+                formatNumber(
+                  (row.record_locator_create_payment_count as number) ?? 0,
+                )
+              }}</span>
+            </template>
             <template #cell-reasons="{ row }">
               <div
                 v-if="
@@ -152,6 +159,7 @@ interface CheckinByDay {
   record_locator_completed_count: number;
   record_locator_closed_count: number;
   record_locator_abandoned_count: number;
+  record_locator_create_payment_count?: number;
 }
 
 interface CheckinData {
@@ -224,6 +232,8 @@ const props = withDefaults(
     theme?: Theme;
     enableExport?: boolean;
     exportLoading?: boolean;
+    /** Show Create Payment column (Avianca). */
+    isAvianca?: boolean;
   }>(),
   {
     initiallyOpen: false,
@@ -250,6 +260,7 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    isAvianca: false,
   },
 );
 
@@ -317,7 +328,7 @@ const tableData = computed((): TableRow[] => {
   );
 });
 
-const checkinMetricsTableColumns: TableColumn[] = [
+const baseCheckinMetricsTableColumns: TableColumn[] = [
   { key: "date", label: "Date", align: "center" },
   { key: "checkinInit", label: "Checkin Init", align: "center" },
   { key: "bookingRetrieval", label: "Booking Retrieval (%)", align: "center" },
@@ -327,6 +338,18 @@ const checkinMetricsTableColumns: TableColumn[] = [
   { key: "failed", label: "Errors (%)", align: "center" },
   { key: "reasons", label: "Failed (Reasons)", align: "left" },
 ];
+
+const createPaymentColumn: TableColumn = {
+  key: "createPayment",
+  label: "Create Payment",
+  align: "center",
+};
+
+const checkinMetricsTableColumns = computed((): TableColumn[] =>
+  props.isAvianca
+    ? [...baseCheckinMetricsTableColumns, createPaymentColumn]
+    : baseCheckinMetricsTableColumns,
+);
 
 const checkinMetricsTableRows = computed((): Record<string, unknown>[] =>
   tableData.value.map((row) => ({
@@ -339,6 +362,8 @@ const checkinMetricsTableRows = computed((): Record<string, unknown>[] =>
     record_locator_closed_count: row.record_locator_closed_count,
     unrecovered_count: row.unrecovered_count,
     failed_steps: row.failed_steps,
+    record_locator_create_payment_count:
+      row.record_locator_create_payment_count,
   })),
 );
 

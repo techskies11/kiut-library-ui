@@ -11,7 +11,7 @@ const meta: Meta<typeof InputRange> = {
     docs: {
       description: {
         component:
-          'Slider de rango con pista redondeada, relleno con color primario y thumb hueco. `caption` opcional (centro); `captionMin` / `captionMax` para extremos. `orientation`: `horizontal` | `vertical`. Tema claro/oscuro: toolbar **Theme** en Storybook.',
+          'Slider de rango con pista redondeada, relleno con color primario y thumb sólido con borde y sombra. `caption` opcional (centro); `captionMin` / `captionMax` para extremos. `orientation`: `horizontal` | `vertical`. Tema claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
