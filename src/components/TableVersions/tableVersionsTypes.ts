@@ -54,6 +54,8 @@ export interface TableVersionsRow {
   url?: string;
   active?: boolean;
   versions?: TableVersionsHistoryItem[];
+  /** Mientras es true y la fila está expandida, muestra skeleton en el historial. */
+  versionsLoading?: boolean;
 }
 
 export interface TableVersionsLabels {
@@ -77,6 +79,7 @@ export interface TableVersionsLabels {
   expandRow: string;
   collapseRow: string;
   toggleActive: string;
+  loadingHistory: string;
 }
 
 export const DEFAULT_TABLE_VERSIONS_LABELS: TableVersionsLabels = {
@@ -100,6 +103,7 @@ export const DEFAULT_TABLE_VERSIONS_LABELS: TableVersionsLabels = {
   expandRow: 'Expandir fila',
   collapseRow: 'Contraer fila',
   toggleActive: 'Activar o desactivar',
+  loadingHistory: 'Cargando historial de versiones',
 };
 
 /** Endpoints API: método, nombre, URL, status, versión, actualizado, acciones. */

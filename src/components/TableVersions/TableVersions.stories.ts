@@ -162,6 +162,64 @@ export const EndpointsExpanded: Story = {
   }),
 };
 
+export const VersionsLoading: Story = {
+  name: 'Endpoints — skeleton al expandir',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Al expandir una fila, marca `versionsLoading: true` en la fila hasta que lleguen las versiones. Mientras carga, se muestra skeleton en lugar de los botones del historial.',
+      },
+    },
+  },
+  render: () => ({
+    components: { TableVersions },
+    setup() {
+      const rows = ref<TableVersionsRow[]>(
+        endpointRows.map((row) => ({
+          ...row,
+          versions: row.versions ? [...row.versions] : undefined,
+        })),
+      );
+      const expandedKeys = ref<string[]>([]);
+
+      const endpoint2Versions = endpointRows.find((r) => r.id === 'endpoint-2')?.versions ?? [];
+
+      function onExpand(key: string) {
+        rows.value = rows.value.map((row) =>
+          row.id === key ? { ...row, versionsLoading: true, versions: undefined } : row,
+        );
+
+        window.setTimeout(() => {
+          rows.value = rows.value.map((row) =>
+            row.id === key
+              ? {
+                  ...row,
+                  versionsLoading: false,
+                  versions: row.id === 'endpoint-2' ? [...endpoint2Versions] : [],
+                }
+              : row,
+          );
+        }, 1500);
+      }
+
+      return () =>
+        h('div', { class: 'w-full' }, [
+          h(TableVersions, {
+            rows: rows.value,
+            columns: ENDPOINT_TABLE_VERSIONS_COLUMNS,
+            expandColumnKey: 'method',
+            expandedKeys: expandedKeys.value,
+            'onUpdate:expandedKeys': (keys: string[]) => {
+              expandedKeys.value = keys;
+            },
+            onExpand: (key: string) => onExpand(key),
+          }),
+        ]);
+    },
+  }),
+};
+
 export const Resources: Story = {
   name: 'Resources (bots)',
   parameters: {

@@ -80,8 +80,28 @@
                 >
                   {{ labels.historialTitle }}
                 </h4>
+                <div
+                  v-if="isVersionsLoading(row)"
+                  class="space-y-2"
+                  role="status"
+                  aria-busy="true"
+                  :aria-label="labels.loadingHistory"
+                >
+                  <div
+                    v-for="n in historySkeletonCount"
+                    :key="n"
+                    class="flex flex-wrap items-center gap-3 rounded-lg border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] px-4 py-3 dark:border-[color:var(--kiut-border-light)]"
+                    aria-hidden="true"
+                  >
+                    <div class="kiut-table-versions-skeleton h-5 w-16 rounded-full" />
+                    <div class="kiut-table-versions-skeleton h-4 w-8" />
+                    <div class="kiut-table-versions-skeleton h-4 w-14 rounded-full" />
+                    <div class="kiut-table-versions-skeleton h-4 min-w-[8rem] flex-1" />
+                    <div class="kiut-table-versions-skeleton h-4 w-28" />
+                  </div>
+                </div>
                 <p
-                  v-if="!row.versions?.length"
+                  v-else-if="!row.versions?.length"
                   class="text-sm text-[color:var(--kiut-text-muted)]"
                 >
                   {{ labels.emptyHistory }}
@@ -219,6 +239,8 @@ const props = withDefaults(
     /** Columna que muestra el chevron de expansión. Default: primera columna. */
     expandColumnKey?: string;
     labels?: Partial<TableVersionsLabels>;
+    /** Cantidad de filas skeleton en el historial mientras carga. */
+    historySkeletonCount?: number;
   }>(),
   {
     rows: () => [],
@@ -229,6 +251,7 @@ const props = withDefaults(
     singleExpand: false,
     expandColumnKey: undefined,
     labels: () => ({}),
+    historySkeletonCount: 2,
   },
 );
 
@@ -320,6 +343,10 @@ function resolveRowKey(row: TableVersionsRow, index: number): string {
 
 function isExpanded(row: TableVersionsRow, index: number): boolean {
   return expandedKeysModel.value.includes(resolveRowKey(row, index));
+}
+
+function isVersionsLoading(row: TableVersionsRow): boolean {
+  return row.versionsLoading === true;
 }
 
 function toggleExpand(row: TableVersionsRow, index: number): void {
@@ -557,6 +584,42 @@ function renderBuiltInCell(
 @media (prefers-reduced-motion: reduce) {
   .kiut-table-versions-expand-btn :deep(svg) {
     transition: none;
+  }
+
+  .kiut-table-versions-skeleton {
+    animation: none;
+  }
+}
+
+.kiut-table-versions-skeleton {
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(93, 75, 147, 0.06) 25%,
+    rgba(93, 75, 147, 0.12) 50%,
+    rgba(93, 75, 147, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: kiut-table-versions-skeleton-blink 2s ease-in-out infinite;
+}
+
+.dark .kiut-table-versions-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(198, 125, 255, 0.06) 25%,
+    rgba(198, 125, 255, 0.14) 50%,
+    rgba(198, 125, 255, 0.06) 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes kiut-table-versions-skeleton-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
   }
 }
 </style>
