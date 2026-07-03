@@ -109,6 +109,7 @@ import InputText from './components/Inputs/InputText.vue';
 import InputPassword from './components/Inputs/InputPassword.vue';
 import InputTextarea from './components/Inputs/InputTextarea.vue';
 import InputFile from './components/Inputs/InputFile.vue';
+export type { FileUploadItem } from './components/Inputs/InputFile.vue';
 import InputDateTime from './components/Inputs/InputDateTime.vue';
 export type { KiutDateTimeValue } from './components/Inputs/InputDateTime.vue';
 import InputTime from './components/Inputs/InputTime.vue';
