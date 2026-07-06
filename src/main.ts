@@ -110,6 +110,8 @@ import InputPassword from './components/Inputs/InputPassword.vue';
 import InputTextarea from './components/Inputs/InputTextarea.vue';
 import InputFile from './components/Inputs/InputFile.vue';
 export type { FileUploadItem } from './components/Inputs/InputFile.vue';
+import ImageUploadCircle from './components/Inputs/ImageUploadCircle.vue';
+export type { ImageUploadCircleSize } from './components/Inputs/ImageUploadCircle.vue';
 import InputDateTime from './components/Inputs/InputDateTime.vue';
 export type { KiutDateTimeValue } from './components/Inputs/InputDateTime.vue';
 import InputTime from './components/Inputs/InputTime.vue';
@@ -233,6 +235,7 @@ export {
   InputPassword,
   InputTextarea,
   InputFile,
+  ImageUploadCircle,
   InputDateTime,
   InputTime,
   InputRange,
@@ -323,6 +326,7 @@ export const KiutUIPlugin = {
     app.component('InputPassword', InputPassword);
     app.component('InputTextarea', InputTextarea);
     app.component('InputFile', InputFile);
+    app.component('ImageUploadCircle', ImageUploadCircle);
     app.component('InputDateTime', InputDateTime);
     app.component('InputTime', InputTime);
     app.component('InputRange', InputRange);
