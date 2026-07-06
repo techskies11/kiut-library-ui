@@ -58,3 +58,11 @@ export const Disabled: Story = {
   },
   render: Default.render,
 };
+
+export const Small: Story = {
+  args: {
+    ...Default.args,
+    size: 'sm',
+  },
+  render: Default.render,
+};
