@@ -20617,7 +20617,7 @@ const Rk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])) : V("", !0)
     ], 16, y2));
   }
-}), _2 = ["id", "aria-checked", "aria-disabled", "disabled", "onKeydown"], k2 = { class: "sr-only" }, wr = /* @__PURE__ */ ie({
+}), _2 = ["id", "data-kiut-toggle-size", "aria-checked", "aria-disabled", "disabled", "onKeydown"], k2 = { class: "sr-only" }, wr = /* @__PURE__ */ ie({
   name: "Toggle",
   __name: "Toggle",
   props: {
@@ -20637,6 +20637,7 @@ const Rk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       id: e.id,
       type: "button",
       role: "switch",
+      "data-kiut-toggle-size": e.size,
       "aria-checked": e.modelValue,
       "aria-disabled": e.disabled ? "true" : void 0,
       disabled: e.disabled,
