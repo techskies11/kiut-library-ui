@@ -7,7 +7,8 @@
     :aria-disabled="disabled ? 'true' : undefined"
     :disabled="disabled"
     :class="[
-      'relative inline-flex h-8 w-[3.75rem] shrink-0 cursor-pointer items-center rounded-full p-0.5 shadow-sm transition-colors',
+      'relative inline-flex shrink-0 cursor-pointer items-center rounded-full p-0.5 shadow-sm transition-colors',
+      size === 'sm' ? 'h-6 w-11' : 'h-8 w-[3.75rem]',
       'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--kiut-primary)]',
       'disabled:cursor-not-allowed disabled:opacity-50',
       modelValue
@@ -19,8 +20,15 @@
     @keydown.enter.prevent="toggle"
   >
     <span
-      class="pointer-events-none inline-block h-7 w-7 translate-x-0 transform rounded-full bg-white shadow-sm transition-transform duration-200 ease-out"
-      :class="modelValue ? 'translate-x-7' : 'translate-x-0'"
+      class="pointer-events-none inline-block translate-x-0 transform rounded-full bg-white shadow-sm transition-transform duration-200 ease-out"
+      :class="[
+        size === 'sm' ? 'h-5 w-5' : 'h-7 w-7',
+        modelValue
+          ? size === 'sm'
+            ? 'translate-x-5'
+            : 'translate-x-7'
+          : 'translate-x-0',
+      ]"
       aria-hidden="true"
     />
     <span class="sr-only">{{ ariaLabel }}</span>
@@ -35,10 +43,12 @@ const props = withDefaults(
     modelValue: boolean;
     disabled?: boolean;
     id?: string;
+    size?: 'sm' | 'md';
     /** Texto solo para lectores de pantalla */
     ariaLabel?: string;
   }>(),
   {
+    size: 'md',
     ariaLabel: 'Interruptor',
   }
 );
