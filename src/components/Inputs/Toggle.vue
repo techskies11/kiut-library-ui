@@ -3,6 +3,7 @@
     :id="id"
     type="button"
     role="switch"
+    :data-kiut-toggle-size="size"
     :aria-checked="modelValue"
     :aria-disabled="disabled ? 'true' : undefined"
     :disabled="disabled"
