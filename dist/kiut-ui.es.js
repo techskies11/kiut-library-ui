@@ -20624,6 +20624,7 @@ const Rk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
     modelValue: { type: Boolean },
     disabled: { type: Boolean },
     id: {},
+    size: { default: "md" },
     ariaLabel: { default: "Interruptor" }
   },
   emits: ["update:modelValue"],
@@ -20640,7 +20641,8 @@ const Rk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       "aria-disabled": e.disabled ? "true" : void 0,
       disabled: e.disabled,
       class: J([
-        "relative inline-flex h-8 w-[3.75rem] shrink-0 cursor-pointer items-center rounded-full p-0.5 shadow-sm transition-colors",
+        "relative inline-flex shrink-0 cursor-pointer items-center rounded-full p-0.5 shadow-sm transition-colors",
+        e.size === "sm" ? "h-6 w-11" : "h-8 w-[3.75rem]",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--kiut-primary)]",
         "disabled:cursor-not-allowed disabled:opacity-50",
         e.modelValue ? "bg-[color:var(--kiut-primary)]" : "bg-[#DEDEE3] dark:bg-slate-600"
@@ -20652,7 +20654,10 @@ const Rk = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ]
     }, [
       u("span", {
-        class: J(["pointer-events-none inline-block h-7 w-7 translate-x-0 transform rounded-full bg-white shadow-sm transition-transform duration-200 ease-out", e.modelValue ? "translate-x-7" : "translate-x-0"]),
+        class: J(["pointer-events-none inline-block translate-x-0 transform rounded-full bg-white shadow-sm transition-transform duration-200 ease-out", [
+          e.size === "sm" ? "h-5 w-5" : "h-7 w-7",
+          e.modelValue ? e.size === "sm" ? "translate-x-5" : "translate-x-7" : "translate-x-0"
+        ]]),
         "aria-hidden": "true"
       }, null, 2),
       u("span", k2, A(e.ariaLabel), 1)
