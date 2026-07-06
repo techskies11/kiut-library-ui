@@ -1,9 +1,12 @@
 <template>
-  <div class="font-sans flex w-full flex-col gap-2">
+  <div
+    class="font-sans flex w-full flex-col gap-2"
+    v-bind="$attrs"
+  >
     <label v-if="label" :for="inputId" :class="kiutLabelClass">
       {{ label }}
     </label>
-    <div class="flex items-center gap-3">
+    <div class="flex w-full min-w-0 items-center gap-3">
       <label
         :for="inputId"
         class="relative flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] text-[color:var(--kiut-text-muted)] transition hover:border-[color:var(--kiut-primary)]/40"
@@ -42,14 +45,23 @@
         :disabled="disabled || loading"
         @change="onFileChange"
       />
-      <InputText
+      <div
         v-if="showUrlInput"
-        :model-value="modelValue"
-        :placeholder="urlPlaceholder"
-        class="min-w-0 flex-1"
-        :disabled="disabled"
-        @update:model-value="emit('update:modelValue', $event)"
-      />
+        class="min-w-0 flex-1 basis-0"
+        :class="urlInputClass"
+      >
+        <input
+          :id="urlInputId"
+          type="text"
+          autocomplete="off"
+          :value="modelValue"
+          :placeholder="urlPlaceholder"
+          :disabled="disabled"
+          :class="kiutInputControlClass"
+          class="w-full min-w-0"
+          @input="onUrlInput"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -58,12 +70,11 @@
 import { computed, ref, watch } from 'vue';
 import { ArrowPathIcon, ArrowUpTrayIcon } from '@heroicons/vue/24/outline';
 import { randomInstanceSuffix } from '../../utils/randomId';
-import { kiutLabelClass } from './inputFieldStyles';
-import InputText from './InputText.vue';
+import { kiutInputControlClass, kiutLabelClass } from './inputFieldStyles';
 
 export type ImageUploadCircleSize = 'sm' | 'md' | 'lg';
 
-defineOptions({ name: 'ImageUploadCircle' });
+defineOptions({ name: 'ImageUploadCircle', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
@@ -77,6 +88,8 @@ const props = withDefaults(
     urlPlaceholder?: string;
     uploadAriaLabel?: string;
     size?: ImageUploadCircleSize;
+    /** Tailwind classes for the URL field wrapper (e.g. `max-w-xs`, `w-64`). */
+    urlInputClass?: string;
   }>(),
   {
     modelValue: '',
@@ -97,6 +110,7 @@ const imageError = ref(false);
 const fileInputRef = ref<HTMLInputElement | null>(null);
 const uid = `kiut-image-upload-circle-${randomInstanceSuffix()}`;
 const inputId = computed(() => props.id ?? uid);
+const urlInputId = computed(() => `${inputId.value}-url`);
 
 const sizeClass = computed(() => {
   if (props.size === 'sm') return 'h-10 w-10';
@@ -126,5 +140,9 @@ function onFileChange(event: Event) {
     emit('select', file);
   }
   input.value = '';
+}
+
+function onUrlInput(event: Event) {
+  emit('update:modelValue', (event.target as HTMLInputElement).value);
 }
 </script>
