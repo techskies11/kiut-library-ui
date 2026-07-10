@@ -507,14 +507,15 @@ const sankeyData = computed(() => {
       label: formatSankeyLinkLabel(totalUnrecovered, initiated),
     });
 
-    unrecoveredSteps.forEach((step) => {
+    unrecoveredSteps.forEach((step, index) => {
       const stepName = step.step_name.replace(/_/g, " ");
       const capitalizedStepName = stepName
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 
-      addNode(capitalizedStepName, { status: "error" });
+      // order > 0 para que "BP Error" (order: 0) quede por encima
+      addNode(capitalizedStepName, { status: "error", order: index + 1 });
       links.push({
         source: "Unrecovered",
         target: capitalizedStepName,
@@ -537,7 +538,7 @@ const sankeyData = computed(() => {
 
   const bpError = completed - closed;
   if (bpError > 0) {
-    addNode("BP Error", { status: "error" });
+    addNode("BP Error", { status: "error", order: 0 });
     links.push({
       source: "Completed",
       target: "BP Error",

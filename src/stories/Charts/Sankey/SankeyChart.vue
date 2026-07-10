@@ -51,6 +51,8 @@ interface SankeyNode {
   status?: SankeyNodeStatus;
   /** Valor del paso; si falta, se infiere de links entrantes/salientes */
   value?: number;
+  /** Orden vertical opcional dentro de la misma columna/status (menor = más arriba) */
+  order?: number;
   /** Etiqueta ya formateada (string) o config ECharts por nodo (objeto, generado al procesar) */
   label?: string | Record<string, unknown>;
   displayLabel?: string;
@@ -273,16 +275,6 @@ const computeOriginTotal = (nodes: SankeyNode[], links: SankeyLink[]): number =>
   return links.reduce((max, link) => Math.max(max, getLinkValue(link)), 0);
 };
 
-/** Total saliente por nodo fuente: base del % en cada bifurcación (suma ~100%). */
-const computeSourceTotals = (links: SankeyLink[]): Map<string, number> => {
-  const totals = new Map<string, number>();
-  for (const link of links) {
-    const source = String(link.source);
-    totals.set(source, (totals.get(source) ?? 0) + getLinkValue(link));
-  }
-  return totals;
-};
-
 const computeNodeDepths = (nodes: SankeyNode[], links: SankeyLink[]): Map<string, number> => {
   const depths = new Map<string, number>();
   const hasIncoming = new Set(links.map((link) => link.target));
@@ -387,6 +379,10 @@ const prepareSankeyLayout = (nodes: SankeyNode[], links: SankeyLink[]): SankeyNo
     const rankA = getNodeLayoutRank(a, links, mainPathOrder);
     const rankB = getNodeLayoutRank(b, links, mainPathOrder);
     if (rankA !== rankB) return rankA - rankB;
+
+    const orderA = typeof a.order === 'number' ? a.order : Number.MAX_SAFE_INTEGER;
+    const orderB = typeof b.order === 'number' ? b.order : Number.MAX_SAFE_INTEGER;
+    if (orderA !== orderB) return orderA - orderB;
 
     return a.name.localeCompare(b.name);
   });
@@ -633,7 +629,7 @@ const validateData = () => {
 
 const createTooltipFormatter = (
   validLinks: SankeyLink[],
-  sourceTotals: Map<string, number>,
+  originTotal: number,
 ) => (params: any) => {
   const isNode = params.dataType === 'node';
   const tooltipTextColor = colors.value.tooltipText;
@@ -654,8 +650,7 @@ const createTooltipFormatter = (
   const sourceName = params.data?.source || params.source || 'Unknown';
   const targetName = params.data?.target || params.target || 'Unknown';
   const originalValue = Number(params.data?.originalValue ?? params.data?.value ?? params.value ?? 0);
-  const sourceTotal = sourceTotals.get(String(sourceName)) ?? 0;
-  const pct = formatPercentage(originalValue, sourceTotal);
+  const pct = formatPercentage(originalValue, originTotal);
   const label = `${originalValue.toLocaleString()} (${pct})`;
 
   return `<div style="font-weight: 600; margin-bottom: 4px; color: ${tooltipTextColor};">${sourceName} → ${targetName}</div><div style="color: ${tooltipSecondaryColor}; font-size: 12px;">Flow: ${label}</div>`;
@@ -696,15 +691,13 @@ const setOptions = () => {
       chartHeightPx,
       originTotal,
     );
-    // % por enlace = valor / total saliente del nodo fuente (cada split suma ~100%)
-    const sourceTotals = computeSourceTotals(validLinks);
-
+    // % siempre respecto al total del nodo raíz (100% del funnel)
     const chartOptions = {
       tooltip: {
         trigger: 'item',
         triggerOn: 'mousemove|click',
         confine: true,
-        formatter: createTooltipFormatter(layoutLinks, sourceTotals),
+        formatter: createTooltipFormatter(layoutLinks, originTotal),
         backgroundColor: colors.value.tooltipBg,
         borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
         borderWidth: 1,
@@ -769,9 +762,7 @@ const setOptions = () => {
                 fontFamily: "'Inter', 'DM Sans', sans-serif",
                 formatter: (params: any) => {
                   const originalValue = Number(params.data?.originalValue ?? params.value ?? 0);
-                  const sourceName = String(params.data?.source ?? '');
-                  const sourceTotal = sourceTotals.get(sourceName) ?? 0;
-                  const pct = formatPercentage(originalValue, sourceTotal);
+                  const pct = formatPercentage(originalValue, originTotal);
                   return `${originalValue.toLocaleString()} (${pct})`;
                 },
               }
