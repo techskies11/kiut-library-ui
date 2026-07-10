@@ -150,6 +150,8 @@ import {
 } from "../../../../composables/useThemeDetection";
 import Table, { type TableColumn } from "../../Utils/Table/Table.vue";
 
+type SankeyNodeStatus = "success" | "abandon" | "error";
+
 // Types
 interface CheckinByDay {
   date: string;
@@ -369,7 +371,7 @@ const checkinMetricsTableRows = computed((): Record<string, unknown>[] =>
 
 // Computed: Datos del Sankey
 const sankeyData = computed(() => {
-  const nodes: { name: string }[] = [];
+  const nodes: { name: string; value?: number; status?: SankeyNodeStatus }[] = [];
   const links: {
     source: string;
     target: string;
@@ -377,9 +379,12 @@ const sankeyData = computed(() => {
     label: string;
   }[] = [];
   const nodeNames = new Set<string>();
-  const addNode = (name: string): void => {
+  const addNode = (
+    name: string,
+    extra: { value?: number; status?: SankeyNodeStatus } = {},
+  ): void => {
     if (!nodeNames.has(name)) {
-      nodes.push({ name });
+      nodes.push({ name, ...extra });
       nodeNames.add(name);
     }
   };
