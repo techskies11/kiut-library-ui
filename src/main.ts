@@ -157,6 +157,7 @@ export type {
   KiutButtonMenuOption,
   KiutButtonMenuAlign,
 } from './components/Button/Button.vue';
+import Banner from './components/BannerInfo/Banner.vue';
 import Modal from './components/Modal/Modal.vue';
 import Section from './components/Section/Section.vue';
 import AppShellNavigation from './components/AppShellNavigation/AppShellNavigation.vue';
@@ -253,6 +254,7 @@ export {
   Tag,
   TagSelect,
   Button,
+  Banner,
   Modal,
   Section,
   AppShellNavigation,
@@ -344,6 +346,7 @@ export const KiutUIPlugin = {
     app.component('Tag', Tag);
     app.component('TagSelect', TagSelect);
     app.component('Button', Button);
+    app.component('Banner', Banner);
     app.component('Modal', Modal);
     app.component('Section', Section);
     app.component('KiutAppShellNavigation', AppShellNavigation);
