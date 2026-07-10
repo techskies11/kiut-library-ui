@@ -57,7 +57,7 @@
               <span>{{
                 formatValueWithPercentage(
                   row.record_locator_started_count as number,
-                  row.record_locator_init_count as number,
+                  row.checkin_initiated as number,
                 )
               }}</span>
             </template>
@@ -65,7 +65,7 @@
               <span>{{
                 formatValueWithPercentage(
                   row.record_locator_completed_count as number,
-                  row.record_locator_started_count as number,
+                  row.checkin_initiated as number,
                 )
               }}</span>
             </template>
@@ -73,7 +73,7 @@
               <span class="cell-success">{{
                 formatValueWithPercentage(
                   row.record_locator_closed_count as number,
-                  row.record_locator_started_count as number,
+                  row.checkin_initiated as number,
                 )
               }}</span>
             </template>
@@ -81,7 +81,7 @@
               <span class="cell-danger">{{
                 formatValueWithPercentage(
                   row.unrecovered_count as number,
-                  row.record_locator_started_count as number,
+                  row.checkin_initiated as number,
                 )
               }}</span>
             </template>
@@ -388,13 +388,14 @@ const sankeyData = computed(() => {
     return { nodes, links };
   }
 
-  addNode("Checkin Init");
+  const initiated = props.checkinData.total_checkin_initiated || 0;
+
+  addNode("Checkin Init", { value: initiated });
   addNode("Booking Retrieval");
   addNode("Booking Retrieved");
   addNode("Completed");
   addNode("Closed with BP");
 
-  const initiated = props.checkinData.total_checkin_initiated || 0;
   const init = props.checkinData.total_record_locator_init || 0;
   const abandonedInit =
     props.checkinData.total_record_locator_init_abandoned || 0;

@@ -63,7 +63,7 @@
               <span>{{
                 formatValueWithPercentage(
                   row.checkin_completed_count,
-                  row.checkin_started_count,
+                  row.checkin_initiated_count,
                 )
               }}</span>
             </template>
@@ -71,7 +71,7 @@
               <span class="cell-success">{{
                 formatValueWithPercentage(
                   row.checkin_closed_count,
-                  row.checkin_started_count,
+                  row.checkin_initiated_count,
                 )
               }}</span>
             </template>
@@ -79,7 +79,7 @@
               <span class="cell-danger">{{
                 formatValueWithPercentage(
                   getTotalFailedSteps(row.failed_steps),
-                  row.checkin_started_count,
+                  row.checkin_initiated_count,
                 )
               }}</span>
             </template>
@@ -322,23 +322,60 @@ const getTotalFailedSteps = (failedSteps) => {
 const sankeyData = computed(() => {
   const nodes = [];
   const links = [];
+  const nodeNames = new Set();
+  const addNode = (name, extra = {}) => {
+    if (!nodeNames.has(name)) {
+      nodes.push({ name, ...extra });
+      nodeNames.add(name);
+    }
+  };
 
   if (!checkinDataInternal.value.total_checkin_initiated) {
     return { nodes, links };
   }
 
-  // Nodos principales del flujo
-  nodes.push({ name: "Checkin Init" });
-  nodes.push({ name: "Booking retrive" });
-  nodes.push({ name: "Booking retrive success" });
-  nodes.push({ name: "Number of Passengers" });
-  nodes.push({ name: "Completed" });
-  nodes.push({ name: "Closed with BP" });
+  addNode("Checkin Init", { value: checkinDataInternal.value.total_checkin_initiated });
+  addNode("Booking retrive");
+  addNode("Booking retrive success");
+  addNode("Number of Passengers");
+  addNode("Completed");
+  addNode("Closed with BP");
 
-  // Enlaces del flujo feliz
   const initiated = checkinDataInternal.value.total_checkin_initiated;
   const init = checkinDataInternal.value.total_checkin_init;
-  const abandonedInit = checkinDataInternal.value.total_checkin_init_abandoned;
+  const abandonedInit =
+    checkinDataInternal.value.total_checkin_init_abandoned || 0;
+  const preInitAbandonedErrorRaw =
+    checkinDataInternal.value.total_checkin_pre_init_abandoned_error;
+  const preInitAbandonedVoluntaryRaw =
+    checkinDataInternal.value.total_checkin_pre_init_abandoned_voluntary;
+  const hasPreInitAbandonedSplit =
+    (preInitAbandonedErrorRaw !== null &&
+      preInitAbandonedErrorRaw !== undefined) ||
+    (preInitAbandonedVoluntaryRaw !== null &&
+      preInitAbandonedVoluntaryRaw !== undefined);
+  const preInitAbandonedError = hasPreInitAbandonedSplit
+    ? Math.max(Number(preInitAbandonedErrorRaw) || 0, 0)
+    : 0;
+  const preInitAbandonedVoluntary = hasPreInitAbandonedSplit
+    ? Math.max(Number(preInitAbandonedVoluntaryRaw) || 0, 0)
+    : 0;
+  const abandonedErrorRaw =
+    checkinDataInternal.value.total_checkin_init_abandoned_error;
+  const abandonedVoluntaryRaw =
+    checkinDataInternal.value.total_checkin_init_abandoned_voluntary;
+  const hasAbandonedSplit =
+    (abandonedErrorRaw !== null && abandonedErrorRaw !== undefined) ||
+    (abandonedVoluntaryRaw !== null && abandonedVoluntaryRaw !== undefined);
+  const abandonedError = hasAbandonedSplit
+    ? Math.max(Number(abandonedErrorRaw) || 0, 0)
+    : 0;
+  const abandonedVoluntary = hasAbandonedSplit
+    ? Math.max(Number(abandonedVoluntaryRaw) || 0, 0)
+    : 0;
+  const abandonedStartedFallback = hasAbandonedSplit
+    ? Math.max(abandonedInit - abandonedError - abandonedVoluntary, 0)
+    : abandonedInit;
   const bookingSuccess = init - abandonedInit;
   const started = checkinDataInternal.value.total_checkin_started;
   const completed = checkinDataInternal.value.total_checkin_completed;
@@ -349,7 +386,7 @@ const sankeyData = computed(() => {
     0,
   );
 
-  // Flujo principal: Checkin Init -> Booking retrive (usar initiated como base 100%)
+  // Flujo principal: Checkin Init -> Booking retrive (base 100% = initiated)
   if (init > 0) {
     links.push({
       source: "Checkin Init",
@@ -359,10 +396,29 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Abandono 1: Checkin Init -> Abandonados (antes de Booking retrive) (usar initiated como base)
   const abandonedBeforeInit = initiated - init;
-  if (abandonedBeforeInit > 0) {
-    nodes.push({ name: "Abandoned (Init)", status: "abandon" });
+  if (hasPreInitAbandonedSplit) {
+    if (preInitAbandonedVoluntary > 0) {
+      addNode("Abandoned (Init)", { status: "abandon" });
+      links.push({
+        source: "Checkin Init",
+        target: "Abandoned (Init)",
+        value: preInitAbandonedVoluntary,
+        label: formatSankeyLinkLabel(preInitAbandonedVoluntary, initiated),
+      });
+    }
+
+    if (preInitAbandonedError > 0) {
+      addNode("Booking not retreived", { status: "error" });
+      links.push({
+        source: "Checkin Init",
+        target: "Booking not retreived",
+        value: preInitAbandonedError,
+        label: formatSankeyLinkLabel(preInitAbandonedError, initiated),
+      });
+    }
+  } else if (abandonedBeforeInit > 0) {
+    addNode("Abandoned (Init)", { status: "abandon" });
     links.push({
       source: "Checkin Init",
       target: "Abandoned (Init)",
@@ -371,9 +427,38 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Abandono 2: Booking retrive -> Abandonados (después de Booking retrive) (usar initiated como base)
-  if (abandonedInit > 0) {
-    nodes.push({ name: "Abandoned (Started)", status: "abandon" });
+  if (hasAbandonedSplit) {
+    if (abandonedError > 0) {
+      addNode("Error", { status: "error" });
+      links.push({
+        source: "Booking retrive",
+        target: "Error",
+        value: abandonedError,
+        label: formatSankeyLinkLabel(abandonedError, initiated),
+      });
+    }
+
+    if (abandonedVoluntary > 0) {
+      addNode("Abandoned (Started)", { status: "abandon" });
+      links.push({
+        source: "Booking retrive",
+        target: "Abandoned (Started)",
+        value: abandonedVoluntary,
+        label: formatSankeyLinkLabel(abandonedVoluntary, initiated),
+      });
+    }
+
+    if (abandonedStartedFallback > 0) {
+      addNode("Abandoned (Started)", { status: "abandon" });
+      links.push({
+        source: "Booking retrive",
+        target: "Abandoned (Started)",
+        value: abandonedStartedFallback,
+        label: formatSankeyLinkLabel(abandonedStartedFallback, initiated),
+      });
+    }
+  } else if (abandonedInit > 0) {
+    addNode("Abandoned (Started)", { status: "abandon" });
     links.push({
       source: "Booking retrive",
       target: "Abandoned (Started)",
@@ -382,7 +467,7 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Flujo principal: Booking retrive -> Booking retrive success (usar initiated como base 100%)
+  // Flujo principal: Booking retrive -> Booking retrive success
   if (bookingSuccess > 0) {
     links.push({
       source: "Booking retrive",
@@ -392,7 +477,7 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Flujo principal: Booking retrive success -> Number of Passengers (usar initiated como base 100%)
+  // Flujo principal: Booking retrive success -> Number of Passengers
   if (started > 0) {
     links.push({
       source: "Booking retrive success",
@@ -402,8 +487,7 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Desde aquí, todos los % respecto al total del funnel (initiated)
-  // Flujo principal: Number of Passengers -> Completed
+  // Todos los % respecto al total del funnel (initiated)
   if (completed > 0) {
     links.push({
       source: "Number of Passengers",
@@ -413,9 +497,8 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Errores no recuperables por paso (usar initiated como base)
   if (unrecoveredSteps.length > 0 && totalUnrecovered > 0) {
-    nodes.push({ name: "Unrecovered", status: "error" });
+    addNode("Unrecovered", { status: "error" });
 
     links.push({
       source: "Number of Passengers",
@@ -431,7 +514,7 @@ const sankeyData = computed(() => {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 
-      nodes.push({ name: capitalizedStepName, status: "error" });
+      addNode(capitalizedStepName, { status: "error" });
       links.push({
         source: "Unrecovered",
         target: capitalizedStepName,
@@ -441,10 +524,9 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Abandono 3: Number of Passengers -> Abandonados (en flujo) (usar initiated como base)
   const abandonedFlow = started - (completed + totalUnrecovered);
   if (abandonedFlow > 0) {
-    nodes.push({ name: "Abandoned (Flow)", status: "abandon" });
+    addNode("Abandoned (Flow)", { status: "abandon" });
     links.push({
       source: "Number of Passengers",
       target: "Abandoned (Flow)",
@@ -453,10 +535,9 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Error Boarding Pass: Completed -> BP Error (usar initiated como base)
   const bpError = completed - closed;
   if (bpError > 0) {
-    nodes.push({ name: "BP Error", status: "error" });
+    addNode("BP Error", { status: "error" });
     links.push({
       source: "Completed",
       target: "BP Error",
@@ -465,7 +546,6 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Flujo principal: Completed -> Closed with BP (usar initiated como base)
   if (closed > 0) {
     links.push({
       source: "Completed",
