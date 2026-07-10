@@ -213,7 +213,7 @@ export const BusinessMetricsFunnel: Story = {
     docs: {
       description: {
         story:
-          'Flujo tipo Business Metrics con colores semánticos (verde/amarillo/rojo), orden success→abandon→error por columna, y porcentaje respecto al origen en nodos exitosos.',
+          'Flujo tipo Business Metrics con colores semánticos (verde/amarillo/rojo), orden success→abandon→error por columna, y porcentaje de cada enlace respecto al nodo origen (100%).',
       },
     },
   },

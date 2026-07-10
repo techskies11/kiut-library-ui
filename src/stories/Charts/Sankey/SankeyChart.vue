@@ -273,20 +273,6 @@ const computeOriginTotal = (nodes: SankeyNode[], links: SankeyLink[]): number =>
   return links.reduce((max, link) => Math.max(max, getLinkValue(link)), 0);
 };
 
-const getNodeStepValue = (
-  nodeName: string,
-  links: SankeyLink[],
-  node?: SankeyNode,
-): number => {
-  if (node && typeof node.value === 'number') return node.value;
-  const incoming = links.filter((link) => link.target === nodeName);
-  if (incoming.length > 0) {
-    return incoming.reduce((sum, link) => sum + getLinkValue(link), 0);
-  }
-  const outgoing = links.filter((link) => link.source === nodeName);
-  return outgoing.reduce((sum, link) => sum + getLinkValue(link), 0);
-};
-
 const computeNodeDepths = (nodes: SankeyNode[], links: SankeyLink[]): Map<string, number> => {
   const depths = new Map<string, number>();
   const hasIncoming = new Set(links.map((link) => link.target));
@@ -424,23 +410,13 @@ const formatPercentage = (value: number, total: number): string => {
 
 const buildNodeDisplayLabel = (
   node: SankeyNode,
-  status: SankeyNodeStatus,
-  originTotal: number,
-  links: SankeyLink[],
   maxCharsPerLine: number,
 ): string => {
   if (typeof node.label === 'string' && node.label) {
     return wrapLabelName(prepareLabelText(node.label), maxCharsPerLine);
   }
 
-  const wrappedName = wrapLabelName(prepareLabelText(node.name), maxCharsPerLine);
-  if (status === 'success' && originTotal > 0) {
-    const stepValue = getNodeStepValue(node.name, links, node);
-    const pct = formatPercentage(stepValue, originTotal);
-    return `${wrappedName}\n(${pct})`;
-  }
-
-  return wrappedName;
+  return wrapLabelName(prepareLabelText(node.name), maxCharsPerLine);
 };
 
 interface ProcessedSankeyData {
@@ -560,13 +536,7 @@ const processSankeyData = (
 
   const processedNodes = sortedNodes.map((node, index) => {
     const status = resolveNodeStatus(node);
-    const displayLabel = buildNodeDisplayLabel(
-      node,
-      status,
-      originTotal,
-      links,
-      maxCharsPerLine,
-    );
+    const displayLabel = buildNodeDisplayLabel(node, maxCharsPerLine);
     displayLabels.push(displayLabel);
 
     const box = measureLabelBox(displayLabel, cfg.labelFontSize, lineHeight, maxCharsPerLine);
@@ -781,9 +751,9 @@ const setOptions = () => {
                 fontWeight: 500,
                 fontFamily: "'Inter', 'DM Sans', sans-serif",
                 formatter: (params: any) => {
-                  if (params.data?.label) return params.data.label;
+                  // Siempre respecto al nodo raíz (100% del funnel), no al paso anterior
                   const originalValue = params.data?.originalValue ?? params.value ?? 0;
-                  const pct = formatPercentage(originalValue, originTotal);
+                  const pct = formatPercentage(Number(originalValue), originTotal);
                   return `${Number(originalValue).toLocaleString()} (${pct})`;
                 },
               }
