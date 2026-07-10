@@ -14,12 +14,12 @@ const meta: Meta<typeof SankeyChart> = {
     nodeGap: {
       control: 'number',
       description: 'Gap between nodes',
-      defaultValue: 20,
+      defaultValue: 16,
     },
     height: {
       control: 'text',
       description: 'Chart height',
-      defaultValue: '500px',
+      defaultValue: '400px',
     },
   },
 };
@@ -205,9 +205,9 @@ export const BusinessMetricsFunnel: Story = {
   args: {
     data: bmFunnelData,
     title: 'Check-in Funnel (Semantic Status)',
-    height: '560px',
+    height: '420px',
     useGradient: true,
-    nodeGap: 20,
+    nodeGap: 16,
   },
   parameters: {
     docs: {
@@ -224,9 +224,9 @@ export const Default: Story = {
   args: {
     data: customerJourneyData,
     title: 'Customer Journey Flow',
-    height: '500px',
+    height: '400px',
     useGradient: true,
-    nodeGap: 20,
+    nodeGap: 16,
   },
 };
 
@@ -235,9 +235,9 @@ export const EnergyFlow: Story = {
   args: {
     data: energyFlowData,
     title: 'Energy Distribution',
-    height: '500px',
+    height: '400px',
     useGradient: true,
-    nodeGap: 20,
+    nodeGap: 16,
   },
 };
 
@@ -246,9 +246,9 @@ export const UserFlow: Story = {
   args: {
     data: userFlowData,
     title: 'User Flow Through App',
-    height: '500px',
+    height: '400px',
     useGradient: true,
-    nodeGap: 20,
+    nodeGap: 16,
   },
 };
 
@@ -257,9 +257,9 @@ export const SalesFunnel: Story = {
   args: {
     data: salesFunnelData,
     title: 'Sales Funnel',
-    height: '500px',
+    height: '400px',
     useGradient: true,
-    nodeGap: 20,
+    nodeGap: 16,
   },
 };
 
@@ -268,9 +268,9 @@ export const TrafficSources: Story = {
   args: {
     data: trafficSourcesData,
     title: 'Traffic Sources & Conversions',
-    height: '600px',
+    height: '480px',
     useGradient: true,
-    nodeGap: 18,
+    nodeGap: 16,
   },
 };
 
@@ -290,10 +290,10 @@ export const CustomColors: Story = {
   args: {
     data: customerJourneyData,
     title: 'Customer Journey with Custom Colors',
-    height: '500px',
+    height: '400px',
     nodeColors: customColors,
     useGradient: true,
-    nodeGap: 20,
+    nodeGap: 16,
   },
 };
 
@@ -302,9 +302,9 @@ export const WithoutGradient: Story = {
   args: {
     data: energyFlowData,
     title: 'Energy Distribution (No Gradient)',
-    height: '500px',
+    height: '400px',
     useGradient: false,
-    nodeGap: 20,
+    nodeGap: 16,
   },
 };
 
@@ -313,7 +313,7 @@ export const CompactNodes: Story = {
   args: {
     data: userFlowData,
     title: 'User Flow (Compact)',
-    height: '500px',
+    height: '400px',
     useGradient: true,
     nodeGap: 10,
   },
@@ -324,7 +324,7 @@ export const SpaciousLayout: Story = {
   args: {
     data: simpleFlowData,
     title: 'Simple Flow (Spacious)',
-    height: '500px',
+    height: '400px',
     useGradient: true,
     nodeGap: 40,
   },

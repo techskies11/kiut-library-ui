@@ -90,7 +90,7 @@ const props = withDefaults(defineProps<{
   height: '500px',
   nodeColors: () => ({}),
   useGradient: true,
-  nodeGap: 20,
+  nodeGap: 16,
   theme: undefined
 });
 
@@ -108,7 +108,7 @@ let containerObserver: ResizeObserver | null = null;
 
 const CHART_CONFIG = {
   animation: { duration: 1000, easing: 'cubicOut' as const },
-  margins: { left: '3%', right: '8%', top: '4%', bottom: '4%' },
+  margins: { left: '3%', right: '8%', top: '2%', bottom: '2%' },
   node: { width: 88, gap: 24, align: 'left' as const, iterations: 0 },
   style: {
     shadowBlur: 0,
@@ -783,11 +783,7 @@ const setOptions = () => {
                 formatter: (params: any) => {
                   if (params.data?.label) return params.data.label;
                   const originalValue = params.data?.originalValue ?? params.value ?? 0;
-                  const sourceName = params.data?.source ?? params.source;
-                  const sourceTotal = layoutLinks
-                    .filter((link) => link.source === sourceName)
-                    .reduce((sum, link) => sum + getLinkValue(link), 0);
-                  const pct = formatPercentage(originalValue, sourceTotal);
+                  const pct = formatPercentage(originalValue, originTotal);
                   return `${Number(originalValue).toLocaleString()} (${pct})`;
                 },
               }

@@ -20,7 +20,8 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            height="560px"
+            height="420px"
+            :node-gap="16"
           />
         </div>
       </section>

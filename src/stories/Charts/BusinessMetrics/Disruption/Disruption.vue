@@ -22,9 +22,9 @@
           <SankeyChart
             v-if="sankeyData.nodes.length > 0 && sankeyData.links.length > 0"
             :data="sankeyData"
-            height="500px"
+            height="400px"
             :use-gradient="false"
-            :node-gap="24"
+            :node-gap="16"
           />
           <div v-else class="empty-chart">
             <p class="empty-chart-text">

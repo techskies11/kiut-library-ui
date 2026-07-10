@@ -44,9 +44,9 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            height="500px"
+            height="400px"
             :use-gradient="false"
-            :node-gap="24"
+            :node-gap="16"
           />
         </div>
       </section>
@@ -452,7 +452,7 @@ const sankeyData = computed(() => {
       source: "Started",
       target: "Payment Initiated",
       value: paymentInitiated,
-      label: formatLabel(paymentInitiated, started),
+      label: formatLabel(paymentInitiated, initiated),
     });
   }
 
@@ -461,7 +461,7 @@ const sankeyData = computed(() => {
       source: "Started",
       target: "Not Found",
       value: notFound,
-      label: formatLabel(notFound, started),
+      label: formatLabel(notFound, initiated),
     });
   }
 
@@ -470,7 +470,7 @@ const sankeyData = computed(() => {
       source: "Started",
       target: "Cancelled",
       value: cancelled,
-      label: formatLabel(cancelled, started),
+      label: formatLabel(cancelled, initiated),
     });
   }
 
@@ -479,7 +479,7 @@ const sankeyData = computed(() => {
       source: "Started",
       target: "No Pending Balance",
       value: noPendingBalance,
-      label: formatLabel(noPendingBalance, started),
+      label: formatLabel(noPendingBalance, initiated),
     });
   }
 
@@ -488,7 +488,7 @@ const sankeyData = computed(() => {
       source: "Started",
       target: "Errors",
       value: errors,
-      label: formatLabel(errors, started),
+      label: formatLabel(errors, initiated),
     });
   }
 
@@ -497,7 +497,7 @@ const sankeyData = computed(() => {
       source: "Started",
       target: "Abandoned (Start)",
       value: abandonedFromStarted,
-      label: formatLabel(abandonedFromStarted, started),
+      label: formatLabel(abandonedFromStarted, initiated),
     });
   }
 
@@ -507,7 +507,7 @@ const sankeyData = computed(() => {
       source: "Payment Initiated",
       target: "Payment Success",
       value: paymentSuccess,
-      label: formatLabel(paymentSuccess, paymentInitiated),
+      label: formatLabel(paymentSuccess, initiated),
     });
   }
 
@@ -516,7 +516,7 @@ const sankeyData = computed(() => {
       source: "Payment Initiated",
       target: "Payment Failed",
       value: paymentFailed,
-      label: formatLabel(paymentFailed, paymentInitiated),
+      label: formatLabel(paymentFailed, initiated),
     });
   }
 

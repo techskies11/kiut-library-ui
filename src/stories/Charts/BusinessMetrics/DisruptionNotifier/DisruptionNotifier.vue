@@ -28,7 +28,7 @@
               :data="funnelData"
               height="350px"
               :use-gradient="false"
-              :node-gap="24"
+              :node-gap="16"
             />
             <div v-else class="empty-chart">
               <p class="empty-chart-text">

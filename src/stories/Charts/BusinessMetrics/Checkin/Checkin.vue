@@ -21,9 +21,9 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            height="500px"
+            height="400px"
             :use-gradient="false"
-            :node-gap="24"
+            :node-gap="16"
           />
         </div>
       </section>
@@ -402,18 +402,18 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Desde aquí, usar Number of Passengers como base 100%
+  // Desde aquí, todos los % respecto al total del funnel (initiated)
   // Flujo principal: Number of Passengers -> Completed
   if (completed > 0) {
     links.push({
       source: "Number of Passengers",
       target: "Completed",
       value: completed,
-      label: formatSankeyLinkLabel(completed, started),
+      label: formatSankeyLinkLabel(completed, initiated),
     });
   }
 
-  // Errores no recuperables por paso (usar started como base)
+  // Errores no recuperables por paso (usar initiated como base)
   if (unrecoveredSteps.length > 0 && totalUnrecovered > 0) {
     nodes.push({ name: "Unrecovered", status: "error" });
 
@@ -421,7 +421,7 @@ const sankeyData = computed(() => {
       source: "Number of Passengers",
       target: "Unrecovered",
       value: totalUnrecovered,
-      label: formatSankeyLinkLabel(totalUnrecovered, started),
+      label: formatSankeyLinkLabel(totalUnrecovered, initiated),
     });
 
     unrecoveredSteps.forEach((step) => {
@@ -436,12 +436,12 @@ const sankeyData = computed(() => {
         source: "Unrecovered",
         target: capitalizedStepName,
         value: step.count,
-        label: formatSankeyLinkLabel(step.count, started),
+        label: formatSankeyLinkLabel(step.count, initiated),
       });
     });
   }
 
-  // Abandono 3: Number of Passengers -> Abandonados (en flujo) (usar started como base)
+  // Abandono 3: Number of Passengers -> Abandonados (en flujo) (usar initiated como base)
   const abandonedFlow = started - (completed + totalUnrecovered);
   if (abandonedFlow > 0) {
     nodes.push({ name: "Abandoned (Flow)", status: "abandon" });
@@ -449,11 +449,11 @@ const sankeyData = computed(() => {
       source: "Number of Passengers",
       target: "Abandoned (Flow)",
       value: abandonedFlow,
-      label: formatSankeyLinkLabel(abandonedFlow, started),
+      label: formatSankeyLinkLabel(abandonedFlow, initiated),
     });
   }
 
-  // Error Boarding Pass: Completed -> BP Error (usar started como base)
+  // Error Boarding Pass: Completed -> BP Error (usar initiated como base)
   const bpError = completed - closed;
   if (bpError > 0) {
     nodes.push({ name: "BP Error", status: "error" });
@@ -461,17 +461,17 @@ const sankeyData = computed(() => {
       source: "Completed",
       target: "BP Error",
       value: bpError,
-      label: formatSankeyLinkLabel(bpError, started),
+      label: formatSankeyLinkLabel(bpError, initiated),
     });
   }
 
-  // Flujo principal: Completed -> Closed with BP (usar started como base)
+  // Flujo principal: Completed -> Closed with BP (usar initiated como base)
   if (closed > 0) {
     links.push({
       source: "Completed",
       target: "Closed with BP",
       value: closed,
-      label: formatSankeyLinkLabel(closed, started),
+      label: formatSankeyLinkLabel(closed, initiated),
     });
   }
 

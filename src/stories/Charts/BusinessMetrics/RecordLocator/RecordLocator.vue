@@ -20,9 +20,9 @@
         <div class="chart-wrapper">
           <SankeyChart
             :data="sankeyData"
-            :height="'500px'"
+            :height="'400px'"
             :use-gradient="false"
-            :node-gap="24"
+            :node-gap="16"
           />
         </div>
       </section>
@@ -456,7 +456,7 @@ const sankeyData = computed(() => {
       source: "Checkin Started",
       target: "Checkin Completed",
       value: recordLocatorCompleted,
-      label: formatSankeyLinkLabel(recordLocatorCompleted, recordLocatorStarted),
+      label: formatSankeyLinkLabel(recordLocatorCompleted, initiated),
     });
   }
 
@@ -466,7 +466,7 @@ const sankeyData = computed(() => {
       source: "Checkin Completed",
       target: "Checkin Closed",
       value: recordLocatorClosed,
-      label: formatSankeyLinkLabel(recordLocatorClosed, recordLocatorStarted),
+      label: formatSankeyLinkLabel(recordLocatorClosed, initiated),
     });
   }
 
@@ -477,7 +477,7 @@ const sankeyData = computed(() => {
       source: "Checkin Started",
       target: "Checkin Failed",
       value: recordLocatorFailed,
-      label: formatSankeyLinkLabel(recordLocatorFailed, recordLocatorStarted),
+      label: formatSankeyLinkLabel(recordLocatorFailed, initiated),
     });
   }
 
@@ -488,7 +488,7 @@ const sankeyData = computed(() => {
       source: "Checkin Started",
       target: "Abandoned (Flow)",
       value: recordLocatorAbandoned,
-      label: formatSankeyLinkLabel(recordLocatorAbandoned, recordLocatorStarted),
+      label: formatSankeyLinkLabel(recordLocatorAbandoned, initiated),
     });
   }
 

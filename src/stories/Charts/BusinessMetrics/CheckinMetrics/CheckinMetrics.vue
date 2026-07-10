@@ -19,9 +19,9 @@
       <div v-if="sankeyData.nodes.length > 0" class="sankey-section">
         <SankeyChart
           :data="sankeyData"
-          height="500px"
+          height="400px"
           :use-gradient="false"
-          :node-gap="24"
+          :node-gap="16"
         />
       </div>
 
@@ -531,7 +531,7 @@ const sankeyData = computed(() => {
       source: "Booking Retrieved",
       target: "Completed",
       value: completed,
-      label: formatSankeyLinkLabel(completed, started),
+      label: formatSankeyLinkLabel(completed, initiated),
     });
   }
 
@@ -541,7 +541,7 @@ const sankeyData = computed(() => {
       source: "Booking Retrieved",
       target: "Errors",
       value: totalUnrecovered,
-      label: formatSankeyLinkLabel(totalUnrecovered, started),
+      label: formatSankeyLinkLabel(totalUnrecovered, initiated),
     });
   }
 
@@ -552,7 +552,7 @@ const sankeyData = computed(() => {
       source: "Booking Retrieved",
       target: "Abandoned (Flow)",
       value: abandonedFlow,
-      label: formatSankeyLinkLabel(abandonedFlow, started),
+      label: formatSankeyLinkLabel(abandonedFlow, initiated),
     });
   }
 
@@ -563,7 +563,7 @@ const sankeyData = computed(() => {
       source: "Completed",
       target: "BP Error",
       value: bpError,
-      label: formatSankeyLinkLabel(bpError, started),
+      label: formatSankeyLinkLabel(bpError, initiated),
     });
   }
 
@@ -572,7 +572,7 @@ const sankeyData = computed(() => {
       source: "Completed",
       target: "Closed with BP",
       value: closed,
-      label: formatSankeyLinkLabel(closed, started),
+      label: formatSankeyLinkLabel(closed, initiated),
     });
   }
 
