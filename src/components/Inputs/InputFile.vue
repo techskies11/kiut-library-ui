@@ -137,6 +137,8 @@
                   :label="descriptionLabel"
                   :placeholder="descriptionPlaceholder"
                   :disabled="disabled"
+                  :invalid="isDescriptionInvalid(item)"
+                  :error-text="isDescriptionInvalid(item) ? descriptionErrorText : ''"
                   @update:model-value="(value) => updateItemDescription(item.id, value)"
                 />
               </div>
@@ -196,6 +198,12 @@ const props = withDefaults(
     removeFileAriaLabel?: string;
     /** e.g. "3 / 50 files" — pass from parent for i18n. */
     filesCountLabel?: string;
+    /** When true, shows validation state (set by parent on submit attempt). */
+    submitted?: boolean;
+    /** Error message for empty description fields when submitted. */
+    descriptionErrorText?: string;
+    /** When true with submitted, empty per-row descriptions show as invalid. */
+    requireDescriptions?: boolean;
   }>(),
   {
     chooseLabel: 'Elegir archivo',
@@ -209,6 +217,9 @@ const props = withDefaults(
     descriptionLabel: 'Descripción',
     descriptionPlaceholder: 'Ingresa una descripción',
     removeFileAriaLabel: 'Quitar archivo',
+    submitted: false,
+    descriptionErrorText: '',
+    requireDescriptions: false,
   }
 );
 
@@ -225,9 +236,11 @@ const singleModelValue = computed(() =>
   props.multiple ? null : (props.modelValue as File | null)
 );
 
-const multipleItems = computed(() =>
-  props.multiple ? (props.modelValue as FileUploadItem[]) : []
-);
+const multipleItems = computed((): FileUploadItem[] => {
+  if (!props.multiple) return [];
+  const value = props.modelValue;
+  return Array.isArray(value) ? value : [];
+});
 
 const singleDisplayName = computed(
   () => singleModelValue.value?.name ?? props.placeholder
@@ -246,6 +259,15 @@ const multiplePlaceholder = computed(() => {
   }
   return `${multipleItems.value.length} archivos seleccionados`;
 });
+
+function isDescriptionInvalid(item: FileUploadItem): boolean {
+  return (
+    props.showDescriptions &&
+    props.submitted &&
+    props.requireDescriptions &&
+    item.description.trim() === ''
+  );
+}
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
