@@ -273,6 +273,16 @@ const computeOriginTotal = (nodes: SankeyNode[], links: SankeyLink[]): number =>
   return links.reduce((max, link) => Math.max(max, getLinkValue(link)), 0);
 };
 
+/** Total saliente por nodo fuente: base del % en cada bifurcación (suma ~100%). */
+const computeSourceTotals = (links: SankeyLink[]): Map<string, number> => {
+  const totals = new Map<string, number>();
+  for (const link of links) {
+    const source = String(link.source);
+    totals.set(source, (totals.get(source) ?? 0) + getLinkValue(link));
+  }
+  return totals;
+};
+
 const computeNodeDepths = (nodes: SankeyNode[], links: SankeyLink[]): Map<string, number> => {
   const depths = new Map<string, number>();
   const hasIncoming = new Set(links.map((link) => link.target));
@@ -621,7 +631,10 @@ const validateData = () => {
   };
 };
 
-const createTooltipFormatter = (validLinks: SankeyLink[]) => (params: any) => {
+const createTooltipFormatter = (
+  validLinks: SankeyLink[],
+  sourceTotals: Map<string, number>,
+) => (params: any) => {
   const isNode = params.dataType === 'node';
   const tooltipTextColor = colors.value.tooltipText;
   const tooltipSecondaryColor = isDark.value ? '#d1d5db' : '#e2e8f0';
@@ -640,9 +653,11 @@ const createTooltipFormatter = (validLinks: SankeyLink[]) => (params: any) => {
 
   const sourceName = params.data?.source || params.source || 'Unknown';
   const targetName = params.data?.target || params.target || 'Unknown';
-  const originalValue = params.data?.originalValue || params.data?.value || params.value || 0;
-  const label = params.data?.label || `${originalValue.toLocaleString()}`;
-  
+  const originalValue = Number(params.data?.originalValue ?? params.data?.value ?? params.value ?? 0);
+  const sourceTotal = sourceTotals.get(String(sourceName)) ?? 0;
+  const pct = formatPercentage(originalValue, sourceTotal);
+  const label = `${originalValue.toLocaleString()} (${pct})`;
+
   return `<div style="font-weight: 600; margin-bottom: 4px; color: ${tooltipTextColor};">${sourceName} → ${targetName}</div><div style="color: ${tooltipSecondaryColor}; font-size: 12px;">Flow: ${label}</div>`;
 };
 
@@ -681,13 +696,15 @@ const setOptions = () => {
       chartHeightPx,
       originTotal,
     );
+    // % por enlace = valor / total saliente del nodo fuente (cada split suma ~100%)
+    const sourceTotals = computeSourceTotals(validLinks);
 
     const chartOptions = {
       tooltip: {
         trigger: 'item',
         triggerOn: 'mousemove|click',
         confine: true,
-        formatter: createTooltipFormatter(layoutLinks),
+        formatter: createTooltipFormatter(layoutLinks, sourceTotals),
         backgroundColor: colors.value.tooltipBg,
         borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
         borderWidth: 1,
@@ -751,10 +768,11 @@ const setOptions = () => {
                 fontWeight: 500,
                 fontFamily: "'Inter', 'DM Sans', sans-serif",
                 formatter: (params: any) => {
-                  // Siempre respecto al nodo raíz (100% del funnel), no al paso anterior
-                  const originalValue = params.data?.originalValue ?? params.value ?? 0;
-                  const pct = formatPercentage(Number(originalValue), originTotal);
-                  return `${Number(originalValue).toLocaleString()} (${pct})`;
+                  const originalValue = Number(params.data?.originalValue ?? params.value ?? 0);
+                  const sourceName = String(params.data?.source ?? '');
+                  const sourceTotal = sourceTotals.get(sourceName) ?? 0;
+                  const pct = formatPercentage(originalValue, sourceTotal);
+                  return `${originalValue.toLocaleString()} (${pct})`;
                 },
               }
             : { show: false },
