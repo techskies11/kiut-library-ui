@@ -44,6 +44,8 @@ import AiGeneratedChart from "./stories/Charts/BusinessMetrics/AiGeneratedRevenu
 import CostCard from "./stories/Charts/BusinessMetrics/CostCard/CostCard.vue";
 import HumanEscalations from "./stories/Charts/BusinessMetrics/HumanEscalations/HumanEscalations.vue";
 import HumanEscalationsCard from "./stories/Charts/BusinessMetrics/HumanEscalationsCard/HumanEscalationsCard.vue";
+import AvgResolutionTime from "./stories/Charts/BusinessMetrics/AvgResolutionTime/AvgResolutionTime.vue";
+import AvgResolutionTimeCard from "./stories/Charts/BusinessMetrics/AvgResolutionTimeCard/AvgResolutionTimeCard.vue";
 
 // NPS Metrics
 import NpsDailyMetrics from "./stories/Charts/BusinessMetrics/Nps/npsDailyMetrics.vue";
@@ -225,6 +227,8 @@ export {
   CostCard,
   HumanEscalations,
   HumanEscalationsCard,
+  AvgResolutionTime,
+  AvgResolutionTimeCard,
   // NPS Metrics
   NpsDailyMetrics,
   NpsMetrics,
@@ -318,6 +322,8 @@ export const KiutUIPlugin = {
     app.component("KiutCostCard", CostCard);
     app.component("KiutHumanEscalations", HumanEscalations);
     app.component("KiutHumanEscalationsCard", HumanEscalationsCard);
+    app.component("KiutAvgResolutionTime", AvgResolutionTime);
+    app.component("KiutAvgResolutionTimeCard", AvgResolutionTimeCard);
     app.component("KiutNpsDailyMetrics", NpsDailyMetrics);
     app.component("KiutNpsMetrics", NpsMetrics);
     app.component("KiutNpsOverviewMetrics", NpsOverviewMetrics);
