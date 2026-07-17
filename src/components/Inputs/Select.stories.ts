@@ -49,6 +49,35 @@ const meta: Meta<typeof Select> = {
 export default meta;
 type Story = StoryObj<typeof Select>;
 
+export const SearchableWithSection: Story = {
+  args: {
+    modelValue: 'mx',
+    label: 'País',
+    options: countryOptions,
+    placeholder: 'Seleccionar país…',
+    searchable: true,
+    searchPlaceholder: 'Buscar país…',
+    listSectionLabel: 'País',
+    showOptionCheck: false,
+  },
+  render: (args) => ({
+    components: { Select },
+    setup() {
+      const model = ref<string | null>(args.modelValue ?? null);
+      return () =>
+        h('div', { class: 'max-w-xs' }, [
+          h(Select, {
+            ...args,
+            modelValue: model.value,
+            'onUpdate:modelValue': (v: string | number) => {
+              model.value = v as string;
+            },
+          }),
+        ]);
+    },
+  }),
+};
+
 export const Searchable: Story = {
   args: {
     modelValue: 'mx',
