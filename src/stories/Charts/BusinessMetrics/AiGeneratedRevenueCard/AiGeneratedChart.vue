@@ -21,25 +21,6 @@
           <option value="channel_and_agent">Channel &amp; Agent</option>
         </select>
 
-        <!-- Currency toggle: hidden when airline only uses USD -->
-        <div
-          v-if="localCurrency !== 'USD'"
-          class="flex rounded-xl border border-[var(--kiut-border-light,#d1d5db)] bg-[var(--kiut-bg-card,#ffffff)] p-[3px] dark:border-[var(--kiut-border-light,#374151)] dark:bg-[var(--kiut-bg-card,#111827)]"
-        >
-          <button
-            v-for="opt in currencyOptions"
-            :key="opt.value"
-            class="rounded-[9px] px-3 py-1 text-xs font-medium transition-all"
-            :class="
-              selectedCurrency === opt.value
-                ? 'bg-white shadow-sm text-[var(--kiut-text-primary,#111827)] font-semibold dark:bg-[#1f2937] dark:text-[var(--kiut-text-primary,#f9fafb)]'
-                : 'text-[var(--kiut-text-secondary,#6b7280)] dark:text-[var(--kiut-text-secondary,#9ca3af)]'
-            "
-            @click="selectedCurrency = opt.value"
-          >
-            {{ opt.label }}
-          </button>
-        </div>
       </div>
     </template>
 
@@ -188,17 +169,7 @@ const theme = toRef(props, "theme");
 const { isDark, colors } = useThemeDetection(theme);
 
 const selectedBreakdown = ref(props.breakdownBy);
-const selectedCurrency = ref<"local" | "usd">("local");
-
-const localCurrency = computed(() => props.data?.currency ?? "USD");
-const activeCurrencyCode = computed(() =>
-  selectedCurrency.value === "usd" ? "USD" : localCurrency.value,
-);
-
-const currencyOptions = computed(() => [
-  { value: "local" as const, label: localCurrency.value },
-  { value: "usd" as const, label: "USD" },
-]);
+const activeCurrencyCode = computed(() => props.data?.currency ?? "USD");
 
 const isStackedBar = computed(() => selectedBreakdown.value === "payment_method");
 
@@ -264,7 +235,7 @@ const processChartData = (data: AiGeneratedRevenueData | null): void => {
 
   const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
   const labels = sorted.map((d) => moment(d.date).format("MMM DD"));
-  const revenueField = selectedCurrency.value === "usd" ? "ai_revenue_usd" : "ai_revenue";
+  const revenueField = "ai_revenue";
 
   if (selectedBreakdown.value === "all") {
     dataChart.value = {
@@ -330,12 +301,10 @@ const processChartData = (data: AiGeneratedRevenueData | null): void => {
 
   // Breakdown cards (top 5)
   topCards.value = breakdownItems.slice(0, 5).map((item, idx) => {
-    const amount =
-      selectedCurrency.value === "usd" ? item.total_usd : item.total;
     return {
       key: item.key,
       label: formatKey(item.key),
-      amount: `${activeCurrencyCode.value} ${formatCompact(amount)}`,
+      amount: `${activeCurrencyCode.value} ${formatCompact(item.total)}`,
       percentage: Number(item.percentage ?? 0),
       color: getColor(idx),
     };
@@ -382,12 +351,7 @@ const barChartOptions = computed(() => ({
 
 watch(
   () => props.data,
-  (newData) => {
-    if (newData) {
-      selectedCurrency.value = newData.currency === "USD" ? "usd" : "local";
-    }
-    processChartData(newData ?? null);
-  },
+  (newData) => processChartData(newData ?? null),
   { deep: true, immediate: true },
 );
 
@@ -398,10 +362,6 @@ watch(
     processChartData(props.data ?? null);
   },
 );
-
-watch(selectedCurrency, () => {
-  processChartData(props.data ?? null);
-});
 
 const emitChangeBreakdown = (): void => {
   emit("changeBreakdown", selectedBreakdown.value);
