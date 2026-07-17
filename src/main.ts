@@ -140,6 +140,10 @@ export type {
   KiutSelectOption,
   KiutSelectValue,
 } from "./components/Inputs/Select.vue";
+import LanguageSelect from "./components/Inputs/LanguageSelect.vue";
+export type { KiutLanguageSelectOption } from "./components/Inputs/LanguageSelect.vue";
+import LanguagePicker from "./components/Inputs/LanguagePicker.vue";
+export type { KiutLanguagePickerOption } from "./components/Inputs/LanguagePicker.vue";
 import MultiSelect from "./components/Inputs/MultiSelect.vue";
 import Toggle from "./components/Inputs/Toggle.vue";
 import InputPhone from "./components/Inputs/InputPhone.vue";
@@ -261,6 +265,8 @@ export {
   InputColorPicker,
   EmojiPicker,
   Select,
+  LanguageSelect,
+  LanguagePicker,
   MultiSelect,
   Toggle,
   InputPhone,
@@ -355,6 +361,8 @@ export const KiutUIPlugin = {
     app.component("InputColorPicker", InputColorPicker);
     app.component("EmojiPicker", EmojiPicker);
     app.component("Select", Select);
+    app.component("LanguageSelect", LanguageSelect);
+    app.component("LanguagePicker", LanguagePicker);
     app.component("MultiSelect", MultiSelect);
     app.component("Toggle", Toggle);
     app.component("InputPhone", InputPhone);

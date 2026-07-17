@@ -19,15 +19,23 @@
       @click="onTriggerClick"
       @keydown="onTriggerKeydown"
     >
-      <span
-        class="min-w-0 flex-1 truncate"
-        :class="
-          modelValue === null || modelValue === undefined || modelValue === ''
-            ? 'text-[color:var(--kiut-text-muted)] dark:text-slate-500'
-            : ''
-        "
-      >
-        {{ displayLabel }}
+      <span class="flex min-w-0 flex-1 items-center gap-2.5 truncate">
+        <span
+          v-if="selectedLeadingClass"
+          :class="selectedLeadingClass"
+          class="shrink-0"
+          aria-hidden="true"
+        />
+        <span
+          class="min-w-0 truncate"
+          :class="
+            modelValue === null || modelValue === undefined || modelValue === ''
+              ? 'text-[color:var(--kiut-text-muted)] dark:text-slate-500'
+              : ''
+          "
+        >
+          {{ displayLabel }}
+        </span>
       </span>
       <ChevronDownIcon
         class="h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500"
@@ -41,29 +49,41 @@
         v-show="open"
         ref="panelRef"
         :style="floatingStyle"
-        class="fixed z-[300] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-lg dark:border-[color:var(--kiut-border-light)]"
+        class="fixed z-[300] overflow-hidden rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-lg dark:border-[color:var(--kiut-border-light)]"
       >
         <div
           v-if="searchable"
-          class="sticky top-0 z-10 border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-2 dark:border-[color:var(--kiut-border-light)]"
+          class="border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]"
         >
-          <input
-            ref="searchInputRef"
-            v-model="searchQuery"
-            type="search"
-            :class="[kiutInputControlClass, 'min-h-0 py-1.5 text-sm']"
-            :placeholder="searchPlaceholder"
-            :aria-label="searchPlaceholder"
-            @click.stop
-            @keydown.stop="onSearchKeydown"
-          />
+          <div class="relative">
+            <MagnifyingGlassIcon
+              class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+              aria-hidden="true"
+            />
+            <input
+              ref="searchInputRef"
+              v-model="searchQuery"
+              type="search"
+              :class="[kiutInputControlClass, 'min-h-0 py-2 pl-9 pr-3 text-sm']"
+              :placeholder="searchPlaceholder"
+              :aria-label="searchPlaceholder"
+              @click.stop
+              @keydown.stop="onSearchKeydown"
+            />
+          </div>
         </div>
+        <p
+          v-if="listSectionLabel"
+          class="px-3 pb-1 pt-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+        >
+          {{ listSectionLabel }}
+        </p>
         <ul
           :id="listboxId"
           ref="listRef"
           role="listbox"
           tabindex="-1"
-          class="py-1"
+          :class="listSectionLabel ? 'max-h-60 overflow-auto pb-1' : 'max-h-60 overflow-auto py-1'"
           @keydown.stop="onListKeydown"
         >
           <li
@@ -82,6 +102,12 @@
             @mouseenter="highlightIndex = index"
           >
             <span
+              v-if="opt.leadingClass"
+              :class="opt.leadingClass"
+              class="shrink-0"
+              aria-hidden="true"
+            />
+            <span
               v-if="showOptionCheck"
               class="flex w-5 shrink-0 justify-center"
               aria-hidden="true"
@@ -97,7 +123,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronDownIcon } from '@heroicons/vue/24/outline';
+import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import { CheckIcon } from '@heroicons/vue/24/solid';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
@@ -111,6 +137,8 @@ export interface KiutSelectOption<T extends KiutSelectValue = string> {
   value: T;
   label: string;
   disabled?: boolean;
+  /** Optional CSS classes for a leading visual (e.g. flag-icon). */
+  leadingClass?: string;
 }
 
 const props = withDefaults(
@@ -128,6 +156,8 @@ const props = withDefaults(
     searchable?: boolean;
     searchPlaceholder?: string;
     noResultsText?: string;
+    /** Encabezado de sección sobre la lista (p. ej. "Idioma"). */
+    listSectionLabel?: string;
   }>(),
   {
     placeholder: 'Seleccionar…',
@@ -135,6 +165,7 @@ const props = withDefaults(
     searchable: false,
     searchPlaceholder: 'Buscar…',
     noResultsText: 'Sin resultados',
+    listSectionLabel: undefined,
   }
 );
 
@@ -181,13 +212,18 @@ const resolvedTriggerAriaLabel = computed(
   () => props.ariaLabelTrigger ?? props.placeholder ?? 'Seleccionar opción'
 );
 
+const selectedOption = computed(
+  () => props.options.find((o) => o.value === props.modelValue) ?? null
+);
+
 const displayLabel = computed(() => {
   if (props.modelValue === null || props.modelValue === undefined || props.modelValue === '') {
     return props.placeholder;
   }
-  const found = props.options.find((o) => o.value === props.modelValue);
-  return found?.label ?? String(props.modelValue);
+  return selectedOption.value?.label ?? String(props.modelValue);
 });
+
+const selectedLeadingClass = computed(() => selectedOption.value?.leadingClass);
 
 function optionKey(opt: KiutSelectOption<KiutSelectValue>) {
   return `${String(opt.value)}-${opt.label}`;
@@ -200,10 +236,16 @@ function isSelected(opt: KiutSelectOption<KiutSelectValue>) {
 function optionClass(opt: KiutSelectOption<KiutSelectValue>, index: number) {
   const selected = isSelected(opt);
   const hi = highlightIndex.value === index;
+  const withSection = Boolean(props.listSectionLabel);
   return [
-    'flex cursor-pointer items-center gap-1.5 px-2 py-2 text-sm outline-none transition-colors',
+    'flex cursor-pointer items-center gap-2.5 text-sm outline-none transition-colors',
+    withSection
+      ? 'border-b border-gray-200 px-3 py-2.5 last:border-b-0 dark:border-white/5'
+      : 'gap-1.5 px-2 py-2',
     selected
-      ? 'mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white'
+      ? withSection
+        ? 'bg-[color:var(--kiut-primary)]/10 font-medium text-[color:var(--kiut-primary)] dark:bg-[color:var(--kiut-primary)]/15'
+        : 'mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white'
       : 'text-[color:var(--kiut-text-primary)] dark:text-slate-100',
     !selected && hi ? 'bg-slate-100 dark:bg-white/5' : '',
   ];
