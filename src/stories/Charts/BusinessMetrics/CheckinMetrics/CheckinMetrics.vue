@@ -3,6 +3,7 @@
     class="checkin-metrics-root h-full min-h-0"
     title="Check-in Metrics"
     subtitle="Check-in performance and failure analysis"
+    :collapsible="collapsible"
     :default-open="props.initiallyOpen"
     :loading="loading"
   >
@@ -228,6 +229,8 @@ interface TableRow extends CheckinByDay {
 const props = withDefaults(
   defineProps<{
     initiallyOpen?: boolean;
+    /** Si es false, el card siempre abierto sin chevron (p. ej. dentro de CheckinContainer). */
+    collapsible?: boolean;
     checkinData?: CheckinData;
     failedData?: FailedData;
     loading?: boolean;
@@ -239,6 +242,7 @@ const props = withDefaults(
   }>(),
   {
     initiallyOpen: false,
+    collapsible: true,
     checkinData: () => ({
       total_record_locator_init: 0,
       total_checkin_initiated: 0,

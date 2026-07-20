@@ -9,7 +9,7 @@
     @open="emit('open')"
   >
     <div class="checkin-container__body">
-      <Checkin
+      <CheckinMetrics
         v-if="showCheckin"
         class="w-full min-h-0"
         :collapsible="false"
@@ -19,7 +19,7 @@
         :failed-data="checkinFailedData"
         :enable-export="enableExport"
         :export-loading="exportLoading"
-        :show-payment-links="showPaymentLinks"
+        :is-avianca="showPaymentLinks"
         @export="(fmt) => handleChildExport('checkin', fmt)"
       />
       <CheckinSegments
@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import Checkin from '../Checkin/Checkin.vue'
+import CheckinMetrics from '../CheckinMetrics/CheckinMetrics.vue'
 import CheckinSegments from '../CheckinSegments/checkinSegments.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'
@@ -76,12 +76,12 @@ const props = withDefaults(
     enableExport?: boolean
     exportLoading?: boolean
     theme?: Theme
-    /** Shape Checkin.vue (métricas de flujo) */
+    /** Shape CheckinMetrics.vue (métricas record locator) */
     checkinData?: object
     checkinFailedData?: object
     /** Shape CheckinSegments */
     segmentsData?: SegmentDatum[];
-    /** Show Create Payment column in check-in table (Avianca). */
+    /** Show Create Payment column in check-in table (Avianca). Maps to CheckinMetrics `isAvianca`. */
     showPaymentLinks?: boolean
   }>(),
   {

@@ -2,52 +2,71 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import CheckinContainer from './CheckinContainer.vue'
 
 const mockCheckinData = {
-  total_checkin_init: 8500,
-  total_checkin_initiated: 10000,
-  total_checkin_init_abandoned: 500,
-  total_checkin_started: 7200,
-  total_checkin_completed: 6800,
-  total_checkin_closed: 6500,
-  total_checkin_unrecovered: 200,
-  checkin_by_day: [
+  airline_name: 'Clic Air',
+  start_date: '2025-11-01',
+  end_date: '2025-12-05',
+  total_record_locator_init: 36,
+  total_record_locator_started: 137,
+  total_record_locator_completed: 24,
+  total_record_locator_closed: 9,
+  total_record_locator_init_abandoned: 21,
+  total_checkin_initiated: 167,
+  record_locator_by_day: [
     {
-      date: '2024-11-01',
-      checkin_initiated_count: 350,
-      checkin_init_count: 300,
-      checkin_started_count: 250,
-      checkin_completed_count: 240,
-      checkin_closed_count: 230,
+      date: '2025-12-03',
+      record_locator_init_count: 5,
+      record_locator_started_count: 5,
+      record_locator_completed_count: 3,
+      record_locator_closed_count: 3,
+      record_locator_abandoned_count: 0,
+      checkin_initiated: 3,
     },
     {
-      date: '2024-11-02',
-      checkin_initiated_count: 380,
-      checkin_init_count: 320,
-      checkin_started_count: 270,
-      checkin_completed_count: 260,
-      checkin_closed_count: 250,
+      date: '2025-12-02',
+      record_locator_init_count: 2,
+      record_locator_started_count: 2,
+      record_locator_completed_count: 1,
+      record_locator_closed_count: 1,
+      record_locator_abandoned_count: 0,
+      checkin_initiated: 2,
+    },
+    {
+      date: '2025-11-19',
+      record_locator_init_count: 12,
+      record_locator_started_count: 12,
+      record_locator_completed_count: 0,
+      record_locator_closed_count: 0,
+      record_locator_abandoned_count: 0,
+      checkin_initiated: 16,
     },
   ],
 }
 
 const mockCheckinFailedData = {
-  total_checkin_failed: 120,
+  airline_name: 'Clic Air',
+  start_date: '2025-11-01',
+  end_date: '2025-12-05',
+  total_checkin_failed: 5,
+  total_checkin_unrecovered: 0,
+  total_checkin_init_abandoned: 12,
   failed_by_step_by_day: [
     {
-      date: '2024-11-01',
+      date: '2025-11-03',
+      steps: [{ step_name: 'checkin_segments', failed_count: 1 }],
+    },
+    {
+      date: '2025-11-05',
       steps: [
-        { step_name: 'get_seatmap', failed_count: 8 },
-        { step_name: 'assign_seat', failed_count: 4 },
+        { step_name: 'save_missing_info', failed_count: 2 },
+        { step_name: 'checkin_segments', failed_count: 1 },
       ],
     },
     {
-      date: '2024-11-02',
-      steps: [{ step_name: 'checkin_segments', failed_count: 5 }],
+      date: '2025-12-02',
+      steps: [{ step_name: 'passenger_checkin', failed_count: 1 }],
     },
   ],
-  unrecovered_by_step: [
-    { step_name: 'get_seatmap', count: 20 },
-    { step_name: 'assign_seat', count: 12 },
-  ],
+  unrecovered_by_step: [],
 }
 
 const mockSegmentsData = [
@@ -93,7 +112,7 @@ const meta = {
     showCheckin: {
       control: 'boolean',
       description:
-        'Muestra el bloque Sankey/tablas Checkin.vue (métricas de flujo `checkin_*`) antes de Segmentos',
+        'Muestra el bloque CheckinMetrics.vue (métricas record locator) antes de Segmentos',
     },
     enableExport: { control: 'boolean' },
     exportLoading: { control: 'boolean' },
@@ -106,7 +125,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa métricas de flujo Check-in (Sankey Checkin.vue) y Checkin Segments bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments.',
+          'Agrupa métricas Check-in (Sankey CheckinMetrics.vue) y Checkin Segments bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments.',
       },
     },
   },
