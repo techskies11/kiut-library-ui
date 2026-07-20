@@ -6,6 +6,10 @@ const meta = {
   component: CheckinMetrics,
   tags: ['autodocs'],
   argTypes: {
+    initiallyOpen: {
+      control: 'boolean',
+      description: 'Si es true, el card inicia expandido; por defecto arranca colapsado',
+    },
     loading: {
       control: 'boolean',
       description: 'Shows loading animation when true'
@@ -128,6 +132,17 @@ export const Default: Story = {
     failedData: sampleFailedData,
     loading: false,
     enableExport: true,
+    initiallyOpen: false,
+  },
+};
+
+export const InitiallyOpen: Story = {
+  args: {
+    checkinData: sampleCheckinData,
+    failedData: sampleFailedData,
+    loading: false,
+    enableExport: true,
+    initiallyOpen: true,
   },
 };
 

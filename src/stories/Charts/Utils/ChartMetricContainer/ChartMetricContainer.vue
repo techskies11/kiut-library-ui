@@ -1,8 +1,9 @@
 <template>
   <details
     v-if="collapsible"
+    ref="detailsRef"
     class="chart-metric-container metric-collapsible"
-    :open="isOpen"
+    :open="isOpen ? true : undefined"
     @toggle="onToggle"
   >
     <summary class="card-header metric-collapsible__summary">
@@ -106,7 +107,15 @@
 </template>
 
 <script setup lang="ts">
-import { Comment, computed, ref, useSlots, watch, type VNode } from "vue";
+import {
+  Comment,
+  computed,
+  onMounted,
+  ref,
+  useSlots,
+  watch,
+  type VNode,
+} from "vue";
 
 const props = withDefaults(
   defineProps<{
@@ -132,8 +141,14 @@ const emit = defineEmits<{
   toggle: [open: boolean];
 }>();
 
-const isOpen = ref(props.defaultOpen);
-const hasBeenOpened = ref(props.defaultOpen);
+/** Only strict `true` opens. Avoids truthy strings like `"false"` opening `<details>`. */
+function toOpenFlag(value: unknown): boolean {
+  return value === true;
+}
+
+const detailsRef = ref<HTMLDetailsElement | null>(null);
+const isOpen = ref(toOpenFlag(props.defaultOpen));
+const hasBeenOpened = ref(toOpenFlag(props.defaultOpen));
 
 const slots = useSlots();
 
@@ -167,14 +182,23 @@ const showHeaderExport = computed(() => {
 watch(
   () => props.defaultOpen,
   (value) => {
-    if (props.collapsible) {
-      isOpen.value = value;
-      if (value) {
-        hasBeenOpened.value = true;
-      }
+    if (!props.collapsible) return;
+    const open = toOpenFlag(value);
+    isOpen.value = open;
+    if (open) {
+      hasBeenOpened.value = true;
+    }
+    if (detailsRef.value && detailsRef.value.open !== open) {
+      detailsRef.value.open = open;
     }
   },
 );
+
+onMounted(() => {
+  if (!props.collapsible || !detailsRef.value) return;
+  // Force DOM in sync: presence of `open` (even open="false") would keep details expanded.
+  detailsRef.value.open = isOpen.value;
+});
 
 function onToggle(event: Event): void {
   const el = event.currentTarget as HTMLDetailsElement | null;

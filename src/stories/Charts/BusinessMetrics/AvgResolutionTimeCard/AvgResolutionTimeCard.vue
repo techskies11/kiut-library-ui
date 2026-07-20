@@ -74,8 +74,9 @@ defineExpose({ isDark })
 
 .art-values__item {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 6px;
   min-width: 0;
 }
 
@@ -97,9 +98,11 @@ defineExpose({ isDark })
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
   font-size: 11px;
   font-weight: 600;
+  line-height: 1.2;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #9191a1;
+  white-space: nowrap;
 }
 
 .art-values__divider {

@@ -3,7 +3,7 @@
     class="checkin-metrics-root h-full min-h-0"
     title="Check-in Metrics"
     subtitle="Check-in performance and failure analysis"
-    :default-open="initiallyOpen"
+    :default-open="props.initiallyOpen"
     :loading="loading"
   >
     <template #headerExport>
