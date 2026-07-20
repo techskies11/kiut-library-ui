@@ -1,22 +1,34 @@
 <template>
   <div class="font-sans">
     <label v-if="label" :for="inputId" :class="kiutLabelClass">{{ label }}</label>
-    <input
-      v-bind="inputAttrs"
-      :id="inputId"
-      :name="fieldName"
-      :type="type"
-      autocomplete="off"
-      :class="[kiutInputControlClass, isInvalid ? kiutInputControlInvalidClass : '']"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      :value="fieldValue"
-      :aria-invalid="isInvalid ? 'true' : undefined"
-      :aria-describedby="errorText ? errorId : undefined"
-      @input="onInputHandler"
-      @change="onChangeHandler"
-      @blur="onBlurHandler"
-    />
+    <div class="relative">
+      <component
+        :is="icon"
+        v-if="icon"
+        class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400"
+        aria-hidden="true"
+      />
+      <input
+        v-bind="inputAttrs"
+        :id="inputId"
+        :name="fieldName"
+        :type="type"
+        autocomplete="off"
+        :class="[
+          kiutInputControlClass,
+          icon ? 'pl-10' : '',
+          isInvalid ? kiutInputControlInvalidClass : '',
+        ]"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :value="fieldValue"
+        :aria-invalid="isInvalid ? 'true' : undefined"
+        :aria-describedby="errorText ? errorId : undefined"
+        @input="onInputHandler"
+        @change="onChangeHandler"
+        @blur="onBlurHandler"
+      />
+    </div>
     <p v-if="errorText" :id="errorId" :class="kiutFieldErrorTextClass" role="alert">
       {{ errorText }}
     </p>
@@ -24,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, onUnmounted, ref, useAttrs, watch } from 'vue';
+import { computed, inject, onMounted, onUnmounted, ref, useAttrs, watch, type Component } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
 import {
   kiutFieldErrorTextClass,
@@ -46,6 +58,8 @@ const props = withDefaults(
     disabled?: boolean;
     invalid?: boolean;
     errorText?: string;
+    /** Icono opcional a la izquierda (p. ej. MagnifyingGlassIcon de Heroicons). */
+    icon?: Component;
   }>(),
   { modelValue: '', type: 'text' }
 );

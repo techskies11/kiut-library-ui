@@ -1,3 +1,4 @@
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { h, ref } from 'vue';
 import InputText from './InputText.vue';
@@ -11,7 +12,7 @@ const meta: Meta<typeof InputText> = {
     docs: {
       description: {
         component:
-          'Campo de texto con etiqueta opcional. Tema claro/oscuro: toolbar **Theme** en Storybook.',
+          'Campo de texto con etiqueta e icono opcional a la izquierda. Tema claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -20,16 +21,11 @@ const meta: Meta<typeof InputText> = {
 export default meta;
 type Story = StoryObj<typeof InputText>;
 
-export const Default: Story = {
-  args: {
-    modelValue: '',
-    label: 'Nombre',
-    placeholder: 'Nombre completo',
-  },
-  render: (args) => ({
+function renderInputText(args: Story['args']) {
+  return {
     components: { InputText },
     setup() {
-      const model = ref(args.modelValue);
+      const model = ref(args?.modelValue ?? '');
       return () =>
         h('div', { class: 'max-w-md' }, [
           h(InputText, {
@@ -41,7 +37,25 @@ export const Default: Story = {
           }),
         ]);
     },
-  }),
+  };
+}
+
+export const Default: Story = {
+  args: {
+    modelValue: '',
+    label: 'Nombre',
+    placeholder: 'Nombre completo',
+  },
+  render: (args) => renderInputText(args),
+};
+
+export const WithIcon: Story = {
+  args: {
+    modelValue: '',
+    placeholder: 'Buscar aerolínea...',
+    icon: MagnifyingGlassIcon,
+  },
+  render: (args) => renderInputText(args),
 };
 
 export const WithError: Story = {
@@ -52,20 +66,5 @@ export const WithError: Story = {
     invalid: true,
     errorText: 'Introduce un email válido.',
   },
-  render: (args) => ({
-    components: { InputText },
-    setup() {
-      const model = ref(args.modelValue);
-      return () =>
-        h('div', { class: 'max-w-md' }, [
-          h(InputText, {
-            ...args,
-            modelValue: model.value,
-            'onUpdate:modelValue': (v: string) => {
-              model.value = v;
-            },
-          }),
-        ]);
-    },
-  }),
+  render: (args) => renderInputText(args),
 };
