@@ -159,6 +159,11 @@ export type {
 import DatePickerPresets from "./components/Inputs/DatePickerPresets.vue";
 import Tag from "./components/Tag/Tag.vue";
 export type { KiutTagColor } from "./components/Tag/tagTypes";
+import TranslationCountBadge from "./components/TranslationCountBadge/TranslationCountBadge.vue";
+export type {
+  KiutTranslationCountBadgeItem,
+  KiutTranslationCountBadgeVariant,
+} from "./components/TranslationCountBadge/translationCountBadgeTypes";
 import TagSelect from "./components/Tag/TagSelect.vue";
 export type {
   KiutTagSelectOption,
@@ -272,6 +277,7 @@ export {
   DatePickerPresets,
   Tag,
   TagSelect,
+  TranslationCountBadge,
   Button,
   Banner,
   Modal,
@@ -366,6 +372,7 @@ export const KiutUIPlugin = {
     app.component("DatePickerPresets", DatePickerPresets);
     app.component("Tag", Tag);
     app.component("TagSelect", TagSelect);
+    app.component("TranslationCountBadge", TranslationCountBadge);
     app.component("Button", Button);
     app.component("Banner", Banner);
     app.component("Modal", Modal);
