@@ -136,6 +136,8 @@ export {
 import Select from "./components/Inputs/Select.vue";
 export type {
   KiutSelectOption,
+  KiutSelectOptionBadge,
+  KiutSelectOptionBadgeVariant,
   KiutSelectValue,
 } from "./components/Inputs/Select.vue";
 import LanguageSelect from "./components/Inputs/LanguageSelect.vue";
