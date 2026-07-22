@@ -1,11 +1,24 @@
 <template>
   <ChartMetricContainer
     class="w-full min-h-0 self-start"
-    title="Interactions by Agent"
-    subtitle="Responses sent by AI agents"
+    :title="props.title"
+    :subtitle="props.subtitle"
     :collapsible="false"
     :loading="props.loading"
   >
+    <template #headerAside>
+      <select
+        v-if="props.breakdownOptions.length"
+        :value="props.breakdownBy"
+        class="rounded-xl border border-[var(--kiut-border-light,#d1d5db)] bg-[var(--kiut-bg-card,#ffffff)] px-3 py-2 text-sm text-[var(--kiut-text-primary,#111827)] dark:border-[var(--kiut-border-light,#374151)] dark:bg-[var(--kiut-bg-card,#111827)] dark:text-[var(--kiut-text-primary,#f9fafb)]"
+        aria-label="Breakdown"
+        @change="handleBreakdownChange"
+      >
+        <option v-for="option in props.breakdownOptions" :key="option.value" :value="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </template>
     <template #headerExport>
       <FooterExport
         v-if="enableExport && !props.loading"
@@ -28,7 +41,7 @@
             <LineChart :data="dataChart" :options="options" :theme="theme" />
           </div>
           <div
-            v-if="agentTotalsTop4.length"
+            v-if="props.showSummaryCards && agentTotalsTop4.length"
             class="grid w-full gap-3 md:gap-4"
             :style="cardInfoGridStyle"
           >
@@ -39,13 +52,13 @@
               :color="agent.color"
               :title="agent.label"
               :value="`${agent.percentage}%`"
-              :subvalue="`${useNumberFormat(agent.total)} msgs`"
+              :subvalue="`${useNumberFormat(agent.total)} ${props.unit}`"
             />
           </div>
         </section>
 
         <section
-          v-else-if="agentTotals.length"
+          v-else-if="props.showSummaryCards && agentTotals.length"
           class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
         >
           <div
@@ -59,7 +72,7 @@
               :color="agent.color"
               :title="agent.label"
               :value="`${agent.percentage}%`"
-              :subvalue="`${useNumberFormat(agent.total)} msgs`"
+              :subvalue="`${useNumberFormat(agent.total)} ${props.unit}`"
             />
           </div>
         </section>
@@ -79,13 +92,12 @@
             <p
               class="mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]"
             >
-              No agent interactions data
+              {{ props.emptyTitle }}
             </p>
             <p
               class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
             >
-              Try adjusting the date range or check your filters to see agent
-              interaction trends.
+              {{ props.emptyDescription }}
             </p>
           </div>
         </section>
@@ -131,6 +143,11 @@ interface AgentInteractionsData {
   total_unique_agents?: number;
 }
 
+interface BreakdownOption {
+  value: string;
+  label: string;
+}
+
 const colorMap: Record<string, string> = {
   checkin: "#3B82F6",
   faq: "#EF4444",
@@ -141,7 +158,9 @@ const colorMap: Record<string, string> = {
   human: "#F472B6",
   agency: "#6366F1",
   loyalty: "#EAB308",
+  unassigned: "#64748B",
 };
+const fallbackColors = ["#3B82F6", "#10B981", "#F59E0B", "#8B5CF6", "#EC4899", "#06B6D4"];
 
 const props = withDefaults(
   defineProps<{
@@ -151,6 +170,16 @@ const props = withDefaults(
     theme?: Theme;
     enableExport?: boolean;
     exportLoading?: boolean;
+    title?: string;
+    subtitle?: string;
+    unit?: string;
+    totalConversations?: number;
+    emptyTitle?: string;
+    emptyDescription?: string;
+    breakdownBy?: string;
+    breakdownOptions?: BreakdownOption[];
+    showSummaryCards?: boolean;
+    maxSeries?: number;
   }>(),
   {
     data: () => ({}),
@@ -159,19 +188,59 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    title: "Interactions by Agent",
+    subtitle: "Responses sent by AI agents",
+    unit: "msgs",
+    totalConversations: undefined,
+    emptyTitle: "No agent interactions data",
+    emptyDescription:
+      "Try adjusting the date range or check your filters to see agent interaction trends.",
+    breakdownBy: "",
+    breakdownOptions: () => [],
+    showSummaryCards: true,
+    maxSeries: undefined,
   },
 );
 
 const emit = defineEmits<{
   export: [format: ExportFormat];
+  changeBreakdown: [value: string];
 }>();
 
 const handleExport = (format: ExportFormat) => {
   emit("export", format);
 };
 
+const handleBreakdownChange = (event: Event): void => {
+  emit("changeBreakdown", (event.target as HTMLSelectElement).value);
+};
+
+const getSeriesColor = (value: string): string => {
+  const normalized = value.toLowerCase();
+  const configuredColor = colorMap[normalized] || colorMap[value];
+  if (configuredColor) return configuredColor;
+
+  const hash = Array.from(normalized).reduce(
+    (currentHash, character) => ((currentHash << 5) - currentHash + character.charCodeAt(0)) | 0,
+    0,
+  );
+  return fallbackColors[Math.abs(hash) % fallbackColors.length];
+};
+
 const theme = toRef(props, "theme");
 const { isDark } = useThemeDetection(theme);
+
+const categoryTotals = computed(() => {
+  const totalsMap: Record<string, number> = {};
+
+  for (const dayData of Object.values(props.data?.agents_by_day || {})) {
+    for (const [category, count] of Object.entries(dayData)) {
+      totalsMap[category] = (totalsMap[category] || 0) + count;
+    }
+  }
+
+  return totalsMap;
+});
 
 const dataChart = computed(() => {
   const daysData = props.data?.agents_by_day || {};
@@ -181,22 +250,19 @@ const dataChart = computed(() => {
     return { labels: [], datasets: [] };
   }
 
-  const categoriesSet = new Set<string>();
-  for (const dayData of Object.values(daysData)) {
-    for (const category of Object.keys(dayData)) {
-      categoriesSet.add(category);
-    }
-  }
-  const categories = Array.from(categoriesSet);
+  const categories = Object.keys(categoryTotals.value)
+    .sort(
+      (left, right) =>
+        categoryTotals.value[right] - categoryTotals.value[left] || left.localeCompare(right),
+    )
+    .slice(0, props.maxSeries);
 
   const datasets = categories.map((category) => {
-    const normalized = category.toLowerCase();
-    const color = colorMap[normalized] || colorMap[category] || "#94a3b8";
     return {
       label:
         category.charAt(0).toUpperCase() + category.slice(1).replace(/_/g, " "),
       data: sortedLabels.map((date) => daysData[date]?.[category] || 0),
-      borderColor: color,
+      borderColor: getSeriesColor(category),
     };
   });
 
@@ -207,28 +273,19 @@ const dataChart = computed(() => {
 });
 
 const agentTotals = computed(() => {
-  const daysData = props.data?.agents_by_day || {};
-  const totalsMap: Record<string, number> = {};
-
-  for (const dayData of Object.values(daysData)) {
-    for (const [agent, count] of Object.entries(dayData)) {
-      totalsMap[agent] = (totalsMap[agent] || 0) + count;
-    }
-  }
-
-  const grandTotal = Object.values(totalsMap).reduce((sum, v) => sum + v, 0);
+  const groupedTotal = Object.values(categoryTotals.value).reduce((sum, v) => sum + v, 0);
+  const grandTotal = props.totalConversations ?? groupedTotal;
   if (grandTotal === 0) return [];
 
-  return Object.entries(totalsMap)
+  return Object.entries(categoryTotals.value)
     .sort(([, a], [, b]) => b - a)
     .map(([name, total]) => {
-      const normalized = name.toLowerCase();
       return {
         name,
         label: name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, " "),
         total,
         percentage: ((total / grandTotal) * 100).toFixed(1),
-        color: colorMap[normalized] || colorMap[name] || "#94a3b8",
+        color: getSeriesColor(name),
       };
     });
 });
