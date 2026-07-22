@@ -31,6 +31,7 @@ import TopAgents from "./stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue"
 import PaymentMethod from "./stories/Charts/BusinessMetrics/PaymentMethod/PaymentMethod.vue";
 import AgentHumanConversations from "./stories/Charts/BusinessMetrics/AgentHumanConv/AgentHumanConversations.vue";
 import ChannelMetrics from "./stories/Charts/BusinessMetrics/ChannelMetrics/ChannelMetrics.vue";
+import ConversationVolume from "./stories/Charts/BusinessMetrics/ConversationVolume/ConversationVolume.vue";
 import TriageCombinations from "./stories/Charts/BusinessMetrics/TriageCombinations/TriageCombinations.vue";
 import SelectLanguage from "./stories/Charts/BusinessMetrics/SelectLanguage/SelectLanguage.vue";
 import Guardrails from "./stories/Charts/BusinessMetrics/Guardrails/Guardrails.vue";
@@ -221,6 +222,7 @@ export {
   PaymentMethod,
   AgentHumanConversations,
   ChannelMetrics,
+  ConversationVolume,
   TriageCombinations,
   SelectLanguage,
   Guardrails,
@@ -321,6 +323,7 @@ export const KiutUIPlugin = {
     app.component("KiutPaymentMethod", PaymentMethod);
     app.component("KiutAgentHumanConversations", AgentHumanConversations);
     app.component("KiutChannelMetrics", ChannelMetrics);
+    app.component("KiutConversationVolume", ConversationVolume);
     app.component("KiutTriageCombinations", TriageCombinations);
     app.component("KiutSelectLanguage", SelectLanguage);
     app.component("KiutGuardrails", Guardrails);

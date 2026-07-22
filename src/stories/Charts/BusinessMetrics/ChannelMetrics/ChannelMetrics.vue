@@ -1,11 +1,24 @@
 <template>
   <ChartMetricContainer
     class="w-full min-h-0 self-start"
-    title="Conversations by Channel"
-    subtitle="Conversations sent by AI agents"
+    :title="props.title"
+    :subtitle="props.subtitle"
     :collapsible="false"
     :loading="props.loading"
   >
+    <template #headerAside>
+      <select
+        v-if="props.breakdownOptions.length"
+        :value="props.breakdownBy"
+        class="rounded-xl border border-[var(--kiut-border-light,#d1d5db)] bg-[var(--kiut-bg-card,#ffffff)] px-3 py-2 text-sm text-[var(--kiut-text-primary,#111827)] dark:border-[var(--kiut-border-light,#374151)] dark:bg-[var(--kiut-bg-card,#111827)] dark:text-[var(--kiut-text-primary,#f9fafb)]"
+        aria-label="Breakdown"
+        @change="handleBreakdownChange"
+      >
+        <option v-for="option in props.breakdownOptions" :key="option.value" :value="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </template>
     <template #headerExport>
       <FooterExport
         v-if="enableExport && !props.loading"
@@ -28,7 +41,7 @@
             <LineChart :data="dataChart" :theme="theme" />
           </div>
           <div
-            v-if="channelTotalsCards.length"
+            v-if="props.showSummaryCards && channelTotalsCards.length"
             class="grid w-full gap-3 md:gap-4"
             :style="cardInfoGridStyle"
           >
@@ -39,13 +52,13 @@
               :color="ch.color"
               :title="ch.label"
               :value="`${ch.percentage}%`"
-              :subvalue="`${useNumberFormat(ch.total)} msgs`"
+              :subvalue="`${useNumberFormat(ch.total)} ${props.unit}`"
             />
           </div>
         </section>
 
         <section
-          v-else-if="channelTotals.length"
+          v-else-if="props.showSummaryCards && channelTotals.length"
           class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
         >
           <div class="grid w-full gap-3 md:gap-4" :style="cardInfoGridStyle">
@@ -56,7 +69,7 @@
               :color="ch.color"
               :title="ch.label"
               :value="`${ch.percentage}%`"
-              :subvalue="`${useNumberFormat(ch.total)} msgs`"
+              :subvalue="`${useNumberFormat(ch.total)} ${props.unit}`"
             />
           </div>
         </section>
@@ -76,13 +89,12 @@
             <p
               class="mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]"
             >
-              No channel metrics data available
+              {{ props.emptyTitle }}
             </p>
             <p
               class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
             >
-              No channel data found for the selected period. Try adjusting the
-              date range.
+              {{ props.emptyDescription }}
             </p>
           </div>
         </section>
@@ -133,6 +145,11 @@ interface MetricsData {
   total_conversations: number;
 }
 
+interface BreakdownOption {
+  value: string;
+  label: string;
+}
+
 const props = withDefaults(
   defineProps<{
     loading?: boolean;
@@ -140,6 +157,15 @@ const props = withDefaults(
     theme?: Theme;
     enableExport?: boolean;
     exportLoading?: boolean;
+    title?: string;
+    subtitle?: string;
+    unit?: string;
+    totalConversations?: number;
+    emptyTitle?: string;
+    emptyDescription?: string;
+    breakdownBy?: string;
+    breakdownOptions?: BreakdownOption[];
+    showSummaryCards?: boolean;
   }>(),
   {
     loading: false,
@@ -147,15 +173,29 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    title: "Conversations by Channel",
+    subtitle: "Conversations sent by AI agents",
+    unit: "msgs",
+    totalConversations: undefined,
+    emptyTitle: "No channel metrics data available",
+    emptyDescription: "No channel data found for the selected period. Try adjusting the date range.",
+    breakdownBy: "",
+    breakdownOptions: () => [],
+    showSummaryCards: true,
   },
 );
 
 const emit = defineEmits<{
   export: [format: ExportFormat];
+  changeBreakdown: [value: string];
 }>();
 
 const handleExport = (format: ExportFormat) => {
   emit("export", format);
+};
+
+const handleBreakdownChange = (event: Event): void => {
+  emit("changeBreakdown", (event.target as HTMLSelectElement).value);
 };
 
 const theme = toRef(props, "theme");
@@ -171,6 +211,19 @@ const channelColorMap: Record<string, string> = {
   messenger: "#0084ff",
   telegram: "#0088cc",
   instagram: "#E4405F",
+};
+const fallbackColors = ["#3B82F6", "#10B981", "#F59E0B", "#8B5CF6", "#EC4899", "#06B6D4"];
+
+const getChannelColor = (value: string): string => {
+  const normalized = value.toLowerCase();
+  const configuredColor = channelColorMap[normalized];
+  if (configuredColor) return configuredColor;
+
+  const hash = Array.from(normalized).reduce(
+    (currentHash, character) => ((currentHash << 5) - currentHash + character.charCodeAt(0)) | 0,
+    0,
+  );
+  return fallbackColors[Math.abs(hash) % fallbackColors.length];
 };
 
 const dataChart = ref<{ labels: string[]; datasets: any[] }>({
@@ -188,10 +241,11 @@ const metricsData = computed<MetricsData>(
 
 const channelTotals = computed(() => {
   const totalByChannel = metricsData.value.total_by_channel || {};
-  const grandTotal = Object.values(totalByChannel).reduce(
+  const groupedTotal = Object.values(totalByChannel).reduce(
     (sum, v) => sum + v,
     0,
   );
+  const grandTotal = props.totalConversations ?? groupedTotal;
   if (grandTotal === 0) return [];
 
   return Object.entries(totalByChannel)
@@ -201,7 +255,7 @@ const channelTotals = computed(() => {
       label: name.toUpperCase(),
       total,
       percentage: ((total / grandTotal) * 100).toFixed(1),
-      color: channelColorMap[name.toLowerCase()] || "#9ca3af",
+      color: getChannelColor(name),
     }));
 });
 
@@ -240,13 +294,10 @@ const processChartData = (data: MetricsData | null) => {
   const categories = Array.from(categoriesSet);
 
   const datasets = categories.map((category) => {
-    const normalizedCategory = category.toLowerCase();
-    const color = channelColorMap[normalizedCategory] || "#9ca3af";
-
     return {
       label: category.toUpperCase(),
       data: labels.map((date) => daysData[date]?.[category] || 0),
-      borderColor: color,
+      borderColor: getChannelColor(category),
     };
   });
 
