@@ -36,6 +36,12 @@
         >
           {{ displayLabel }}
         </span>
+        <span
+          v-if="selectedOption?.badge"
+          :class="getSelectOptionBadgeClass(selectedOption.badge.variant)"
+        >
+          {{ selectedOption.badge.label }}
+        </span>
       </span>
       <ChevronDownIcon
         class="h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500"
@@ -114,7 +120,13 @@
             >
               <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
             </span>
-            <span class="min-w-0 flex-1">{{ opt.label }}</span>
+            <span class="min-w-0 flex-1 truncate">{{ opt.label }}</span>
+            <span
+              v-if="opt.badge"
+              :class="getSelectOptionBadgeClass(opt.badge.variant)"
+            >
+              {{ opt.badge.label }}
+            </span>
           </li>
         </ul>
       </div>
@@ -128,10 +140,16 @@ import { CheckIcon } from '@heroicons/vue/24/solid';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
 import { kiutInputControlClass, kiutLabelClass } from './inputFieldStyles';
+import {
+  getSelectOptionBadgeClass,
+  type KiutSelectOptionBadge,
+  type KiutSelectOptionBadgeVariant,
+} from './selectOptionBadgeStyles';
 
 defineOptions({ name: 'Select' });
 
 export type KiutSelectValue = string | number;
+export type { KiutSelectOptionBadge, KiutSelectOptionBadgeVariant };
 
 export interface KiutSelectOption<T extends KiutSelectValue = string> {
   value: T;
@@ -139,6 +157,8 @@ export interface KiutSelectOption<T extends KiutSelectValue = string> {
   disabled?: boolean;
   /** Optional CSS classes for a leading visual (e.g. flag-icon). */
   leadingClass?: string;
+  /** Optional trailing pill shown in the trigger and option row. */
+  badge?: KiutSelectOptionBadge;
 }
 
 const props = withDefaults(
@@ -205,7 +225,11 @@ const visibleOptions = computed(() => {
   if (!props.searchable) return enabledOptions.value;
   const q = searchQuery.value.trim().toLowerCase();
   if (!q) return enabledOptions.value;
-  return enabledOptions.value.filter((o) => o.label.toLowerCase().includes(q));
+  return enabledOptions.value.filter(
+    (o) =>
+      o.label.toLowerCase().includes(q) ||
+      o.badge?.label.toLowerCase().includes(q)
+  );
 });
 
 const resolvedTriggerAriaLabel = computed(
@@ -389,3 +413,38 @@ onUnmounted(() => {
   document.removeEventListener('click', onDocumentClick);
 });
 </script>
+
+<style>
+.kiut-select-option-badge--configured {
+  border: 1px solid rgb(168 85 247 / 0.55);
+  background: rgb(243 232 255);
+  color: rgb(107 33 168);
+}
+
+.dark .kiut-select-option-badge--configured {
+  background: rgb(59 7 100 / 0.85);
+  color: rgb(233 213 255);
+}
+
+.kiut-select-option-badge--autoconfigured {
+  border: 1px dashed rgb(74 222 128 / 0.55);
+  background: rgb(220 252 231);
+  color: rgb(21 128 61);
+}
+
+.dark .kiut-select-option-badge--autoconfigured {
+  background: rgb(5 46 22 / 0.85);
+  color: rgb(187 247 208);
+}
+
+.kiut-select-option-badge--neutral {
+  border: 1px solid rgb(107 114 128 / 0.45);
+  background: rgb(243 244 246);
+  color: rgb(55 65 81);
+}
+
+.dark .kiut-select-option-badge--neutral {
+  background: rgb(31 41 55 / 0.85);
+  color: rgb(209 213 219);
+}
+</style>

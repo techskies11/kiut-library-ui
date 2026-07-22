@@ -129,3 +129,37 @@ export const Default: Story = {
     },
   }),
 };
+
+const languageStatusOptions: KiutSelectOption[] = [
+  {
+    value: 'en',
+    label: 'EN  English',
+    leadingClass: 'flag-icon flag-icon-gb',
+    badge: { label: 'Configured', variant: 'configured' },
+  },
+  {
+    value: 'fr',
+    label: 'FR  French',
+    leadingClass: 'flag-icon flag-icon-fr',
+    badge: { label: 'Autoconfigured', variant: 'autoconfigured' },
+  },
+  {
+    value: 'de',
+    label: 'DE  German',
+    leadingClass: 'flag-icon flag-icon-de',
+    badge: { label: 'Not configured', variant: 'neutral' },
+  },
+];
+
+export const WithOptionBadges: Story = {
+  args: {
+    modelValue: 'en',
+    options: languageStatusOptions,
+    placeholder: 'Select language…',
+    searchable: true,
+    searchPlaceholder: 'Search language…',
+    showOptionCheck: false,
+    listSectionLabel: 'Language',
+  },
+  render: SearchableWithSection.render,
+};
