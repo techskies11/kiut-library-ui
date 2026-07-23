@@ -1,7 +1,7 @@
 <template>
   <ChartMetricContainer
     class="w-full min-h-0 self-start"
-    title="Average resolution time"
+    :title="chartTitle"
     subtitle="How long conversations take to resolve"
     :collapsible="false"
     :loading="loading"
@@ -89,6 +89,7 @@ import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { formatDurationSeconds } from '../../formatDuration'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 import Select, { type KiutSelectOption, type KiutSelectValue } from '../../../../components/Inputs/Select.vue'
+import { normalizeAgentDisplayName } from '../../../../utils/agentDisplayName'
 
 interface AvgResolutionTimeDayBreakdown {
   ai_agent: number | null
@@ -158,15 +159,26 @@ const handleExport = (format: ExportFormat): void => {
 
 const BREAKDOWN_OPTIONS: KiutSelectOption<KiutSelectValue>[] = [
   { value: 'all', label: 'All' },
-  { value: 'resolution_mode', label: 'By Resolution Mode' },
-  { value: 'channel', label: 'By Channel' },
-  { value: 'agent', label: 'By Agent' },
-  { value: 'agent_channel', label: 'By Agent & Channel' },
+  { value: 'agent', label: 'Agent' },
+  { value: 'resolution_mode', label: 'Resolution Mode' },
+  { value: 'channel', label: 'Channel' },
+  { value: 'agent_channel', label: 'Channel & Agent' },
 ]
 
 const theme = toRef(props, 'theme')
 const { isDark } = useThemeDetection(theme)
 const selectedBreakdown = ref(props.breakdownBy)
+
+const chartTitle = computed(() => {
+  const titleSuffix: Record<string, string> = {
+    resolution_mode: 'Resolution Mode',
+    agent: 'Agent',
+    channel: 'Channel',
+    agent_channel: 'Channel & Agent',
+  }
+  const suffix = titleSuffix[selectedBreakdown.value]
+  return suffix ? `Average resolution time by ${suffix}` : 'Average resolution time'
+})
 
 const onBreakdownChange = (value: KiutSelectValue): void => {
   selectedBreakdown.value = String(value)
@@ -228,7 +240,7 @@ const getAgentChannelColor = (key: string): string => {
 
 const formatBreakdownLabel = (label: string): string => {
   if (!label) return 'Unknown'
-  const normalized = label.replace(/_/g, ' ').trim()
+  const normalized = normalizeAgentDisplayName(label).replace(/_/g, ' ').trim()
   if (!normalized) return 'Unknown'
   return normalized.charAt(0).toUpperCase() + normalized.slice(1)
 }

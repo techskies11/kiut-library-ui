@@ -47,6 +47,7 @@ import {
   useThemeDetection,
   type Theme,
 } from "../../../../composables/useThemeDetection";
+import { normalizeAgentDisplayName } from "../../../../utils/agentDisplayName";
 
 // Tipo para un agente individual
 interface TopAgent {
@@ -151,7 +152,7 @@ const chartData = computed(() => {
     labels: filteredAgents.map((agent) => {
       const count = Number(agent.conversations) || 0;
       const pct = totalConversations ? (count / totalConversations) * 100 : 0;
-      return `${agent.agent_type} - ${count.toLocaleString()} (${pct.toFixed(1)}%)`;
+      return `${normalizeAgentDisplayName(agent.agent_type)} - ${count.toLocaleString()} (${pct.toFixed(1)}%)`;
     }),
     datasets: [
       {
