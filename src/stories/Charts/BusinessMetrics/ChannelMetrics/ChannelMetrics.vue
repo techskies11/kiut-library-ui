@@ -7,17 +7,13 @@
     :loading="props.loading"
   >
     <template #headerAside>
-      <select
-        v-if="props.breakdownOptions.length"
-        :value="props.breakdownBy"
-        class="rounded-xl border border-[var(--kiut-border-light,#d1d5db)] bg-[var(--kiut-bg-card,#ffffff)] px-3 py-2 text-sm text-[var(--kiut-text-primary,#111827)] dark:border-[var(--kiut-border-light,#374151)] dark:bg-[var(--kiut-bg-card,#111827)] dark:text-[var(--kiut-text-primary,#f9fafb)]"
-        aria-label="Breakdown"
-        @change="handleBreakdownChange"
-      >
-        <option v-for="option in props.breakdownOptions" :key="option.value" :value="option.value">
-          {{ option.label }}
-        </option>
-      </select>
+      <div v-if="props.breakdownOptions.length" class="w-52">
+        <Select
+          :model-value="props.breakdownBy"
+          :options="props.breakdownOptions"
+          @update:model-value="handleBreakdownChange"
+        />
+      </div>
     </template>
     <template #headerExport>
       <FooterExport
@@ -116,6 +112,7 @@ import {
   useThemeDetection,
   type Theme,
 } from "../../../../composables/useThemeDetection";
+import Select, { type KiutSelectValue } from "../../../../components/Inputs/Select.vue";
 
 const loaderBarHeights = [30, 50, 70, 50, 40];
 const loaderDelays = [
@@ -194,8 +191,8 @@ const handleExport = (format: ExportFormat) => {
   emit("export", format);
 };
 
-const handleBreakdownChange = (event: Event): void => {
-  emit("changeBreakdown", (event.target as HTMLSelectElement).value);
+const handleBreakdownChange = (value: KiutSelectValue): void => {
+  emit("changeBreakdown", String(value));
 };
 
 const theme = toRef(props, "theme");

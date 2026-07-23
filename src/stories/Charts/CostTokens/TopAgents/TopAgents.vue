@@ -36,6 +36,7 @@ import PieChart from '../../Pie/PieChart.vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { normalizeAgentDisplayName } from '../../../../utils/agentDisplayName'
 
 // Modelo de datos para un agente
 interface AgentData {
@@ -135,7 +136,7 @@ const chartData = computed(() => {
   const labels = agents.map(agent => {
     const count = agent.conversations || 0;
     const pct = totalConversations.value ? (count / totalConversations.value) * 100 : 0;
-    return `${agent.agent_type} - ${count.toLocaleString()} (${pct.toFixed(1)}%)`;
+    return `${normalizeAgentDisplayName(agent.agent_type)} - ${count.toLocaleString()} (${pct.toFixed(1)}%)`;
   });
 
   return {

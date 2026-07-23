@@ -49,6 +49,7 @@ import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricCo
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { normalizeAgentDisplayName } from '../../../../utils/agentDisplayName'
 
 // Modelo de datos para un agente
 interface AgentData {
@@ -118,7 +119,7 @@ const costChartData = computed(() => {
   }
 
   return {
-    labels: agents.map(agent => agent.agent_type),
+    labels: agents.map(agent => normalizeAgentDisplayName(agent.agent_type)),
     datasets: [
       {
         label: 'Total Cost',
@@ -140,7 +141,7 @@ const tokensChartData = computed(() => {
   }
 
   return {
-    labels: agents.map(agent => agent.agent_type),
+    labels: agents.map(agent => normalizeAgentDisplayName(agent.agent_type)),
     datasets: [
       {
         label: 'Total Tokens',
@@ -189,7 +190,9 @@ const costChartOptions = computed(() => {
           },
           label: function(context: any) {
             const agentType = context.label;
-            const agent = props.data?.top_agents?.find(a => a.agent_type === agentType);
+            const agent = props.data?.top_agents?.find(
+              (item) => normalizeAgentDisplayName(item.agent_type) === agentType,
+            );
             
             if (!agent) return 'No data';
             
@@ -271,7 +274,9 @@ const tokensChartOptions = computed(() => {
           },
           label: function(context: any) {
             const agentType = context.label;
-            const agent = props.data?.top_agents?.find(a => a.agent_type === agentType);
+            const agent = props.data?.top_agents?.find(
+              (item) => normalizeAgentDisplayName(item.agent_type) === agentType,
+            );
             
             if (!agent) return 'No data';
             

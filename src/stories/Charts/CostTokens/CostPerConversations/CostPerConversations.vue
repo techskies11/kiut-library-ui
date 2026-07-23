@@ -64,6 +64,7 @@ import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { FooterExport, type ExportFormat } from '../../Utils/FooterExport'
 import { useCurrencyFormat, useNumberFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { normalizeAgentDisplayName } from '../../../../utils/agentDisplayName'
 
 // Modelo de datos para cada agente
 interface TopAgent {
@@ -137,10 +138,10 @@ const getAgentIdentifier = (agent: TopAgent): string => {
 
 // Función para obtener el nombre legible del agente
 const getAgentDisplayName = (agent: TopAgent): string => {
-  if (agent.agent_name) return agent.agent_name;
+  if (agent.agent_name) return normalizeAgentDisplayName(agent.agent_name);
   
   // Convertir agent_type o agent_id a formato legible
-  const identifier = getAgentIdentifier(agent);
+  const identifier = normalizeAgentDisplayName(getAgentIdentifier(agent));
   return identifier
     .split('_')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
