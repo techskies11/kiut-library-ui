@@ -729,10 +729,7 @@ const sankeyData = computed(() => {
   }
 
   return {
-    nodes: nodes.map((node) => ({
-      ...node,
-      label: `${node.label ?? node.name}\n${calculatePercentage(node.value, conversations)}`,
-    })),
+    nodes,
     links,
   };
 });

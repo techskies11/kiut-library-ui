@@ -41,6 +41,7 @@ import { SankeyChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 import { useBreakpoint, type Breakpoint } from '../../../composables/useBreakpoint';
+import { formatSankeyPercentage } from './sankeyFormatters';
 
 echarts.use([TooltipComponent, TitleComponent, SankeyChart, CanvasRenderer]);
 
@@ -409,20 +410,51 @@ const measureLabelBox = (
   };
 };
 
-const formatPercentage = (value: number, total: number): string => {
-  if (!total) return '0.0%';
-  return `${((value / total) * 100).toFixed(1)}%`;
-};
-
 const buildNodeDisplayLabel = (
   node: SankeyNode,
   maxCharsPerLine: number,
+  nodeValue: number,
+  originTotal: number,
 ): string => {
-  if (typeof node.label === 'string' && node.label) {
-    return wrapLabelName(prepareLabelText(node.label), maxCharsPerLine);
+  const name = typeof node.label === 'string' && node.label ? node.label : node.name;
+  const label = `${prepareLabelText(name)}\n(${formatSankeyPercentage(nodeValue, originTotal)})`;
+  return wrapLabelName(label, maxCharsPerLine);
+};
+
+const getNodeValue = (node: SankeyNode, links: SankeyLink[]): number => {
+  const incoming = links.filter((link) => link.target === node.name);
+  if (incoming.length > 0) {
+    return incoming.reduce((sum, link) => sum + getLinkValue(link), 0);
   }
 
-  return wrapLabelName(prepareLabelText(node.name), maxCharsPerLine);
+  if (typeof node.value === 'number') return node.value;
+
+  return links
+    .filter((link) => link.source === node.name)
+    .reduce((sum, link) => sum + getLinkValue(link), 0);
+};
+
+const getSourceStepTotal = (
+  sourceName: string,
+  nodes: SankeyNode[],
+  links: SankeyLink[],
+): number => {
+  const sourceNode = nodes.find((node) => node.name === sourceName);
+  if (sourceNode) return getNodeValue(sourceNode, links);
+
+  return links
+    .filter((link) => link.source === sourceName)
+    .reduce((sum, link) => sum + getLinkValue(link), 0);
+};
+
+const formatStepLinkLabel = (
+  sourceName: string,
+  value: number,
+  nodes: SankeyNode[],
+  links: SankeyLink[],
+): string => {
+  const sourceTotal = getSourceStepTotal(sourceName, nodes, links);
+  return `${value.toLocaleString()} (${formatSankeyPercentage(value, sourceTotal)})`;
 };
 
 interface ProcessedSankeyData {
@@ -542,7 +574,12 @@ const processSankeyData = (
 
   const processedNodes = sortedNodes.map((node, index) => {
     const status = resolveNodeStatus(node);
-    const displayLabel = buildNodeDisplayLabel(node, maxCharsPerLine);
+    const displayLabel = buildNodeDisplayLabel(
+      node,
+      maxCharsPerLine,
+      getNodeValue(node, links),
+      originTotal,
+    );
     displayLabels.push(displayLabel);
 
     const box = measureLabelBox(displayLabel, cfg.labelFontSize, lineHeight, maxCharsPerLine);
@@ -628,6 +665,7 @@ const validateData = () => {
 };
 
 const createTooltipFormatter = (
+  nodes: SankeyNode[],
   validLinks: SankeyLink[],
   originTotal: number,
 ) => (params: any) => {
@@ -644,14 +682,14 @@ const createTooltipFormatter = (
         ? incomingLinks.reduce((sum, link) => sum + (link.originalValue || link.value), 0)
         : outgoingLinks.reduce((sum, link) => sum + (link.originalValue || link.value), 0);
 
-    return `<div style="font-weight: 600; margin-bottom: 4px; color: ${tooltipTextColor};">${params.name}</div><div style="color: ${tooltipSecondaryColor}; font-size: 12px;">Count: ${actualValue.toLocaleString()}</div>`;
+    const pct = formatSankeyPercentage(actualValue, originTotal);
+    return `<div style="font-weight: 600; margin-bottom: 4px; color: ${tooltipTextColor};">${params.name} (${pct})</div><div style="color: ${tooltipSecondaryColor}; font-size: 12px;">Count: ${actualValue.toLocaleString()}</div>`;
   }
 
   const sourceName = params.data?.source || params.source || 'Unknown';
   const targetName = params.data?.target || params.target || 'Unknown';
   const originalValue = Number(params.data?.originalValue ?? params.data?.value ?? params.value ?? 0);
-  const pct = formatPercentage(originalValue, originTotal);
-  const label = `${originalValue.toLocaleString()} (${pct})`;
+  const label = formatStepLinkLabel(sourceName, originalValue, nodes, validLinks);
 
   return `<div style="font-weight: 600; margin-bottom: 4px; color: ${tooltipTextColor};">${sourceName} → ${targetName}</div><div style="color: ${tooltipSecondaryColor}; font-size: 12px;">Flow: ${label}</div>`;
 };
@@ -691,13 +729,12 @@ const setOptions = () => {
       chartHeightPx,
       originTotal,
     );
-    // % siempre respecto al total del nodo raíz (100% del funnel)
     const chartOptions = {
       tooltip: {
         trigger: 'item',
         triggerOn: 'mousemove|click',
         confine: true,
-        formatter: createTooltipFormatter(layoutLinks, originTotal),
+        formatter: createTooltipFormatter(validNodes, layoutLinks, originTotal),
         backgroundColor: colors.value.tooltipBg,
         borderColor: isDark.value ? 'rgba(198, 125, 255, 0.2)' : 'rgba(148, 163, 184, 0.2)',
         borderWidth: 1,
@@ -762,8 +799,8 @@ const setOptions = () => {
                 fontFamily: "'Inter', 'DM Sans', sans-serif",
                 formatter: (params: any) => {
                   const originalValue = Number(params.data?.originalValue ?? params.value ?? 0);
-                  const pct = formatPercentage(originalValue, originTotal);
-                  return `${originalValue.toLocaleString()} (${pct})`;
+                  const sourceName = params.data?.source || params.source || '';
+                  return formatStepLinkLabel(sourceName, originalValue, validNodes, layoutLinks);
                 },
               }
             : { show: false },
