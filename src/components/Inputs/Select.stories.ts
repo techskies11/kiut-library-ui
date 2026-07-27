@@ -130,6 +130,21 @@ export const Default: Story = {
   }),
 };
 
+export const Invalid: Story = {
+  args: {
+    modelValue: null,
+    label: 'Idioma',
+    options: [
+      { value: 'es', label: 'Español' },
+      { value: 'en', label: 'English' },
+    ],
+    placeholder: 'Seleccionar idioma…',
+    invalid: true,
+    errorText: 'Selecciona un idioma.',
+  },
+  render: Default.render,
+};
+
 const languageStatusOptions: KiutSelectOption[] = [
   {
     value: 'en',

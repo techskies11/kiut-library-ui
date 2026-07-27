@@ -8,14 +8,19 @@
       :disabled="disabled"
       :class="[
         kiutInputControlClass,
+        isInvalid ? kiutInputControlInvalidClass : '',
+        open && !isInvalid
+          ? 'border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25'
+          : '',
         'flex items-center justify-between gap-2 text-left',
-        open ? 'border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25' : '',
       ]"
       :aria-expanded="open"
       aria-haspopup="listbox"
       :aria-controls="listboxId"
       :aria-labelledby="label ? labelId : undefined"
       :aria-label="!label ? resolvedTriggerAriaLabel : undefined"
+      :aria-invalid="isInvalid ? 'true' : undefined"
+      :aria-describedby="errorText ? errorId : undefined"
       @click="onTriggerClick"
       @keydown="onTriggerKeydown"
     >
@@ -49,6 +54,10 @@
         aria-hidden="true"
       />
     </button>
+
+    <p v-if="errorText" :id="errorId" :class="kiutFieldErrorTextClass" role="alert">
+      {{ errorText }}
+    </p>
 
     <Teleport to="body">
       <div
@@ -139,7 +148,7 @@ import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { CheckIcon } from '@heroicons/vue/24/solid';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
-import { kiutInputControlClass, kiutLabelClass } from './inputFieldStyles';
+import { kiutFieldErrorTextClass, kiutInputControlClass, kiutInputControlInvalidClass, kiutLabelClass } from './inputFieldStyles';
 import {
   getSelectOptionBadgeClass,
   type KiutSelectOptionBadge,
@@ -178,6 +187,8 @@ const props = withDefaults(
     noResultsText?: string;
     /** Encabezado de sección sobre la lista (p. ej. "Idioma"). */
     listSectionLabel?: string;
+    invalid?: boolean;
+    errorText?: string;
   }>(),
   {
     placeholder: 'Seleccionar…',
@@ -197,6 +208,9 @@ const uid = `kiut-select-${randomInstanceSuffix()}`;
 const labelId = `${uid}-label`;
 const buttonId = `${uid}-btn`;
 const listboxId = `${uid}-listbox`;
+const errorId = `${uid}-err`;
+
+const isInvalid = computed(() => props.invalid ?? false);
 
 const rootRef = ref<HTMLElement | null>(null);
 const buttonRef = ref<HTMLElement | null>(null);
