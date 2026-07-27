@@ -13,7 +13,6 @@
         styles.container_icon,
         'p-2 rounded-4xl flex justify-center items-center',
       ]"
-      v-if="$slots.icon"
     >
       <span
         :class="[
@@ -22,7 +21,9 @@
         ]"
         aria-hidden="true"
       >
-        <slot name="icon" />
+        <slot name="icon">
+          <component :is="variantIcon" />
+        </slot>
       </span>
     </div>
     <div class="flex flex-col gap-1">
@@ -35,14 +36,15 @@
       <div class="flex flex-row gap-3 items-center">
         <div class="flex flex-row gap-1 items-center" v-if="props.date_start">
           <span
-            v-if="$slots.icon_date"
             :class="[
               styles.icon_date,
               'inline-flex shrink-0 [&>svg]:h-[1rem] [&>svg]:w-[1rem]',
             ]"
             aria-hidden="true"
           >
-            <slot name="icon_date" />
+            <slot name="icon_date">
+              <CalendarIcon />
+            </slot>
           </span>
           <span
             :class="[styles.subtitle_date, 'text-xs font-bold']"
@@ -54,14 +56,15 @@
         </div>
         <div class="flex flex-row gap-1 items-center" v-if="props.date_final">
           <span
-            v-if="$slots.icon_date"
             :class="[
               styles.icon_date,
               'inline-flex shrink-0 [&>svg]:h-[1rem] [&>svg]:w-[1rem]',
             ]"
             aria-hidden="true"
           >
-            <slot name="icon_date" />
+            <slot name="icon_date">
+              <CalendarIcon />
+            </slot>
           </span>
           <span
             :class="[styles.subtitle_date, 'text-xs font-bold']"
@@ -75,7 +78,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useAttrs, computed } from "vue";
+import { useAttrs, computed, type Component } from "vue";
+import {
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+  CheckCircleIcon,
+  SparklesIcon,
+  XCircleIcon,
+  CalendarIcon,
+} from "@heroicons/vue/20/solid";
 
 const attrs = useAttrs();
 export type KiutBannerVariant =
@@ -114,6 +125,14 @@ type BannerStyle = {
   container_icon: string;
   icon: string;
   icon_date: string;
+};
+
+const VARIANT_ICONS: Record<KiutBannerVariant, Component> = {
+  warning: ExclamationTriangleIcon,
+  info: InformationCircleIcon,
+  success: CheckCircleIcon,
+  feature: SparklesIcon,
+  danger: XCircleIcon,
 };
 
 const VARIANT_STYLES: Record<KiutBannerVariant, BannerStyle> = {
@@ -175,4 +194,5 @@ const VARIANT_STYLES: Record<KiutBannerVariant, BannerStyle> = {
 };
 
 const styles = computed(() => VARIANT_STYLES[props.variant]);
+const variantIcon = computed(() => VARIANT_ICONS[props.variant]);
 </script>
