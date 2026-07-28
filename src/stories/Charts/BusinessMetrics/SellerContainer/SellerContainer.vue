@@ -17,6 +17,7 @@
         :theme="theme"
         :enable-export="enableExport"
         :export-loading="effectiveSellerExportLoading"
+        :show-payment-method-details="showPaymentMethodDetails"
         @export="(fmt) => handleChildExport('seller', fmt)"
       />
       <SalesByChannel
@@ -66,11 +67,11 @@ interface SellerDayData {
   sell_get_quote_count: number;
   sell_booking_created_count: number;
   sell_success_count: number;
-  sell_bank_transfer_count: number;
-  sell_cash_option_count: number;
+  sell_success_bank_transfer_count?: number;
+  sell_success_cash_count?: number;
   daily_value_sell_success: number | CurrencyValue[];
-  daily_value_sell_bank_transfer: CurrencyValue[];
-  daily_value_sell_cash_option: CurrencyValue[];
+  daily_value_sell_success_bank_transfer?: CurrencyValue[];
+  daily_value_sell_success_cash?: CurrencyValue[];
   reasons?: FailedReason[];
 }
 
@@ -80,11 +81,11 @@ interface SellerData {
   total_sell_get_quote: number;
   total_sell_booking_created: number;
   total_sell_success: number;
-  total_sell_bank_transfer: number;
-  total_sell_cash_option: number;
+  total_sell_success_bank_transfer?: number;
+  total_sell_success_cash?: number;
   total_value_sell_success: number | CurrencyValue[];
-  total_value_sell_bank_transfer: CurrencyValue[];
-  total_value_sell_cash_option: CurrencyValue[];
+  total_value_sell_success_bank_transfer?: CurrencyValue[];
+  total_value_sell_success_cash?: CurrencyValue[];
   seller_by_day: SellerDayData[];
 }
 
@@ -129,6 +130,7 @@ const props = withDefaults(
     exportLoading?: boolean
     sellerExportLoading?: boolean
     salesByChannelExportLoading?: boolean
+    showPaymentMethodDetails?: boolean
     theme?: Theme
     /** Shape Seller.vue */
     sellerData?: SellerData
@@ -149,6 +151,7 @@ const props = withDefaults(
     exportLoading: false,
     sellerExportLoading: false,
     salesByChannelExportLoading: false,
+    showPaymentMethodDetails: false,
     theme: undefined,
     channelComparison: () => [],
   }
