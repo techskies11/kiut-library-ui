@@ -7,17 +7,17 @@ const mockSellerData = {
   total_sell_get_quote: 3500,
   total_sell_booking_created: 2800,
   total_sell_success: 2400,
-  total_sell_bank_transfer: 210,
-  total_sell_cash_option: 145,
+  total_sell_success_bank_transfer: 210,
+  total_sell_success_cash: 145,
   total_value_sell_success: [
     { currency: 'USD', total_value: 850000, count: 1500 },
     { currency: 'MXN', total_value: 7200000, count: 900 },
   ],
-  total_value_sell_bank_transfer: [
+  total_value_sell_success_bank_transfer: [
     { currency: 'USD', total_value: 73000, count: 125 },
     { currency: 'MXN', total_value: 650000, count: 85 },
   ],
-  total_value_sell_cash_option: [
+  total_value_sell_success_cash: [
     { currency: 'USD', total_value: 42000, count: 75 },
     { currency: 'MXN', total_value: 360000, count: 70 },
   ],
@@ -29,14 +29,14 @@ const mockSellerData = {
       sell_get_quote_count: 125,
       sell_booking_created_count: 100,
       sell_success_count: 85,
-      sell_bank_transfer_count: 8,
-      sell_cash_option_count: 5,
+      sell_success_bank_transfer_count: 8,
+      sell_success_cash_count: 5,
       daily_value_sell_success: [
         { currency: 'USD', total_value: 24500, count: 50 },
         { currency: 'MXN', total_value: 315000, count: 35 },
       ],
-      daily_value_sell_bank_transfer: [{ currency: 'USD', total_value: 5200, count: 8 }],
-      daily_value_sell_cash_option: [{ currency: 'MXN', total_value: 42000, count: 5 }],
+      daily_value_sell_success_bank_transfer: [{ currency: 'USD', total_value: 5200, count: 8 }],
+      daily_value_sell_success_cash: [{ currency: 'MXN', total_value: 42000, count: 5 }],
     },
     {
       date: '2024-11-02',
@@ -45,14 +45,14 @@ const mockSellerData = {
       sell_get_quote_count: 115,
       sell_booking_created_count: 92,
       sell_success_count: 78,
-      sell_bank_transfer_count: 6,
-      sell_cash_option_count: 7,
+      sell_success_bank_transfer_count: 6,
+      sell_success_cash_count: 7,
       daily_value_sell_success: [
         { currency: 'USD', total_value: 22000, count: 46 },
         { currency: 'MXN', total_value: 286000, count: 32 },
       ],
-      daily_value_sell_bank_transfer: [{ currency: 'USD', total_value: 4300, count: 6 }],
-      daily_value_sell_cash_option: [{ currency: 'MXN', total_value: 51000, count: 7 }],
+      daily_value_sell_success_bank_transfer: [{ currency: 'USD', total_value: 4300, count: 6 }],
+      daily_value_sell_success_cash: [{ currency: 'MXN', total_value: 51000, count: 7 }],
     },
     {
       date: '2024-11-03',
@@ -61,14 +61,14 @@ const mockSellerData = {
       sell_get_quote_count: 140,
       sell_booking_created_count: 112,
       sell_success_count: 96,
-      sell_bank_transfer_count: 9,
-      sell_cash_option_count: 4,
+      sell_success_bank_transfer_count: 9,
+      sell_success_cash_count: 4,
       daily_value_sell_success: [
         { currency: 'USD', total_value: 29500, count: 58 },
         { currency: 'MXN', total_value: 342000, count: 38 },
       ],
-      daily_value_sell_bank_transfer: [{ currency: 'USD', total_value: 6800, count: 9 }],
-      daily_value_sell_cash_option: [{ currency: 'MXN', total_value: 36000, count: 4 }],
+      daily_value_sell_success_bank_transfer: [{ currency: 'USD', total_value: 6800, count: 9 }],
+      daily_value_sell_success_cash: [{ currency: 'MXN', total_value: 36000, count: 4 }],
     },
   ],
 }

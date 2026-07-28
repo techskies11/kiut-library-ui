@@ -59,18 +59,20 @@
           title="Total Sales Value"
           :value="totalSalesCardValue"
         />
-        <CardInfo
-          class="seller-value-card"
-          color="#d97706"
-          title="Bank Transfer Value"
-          :value="bankTransferCardValue"
-        />
-        <CardInfo
-          class="seller-value-card"
-          color="#ca8a04"
-          title="Cash Option Value"
-          :value="cashOptionCardValue"
-        />
+        <template v-if="props.showPaymentMethodDetails">
+          <CardInfo
+            class="seller-value-card"
+            color="var(--kiut-success)"
+            title="Bank Transfer Value"
+            :value="bankTransferCardValue"
+          />
+          <CardInfo
+            class="seller-value-card"
+            color="var(--kiut-success)"
+            title="Cash Option Value"
+            :value="cashOptionCardValue"
+          />
+        </template>
       </section>
 
       <!-- Table Data (chrome: Utils/Table) -->
@@ -122,11 +124,6 @@
                 )
               }}</span>
             </template>
-            <template #cell-bankTransfer="{ row }">
-              <span class="sl-cell text-center">{{
-                useNumberFormat(Number(row.sell_bank_transfer_count) || 0)
-              }}</span>
-            </template>
             <template #cell-btValue="{ row }">
               <span class="sl-cell text-center success-value">
                 <div
@@ -161,11 +158,6 @@
                     sellerDayFromRow(row).sell_success_bank_transfer_count,
                   ) || 0,
                 )
-              }}</span>
-            </template>
-            <template #cell-cashOption="{ row }">
-              <span class="sl-cell text-center">{{
-                useNumberFormat(Number(row.sell_cash_option_count) || 0)
               }}</span>
             </template>
             <template #cell-coValue="{ row }">
@@ -297,13 +289,9 @@ interface SellerDayData {
   sell_get_quote_count: number;
   sell_booking_created_count: number;
   sell_success_count: number;
-  sell_bank_transfer_count: number;
-  sell_cash_option_count: number;
   sell_success_bank_transfer_count?: number;
   sell_success_cash_count?: number;
   daily_value_sell_success: number | CurrencyValue[];
-  daily_value_sell_bank_transfer: CurrencyValue[];
-  daily_value_sell_cash_option: CurrencyValue[];
   daily_value_sell_success_bank_transfer?: CurrencyValue[];
   daily_value_sell_success_cash?: CurrencyValue[];
   reasons?: FailedReason[];
@@ -319,13 +307,9 @@ interface SellerData {
   total_sell_get_quote: number;
   total_sell_booking_created: number;
   total_sell_success: number;
-  total_sell_bank_transfer: number;
-  total_sell_cash_option: number;
   total_sell_success_bank_transfer?: number;
   total_sell_success_cash?: number;
   total_value_sell_success: number | CurrencyValue[];
-  total_value_sell_bank_transfer: CurrencyValue[];
-  total_value_sell_cash_option: CurrencyValue[];
   total_value_sell_success_bank_transfer?: CurrencyValue[];
   total_value_sell_success_cash?: CurrencyValue[];
   seller_by_day: SellerDayData[];
@@ -348,6 +332,7 @@ const props = withDefaults(
     enableExport?: boolean;
     exportLoading?: boolean;
     initiallyOpen?: boolean;
+    showPaymentMethodDetails?: boolean;
   }>(),
   {
     sellerData: () => ({
@@ -356,11 +341,7 @@ const props = withDefaults(
       total_sell_get_quote: 0,
       total_sell_booking_created: 0,
       total_sell_success: 0,
-      total_sell_bank_transfer: 0,
-      total_sell_cash_option: 0,
       total_value_sell_success: 0,
-      total_value_sell_bank_transfer: [],
-      total_value_sell_cash_option: [],
       seller_by_day: [],
     }),
     failedData: () => ({
@@ -372,6 +353,7 @@ const props = withDefaults(
     enableExport: false,
     exportLoading: false,
     initiallyOpen: true,
+    showPaymentMethodDetails: false,
   },
 );
 
@@ -408,11 +390,7 @@ const tableData = computed(() => {
           sell_get_quote_count: 0,
           sell_booking_created_count: 0,
           sell_success_count: 0,
-          sell_bank_transfer_count: 0,
-          sell_cash_option_count: 0,
           daily_value_sell_success: 0,
-          daily_value_sell_bank_transfer: [],
-          daily_value_sell_cash_option: [],
           reasons: failedItem.reasons,
         });
       }
@@ -425,22 +403,32 @@ const tableData = computed(() => {
   );
 });
 
-const sellerTableColumns: TableColumn[] = [
-  { key: "date", label: "Date", align: "center" },
-  { key: "sellInitiated", label: "Sell Initiated", align: "center" },
-  { key: "sellStarted", label: "Sell Started", align: "center" },
-  { key: "getQuote", label: "Get Quote", align: "center" },
-  { key: "bookingCreated", label: "Booking Created", align: "center" },
-  { key: "bankTransfer", label: "Bank Transfer", align: "center" },
-  { key: "btValue", label: "BT Success Value", align: "center" },
-  { key: "btSuccess", label: "BT Success", align: "center" },
-  { key: "cashOption", label: "Cash Option", align: "center" },
-  { key: "coValue", label: "CO Success Value", align: "center" },
-  { key: "cashSuccess", label: "Cash Success", align: "center" },
-  { key: "sellSuccess", label: "Sell Success", align: "center" },
-  { key: "totalSalesValue", label: "Total Sales Value", align: "center" },
-  { key: "failed", label: "Failed", align: "left" },
-];
+const sellerTableColumns = computed<TableColumn[]>(() => {
+  const columns: TableColumn[] = [
+    { key: "date", label: "Date", align: "center" },
+    { key: "sellInitiated", label: "Sell Initiated", align: "center" },
+    { key: "sellStarted", label: "Sell Started", align: "center" },
+    { key: "getQuote", label: "Get Quote", align: "center" },
+    { key: "bookingCreated", label: "Booking Created", align: "center" },
+  ];
+
+  if (props.showPaymentMethodDetails) {
+    columns.push(
+      { key: "btValue", label: "BT Success Value", align: "center" },
+      { key: "btSuccess", label: "BT Success", align: "center" },
+      { key: "coValue", label: "CO Success Value", align: "center" },
+      { key: "cashSuccess", label: "Cash Success", align: "center" },
+    );
+  }
+
+  columns.push(
+    { key: "sellSuccess", label: "Sell Success", align: "center" },
+    { key: "totalSalesValue", label: "Total Sales Value", align: "center" },
+    { key: "failed", label: "Failed", align: "left" },
+  );
+
+  return columns;
+});
 
 const sellerTableRows = computed((): Record<string, unknown>[] =>
   tableData.value.map((row) => ({
@@ -457,13 +445,13 @@ const totalSalesByCurrency = computed(() =>
     : [],
 );
 const bankTransferByCurrency = computed(() =>
-  Array.isArray(props.sellerData.total_value_sell_bank_transfer)
-    ? props.sellerData.total_value_sell_bank_transfer
+  Array.isArray(props.sellerData.total_value_sell_success_bank_transfer)
+    ? props.sellerData.total_value_sell_success_bank_transfer
     : [],
 );
 const cashOptionByCurrency = computed(() =>
-  Array.isArray(props.sellerData.total_value_sell_cash_option)
-    ? props.sellerData.total_value_sell_cash_option
+  Array.isArray(props.sellerData.total_value_sell_success_cash)
+    ? props.sellerData.total_value_sell_success_cash
     : [],
 );
 
@@ -514,8 +502,6 @@ const sankeyData = computed(() => {
     total_sell_started: started = 0,
     total_sell_booking_created: bookingCreated = 0,
     total_sell_success: success = 0,
-    total_sell_bank_transfer: bankTransfer = 0,
-    total_sell_cash_option: cashOption = 0,
     total_sell_success_bank_transfer: successBankTransfer = 0,
     total_sell_success_cash: successCash = 0,
   } = sellerData.value;
@@ -523,11 +509,8 @@ const sankeyData = computed(() => {
 
   if (conversations === 0) return { nodes: [], links: [] };
 
-  // Sell Success (online) = total sell_success minus the offline-confirmed ones
-  const successOnline = Math.max(
-    0,
-    success - (successBankTransfer ?? 0) - (successCash ?? 0),
-  );
+  // API returns generic sell_success already excluding bank transfer and cash option.
+  const successOnline = success;
 
   const nodes: {
     name: string;
@@ -598,23 +581,31 @@ const sankeyData = computed(() => {
     });
   }
 
-  if (bankTransfer > 0) {
-    nodes.push({ name: "Bank Transfer", value: bankTransfer, status: "success" });
+  if ((successBankTransfer ?? 0) > 0) {
+    nodes.push({
+      name: "Bank Transfer",
+      value: successBankTransfer ?? 0,
+      status: "success",
+    });
     links.push({
       source: "Booking Created",
       target: "Bank Transfer",
-      value: bankTransfer,
-      label: formatSankeyLinkLabel(bankTransfer, conversations),
+      value: successBankTransfer ?? 0,
+      label: formatSankeyLinkLabel(successBankTransfer ?? 0, conversations),
     });
   }
 
-  if (cashOption > 0) {
-    nodes.push({ name: "Cash Option", value: cashOption, status: "success" });
+  if ((successCash ?? 0) > 0) {
+    nodes.push({
+      name: "Cash Option",
+      value: successCash ?? 0,
+      status: "success",
+    });
     links.push({
       source: "Booking Created",
       target: "Cash Option",
-      value: cashOption,
-      label: formatSankeyLinkLabel(cashOption, conversations),
+      value: successCash ?? 0,
+      label: formatSankeyLinkLabel(successCash ?? 0, conversations),
     });
   }
 
@@ -627,36 +618,11 @@ const sankeyData = computed(() => {
     });
   }
 
-  if ((successBankTransfer ?? 0) > 0) {
-    nodes.push({
-      name: "Bank Transfer Success",
-      value: successBankTransfer ?? 0,
-      status: "success",
-    });
-    links.push({
-      source: "Bank Transfer",
-      target: "Bank Transfer Success",
-      value: successBankTransfer ?? 0,
-      label: formatSankeyLinkLabel(successBankTransfer ?? 0, conversations),
-    });
-  }
-
-  if ((successCash ?? 0) > 0) {
-    nodes.push({
-      name: "Cash Option Success",
-      value: successCash ?? 0,
-      status: "success",
-    });
-    links.push({
-      source: "Cash Option",
-      target: "Cash Option Success",
-      value: successCash ?? 0,
-      label: formatSankeyLinkLabel(successCash ?? 0, conversations),
-    });
-  }
-
   const failedAtCompletion =
-    bookingCreated - successOnline - bankTransfer - cashOption;
+    bookingCreated -
+    successOnline -
+    (successBankTransfer ?? 0) -
+    (successCash ?? 0);
   if (failedAtCompletion > 0) {
     nodes.push({
       name: "Failed at Completion",
