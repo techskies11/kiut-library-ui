@@ -71,10 +71,14 @@
           class="border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]"
         >
           <div class="relative">
-            <MagnifyingGlassIcon
-              class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+            <span
+              class="pointer-events-none absolute inset-y-0 left-0 flex w-9 items-center justify-center"
               aria-hidden="true"
-            />
+            >
+              <MagnifyingGlassIcon
+                class="h-4 w-4 text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+              />
+            </span>
             <input
               ref="searchInputRef"
               v-model="searchQuery"
