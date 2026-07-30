@@ -23,8 +23,13 @@
         @click.stop
       >
         <header
-          class="flex shrink-0 justify-between gap-4 border-b border-slate-100 bg-slate-50/50 px-6 py-5 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.02]"
-          :class="subtitle ? 'items-start' : 'items-center'"
+          class="flex shrink-0 justify-between gap-4 bg-slate-50/50 px-6 py-5 dark:bg-white/[0.02]"
+          :class="[
+            subtitle ? 'items-start' : 'items-center',
+            headerBorder
+              ? 'border-b border-slate-100 dark:border-[color:var(--kiut-border-light)]'
+              : '',
+          ]"
         >
           <div class="min-w-0 flex-1 space-y-1">
             <h2
@@ -91,6 +96,8 @@ const props = withDefaults(
     id?: string;
     /** Ancho máximo del panel en px. Por defecto `512`. */
     width?: number;
+    /** Bottom border under the header. Defaults to `true`. */
+    headerBorder?: boolean;
     /**
      * Espera de respuesta de backend tras confirmar: spinner en el botón primario
      * y bloqueo de cancelar, cerrar y Escape.
@@ -101,6 +108,7 @@ const props = withDefaults(
     cancelLabel: 'Cancelar',
     confirmLabel: 'Guardar',
     width: 512,
+    headerBorder: true,
     loading: false,
   }
 );
