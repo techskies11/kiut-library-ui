@@ -167,15 +167,15 @@
               <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
             </span>
             <span
-              v-if="selectedOption?.leadingIcon"
+              v-if="opt.leadingIcon"
               :class="[
                 'inline-flex shrink-0 items-center justify-center rounded-full',
-                selectedOption.leadingIconWrapperClass,
+                opt.leadingIconWrapperClass,
               ]"
             >
               <component
-                :is="selectedOption.leadingIcon"
-                :class="['h-4 w-4', selectedOption.leadingIconClass]"
+                :is="opt.leadingIcon"
+                :class="['h-4 w-4', opt.leadingIconClass]"
               />
             </span>
             <span class="min-w-0 flex-1 truncate">{{ opt.label }}</span>

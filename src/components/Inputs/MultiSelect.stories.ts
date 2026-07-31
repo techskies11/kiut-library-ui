@@ -31,7 +31,7 @@ const meta: Meta<typeof MultiSelect> = {
     docs: {
       description: {
         component:
-          'Listbox múltiple con los mismos estilos que Select: chips en el trigger y check en opciones activas. Con `searchable` incluye un buscador interno que filtra opciones por label.',
+          'Listbox múltiple con los mismos estilos que Select: chips en el trigger y check en opciones activas. Con `searchable` incluye un buscador interno y con `showSelectAll` permite seleccionar o limpiar todas las opciones habilitadas.',
       },
     },
   },
@@ -48,6 +48,8 @@ export const Searchable: Story = {
     placeholder: 'Seleccionar países…',
     searchable: true,
     searchPlaceholder: 'Buscar país…',
+    showSelectAll: true,
+    selectAllLabel: 'Seleccionar todos los países',
   },
   render: (args) => ({
     components: { MultiSelect },

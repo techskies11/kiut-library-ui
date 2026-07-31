@@ -87,6 +87,31 @@
           />
         </div>
       </div>
+      <button
+        v-if="showSelectAll"
+        ref="selectAllRef"
+        type="button"
+        role="checkbox"
+        :aria-checked="selectAllAriaChecked"
+        :disabled="enabledOptions.length === 0"
+        class="flex w-full items-center gap-2 border-b border-gray-200 px-3 py-2 text-left text-sm font-medium text-[color:var(--kiut-text-primary)] outline-none transition-colors hover:bg-slate-100 focus-visible:bg-slate-100 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[color:var(--kiut-primary)] disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:text-slate-100 dark:hover:bg-white/5 dark:focus-visible:bg-white/5"
+        @click.stop="toggleSelectAll"
+        @keydown="onSelectAllKeydown"
+      >
+        <span
+          class="flex h-4 w-4 shrink-0 items-center justify-center rounded border border-gray-400 transition-colors dark:border-slate-500"
+          :class="
+            allEnabledSelected || someEnabledSelected
+              ? 'border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)] text-white dark:border-[color:var(--kiut-primary)]'
+              : ''
+          "
+          aria-hidden="true"
+        >
+          <MinusIcon v-if="someEnabledSelected" class="h-3 w-3" />
+          <CheckIcon v-else-if="allEnabledSelected" class="h-3 w-3" />
+        </span>
+        <span>{{ selectAllLabel }}</span>
+      </button>
       <ul
         :id="listboxId"
         ref="listRef"
@@ -126,7 +151,7 @@ import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/vue/24/outline";
-import { CheckIcon } from "@heroicons/vue/24/solid";
+import { CheckIcon, MinusIcon } from "@heroicons/vue/24/solid";
 import {
   computed,
   nextTick,
@@ -154,12 +179,17 @@ const props = withDefaults(
     searchable?: boolean;
     searchPlaceholder?: string;
     noResultsText?: string;
+    /** Permite seleccionar o limpiar todas las opciones habilitadas. */
+    showSelectAll?: boolean;
+    selectAllLabel?: string;
   }>(),
   {
     placeholder: "Seleccionar…",
     searchable: false,
     searchPlaceholder: "Buscar…",
     noResultsText: "Sin resultados",
+    showSelectAll: false,
+    selectAllLabel: "Seleccionar todas",
   },
 );
 
@@ -175,6 +205,7 @@ const listboxId = `${uid}-listbox`;
 const rootRef = ref<HTMLElement | null>(null);
 const listRef = ref<HTMLElement | null>(null);
 const searchInputRef = ref<HTMLInputElement | null>(null);
+const selectAllRef = ref<HTMLButtonElement | null>(null);
 const open = ref(false);
 const highlightIndex = ref(0);
 const searchQuery = ref("");
@@ -191,6 +222,22 @@ const visibleOptions = computed(() => {
 });
 
 const selectedSet = computed(() => new Set(props.modelValue ?? []));
+const selectedEnabledCount = computed(
+  () =>
+    enabledOptions.value.filter((option) => selectedSet.value.has(option.value))
+      .length,
+);
+const allEnabledSelected = computed(
+  () =>
+    enabledOptions.value.length > 0 &&
+    selectedEnabledCount.value === enabledOptions.value.length,
+);
+const someEnabledSelected = computed(
+  () => selectedEnabledCount.value > 0 && !allEnabledSelected.value,
+);
+const selectAllAriaChecked = computed(() =>
+  someEnabledSelected.value ? "mixed" : allEnabledSelected.value,
+);
 
 const selectedOrdered = computed(() =>
   props.options.filter((o) => selectedSet.value.has(o.value)),
@@ -232,6 +279,20 @@ function toggleOption(opt: KiutSelectOption<KiutSelectValue>) {
   emit("update:modelValue", next);
 }
 
+function toggleSelectAll() {
+  const enabledValues = new Set(enabledOptions.value.map((option) => option.value));
+  const preservedValues = (props.modelValue ?? []).filter(
+    (value) => !enabledValues.has(value),
+  );
+
+  emit(
+    "update:modelValue",
+    allEnabledSelected.value
+      ? preservedValues
+      : [...preservedValues, ...enabledOptions.value.map((option) => option.value)],
+  );
+}
+
 function syncHighlightToSelection() {
   const opts = visibleOptions.value;
   if (opts.length === 0) {
@@ -246,6 +307,10 @@ function syncHighlightToSelection() {
 function focusPanel() {
   if (props.searchable) {
     searchInputRef.value?.focus();
+    return;
+  }
+  if (props.showSelectAll) {
+    selectAllRef.value?.focus();
     return;
   }
   listRef.value?.focus();
@@ -306,6 +371,10 @@ function onSearchKeydown(e: KeyboardEvent) {
   }
   if (e.key === "ArrowDown") {
     e.preventDefault();
+    if (props.showSelectAll) {
+      selectAllRef.value?.focus();
+      return;
+    }
     if (opts.length === 0) return;
     highlightIndex.value = 0;
     listRef.value?.focus();
@@ -325,6 +394,24 @@ function onSearchKeydown(e: KeyboardEvent) {
   }
 }
 
+function onSelectAllKeydown(e: KeyboardEvent) {
+  if (e.key === "Escape") {
+    e.preventDefault();
+    closePanel();
+    return;
+  }
+  if (e.key === "ArrowDown" && visibleOptions.value.length > 0) {
+    e.preventDefault();
+    highlightIndex.value = 0;
+    listRef.value?.focus();
+    return;
+  }
+  if (e.key === "ArrowUp" && props.searchable) {
+    e.preventDefault();
+    searchInputRef.value?.focus();
+  }
+}
+
 function onListKeydown(e: KeyboardEvent) {
   const opts = visibleOptions.value;
   if (e.key === "Escape") {
@@ -340,6 +427,10 @@ function onListKeydown(e: KeyboardEvent) {
   }
   if (e.key === "ArrowUp") {
     e.preventDefault();
+    if (highlightIndex.value === 0 && props.showSelectAll) {
+      selectAllRef.value?.focus();
+      return;
+    }
     if (highlightIndex.value === 0 && props.searchable) {
       searchInputRef.value?.focus();
       return;
