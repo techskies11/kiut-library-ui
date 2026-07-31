@@ -1,6 +1,17 @@
 <template>
   <div ref="rootRef" class="relative font-sans">
-    <label v-if="label" :id="labelId" :class="kiutLabelClass">{{ label }}</label>
+    <div class="flex flex-col gap-3 items-center">
+      <span
+        v-if="$slots.icon"
+        class="inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
+        aria-hidden="true"
+      >
+        <slot name="icon" />
+      </span>
+      <label v-if="label" :id="labelId" :class="kiutLabelClass">{{
+        label
+      }}</label>
+    </div>
     <button
       :id="buttonId"
       type="button"
@@ -8,7 +19,9 @@
       :class="[
         kiutInputControlClass,
         'flex items-start justify-between gap-2 text-left',
-        open ? 'border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25' : '',
+        open
+          ? 'border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25'
+          : '',
       ]"
       :aria-expanded="open"
       aria-haspopup="listbox"
@@ -18,7 +31,9 @@
       @click="onTriggerClick"
       @keydown="onTriggerKeydown"
     >
-      <div class="min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5">
+      <div
+        class="min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5"
+      >
         <template v-if="selectedOrdered.length === 0">
           <span
             class="block truncate text-[color:var(--kiut-text-muted)] dark:text-slate-500"
@@ -72,14 +87,14 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronDownIcon } from '@heroicons/vue/24/outline';
-import { CheckIcon } from '@heroicons/vue/24/solid';
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue';
-import { randomInstanceSuffix } from '../../utils/randomId';
-import { kiutInputControlClass, kiutLabelClass } from './inputFieldStyles';
-import type { KiutSelectOption, KiutSelectValue } from './Select.vue';
+import { ChevronDownIcon } from "@heroicons/vue/24/outline";
+import { CheckIcon } from "@heroicons/vue/24/solid";
+import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
+import { randomInstanceSuffix } from "../../utils/randomId";
+import { kiutInputControlClass, kiutLabelClass } from "./inputFieldStyles";
+import type { KiutSelectOption, KiutSelectValue } from "./Select.vue";
 
-defineOptions({ name: 'MultiSelect' });
+defineOptions({ name: "MultiSelect" });
 
 const props = withDefaults(
   defineProps<{
@@ -92,12 +107,12 @@ const props = withDefaults(
     disabled?: boolean;
   }>(),
   {
-    placeholder: 'Seleccionar…',
-  }
+    placeholder: "Seleccionar…",
+  },
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: KiutSelectValue[]];
+  "update:modelValue": [value: KiutSelectValue[]];
 }>();
 
 const uid = `kiut-multiselect-${randomInstanceSuffix()}`;
@@ -115,14 +130,15 @@ const enabledOptions = computed(() => props.options.filter((o) => !o.disabled));
 const selectedSet = computed(() => new Set(props.modelValue ?? []));
 
 const selectedOrdered = computed(() =>
-  props.options.filter((o) => selectedSet.value.has(o.value))
+  props.options.filter((o) => selectedSet.value.has(o.value)),
 );
 
 const resolvedTriggerAriaLabel = computed(() => {
-  const base = props.ariaLabelTrigger ?? props.placeholder ?? 'Seleccionar opciones';
+  const base =
+    props.ariaLabelTrigger ?? props.placeholder ?? "Seleccionar opciones";
   const n = selectedOrdered.value.length;
   if (n === 0) return base;
-  return `${base}, ${n} seleccionada${n === 1 ? '' : 's'}`;
+  return `${base}, ${n} seleccionada${n === 1 ? "" : "s"}`;
 });
 
 function optionKey(opt: KiutSelectOption<KiutSelectValue>) {
@@ -137,11 +153,11 @@ function optionClass(opt: KiutSelectOption<KiutSelectValue>, index: number) {
   const selected = isSelected(opt);
   const hi = highlightIndex.value === index;
   return [
-    'flex cursor-pointer items-center gap-1.5 px-2 py-2 text-sm outline-none transition-colors',
+    "flex cursor-pointer items-center gap-1.5 px-2 py-2 text-sm outline-none transition-colors",
     selected
-      ? 'mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white'
-      : 'text-[color:var(--kiut-text-primary)] dark:text-slate-100',
-    !selected && hi ? 'bg-slate-100 dark:bg-white/5' : '',
+      ? "mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white"
+      : "text-[color:var(--kiut-text-primary)] dark:text-slate-100",
+    !selected && hi ? "bg-slate-100 dark:bg-white/5" : "",
   ];
 }
 
@@ -150,7 +166,7 @@ function toggleOption(opt: KiutSelectOption<KiutSelectValue>) {
   const i = next.indexOf(opt.value);
   if (i >= 0) next.splice(i, 1);
   else next.push(opt.value);
-  emit('update:modelValue', next);
+  emit("update:modelValue", next);
 }
 
 function syncHighlightToSelection() {
@@ -189,7 +205,7 @@ function onDocumentClick(e: MouseEvent) {
 
 function onTriggerKeydown(e: KeyboardEvent) {
   if (props.disabled) return;
-  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+  if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
     e.preventDefault();
     if (!open.value) {
       open.value = true;
@@ -202,22 +218,22 @@ function onTriggerKeydown(e: KeyboardEvent) {
 function onListKeydown(e: KeyboardEvent) {
   const opts = enabledOptions.value;
   if (opts.length === 0) return;
-  if (e.key === 'Escape') {
+  if (e.key === "Escape") {
     e.preventDefault();
     open.value = false;
     return;
   }
-  if (e.key === 'ArrowDown') {
+  if (e.key === "ArrowDown") {
     e.preventDefault();
     highlightIndex.value = Math.min(highlightIndex.value + 1, opts.length - 1);
     return;
   }
-  if (e.key === 'ArrowUp') {
+  if (e.key === "ArrowUp") {
     e.preventDefault();
     highlightIndex.value = Math.max(highlightIndex.value - 1, 0);
     return;
   }
-  if (e.key === 'Enter' || e.key === ' ') {
+  if (e.key === "Enter" || e.key === " ") {
     e.preventDefault();
     const opt = opts[highlightIndex.value];
     if (opt) toggleOption(opt);
@@ -225,10 +241,10 @@ function onListKeydown(e: KeyboardEvent) {
 }
 
 onMounted(() => {
-  document.addEventListener('click', onDocumentClick);
+  document.addEventListener("click", onDocumentClick);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', onDocumentClick);
+  document.removeEventListener("click", onDocumentClick);
 });
 </script>
