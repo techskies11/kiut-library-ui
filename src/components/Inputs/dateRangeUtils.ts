@@ -28,6 +28,14 @@ const WEEKDAYS: Record<KiutDateLocale, readonly string[]> = {
   es: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
 };
 
+/** Weekday headers with Monday as the first column (InputDateTime). */
+const WEEKDAYS_MONDAY_FIRST: Record<KiutDateLocale, readonly string[]> = {
+  en: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+  es: ['lu', 'ma', 'mi', 'ju', 'vi', 'sá', 'do'],
+};
+
+const DATE_TIME_LOCAL_PATTERN = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/;
+
 const SHORT_MONTHS: Record<KiutDateLocale, readonly string[]> = {
   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
   es: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
@@ -103,6 +111,10 @@ const PRESET_IDS: KiutDatePresetId[] = [
 
 export function getWeekDays(locale: KiutDateLocale = 'en'): readonly string[] {
   return WEEKDAYS[locale];
+}
+
+export function getWeekDaysMondayFirst(locale: KiutDateLocale = 'en'): readonly string[] {
+  return WEEKDAYS_MONDAY_FIRST[locale];
 }
 
 export function getDatePresets(locale: KiutDateLocale = 'en'): KiutDatePreset[] {
@@ -263,6 +275,85 @@ export function buildMonthCells(monthStart: Date): Date[] {
     cur.setDate(cur.getDate() + 1);
   }
   return cells;
+}
+
+/** 42 celdas (6×7) desde el lunes de la semana que contiene el día 1 */
+export function buildMonthCellsMondayFirst(monthStart: Date): Date[] {
+  const y = monthStart.getFullYear();
+  const m = monthStart.getMonth();
+  const first = new Date(y, m, 1);
+  const start = new Date(first);
+  start.setDate(first.getDate() - ((first.getDay() + 6) % 7));
+  const cells: Date[] = [];
+  const cur = new Date(start);
+  for (let i = 0; i < 42; i++) {
+    cells.push(new Date(cur));
+    cur.setDate(cur.getDate() + 1);
+  }
+  return cells;
+}
+
+/** Parses `YYYY-MM-DDTHH:mm` as local wall-clock time. */
+export function parseDateTimeLocalValue(value: string | null | undefined): Date | null {
+  if (!value?.trim()) return null;
+
+  const match = DATE_TIME_LOCAL_PATTERN.exec(value.trim());
+  if (!match) return null;
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const hour = Number(match[4]);
+  const minute = Number(match[5]);
+
+  const date = new Date(year, month - 1, day, hour, minute);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+export function toDateTimeLocalValue(date: Date): string {
+  const y = date.getFullYear();
+  const mo = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const h = String(date.getHours()).padStart(2, '0');
+  const min = String(date.getMinutes()).padStart(2, '0');
+  return `${y}-${mo}-${day}T${h}:${min}`;
+}
+
+export function extractTimeHHmm(value: string | null | undefined): string {
+  const parsed = parseDateTimeLocalValue(value);
+  if (!parsed) return '00:00';
+  return `${String(parsed.getHours()).padStart(2, '0')}:${String(parsed.getMinutes()).padStart(2, '0')}`;
+}
+
+/** Trigger label, e.g. `20 jun 2026 · 02:00` */
+export function formatDateTimeDisplay(
+  value: string | null | undefined,
+  locale: KiutDateLocale = 'es'
+): string {
+  const date = parseDateTimeLocalValue(value);
+  if (!date) return '';
+
+  const datePart = new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+
+  const timePart = new Intl.DateTimeFormat(locale, {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date);
+
+  return `${datePart} · ${timePart}`;
+}
+
+export function isDateTimeBefore(a: Date, b: Date): boolean {
+  return a.getTime() < b.getTime();
+}
+
+export function isDateTimeAfter(a: Date, b: Date): boolean {
+  return a.getTime() > b.getTime();
 }
 
 /** Ej. Mar 01 */

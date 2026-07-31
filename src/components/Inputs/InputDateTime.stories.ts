@@ -11,7 +11,7 @@ const meta: Meta<typeof InputDateTime> = {
     docs: {
       description: {
         component:
-          'Fecha y hora con el selector nativo (`datetime-local`). El valor es una cadena `YYYY-MM-DDTHH:mm` o `null`. Tema claro/oscuro: toolbar **Theme** en Storybook.',
+          'Fecha y hora con calendario y selector de hora personalizados. El valor es una cadena `YYYY-MM-DDTHH:mm` o `null`. Tema claro/oscuro: toolbar **Theme** en Storybook.',
       },
     },
   },
@@ -45,8 +45,9 @@ export const Default: Story = {
 
 export const WithValue: Story = {
   args: {
-    modelValue: '2026-04-08T09:30',
-    label: 'Cita',
+    modelValue: '2026-06-20T02:00',
+    label: 'Inicio',
+    locale: 'es',
     min: '2026-01-01T00:00',
     max: '2026-12-31T23:59',
     step: 60,

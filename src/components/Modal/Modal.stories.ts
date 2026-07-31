@@ -36,6 +36,11 @@ const meta: Meta<typeof Modal> = {
       description: 'Ancho máximo del panel en px. Por defecto `512`.',
       table: { defaultValue: { summary: '512' } },
     },
+    headerBorder: {
+      control: 'boolean',
+      description: 'Muestra el borde inferior bajo la cabecera. Por defecto `true`.',
+      table: { defaultValue: { summary: 'true' } },
+    },
     loading: { control: 'boolean' },
   },
 };

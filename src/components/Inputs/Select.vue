@@ -1,6 +1,17 @@
 <template>
   <div ref="rootRef" class="relative font-sans">
-    <label v-if="label" :id="labelId" :class="kiutLabelClass">{{ label }}</label>
+    <div class="flex flex-col gap-3 items-center">
+      <span
+        v-if="$slots.icon"
+        class="inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
+        aria-hidden="true"
+      >
+        <slot name="icon" />
+      </span>
+      <label v-if="label" :id="labelId" :class="kiutLabelClass">{{
+        label
+      }}</label>
+    </div>
     <button
       ref="buttonRef"
       :id="buttonId"
@@ -32,6 +43,18 @@
           aria-hidden="true"
         />
         <span
+          v-if="selectedOption?.leadingIcon"
+          :class="[
+            'inline-flex shrink-0 items-center justify-center rounded-full',
+            selectedOption.leadingIconWrapperClass,
+          ]"
+        >
+          <component
+            :is="selectedOption.leadingIcon"
+            :class="['h-4 w-4', selectedOption.leadingIconClass]"
+          />
+        </span>
+        <span
           class="min-w-0 truncate"
           :class="
             modelValue === null || modelValue === undefined || modelValue === ''
@@ -55,7 +78,12 @@
       />
     </button>
 
-    <p v-if="errorText" :id="errorId" :class="kiutFieldErrorTextClass" role="alert">
+    <p
+      v-if="errorText"
+      :id="errorId"
+      :class="kiutFieldErrorTextClass"
+      role="alert"
+    >
       {{ errorText }}
     </p>
 
@@ -71,10 +99,14 @@
           class="border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]"
         >
           <div class="relative">
-            <MagnifyingGlassIcon
-              class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+            <span
+              class="pointer-events-none absolute inset-y-0 left-0 flex w-9 items-center justify-center"
               aria-hidden="true"
-            />
+            >
+              <MagnifyingGlassIcon
+                class="h-4 w-4 text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+              />
+            </span>
             <input
               ref="searchInputRef"
               v-model="searchQuery"
@@ -98,7 +130,11 @@
           ref="listRef"
           role="listbox"
           tabindex="-1"
-          :class="listSectionLabel ? 'max-h-60 overflow-auto pb-1' : 'max-h-60 overflow-auto py-1'"
+          :class="
+            listSectionLabel
+              ? 'max-h-60 overflow-auto pb-1'
+              : 'max-h-60 overflow-auto py-1'
+          "
           @keydown.stop="onListKeydown"
         >
           <li
@@ -144,18 +180,34 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
-import { CheckIcon } from '@heroicons/vue/24/solid';
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-import { randomInstanceSuffix } from '../../utils/randomId';
-import { kiutFieldErrorTextClass, kiutInputControlClass, kiutInputControlInvalidClass, kiutLabelClass } from './inputFieldStyles';
+import {
+  ChevronDownIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/vue/24/outline";
+import { CheckIcon } from "@heroicons/vue/24/solid";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+  type Component,
+} from "vue";
+import { randomInstanceSuffix } from "../../utils/randomId";
+import {
+  kiutFieldErrorTextClass,
+  kiutInputControlClass,
+  kiutInputControlInvalidClass,
+  kiutLabelClass,
+} from "./inputFieldStyles";
 import {
   getSelectOptionBadgeClass,
   type KiutSelectOptionBadge,
   type KiutSelectOptionBadgeVariant,
-} from './selectOptionBadgeStyles';
+} from "./selectOptionBadgeStyles";
 
-defineOptions({ name: 'Select' });
+defineOptions({ name: "Select" });
 
 export type KiutSelectValue = string | number;
 export type { KiutSelectOptionBadge, KiutSelectOptionBadgeVariant };
@@ -167,6 +219,9 @@ export interface KiutSelectOption<T extends KiutSelectValue = string> {
   /** Optional CSS classes for a leading visual (e.g. flag-icon). */
   leadingClass?: string;
   /** Optional trailing pill shown in the trigger and option row. */
+  leadingIcon?: Component; // Heroicon por opción
+  leadingIconClass?: string; // color del icono, ej. text-emerald-500
+  leadingIconWrapperClass?: string; // círculo, ej. bg-emerald-100 rounded-full p-1
   badge?: KiutSelectOptionBadge;
 }
 
@@ -191,17 +246,17 @@ const props = withDefaults(
     errorText?: string;
   }>(),
   {
-    placeholder: 'Seleccionar…',
+    placeholder: "Seleccionar…",
     showOptionCheck: true,
     searchable: false,
-    searchPlaceholder: 'Buscar…',
-    noResultsText: 'Sin resultados',
+    searchPlaceholder: "Buscar…",
+    noResultsText: "Sin resultados",
     listSectionLabel: undefined,
-  }
+  },
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: KiutSelectValue];
+  "update:modelValue": [value: KiutSelectValue];
 }>();
 
 const uid = `kiut-select-${randomInstanceSuffix()}`;
@@ -219,7 +274,7 @@ const listRef = ref<HTMLElement | null>(null);
 const searchInputRef = ref<HTMLInputElement | null>(null);
 const open = ref(false);
 const highlightIndex = ref(0);
-const searchQuery = ref('');
+const searchQuery = ref("");
 const floatingStyle = ref<Record<string, string>>({});
 
 function updatePosition() {
@@ -242,20 +297,24 @@ const visibleOptions = computed(() => {
   return enabledOptions.value.filter(
     (o) =>
       o.label.toLowerCase().includes(q) ||
-      o.badge?.label.toLowerCase().includes(q)
+      o.badge?.label.toLowerCase().includes(q),
   );
 });
 
 const resolvedTriggerAriaLabel = computed(
-  () => props.ariaLabelTrigger ?? props.placeholder ?? 'Seleccionar opción'
+  () => props.ariaLabelTrigger ?? props.placeholder ?? "Seleccionar opción",
 );
 
 const selectedOption = computed(
-  () => props.options.find((o) => o.value === props.modelValue) ?? null
+  () => props.options.find((o) => o.value === props.modelValue) ?? null,
 );
 
 const displayLabel = computed(() => {
-  if (props.modelValue === null || props.modelValue === undefined || props.modelValue === '') {
+  if (
+    props.modelValue === null ||
+    props.modelValue === undefined ||
+    props.modelValue === ""
+  ) {
     return props.placeholder;
   }
   return selectedOption.value?.label ?? String(props.modelValue);
@@ -276,23 +335,23 @@ function optionClass(opt: KiutSelectOption<KiutSelectValue>, index: number) {
   const hi = highlightIndex.value === index;
   const withSection = Boolean(props.listSectionLabel);
   return [
-    'flex cursor-pointer items-center gap-2.5 text-sm outline-none transition-colors',
+    "flex cursor-pointer items-center gap-2.5 text-sm outline-none transition-colors",
     withSection
-      ? 'border-b border-gray-200 px-3 py-2.5 last:border-b-0 dark:border-white/5'
-      : 'gap-1.5 px-2 py-2',
+      ? "border-b border-gray-200 px-3 py-2.5 last:border-b-0 dark:border-white/5"
+      : "gap-1.5 px-2 py-2",
     selected
       ? withSection
-        ? 'bg-[color:var(--kiut-primary)]/10 font-medium text-[color:var(--kiut-primary)] dark:bg-[color:var(--kiut-primary)]/15'
-        : 'mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white'
-      : 'text-[color:var(--kiut-text-primary)] dark:text-slate-100',
-    !selected && hi ? 'bg-slate-100 dark:bg-white/5' : '',
+        ? "bg-[color:var(--kiut-primary-section)] font-medium text-[color:var(--kiut-primary)] dark:bg-[color:var(--kiut-primary-section)]"
+        : "mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white"
+      : "text-[color:var(--kiut-text-primary)] dark:text-slate-100",
+    !selected && hi ? "bg-slate-100 dark:bg-white/5" : "",
   ];
 }
 
 function syncHighlightToValue() {
   highlightIndex.value = Math.max(
     0,
-    visibleOptions.value.findIndex((o) => o.value === props.modelValue)
+    visibleOptions.value.findIndex((o) => o.value === props.modelValue),
   );
 }
 
@@ -306,18 +365,18 @@ function focusPanel() {
 
 function openPanel() {
   updatePosition();
-  searchQuery.value = '';
+  searchQuery.value = "";
   syncHighlightToValue();
   void nextTick(() => focusPanel());
 }
 
 function closePanel() {
   open.value = false;
-  searchQuery.value = '';
+  searchQuery.value = "";
 }
 
 function choose(opt: KiutSelectOption<KiutSelectValue>) {
-  emit('update:modelValue', opt.value);
+  emit("update:modelValue", opt.value);
   closePanel();
 }
 
@@ -349,7 +408,7 @@ function onDocumentClick(e: MouseEvent) {
 
 function onTriggerKeydown(e: KeyboardEvent) {
   if (props.disabled) return;
-  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+  if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
     e.preventDefault();
     if (!open.value) {
       open.value = true;
@@ -360,26 +419,26 @@ function onTriggerKeydown(e: KeyboardEvent) {
 
 function onSearchKeydown(e: KeyboardEvent) {
   const opts = visibleOptions.value;
-  if (e.key === 'Escape') {
+  if (e.key === "Escape") {
     e.preventDefault();
     closePanel();
     return;
   }
-  if (e.key === 'ArrowDown') {
+  if (e.key === "ArrowDown") {
     e.preventDefault();
     if (opts.length === 0) return;
     highlightIndex.value = 0;
     listRef.value?.focus();
     return;
   }
-  if (e.key === 'ArrowUp') {
+  if (e.key === "ArrowUp") {
     e.preventDefault();
     if (opts.length === 0) return;
     highlightIndex.value = opts.length - 1;
     listRef.value?.focus();
     return;
   }
-  if (e.key === 'Enter') {
+  if (e.key === "Enter") {
     e.preventDefault();
     const opt = opts[highlightIndex.value];
     if (opt) choose(opt);
@@ -388,18 +447,18 @@ function onSearchKeydown(e: KeyboardEvent) {
 
 function onListKeydown(e: KeyboardEvent) {
   const opts = visibleOptions.value;
-  if (e.key === 'Escape') {
+  if (e.key === "Escape") {
     e.preventDefault();
     closePanel();
     return;
   }
   if (opts.length === 0) return;
-  if (e.key === 'ArrowDown') {
+  if (e.key === "ArrowDown") {
     e.preventDefault();
     highlightIndex.value = Math.min(highlightIndex.value + 1, opts.length - 1);
     return;
   }
-  if (e.key === 'ArrowUp') {
+  if (e.key === "ArrowUp") {
     e.preventDefault();
     if (highlightIndex.value === 0 && props.searchable) {
       searchInputRef.value?.focus();
@@ -408,7 +467,7 @@ function onListKeydown(e: KeyboardEvent) {
     highlightIndex.value = Math.max(highlightIndex.value - 1, 0);
     return;
   }
-  if (e.key === 'Enter') {
+  if (e.key === "Enter") {
     e.preventDefault();
     const opt = opts[highlightIndex.value];
     if (opt) choose(opt);
@@ -420,11 +479,11 @@ watch(searchQuery, () => {
 });
 
 onMounted(() => {
-  document.addEventListener('click', onDocumentClick);
+  document.addEventListener("click", onDocumentClick);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', onDocumentClick);
+  document.removeEventListener("click", onDocumentClick);
 });
 </script>
 

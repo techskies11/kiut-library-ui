@@ -40,7 +40,7 @@ const meta: Meta<typeof Select> = {
     docs: {
       description: {
         component:
-          'Listbox estilizado: ítem activo con check y fondo primario. Con `searchable` incluye un buscador interno que filtra opciones por label.',
+          'Listbox estilizado: ítem activo con check y fondo primario. Con `searchable` incluye un buscador interno que filtra opciones por label. Podrás poner íconos al lado del label con <template #icon>',
       },
     },
   },
