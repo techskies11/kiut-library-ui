@@ -68,18 +68,18 @@
                 )
               }}</span>
             </template>
-            <template #cell-completed="{ row }">
+            <template #cell-closed="{ row }">
               <span class="percentage-value">{{
                 calculatePercentage(
-                  row.segment_completed_count as number,
+                  row.segment_closed_count as number,
                   row.segment_init_count as number,
                 )
               }}</span>
             </template>
-            <template #cell-closed="{ row }">
+            <template #cell-completed="{ row }">
               <span class="percentage-value success">{{
                 calculatePercentage(
-                  row.segment_closed_count as number,
+                  row.segment_completed_count as number,
                   row.segment_init_count as number,
                 )
               }}</span>
@@ -172,6 +172,7 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, "theme"));
 
+// Shared with CheckinMetrics: closed = PSS accepted; completed = BP issued
 const tableColumns: TableColumn[] = [
   { key: "departure", label: "Departure", align: "center" },
   { key: "connection", label: "Connection", align: "center" },
@@ -179,8 +180,8 @@ const tableColumns: TableColumn[] = [
   { key: "trip", label: "Trip", align: "center" },
   { key: "init", label: "Init", align: "center" },
   { key: "started", label: "Started (%)", align: "center" },
-  { key: "completed", label: "Completed (%)", align: "center" },
-  { key: "closed", label: "Closed (%)", align: "center" },
+  { key: "closed", label: "Check-in Closed (%)", align: "center" },
+  { key: "completed", label: "BP Issued (%)", align: "center" },
 ];
 
 const tableRows = computed((): Record<string, unknown>[] =>

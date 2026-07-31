@@ -466,3 +466,62 @@ export const BoardingPassErrors: Story = {
     loading: false,
   },
 };
+
+/**
+ * Avianca event semantics:
+ * - checkin_closed → Check-in Closed (PSS accepted)
+ * - checkin_completed → BP Issued (OCA success)
+ * - checkin_failed + choose_boardingpass → BP Error
+ * - Abandoned (Booking) vs Abandoned after Closed are distinct nodes
+ */
+export const AviancaBoardingPassFailures: Story = {
+  args: {
+    isAvianca: true,
+    initiallyOpen: true,
+    checkinData: {
+      airline_name: 'Avianca',
+      start_date: '2026-07-28',
+      end_date: '2026-07-28',
+      total_checkin_initiated: 24,
+      total_record_locator_init: 18,
+      total_record_locator_started: 18,
+      total_record_locator_completed: 2,
+      total_record_locator_closed: 12,
+      total_record_locator_init_abandoned: 0,
+      total_record_locator_unrecovered: 1,
+      record_locator_by_day: [
+        {
+          date: '2026-07-28',
+          checkin_initiated: 24,
+          record_locator_init_count: 18,
+          record_locator_started_count: 18,
+          record_locator_completed_count: 2,
+          record_locator_closed_count: 12,
+          record_locator_abandoned_count: 5,
+          record_locator_create_payment_count: 2,
+        },
+      ],
+    },
+    failedData: {
+      airline_name: 'Avianca',
+      start_date: '2026-07-28',
+      end_date: '2026-07-28',
+      total_checkin_failed: 11,
+      total_checkin_unrecovered: 1,
+      failed_by_step_by_day: [
+        {
+          date: '2026-07-28',
+          steps: [
+            { step_name: 'choose_boardingpass', failed_count: 10 },
+            { step_name: 'confirm_traveler_info', failed_count: 1 },
+          ],
+        },
+      ],
+      unrecovered_by_step: [
+        { step_name: 'confirm_traveler_info', count: 1 },
+      ],
+      unrecovered_by_day: [{ date: '2026-07-28', unrecovered_count: 1 }],
+    },
+    loading: false,
+  },
+};

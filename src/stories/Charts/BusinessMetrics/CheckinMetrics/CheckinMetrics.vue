@@ -62,18 +62,18 @@
                 )
               }}</span>
             </template>
-            <template #cell-completed="{ row }">
+            <template #cell-closed="{ row }">
               <span>{{
                 formatValueWithPercentage(
-                  row.record_locator_completed_count as number,
+                  row.record_locator_closed_count as number,
                   row.checkin_initiated as number,
                 )
               }}</span>
             </template>
-            <template #cell-closed="{ row }">
+            <template #cell-completed="{ row }">
               <span class="cell-success">{{
                 formatValueWithPercentage(
-                  row.record_locator_closed_count as number,
+                  row.record_locator_completed_count as number,
                   row.checkin_initiated as number,
                 )
               }}</span>
@@ -334,13 +334,50 @@ const tableData = computed((): TableRow[] => {
   );
 });
 
-const baseCheckinMetricsTableColumns: TableColumn[] = [
+const BOARDING_PASS_FAILED_STEPS = new Set([
+  "choose_boardingpass",
+  "boarding_pass",
+  "generate_boarding_pass",
+]);
+
+const isBoardingPassFailedStep = (stepName: string | undefined): boolean => {
+  if (!stepName) return false;
+  const normalized = stepName.toLowerCase().trim();
+  return (
+    BOARDING_PASS_FAILED_STEPS.has(normalized) ||
+    normalized.includes("boarding_pass")
+  );
+};
+
+const getBoardingPassFailedCount = (failedData: FailedData | undefined): number => {
+  const byDay = failedData?.failed_by_step_by_day || [];
+  let total = 0;
+  for (const day of byDay) {
+    for (const step of day.steps || []) {
+      if (isBoardingPassFailedStep(step.step_name)) {
+        total += step.failed_count || 0;
+      }
+    }
+  }
+  if (total > 0) return total;
+
+  // Fallback when failed_by_step_by_day is empty
+  for (const step of failedData?.unrecovered_by_step || []) {
+    if (isBoardingPassFailedStep(step.step_name)) {
+      total += step.count || 0;
+    }
+  }
+  return total;
+};
+
+// Shared labels: closed = PSS accepted; completed = BP issued
+const checkinMetricsBaseColumns: TableColumn[] = [
   { key: "date", label: "Date", align: "center" },
   { key: "checkinInit", label: "Checkin Init", align: "center" },
   { key: "bookingRetrieval", label: "Booking Retrieval (%)", align: "center" },
   { key: "bookingRetrieved", label: "Booking Retrieved", align: "center" },
-  { key: "completed", label: "Completed (%)", align: "center" },
-  { key: "closed", label: "Closed with BP (%)", align: "center" },
+  { key: "closed", label: "Check-in Closed (%)", align: "center" },
+  { key: "completed", label: "BP Issued (%)", align: "center" },
   { key: "failed", label: "Errors (%)", align: "center" },
   { key: "reasons", label: "Failed (Reasons)", align: "left" },
 ];
@@ -351,11 +388,11 @@ const createPaymentColumn: TableColumn = {
   align: "center",
 };
 
-const checkinMetricsTableColumns = computed((): TableColumn[] =>
-  props.isAvianca
-    ? [...baseCheckinMetricsTableColumns, createPaymentColumn]
-    : baseCheckinMetricsTableColumns,
-);
+const checkinMetricsTableColumns = computed((): TableColumn[] => {
+  return props.isAvianca
+    ? [...checkinMetricsBaseColumns, createPaymentColumn]
+    : checkinMetricsBaseColumns;
+});
 
 const checkinMetricsTableRows = computed((): Record<string, unknown>[] =>
   tableData.value.map((row) => ({
@@ -402,8 +439,9 @@ const sankeyData = computed(() => {
   addNode("Checkin Init", { value: initiated });
   addNode("Booking Retrieval");
   addNode("Booking Retrieved");
-  addNode("Completed");
-  addNode("Closed with BP");
+  // Shared: closed = PSS accepted; completed = BP issued
+  addNode("Check-in Closed");
+  addNode("BP Issued");
 
   const init = props.checkinData.total_record_locator_init || 0;
   const abandonedInit =
@@ -487,6 +525,11 @@ const sankeyData = computed(() => {
     });
   }
 
+  // AV: keep booking-stage abandon distinct from post-close abandon
+  const abandonedBookingLabel = props.isAvianca
+    ? "Abandoned (Booking)"
+    : "Abandoned (Started)";
+
   if (hasAbandonedSplit) {
     if (abandonedError > 0) {
       addNode("Error");
@@ -499,29 +542,29 @@ const sankeyData = computed(() => {
     }
 
     if (abandonedVoluntary > 0) {
-      addNode("Abandoned (Started)");
+      addNode(abandonedBookingLabel, { status: "abandon" });
       links.push({
         source: "Booking Retrieval",
-        target: "Abandoned (Started)",
+        target: abandonedBookingLabel,
         value: abandonedVoluntary,
         label: formatSankeyLinkLabel(abandonedVoluntary, initiated),
       });
     }
 
     if (abandonedStartedFallback > 0) {
-      addNode("Abandoned (Started)");
+      addNode(abandonedBookingLabel, { status: "abandon" });
       links.push({
         source: "Booking Retrieval",
-        target: "Abandoned (Started)",
+        target: abandonedBookingLabel,
         value: abandonedStartedFallback,
         label: formatSankeyLinkLabel(abandonedStartedFallback, initiated),
       });
     }
   } else if (abandonedInit > 0) {
-    addNode("Abandoned (Started)");
+    addNode(abandonedBookingLabel, { status: "abandon" });
     links.push({
       source: "Booking Retrieval",
-      target: "Abandoned (Started)",
+      target: abandonedBookingLabel,
       value: abandonedInit,
       label: formatSankeyLinkLabel(abandonedInit, initiated),
     });
@@ -536,17 +579,53 @@ const sankeyData = computed(() => {
     });
   }
 
-  if (completed > 0) {
+  // Shared funnel: Check-in Closed (PSS) → BP Issued | BP Error | Abandoned after Closed
+  // Applies to AV and KIU: closed happens before BP emission; abandon between them is possible.
+  if (closed > 0) {
     links.push({
       source: "Booking Retrieved",
-      target: "Completed",
+      target: "Check-in Closed",
+      value: closed,
+      label: formatSankeyLinkLabel(closed, initiated),
+    });
+  }
+
+  const rawBpFailed = getBoardingPassFailedCount(props.failedData);
+  const bpFailed = Math.min(rawBpFailed, Math.max(closed - completed, 0));
+
+  if (completed > 0) {
+    links.push({
+      source: "Check-in Closed",
+      target: "BP Issued",
       value: completed,
       label: formatSankeyLinkLabel(completed, initiated),
     });
   }
 
+  if (bpFailed > 0) {
+    addNode("BP Error", { status: "error" });
+    links.push({
+      source: "Check-in Closed",
+      target: "BP Error",
+      value: bpFailed,
+      label: formatSankeyLinkLabel(bpFailed, initiated),
+    });
+  }
+
+  const abandonedAfterClosed = Math.max(closed - completed - bpFailed, 0);
+  if (abandonedAfterClosed > 0) {
+    addNode("Abandoned after Closed", { status: "abandon" });
+    links.push({
+      source: "Check-in Closed",
+      target: "Abandoned after Closed",
+      value: abandonedAfterClosed,
+      label: formatSankeyLinkLabel(abandonedAfterClosed, initiated),
+    });
+  }
+
+  // Unrecovered excludes closed reservations; these failed before PSS close
   if (totalUnrecovered > 0) {
-    addNode("Errors");
+    addNode("Errors", { status: "error" });
     links.push({
       source: "Booking Retrieved",
       target: "Errors",
@@ -555,34 +634,14 @@ const sankeyData = computed(() => {
     });
   }
 
-  const abandonedFlow = started - (completed + totalUnrecovered);
-  if (abandonedFlow > 0) {
-    addNode("Abandoned (Flow)");
+  const abandonedBeforeClosed = Math.max(started - closed - totalUnrecovered, 0);
+  if (abandonedBeforeClosed > 0) {
+    addNode("Abandoned before Closed", { status: "abandon" });
     links.push({
       source: "Booking Retrieved",
-      target: "Abandoned (Flow)",
-      value: abandonedFlow,
-      label: formatSankeyLinkLabel(abandonedFlow, initiated),
-    });
-  }
-
-  const bpError = completed - closed;
-  if (bpError > 0) {
-    addNode("BP Error");
-    links.push({
-      source: "Completed",
-      target: "BP Error",
-      value: bpError,
-      label: formatSankeyLinkLabel(bpError, initiated),
-    });
-  }
-
-  if (closed > 0) {
-    links.push({
-      source: "Completed",
-      target: "Closed with BP",
-      value: closed,
-      label: formatSankeyLinkLabel(closed, initiated),
+      target: "Abandoned before Closed",
+      value: abandonedBeforeClosed,
+      label: formatSankeyLinkLabel(abandonedBeforeClosed, initiated),
     });
   }
 
