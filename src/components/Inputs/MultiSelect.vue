@@ -58,38 +58,83 @@
       />
     </button>
 
-    <ul
+    <div
       v-show="open"
-      :id="listboxId"
-      ref="listRef"
-      role="listbox"
-      tabindex="-1"
-      aria-multiselectable="true"
-      class="absolute left-0 right-0 z-50 mt-[-3px] max-h-60 overflow-auto rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg dark:border-[color:var(--kiut-border-light)]"
-      @keydown.stop="onListKeydown"
+      class="absolute left-0 right-0 z-50 mt-[-3px] overflow-hidden rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-lg dark:border-[color:var(--kiut-border-light)]"
     >
-      <li
-        v-for="(opt, index) in enabledOptions"
-        :key="optionKey(opt)"
-        role="option"
-        :aria-selected="isSelected(opt)"
-        :class="optionClass(opt, index)"
-        @click.stop="toggleOption(opt)"
-        @mouseenter="highlightIndex = index"
+      <div
+        v-if="searchable"
+        class="border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]"
       >
-        <span class="flex w-5 shrink-0 justify-center" aria-hidden="true">
-          <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
-        </span>
-        <span class="min-w-0 flex-1">{{ opt.label }}</span>
-      </li>
-    </ul>
+        <div class="relative">
+          <span
+            class="pointer-events-none absolute inset-y-0 left-0 flex w-9 items-center justify-center"
+            aria-hidden="true"
+          >
+            <MagnifyingGlassIcon
+              class="h-4 w-4 text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+            />
+          </span>
+          <input
+            ref="searchInputRef"
+            v-model="searchQuery"
+            type="search"
+            :class="[kiutInputControlClass, 'min-h-0 py-2 pl-9 pr-3 text-sm']"
+            :placeholder="searchPlaceholder"
+            :aria-label="searchPlaceholder"
+            @click.stop
+            @keydown.stop="onSearchKeydown"
+          />
+        </div>
+      </div>
+      <ul
+        :id="listboxId"
+        ref="listRef"
+        role="listbox"
+        tabindex="-1"
+        aria-multiselectable="true"
+        class="max-h-60 overflow-auto py-1"
+        @keydown.stop="onListKeydown"
+      >
+        <li
+          v-if="visibleOptions.length === 0"
+          class="px-3 py-2 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+        >
+          {{ noResultsText }}
+        </li>
+        <li
+          v-for="(opt, index) in visibleOptions"
+          :key="optionKey(opt)"
+          role="option"
+          :aria-selected="isSelected(opt)"
+          :class="optionClass(opt, index)"
+          @click.stop="toggleOption(opt)"
+          @mouseenter="highlightIndex = index"
+        >
+          <span class="flex w-5 shrink-0 justify-center" aria-hidden="true">
+            <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
+          </span>
+          <span class="min-w-0 flex-1">{{ opt.label }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ChevronDownIcon } from "@heroicons/vue/24/outline";
+import {
+  ChevronDownIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/vue/24/outline";
 import { CheckIcon } from "@heroicons/vue/24/solid";
-import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from "vue";
 import { randomInstanceSuffix } from "../../utils/randomId";
 import { kiutInputControlClass, kiutLabelClass } from "./inputFieldStyles";
 import type { KiutSelectOption, KiutSelectValue } from "./Select.vue";
@@ -105,9 +150,16 @@ const props = withDefaults(
     ariaLabelTrigger?: string;
     placeholder?: string;
     disabled?: boolean;
+    /** Muestra un buscador dentro del panel desplegable para filtrar opciones por label. */
+    searchable?: boolean;
+    searchPlaceholder?: string;
+    noResultsText?: string;
   }>(),
   {
     placeholder: "Seleccionar…",
+    searchable: false,
+    searchPlaceholder: "Buscar…",
+    noResultsText: "Sin resultados",
   },
 );
 
@@ -122,10 +174,21 @@ const listboxId = `${uid}-listbox`;
 
 const rootRef = ref<HTMLElement | null>(null);
 const listRef = ref<HTMLElement | null>(null);
+const searchInputRef = ref<HTMLInputElement | null>(null);
 const open = ref(false);
 const highlightIndex = ref(0);
+const searchQuery = ref("");
 
 const enabledOptions = computed(() => props.options.filter((o) => !o.disabled));
+
+const visibleOptions = computed(() => {
+  if (!props.searchable) return enabledOptions.value;
+  const q = searchQuery.value.trim().toLowerCase();
+  if (!q) return enabledOptions.value;
+  return enabledOptions.value.filter((o) =>
+    o.label.toLowerCase().includes(q),
+  );
+});
 
 const selectedSet = computed(() => new Set(props.modelValue ?? []));
 
@@ -170,7 +233,7 @@ function toggleOption(opt: KiutSelectOption<KiutSelectValue>) {
 }
 
 function syncHighlightToSelection() {
-  const opts = enabledOptions.value;
+  const opts = visibleOptions.value;
   if (opts.length === 0) {
     highlightIndex.value = 0;
     return;
@@ -180,26 +243,46 @@ function syncHighlightToSelection() {
   highlightIndex.value = firstSel >= 0 ? firstSel : 0;
 }
 
+function focusPanel() {
+  if (props.searchable) {
+    searchInputRef.value?.focus();
+    return;
+  }
+  listRef.value?.focus();
+}
+
+function openPanel() {
+  searchQuery.value = "";
+  syncHighlightToSelection();
+  void nextTick(() => focusPanel());
+}
+
+function closePanel() {
+  open.value = false;
+  searchQuery.value = "";
+}
+
 function toggle() {
   if (props.disabled) return;
-  open.value = !open.value;
+  if (open.value) {
+    closePanel();
+    return;
+  }
+  open.value = true;
+  openPanel();
 }
 
 function onTriggerClick(e: MouseEvent) {
   e.stopPropagation();
   if (props.disabled) return;
   toggle();
-  if (open.value) {
-    syncHighlightToSelection();
-    void nextTick(() => listRef.value?.focus());
-  }
 }
 
 function onDocumentClick(e: MouseEvent) {
   if (!open.value) return;
   const el = rootRef.value;
   if (el && !el.contains(e.target as Node)) {
-    open.value = false;
+    closePanel();
   }
 }
 
@@ -209,20 +292,47 @@ function onTriggerKeydown(e: KeyboardEvent) {
     e.preventDefault();
     if (!open.value) {
       open.value = true;
-      syncHighlightToSelection();
-      void nextTick(() => listRef.value?.focus());
+      openPanel();
     }
   }
 }
 
-function onListKeydown(e: KeyboardEvent) {
-  const opts = enabledOptions.value;
-  if (opts.length === 0) return;
+function onSearchKeydown(e: KeyboardEvent) {
+  const opts = visibleOptions.value;
   if (e.key === "Escape") {
     e.preventDefault();
-    open.value = false;
+    closePanel();
     return;
   }
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (opts.length === 0) return;
+    highlightIndex.value = 0;
+    listRef.value?.focus();
+    return;
+  }
+  if (e.key === "ArrowUp") {
+    e.preventDefault();
+    if (opts.length === 0) return;
+    highlightIndex.value = opts.length - 1;
+    listRef.value?.focus();
+    return;
+  }
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const opt = opts[highlightIndex.value];
+    if (opt) toggleOption(opt);
+  }
+}
+
+function onListKeydown(e: KeyboardEvent) {
+  const opts = visibleOptions.value;
+  if (e.key === "Escape") {
+    e.preventDefault();
+    closePanel();
+    return;
+  }
+  if (opts.length === 0) return;
   if (e.key === "ArrowDown") {
     e.preventDefault();
     highlightIndex.value = Math.min(highlightIndex.value + 1, opts.length - 1);
@@ -230,6 +340,10 @@ function onListKeydown(e: KeyboardEvent) {
   }
   if (e.key === "ArrowUp") {
     e.preventDefault();
+    if (highlightIndex.value === 0 && props.searchable) {
+      searchInputRef.value?.focus();
+      return;
+    }
     highlightIndex.value = Math.max(highlightIndex.value - 1, 0);
     return;
   }
@@ -239,6 +353,10 @@ function onListKeydown(e: KeyboardEvent) {
     if (opt) toggleOption(opt);
   }
 }
+
+watch(searchQuery, () => {
+  highlightIndex.value = 0;
+});
 
 onMounted(() => {
   document.addEventListener("click", onDocumentClick);
