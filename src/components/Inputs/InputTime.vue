@@ -1,9 +1,9 @@
 <template>
   <div class="font-sans">
-    <div class="flex flex-col gap-3 items-center">
+    <div class="flex flex-row gap-3 items-center">
       <span
         v-if="$slots.icon"
-        class="inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
+        class="mb-1.5 inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
         aria-hidden="true"
       >
         <slot name="icon" />
