@@ -13457,7 +13457,7 @@ const lt = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary
 function di(e = "neutral") {
   return `${_b} kiut-select-option-badge--${e}`;
 }
-const wb = { class: "flex flex-col gap-3 items-center" }, Cb = {
+const wb = { class: "flex flex-row gap-3 items-center" }, Cb = {
   key: 0,
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4",
   "aria-hidden": "true"
@@ -23493,7 +23493,7 @@ const MC = ["name", "value"], DC = ["for"], AC = ["id", "disabled", "aria-expand
       ])
     ], 512));
   }
-}), HC = { class: "font-sans" }, WC = { class: "flex flex-col gap-3 items-center" }, KC = {
+}), HC = { class: "font-sans" }, WC = { class: "flex flex-row gap-3 items-center" }, KC = {
   key: 0,
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4",
   "aria-hidden": "true"
@@ -24451,7 +24451,7 @@ const A$ = ["disabled", "aria-expanded", "aria-label"], T$ = {
       ], 42, X$)
     ], 2));
   }
-}), e4 = { class: "flex flex-col gap-3 items-center" }, t4 = {
+}), e4 = { class: "flex flex-row gap-3 items-center" }, t4 = {
   key: 0,
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4",
   "aria-hidden": "true"
