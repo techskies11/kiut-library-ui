@@ -3,7 +3,7 @@
     <div class="flex flex-row gap-3 items-center">
       <span
         v-if="$slots.icon"
-        class="inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
+        class="mb-1.5 inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
         aria-hidden="true"
       >
         <slot name="icon" />
@@ -158,12 +158,25 @@
               class="shrink-0"
               aria-hidden="true"
             />
+
             <span
               v-if="showOptionCheck"
               class="flex w-5 shrink-0 justify-center"
               aria-hidden="true"
             >
               <CheckIcon v-if="isSelected(opt)" class="h-4 w-4 text-white" />
+            </span>
+            <span
+              v-if="selectedOption?.leadingIcon"
+              :class="[
+                'inline-flex shrink-0 items-center justify-center rounded-full',
+                selectedOption.leadingIconWrapperClass,
+              ]"
+            >
+              <component
+                :is="selectedOption.leadingIcon"
+                :class="['h-4 w-4', selectedOption.leadingIconClass]"
+              />
             </span>
             <span class="min-w-0 flex-1 truncate">{{ opt.label }}</span>
             <span

@@ -1,13 +1,22 @@
 <template>
   <div ref="rootRef" class="relative font-sans">
-    <input
-      v-if="name"
-      type="hidden"
-      :name="name"
-      :value="modelValue ?? ''"
-    />
-
-    <label v-if="label" :id="labelId" :for="buttonId" :class="kiutLabelClass">{{ label }}</label>
+    <input v-if="name" type="hidden" :name="name" :value="modelValue ?? ''" />
+    <div class="flex flex-row gap-3 items-center">
+      <span
+        v-if="$slots.icon"
+        class="mb-1.5 inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
+        aria-hidden="true"
+      >
+        <slot name="icon" />
+      </span>
+      <label
+        v-if="label"
+        :id="labelId"
+        :for="buttonId"
+        :class="kiutLabelClass"
+        >{{ label }}</label
+      >
+    </div>
 
     <button
       :id="buttonId"
@@ -38,13 +47,22 @@
       />
       <span
         class="min-w-0 flex-1 truncate"
-        :class="!hasValue ? 'text-[color:var(--kiut-text-muted)] dark:text-slate-500' : ''"
+        :class="
+          !hasValue
+            ? 'text-[color:var(--kiut-text-muted)] dark:text-slate-500'
+            : ''
+        "
       >
         {{ triggerLabel }}
       </span>
     </button>
 
-    <p v-if="errorText" :id="errorId" :class="kiutFieldErrorTextClass" role="alert">
+    <p
+      v-if="errorText"
+      :id="errorId"
+      :class="kiutFieldErrorTextClass"
+      role="alert"
+    >
       {{ errorText }}
     </p>
 
@@ -72,7 +90,9 @@
           >
             <ChevronLeftIcon class="h-4 w-4" aria-hidden="true" />
           </button>
-          <span class="min-w-0 truncate px-1 text-sm font-medium text-[#61616b] dark:text-[#e3e3e8]">
+          <span
+            class="min-w-0 truncate px-1 text-sm font-medium text-[#61616b] dark:text-[#e3e3e8]"
+          >
             {{ formatMonthYearTitle(viewMonth, locale) }}
           </span>
           <button
@@ -138,9 +158,9 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ClockIcon,
-} from '@heroicons/vue/24/outline';
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-import { randomInstanceSuffix } from '../../utils/randomId';
+} from "@heroicons/vue/24/outline";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { randomInstanceSuffix } from "../../utils/randomId";
 import {
   addMonths,
   buildMonthCellsMondayFirst,
@@ -159,15 +179,15 @@ import {
   toDateTimeLocalValue,
   toISODate,
   type KiutDateLocale,
-} from './dateRangeUtils';
+} from "./dateRangeUtils";
 import {
   kiutFieldErrorTextClass,
   kiutInputControlClass,
   kiutInputControlInvalidClass,
   kiutLabelClass,
-} from './inputFieldStyles';
+} from "./inputFieldStyles";
 
-defineOptions({ name: 'InputDateTime' });
+defineOptions({ name: "InputDateTime" });
 
 /**
  * Valor en formato `YYYY-MM-DDTHH:mm` (p. ej. `2026-04-08T14:30`) o vacío.
@@ -192,18 +212,18 @@ const props = withDefaults(
     /** Paso en segundos para el selector de hora. */
     step?: number;
     /** Ancla el panel al borde izquierdo (`start`) o derecho (`end`) del control. */
-    panelAlign?: 'start' | 'end';
+    panelAlign?: "start" | "end";
   }>(),
   {
-    placeholder: 'Seleccionar…',
-    locale: 'es',
-    panelAlign: 'start',
+    placeholder: "Seleccionar…",
+    locale: "es",
+    panelAlign: "start",
     step: 60,
-  }
+  },
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: KiutDateTimeValue];
+  "update:modelValue": [value: KiutDateTimeValue];
 }>();
 
 const uid = `kiut-input-datetime-${randomInstanceSuffix()}`;
@@ -218,7 +238,7 @@ const panelRef = ref<HTMLElement | null>(null);
 const open = ref(false);
 const viewMonth = ref(startOfMonth(new Date()));
 const draftDate = ref<Date | null>(null);
-const draftTime = ref('00:00');
+const draftTime = ref("00:00");
 
 const hasValue = computed(() => Boolean(props.modelValue));
 const weekDays = computed(() => getWeekDaysMondayFirst(props.locale));
@@ -232,27 +252,30 @@ const triggerLabel = computed(() => {
 });
 
 const panelPositionClass = computed(() => {
-  const mobileCenter = 'max-sm:left-1/2 max-sm:right-auto max-sm:-translate-x-1/2 sm:translate-x-0';
-  if (props.panelAlign === 'end') {
+  const mobileCenter =
+    "max-sm:left-1/2 max-sm:right-auto max-sm:-translate-x-1/2 sm:translate-x-0";
+  if (props.panelAlign === "end") {
     return `right-0 left-auto ${mobileCenter}`;
   }
   return `left-0 right-auto ${mobileCenter}`;
 });
 
 const calendarDialogAriaLabel = computed(() =>
-  props.locale === 'es' ? 'Calendario de fecha y hora' : 'Date and time calendar'
+  props.locale === "es"
+    ? "Calendario de fecha y hora"
+    : "Date and time calendar",
 );
 
 const previousMonthAriaLabel = computed(() =>
-  props.locale === 'es' ? 'Mes anterior' : 'Previous month'
+  props.locale === "es" ? "Mes anterior" : "Previous month",
 );
 
 const nextMonthAriaLabel = computed(() =>
-  props.locale === 'es' ? 'Mes siguiente' : 'Next month'
+  props.locale === "es" ? "Mes siguiente" : "Next month",
 );
 
 const timeInputAriaLabel = computed(() =>
-  props.locale === 'es' ? 'Hora' : 'Time'
+  props.locale === "es" ? "Hora" : "Time",
 );
 
 const parsedMin = computed(() => parseDateTimeLocalValue(props.min));
@@ -261,23 +284,28 @@ const parsedMax = computed(() => parseDateTimeLocalValue(props.max));
 const timeMin = computed(() => {
   if (!draftDate.value || !parsedMin.value) return undefined;
   if (!sameDay(draftDate.value, parsedMin.value)) return undefined;
-  return `${String(parsedMin.value.getHours()).padStart(2, '0')}:${String(parsedMin.value.getMinutes()).padStart(2, '0')}`;
+  return `${String(parsedMin.value.getHours()).padStart(2, "0")}:${String(parsedMin.value.getMinutes()).padStart(2, "0")}`;
 });
 
 const timeMax = computed(() => {
   if (!draftDate.value || !parsedMax.value) return undefined;
   if (!sameDay(draftDate.value, parsedMax.value)) return undefined;
-  return `${String(parsedMax.value.getHours()).padStart(2, '0')}:${String(parsedMax.value.getMinutes()).padStart(2, '0')}`;
+  return `${String(parsedMax.value.getHours()).padStart(2, "0")}:${String(parsedMax.value.getMinutes()).padStart(2, "0")}`;
 });
 
 function isInMonth(cell: Date, month: Date) {
-  return cell.getMonth() === month.getMonth() && cell.getFullYear() === month.getFullYear();
+  return (
+    cell.getMonth() === month.getMonth() &&
+    cell.getFullYear() === month.getFullYear()
+  );
 }
 
 function isDayDisabled(cell: Date) {
   const d = startOfDay(cell);
-  if (parsedMin.value && isBeforeDay(d, startOfDay(parsedMin.value))) return true;
-  if (parsedMax.value && isAfterDay(d, startOfDay(parsedMax.value))) return true;
+  if (parsedMin.value && isBeforeDay(d, startOfDay(parsedMin.value)))
+    return true;
+  if (parsedMax.value && isAfterDay(d, startOfDay(parsedMax.value)))
+    return true;
   return false;
 }
 
@@ -287,14 +315,14 @@ function dayClass(cell: Date) {
   const selected = draftDate.value ? sameDay(cell, draftDate.value) : false;
 
   if (disabled) {
-    return 'rounded-lg text-[#61616b] opacity-40';
+    return "rounded-lg text-[#61616b] opacity-40";
   }
 
   let classes =
-    'rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white';
+    "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white";
 
   if (selected) {
-    classes = 'rounded-lg bg-[#895af6] font-semibold text-white';
+    classes = "rounded-lg bg-[#895af6] font-semibold text-white";
   }
 
   if (!inMonth) {
@@ -314,29 +342,39 @@ function syncDraftFromModel() {
   }
 
   draftDate.value = null;
-  draftTime.value = '00:00';
+  draftTime.value = "00:00";
   viewMonth.value = startOfMonth(new Date());
 }
 
 function clampTimeToBounds(time: string): string {
   if (!draftDate.value) return time;
 
-  let candidate = parseDateTimeLocalValue(`${toISODate(draftDate.value)}T${time}`);
+  let candidate = parseDateTimeLocalValue(
+    `${toISODate(draftDate.value)}T${time}`,
+  );
   if (!candidate) return time;
 
-  if (parsedMin.value && sameDay(draftDate.value, parsedMin.value) && isDateTimeBefore(candidate, parsedMin.value)) {
+  if (
+    parsedMin.value &&
+    sameDay(draftDate.value, parsedMin.value) &&
+    isDateTimeBefore(candidate, parsedMin.value)
+  ) {
     candidate = parsedMin.value;
   }
-  if (parsedMax.value && sameDay(draftDate.value, parsedMax.value) && isDateTimeAfter(candidate, parsedMax.value)) {
+  if (
+    parsedMax.value &&
+    sameDay(draftDate.value, parsedMax.value) &&
+    isDateTimeAfter(candidate, parsedMax.value)
+  ) {
     candidate = parsedMax.value;
   }
 
-  return `${String(candidate.getHours()).padStart(2, '0')}:${String(candidate.getMinutes()).padStart(2, '0')}`;
+  return `${String(candidate.getHours()).padStart(2, "0")}:${String(candidate.getMinutes()).padStart(2, "0")}`;
 }
 
 function commitSelection() {
   if (!draftDate.value) {
-    emit('update:modelValue', null);
+    emit("update:modelValue", null);
     return;
   }
 
@@ -348,14 +386,15 @@ function commitSelection() {
     draftDate.value.getMonth(),
     draftDate.value.getDate(),
     Number(time.slice(0, 2)),
-    Number(time.slice(3, 5))
+    Number(time.slice(3, 5)),
   );
   const combined = toDateTimeLocalValue(combinedDate);
 
-  if (parsedMin.value && isDateTimeBefore(combinedDate, parsedMin.value)) return;
+  if (parsedMin.value && isDateTimeBefore(combinedDate, parsedMin.value))
+    return;
   if (parsedMax.value && isDateTimeAfter(combinedDate, parsedMax.value)) return;
 
-  emit('update:modelValue', combined);
+  emit("update:modelValue", combined);
 }
 
 function onDayClick(day: Date) {
@@ -399,7 +438,7 @@ function togglePanel(e: MouseEvent) {
 
 function onTriggerKeydown(e: KeyboardEvent) {
   if (props.disabled) return;
-  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+  if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
     e.preventDefault();
     if (!open.value) openPanel();
   }
@@ -417,15 +456,15 @@ watch(
   () => props.modelValue,
   () => {
     if (!open.value) syncDraftFromModel();
-  }
+  },
 );
 
 onMounted(() => {
   syncDraftFromModel();
-  document.addEventListener('click', onDocumentClick);
+  document.addEventListener("click", onDocumentClick);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', onDocumentClick);
+  document.removeEventListener("click", onDocumentClick);
 });
 </script>
