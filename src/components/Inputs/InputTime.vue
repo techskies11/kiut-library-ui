@@ -1,6 +1,18 @@
 <template>
   <div class="font-sans">
-    <label v-if="label" :for="inputId" :class="kiutLabelClass">{{ label }}</label>
+    <div class="flex flex-col gap-3 items-center">
+      <span
+        v-if="$slots.icon"
+        class="inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4"
+        aria-hidden="true"
+      >
+        <slot name="icon" />
+      </span>
+      <label v-if="label" :for="inputId" :class="kiutLabelClass">{{
+        label
+      }}</label>
+    </div>
+
     <div class="relative">
       <ClockIcon
         class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400"
@@ -26,24 +38,29 @@
         @input="onInput"
       />
     </div>
-    <p v-if="errorText" :id="errorId" :class="kiutFieldErrorTextClass" role="alert">
+    <p
+      v-if="errorText"
+      :id="errorId"
+      :class="kiutFieldErrorTextClass"
+      role="alert"
+    >
       {{ errorText }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ClockIcon } from '@heroicons/vue/24/outline';
-import { computed } from 'vue';
-import { randomInstanceSuffix } from '../../utils/randomId';
+import { ClockIcon } from "@heroicons/vue/24/outline";
+import { computed } from "vue";
+import { randomInstanceSuffix } from "../../utils/randomId";
 import {
   kiutFieldErrorTextClass,
   kiutInputControlClass,
   kiutInputControlInvalidClass,
   kiutLabelClass,
-} from './inputFieldStyles';
+} from "./inputFieldStyles";
 
-defineOptions({ name: 'InputTime' });
+defineOptions({ name: "InputTime" });
 
 /**
  * Hora en 24 h solo con horas y minutos: `HH:mm`, o vacío.
@@ -55,14 +72,21 @@ function toHHmm(value: string): string | null {
   if (!m) return null;
   const h = Number(m[1]);
   const min = Number(m[2]);
-  if (!Number.isInteger(h) || !Number.isInteger(min) || h < 0 || h > 23 || min < 0 || min > 59) {
+  if (
+    !Number.isInteger(h) ||
+    !Number.isInteger(min) ||
+    h < 0 ||
+    h > 23 ||
+    min < 0 ||
+    min > 59
+  ) {
     return null;
   }
-  return `${String(h).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
+  return `${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
 }
 
 function normalizeTimeInput(raw: string): KiutTimeValue {
-  if (raw === '') return null;
+  if (raw === "") return null;
   return toHHmm(raw);
 }
 
@@ -86,11 +110,11 @@ const props = withDefaults(
   }>(),
   {
     step: 60,
-  }
+  },
 );
 
 const emit = defineEmits<{
-  'update:modelValue': [value: KiutTimeValue];
+  "update:modelValue": [value: KiutTimeValue];
 }>();
 
 const uid = `kiut-input-time-${randomInstanceSuffix()}`;
@@ -98,13 +122,13 @@ const inputId = computed(() => props.id ?? uid);
 const errorId = computed(() => `${inputId.value}-err`);
 
 const displayValue = computed(() => {
-  if (props.modelValue == null || props.modelValue === '') return '';
+  if (props.modelValue == null || props.modelValue === "") return "";
   const normalized = toHHmm(props.modelValue);
-  return normalized ?? '';
+  return normalized ?? "";
 });
 
 function onInput(e: Event) {
   const raw = (e.target as HTMLInputElement).value;
-  emit('update:modelValue', normalizeTimeInput(raw));
+  emit("update:modelValue", normalizeTimeInput(raw));
 }
 </script>
