@@ -26080,7 +26080,10 @@ const F$ = ["disabled", "aria-expanded", "aria-label"], O$ = {
 }, e3 = ["id"], t3 = { class: "min-w-0 flex-1 space-y-1" }, a3 = {
   key: 0,
   class: "text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-}, n3 = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, o3 = { class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2" }, s3 = /* @__PURE__ */ he({
+}, n3 = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, o3 = {
+  key: 0,
+  class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2"
+}, s3 = /* @__PURE__ */ he({
   name: "Modal",
   inheritAttrs: !1,
   __name: "Modal",
@@ -26093,7 +26096,8 @@ const F$ = ["disabled", "aria-expanded", "aria-label"], O$ = {
     id: {},
     width: { default: 512 },
     headerBorder: { type: Boolean, default: !0 },
-    loading: { type: Boolean, default: !1 }
+    loading: { type: Boolean, default: !1 },
+    showFooter: { type: Boolean, default: !0 }
   },
   emits: ["update:modelValue", "cancel", "confirm"],
   setup(e, { emit: t }) {
@@ -26172,7 +26176,7 @@ const F$ = ["disabled", "aria-expanded", "aria-label"], O$ = {
               d("div", n3, [
                 ke(f.$slots, "default", {}, void 0, !0)
               ]),
-              d("footer", o3, [
+              e.showFooter ? (g(), x("footer", o3, [
                 N($t, {
                   variant: "secondary",
                   type: "button",
@@ -26195,7 +26199,7 @@ const F$ = ["disabled", "aria-expanded", "aria-label"], O$ = {
                   ]),
                   _: 1
                 }, 8, ["loading"])
-              ])
+              ])) : F("", !0)
             ], 12, e3)
           ])) : F("", !0)
         ]),
@@ -26203,7 +26207,7 @@ const F$ = ["disabled", "aria-expanded", "aria-label"], O$ = {
       })
     ]));
   }
-}), i3 = /* @__PURE__ */ be(s3, [["__scopeId", "data-v-ae2266d6"]]), r3 = { class: "text-left font-['Inter',system-ui,sans-serif]" }, l3 = {
+}), i3 = /* @__PURE__ */ be(s3, [["__scopeId", "data-v-1ab330ef"]]), r3 = { class: "text-left font-['Inter',system-ui,sans-serif]" }, l3 = {
   key: 0,
   class: ""
 }, c3 = {
