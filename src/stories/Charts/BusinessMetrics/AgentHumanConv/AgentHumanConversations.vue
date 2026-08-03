@@ -18,7 +18,7 @@
     <div class="card-body">
         <div
           v-if="hasData"
-          class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4"
+          class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 md:gap-4"
           :class="{ 'agent-human-conv--dark': isDark }"
         >
           <CardMetric
@@ -76,6 +76,54 @@
                   closedPctLabel
                 }}</span>
               </div>
+            </template>
+          </CardMetric>
+
+          <CardMetric
+            label="Transferred"
+            label-position="header"
+            :value="formatNumber(totalTransferred)"
+            :theme="theme"
+            :current-value="totalTransferred"
+            :previous-value="previousTotalTransferred"
+          >
+            <template #icon>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+                />
+              </svg>
+            </template>
+          </CardMetric>
+
+          <CardMetric
+            label="Abandoned"
+            label-position="header"
+            :value="formatNumber(totalAbandoned)"
+            :theme="theme"
+            :current-value="totalAbandoned"
+            :previous-value="previousTotalAbandoned"
+          >
+            <template #icon>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+                />
+              </svg>
             </template>
           </CardMetric>
 
@@ -187,6 +235,31 @@
                   formatNumber(Number(row.handled))
                 }}</span>
               </template>
+              <template #cell-transferred="{ row }">
+                <span class="cell-plain cell-plain--orange">{{
+                  formatNumber(Number(row.transferred))
+                }}</span>
+              </template>
+              <template #cell-abandoned="{ row }">
+                <span class="cell-plain cell-plain--red">{{
+                  formatAbandonedDisplay(row.abandoned as number)
+                }}</span>
+              </template>
+              <template #cell-connected="{ row }">
+                <span class="cell-plain cell-plain--muted">{{
+                  formatOptionalDisplay(row.connected_at as string | null)
+                }}</span>
+              </template>
+              <template #cell-disconnected="{ row }">
+                <span class="cell-plain cell-plain--muted">{{
+                  formatOptionalDisplay(row.disconnected_at as string | null)
+                }}</span>
+              </template>
+              <template #cell-onlineTime="{ row }">
+                <span class="cell-plain cell-plain--muted">{{
+                  formatOptionalDisplay(row.online_time_display as string | null)
+                }}</span>
+              </template>
               <template #cell-avgAssignation="{ row }">
                 <span class="cell-plain">{{ row.avg_assignation_display }}</span>
               </template>
@@ -249,13 +322,20 @@ interface AgentDayData {
   agent_tag?: string | null;
   assigned_count: number;
   closed_count: number;
+  transferred_count?: number;
+  abandoned_count?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
   day_total_assigned?: number;
   day_total_closed?: number;
   day_total_enqueued?: number;
+  day_total_transferred?: number;
+  day_total_abandoned?: number;
   day_avg_time_to_assign_seconds?: DurationInput;
   day_avg_conversation_duration_seconds?: DurationInput;
+  connected_at?: string | null;
+  disconnected_at?: string | null;
+  online_time_seconds?: DurationInput;
 }
 
 interface AgentHumanConvData {
@@ -265,6 +345,8 @@ interface AgentHumanConvData {
   total_assigned?: number;
   total_closed?: number;
   total_enqueued?: number;
+  total_transferred?: number;
+  total_abandoned?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
   agents_by_day?: AgentDayData[];
@@ -277,6 +359,12 @@ interface AgentTableRow {
   agent_name: string;
   agent_email: string;
   handled: number;
+  transferred: number;
+  /** Per-agent abandoned count (chats abandoned while assigned to this agent). */
+  abandoned: number;
+  connected_at: string | null;
+  disconnected_at: string | null;
+  online_time_display: string | null;
   avg_assignation_seconds: number | null;
   avg_resolution_seconds: number | null;
   avg_assignation_display: string;
@@ -290,6 +378,8 @@ type SortKey =
   | "name"
   | "email"
   | "handled"
+  | "transferred"
+  | "abandoned"
   | "avgAssignation"
   | "avgResolution";
 
@@ -302,6 +392,8 @@ const props = withDefaults(
     exportLoading?: boolean;
     previousTotalEnqueued?: number | null;
     previousTotalClosed?: number | null;
+    previousTotalTransferred?: number | null;
+    previousTotalAbandoned?: number | null;
     previousAvgTimeToAssignSeconds?: number | null;
     previousAvgConversationDurationSeconds?: number | null;
   }>(),
@@ -310,6 +402,8 @@ const props = withDefaults(
       total_assigned: 0,
       total_closed: 0,
       total_enqueued: 0,
+      total_transferred: 0,
+      total_abandoned: 0,
       avg_time_to_assign_seconds: null as string | null,
       avg_conversation_duration_seconds: null as string | null,
       agents_by_day: [],
@@ -320,6 +414,8 @@ const props = withDefaults(
     exportLoading: false,
     previousTotalEnqueued: null,
     previousTotalClosed: null,
+    previousTotalTransferred: null,
+    previousTotalAbandoned: null,
     previousAvgTimeToAssignSeconds: null,
     previousAvgConversationDurationSeconds: null,
   },
@@ -343,21 +439,45 @@ function isValidAgentEmail(email: string | null | undefined): boolean {
   return normalized.length > 0 && !PLACEHOLDER_EMAILS.has(normalized);
 }
 
-/** Filas con agente identificable y actividad (asignación o cierre). */
+/** Filas con agente identificable y actividad (asignación, cierre o transferencia). */
 function isDisplayableAgentRow(agent: AgentDayData): boolean {
   if (!isValidAgentEmail(agent.agent_email)) return false;
   const assigned = agent.assigned_count ?? 0;
   const closed = agent.closed_count ?? 0;
-  return assigned > 0 || closed > 0;
+  const transferred = agent.transferred_count ?? 0;
+  const abandoned = agent.abandoned_count ?? 0;
+  return assigned > 0 || closed > 0 || transferred > 0 || abandoned > 0;
 }
 
 function getHandledCount(agent: AgentDayData): number {
   return agent.closed_count ?? 0;
 }
 
+function getTransferredCount(agent: AgentDayData): number {
+  return agent.transferred_count ?? 0;
+}
+
+function getAgentAbandonedCount(agent: AgentDayData): number {
+  return agent.abandoned_count ?? 0;
+}
+
+function getAbandonedCount(agent: AgentDayData): number {
+  return agent.day_total_abandoned ?? 0;
+}
+
 function formatAgentName(name: string | null | undefined): string {
   const normalized = name?.trim();
   return normalized ? normalized : "—";
+}
+
+function formatOptionalDisplay(value: string | null | undefined): string {
+  const normalized = value?.trim();
+  return normalized ? normalized : "—";
+}
+
+function formatAbandonedDisplay(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "0";
+  return formatNumber(value);
 }
 
 const displayAgentRows = computed(() =>
@@ -368,7 +488,9 @@ const hasAgentRows = computed(() => displayAgentRows.value.length > 0);
 
 const hasData = computed(() => {
   const hasEnqueued = (props.data?.total_enqueued ?? 0) > 0;
-  return hasAgentRows.value || hasEnqueued;
+  const hasTransferred = (props.data?.total_transferred ?? 0) > 0;
+  const hasAbandoned = (props.data?.total_abandoned ?? 0) > 0;
+  return hasAgentRows.value || hasEnqueued || hasTransferred || hasAbandoned;
 });
 
 const tableViewMode = ref<TableViewMode>("by_date");
@@ -462,6 +584,8 @@ function formatDurationDisplay(val: DurationInput): string {
 
 const totalEnqueued = computed(() => props.data?.total_enqueued ?? 0);
 const totalClosed = computed(() => props.data?.total_closed ?? 0);
+const totalTransferred = computed(() => props.data?.total_transferred ?? 0);
+const totalAbandoned = computed(() => props.data?.total_abandoned ?? 0);
 const avgAssignSeconds = computed(
   () => props.data?.avg_time_to_assign_seconds ?? null,
 );
@@ -497,6 +621,14 @@ function mapAgentToRow(agent: AgentDayData, index: number): AgentTableRow {
     agent_name: agent.agent_name ?? "",
     agent_email: agent.agent_email,
     handled: getHandledCount(agent),
+    transferred: getTransferredCount(agent),
+    abandoned: getAgentAbandonedCount(agent),
+    connected_at: agent.connected_at ?? null,
+    disconnected_at: agent.disconnected_at ?? null,
+    online_time_display:
+      agent.online_time_seconds == null || agent.online_time_seconds === ""
+        ? null
+        : formatDurationDisplay(agent.online_time_seconds),
     avg_assignation_seconds: hhmmssToSeconds(agent.avg_time_to_assign_seconds),
     avg_resolution_seconds: hhmmssToSeconds(agent.avg_conversation_duration_seconds),
     avg_assignation_display: formatDurationDisplay(agent.avg_time_to_assign_seconds),
@@ -511,6 +643,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       agent_name: string;
       agent_email: string;
       handled: number;
+      transferred: number;
+      abandoned: number;
       assignSum: number;
       assignWeight: number;
       resolutionSum: number;
@@ -527,6 +661,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
         agent_name: agent.agent_name?.trim() ?? "",
         agent_email: key,
         handled: 0,
+        transferred: 0,
+        abandoned: 0,
         assignSum: 0,
         assignWeight: 0,
         resolutionSum: 0,
@@ -538,6 +674,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
     const assigned = agent.assigned_count ?? 0;
     const closed = agent.closed_count ?? 0;
     acc.handled += getHandledCount(agent);
+    acc.transferred += getTransferredCount(agent);
+    acc.abandoned += getAgentAbandonedCount(agent);
 
     if (agent.agent_name?.trim()) {
       acc.agent_name = agent.agent_name.trim();
@@ -564,6 +702,11 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       agent_name: acc.agent_name,
       agent_email: acc.agent_email,
       handled: acc.handled,
+      transferred: acc.transferred,
+      abandoned: acc.abandoned,
+      connected_at: null,
+      disconnected_at: null,
+      online_time_display: null,
       avg_assignation_seconds: assignAvg,
       avg_resolution_seconds: resAvg,
       avg_assignation_display: assignAvg !== null ? secondsToHhmmss(assignAvg) : "—",
@@ -605,6 +748,12 @@ function compareRows(
       break;
     case "handled":
       cmp = a.handled - b.handled;
+      break;
+    case "transferred":
+      cmp = a.transferred - b.transferred;
+      break;
+    case "abandoned":
+      cmp = (a.abandoned ?? 0) - (b.abandoned ?? 0);
       break;
     case "avgAssignation":
       cmp =
@@ -656,6 +805,36 @@ const agentTableColumns = computed<TableColumn[]>(() => {
     { key: "name", label: "Name", align: "left", sortable: true },
     { key: "email", label: "Email", align: "left", sortable: true },
     { key: "handled", label: "Handled", align: "center", sortable: true },
+    {
+      key: "transferred",
+      label: "Transferred",
+      align: "center",
+      sortable: true,
+    },
+    {
+      key: "abandoned",
+      label: "Abandoned",
+      align: "center",
+      sortable: true,
+    },
+    {
+      key: "connected",
+      label: "Connected",
+      align: "center",
+      sortable: false,
+    },
+    {
+      key: "disconnected",
+      label: "Disconnected",
+      align: "center",
+      sortable: false,
+    },
+    {
+      key: "onlineTime",
+      label: "Online time",
+      align: "center",
+      sortable: false,
+    },
     {
       key: "avgAssignation",
       label: "Avg Assignation",
@@ -922,5 +1101,23 @@ defineExpose({ isDark });
   .cell-plain--muted {
     max-width: 150px;
   }
+}
+
+.icon-orange {
+  color: #f97316 !important;
+}
+
+.icon-red {
+  color: #ef4444 !important;
+}
+
+.cell-plain--orange {
+  color: #f97316;
+  font-weight: 600;
+}
+
+.cell-plain--red {
+  color: #ef4444;
+  font-weight: 600;
 }
 </style>
