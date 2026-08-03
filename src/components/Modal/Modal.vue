@@ -62,7 +62,7 @@
           <slot />
         </div>
 
-        <footer class="flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2">
+        <footer v-if="showFooter" class="flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2">
           <Button variant="secondary" type="button" :disabled="loading" @click="handleCancel">
             {{ cancelLabel }}
           </Button>
@@ -103,6 +103,7 @@ const props = withDefaults(
      * y bloqueo de cancelar, cerrar y Escape.
      */
     loading?: boolean;
+    showFooter?: boolean;
   }>(),
   {
     cancelLabel: 'Cancelar',
@@ -110,6 +111,7 @@ const props = withDefaults(
     width: 512,
     headerBorder: true,
     loading: false,
+    showFooter: true
   }
 );
 
