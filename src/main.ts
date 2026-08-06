@@ -193,6 +193,9 @@ export type {
   NavSection,
   NavItem,
 } from "./components/AppShellNavigation/AppShellNavigation.vue";
+import ModuleNavLayout from "./components/ModuleNav/ModuleNavLayout.vue";
+export type { VerticalNavItem } from "./components/ModuleNav/moduleNavTypes";
+import VerticalNavPanel from "./components/ModuleNav/VerticalNavPanel.vue";
 
 // ============================================
 // Estilos
@@ -299,6 +302,8 @@ export {
   Modal,
   Section,
   AppShellNavigation,
+  ModuleNavLayout,
+  VerticalNavPanel,
 };
 
 // ============================================
@@ -401,5 +406,7 @@ export const KiutUIPlugin = {
     app.component("Modal", Modal);
     app.component("Section", Section);
     app.component("KiutAppShellNavigation", AppShellNavigation);
+    app.component("ModuleNavLayout", ModuleNavLayout);
+    app.component("VerticalNavPanel", VerticalNavPanel);
   },
 };
