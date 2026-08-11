@@ -27,6 +27,8 @@ import RecordLocator from "./stories/Charts/BusinessMetrics/RecordLocator/Record
 import SalesByChannel from "./stories/Charts/BusinessMetrics/SalesByChannel/SalesByChannel.vue";
 import Seller from "./stories/Charts/BusinessMetrics/Seller/Seller.vue";
 import SellerContainer from "./stories/Charts/BusinessMetrics/SellerContainer/SellerContainer.vue";
+import Ancillaries from "./stories/Charts/BusinessMetrics/Ancillaries/Ancillaries.vue";
+import AncillariesCR from "./stories/Charts/BusinessMetrics/AncillariesCR/AncillariesCR.vue";
 import TopAgents from "./stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue";
 import PaymentMethod from "./stories/Charts/BusinessMetrics/PaymentMethod/PaymentMethod.vue";
 import AgentHumanConversations from "./stories/Charts/BusinessMetrics/AgentHumanConv/AgentHumanConversations.vue";
@@ -229,6 +231,8 @@ export {
   SalesByChannel,
   Seller,
   SellerContainer,
+  Ancillaries,
+  AncillariesCR,
   TopAgents,
   PaymentMethod,
   AgentHumanConversations,
@@ -334,6 +338,8 @@ export const KiutUIPlugin = {
     app.component("KiutSalesByChannel", SalesByChannel);
     app.component("KiutSeller", Seller);
     app.component("KiutSellerContainer", SellerContainer);
+    app.component("KiutAncillaries", Ancillaries);
+    app.component("KiutAncillariesCR", AncillariesCR);
     app.component("KiutTopAgents", TopAgents);
     app.component("KiutPaymentMethod", PaymentMethod);
     app.component("KiutAgentHumanConversations", AgentHumanConversations);
