@@ -10,6 +10,8 @@
           :placeholder="prefixPlaceholder"
           :disabled="disabled"
           :show-option-check="false"
+          searchable
+          search-placeholder="Buscar país…"
         />
       </div>
       <div class="min-w-0 flex-1">
