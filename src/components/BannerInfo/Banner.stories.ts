@@ -10,7 +10,7 @@ const meta: Meta<typeof Banner> = {
     docs: {
       description: {
         component:
-          "Banner para información del backoffice: **mantenimiento**, o **nuevas funcionalidades**. Incluye íconos prestablecidos según la variante. Permite cambiar título, descripción, fechas de inicio y fin, y color según el tipo de banner.",
+          "Banner para información del backoffice: **mantenimiento**, o **nuevas funcionalidades**. Incluye íconos prestablecidos según la variante. Permite cambiar título, descripción, fechas de inicio y fin, y color según el tipo de banner. Configurable en el Hangar",
       },
     },
   },
