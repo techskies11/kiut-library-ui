@@ -46,14 +46,6 @@
             <template #cell-checkinInit="{ row }">
               <span>{{ formatNumber(row.checkin_initiated as number) }}</span>
             </template>
-            <template #cell-bookingRetrieval="{ row }">
-              <span>{{
-                formatValueWithPercentage(
-                  row.record_locator_init_count as number,
-                  row.checkin_initiated as number,
-                )
-              }}</span>
-            </template>
             <template #cell-bookingRetrieved="{ row }">
               <span>{{
                 formatValueWithPercentage(
@@ -374,8 +366,7 @@ const getBoardingPassFailedCount = (failedData: FailedData | undefined): number 
 const checkinMetricsBaseColumns: TableColumn[] = [
   { key: "date", label: "Date", align: "center" },
   { key: "checkinInit", label: "Checkin Init", align: "center" },
-  { key: "bookingRetrieval", label: "Booking Retrieval (%)", align: "center" },
-  { key: "bookingRetrieved", label: "Booking Retrieved", align: "center" },
+  { key: "bookingRetrieved", label: "Booking Retrieved (%)", align: "center" },
   { key: "closed", label: "Check-in Closed (%)", align: "center" },
   { key: "completed", label: "BP Issued (%)", align: "center" },
   { key: "failed", label: "Errors (%)", align: "center" },
@@ -437,7 +428,6 @@ const sankeyData = computed(() => {
   const initiated = props.checkinData.total_checkin_initiated || 0;
 
   addNode("Checkin Init", { value: initiated });
-  addNode("Booking Retrieval");
   addNode("Booking Retrieved");
   // Shared: closed = PSS accepted; completed = BP issued
   addNode("Check-in Closed");
@@ -477,105 +467,53 @@ const sankeyData = computed(() => {
   const abandonedStartedFallback = hasAbandonedSplit
     ? Math.max(abandonedInit - abandonedError - abandonedVoluntary, 0)
     : abandonedInit;
-  const bookingSuccess = init - abandonedInit;
+  const bookingSuccess = Math.max(init - abandonedInit, 0);
   const started = props.checkinData.total_record_locator_started || 0;
   const completed = props.checkinData.total_record_locator_completed || 0;
   const closed = props.checkinData.total_record_locator_closed || 0;
   const totalUnrecovered =
     props.checkinData.total_record_locator_unrecovered || 0;
 
-  // Flujo principal: Checkin Init -> Booking Retrieval
-  if (init > 0) {
-    links.push({
-      source: "Checkin Init",
-      target: "Booking Retrieval",
-      value: init,
-      label: formatSankeyLinkLabel(init, initiated),
-    });
-  }
-
-  const abandonedBeforeInit = initiated - init;
-  if (hasPreInitAbandonedSplit) {
-    if (preInitAbandonedVoluntary > 0) {
-      addNode("Abandoned (Init)");
-      links.push({
-        source: "Checkin Init",
-        target: "Abandoned (Init)",
-        value: preInitAbandonedVoluntary,
-        label: formatSankeyLinkLabel(preInitAbandonedVoluntary, initiated),
-      });
-    }
-
-    if (preInitAbandonedError > 0) {
-      addNode("Booking not retreived");
-      links.push({
-        source: "Checkin Init",
-        target: "Booking not retreived",
-        value: preInitAbandonedError,
-        label: formatSankeyLinkLabel(preInitAbandonedError, initiated),
-      });
-    }
-  } else if (abandonedBeforeInit > 0) {
-    addNode("Abandoned (Init)");
-    links.push({
-      source: "Checkin Init",
-      target: "Abandoned (Init)",
-      value: abandonedBeforeInit,
-      label: formatSankeyLinkLabel(abandonedBeforeInit, initiated),
-    });
-  }
-
-  // AV: keep booking-stage abandon distinct from post-close abandon
-  const abandonedBookingLabel = props.isAvianca
-    ? "Abandoned (Booking)"
-    : "Abandoned (Started)";
-
-  if (hasAbandonedSplit) {
-    if (abandonedError > 0) {
-      addNode("Error");
-      links.push({
-        source: "Booking Retrieval",
-        target: "Error",
-        value: abandonedError,
-        label: formatSankeyLinkLabel(abandonedError, initiated),
-      });
-    }
-
-    if (abandonedVoluntary > 0) {
-      addNode(abandonedBookingLabel, { status: "abandon" });
-      links.push({
-        source: "Booking Retrieval",
-        target: abandonedBookingLabel,
-        value: abandonedVoluntary,
-        label: formatSankeyLinkLabel(abandonedVoluntary, initiated),
-      });
-    }
-
-    if (abandonedStartedFallback > 0) {
-      addNode(abandonedBookingLabel, { status: "abandon" });
-      links.push({
-        source: "Booking Retrieval",
-        target: abandonedBookingLabel,
-        value: abandonedStartedFallback,
-        label: formatSankeyLinkLabel(abandonedStartedFallback, initiated),
-      });
-    }
-  } else if (abandonedInit > 0) {
-    addNode(abandonedBookingLabel, { status: "abandon" });
-    links.push({
-      source: "Booking Retrieval",
-      target: abandonedBookingLabel,
-      value: abandonedInit,
-      label: formatSankeyLinkLabel(abandonedInit, initiated),
-    });
-  }
+  // Collapsed funnel: Checkin Init -> Booking Retrieved | unified abandon | unified error
+  const abandonedBeforeInit = Math.max(initiated - init, 0);
+  const unifiedPreRetrievedError =
+    preInitAbandonedError + abandonedError;
+  const unifiedPreRetrievedAbandon = hasPreInitAbandonedSplit
+    ? preInitAbandonedVoluntary +
+      (hasAbandonedSplit
+        ? abandonedVoluntary + abandonedStartedFallback
+        : abandonedInit)
+    : abandonedBeforeInit +
+      (hasAbandonedSplit
+        ? abandonedVoluntary + abandonedStartedFallback
+        : abandonedInit);
 
   if (bookingSuccess > 0) {
     links.push({
-      source: "Booking Retrieval",
+      source: "Checkin Init",
       target: "Booking Retrieved",
       value: bookingSuccess,
       label: formatSankeyLinkLabel(bookingSuccess, initiated),
+    });
+  }
+
+  if (unifiedPreRetrievedAbandon > 0) {
+    addNode("Abandoned before retrieved", { status: "abandon" });
+    links.push({
+      source: "Checkin Init",
+      target: "Abandoned before retrieved",
+      value: unifiedPreRetrievedAbandon,
+      label: formatSankeyLinkLabel(unifiedPreRetrievedAbandon, initiated),
+    });
+  }
+
+  if (unifiedPreRetrievedError > 0) {
+    addNode("Errors before retrieved", { status: "error" });
+    links.push({
+      source: "Checkin Init",
+      target: "Errors before retrieved",
+      value: unifiedPreRetrievedError,
+      label: formatSankeyLinkLabel(unifiedPreRetrievedError, initiated),
     });
   }
 
@@ -614,10 +552,10 @@ const sankeyData = computed(() => {
 
   const abandonedAfterClosed = Math.max(closed - completed - bpFailed, 0);
   if (abandonedAfterClosed > 0) {
-    addNode("Abandoned after Closed", { status: "abandon" });
+    addNode("Abandoned after closed", { status: "abandon" });
     links.push({
       source: "Check-in Closed",
-      target: "Abandoned after Closed",
+      target: "Abandoned after closed",
       value: abandonedAfterClosed,
       label: formatSankeyLinkLabel(abandonedAfterClosed, initiated),
     });
@@ -625,10 +563,10 @@ const sankeyData = computed(() => {
 
   // Unrecovered excludes closed reservations; these failed before PSS close
   if (totalUnrecovered > 0) {
-    addNode("Errors", { status: "error" });
+    addNode("Errors before closed", { status: "error" });
     links.push({
       source: "Booking Retrieved",
-      target: "Errors",
+      target: "Errors before closed",
       value: totalUnrecovered,
       label: formatSankeyLinkLabel(totalUnrecovered, initiated),
     });
@@ -636,10 +574,10 @@ const sankeyData = computed(() => {
 
   const abandonedBeforeClosed = Math.max(started - closed - totalUnrecovered, 0);
   if (abandonedBeforeClosed > 0) {
-    addNode("Abandoned before Closed", { status: "abandon" });
+    addNode("Abandoned before closed", { status: "abandon" });
     links.push({
       source: "Booking Retrieved",
-      target: "Abandoned before Closed",
+      target: "Abandoned before closed",
       value: abandonedBeforeClosed,
       label: formatSankeyLinkLabel(abandonedBeforeClosed, initiated),
     });

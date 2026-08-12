@@ -468,11 +468,12 @@ export const BoardingPassErrors: Story = {
 };
 
 /**
- * Avianca event semantics:
+ * Avianca event semantics (collapsed pre-Retrieved funnel):
+ * - Checkin Init → Booking Retrieved | Abandoned before Retrieved | Errors before Retrieved
  * - checkin_closed → Check-in Closed (PSS accepted)
  * - checkin_completed → BP Issued (OCA success)
  * - checkin_failed + choose_boardingpass → BP Error
- * - Abandoned (Booking) vs Abandoned after Closed are distinct nodes
+ * - Abandoned before Closed vs Abandoned after Closed remain distinct
  */
 export const AviancaBoardingPassFailures: Story = {
   args: {
@@ -521,6 +522,78 @@ export const AviancaBoardingPassFailures: Story = {
         { step_name: 'confirm_traveler_info', count: 1 },
       ],
       unrecovered_by_day: [{ date: '2026-07-28', unrecovered_count: 1 }],
+    },
+    loading: false,
+  },
+};
+
+/**
+ * DAI-329 collapsed funnel: Init → Retrieved (no Booking Retrieval node).
+ * Conservation: 148 retrieved + 338 abandon + 410 errors = 896 initiated.
+ */
+export const CollapsedPreRetrievedFunnel: Story = {
+  args: {
+    initiallyOpen: true,
+    checkinData: {
+      airline_name: '2W',
+      start_date: '2026-08-01',
+      end_date: '2026-08-02',
+      total_checkin_initiated: 896,
+      total_record_locator_init: 200,
+      total_record_locator_started: 148,
+      total_record_locator_closed: 28,
+      total_record_locator_completed: 43,
+      total_record_locator_init_abandoned: 52,
+      total_record_locator_init_abandoned_error: 11,
+      total_record_locator_init_abandoned_voluntary: 41,
+      total_checkin_pre_init_abandoned_error: 399,
+      total_checkin_pre_init_abandoned_voluntary: 297,
+      total_record_locator_unrecovered: 51,
+      record_locator_by_day: [
+        {
+          date: '2026-08-01',
+          checkin_initiated: 48,
+          record_locator_init_count: 7,
+          record_locator_started_count: 5,
+          record_locator_closed_count: 1,
+          record_locator_completed_count: 2,
+          record_locator_abandoned_count: 0,
+        },
+        {
+          date: '2026-08-02',
+          checkin_initiated: 56,
+          record_locator_init_count: 13,
+          record_locator_started_count: 9,
+          record_locator_closed_count: 2,
+          record_locator_completed_count: 2,
+          record_locator_abandoned_count: 0,
+        },
+      ],
+    },
+    failedData: {
+      airline_name: '2W',
+      start_date: '2026-08-01',
+      end_date: '2026-08-02',
+      total_checkin_failed: 80,
+      total_checkin_unrecovered: 51,
+      failed_by_step_by_day: [
+        {
+          date: '2026-08-01',
+          steps: [{ step_name: 'get_checkin_availability', failed_count: 24 }],
+        },
+        {
+          date: '2026-08-02',
+          steps: [
+            { step_name: 'get_checkin_availability', failed_count: 37 },
+            { step_name: 'assign_seat', failed_count: 4 },
+          ],
+        },
+      ],
+      unrecovered_by_step: [{ step_name: 'assign_seat', count: 51 }],
+      unrecovered_by_day: [
+        { date: '2026-08-01', unrecovered_count: 20 },
+        { date: '2026-08-02', unrecovered_count: 31 },
+      ],
     },
     loading: false,
   },
