@@ -54,7 +54,7 @@
       <section class="payment-success-summary">
         <CardInfo
           color="#22c55e"
-          title="Payment Success Value"
+          title="Booking Success Value"
           :value="paymentSuccessCardValue"
         />
       </section>
@@ -102,7 +102,7 @@
             <template #cell-paymentResults="{ row }">
               <div class="badges-container">
                 <Tag color="success">
-                  Success:
+                  Booking Success:
                   {{
                     useNumberFormat(
                       getPaymentSuccessCount(bookingDayFromRow(row)),
@@ -110,7 +110,7 @@
                   }}
                 </Tag>
                 <Tag color="danger">
-                  Failed:
+                  Payment Failed:
                   {{ useNumberFormat(Number(row.payment_failed_count) || 0) }}
                 </Tag>
               </div>
@@ -130,7 +130,7 @@
                     :key="`${row.date}-${item.currency}`"
                     class="badge badge-currency"
                   >
-                    {{ item.currency }} {{ formatCurrency(item.total_value) }}
+                    {{ item.currency }} {{ formatCompactCurrency(item.total_value) }}
                   </span>
                 </div>
               </template>
@@ -216,7 +216,6 @@ import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
 import Tag from "../../../../components/Tag/Tag.vue";
 import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
 import {
-  useCurrencyFormat,
   useCompactCurrencyFormat,
   useNumberFormat,
 } from "../../../../plugins/numberFormat";
@@ -309,12 +308,12 @@ const sortedDayData = computed(() => {
 
 const bookingManagerColumns: TableColumn[] = [
   { key: "date", label: "Date", align: "center" },
-  { key: "initiated", label: "Initiated", align: "center" },
-  { key: "started", label: "Started", align: "center" },
-  { key: "paymentInitiated", label: "Payment Initiated", align: "center" },
-  { key: "paymentResults", label: "Payment Results", align: "left" },
-  { key: "paymentValue", label: "Payment Value", align: "left" },
-  { key: "outcomes", label: "Outcomes", align: "left" },
+  { key: "initiated", label: "Initiated by agent", align: "center" },
+  { key: "started", label: "Booking Started", align: "center" },
+  { key: "paymentInitiated", label: "Payment Started", align: "center" },
+  { key: "paymentResults", label: "Payment Results", align: "center" },
+  { key: "paymentValue", label: "Payment Value", align: "center" },
+  { key: "outcomes", label: "Outcomes", align: "center" },
 ];
 
 const bookingManagerTableRows = computed((): Record<string, unknown>[] =>
@@ -352,10 +351,6 @@ const getPaymentSuccessCount = (day: BookingDayData): number => {
     (total, item) => total + (item.count || 0),
     0,
   );
-};
-
-const formatCurrency = (value: number): string => {
-  return useCurrencyFormat(value);
 };
 
 const formatCompactCurrency = (value: number | undefined | null): string => {
@@ -406,16 +401,16 @@ const sankeyData = computed(() => {
 
   // Define nodes
   const nodes = [
-    { name: "Initiated", status: "success" as const },
-    { name: "Started", status: "success" as const },
-    { name: "Payment Initiated", status: "success" as const },
+    { name: "Initiated by agent", status: "success" as const },
+    { name: "Booking Started", status: "success" as const },
+    { name: "Payment Started", status: "success" as const },
     { name: "Not Found", status: "error" as const },
     { name: "Cancelled", status: "abandon" as const },
     { name: "No Pending Balance", status: "abandon" as const },
     { name: "Errors", status: "error" as const },
-    { name: "Payment Success", status: "success" as const },
-    { name: "Payment Failed", status: "error" as const },
-    { name: "Abandoned (Init)", status: "abandon" as const },
+    { name: "Booking Success", status: "success" as const },
+    { name: "Error: Payment Failed", status: "error" as const },
+    { name: "Abandoned: No Response", status: "abandon" as const },
     { name: "Abandoned (Start)", status: "abandon" as const },
   ];
 
@@ -430,8 +425,8 @@ const sankeyData = computed(() => {
   // First level: Initiated splits
   if (started > 0) {
     links.push({
-      source: "Initiated",
-      target: "Started",
+      source: "Initiated by agent",
+      target: "Booking Started",
       value: started,
       label: formatLabel(started, initiated),
     });
@@ -439,8 +434,8 @@ const sankeyData = computed(() => {
 
   if (abandonedFromInitiated > 0) {
     links.push({
-      source: "Initiated",
-      target: "Abandoned (Init)",
+      source: "Initiated by agent",
+      target: "Abandoned: No Response",
       value: abandonedFromInitiated,
       label: formatLabel(abandonedFromInitiated, initiated),
     });
@@ -449,8 +444,8 @@ const sankeyData = computed(() => {
   // Second level: Started splits
   if (paymentInitiated > 0) {
     links.push({
-      source: "Started",
-      target: "Payment Initiated",
+      source: "Booking Started",
+      target: "Payment Started",
       value: paymentInitiated,
       label: formatLabel(paymentInitiated, initiated),
     });
@@ -458,7 +453,7 @@ const sankeyData = computed(() => {
 
   if (notFound > 0) {
     links.push({
-      source: "Started",
+      source: "Booking Started",
       target: "Not Found",
       value: notFound,
       label: formatLabel(notFound, initiated),
@@ -467,7 +462,7 @@ const sankeyData = computed(() => {
 
   if (cancelled > 0) {
     links.push({
-      source: "Started",
+      source: "Booking Started",
       target: "Cancelled",
       value: cancelled,
       label: formatLabel(cancelled, initiated),
@@ -476,7 +471,7 @@ const sankeyData = computed(() => {
 
   if (noPendingBalance > 0) {
     links.push({
-      source: "Started",
+      source: "Booking Started",
       target: "No Pending Balance",
       value: noPendingBalance,
       label: formatLabel(noPendingBalance, initiated),
@@ -485,7 +480,7 @@ const sankeyData = computed(() => {
 
   if (errors > 0) {
     links.push({
-      source: "Started",
+      source: "Booking Started",
       target: "Errors",
       value: errors,
       label: formatLabel(errors, initiated),
@@ -494,18 +489,18 @@ const sankeyData = computed(() => {
 
   if (abandonedFromStarted > 0) {
     links.push({
-      source: "Started",
+      source: "Booking Started",
       target: "Abandoned (Start)",
       value: abandonedFromStarted,
       label: formatLabel(abandonedFromStarted, initiated),
     });
   }
 
-  // Third level: Payment Initiated splits
+  // Third level: Payment Started splits
   if (paymentSuccess > 0) {
     links.push({
-      source: "Payment Initiated",
-      target: "Payment Success",
+      source: "Payment Started",
+      target: "Booking Success",
       value: paymentSuccess,
       label: formatLabel(paymentSuccess, initiated),
     });
@@ -513,8 +508,8 @@ const sankeyData = computed(() => {
 
   if (paymentFailed > 0) {
     links.push({
-      source: "Payment Initiated",
-      target: "Payment Failed",
+      source: "Payment Started",
+      target: "Error: Payment Failed",
       value: paymentFailed,
       label: formatLabel(paymentFailed, initiated),
     });

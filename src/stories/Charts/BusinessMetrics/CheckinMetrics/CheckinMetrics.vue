@@ -365,12 +365,12 @@ const getBoardingPassFailedCount = (failedData: FailedData | undefined): number 
 // Shared labels: closed = PSS accepted; completed = BP issued
 const checkinMetricsBaseColumns: TableColumn[] = [
   { key: "date", label: "Date", align: "center" },
-  { key: "checkinInit", label: "Checkin Init", align: "center" },
-  { key: "bookingRetrieved", label: "Booking Retrieved (%)", align: "center" },
-  { key: "closed", label: "Check-in Closed (%)", align: "center" },
-  { key: "completed", label: "BP Issued (%)", align: "center" },
+  { key: "checkinInit", label: "Initiated by agent", align: "center" },
+  { key: "bookingRetrieved", label: "Check In Started (%)", align: "center" },
+  { key: "closed", label: "Check In Success (%)", align: "center" },
+  { key: "completed", label: "Boarding Pass Issued (%)", align: "center" },
   { key: "failed", label: "Errors (%)", align: "center" },
-  { key: "reasons", label: "Failed (Reasons)", align: "left" },
+  { key: "reasons", label: "Failed (Reasons)", align: "center" },
 ];
 
 const createPaymentColumn: TableColumn = {
@@ -427,11 +427,11 @@ const sankeyData = computed(() => {
 
   const initiated = props.checkinData.total_checkin_initiated || 0;
 
-  addNode("Checkin Init", { value: initiated });
-  addNode("Booking Retrieved");
+  addNode("Initiated by agent", { value: initiated });
+  addNode("Check In Started");
   // Shared: closed = PSS accepted; completed = BP issued
-  addNode("Check-in Closed");
-  addNode("BP Issued");
+  addNode("Check In Success");
+  addNode("Boarding Pass Issued");
 
   const init = props.checkinData.total_record_locator_init || 0;
   const abandonedInit =
@@ -490,28 +490,28 @@ const sankeyData = computed(() => {
 
   if (bookingSuccess > 0) {
     links.push({
-      source: "Checkin Init",
-      target: "Booking Retrieved",
+      source: "Initiated by agent",
+      target: "Check In Started",
       value: bookingSuccess,
       label: formatSankeyLinkLabel(bookingSuccess, initiated),
     });
   }
 
   if (unifiedPreRetrievedAbandon > 0) {
-    addNode("Abandoned before retrieved", { status: "abandon" });
+    addNode("Abandoned: No booking provided", { status: "abandon" });
     links.push({
-      source: "Checkin Init",
-      target: "Abandoned before retrieved",
+      source: "Initiated by agent",
+      target: "Abandoned: No booking provided",
       value: unifiedPreRetrievedAbandon,
       label: formatSankeyLinkLabel(unifiedPreRetrievedAbandon, initiated),
     });
   }
 
   if (unifiedPreRetrievedError > 0) {
-    addNode("Errors before retrieved", { status: "error" });
+    addNode("Error: On Retrieval", { status: "error" });
     links.push({
-      source: "Checkin Init",
-      target: "Errors before retrieved",
+      source: "Initiated by agent",
+      target: "Error: On Retrieval",
       value: unifiedPreRetrievedError,
       label: formatSankeyLinkLabel(unifiedPreRetrievedError, initiated),
     });
@@ -521,8 +521,8 @@ const sankeyData = computed(() => {
   // Applies to AV and KIU: closed happens before BP emission; abandon between them is possible.
   if (closed > 0) {
     links.push({
-      source: "Booking Retrieved",
-      target: "Check-in Closed",
+      source: "Check In Started",
+      target: "Check In Success",
       value: closed,
       label: formatSankeyLinkLabel(closed, initiated),
     });
@@ -533,18 +533,18 @@ const sankeyData = computed(() => {
 
   if (completed > 0) {
     links.push({
-      source: "Check-in Closed",
-      target: "BP Issued",
+      source: "Check In Success",
+      target: "Boarding Pass Issued",
       value: completed,
       label: formatSankeyLinkLabel(completed, initiated),
     });
   }
 
   if (bpFailed > 0) {
-    addNode("BP Error", { status: "error" });
+    addNode("Error: BP Not Issued", { status: "error" });
     links.push({
-      source: "Check-in Closed",
-      target: "BP Error",
+      source: "Check In Success",
+      target: "Error: BP Not Issued",
       value: bpFailed,
       label: formatSankeyLinkLabel(bpFailed, initiated),
     });
@@ -552,10 +552,14 @@ const sankeyData = computed(() => {
 
   const abandonedAfterClosed = Math.max(closed - completed - bpFailed, 0);
   if (abandonedAfterClosed > 0) {
-    addNode("Abandoned after closed", { status: "abandon" });
+    // AV keeps Abandoned after Closed distinct from flow abandon (before Closed).
+    const afterClosedNode = props.isAvianca
+      ? "Abandoned after Closed"
+      : "Abandoned: Check In Incomplete";
+    addNode(afterClosedNode, { status: "abandon" });
     links.push({
-      source: "Check-in Closed",
-      target: "Abandoned after closed",
+      source: "Check In Success",
+      target: afterClosedNode,
       value: abandonedAfterClosed,
       label: formatSankeyLinkLabel(abandonedAfterClosed, initiated),
     });
@@ -563,10 +567,10 @@ const sankeyData = computed(() => {
 
   // Unrecovered excludes closed reservations; these failed before PSS close
   if (totalUnrecovered > 0) {
-    addNode("Errors before closed", { status: "error" });
+    addNode("Error: On Check In Process", { status: "error" });
     links.push({
-      source: "Booking Retrieved",
-      target: "Errors before closed",
+      source: "Check In Started",
+      target: "Error: On Check In Process",
       value: totalUnrecovered,
       label: formatSankeyLinkLabel(totalUnrecovered, initiated),
     });
@@ -574,10 +578,10 @@ const sankeyData = computed(() => {
 
   const abandonedBeforeClosed = Math.max(started - closed - totalUnrecovered, 0);
   if (abandonedBeforeClosed > 0) {
-    addNode("Abandoned before closed", { status: "abandon" });
+    addNode("Abandoned: Check In Incomplete", { status: "abandon" });
     links.push({
-      source: "Booking Retrieved",
-      target: "Abandoned before closed",
+      source: "Check In Started",
+      target: "Abandoned: Check In Incomplete",
       value: abandonedBeforeClosed,
       label: formatSankeyLinkLabel(abandonedBeforeClosed, initiated),
     });

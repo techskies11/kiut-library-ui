@@ -117,7 +117,7 @@
                     }})
                   </Tag>
                   <Tag color="success">
-                    Confirm {{ useNumberFormat(r.confirmed_count) }} ({{
+                    Selected {{ useNumberFormat(r.confirmed_count) }} ({{
                       calculatePercentage(
                         r.confirmed_count,
                         r.disruption_conversations,
@@ -137,7 +137,7 @@
                     }})
                   </Tag>
                   <Tag color="danger">
-                    Reject {{ useNumberFormat(r.sell_failed_count) }} ({{
+                    Payment rejected {{ useNumberFormat(r.sell_failed_count) }} ({{
                       calculatePercentage(
                         r.sell_failed_count,
                         r.disruption_conversations,
@@ -169,7 +169,7 @@
                     }})
                   </Tag>
                   <Tag color="success" :outlined="true">
-                    Finish {{ useNumberFormat(getSellSuccessCount(r)) }} ({{
+                    Voluntary change success {{ useNumberFormat(getSellSuccessCount(r)) }} ({{
                       calculatePercentage(
                         getSellSuccessCount(r),
                         r.disruption_conversations,
@@ -213,7 +213,7 @@
                     }})
                   </Tag>
                   <Tag color="success">
-                    Accept {{ useNumberFormat(r.accepted_count) }} ({{
+                    Involuntary change accepted {{ useNumberFormat(r.accepted_count) }} ({{
                       calculatePercentage(
                         r.accepted_count,
                         r.disruption_conversations,
@@ -354,11 +354,11 @@ const tableData = computed(() => {
 
 const disruptionTableColumns: TableColumn[] = [
   { key: "date", label: "Date", align: "center" },
-  { key: "initiated", label: "Initiated", align: "center" },
-  { key: "started", label: "Started", align: "center" },
+  { key: "initiated", label: "Initiated by agent", align: "center" },
+  { key: "started", label: "Disruption started", align: "center" },
   { key: "abandoned", label: "Abandoned (%)", align: "center" },
-  { key: "voluntary", label: "Voluntary", align: "left" },
-  { key: "involuntary", label: "Involuntary", align: "left" },
+  { key: "voluntary", label: "Voluntary", align: "center" },
+  { key: "involuntary", label: "Involuntary", align: "center" },
 ];
 
 const disruptionTableRows = computed((): Record<string, unknown>[] =>
@@ -430,18 +430,18 @@ const sankeyData = computed(() => {
 
   // Define nodes
   const nodes = [
-    { name: "Initiated", status: "success" as const },
-    { name: "Started", status: "success" as const },
+    { name: "Initiated by agent", status: "success" as const },
+    { name: "Disruption started", status: "success" as const },
     { name: "Voluntary", status: "success" as const },
-    { name: "Confirmed", status: "success" as const },
-    { name: "Paid", status: "success" as const },
+    { name: "Selected", status: "success" as const },
+    { name: "Voluntary change success", status: "success" as const },
     { name: "Not Paid", status: "abandon" as const },
-    { name: "Rejected", status: "error" as const },
+    { name: "Error: payment rejected", status: "error" as const },
     { name: "Not Confirmed", status: "abandon" as const },
     { name: "Involuntary", status: "success" as const },
-    { name: "Accepted", status: "success" as const },
+    { name: "Involuntary change accepted", status: "success" as const },
     { name: "Redirect to Human", status: "error" as const },
-    { name: "Abandoned (Init)", status: "abandon" as const },
+    { name: "Abandoned: No Response", status: "abandon" as const },
     { name: "Abandoned (Start)", status: "abandon" as const },
   ];
 
@@ -456,25 +456,25 @@ const sankeyData = computed(() => {
   // First level: Conversations splits
   if (initiated > 0) {
     links.push({
-      source: "Initiated",
-      target: "Started",
+      source: "Initiated by agent",
+      target: "Disruption started",
       value: initiated,
       label: formatLabel(initiated, conversations),
     });
   }
   if (abandonedFromConversations > 0) {
     links.push({
-      source: "Initiated",
-      target: "Abandoned (Init)",
+      source: "Initiated by agent",
+      target: "Abandoned: No Response",
       value: abandonedFromConversations,
       label: formatLabel(abandonedFromConversations, conversations),
     });
   }
 
-  // Second level: Initiated splits
+  // Second level: Started splits
   if (voluntary > 0) {
     links.push({
-      source: "Started",
+      source: "Disruption started",
       target: "Voluntary",
       value: voluntary,
       label: formatLabel(voluntary, conversations),
@@ -482,7 +482,7 @@ const sankeyData = computed(() => {
   }
   if (involuntary > 0) {
     links.push({
-      source: "Started",
+      source: "Disruption started",
       target: "Involuntary",
       value: involuntary,
       label: formatLabel(involuntary, conversations),
@@ -490,7 +490,7 @@ const sankeyData = computed(() => {
   }
   if (abandonedFromInitiated > 0) {
     links.push({
-      source: "Started",
+      source: "Disruption started",
       target: "Abandoned (Start)",
       value: abandonedFromInitiated,
       label: formatLabel(abandonedFromInitiated, conversations),
@@ -501,7 +501,7 @@ const sankeyData = computed(() => {
   if (accepted > 0) {
     links.push({
       source: "Involuntary",
-      target: "Accepted",
+      target: "Involuntary change accepted",
       value: accepted,
       label: formatLabel(accepted, conversations),
     });
@@ -519,7 +519,7 @@ const sankeyData = computed(() => {
   if (confirmed > 0) {
     links.push({
       source: "Voluntary",
-      target: "Confirmed",
+      target: "Selected",
       value: confirmed,
       label: formatLabel(confirmed, conversations),
     });
@@ -533,26 +533,26 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Fourth level: Confirmed splits
+  // Fourth level: Selected splits
   if (sellSuccess > 0) {
     links.push({
-      source: "Confirmed",
-      target: "Paid",
+      source: "Selected",
+      target: "Voluntary change success",
       value: sellSuccess,
       label: formatLabel(sellSuccess, conversations),
     });
   }
   if (rejected > 0) {
     links.push({
-      source: "Confirmed",
-      target: "Rejected",
+      source: "Selected",
+      target: "Error: payment rejected",
       value: rejected,
       label: formatLabel(rejected, conversations),
     });
   }
   if (notPaid > 0) {
     links.push({
-      source: "Confirmed",
+      source: "Selected",
       target: "Not Paid",
       value: notPaid,
       label: formatLabel(notPaid, conversations),

@@ -11,7 +11,7 @@
               v-for="col in columns"
               :key="col.key"
               scope="col"
-              class="kiut-table-th whitespace-nowrap px-3 py-2 text-left text-[#9191a1]"
+              class="kiut-table-th whitespace-nowrap px-3 py-2 text-[#9191a1]"
               :class="[alignClass(col.align), col.headerClass]"
             >
               <button

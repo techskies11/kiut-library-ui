@@ -406,7 +406,7 @@ const tableData = computed(() => {
 const sellerTableColumns = computed<TableColumn[]>(() => {
   const columns: TableColumn[] = [
     { key: "date", label: "Date", align: "center" },
-    { key: "sellInitiated", label: "Sell Initiated", align: "center" },
+    { key: "sellInitiated", label: "Initiated by agent", align: "center" },
     { key: "sellStarted", label: "Sell Started", align: "center" },
     { key: "getQuote", label: "Get Quote", align: "center" },
     { key: "bookingCreated", label: "Booking Created", align: "center" },
@@ -424,7 +424,7 @@ const sellerTableColumns = computed<TableColumn[]>(() => {
   columns.push(
     { key: "sellSuccess", label: "Sell Success", align: "center" },
     { key: "totalSalesValue", label: "Total Sales Value", align: "center" },
-    { key: "failed", label: "Failed", align: "left" },
+    { key: "failed", label: "Failed", align: "center" },
   );
 
   return columns;
@@ -518,7 +518,7 @@ const sankeyData = computed(() => {
     status?: "success" | "abandon" | "error";
     label?: string;
   }[] = [
-    { name: "Sell Initiated", value: conversations, status: "success" },
+    { name: "Initiated by agent", value: conversations, status: "success" },
     { name: "Sell Started", value: started, status: "success" },
     { name: "Booking Created", value: bookingCreated, status: "success" },
     { name: "Sell Success", value: successOnline, status: "success" },
@@ -535,13 +535,13 @@ const sankeyData = computed(() => {
   const droppedBeforeSales = conversations - started;
   if (droppedBeforeSales > 0) {
     nodes.push({
-      name: "Abandoned (Init)",
+      name: "Abandoned: No Response",
       value: droppedBeforeSales,
       status: "abandon",
     });
     links.push({
-      source: "Sell Initiated",
-      target: "Abandoned (Init)",
+      source: "Initiated by agent",
+      target: "Abandoned: No Response",
       value: droppedBeforeSales,
       label: formatSankeyLinkLabel(droppedBeforeSales, conversations),
     });
@@ -549,7 +549,7 @@ const sankeyData = computed(() => {
 
   if (started > 0) {
     links.push({
-      source: "Sell Initiated",
+      source: "Initiated by agent",
       target: "Sell Started",
       value: started,
       label: formatSankeyLinkLabel(started, conversations),
