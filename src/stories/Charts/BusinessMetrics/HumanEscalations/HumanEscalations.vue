@@ -16,16 +16,13 @@
     </template>
     <template #headerAside>
       <div class="flex justify-end">
-        <select
-          v-model="selectedBreakdown"
-          class="rounded-xl border border-[var(--kiut-border-light,#d1d5db)] bg-[var(--kiut-bg-card,#ffffff)] px-3 py-2 text-sm text-[var(--kiut-text-primary,#111827)] dark:border-[var(--kiut-border-light,#374151)] dark:bg-[var(--kiut-bg-card,#111827)] dark:text-[var(--kiut-text-primary,#f9fafb)]"
-          @change="emitChangeBreakdown"
-        >
-          <option value="all">All</option>
-          <option value="agent">By Agent</option>
-          <!-- <option value="channel">By Channel</option> -->
-          <!-- <option value="agent_channel">By Agent/Channel</option> -->
-        </select>
+        <div class="w-52">
+          <Select
+            :model-value="selectedBreakdown"
+            :options="BREAKDOWN_OPTIONS"
+            @update:model-value="onBreakdownChange"
+          />
+        </div>
       </div>
     </template>
     <div
@@ -96,6 +93,10 @@ import {
   useThemeDetection,
   type Theme,
 } from "../../../../composables/useThemeDetection";
+import Select, {
+  type KiutSelectOption,
+  type KiutSelectValue,
+} from "../../../../components/Inputs/Select.vue";
 
 interface HumanEscalationBreakdownItem {
   key: string;
@@ -168,9 +169,14 @@ const loaderDelays = [
   "delay-300",
   "delay-[400ms]",
 ];
+const BREAKDOWN_OPTIONS: KiutSelectOption<KiutSelectValue>[] = [
+  { value: "all", label: "All" },
+  { value: "agent", label: "Agent" },
+];
+
 const theme = toRef(props, "theme");
 const { isDark } = useThemeDetection(theme);
-const selectedBreakdown = ref(props.breakdownBy);
+const selectedBreakdown = ref(props.breakdownBy || "all");
 
 const metricsData = computed<HumanEscalationsData>(() => {
   return (
@@ -226,8 +232,10 @@ const chartOptions = {
   },
 };
 
-const emitChangeBreakdown = (): void => {
+const onBreakdownChange = (value: KiutSelectValue): void => {
+  selectedBreakdown.value = String(value);
   emit("changeBreakdown", selectedBreakdown.value);
+  processChartData(metricsData.value);
 };
 
 const formatSeriesLabel = (label: string): string => {

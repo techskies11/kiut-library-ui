@@ -28,9 +28,15 @@
           <div class="icon-wrapper" aria-hidden="true">
             <slot name="icon" />
           </div>
-          <span v-if="labelInHeader" class="metric-label metric-label--header">{{
-            label
-          }}</span>
+          <span v-if="labelInHeader" class="metric-label metric-label--header">
+            <span class="metric-label-text">{{ label }}</span>
+            <CardMetricInfo
+              v-if="tooltipText"
+              :title="tooltipHeading"
+              :text="tooltipText"
+              :dark="isDark"
+            />
+          </span>
         </div>
       </Transition>
     </template>
@@ -78,7 +84,15 @@
               </span>
             </div>
           </slot>
-          <span v-if="!labelInHeader" class="metric-label">{{ label }}</span>
+          <span v-if="!labelInHeader" class="metric-label metric-label--row">
+            <span>{{ label }}</span>
+            <CardMetricInfo
+              v-if="tooltipText"
+              :title="tooltipHeading"
+              :text="tooltipText"
+              :dark="isDark"
+            />
+          </span>
         </div>
       </div>
     </Transition>
@@ -89,6 +103,7 @@
 import { computed, toRef } from 'vue'
 import ChartMetricContainer from '../ChartMetricContainer/ChartMetricContainer.vue'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import CardMetricInfo from './CardMetricInfo.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -98,6 +113,10 @@ const props = withDefaults(
     valueSize?: 'default' | 'large'
     /** Ubicación de la etiqueta: bajo el valor (default) o en la fila del header junto al icono. */
     labelPosition?: 'below' | 'header'
+    /** Descripción del KPI. Si se informa, muestra el icono de info junto a la etiqueta. */
+    tooltip?: string
+    /** Título del tooltip. Por defecto usa `label`. */
+    tooltipTitle?: string
     loading?: boolean
     theme?: Theme
     currentValue?: number
@@ -107,6 +126,8 @@ const props = withDefaults(
     prefix: undefined,
     valueSize: 'default',
     labelPosition: 'below',
+    tooltip: undefined,
+    tooltipTitle: undefined,
     loading: false,
     theme: undefined,
     currentValue: 0,
@@ -117,6 +138,10 @@ const props = withDefaults(
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
 const labelInHeader = computed(() => props.labelPosition === 'header')
+
+const tooltipText = computed(() => props.tooltip?.trim() || '')
+
+const tooltipHeading = computed(() => props.tooltipTitle?.trim() || props.label)
 
 const hasPreviousData = computed(
   () => props.previousValue !== null && props.previousValue !== undefined,
@@ -305,8 +330,21 @@ defineExpose({ isDark, changePercent })
   color: #61616b;
 }
 
+.metric-label--row {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .metric-label--header {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   flex: 1;
+  min-width: 0;
+}
+
+.metric-label-text {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;

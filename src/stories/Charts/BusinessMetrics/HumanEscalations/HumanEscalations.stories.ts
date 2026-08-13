@@ -46,7 +46,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     loading: false,
-    breakdownBy: 'agent',
+    breakdownBy: 'all',
     enableExport: true,
     data: {
       total_conversations: 1200,
@@ -118,12 +118,12 @@ export const Loading: Story = {
 export const Empty: Story = {
   args: {
     loading: false,
-    breakdownBy: 'agent',
+    breakdownBy: 'all',
     data: {
       total_conversations: 0,
       total_escalated_conversations: 0,
       escalation_rate_percentage: 0,
-      breakdown_by: 'agent',
+      breakdown_by: 'all',
       breakdown_items: [],
       breakdown_by_day: [],
       escalations_by_day: [],

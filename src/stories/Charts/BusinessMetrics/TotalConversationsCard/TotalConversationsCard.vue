@@ -2,6 +2,7 @@
   <CardMetric
     label="Total Conversations"
     :value="formattedTotal"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     :current-value="totalConversations"
@@ -22,16 +23,21 @@ import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import { useNumberFormat } from '../../../../plugins/numberFormat'
 
+const DEFAULT_TOOLTIP =
+  'Total number of conversations initiated during the selected period.'
+
 const props = withDefaults(defineProps<{
   totalConversations?: number;
   previousTotalConversations?: number | null;
   loading?: boolean;
   theme?: Theme;
+  tooltip?: string;
 }>(), {
   totalConversations: 0,
   previousTotalConversations: null,
   loading: false,
   theme: undefined,
+  tooltip: DEFAULT_TOOLTIP,
 })
 
 const cardMetricRef = ref<InstanceType<typeof CardMetric> | null>(null)

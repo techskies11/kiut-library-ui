@@ -2,6 +2,7 @@
   <CardMetric
     label="Average Resolution Time"
     :value="aiFormattedValue"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     ref="cardMetricRef"
@@ -38,6 +39,9 @@ import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import { formatDurationSeconds } from '../../formatDuration'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
 
+const DEFAULT_TOOLTIP =
+  'Average time from the first message to the resolution of each conversation, broken down by resolver: AI Agent vs. Human.'
+
 const props = withDefaults(
   defineProps<{
     /** Average resolution time in seconds for conversations resolved by the AI agent only. */
@@ -46,12 +50,14 @@ const props = withDefaults(
     humanAvgResolutionTimeSeconds?: number | null
     loading?: boolean
     theme?: Theme
+    tooltip?: string
   }>(),
   {
     aiAgentAvgResolutionTimeSeconds: null,
     humanAvgResolutionTimeSeconds: null,
     loading: false,
     theme: undefined,
+    tooltip: DEFAULT_TOOLTIP,
   },
 )
 

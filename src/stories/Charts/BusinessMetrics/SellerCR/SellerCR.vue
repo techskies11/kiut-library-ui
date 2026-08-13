@@ -2,6 +2,7 @@
   <CardMetric
     label="Seller CR"
     :value="formattedCr"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     :current-value="sellerCr"
@@ -32,6 +33,9 @@ import { computed, ref, unref } from 'vue'
 import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 
+const DEFAULT_TOOLTIP =
+  'Percentage of Sell Success relative to Sell Started.'
+
 const props = withDefaults(
   defineProps<{
     /** Seller conversion rate as a percentage (e.g. 50.8). */
@@ -39,12 +43,14 @@ const props = withDefaults(
     previousSellerCr?: number | null
     loading?: boolean
     theme?: Theme
+    tooltip?: string
   }>(),
   {
     sellerCr: 0,
     previousSellerCr: null,
     loading: false,
     theme: undefined,
+    tooltip: DEFAULT_TOOLTIP,
   },
 )
 
