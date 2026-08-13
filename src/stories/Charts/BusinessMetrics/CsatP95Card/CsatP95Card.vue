@@ -2,6 +2,7 @@
   <CardMetric
     label="CSAT P95"
     :value="formattedCsat"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     :current-value="csatP95"
@@ -21,16 +22,21 @@ import { computed, ref, unref } from 'vue'
 import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 
+const DEFAULT_TOOLTIP =
+  'Score of the top 5% most satisfied customers. If it drops, it serves as an alert that the remaining 95% are receiving worse service and overall quality is declining.'
+
 const props = withDefaults(defineProps<{
   csatP95?: number;
   previousCsatP95?: number | null;
   loading?: boolean;
   theme?: Theme;
+  tooltip?: string;
 }>(), {
   csatP95: 0,
   previousCsatP95: null,
   loading: false,
   theme: undefined,
+  tooltip: DEFAULT_TOOLTIP,
 })
 
 const cardMetricRef = ref<InstanceType<typeof CardMetric> | null>(null)

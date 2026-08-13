@@ -2,6 +2,7 @@
   <CardMetric
     label="Booking Manager CR"
     :value="formattedCr"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     :current-value="bookingManagerCr"
@@ -34,6 +35,9 @@ import { computed, ref, unref } from 'vue'
 import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 
+const DEFAULT_TOOLTIP =
+  'Percentage of Booking Success relative to Booking Started.'
+
 const props = withDefaults(
   defineProps<{
     /** Booking Manager conversion rate as a percentage (e.g. 42.1). */
@@ -41,12 +45,14 @@ const props = withDefaults(
     previousBookingManagerCr?: number | null
     loading?: boolean
     theme?: Theme
+    tooltip?: string
   }>(),
   {
     bookingManagerCr: 0,
     previousBookingManagerCr: null,
     loading: false,
     theme: undefined,
+    tooltip: DEFAULT_TOOLTIP,
   },
 )
 

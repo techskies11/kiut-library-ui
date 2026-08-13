@@ -4,6 +4,7 @@
     :value="formattedAmount"
     :prefix="currencyCode"
     value-size="large"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     :current-value="totalRevenue"
@@ -33,18 +34,23 @@ import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import { useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 
+const DEFAULT_TOOLTIP =
+  'Sum of all sales made across all flows (check-in, seller, ancillaries, booking manager, disruptions) in all currencies, converted to the selected currency.'
+
 const props = withDefaults(defineProps<{
   totalRevenue?: number;
   previousTotalRevenue?: number | null;
   currencyCode?: string;
   loading?: boolean;
   theme?: Theme;
+  tooltip?: string;
 }>(), {
   totalRevenue: 0,
   previousTotalRevenue: null,
   currencyCode: 'USD',
   loading: false,
   theme: undefined,
+  tooltip: DEFAULT_TOOLTIP,
 })
 
 const cardMetricRef = ref<InstanceType<typeof CardMetric> | null>(null)
