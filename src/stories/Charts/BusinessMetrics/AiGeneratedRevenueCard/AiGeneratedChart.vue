@@ -194,7 +194,7 @@ const isStackedBar = computed(() => selectedBreakdown.value === "payment_method"
 // ── Color palette ──────────────────────────────────────────────────────────
 
 const palette = [
-  "#a78bfa",
+  "#8b5cf6",
   "#34d399",
   "#f59e0b",
   "#60a5fa",
@@ -263,14 +263,9 @@ const processChartData = (data: AiGeneratedRevenueData | null): void => {
           label: `Revenue (${activeCurrencyCode.value})`,
           data: sorted.map((d) => Number(d[revenueField] ?? 0)),
           borderColor: palette[0],
-          backgroundColor: "rgba(167,139,250,0.08)",
+          backgroundColor: "transparent",
           fill: false,
           tension: 0.35,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          pointBackgroundColor: "#ffffff",
-          pointBorderColor: palette[0],
-          pointBorderWidth: 2,
         },
       ],
     };
@@ -307,11 +302,6 @@ const processChartData = (data: AiGeneratedRevenueData | null): void => {
       backgroundColor: "transparent",
       fill: false,
       tension: 0.35,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      pointBackgroundColor: "#ffffff",
-      pointBorderColor: color,
-      pointBorderWidth: 2,
     };
   });
 
