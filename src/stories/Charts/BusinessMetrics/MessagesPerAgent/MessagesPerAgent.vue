@@ -147,6 +147,7 @@ interface BreakdownOption {
 }
 
 const colorMap: Record<string, string> = {
+  all: "#8b5cf6",
   checkin: "#3B82F6",
   faq: "#EF4444",
   disruption_manager: "#F59E0B",

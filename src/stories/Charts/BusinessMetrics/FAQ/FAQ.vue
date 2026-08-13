@@ -1,7 +1,7 @@
 <template>
   <ChartMetricContainer
     class="w-full min-h-0 self-start"
-    title="FAQ Metrics"
+    title="FAQs"
     subtitle="FAQ volume by category"
     :collapsible="false"
     :loading="props.loading"

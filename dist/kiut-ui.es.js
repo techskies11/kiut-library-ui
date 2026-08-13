@@ -13360,7 +13360,7 @@ const Rp = {
       { deep: !0, immediate: !0 }
     ), t({ isDark: l }), (b, f) => (h(), te(Se, {
       class: "w-full min-h-0 self-start",
-      title: "FAQ Metrics",
+      title: "FAQs",
       subtitle: "FAQ volume by category",
       collapsible: !1,
       loading: n.loading
@@ -13421,7 +13421,7 @@ const Rp = {
       _: 1
     }, 8, ["loading"]));
   }
-}), kb = /* @__PURE__ */ be(xb, [["__scopeId", "data-v-b6ea961f"]]);
+}), kb = /* @__PURE__ */ be(xb, [["__scopeId", "data-v-74ceae76"]]);
 function Bn(e, t) {
   return h(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -13828,6 +13828,7 @@ const $b = { class: "flex flex-row gap-3 items-center" }, Sb = {
   emits: ["export", "changeBreakdown"],
   setup(e, { expose: t, emit: a }) {
     const n = {
+      all: "#8b5cf6",
       checkin: "#3B82F6",
       faq: "#EF4444",
       disruption_manager: "#F59E0B",
@@ -13967,7 +13968,7 @@ const $b = { class: "flex flex-row gap-3 items-center" }, Sb = {
       _: 1
     }, 8, ["title", "subtitle", "loading"]));
   }
-}), $l = /* @__PURE__ */ be(Xb, [["__scopeId", "data-v-c97ff9a5"]]), Gb = { class: "card-body" }, Zb = {
+}), $l = /* @__PURE__ */ be(Xb, [["__scopeId", "data-v-c2fc7beb"]]), Gb = { class: "card-body" }, Zb = {
   key: 0,
   class: "chart-section"
 }, Qb = { class: "chart-wrapper" }, Jb = {
@@ -19295,7 +19296,7 @@ const jk = { class: "flex justify-end" }, Hk = { class: "w-52" }, Wk = { class: 
       _: 1
     }, 8, ["value", "loading", "theme"]));
   }
-}), s_ = /* @__PURE__ */ be(o_, [["__scopeId", "data-v-f0592d9d"]]), i_ = /* @__PURE__ */ fe({
+}), s_ = /* @__PURE__ */ be(o_, [["__scopeId", "data-v-19e8dead"]]), i_ = /* @__PURE__ */ fe({
   __name: "CheckinCR",
   props: {
     checkinCr: { default: 0 },
