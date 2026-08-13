@@ -84,7 +84,7 @@ defineExpose({ isDark })
   font-family:
     'Inter',
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;

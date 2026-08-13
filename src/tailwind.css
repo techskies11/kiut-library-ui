@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@layer kiut-library;
+@import "tailwindcss" layer(kiut-library);
 
 /* Modo oscuro: <html class="dark"> y/o ancestros con .dark-mode (p. ej. storybook-wrapper) */
 @custom-variant dark (&:where(.dark, .dark *, .dark-mode, .dark-mode *));
