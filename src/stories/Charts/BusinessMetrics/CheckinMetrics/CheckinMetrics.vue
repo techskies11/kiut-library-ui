@@ -172,6 +172,10 @@ interface CheckinData {
   total_record_locator_init_abandoned_voluntary?: number | null;
   total_checkin_pre_init_abandoned_error?: number | null;
   total_checkin_pre_init_abandoned_voluntary?: number | null;
+  total_checkin_retrieval_user_error?: number | null;
+  total_checkin_retrieval_business_rule?: number | null;
+  total_checkin_retrieval_tech_error?: number | null;
+  total_checkin_retrieval_unknown_error?: number | null;
   record_locator_by_day?: CheckinByDay[];
 }
 
@@ -507,7 +511,42 @@ const sankeyData = computed(() => {
     });
   }
 
-  if (unifiedPreRetrievedError > 0) {
+  const retrievalUserErrorRaw =
+    props.checkinData.total_checkin_retrieval_user_error;
+  const retrievalBusinessRuleRaw =
+    props.checkinData.total_checkin_retrieval_business_rule;
+  const retrievalTechErrorRaw =
+    props.checkinData.total_checkin_retrieval_tech_error;
+  const retrievalUnknownErrorRaw =
+    props.checkinData.total_checkin_retrieval_unknown_error;
+  const hasRetrievalErrorSplit =
+    retrievalUserErrorRaw != null ||
+    retrievalBusinessRuleRaw != null ||
+    retrievalTechErrorRaw != null ||
+    retrievalUnknownErrorRaw != null;
+
+  const addRetrievalErrorNode = (
+    name: string,
+    raw: number | null | undefined,
+  ): void => {
+    const value = Math.max(Number(raw) || 0, 0);
+    if (value > 0) {
+      addNode(name, { status: "error" });
+      links.push({
+        source: "Initiated by agent",
+        target: name,
+        value,
+        label: formatSankeyLinkLabel(value, initiated),
+      });
+    }
+  };
+
+  if (hasRetrievalErrorSplit) {
+    addRetrievalErrorNode("Error: User error", retrievalUserErrorRaw);
+    addRetrievalErrorNode("Error: Business rule", retrievalBusinessRuleRaw);
+    addRetrievalErrorNode("Error: Tech error", retrievalTechErrorRaw);
+    addRetrievalErrorNode("Error: Unknown error", retrievalUnknownErrorRaw);
+  } else if (unifiedPreRetrievedError > 0) {
     addNode("Error: On Retrieval", { status: "error" });
     links.push({
       source: "Initiated by agent",
