@@ -2,6 +2,7 @@
   <CardMetric
     label="Human Escalations"
     :value="rateLabel"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     :current-value="escalationRatePercentage"
@@ -40,18 +41,23 @@ import { computed, ref, unref } from 'vue'
 import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 
+const DEFAULT_TOOLTIP =
+  'Percentage of conversations transferred to a human out of the total initiated conversations.'
+
 const props = withDefaults(
   defineProps<{
     escalationRatePercentage?: number
     previousEscalationRatePercentage?: number | null
     loading?: boolean
     theme?: Theme
+    tooltip?: string
   }>(),
   {
     escalationRatePercentage: 0,
     previousEscalationRatePercentage: null,
     loading: false,
     theme: undefined,
+    tooltip: DEFAULT_TOOLTIP,
   },
 )
 

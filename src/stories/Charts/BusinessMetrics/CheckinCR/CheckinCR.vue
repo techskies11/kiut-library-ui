@@ -2,6 +2,7 @@
   <CardMetric
     label="Check-in CR"
     :value="formattedCr"
+    :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
     :current-value="checkinCr"
@@ -31,6 +32,9 @@ import { computed, ref, unref } from 'vue'
 import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 
+const DEFAULT_TOOLTIP =
+  'Percentage of Check In Success relative to Check In Started.'
+
 const props = withDefaults(
   defineProps<{
     /** Check-in conversion rate as a percentage (e.g. 68.4). */
@@ -38,12 +42,14 @@ const props = withDefaults(
     previousCheckinCr?: number | null
     loading?: boolean
     theme?: Theme
+    tooltip?: string
   }>(),
   {
     checkinCr: 0,
     previousCheckinCr: null,
     loading: false,
     theme: undefined,
+    tooltip: DEFAULT_TOOLTIP,
   },
 )
 

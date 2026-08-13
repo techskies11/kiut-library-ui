@@ -24,6 +24,8 @@ Contenedor reutilizable para tarjetas KPI compactas: icono, badge de cambio, val
 - \`prefix\`: prefijo opcional (ej. código de moneda).
 - \`valueSize\`: \`default\` (24px) o \`large\` (28px).
 - \`labelPosition\`: \`below\` (default) o \`header\` (junto al icono).
+- \`tooltip\`: texto de ayuda. Si se informa, muestra un icono de info junto a la etiqueta.
+- \`tooltipTitle\`: título del tooltip (por defecto usa \`label\`).
 - \`loading\`: muestra skeleton completo con animación shimmer.
 - \`currentValue\` / \`previousValue\`: calculan el badge de cambio
         `,
@@ -61,6 +63,34 @@ export const Default: Story = {
     loading: false,
   },
   render: renderWithIcon,
+}
+
+export const WithTooltip: Story = {
+  args: {
+    label: 'Total Conversations',
+    value: '12,482',
+    currentValue: 12482,
+    previousValue: 11000,
+    tooltip: 'Total number of conversations initiated during the selected period.',
+    loading: false,
+  },
+  render: renderWithIcon,
+}
+
+export const WithTooltipDark: Story = {
+  args: {
+    label: 'Total Conversations',
+    value: '12,482',
+    currentValue: 12482,
+    previousValue: 11000,
+    tooltip: 'Total number of conversations initiated during the selected period.',
+    loading: false,
+    theme: 'dark',
+  },
+  render: renderWithIcon,
+  parameters: {
+    backgrounds: { default: 'dark' },
+  },
 }
 
 export const Loading: Story = {
@@ -124,6 +154,7 @@ export const LabelInHeader: Story = {
     label: 'Conversations Opened',
     value: '1,284',
     labelPosition: 'header',
+    tooltip: 'Total number of conversations initiated during the selected period.',
     currentValue: 1284,
     previousValue: 1185,
     loading: false,
