@@ -202,6 +202,8 @@ const palette = [
 
 const getColor = (index: number): string => palette[index % palette.length];
 
+const pointFill = computed(() => (isDark.value ? "transparent" : "#ffffff"));
+
 // ── Formatting helpers ─────────────────────────────────────────────────────
 
 const formatCompact = (value: number): string => {
@@ -264,7 +266,7 @@ const processChartData = (data: TransactionsData | null): void => {
           tension: 0.35,
           pointRadius: 4,
           pointHoverRadius: 6,
-          pointBackgroundColor: "#ffffff",
+          pointBackgroundColor: pointFill.value,
           pointBorderColor: palette[0],
           pointBorderWidth: 2,
         },
@@ -310,7 +312,7 @@ const processChartData = (data: TransactionsData | null): void => {
       tension: 0.35,
       pointRadius: 4,
       pointHoverRadius: 6,
-      pointBackgroundColor: "#ffffff",
+      pointBackgroundColor: pointFill.value,
       pointBorderColor: color,
       pointBorderWidth: 2,
     };
@@ -378,6 +380,10 @@ watch(
     processChartData(props.data ?? null);
   },
 );
+
+watch(isDark, () => {
+  processChartData(props.data ?? null);
+});
 
 const onBreakdownChange = (value: KiutSelectValue): void => {
   selectedBreakdown.value = String(value);
