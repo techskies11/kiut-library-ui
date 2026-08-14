@@ -190,7 +190,7 @@ const isStackedBar = computed(() => selectedBreakdown.value === "payment_method"
 // ── Color palette ──────────────────────────────────────────────────────────
 
 const palette = [
-  "#a78bfa",
+  "#8b5cf6",
   "#34d399",
   "#f59e0b",
   "#60a5fa",
@@ -201,8 +201,6 @@ const palette = [
 ];
 
 const getColor = (index: number): string => palette[index % palette.length];
-
-const pointFill = computed(() => (isDark.value ? "transparent" : "#ffffff"));
 
 // ── Formatting helpers ─────────────────────────────────────────────────────
 
@@ -261,14 +259,9 @@ const processChartData = (data: TransactionsData | null): void => {
           label: "Transactions",
           data: sorted.map((d) => sumChannelCounts(d.channels)),
           borderColor: palette[0],
-          backgroundColor: "rgba(167,139,250,0.08)",
+          backgroundColor: "transparent",
           fill: false,
           tension: 0.35,
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          pointBackgroundColor: pointFill.value,
-          pointBorderColor: palette[0],
-          pointBorderWidth: 2,
         },
       ],
     };
@@ -310,11 +303,6 @@ const processChartData = (data: TransactionsData | null): void => {
       backgroundColor: "transparent",
       fill: false,
       tension: 0.35,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      pointBackgroundColor: pointFill.value,
-      pointBorderColor: color,
-      pointBorderWidth: 2,
     };
   });
 
@@ -380,10 +368,6 @@ watch(
     processChartData(props.data ?? null);
   },
 );
-
-watch(isDark, () => {
-  processChartData(props.data ?? null);
-});
 
 const onBreakdownChange = (value: KiutSelectValue): void => {
   selectedBreakdown.value = String(value);
