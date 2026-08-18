@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ExclamationCircleIcon } from '@heroicons/vue/24/outline';
 import { computed, nextTick, onUnmounted, ref } from 'vue'
 
 const TOOLTIP_GAP = 8
@@ -20,8 +21,8 @@ const tooltipRef = ref<HTMLElement | null>(null)
 
 const triggerClass = computed(() =>
   props.dark
-    ? 'bg-[#8b5cf6] hover:bg-[#a78bfa] focus-visible:ring-[#8b5cf6]/50 focus-visible:ring-offset-[#1a1a23]'
-    : 'bg-[#7c3aed] hover:bg-[#6d28d9] focus-visible:ring-[#7c3aed]/40',
+    ? 'bg-[#3e3e4d] hover:bg-[#32323D] focus-visible:ring-[#8b5cf6]/50 focus-visible:ring-offset-[#1a1a23]'
+    : 'bg-[#F4F4F5] hover:bg-[#D4C1F5] focus-visible:ring-[#7c3aed]/40',
 )
 
 function hideTooltip(): void {
@@ -40,26 +41,26 @@ function updateTooltipPlacement(): void {
   const fitsAbove = spaceAbove >= tooltipRect.height + TOOLTIP_GAP
   const fitsBelow = spaceBelow >= tooltipRect.height + TOOLTIP_GAP
 
-  const placeTop = fitsAbove || (!fitsBelow && spaceAbove >= spaceBelow)
+  const placeBelow = fitsBelow || (!fitsAbove && spaceBelow >= spaceAbove)
 
-  let top = placeTop
-    ? triggerRect.top - tooltipRect.height - TOOLTIP_GAP
-    : triggerRect.bottom + TOOLTIP_GAP
+  let top = placeBelow
+    ? triggerRect.bottom + TOOLTIP_GAP
+    : triggerRect.top - tooltipRect.height - TOOLTIP_GAP
 
   top = Math.max(
     VIEWPORT_PADDING,
     Math.min(top, window.innerHeight - tooltipRect.height - VIEWPORT_PADDING),
   )
 
-  let left = triggerRect.left + triggerRect.width / 2 - tooltipRect.width / 2
-  left = Math.max(
+  let right = triggerRect.right + triggerRect.width / 2 + tooltipRect.width / 2
+  right = Math.max(
     VIEWPORT_PADDING,
-    Math.min(left, window.innerWidth - tooltipRect.width - VIEWPORT_PADDING),
+    Math.min(right, window.innerWidth - tooltipRect.width - VIEWPORT_PADDING),
   )
 
   tooltipStyle.value = {
     top: `${top}px`,
-    left: `${left}px`,
+    left: `${right}px`,
   }
 }
 
@@ -110,7 +111,7 @@ onUnmounted(() => {
     @focus="openTooltip"
     @blur="hideTooltip"
   >
-    i
+    <ExclamationCircleIcon class="w-2.5 h-2.5 text-gray-600 dark:text-gray-200"/>
   </button>
 
   <Teleport to="body">
