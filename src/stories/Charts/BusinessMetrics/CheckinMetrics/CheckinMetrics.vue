@@ -26,89 +26,6 @@
         />
       </div>
 
-      <!-- Table Data (chrome de tabla: Utils/Table) -->
-      <div
-        v-if="tableData && tableData.length > 0"
-        class="checkin-metrics-daily-section"
-      >
-        <div class="w-full min-w-0">
-          <Table
-            :columns="checkinMetricsTableColumns"
-            :rows="checkinMetricsTableRows"
-            :max-visible-rows="3"
-            row-key="id"
-          >
-            <template #cell-date="{ row }">
-              <span class="font-medium whitespace-nowrap">{{
-                formatDate(String(row.date))
-              }}</span>
-            </template>
-            <template #cell-checkinInit="{ row }">
-              <span>{{ formatNumber(row.checkin_initiated as number) }}</span>
-            </template>
-            <template #cell-bookingRetrieved="{ row }">
-              <span>{{
-                formatValueWithPercentage(
-                  row.record_locator_started_count as number,
-                  row.checkin_initiated as number,
-                )
-              }}</span>
-            </template>
-            <template #cell-closed="{ row }">
-              <span>{{
-                formatValueWithPercentage(
-                  row.record_locator_closed_count as number,
-                  row.checkin_initiated as number,
-                )
-              }}</span>
-            </template>
-            <template #cell-completed="{ row }">
-              <span class="cell-success">{{
-                formatValueWithPercentage(
-                  row.record_locator_completed_count as number,
-                  row.checkin_initiated as number,
-                )
-              }}</span>
-            </template>
-            <template #cell-failed="{ row }">
-              <span class="cell-danger">{{
-                formatValueWithPercentage(
-                  row.unrecovered_count as number,
-                  row.checkin_initiated as number,
-                )
-              }}</span>
-            </template>
-            <template #cell-createPayment="{ row }">
-              <span>{{
-                formatNumber(
-                  (row.record_locator_create_payment_count as number) ?? 0,
-                )
-              }}</span>
-            </template>
-            <template #cell-reasons="{ row }">
-              <div
-                v-if="
-                  Array.isArray(row.failed_steps) && row.failed_steps.length > 0
-                "
-                class="reasons-list"
-              >
-                <div
-                  v-for="step in row.failed_steps"
-                  :key="step.step_name"
-                  class="reason-item"
-                >
-                  <span class="reason-name"
-                    >{{ formatStepName(step.step_name) }}:</span
-                  >
-                  <span class="reason-count">{{ step.failed_count }}</span>
-                </div>
-              </div>
-              <div v-else class="no-reasons">-</div>
-            </template>
-          </Table>
-        </div>
-      </div>
-
       <!-- Empty State -->
       <div v-else class="empty-state">
         <div class="empty-state-content">
@@ -128,7 +45,6 @@
 
 <script setup lang="ts">
 import { computed, toRef } from "vue";
-import moment from "moment";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
 import {
   formatSankeyLinkLabel,
@@ -141,7 +57,6 @@ import {
   useThemeDetection,
   type Theme,
 } from "../../../../composables/useThemeDetection";
-import Table, { type TableColumn } from "../../Utils/Table/Table.vue";
 
 type SankeyNodeStatus = "success" | "abandon" | "error";
 
@@ -199,11 +114,6 @@ interface UnrecoveredByStepByDay {
   steps: { step_name: string; count: number }[];
 }
 
-interface UnrecoveredByDay {
-  date: string;
-  unrecovered_count: number;
-}
-
 interface FailedData {
   airline_name?: string;
   start_date?: string;
@@ -213,13 +123,7 @@ interface FailedData {
   total_checkin_init_abandoned?: number;
   failed_by_step_by_day?: FailedByDay[];
   unrecovered_by_step_by_day?: UnrecoveredByStepByDay[];
-  unrecovered_by_day?: UnrecoveredByDay[];
   unrecovered_by_step?: UnrecoveredByStep[];
-}
-
-interface TableRow extends CheckinByDay {
-  failed_steps: FailedStep[];
-  unrecovered_count: number;
 }
 
 const props = withDefaults(
@@ -233,7 +137,7 @@ const props = withDefaults(
     theme?: Theme;
     enableExport?: boolean;
     exportLoading?: boolean;
-    /** Show Create Payment column (Avianca). */
+    /** Avianca-specific Sankey labels (abandon node naming). */
     isAvianca?: boolean;
   }>(),
   {
@@ -277,59 +181,6 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, "theme"));
 
-// Utility functions
-const formatNumber = (value: number | undefined): string => {
-  if (value === undefined || value === null) return "0";
-  return value.toLocaleString();
-};
-
-const formatDate = (dateStr: string): string => {
-  // Parse as local calendar date (Y-M-D parts) to avoid UTC midnight → previous day shift
-  const [year, month, day] = dateStr.split("-").map(Number);
-  return moment([year, month - 1, day]).format("MMM DD");
-};
-
-const formatStepName = (stepName: string): string => {
-  return stepName.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-};
-
-const calculatePercentage = (value: number, total: number): string =>
-  formatSankeyPercentage(value, total);
-
-const formatValueWithPercentage = (
-  value: number | undefined,
-  total: number | undefined,
-): string => {
-  const v = value || 0;
-  const t = total || 0;
-  const formattedValue = formatNumber(v);
-  const percentage = calculatePercentage(v, t);
-  return `${formattedValue} (${percentage})`;
-};
-
-// Computed: Datos combinados para la tabla
-const tableData = computed((): TableRow[] => {
-  const checkinByDay = props.checkinData?.record_locator_by_day || [];
-  const failedByDay = props.failedData?.failed_by_step_by_day || [];
-  const unrecoveredByDay = props.failedData?.unrecovered_by_day || [];
-
-  const combined = checkinByDay.map((dayData) => {
-    const failedDayData = failedByDay.find((d) => d.date === dayData.date);
-    const unrecoveredDayData = unrecoveredByDay.find(
-      (d) => d.date === dayData.date,
-    );
-    return {
-      ...dayData,
-      failed_steps: failedDayData?.steps || [],
-      unrecovered_count: unrecoveredDayData?.unrecovered_count || 0,
-    };
-  });
-
-  return combined.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-  );
-});
-
 const BOARDING_PASS_FAILED_STEPS = new Set([
   "choose_boardingpass",
   "boarding_pass",
@@ -365,45 +216,6 @@ const getBoardingPassFailedCount = (failedData: FailedData | undefined): number 
   }
   return total;
 };
-
-// Shared labels: closed = PSS accepted; completed = BP issued
-const checkinMetricsBaseColumns: TableColumn[] = [
-  { key: "date", label: "Date", align: "center" },
-  { key: "checkinInit", label: "Initiated by agent", align: "center" },
-  { key: "bookingRetrieved", label: "Check In Started (%)", align: "center" },
-  { key: "closed", label: "Check In Success (%)", align: "center" },
-  { key: "completed", label: "Boarding Pass Issued (%)", align: "center" },
-  { key: "failed", label: "Errors (%)", align: "center" },
-  { key: "reasons", label: "Failed (Reasons)", align: "center" },
-];
-
-const createPaymentColumn: TableColumn = {
-  key: "createPayment",
-  label: "Create Payment",
-  align: "center",
-};
-
-const checkinMetricsTableColumns = computed((): TableColumn[] => {
-  return props.isAvianca
-    ? [...checkinMetricsBaseColumns, createPaymentColumn]
-    : checkinMetricsBaseColumns;
-});
-
-const checkinMetricsTableRows = computed((): Record<string, unknown>[] =>
-  tableData.value.map((row) => ({
-    id: row.date,
-    date: row.date,
-    checkin_initiated: row.checkin_initiated,
-    record_locator_init_count: row.record_locator_init_count,
-    record_locator_started_count: row.record_locator_started_count,
-    record_locator_completed_count: row.record_locator_completed_count,
-    record_locator_closed_count: row.record_locator_closed_count,
-    unrecovered_count: row.unrecovered_count,
-    failed_steps: row.failed_steps,
-    record_locator_create_payment_count:
-      row.record_locator_create_payment_count,
-  })),
-);
 
 // Computed: Datos del Sankey
 const sankeyData = computed(() => {
@@ -644,52 +456,7 @@ defineExpose({ isDark });
 
 /* Sankey Section */
 .sankey-section {
-  margin-bottom: 32px;
-}
-
-/* Bloque tabla diaria (celdas: reasons-list, cell-success, etc.) */
-.checkin-metrics-daily-section {
-  margin-top: 24px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.reasons-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.reason-item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-}
-
-.reason-name {
-  color: var(--kiut-text-secondary);
-}
-
-.reason-count {
-  font-weight: 600;
-  color: var(--kiut-danger);
-}
-
-.no-reasons {
-  color: var(--kiut-text-muted);
-  text-align: center;
-}
-
-.cell-success {
-  color: #059669 !important;
-  font-weight: 600;
-}
-
-.cell-danger {
-  color: #dc2626 !important;
-  font-weight: 600;
+  margin-bottom: 0;
 }
 
 /* Empty State */

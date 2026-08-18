@@ -18,6 +18,7 @@ import AgentsPerDay from "./stories/Charts/BusinessMetrics/AgentsPerDay/AgentsPe
 import BookingManager from "./stories/Charts/BusinessMetrics/BookingManager/BookingManager.vue";
 import Checkin from "./stories/Charts/BusinessMetrics/Checkin/Checkin.vue";
 import CheckinMetrics from "./stories/Charts/BusinessMetrics/CheckinMetrics/CheckinMetrics.vue";
+import CheckinErrorReasons from "./stories/Charts/BusinessMetrics/CheckinErrorReasons/CheckinErrorReasons.vue";
 import CheckinContainer from "./stories/Charts/BusinessMetrics/CheckinContainer/CheckinContainer.vue";
 import CheckinSegments from "./stories/Charts/BusinessMetrics/CheckinSegments/checkinSegments.vue";
 import Disruption from "./stories/Charts/BusinessMetrics/Disruption/Disruption.vue";
@@ -223,6 +224,7 @@ export {
   Checkin,
   CheckinContainer,
   CheckinMetrics,
+  CheckinErrorReasons,
   CheckinSegments,
   Disruption,
   FAQ,
@@ -330,6 +332,7 @@ export const KiutUIPlugin = {
     app.component("KiutCheckin", Checkin);
     app.component("KiutCheckinContainer", CheckinContainer);
     app.component("KiutCheckinMetrics", CheckinMetrics);
+    app.component("KiutCheckinErrorReasons", CheckinErrorReasons);
     app.component("KiutCheckinSegments", CheckinSegments);
     app.component("KiutDisruption", Disruption);
     app.component("KiutFAQ", FAQ);
