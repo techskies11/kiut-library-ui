@@ -13682,7 +13682,7 @@ const sv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         xa,
         Math.min($, window.innerHeight - b.height - xa)
       );
-      let D = m.right + m.width / 2 + b.width / 2;
+      let D = m.right + m.width / 2 - b.width / 2;
       D = Math.max(
         xa,
         Math.min(D, window.innerWidth - b.width - xa)
@@ -13718,7 +13718,7 @@ const sv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         onFocus: c,
         onBlur: l
       }, [
-        N(T(vp), { class: "w-2.5 h-2.5 text-gray-600 dark:text-gray-200" })
+        N(T(vp), { class: "w-2.5 h-2.5 text-gray-600 dark:text-gray-200 hover:#5d4b93" })
       ], 42, zv),
       (g(), ee(Wt, { to: "body" }, [
         a.value ? (g(), x("div", {
