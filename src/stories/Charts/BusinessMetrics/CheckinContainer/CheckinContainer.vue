@@ -29,6 +29,7 @@
         @export="(fmt) => handleChildExport('checkin', fmt)"
       />
       <CheckinSegments
+        v-if="showSegments"
         :collapsible="false"
         :initially-open="childrenInitiallyOpen"
         :loading="effectiveSegmentsLoading"
@@ -87,6 +88,7 @@ const props = withDefaults(
     checkinLoading?: boolean
     segmentsLoading?: boolean
     showCheckin?: boolean
+    showSegments?: boolean
     enableExport?: boolean
     exportLoading?: boolean
     theme?: Theme
@@ -114,6 +116,7 @@ const props = withDefaults(
     checkinLoading: false,
     segmentsLoading: false,
     showCheckin: true,
+    showSegments: true,
     showKpi: true,
     enableExport: false,
     exportLoading: false,

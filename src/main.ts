@@ -57,6 +57,15 @@ export type {
   CheckinKpiProps,
 } from "./stories/Charts/BusinessMetrics/CheckinKPI/checkinKpiTypes";
 export { DEFAULT_CHECKIN_KPI_LABELS } from "./stories/Charts/BusinessMetrics/CheckinKPI/checkinKpiTypes";
+export {
+  buildCheckinKpiFromRecord,
+  mergeCheckinKpiWithPrevious,
+} from "./stories/Charts/BusinessMetrics/CheckinKPI/buildCheckinKpiFromRecord";
+export type {
+  CheckinFailedKpiShape,
+  CheckinKpiValues,
+  CheckinRecordKpiShape,
+} from "./stories/Charts/BusinessMetrics/CheckinKPI/buildCheckinKpiFromRecord";
 import SellerCR from "./stories/Charts/BusinessMetrics/SellerCR/SellerCR.vue";
 import BookingManagerCR from "./stories/Charts/BusinessMetrics/BookingManagerCR/BookingManagerCR.vue";
 
