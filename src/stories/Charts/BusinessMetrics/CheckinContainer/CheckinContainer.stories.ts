@@ -5,12 +5,15 @@ const mockCheckinData = {
   airline_name: 'Clic Air',
   start_date: '2025-11-01',
   end_date: '2025-12-05',
-  total_record_locator_init: 36,
-  total_record_locator_started: 137,
-  total_record_locator_completed: 24,
-  total_record_locator_closed: 9,
-  total_record_locator_init_abandoned: 21,
-  total_checkin_initiated: 167,
+  total_record_locator_init: 1500,
+  total_record_locator_started: 1420,
+  total_record_locator_completed: 1380,
+  total_record_locator_closed: 1350,
+  total_record_locator_failed: 150,
+  total_record_locator_init_abandoned: 200,
+  total_checkin_pre_init_abandoned_error: 10,
+  total_checkin_pre_init_abandoned_voluntary: 10,
+  total_checkin_initiated: 1720,
   record_locator_by_day: [
     {
       date: '2025-12-03',
@@ -46,9 +49,9 @@ const mockCheckinFailedData = {
   airline_name: 'Clic Air',
   start_date: '2025-11-01',
   end_date: '2025-12-05',
-  total_checkin_failed: 5,
+  total_checkin_failed: 150,
   total_checkin_unrecovered: 0,
-  total_checkin_init_abandoned: 12,
+  total_checkin_init_abandoned: 220,
   failed_by_step_by_day: [
     {
       date: '2025-11-03',
@@ -67,6 +70,22 @@ const mockCheckinFailedData = {
     },
   ],
   unrecovered_by_step: [],
+}
+
+const mockPreviousCheckinData = {
+  ...mockCheckinData,
+  total_checkin_initiated: 1587,
+  total_record_locator_closed: 1219,
+  total_record_locator_failed: 136,
+  total_record_locator_init_abandoned: 196,
+  total_checkin_pre_init_abandoned_error: 8,
+  total_checkin_pre_init_abandoned_voluntary: 8,
+}
+
+const mockPreviousCheckinFailedData = {
+  ...mockCheckinFailedData,
+  total_checkin_failed: 136,
+  total_checkin_init_abandoned: 212,
 }
 
 const mockSegmentsData = [
@@ -161,5 +180,14 @@ export const CollapsedOuter: Story = {
   args: {
     ...Default.args,
     containerInitiallyOpen: false,
+  },
+}
+
+export const WithKpiTrends: Story = {
+  args: {
+    ...Default.args,
+    containerInitiallyOpen: true,
+    previousCheckinData: mockPreviousCheckinData,
+    previousCheckinFailedData: mockPreviousCheckinFailedData,
   },
 }
