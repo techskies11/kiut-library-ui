@@ -52,7 +52,7 @@ function updateTooltipPlacement(): void {
     Math.min(top, window.innerHeight - tooltipRect.height - VIEWPORT_PADDING),
   )
 
-  let right = triggerRect.right + triggerRect.width / 2 + tooltipRect.width / 2
+  let right = triggerRect.right + triggerRect.width / 2 - tooltipRect.width / 2
   right = Math.max(
     VIEWPORT_PADDING,
     Math.min(right, window.innerWidth - tooltipRect.width - VIEWPORT_PADDING),
@@ -111,7 +111,7 @@ onUnmounted(() => {
     @focus="openTooltip"
     @blur="hideTooltip"
   >
-    <ExclamationCircleIcon class="w-2.5 h-2.5 text-gray-600 dark:text-gray-200"/>
+    <ExclamationCircleIcon class="w-2.5 h-2.5 text-gray-600 dark:text-gray-200 hover:#5d4b93"/>
   </button>
 
   <Teleport to="body">
