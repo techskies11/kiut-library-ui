@@ -9,6 +9,12 @@
     @open="emit('open')"
   >
     <div class="checkin-container__body">
+      <CheckinKPI
+        v-if="showKpi"
+        v-bind="resolvedKpiProps"
+        :loading="effectiveKpiLoading"
+        :theme="theme"
+      />
       <CheckinMetrics
         v-if="showCheckin"
         class="w-full min-h-0"
@@ -39,8 +45,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import CheckinKPI from '../CheckinKPI/CheckinKPI.vue'
 import CheckinMetrics from '../CheckinMetrics/CheckinMetrics.vue'
 import CheckinSegments from '../CheckinSegments/checkinSegments.vue'
+import {
+  buildCheckinKpiFromRecord,
+  mergeCheckinKpiWithPrevious,
+  type CheckinFailedKpiShape,
+  type CheckinRecordKpiShape,
+} from '../CheckinKPI/buildCheckinKpiFromRecord'
+import type { CheckinKpiLabels, CheckinKpiProps } from '../CheckinKPI/checkinKpiTypes'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'
 
@@ -76,6 +90,15 @@ const props = withDefaults(
     enableExport?: boolean
     exportLoading?: boolean
     theme?: Theme
+    showKpi?: boolean
+    kpiLoading?: boolean
+    /** Override manual de KPIs (opcional). */
+    kpiProps?: Partial<CheckinKpiProps>
+    /** Labels custom para las tarjetas KPI (se fusionan con defaults). */
+    kpiLabels?: CheckinKpiLabels
+    /** Periodo anterior para tendencias de KPI (opcional). */
+    previousCheckinData?: object
+    previousCheckinFailedData?: object
     /** Shape CheckinMetrics.vue (métricas record locator) */
     checkinData?: object
     checkinFailedData?: object
@@ -91,6 +114,7 @@ const props = withDefaults(
     checkinLoading: false,
     segmentsLoading: false,
     showCheckin: true,
+    showKpi: true,
     enableExport: false,
     exportLoading: false,
     theme: undefined,
@@ -103,12 +127,36 @@ const emit = defineEmits<{
   export: [payload: CheckinContainerExportPayload]
 }>()
 
+const effectiveKpiLoading = computed(() =>
+  props.loading ? false : (props.kpiLoading ?? props.checkinLoading),
+)
 const effectiveCheckinLoading = computed(() =>
   props.loading ? false : props.checkinLoading,
 )
 const effectiveSegmentsLoading = computed(() =>
   props.loading ? false : props.segmentsLoading,
 )
+
+const resolvedKpiProps = computed<CheckinKpiProps>(() => {
+  const current = buildCheckinKpiFromRecord(
+    props.checkinData as CheckinRecordKpiShape | undefined,
+    props.checkinFailedData as CheckinFailedKpiShape | undefined,
+  )
+  const previous = buildCheckinKpiFromRecord(
+    props.previousCheckinData as CheckinRecordKpiShape | undefined,
+    props.previousCheckinFailedData as CheckinFailedKpiShape | undefined,
+  )
+  const merged = mergeCheckinKpiWithPrevious(current, previous)
+
+  return {
+    ...merged,
+    ...props.kpiProps,
+    labels: {
+      ...props.kpiProps?.labels,
+      ...props.kpiLabels,
+    },
+  }
+})
 
 function handleChildExport(source: CheckinContainerExportSource, format: ExportFormat) {
   emit('export', { source, format })

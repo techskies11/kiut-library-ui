@@ -51,6 +51,12 @@ import HumanEscalationsCard from "./stories/Charts/BusinessMetrics/HumanEscalati
 import AvgResolutionTime from "./stories/Charts/BusinessMetrics/AvgResolutionTime/AvgResolutionTime.vue";
 import AvgResolutionTimeCard from "./stories/Charts/BusinessMetrics/AvgResolutionTimeCard/AvgResolutionTimeCard.vue";
 import CheckinCR from "./stories/Charts/BusinessMetrics/CheckinCR/CheckinCR.vue";
+import CheckinKPI from "./stories/Charts/BusinessMetrics/CheckinKPI/CheckinKPI.vue";
+export type {
+  CheckinKpiLabels,
+  CheckinKpiProps,
+} from "./stories/Charts/BusinessMetrics/CheckinKPI/checkinKpiTypes";
+export { DEFAULT_CHECKIN_KPI_LABELS } from "./stories/Charts/BusinessMetrics/CheckinKPI/checkinKpiTypes";
 import SellerCR from "./stories/Charts/BusinessMetrics/SellerCR/SellerCR.vue";
 import BookingManagerCR from "./stories/Charts/BusinessMetrics/BookingManagerCR/BookingManagerCR.vue";
 
@@ -255,6 +261,7 @@ export {
   AvgResolutionTime,
   AvgResolutionTimeCard,
   CheckinCR,
+  CheckinKPI,
   SellerCR,
   BookingManagerCR,
   // NPS Metrics
@@ -362,6 +369,7 @@ export const KiutUIPlugin = {
     app.component("KiutAvgResolutionTime", AvgResolutionTime);
     app.component("KiutAvgResolutionTimeCard", AvgResolutionTimeCard);
     app.component("KiutCheckinCR", CheckinCR);
+    app.component("KiutCheckinKPI", CheckinKPI);
     app.component("KiutSellerCR", SellerCR);
     app.component("KiutBookingManagerCR", BookingManagerCR);
     app.component("KiutNpsDailyMetrics", NpsDailyMetrics);

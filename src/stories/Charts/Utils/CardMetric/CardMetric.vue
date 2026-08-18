@@ -206,7 +206,7 @@ defineExpose({ isDark, changePercent })
   align-items: center;
   min-width: 0;
   flex: 1;
-  gap: 6px;
+  gap: 3px;
 }
 
 .highlight-inner {
@@ -218,8 +218,8 @@ defineExpose({ isDark, changePercent })
 }
 
 .icon-wrapper {
-  width: 24px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -345,6 +345,7 @@ defineExpose({ isDark, changePercent })
 }
 
 .metric-label-text {
+  font-size: 12px;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
