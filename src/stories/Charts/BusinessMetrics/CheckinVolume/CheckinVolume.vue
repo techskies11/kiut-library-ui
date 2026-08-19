@@ -220,10 +220,6 @@ const volumeDays = computed((): CheckinVolumeDay[] => {
 
 const dataChart = computed(() => {
   const days = volumeDays.value;
-  if (!days.length) {
-    return { labels: [] as string[], datasets: [] as Array<Record<string, unknown>> };
-  }
-
   return {
     labels: days.map((item) => formatChartDate(item.date)),
     datasets: SERIES.map((series) => ({
