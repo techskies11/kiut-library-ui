@@ -70,6 +70,11 @@ const mockCheckinFailedData = {
     },
   ],
   unrecovered_by_step: [],
+  unrecovered_by_day: [
+    { date: '2025-12-03', unrecovered_count: 0 },
+    { date: '2025-12-02', unrecovered_count: 1 },
+    { date: '2025-11-19', unrecovered_count: 2 },
+  ],
 }
 
 const mockPreviousCheckinData = {
@@ -137,14 +142,14 @@ const meta = {
     exportLoading: { control: 'boolean' },
     onExport: {
       action: 'export',
-      description: 'Payload { source, format }',
+      description: 'Payload { source, format } (checkin | checkinSegments | checkinVolume)',
     },
   },
   parameters: {
     docs: {
       description: {
         component:
-          'Agrupa métricas Check-in (Sankey CheckinMetrics.vue) y Checkin Segments bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments.',
+          'Agrupa métricas Check-in (Sankey CheckinMetrics.vue), Checkin Segments y Checkin Volume bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments | checkinVolume.',
       },
     },
   },

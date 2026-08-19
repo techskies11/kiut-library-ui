@@ -39,6 +39,16 @@
         :export-loading="exportLoading"
         @export="handleSegmentsExport"
       />
+      <CheckinVolume
+        class="w-full min-h-0"
+        :loading="effectiveCheckinLoading"
+        :checkin-data="checkinData"
+        :failed-data="checkinFailedData"
+        :theme="theme"
+        :enable-export="enableExport"
+        :export-loading="exportLoading"
+        @export="(fmt) => handleChildExport('checkinVolume', fmt)"
+      />
     </div>
   </ChartMetricContainer>
 </template>
@@ -56,6 +66,7 @@ import {
   type CheckinRecordKpiShape,
 } from '../CheckinKPI/buildCheckinKpiFromRecord'
 import type { CheckinKpiLabels, CheckinKpiProps } from '../CheckinKPI/checkinKpiTypes'
+import CheckinVolume from '../CheckinVolume/CheckinVolume.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'
 
@@ -70,7 +81,7 @@ interface SegmentDatum {
 }
 
 /** Origen dentro del grupo Check in (para rutear exports en la app consumidora). */
-export type CheckinContainerExportSource = 'checkin' | 'checkinSegments'
+export type CheckinContainerExportSource = 'checkin' | 'checkinSegments' | 'checkinVolume'
 
 export interface CheckinContainerExportPayload {
   source: CheckinContainerExportSource

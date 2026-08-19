@@ -67,6 +67,7 @@ export type {
   CheckinKpiValues,
   CheckinRecordKpiShape,
 } from "./stories/Charts/BusinessMetrics/CheckinKPI/buildCheckinKpiFromRecord";
+import CheckinVolume from "./stories/Charts/BusinessMetrics/CheckinVolume/CheckinVolume.vue";
 import SellerCR from "./stories/Charts/BusinessMetrics/SellerCR/SellerCR.vue";
 import BookingManagerCR from "./stories/Charts/BusinessMetrics/BookingManagerCR/BookingManagerCR.vue";
 
@@ -273,6 +274,7 @@ export {
   AvgResolutionTimeCard,
   CheckinCR,
   CheckinKPI,
+  CheckinVolume,
   SellerCR,
   BookingManagerCR,
   // NPS Metrics
@@ -382,6 +384,7 @@ export const KiutUIPlugin = {
     app.component("KiutAvgResolutionTimeCard", AvgResolutionTimeCard);
     app.component("KiutCheckinCR", CheckinCR);
     app.component("KiutCheckinKPI", CheckinKPI);
+    app.component("KiutCheckinVolume", CheckinVolume);
     app.component("KiutSellerCR", SellerCR);
     app.component("KiutBookingManagerCR", BookingManagerCR);
     app.component("KiutNpsDailyMetrics", NpsDailyMetrics);

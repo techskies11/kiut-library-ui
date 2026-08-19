@@ -3,7 +3,12 @@
     class="chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] min-w-0"
   >
     <div class="chart-line-canvas-host relative min-h-0 w-full flex-1">
-      <Line ref="lineChartRef" :data="chartData" :options="computedOptions" />
+      <Line
+        ref="lineChartRef"
+        :data="chartData"
+        :options="computedOptions"
+        :plugins="chartPlugins"
+      />
     </div>
     <!-- Leyenda HTML: círculo + trazos horizontales (Chart.js solo dibuja elipse en canvas). -->
     <ul
@@ -45,10 +50,12 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  Filler,
   Title,
   Tooltip,
   Legend,
   type ChartArea,
+  type Plugin,
 } from 'chart.js';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 import {
@@ -83,6 +90,8 @@ const props = defineProps<{
   options?: Record<string, any>;
   uppercaseLegendLabels?: boolean;
   theme?: Theme;
+  /** Relleno bajo la curva con degradado del color de la línea hacia transparente. */
+  areaGradient?: boolean;
 }>();
 
 ChartJS.register(
@@ -90,6 +99,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  Filler,
   Title,
   Tooltip,
   Legend,
@@ -103,8 +113,43 @@ const { isDark, colors } = useThemeDetection(toRef(props, 'theme'));
 
 const defaultPointCenterFill = computed(() => colors.value.bgCard);
 
+function colorWithAlpha(color: string, alpha: number): string {
+  const c = color.trim();
+  const rgbMatch = c.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+  if (rgbMatch) {
+    return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${alpha})`;
+  }
+  const hex = c.startsWith('#') ? c.slice(1) : '';
+  if (hex.length === 3 || hex.length === 6) {
+    const full =
+      hex.length === 3
+        ? hex
+            .split('')
+            .map((ch) => ch + ch)
+            .join('')
+        : hex;
+    const r = parseInt(full.slice(0, 2), 16);
+    const g = parseInt(full.slice(2, 4), 16);
+    const b = parseInt(full.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  return c;
+}
+
+function areaGradientFill(lineHue: string) {
+  return (context: { chart: ChartJS }) => {
+    const { ctx, chartArea } = context.chart;
+    if (!chartArea) return colorWithAlpha(lineHue, 0.2);
+    const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+    gradient.addColorStop(0, colorWithAlpha(lineHue, 0.35));
+    gradient.addColorStop(1, colorWithAlpha(lineHue, 0));
+    return gradient;
+  };
+}
+
 const chartData = computed(() => {
   const hole = defaultPointCenterFill.value;
+  const useGradient = Boolean(props.areaGradient);
   return {
     labels: props.data.labels,
     datasets: props.data.datasets.map((ds) => {
@@ -123,11 +168,14 @@ const chartData = computed(() => {
           : pointFill;
       const pointBw = ds.pointBorderWidth ?? 2;
       const pointHoverBw = ds.pointHoverBorderWidth ?? pointBw;
+      const fill = ds.fill ?? useGradient;
 
       return {
         ...ds,
-        fill: ds.fill ?? false,
+        fill,
         clip: ds.clip ?? false,
+        backgroundColor:
+          fill && useGradient ? areaGradientFill(lineHue) : ds.backgroundColor,
         pointBackgroundColor: pointFill,
         pointHoverBackgroundColor: pointHoverFill,
         pointBorderColor: ds.pointBorderColor ?? lineHue,
@@ -224,7 +272,7 @@ const computedOptions = computed(() => {
       },
     },
     interaction: {
-      mode: 'nearest' as const,
+      mode: 'index' as const,
       axis: 'x' as const,
       intersect: false,
     },
@@ -269,6 +317,9 @@ const computedOptions = computed(() => {
               label += context.parsed.y;
             }
             return label;
+          },
+          labelTextColor: function labelTextColorCb(context: any): string {
+            return lineColorForDataset(context.dataset);
           },
         },
       },
@@ -318,12 +369,19 @@ const computedOptions = computed(() => {
         borderWidth: 2,
         borderCapStyle: 'round' as const,
       },
-      point: {
-        radius: 4,
-        hoverRadius: 6,
-        borderWidth: 2,
-        hoverBorderWidth: 2,
-      },
+      point: props.areaGradient
+        ? {
+            radius: 0,
+            hoverRadius: 0,
+            borderWidth: 0,
+            hoverBorderWidth: 0,
+          }
+        : {
+            radius: 4,
+            hoverRadius: 6,
+            borderWidth: 2,
+            hoverBorderWidth: 2,
+          },
     },
   };
 
@@ -331,6 +389,32 @@ const computedOptions = computed(() => {
   return applyInterFontToChartOptions(
     applyChartAxisTickLimits(merged as Record<string, unknown>),
   ) as Record<string, any>;
+});
+
+const chartPlugins = computed<Plugin[]>(() => {
+  if (!props.areaGradient) return [];
+  const stroke = colors.value.gridLines;
+  return [
+    {
+      id: 'chartLineHoverX',
+      afterDraw(chart) {
+        const tooltip = chart.tooltip;
+        if (!tooltip?.getActiveElements().length) return;
+        const x = tooltip.caretX;
+        const { top, bottom } = chart.chartArea;
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.beginPath();
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = stroke;
+        ctx.moveTo(x, top);
+        ctx.lineTo(x, bottom);
+        ctx.stroke();
+        ctx.restore();
+      },
+    },
+  ];
 });
 
 defineExpose({ isDark });
