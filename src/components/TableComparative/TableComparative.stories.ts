@@ -21,7 +21,7 @@ const groups: TableComparativeGroup[] = [
         label: 'Conversations',
         cells: {
           ar: { value: '42,756', delta: '+0.6%', tone: 'positive' },
-          latam: { value: '42,262', delta: '-0.6%', tone: 'negative' },
+          latam: { value: '', delta: '-', tone: 'negative' },
         },
       },
       {

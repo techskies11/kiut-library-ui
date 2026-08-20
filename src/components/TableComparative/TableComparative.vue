@@ -103,13 +103,13 @@
               v-for="row in group.rows"
               v-show="isGroupExpanded(group.id)"
               :key="`${group.id}-${row.id}`"
-              class="kiut-table-comparative__metric-row h-12 dark:border-[color:var(--kiut-border-table-row)]"
+              class="kiut-table-comparative__metric-row h-14 dark:border-[color:var(--kiut-border-table-row)]"
               :class="{ 'is-active': isRowActive(group, row) }"
               @click="selectMetricRow(group, row)"
             >
               <th
                 scope="row"
-                class="kiut-table-comparative__row-label align-middle border-b border-[var(--kiut-comparative-header)] px-3 py-2.5 text-sm font-normal"
+                class="kiut-table-comparative__row-label align-middle border-b border-[color:var(--kiut-comparative-header)] px-3 py-2.5 text-sm font-normal"
               >
                 <slot name="row-header" :row="row" :group="group">
                   <span
@@ -122,7 +122,7 @@
               <td
                 v-for="column in columns"
                 :key="`${row.id}-${column.key}`"
-                class="kiut-table-comparative__row-data border-b border-[var(--kiut-comparative-header)] align-middle px-3 py-2.5 text-center"
+                class="kiut-table-comparative__row-data border-b border-[color:var(--kiut-comparative-header)] align-middle px-3 py-2.5 text-center"
               >
                 <slot name="cell" v-bind="cellSlotProps(row, group, column)">
                   <div
@@ -355,18 +355,13 @@ function toneValueClass(tone: TableComparativeTone | undefined): string {
   scrollbar-gutter: stable;
 }
 
-.kiut-table-comparative__head-cell,
-.kiut-table-comparative__head-corner {
+.kiut-table-comparative__head-cell
+ {
   position: sticky;
   top: 0;
   z-index: 20;
   background-color: var(--kiut-bg-secondary);
   box-shadow: inset 0 -1px 0 var(--kiut-border-light, #e5e7eb);
-}
-
-.kiut-table-comparative__head-corner {
-  left: 0;
-  z-index: 30;
 }
 
 .kiut-table-comparative__category-cell {
