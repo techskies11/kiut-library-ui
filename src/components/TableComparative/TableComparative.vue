@@ -37,7 +37,7 @@
           >
             <th
               scope="col"
-              class="kiut-table-comparative__head-corner py-3 pl-5 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
+              class="kiut-table-comparative__head-corner text-[13px] font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
             >
               {{ resolvedLabels.rowHeader }}
             </th>
@@ -355,12 +355,19 @@ function toneValueClass(tone: TableComparativeTone | undefined): string {
   scrollbar-gutter: stable;
 }
 
-.kiut-table-comparative__head-cell {
+.kiut-table-comparative__head-cell,
+.kiut-table-comparative__head-corner {
   position: sticky;
   top: 0;
   z-index: 20;
   background-color: var(--kiut-bg-secondary);
   box-shadow: inset 0 -1px 0 var(--kiut-border-light, #e5e7eb);
+}
+
+.kiut-table-comparative__head-corner {
+  left: 0;
+  z-index: 30;
+  padding: 0.75rem 0rem 0.75rem 1.25rem;
 }
 
 .kiut-table-comparative__category-cell {
