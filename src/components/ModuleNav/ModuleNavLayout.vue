@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="kiut-module-nav-layout flex min-h-0 w-full flex-col gap-4 md:flex-row md:items-start"
-  >
+  <div class="kiut-module-nav-layout flex min-h-0 w-full">
     <VerticalNavPanel
       :title="title"
       :items="items"
@@ -48,7 +46,7 @@ withDefaults(
     panelWidth: "14rem",
     fontSize: "14px",
     iconSize: "16px",
-  }
+  },
 );
 
 const emit = defineEmits<{
@@ -58,6 +56,18 @@ const emit = defineEmits<{
 </script>
 
 <style scoped>
+.kiut-module-nav-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .kiut-module-nav-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
 .module-nav-panel-enter-active,
 .module-nav-panel-leave-active {
   transition: opacity 0.18s ease-out;

@@ -37,7 +37,7 @@
           >
             <th
               scope="col"
-              class="kiut-table-comparative__head-corner py-3 pl-3 pr-3 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
+              class="kiut-table-comparative__head-corner py-3 pl-5 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
             >
               {{ resolvedLabels.rowHeader }}
             </th>
@@ -95,7 +95,7 @@
               <td
                 v-for="column in columns"
                 :key="`${group.id}-${column.key}`"
-                class="kiut-table-comparative__category-cell kiut-table-comparative__category-cell--fill py-2"
+                class="kiut-table-comparative__category-cell kiut-table-comparative__category-cell--fill"
                 aria-hidden="true"
               />
             </tr>
@@ -103,13 +103,13 @@
               v-for="row in group.rows"
               v-show="isGroupExpanded(group.id)"
               :key="`${group.id}-${row.id}`"
-              class="kiut-table-comparative__metric-row border-b border-[#f3f4f6] dark:border-[color:var(--kiut-border-table-row)]"
+              class="kiut-table-comparative__metric-row h-12 dark:border-[color:var(--kiut-border-table-row)]"
               :class="{ 'is-active': isRowActive(group, row) }"
               @click="selectMetricRow(group, row)"
             >
               <th
                 scope="row"
-                class="kiut-table-comparative__row-label align-middle px-3 py-2.5 text-sm font-normal"
+                class="kiut-table-comparative__row-label align-middle border-b border-[var(--kiut-comparative-header)] px-3 py-2.5 text-sm font-normal"
               >
                 <slot name="row-header" :row="row" :group="group">
                   <span
@@ -122,7 +122,7 @@
               <td
                 v-for="column in columns"
                 :key="`${row.id}-${column.key}`"
-                class="kiut-table-comparative__row-data align-middle px-3 py-2.5 text-center"
+                class="kiut-table-comparative__row-data border-b border-[var(--kiut-comparative-header)] align-middle px-3 py-2.5 text-center"
               >
                 <slot name="cell" v-bind="cellSlotProps(row, group, column)">
                   <div
