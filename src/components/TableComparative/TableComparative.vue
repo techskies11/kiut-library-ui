@@ -109,7 +109,7 @@
             >
               <th
                 scope="row"
-                class="kiut-table-comparative__row-label align-middle border-b border-[color:var(--kiut-comparative-header)] px-3 py-2.5 text-sm font-normal"
+                class="kiut-table-comparative__row-label align-middle px-3 py-2.5 text-sm font-normal"
               >
                 <slot name="row-header" :row="row" :group="group">
                   <span
@@ -122,7 +122,7 @@
               <td
                 v-for="column in columns"
                 :key="`${row.id}-${column.key}`"
-                class="kiut-table-comparative__row-data border-b border-[color:var(--kiut-comparative-header)] align-middle px-3 py-2.5 text-center"
+                class="kiut-table-comparative__row-data align-middle px-3 py-2.5 text-center"
               >
                 <slot name="cell" v-bind="cellSlotProps(row, group, column)">
                   <div
@@ -355,8 +355,7 @@ function toneValueClass(tone: TableComparativeTone | undefined): string {
   scrollbar-gutter: stable;
 }
 
-.kiut-table-comparative__head-cell
- {
+.kiut-table-comparative__head-cell {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -399,10 +398,12 @@ function toneValueClass(tone: TableComparativeTone | undefined): string {
   left: 0;
   z-index: 10;
   background-color: var(--kiut-bg-secondary);
+  border-bottom: 1px solid var(--kiut-comparative-header);
 }
 
 .kiut-table-comparative__row-data {
   position: relative;
+  border-bottom: 1px solid var(--kiut-comparative-header);
 }
 
 .kiut-table-comparative__metric-row.is-active
