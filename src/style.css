@@ -77,6 +77,9 @@
   /* Chart Specific */
   --kiut-chart-legend-color: #475569;
   --kiut-chart-tick-color: #64748b;
+
+  /* Table Comparative */
+  --kiut-comparative-header: #f6f5f8;
 }
 
 /* ============================================
@@ -140,6 +143,8 @@
   /* Chart Specific */
   --kiut-chart-legend-color: #d1d5db;
   --kiut-chart-tick-color: #9ca3af;
+
+  --kiut-comparative-header: #1e1e29;
 }
 
 /* ============================================
