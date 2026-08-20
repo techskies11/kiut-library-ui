@@ -186,7 +186,7 @@ defineExpose({ isDark });
   display: flex;
   align-items: baseline;
   justify-content: flex-start;
-  gap: 8px;
+  gap: 2px;
   flex-wrap: wrap;
   text-align: left;
 }
@@ -194,7 +194,7 @@ defineExpose({ isDark });
 .kpi-value-with-count__main {
   font-family:
     "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -204,7 +204,7 @@ defineExpose({ isDark });
 .kpi-value-with-count__secondary {
   font-family:
     "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 16px;
+  font-size: 10px;
   font-weight: 700;
   line-height: 1.2;
   color: #9191a1;
@@ -214,9 +214,9 @@ defineExpose({ isDark });
   font-family:
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), "Inter",
     sans-serif;
-  font-size: 0.75rem;
+  font-size: 9px;
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 4px 6px;
   border-radius: 999px;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -250,5 +250,19 @@ defineExpose({ isDark });
 .checkin-kpi--dark .percent-trend-badge.change-badge--neutral {
   background: rgba(148, 163, 184, 0.12);
   color: #94a3b8;
+}
+
+/* Card "iniciados" usa el value default de CardMetric */
+.checkin-kpi :deep(.metric-value) {
+  font-size: 18px;
+}
+/* Chip de tendencia de CardMetric (iniciados / success) */
+.checkin-kpi :deep(.change-badge) {
+  font-size: 9px;
+  padding: 4px 6px;
+}
+/* Padding del contenedor de cada card */
+.checkin-kpi :deep(.chart-metric-container) {
+  padding: 10px;
 }
 </style>
