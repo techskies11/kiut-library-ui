@@ -23682,7 +23682,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
   class: "kiut-table-comparative__category-cell kiut-table-comparative__category-cell--label px-2 py-2 text-left"
 }, c$ = ["aria-expanded", "aria-label", "onClick"], d$ = { class: "min-w-0 truncate text-[11px] font-bold uppercase tracking-wider text-[color:var(--kiut-primary)]" }, u$ = { class: "shrink-0 text-[11px] font-medium text-[color:var(--kiut-text-muted)]" }, h$ = ["onClick"], f$ = {
   scope: "row",
-  class: "kiut-table-comparative__row-label align-middle border-b border-[var(--kiut-comparative-header)] px-3 py-2.5 text-sm font-normal"
+  class: "kiut-table-comparative__row-label align-middle border-b border-[color:var(--kiut-comparative-header)] px-3 py-2.5 text-sm font-normal"
 }, g$ = { class: "block font-semibold text-[color:var(--kiut-text-primary)]" }, m$ = {
   key: 0,
   class: "text-xs text-[color:var(--kiut-text-muted)]"
@@ -23845,7 +23845,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
               ]),
               (m(!0), x(de, null, pe(P.rows, (O) => Ze((m(), x("tr", {
                 key: `${P.id}-${O.id}`,
-                class: Y(["kiut-table-comparative__metric-row h-12 dark:border-[color:var(--kiut-border-table-row)]", { "is-active": k(P, O) }]),
+                class: Y(["kiut-table-comparative__metric-row h-14 dark:border-[color:var(--kiut-border-table-row)]", { "is-active": k(P, O) }]),
                 onClick: (H) => _(P, O)
               }, [
                 d("th", f$, [
@@ -23858,7 +23858,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
                 ]),
                 (m(!0), x(de, null, pe(e.columns, (H) => (m(), x("td", {
                   key: `${O.id}-${H.key}`,
-                  class: "kiut-table-comparative__row-data border-b border-[var(--kiut-comparative-header)] align-middle px-3 py-2.5 text-center"
+                  class: "kiut-table-comparative__row-data border-b border-[color:var(--kiut-comparative-header)] align-middle px-3 py-2.5 text-center"
                 }, [
                   xe(S.$slots, "cell", vt({ ref_for: !0 }, b(O, P, H)), () => [
                     p(O, H) ? (m(), x("div", m$, " — ")) : (m(), x("div", p$, [
@@ -23882,7 +23882,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
       ], 4))
     ]));
   }
-}), y$ = /* @__PURE__ */ ve(b$, [["__scopeId", "data-v-6a735361"]]);
+}), y$ = /* @__PURE__ */ ve(b$, [["__scopeId", "data-v-7623ef41"]]);
 function Ei(e, t) {
   return m(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
