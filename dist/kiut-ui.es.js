@@ -23676,7 +23676,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
   class: "px-4 py-12 text-center text-sm text-[color:var(--kiut-text-secondary)]"
 }, n$ = { class: "kiut-table-comparative w-full min-w-[640px] text-left text-sm" }, o$ = { class: "border-b border-[#e5e7eb] dark:border-[color:var(--kiut-border-light)]" }, s$ = {
   scope: "col",
-  class: "kiut-table-comparative__head-corner py-3 pl-5 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
+  class: "kiut-table-comparative__head-corner text-[13px] font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
 }, i$ = { class: "inline-flex items-center justify-center gap-2" }, l$ = { class: "kiut-table-comparative__category-row" }, r$ = {
   scope: "row",
   class: "kiut-table-comparative__category-cell kiut-table-comparative__category-cell--label px-2 py-2 text-left"
@@ -23882,7 +23882,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
       ], 4))
     ]));
   }
-}), y$ = /* @__PURE__ */ ve(b$, [["__scopeId", "data-v-82e160c5"]]);
+}), y$ = /* @__PURE__ */ ve(b$, [["__scopeId", "data-v-e16ad10f"]]);
 function Ei(e, t) {
   return m(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
