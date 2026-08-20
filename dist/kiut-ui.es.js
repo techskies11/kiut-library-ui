@@ -23676,13 +23676,13 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
   class: "px-4 py-12 text-center text-sm text-[color:var(--kiut-text-secondary)]"
 }, n$ = { class: "kiut-table-comparative w-full min-w-[640px] text-left text-sm" }, o$ = { class: "border-b border-[#e5e7eb] dark:border-[color:var(--kiut-border-light)]" }, s$ = {
   scope: "col",
-  class: "kiut-table-comparative__head-corner py-3 pl-3 pr-3 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
+  class: "kiut-table-comparative__head-corner py-3 pl-5 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
 }, i$ = { class: "inline-flex items-center justify-center gap-2" }, l$ = { class: "kiut-table-comparative__category-row" }, r$ = {
   scope: "row",
   class: "kiut-table-comparative__category-cell kiut-table-comparative__category-cell--label px-2 py-2 text-left"
 }, c$ = ["aria-expanded", "aria-label", "onClick"], d$ = { class: "min-w-0 truncate text-[11px] font-bold uppercase tracking-wider text-[color:var(--kiut-primary)]" }, u$ = { class: "shrink-0 text-[11px] font-medium text-[color:var(--kiut-text-muted)]" }, h$ = ["onClick"], f$ = {
   scope: "row",
-  class: "kiut-table-comparative__row-label align-middle px-3 py-2.5 text-sm font-normal"
+  class: "kiut-table-comparative__row-label align-middle border-b border-[var(--kiut-comparative-header)] px-3 py-2.5 text-sm font-normal"
 }, g$ = { class: "block font-semibold text-[color:var(--kiut-text-primary)]" }, m$ = {
   key: 0,
   class: "text-xs text-[color:var(--kiut-text-muted)]"
@@ -23839,13 +23839,13 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
                 ]),
                 (m(!0), x(de, null, pe(e.columns, (O) => (m(), x("td", {
                   key: `${P.id}-${O.key}`,
-                  class: "kiut-table-comparative__category-cell kiut-table-comparative__category-cell--fill py-2",
+                  class: "kiut-table-comparative__category-cell kiut-table-comparative__category-cell--fill",
                   "aria-hidden": "true"
                 }))), 128))
               ]),
               (m(!0), x(de, null, pe(P.rows, (O) => Ze((m(), x("tr", {
                 key: `${P.id}-${O.id}`,
-                class: Y(["kiut-table-comparative__metric-row border-b border-[#f3f4f6] dark:border-[color:var(--kiut-border-table-row)]", { "is-active": k(P, O) }]),
+                class: Y(["kiut-table-comparative__metric-row h-12 dark:border-[color:var(--kiut-border-table-row)]", { "is-active": k(P, O) }]),
                 onClick: (H) => _(P, O)
               }, [
                 d("th", f$, [
@@ -23858,7 +23858,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
                 ]),
                 (m(!0), x(de, null, pe(e.columns, (H) => (m(), x("td", {
                   key: `${O.id}-${H.key}`,
-                  class: "kiut-table-comparative__row-data align-middle px-3 py-2.5 text-center"
+                  class: "kiut-table-comparative__row-data border-b border-[var(--kiut-comparative-header)] align-middle px-3 py-2.5 text-center"
                 }, [
                   xe(S.$slots, "cell", vt({ ref_for: !0 }, b(O, P, H)), () => [
                     p(O, H) ? (m(), x("div", m$, " — ")) : (m(), x("div", p$, [
@@ -23882,7 +23882,7 @@ const N2 = { class: "flex justify-end" }, z2 = { class: "w-52" }, j2 = { class: 
       ], 4))
     ]));
   }
-}), y$ = /* @__PURE__ */ ve(b$, [["__scopeId", "data-v-e8db09d3"]]);
+}), y$ = /* @__PURE__ */ ve(b$, [["__scopeId", "data-v-6a735361"]]);
 function Ei(e, t) {
   return m(), x("svg", {
     xmlns: "http://www.w3.org/2000/svg",
@@ -28429,7 +28429,7 @@ const v3 = ["disabled", "aria-expanded", "aria-label"], b3 = {
       ], 10, vD)
     ], 12, gD));
   }
-}), yr = /* @__PURE__ */ ve(xD, [["__scopeId", "data-v-cf2cdc84"]]), kD = { class: "kiut-module-nav-layout flex min-h-0 w-full flex-col gap-4 md:flex-row md:items-start" }, _D = { class: "min-w-0 flex-1" }, wD = /* @__PURE__ */ fe({
+}), yr = /* @__PURE__ */ ve(xD, [["__scopeId", "data-v-cf2cdc84"]]), kD = { class: "kiut-module-nav-layout flex min-h-0 w-full" }, _D = { class: "min-w-0 flex-1" }, wD = /* @__PURE__ */ fe({
   name: "ModuleNavLayout",
   __name: "ModuleNavLayout",
   props: {
@@ -28475,7 +28475,7 @@ const v3 = ["disabled", "aria-expanded", "aria-label"], b3 = {
       ])
     ]));
   }
-}), CD = /* @__PURE__ */ ve(wD, [["__scopeId", "data-v-6f3134eb"]]), ID = {
+}), CD = /* @__PURE__ */ ve(wD, [["__scopeId", "data-v-f68d353e"]]), ID = {
   install(e) {
     e.component("KiutChartBar", St), e.component("KiutChartLine", ut), e.component("KiutPieChart", Wn), e.component("KiutBoxplotChart", Tg), e.component("KiutCandlestickChart", vm), e.component("KiutHistogramChart", jl), e.component("KiutSankeyChart", Gt), e.component("KiutAgentsPerDay", x0), e.component("KiutBookingManager", J0), e.component("KiutCheckin", gv), e.component("KiutCheckinContainer", by), e.component("KiutCheckinMetrics", Yl), e.component("KiutCheckinErrorReasons", bb), e.component("KiutCheckinSegments", Jl), e.component("KiutDisruption", Ey), e.component("KiutFAQ", Wy), e.component("KiutMessagesPerAgent", tr), e.component("KiutRecordLocator", x1), e.component("KiutSalesByChannel", ar), e.component("KiutSeller", nr), e.component("KiutSellerContainer", ox), e.component("KiutAncillaries", _x), e.component("KiutAncillariesCR", wx), e.component("KiutTopAgents", Tx), e.component("KiutPaymentMethod", Zx), e.component("KiutAgentHumanConversations", bk), e.component("KiutChannelMetrics", or), e.component("KiutConversationVolume", Bk), e.component("KiutTriageCombinations", Kk), e.component("KiutSelectLanguage", Zk), e.component("KiutGuardrails", l_), e.component("KiutDisruptionNotifier", M_), e.component("KiutTotalConversationsCard", A_), e.component("KiutCsatP95Card", B_), e.component("KiutCsatPulseCard", L_), e.component("KiutCSATContainer", i2), e.component("KiutAiGeneratedRevenueCard", r2), e.component("KiutAiGeneratedChart", v2), e.component("KiutTransactionsChart", S2), e.component("KiutCostCard", D2), e.component("KiutHumanEscalations", F2), e.component("KiutHumanEscalationsCard", V2), e.component("KiutAvgResolutionTime", Z2), e.component("KiutAvgResolutionTimeCard", ow), e.component("KiutCheckinCR", iw), e.component("KiutCheckinKPI", Ql), e.component("KiutCheckinVolume", er), e.component("KiutSellerCR", rw), e.component("KiutBookingManagerCR", dw), e.component("KiutNpsDailyMetrics", ir), e.component("KiutNpsMetrics", lr), e.component("KiutNpsOverviewMetrics", sr), e.component("KiutAWSCost", bw), e.component("KiutCostUsage", Dw), e.component("KiutTokenUsage", Ow), e.component("KiutConversationCount", qw), e.component("KiutTopAgentsAnalysis", i5), e.component("KiutTopAgentsPie", m5), e.component("KiutDailyCostTrends", C5), e.component("KiutModelUsage", O5), e.component("KiutMessageRoles", Y5), e.component("KiutCostPerConversations", sC), e.component("Tabs", rr), e.component("Table", Zl), e.component("TableVersions", QC), e.component("TableComparative", y$), e.component("Filters", n4), e.component("InputText", dr), e.component("InputPassword", v4), e.component("InputTextarea", _4), e.component("InputFile", j4), e.component("ImageUploadCircle", G4), e.component("InputDateTime", TS), e.component("InputTime", OS), e.component("InputRange", QS), e.component("InputNumber", n3), e.component("InputColorPicker", h3), e.component("EmojiPicker", T3), e.component("Select", Tt), e.component("LanguageSelect", B3), e.component("LanguagePicker", z3), e.component("MultiSelect", sM), e.component("Toggle", cr), e.component("InputPhone", fM), e.component("SelectablePills", xM), e.component("SegmentedControl", CM), e.component("DateRangePicker", HM), e.component("DatePickerPresets", m8), e.component("Tag", Qe), e.component("TagSelect", S8), e.component("TranslationCountBadge", x8), e.component("Button", Mt), e.component("Banner", L8), e.component("Modal", N8), e.component("Section", q8), e.component("KiutAppShellNavigation", fD), e.component("ModuleNavLayout", CD), e.component("VerticalNavPanel", yr);
   }
