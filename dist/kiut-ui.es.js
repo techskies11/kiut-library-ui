@@ -14516,7 +14516,7 @@ const Vb = {
       ])
     ], 2));
   }
-}), Ql = /* @__PURE__ */ ve(Xb, [["__scopeId", "data-v-0339579d"]]), Zb = { class: "card-body" }, Qb = {
+}), Ql = /* @__PURE__ */ ve(Xb, [["__scopeId", "data-v-f7940f4b"]]), Zb = { class: "card-body" }, Qb = {
   key: 0,
   class: "checkin-segments-daily-section"
 }, Jb = { class: "w-full min-w-0" }, ey = { class: "segment-plain" }, ty = { class: "segment-plain" }, ay = { class: "segment-plain" }, ny = { class: "percentage-value" }, oy = { class: "percentage-value" }, sy = { class: "percentage-value success" }, iy = {
