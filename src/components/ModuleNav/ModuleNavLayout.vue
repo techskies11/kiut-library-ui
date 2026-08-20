@@ -59,6 +59,7 @@ const emit = defineEmits<{
 .kiut-module-nav-layout {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
 @media (min-width: 768px) {
