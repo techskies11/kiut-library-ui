@@ -121,6 +121,19 @@ export {
   ENDPOINT_TABLE_VERSIONS_COLUMNS,
   RESOURCE_TABLE_VERSIONS_COLUMNS,
 } from "./components/TableVersions/tableVersionsTypes";
+import TableComparative from "./components/TableComparative/TableComparative.vue";
+export type {
+  TableComparativeCell,
+  TableComparativeCellSlotProps,
+  TableComparativeColumn,
+  TableComparativeColumnHeaderSlotProps,
+  TableComparativeGroup,
+  TableComparativeLabels,
+  TableComparativeRow,
+  TableComparativeRowHeaderSlotProps,
+  TableComparativeTone,
+} from "./components/TableComparative/tableComparativeTypes";
+export { DEFAULT_TABLE_COMPARATIVE_LABELS } from "./components/TableComparative/tableComparativeTypes";
 import Filters from "./components/Filters/Filters.vue";
 export type {
   FilterDefinition,
@@ -296,6 +309,7 @@ export {
   Tabs,
   Table,
   TableVersions,
+  TableComparative,
   Filters,
   InputText,
   InputPassword,
@@ -405,6 +419,7 @@ export const KiutUIPlugin = {
     app.component("Tabs", Tabs);
     app.component("Table", Table);
     app.component("TableVersions", TableVersions);
+    app.component("TableComparative", TableComparative);
     app.component("Filters", Filters);
     app.component("InputText", InputText);
     app.component("InputPassword", InputPassword);
