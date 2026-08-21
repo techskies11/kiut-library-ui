@@ -3,7 +3,7 @@
     class="w-full min-h-0 self-start"
     title="FAQs"
     subtitle="FAQ volume by category"
-    :collapsible="false"
+    :collapsible="true"
     :loading="props.loading"
   >
     <template #headerExport>
