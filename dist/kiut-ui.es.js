@@ -15425,7 +15425,7 @@ const $y = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       class: "w-full min-h-0 self-start",
       title: "FAQs",
       subtitle: "FAQ volume by category",
-      collapsible: !1,
+      collapsible: !0,
       loading: n.loading
     }, {
       headerExport: F(() => [
@@ -15484,7 +15484,7 @@ const $y = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["loading"]));
   }
-}), i1 = /* @__PURE__ */ pe(s1, [["__scopeId", "data-v-74ceae76"]]), Tt = (e) => e.replace(/\b(seller|checkin)_state\b/gi, "$1"), l1 = {
+}), i1 = /* @__PURE__ */ pe(s1, [["__scopeId", "data-v-03366ba8"]]), Tt = (e) => e.replace(/\b(seller|checkin)_state\b/gi, "$1"), l1 = {
   key: 0,
   class: "w-52"
 }, r1 = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, c1 = { class: "w-full shrink-0 flex min-h-0 flex-col" }, d1 = {
