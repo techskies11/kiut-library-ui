@@ -120,6 +120,8 @@ const CHART_CONFIG = {
 };
 
 const LABEL_PADDING = 12;
+/** Margen extra sobre la caja medida (fontWeight 700 + redondeo del canvas). */
+const LABEL_RENDER_BUFFER = 6;
 
 /** Colores sólidos tipo dashboard BM (verde / naranja / rojo sobre fondo oscuro). */
 const STATUS_COLORS: Record<SankeyNodeStatus, string> = {
@@ -475,76 +477,176 @@ const parseChartHeightPx = (height: string, elementHeight = 0): number => {
   return 500;
 };
 
+const getNodeFlowFromLinks = (nodeName: string, links: SankeyLink[]): number => {
+  const incoming = links.filter((link) => link.target === nodeName);
+  if (incoming.length > 0) {
+    return incoming.reduce((sum, link) => sum + link.value, 0);
+  }
+  return links
+    .filter((link) => link.source === nodeName)
+    .reduce((sum, link) => sum + link.value, 0);
+};
+
+const scaleNodeLinksToFlow = (
+  nodeName: string,
+  targetFlow: number,
+  links: SankeyLink[],
+): boolean => {
+  const incoming = links.filter((link) => link.target === nodeName);
+  const outgoing = links.filter((link) => link.source === nodeName);
+  const linksToScale = incoming.length > 0 ? incoming : outgoing;
+  if (linksToScale.length === 0) return false;
+
+  const current = linksToScale.reduce((sum, link) => sum + link.value, 0);
+  if (current <= 0 || Math.abs(current - targetFlow) < 1e-4) return false;
+
+  const factor = targetFlow / current;
+  linksToScale.forEach((link) => {
+    link.value *= factor;
+  });
+  return true;
+};
+
 /**
- * ECharts calcula la altura del nodo según el valor del flujo.
- * Aumentamos `value` (conservando `originalValue`) para garantizar altura mínima legible.
+ * ECharts calcula la altura (o anchura en orient vertical) del nodo según el valor del flujo.
+ * Aumentamos `value` (conservando `originalValue`) para garantizar tamaño mínimo legible.
  */
 const applyMinNodeHeights = (
   links: SankeyLink[],
   processedNodes: SankeyNode[],
   cfg: {
+    orient: 'horizontal' | 'vertical';
     labelFontSize: number;
     labelLineHeight: number;
     labelCharsPerLine: number;
     nodeGap: number;
+    contentMargins: Record<string, number | string>;
   },
   chartHeightPx: number,
-  originTotal: number,
+  chartWidthPx: number,
 ): SankeyLink[] => {
-  if (!processedNodes.length || !links.length || originTotal <= 0) return links;
+  if (!processedNodes.length || !links.length) return links;
 
   const adjusted = links.map((link) => ({ ...link }));
   const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
   const maxCharsPerLine = Math.max(4, cfg.labelCharsPerLine);
-  const usableHeight = Math.max(chartHeightPx * 0.88, 260);
   const depths = computeNodeDepths(processedNodes, adjusted);
 
-  const nodesPerDepth = new Map<number, number>();
+  const marginTop =
+    typeof cfg.contentMargins.top === 'number'
+      ? cfg.contentMargins.top
+      : chartHeightPx * 0.02;
+  const marginBottom =
+    typeof cfg.contentMargins.bottom === 'number'
+      ? cfg.contentMargins.bottom
+      : chartHeightPx * 0.02;
+  const marginLeft =
+    typeof cfg.contentMargins.left === 'number'
+      ? cfg.contentMargins.left
+      : chartWidthPx * 0.03;
+  const marginRight =
+    typeof cfg.contentMargins.right === 'number'
+      ? cfg.contentMargins.right
+      : chartWidthPx * 0.08;
+
+  const usableHeight = Math.max(chartHeightPx - marginTop - marginBottom, 220);
+  const usableWidth = Math.max(chartWidthPx - marginLeft - marginRight, 280);
+
+  const nodesByDepth = new Map<number, string[]>();
   processedNodes.forEach((node) => {
     const depth = depths.get(node.name) ?? 0;
-    nodesPerDepth.set(depth, (nodesPerDepth.get(depth) ?? 0) + 1);
+    const list = nodesByDepth.get(depth) ?? [];
+    list.push(node.name);
+    nodesByDepth.set(depth, list);
   });
 
-  const getMinValue = (nodeName: string): number => {
+  const getMinNodePx = (nodeName: string): number => {
     const node = processedNodes.find((item) => item.name === nodeName);
     const label = node?.displayLabel || nodeName;
     const box = measureLabelBox(label, cfg.labelFontSize, lineHeight, maxCharsPerLine);
-    const minPx = box.height + LABEL_PADDING * 2;
-    const depth = depths.get(nodeName) ?? 0;
-    const columnCount = nodesPerDepth.get(depth) ?? 1;
-    const gapPerNode = ((Math.max(columnCount, 1) - 1) * cfg.nodeGap) / Math.max(columnCount, 1);
-    const effectiveHeight = Math.max(usableHeight - gapPerNode, minPx);
-    return Math.max(1, (minPx / effectiveHeight) * originTotal);
-  };
-
-  const getNodeFlow = (nodeName: string): number => {
-    const incoming = adjusted.filter((link) => link.target === nodeName);
-    if (incoming.length > 0) {
-      return incoming.reduce((sum, link) => sum + link.value, 0);
+    if (cfg.orient === 'vertical') {
+      return box.nodeWidth;
     }
-    return adjusted
-      .filter((link) => link.source === nodeName)
-      .reduce((sum, link) => sum + link.value, 0);
+    return box.height + LABEL_PADDING * 2 + LABEL_RENDER_BUFFER;
   };
 
-  for (let pass = 0; pass < 16; pass += 1) {
-    let changed = false;
-    for (const node of processedNodes) {
-      const minVal = getMinValue(node.name);
-      const current = getNodeFlow(node.name);
-      if (current >= minVal) continue;
+  const getColumnAvailablePx = (depth: number): number => {
+    const count = nodesByDepth.get(depth)?.length ?? 1;
+    const gaps = Math.max(count - 1, 0) * cfg.nodeGap;
+    const axisSize = cfg.orient === 'vertical' ? usableWidth : usableHeight;
+    return Math.max(axisSize - gaps, 80);
+  };
 
-      const incoming = adjusted.filter((link) => link.target === node.name);
-      const outgoing = adjusted.filter((link) => link.source === node.name);
-      const linksToScale = incoming.length > 0 ? incoming : outgoing;
-      if (linksToScale.length === 0) continue;
+  const resolveColumnFlows = (
+    nodeNames: string[],
+    currentFlows: Map<string, number>,
+    columnAvailablePx: number,
+  ): Map<string, number> => {
+    const minPxByNode = nodeNames.map((name) => getMinNodePx(name));
+    const totalMinPx = minPxByNode.reduce((sum, px) => sum + px, 0);
+    const effectiveMinPx =
+      totalMinPx > columnAvailablePx
+        ? minPxByNode.map((px) => (px / totalMinPx) * columnAvailablePx * 0.96)
+        : minPxByNode;
 
-      const factor = minVal / Math.max(current, 1e-6);
-      linksToScale.forEach((link) => {
-        link.value *= factor;
+    const resolved = new Map<string, number>();
+    nodeNames.forEach((name, index) => {
+      resolved.set(name, currentFlows.get(name) ?? 0);
+      effectiveMinPx[index] = Math.max(effectiveMinPx[index], 1);
+    });
+
+    for (let pass = 0; pass < 48; pass += 1) {
+      let sum = 0;
+      nodeNames.forEach((name) => {
+        sum += resolved.get(name) ?? 0;
       });
-      changed = true;
+      sum = Math.max(sum, 1e-6);
+
+      let changed = false;
+      nodeNames.forEach((name, index) => {
+        const flow = resolved.get(name) ?? 0;
+        const nodePx = (flow / sum) * columnAvailablePx;
+        const minPx = effectiveMinPx[index];
+        if (nodePx + 0.5 >= minPx) return;
+
+        const requiredFlow = (minPx / columnAvailablePx) * sum;
+        if (requiredFlow > flow + 1e-4) {
+          resolved.set(name, requiredFlow);
+          changed = true;
+        }
+      });
+
+      if (!changed) break;
     }
+
+    return resolved;
+  };
+
+  for (let pass = 0; pass < 24; pass += 1) {
+    let changed = false;
+    const currentFlows = new Map<string, number>();
+    processedNodes.forEach((node) => {
+      currentFlows.set(node.name, getNodeFlowFromLinks(node.name, adjusted));
+    });
+
+    const depthKeys = [...nodesByDepth.keys()].sort((a, b) => a - b);
+    for (const depth of depthKeys) {
+      const nodeNames = nodesByDepth.get(depth) ?? [];
+      if (nodeNames.length === 0) continue;
+
+      const columnAvailablePx = getColumnAvailablePx(depth);
+      const targetFlows = resolveColumnFlows(nodeNames, currentFlows, columnAvailablePx);
+
+      for (const nodeName of nodeNames) {
+        const targetFlow = targetFlows.get(nodeName) ?? 0;
+        const currentFlow = getNodeFlowFromLinks(nodeName, adjusted);
+        if (targetFlow <= currentFlow + 1e-4) continue;
+        if (scaleNodeLinksToFlow(nodeName, targetFlow, adjusted)) {
+          changed = true;
+        }
+      }
+    }
+
     if (!changed) break;
   }
 
@@ -717,17 +819,20 @@ const setOptions = () => {
       cfg,
     );
     const chartHeightPx = parseChartHeightPx(props.height, chartEl.value?.clientHeight ?? 0);
+    const chartWidthPx = chartEl.value?.clientWidth ?? 800;
     const layoutLinks = applyMinNodeHeights(
       validLinks,
       processedNodes,
       {
+        orient: cfg.orient,
         labelFontSize: cfg.labelFontSize,
         labelLineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
         labelCharsPerLine: cfg.labelCharsPerLine,
         nodeGap: cfg.nodeGap,
+        contentMargins,
       },
       chartHeightPx,
-      originTotal,
+      chartWidthPx,
     );
     const chartOptions = {
       tooltip: {
@@ -869,7 +974,10 @@ const waitForContainerAndInit = async () => {
   });
 };
 
-const handleResize = () => chartInstance?.resize();
+const handleResize = () => {
+  if (!chartInstance) return;
+  setOptions();
+};
 
 const cleanup = () => {
   window.removeEventListener('resize', handleResize);

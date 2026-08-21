@@ -79,7 +79,7 @@
           <slot name="value">
             <div class="metric-row">
               <span v-if="prefix" class="metric-prefix">{{ prefix }}</span>
-              <span :class="['metric-value', valueSize === 'large' ? 'metric-value--large' : '']">
+              <span class="metric-value">
                 {{ value }}
               </span>
             </div>
@@ -110,7 +110,6 @@ const props = withDefaults(
     label: string
     value: string
     prefix?: string
-    valueSize?: 'default' | 'large'
     /** Ubicación de la etiqueta: bajo el valor (default) o en la fila del header junto al icono. */
     labelPosition?: 'below' | 'header'
     /** Descripción del KPI. Si se informa, muestra el icono de info junto a la etiqueta. */
@@ -124,7 +123,6 @@ const props = withDefaults(
   }>(),
   {
     prefix: undefined,
-    valueSize: 'default',
     labelPosition: 'below',
     tooltip: undefined,
     tooltipTitle: undefined,

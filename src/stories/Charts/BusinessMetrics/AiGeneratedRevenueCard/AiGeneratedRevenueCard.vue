@@ -3,7 +3,6 @@
     label="AI Revenue"
     :value="formattedAmount"
     :prefix="currencyCode"
-    value-size="large"
     :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
