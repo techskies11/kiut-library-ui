@@ -20,7 +20,7 @@
       <div v-if="sankeyData.nodes.length > 0" class="sankey-section">
         <SankeyChart
           :data="sankeyData"
-          height="400px"
+          height="480px"
           :use-gradient="false"
           :node-gap="16"
         />
