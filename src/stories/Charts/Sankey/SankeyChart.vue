@@ -13,8 +13,29 @@
         <p class="error-description">Please check the data format.</p>
       </div>
     </div>
-    <div v-else class="chart-wrapper" :style="{ height }">
+    <div v-else class="chart-wrapper relative" :style="{ height }">
       <div ref="chartEl" class="chart-content"></div>
+      <div
+        v-if="insideLabelOverlays.length"
+        class="pointer-events-none absolute inset-0"
+        aria-hidden="true"
+      >
+        <div
+          v-for="item in insideLabelOverlays"
+          :key="item.name"
+          class="absolute box-border flex items-center justify-center overflow-hidden px-1 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] font-bold text-white"
+          :style="{
+            left: `${item.x}px`,
+            top: `${item.y}px`,
+            width: `${item.width}px`,
+            height: `${item.height}px`,
+            fontSize: `${item.fontSize}px`,
+            lineHeight: `${item.lineHeight}px`,
+          }"
+        >
+          <span class="block max-h-full w-full overflow-hidden whitespace-pre-line">{{ item.text }}</span>
+        </div>
+      </div>
       <div
         v-if="isLoading"
         class="loading-state loading-overlay"
@@ -57,6 +78,8 @@ interface SankeyNode {
   /** Etiqueta ya formateada (string) o config ECharts por nodo (objeto, generado al procesar) */
   label?: string | Record<string, unknown>;
   displayLabel?: string;
+  /** Etiqueta completa antes de recortar al alto real del nodo. */
+  fullDisplayLabel?: string;
   [key: string]: any;
 }
 
@@ -106,6 +129,19 @@ const chartEl = ref<HTMLElement | null>(null);
 const isLoading = ref(true);
 const loadError = ref(false);
 
+interface NodeLabelOverlay {
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+  fontSize: number;
+  lineHeight: number;
+}
+
+const insideLabelOverlays = ref<NodeLabelOverlay[]>([]);
+
 let chartInstance: echarts.ECharts | null = null;
 let containerObserver: ResizeObserver | null = null;
 
@@ -119,9 +155,15 @@ const CHART_CONFIG = {
   },
 };
 
-const LABEL_PADDING = 12;
+/** Padding horizontal interno de la etiqueta (el nodo ya es el contenedor). */
+const LABEL_PAD_X = 6;
+/** Padding vertical interno; 12px robaba casi una línea entera en nodos chicos. */
+const LABEL_PAD_Y = 2;
 /** Margen extra sobre la caja medida (fontWeight 700 + redondeo del canvas). */
-const LABEL_RENDER_BUFFER = 6;
+const LABEL_RENDER_BUFFER = 4;
+/** Ancho medio de carácter para Inter 700 (evita subestimar el wrap). */
+const LABEL_CHAR_WIDTH_RATIO = 0.65;
+const LABEL_ELLIPSIS = '…';
 
 /** Colores sólidos tipo dashboard BM (verde / naranja / rojo sobre fondo oscuro). */
 const STATUS_COLORS: Record<SankeyNodeStatus, string> = {
@@ -233,7 +275,7 @@ const wrapSingleLine = (line: string, maxCharsPerLine: number): string => {
 };
 
 /**
- * Salto de línea real (`\\n`) para etiquetas; sin "...".
+ * Salto de línea real (`\\n`) para etiquetas.
  * Respeta saltos existentes y palabras; si no caben, recorta por longitud fija.
  */
 const wrapLabelName = (name: string, maxCharsPerLine: number): string => {
@@ -245,6 +287,72 @@ const wrapLabelName = (name: string, maxCharsPerLine: number): string => {
     .map((segment) => wrapSingleLine(segment.trim(), maxCharsPerLine))
     .filter(Boolean)
     .join('\n');
+};
+
+const ellipsisText = (text: string, maxChars: number): string => {
+  const t = text.replace(/\s+/g, ' ').trim();
+  if (maxChars <= 0) return '';
+  if (t.length <= maxChars) return t;
+  if (maxChars === 1) return LABEL_ELLIPSIS;
+  return `${t.slice(0, maxChars - 1).trimEnd()}${LABEL_ELLIPSIS}`;
+};
+
+const withLineEllipsis = (text: string, maxChars: number): string => {
+  const t = text.replace(/\s+/g, ' ').trim();
+  if (t.endsWith(LABEL_ELLIPSIS)) return ellipsisText(t, maxChars);
+  return ellipsisText(`${t}${LABEL_ELLIPSIS}`, maxChars);
+};
+
+const isPercentLine = (line: string): boolean => /^\(.*%\)$/.test(line.trim());
+
+/**
+ * Recorta la etiqueta a `maxLines` con ellipsis, priorizando el porcentaje.
+ */
+const truncateLabelToLines = (
+  label: string,
+  maxLines: number,
+  maxCharsPerLine: number,
+): string => {
+  const lines = label.split('\n').map((line) => line.trim()).filter(Boolean);
+  if (maxLines < 1 || lines.length === 0) return '';
+  if (lines.length <= maxLines) return lines.join('\n');
+
+  const pctLine = lines.find(isPercentLine);
+  const nameLines = lines.filter((line) => !isPercentLine(line));
+
+  if (maxLines === 1) {
+    const name = nameLines.join(' ') || lines[0];
+    if (pctLine) {
+      const pct = pctLine.trim();
+      const budget = Math.max(maxCharsPerLine - pct.length - 1, 4);
+      return `${ellipsisText(name, budget)} ${pct}`;
+    }
+    return ellipsisText(name, maxCharsPerLine);
+  }
+
+  if (pctLine) {
+    const nameBudget = maxLines - 1;
+    const kept = nameLines.slice(0, Math.max(nameBudget, 1));
+    if (nameLines.length > kept.length) {
+      kept[kept.length - 1] = withLineEllipsis(kept[kept.length - 1], maxCharsPerLine);
+    }
+    return [...kept, pctLine].join('\n');
+  }
+
+  const kept = lines.slice(0, maxLines);
+  kept[maxLines - 1] = withLineEllipsis(kept[maxLines - 1], maxCharsPerLine);
+  return kept.join('\n');
+};
+
+const fitLabelToNodePx = (
+  label: string,
+  nodePx: number,
+  lineHeight: number,
+  maxCharsPerLine: number,
+): string => {
+  const innerPx = Math.max(nodePx - LABEL_PAD_Y * 2 - 2, 0);
+  const maxLines = Math.max(1, Math.floor(innerPx / Math.max(lineHeight, 1)));
+  return truncateLabelToLines(label, maxLines, maxCharsPerLine);
 };
 
 interface LabelBox {
@@ -399,7 +507,7 @@ const measureLabelBox = (
 ): LabelBox => {
   const wrapped = wrapLabelName(text, maxCharsPerLine);
   const lines = wrapped.split('\n');
-  const charWidth = fontSize * 0.58;
+  const charWidth = fontSize * LABEL_CHAR_WIDTH_RATIO;
   const maxLineChars = Math.max(...lines.map((line) => line.length), 1);
   const width = maxLineChars * charWidth;
   const height = lines.length * lineHeight;
@@ -408,7 +516,7 @@ const measureLabelBox = (
     lines,
     width,
     height,
-    nodeWidth: width + LABEL_PADDING * 2,
+    nodeWidth: width + LABEL_PAD_X * 2,
   };
 };
 
@@ -507,13 +615,24 @@ const scaleNodeLinksToFlow = (
   return true;
 };
 
+interface SankeySizePlanner {
+  lineHeight: number;
+  maxCharsPerLine: number;
+  getMinNodePx: (nodeName: string) => number;
+  getColumnAvailablePx: (depth: number) => number;
+  nodesByDepth: Map<number, string[]>;
+  collectFlows: (links: SankeyLink[]) => Map<string, number>;
+  computeKy: (flows: Map<string, number>) => number;
+  getNodePx: (nodeName: string, flows: Map<string, number>, ky: number) => number;
+}
+
 /**
- * ECharts calcula la altura (o anchura en orient vertical) del nodo según el valor del flujo.
- * Aumentamos `value` (conservando `originalValue`) para garantizar tamaño mínimo legible.
+ * ECharts usa un único ky = min_columna(available / sum). Las columnas con menos
+ * flujo no se estiran: un nodo del 5 % mide flow*ky, no su proporción local.
  */
-const applyMinNodeHeights = (
-  links: SankeyLink[],
+const createSankeySizePlanner = (
   processedNodes: SankeyNode[],
+  links: SankeyLink[],
   cfg: {
     orient: 'horizontal' | 'vertical';
     labelFontSize: number;
@@ -524,13 +643,10 @@ const applyMinNodeHeights = (
   },
   chartHeightPx: number,
   chartWidthPx: number,
-): SankeyLink[] => {
-  if (!processedNodes.length || !links.length) return links;
-
-  const adjusted = links.map((link) => ({ ...link }));
+): SankeySizePlanner => {
   const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
   const maxCharsPerLine = Math.max(4, cfg.labelCharsPerLine);
-  const depths = computeNodeDepths(processedNodes, adjusted);
+  const depths = computeNodeDepths(processedNodes, links);
 
   const marginTop =
     typeof cfg.contentMargins.top === 'number'
@@ -562,12 +678,12 @@ const applyMinNodeHeights = (
 
   const getMinNodePx = (nodeName: string): number => {
     const node = processedNodes.find((item) => item.name === nodeName);
-    const label = node?.displayLabel || nodeName;
+    const label = node?.fullDisplayLabel || node?.displayLabel || nodeName;
     const box = measureLabelBox(label, cfg.labelFontSize, lineHeight, maxCharsPerLine);
     if (cfg.orient === 'vertical') {
       return box.nodeWidth;
     }
-    return box.height + LABEL_PADDING * 2 + LABEL_RENDER_BUFFER;
+    return box.height + LABEL_PAD_Y * 2 + LABEL_RENDER_BUFFER;
   };
 
   const getColumnAvailablePx = (depth: number): number => {
@@ -577,80 +693,304 @@ const applyMinNodeHeights = (
     return Math.max(axisSize - gaps, 80);
   };
 
-  const resolveColumnFlows = (
-    nodeNames: string[],
-    currentFlows: Map<string, number>,
-    columnAvailablePx: number,
-  ): Map<string, number> => {
-    const minPxByNode = nodeNames.map((name) => getMinNodePx(name));
-    const totalMinPx = minPxByNode.reduce((sum, px) => sum + px, 0);
-    const effectiveMinPx =
-      totalMinPx > columnAvailablePx
-        ? minPxByNode.map((px) => (px / totalMinPx) * columnAvailablePx * 0.96)
-        : minPxByNode;
-
-    const resolved = new Map<string, number>();
-    nodeNames.forEach((name, index) => {
-      resolved.set(name, currentFlows.get(name) ?? 0);
-      effectiveMinPx[index] = Math.max(effectiveMinPx[index], 1);
+  const collectFlows = (currentLinks: SankeyLink[]): Map<string, number> => {
+    const flows = new Map<string, number>();
+    processedNodes.forEach((node) => {
+      flows.set(node.name, getNodeFlowFromLinks(node.name, currentLinks));
     });
-
-    for (let pass = 0; pass < 48; pass += 1) {
-      let sum = 0;
-      nodeNames.forEach((name) => {
-        sum += resolved.get(name) ?? 0;
-      });
-      sum = Math.max(sum, 1e-6);
-
-      let changed = false;
-      nodeNames.forEach((name, index) => {
-        const flow = resolved.get(name) ?? 0;
-        const nodePx = (flow / sum) * columnAvailablePx;
-        const minPx = effectiveMinPx[index];
-        if (nodePx + 0.5 >= minPx) return;
-
-        const requiredFlow = (minPx / columnAvailablePx) * sum;
-        if (requiredFlow > flow + 1e-4) {
-          resolved.set(name, requiredFlow);
-          changed = true;
-        }
-      });
-
-      if (!changed) break;
-    }
-
-    return resolved;
+    return flows;
   };
 
-  for (let pass = 0; pass < 24; pass += 1) {
-    let changed = false;
-    const currentFlows = new Map<string, number>();
-    processedNodes.forEach((node) => {
-      currentFlows.set(node.name, getNodeFlowFromLinks(node.name, adjusted));
-    });
+  const getColumnSum = (depth: number, flows: Map<string, number>): number => {
+    const names = nodesByDepth.get(depth) ?? [];
+    return names.reduce((sum, name) => sum + Math.max(flows.get(name) ?? 0, 0), 0);
+  };
 
-    const depthKeys = [...nodesByDepth.keys()].sort((a, b) => a - b);
+  const computeKy = (flows: Map<string, number>): number => {
+    let ky = Number.POSITIVE_INFINITY;
+    for (const depth of nodesByDepth.keys()) {
+      const available = getColumnAvailablePx(depth);
+      const sum = Math.max(getColumnSum(depth, flows), 1e-6);
+      ky = Math.min(ky, available / sum);
+    }
+    return Number.isFinite(ky) && ky > 0 ? ky : 1e-6;
+  };
+
+  const getNodePx = (
+    nodeName: string,
+    flows: Map<string, number>,
+    ky: number,
+  ): number => Math.max((flows.get(nodeName) ?? 0) * ky, 0);
+
+  return {
+    lineHeight,
+    maxCharsPerLine,
+    getMinNodePx,
+    getColumnAvailablePx,
+    nodesByDepth,
+    collectFlows,
+    computeKy,
+    getNodePx,
+  };
+};
+
+/**
+ * ECharts calcula la altura (o anchura en orient vertical) del nodo según el valor del flujo.
+ * Aumentamos `value` (conservando `originalValue`) para garantizar tamaño mínimo legible.
+ */
+const applyMinNodeHeights = (
+  links: SankeyLink[],
+  processedNodes: SankeyNode[],
+  cfg: {
+    orient: 'horizontal' | 'vertical';
+    labelFontSize: number;
+    labelLineHeight: number;
+    labelCharsPerLine: number;
+    nodeGap: number;
+    contentMargins: Record<string, number | string>;
+  },
+  chartHeightPx: number,
+  chartWidthPx: number,
+): SankeyLink[] => {
+  if (!processedNodes.length || !links.length) return links;
+
+  const adjusted = links.map((link) => ({ ...link }));
+  const planner = createSankeySizePlanner(
+    processedNodes,
+    adjusted,
+    cfg,
+    chartHeightPx,
+    chartWidthPx,
+  );
+
+  const capMinPxForColumn = (nodeNames: string[], columnAvailablePx: number): number[] => {
+    const minPxByNode = nodeNames.map((name) => planner.getMinNodePx(name));
+    const totalMinPx = minPxByNode.reduce((sum, px) => sum + px, 0);
+    if (totalMinPx <= columnAvailablePx) {
+      return minPxByNode.map((px) => Math.max(px, 8));
+    }
+    return minPxByNode.map((px) => Math.max((px / totalMinPx) * columnAvailablePx * 0.96, 8));
+  };
+
+  for (let pass = 0; pass < 32; pass += 1) {
+    let changed = false;
+    const currentFlows = planner.collectFlows(adjusted);
+    const ky = planner.computeKy(currentFlows);
+
+    const depthKeys = [...planner.nodesByDepth.keys()].sort((a, b) => a - b);
     for (const depth of depthKeys) {
-      const nodeNames = nodesByDepth.get(depth) ?? [];
+      const nodeNames = planner.nodesByDepth.get(depth) ?? [];
       if (nodeNames.length === 0) continue;
 
-      const columnAvailablePx = getColumnAvailablePx(depth);
-      const targetFlows = resolveColumnFlows(nodeNames, currentFlows, columnAvailablePx);
+      const columnAvailablePx = planner.getColumnAvailablePx(depth);
+      const effectiveMinPx = capMinPxForColumn(nodeNames, columnAvailablePx);
 
-      for (const nodeName of nodeNames) {
-        const targetFlow = targetFlows.get(nodeName) ?? 0;
+      nodeNames.forEach((nodeName, index) => {
+        const requiredFlow = effectiveMinPx[index] / ky;
         const currentFlow = getNodeFlowFromLinks(nodeName, adjusted);
-        if (targetFlow <= currentFlow + 1e-4) continue;
-        if (scaleNodeLinksToFlow(nodeName, targetFlow, adjusted)) {
+        if (requiredFlow <= currentFlow + 1e-4) return;
+        if (scaleNodeLinksToFlow(nodeName, requiredFlow, adjusted)) {
           changed = true;
         }
-      }
+      });
     }
 
     if (!changed) break;
   }
 
   return adjusted;
+};
+
+const syncNodeLayoutValues = (nodes: SankeyNode[], links: SankeyLink[]): void => {
+  nodes.forEach((node) => {
+    const incoming = links
+      .filter((link) => link.target === node.name)
+      .reduce((sum, link) => sum + link.value, 0);
+    const outgoing = links
+      .filter((link) => link.source === node.name)
+      .reduce((sum, link) => sum + link.value, 0);
+    node.value = Math.max(incoming, outgoing, getNodeFlowFromLinks(node.name, links));
+  });
+};
+
+/** Si el nodo sigue siendo más bajo que el texto, recorta con ellipsis. */
+const fitInsideLabelsToNodeHeights = (
+  processedNodes: SankeyNode[],
+  nodePxByName: Map<string, number>,
+  cfg: {
+    labelFontSize: number;
+    labelLineHeight: number;
+    labelCharsPerLine: number;
+  },
+  nodeWidthByName?: Map<string, number>,
+): void => {
+  const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
+
+  processedNodes.forEach((node) => {
+    const nodePx = nodePxByName.get(node.name);
+    if (nodePx == null) return;
+
+    const widthPx = nodeWidthByName?.get(node.name);
+    const maxCharsPerLine = widthPx
+      ? Math.max(4, Math.floor((widthPx - LABEL_PAD_X * 2) / (cfg.labelFontSize * LABEL_CHAR_WIDTH_RATIO)))
+      : Math.max(4, cfg.labelCharsPerLine);
+
+    const fullLabel = node.fullDisplayLabel || node.displayLabel || node.name;
+    const lines = fullLabel.split('\n').map((line) => line.trim()).filter(Boolean);
+    const pctLine = lines.find(isPercentLine);
+    const nameText = lines.filter((line) => !isPercentLine(line)).join(' ');
+    const rewrapped = wrapLabelName(pctLine ? `${nameText}\n${pctLine}` : nameText, maxCharsPerLine);
+    const fitted = fitLabelToNodePx(rewrapped, nodePx, lineHeight, maxCharsPerLine);
+    node.displayLabel = fitted;
+
+    node.label = {
+      ...(typeof node.label === 'object' && node.label ? node.label : {}),
+      width: Math.max(Math.floor((widthPx ?? 0) - LABEL_PAD_X * 2), 24),
+      height: Math.max(Math.floor(nodePx - LABEL_PAD_Y * 2), lineHeight),
+      overflow: 'truncate',
+      ellipsis: LABEL_ELLIPSIS,
+      lineOverflow: 'truncate',
+      lineHeight,
+      fontSize: cfg.labelFontSize,
+    };
+  });
+};
+
+interface SankeyNodeLayout {
+  name: string;
+  x: number;
+  y: number;
+  dx: number;
+  dy: number;
+}
+
+const readSankeyNodeLayouts = (
+  chart: echarts.ECharts,
+  processedNodes: SankeyNode[] = [],
+): SankeyNodeLayout[] => {
+  const resolveName = (idx: number, fallback?: string) =>
+    fallback || processedNodes[idx]?.name || '';
+  try {
+    const seriesModel = (chart as any).getModel?.()?.getSeriesByIndex?.(0);
+    if (!seriesModel) return [];
+
+    const graph = seriesModel.getGraph?.();
+    if (graph?.eachNode) {
+      const layouts: SankeyNodeLayout[] = [];
+      graph.eachNode((node: any) => {
+        const layout = node.getLayout?.();
+        if (!layout || layout.dx == null || layout.dy == null) return;
+        const data = seriesModel.getData?.();
+        const name = resolveName(
+          node.dataIndex,
+          data?.getName?.(node.dataIndex) ||
+            data?.get?.('name', node.dataIndex) ||
+            node.id ||
+            node.name,
+        );
+        if (!name) return;
+        layouts.push({
+          name: String(name),
+          x: layout.x ?? 0,
+          y: layout.y ?? 0,
+          dx: layout.dx,
+          dy: layout.dy,
+        });
+      });
+      if (layouts.length) return layouts;
+    }
+
+    const data = seriesModel.getData?.();
+    if (data?.each) {
+      const fromGraphic: SankeyNodeLayout[] = [];
+      data.each((idx: number) => {
+        const el = data.getItemGraphicEl?.(idx);
+        const itemLayout = data.getItemLayout(idx);
+        const shape = el?.shape;
+        const layout = itemLayout?.dx != null
+          ? itemLayout
+          : shape?.width != null
+            ? {
+                x: (el.x ?? 0) + (shape.x ?? 0),
+                y: (el.y ?? 0) + (shape.y ?? 0),
+                dx: shape.width,
+                dy: shape.height,
+              }
+            : null;
+        if (!layout || layout.dx == null || layout.dy == null) return;
+        const name = resolveName(idx, data.getName(idx) || data.get('name', idx));
+        if (!name) return;
+        fromGraphic.push({
+          name: String(name),
+          x: layout.x ?? 0,
+          y: layout.y ?? 0,
+          dx: layout.dx,
+          dy: layout.dy,
+        });
+      });
+      if (fromGraphic.length) return fromGraphic;
+    }
+
+    return [];
+  } catch {
+    return [];
+  }
+};
+
+const updateInsideLabelOverlays = (
+  processedNodes: SankeyNode[],
+  cfg: {
+    orient: 'horizontal' | 'vertical';
+    labelPosition: string;
+    labelFontSize: number;
+    labelLineHeight: number;
+    labelCharsPerLine: number;
+  },
+): void => {
+  if (!chartInstance || cfg.labelPosition !== 'inside') {
+    insideLabelOverlays.value = [];
+    return;
+  }
+
+  const layouts = readSankeyNodeLayouts(chartInstance, processedNodes);
+  if (!layouts.length) {
+    insideLabelOverlays.value = [];
+    return;
+  }
+
+  const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
+  const nodePxByName = new Map<string, number>();
+  const nodeWidthByName = new Map<string, number>();
+
+  layouts.forEach((layout) => {
+    nodePxByName.set(layout.name, cfg.orient === 'vertical' ? layout.dx : layout.dy);
+    nodeWidthByName.set(layout.name, cfg.orient === 'vertical' ? layout.dy : layout.dx);
+  });
+
+  fitInsideLabelsToNodeHeights(
+    processedNodes,
+    nodePxByName,
+    {
+      labelFontSize: cfg.labelFontSize,
+      labelLineHeight: lineHeight,
+      labelCharsPerLine: cfg.labelCharsPerLine,
+    },
+    nodeWidthByName,
+  );
+
+  insideLabelOverlays.value = layouts.map((layout) => {
+    const node = processedNodes.find((item) => item.name === layout.name);
+    return {
+      name: layout.name,
+      x: layout.x,
+      y: layout.y,
+      width: layout.dx,
+      height: layout.dy,
+      text: node?.displayLabel || layout.name,
+      fontSize: cfg.labelFontSize,
+      lineHeight,
+    };
+  });
 };
 
 const processSankeyData = (
@@ -686,7 +1026,7 @@ const processSankeyData = (
 
     const box = measureLabelBox(displayLabel, cfg.labelFontSize, lineHeight, maxCharsPerLine);
     if (cfg.orient === 'vertical') {
-      maxNodeWidth = Math.max(maxNodeWidth, box.height + LABEL_PADDING * 2);
+      maxNodeWidth = Math.max(maxNodeWidth, box.height + LABEL_PAD_Y * 2);
     } else {
       maxNodeWidth = Math.max(maxNodeWidth, box.nodeWidth);
     }
@@ -696,14 +1036,17 @@ const processSankeyData = (
       STATUS_COLORS[status] ||
       DEFAULT_COLORS[index % DEFAULT_COLORS.length];
 
-    const labelWidth = Math.max(Math.ceil(box.nodeWidth - LABEL_PADDING * 2), 48);
+    const labelWidth = Math.max(Math.ceil(box.nodeWidth - LABEL_PAD_X * 2), 48);
 
     return {
       ...node,
       displayLabel,
+      fullDisplayLabel: displayLabel,
       label: {
         width: labelWidth,
-        overflow: 'none' as const,
+        overflow: 'truncate' as const,
+        ellipsis: LABEL_ELLIPSIS,
+        lineOverflow: 'truncate',
         lineHeight,
         fontSize: cfg.labelFontSize,
       },
@@ -729,7 +1072,7 @@ const processSankeyData = (
       typeof contentMargins.right === 'number' ? contentMargins.right : 10;
     contentMargins = {
       ...contentMargins,
-      right: Math.max(baseRight, maxLabelWidth + LABEL_PADDING + cfg.labelDistance),
+      right: Math.max(baseRight, maxLabelWidth + LABEL_PAD_X + cfg.labelDistance),
     };
   }
 
@@ -820,20 +1163,22 @@ const setOptions = () => {
     );
     const chartHeightPx = parseChartHeightPx(props.height, chartEl.value?.clientHeight ?? 0);
     const chartWidthPx = chartEl.value?.clientWidth ?? 800;
+    const layoutCfg = {
+      orient: cfg.orient,
+      labelFontSize: cfg.labelFontSize,
+      labelLineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
+      labelCharsPerLine: cfg.labelCharsPerLine,
+      nodeGap: cfg.nodeGap,
+      contentMargins,
+    };
     const layoutLinks = applyMinNodeHeights(
       validLinks,
       processedNodes,
-      {
-        orient: cfg.orient,
-        labelFontSize: cfg.labelFontSize,
-        labelLineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
-        labelCharsPerLine: cfg.labelCharsPerLine,
-        nodeGap: cfg.nodeGap,
-        contentMargins,
-      },
+      layoutCfg,
       chartHeightPx,
       chartWidthPx,
     );
+    syncNodeLayoutValues(processedNodes, layoutLinks);
     const chartOptions = {
       tooltip: {
         trigger: 'item',
@@ -876,20 +1221,21 @@ const setOptions = () => {
             borderWidth: 0,
           },
           label: {
-            show: true,
+            show: cfg.labelPosition !== 'inside',
             position: cfg.labelPosition,
             color: nodeLabelColor,
             fontWeight: 700,
             fontSize: cfg.labelFontSize,
             lineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
-            padding: LABEL_PADDING,
+            padding: [LABEL_PAD_Y, LABEL_PAD_X],
             align: 'center',
             verticalAlign: 'middle',
-            overflow: 'none' as const,
+            overflow: 'truncate',
+            ellipsis: LABEL_ELLIPSIS,
             ...(cfg.orient === 'horizontal'
-              ? { width: Math.max(maxNodeWidth - LABEL_PADDING * 2, 48), overflow: 'none' as const }
+              ? { width: Math.max(maxNodeWidth - LABEL_PAD_X * 2, 48) }
               : cfg.labelWrap && cfg.labelTextWidth > 0
-                ? { width: cfg.labelTextWidth, overflow: 'none' as const }
+                ? { width: cfg.labelTextWidth }
                 : {}),
             ...(cfg.labelDistance > 0 ? { distance: cfg.labelDistance } : {}),
             fontFamily: "'Inter', 'DM Sans', sans-serif",
@@ -926,9 +1272,23 @@ const setOptions = () => {
 
     chartInstance.setOption(chartOptions);
     chartInstance.resize();
+    const syncOverlays = () => {
+      updateInsideLabelOverlays(processedNodes, {
+        orient: cfg.orient,
+        labelPosition: cfg.labelPosition,
+        labelFontSize: cfg.labelFontSize,
+        labelLineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
+        labelCharsPerLine: cfg.labelCharsPerLine,
+      });
+    };
+    chartInstance.off('finished');
+    chartInstance.on('finished', syncOverlays);
+    syncOverlays();
+    requestAnimationFrame(syncOverlays);
   } catch (error) {
     console.error('Error setting Sankey chart options:', error);
     loadError.value = true;
+    insideLabelOverlays.value = [];
   }
 };
 
@@ -983,7 +1343,9 @@ const cleanup = () => {
   window.removeEventListener('resize', handleResize);
   containerObserver?.disconnect();
   containerObserver = null;
+  insideLabelOverlays.value = [];
   if (chartInstance) {
+    chartInstance.off('finished');
     chartInstance.dispose();
     chartInstance = null;
   }
