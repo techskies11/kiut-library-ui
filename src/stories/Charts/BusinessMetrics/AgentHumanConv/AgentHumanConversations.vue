@@ -16,70 +16,70 @@
       />
     </template>
     <div class="card-body">
-        <div
-          v-if="hasData"
-          class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 md:gap-4"
-          :class="{ 'agent-human-conv--dark': isDark }"
+      <div
+        v-if="hasData"
+        class="agent-human-conv flex flex-row gap-2 overflow-hidden"
+        :class="{ 'agent-human-conv--dark': isDark }"
+      >
+        <CardMetric
+          label="Conversations Opened"
+          label-position="header"
+          :value="formatNumber(totalEnqueued)"
+          :theme="theme"
+          :current-value="totalEnqueued"
+          :previous-value="previousTotalEnqueued"
         >
-          <CardMetric
-            label="Conversations Opened"
-            label-position="header"
-            :value="formatNumber(totalEnqueued)"
-            :theme="theme"
-            :current-value="totalEnqueued"
-            :previous-value="previousTotalEnqueued"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
-                />
-              </svg>
-            </template>
-          </CardMetric>
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
+              />
+            </svg>
+          </template>
+        </CardMetric>
 
-          <CardMetric
-            label="Conversations Closed"
-            label-position="header"
-            :value="formatNumber(totalClosed)"
-            :theme="theme"
-            :current-value="totalClosed"
-            :previous-value="previousTotalClosed"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </template>
-            <template #value>
-              <div class="kpi-closed-value">
-                <span class="kpi-closed-value__main">{{
-                  formatNumber(totalClosed)
-                }}</span>
-                <span v-if="closedPctLabel" class="kpi-closed-value__pct">{{
-                  closedPctLabel
-                }}</span>
-              </div>
-            </template>
-          </CardMetric>
+        <CardMetric
+          label="Conversations Closed"
+          label-position="header"
+          :value="formatNumber(totalClosed)"
+          :theme="theme"
+          :current-value="totalClosed"
+          :previous-value="previousTotalClosed"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </template>
+          <template #value>
+            <div class="kpi-closed-value">
+              <span class="kpi-closed-value__main">{{
+                formatNumber(totalClosed)
+              }}</span>
+              <span v-if="closedPctLabel" class="kpi-closed-value__pct">{{
+                closedPctLabel
+              }}</span>
+            </div>
+          </template>
+        </CardMetric>
 
-          <CardMetric
+        <!--   <CardMetric
             label="Transferred"
             label-position="header"
             :value="formatNumber(totalTransferred)"
@@ -125,175 +125,177 @@
                 />
               </svg>
             </template>
-          </CardMetric>
+          </CardMetric> -->
 
-          <CardMetric
-            label="Avg Time to Assign"
-            label-position="header"
-            :value="formatDurationDisplay(avgAssignSeconds)"
-            :theme="theme"
-            :current-value="hhmmssToSeconds(avgAssignSeconds) ?? 0"
-            :previous-value="previousAvgTimeToAssignSeconds"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </template>
-            <template v-if="assignDurationTrend" #headerAside>
-              <div :class="['duration-trend-badge', assignDurationTrend.class]">
-                {{ assignDurationTrend.label }}
-              </div>
-            </template>
-          </CardMetric>
-
-          <CardMetric
-            label="Avg Resolution Time"
-            label-position="header"
-            :value="formatDurationDisplay(avgResolutionSeconds)"
-            :theme="theme"
-            :current-value="hhmmssToSeconds(avgResolutionSeconds) ?? 0"
-            :previous-value="previousAvgConversationDurationSeconds"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
-            </template>
-            <template v-if="resolutionDurationTrend" #headerAside>
-              <div
-                :class="['duration-trend-badge', resolutionDurationTrend.class]"
-              >
-                {{ resolutionDurationTrend.label }}
-              </div>
-            </template>
-          </CardMetric>
-        </div>
-
-        <ChartMetricContainer
-          v-if="hasAgentRows"
-          class="agent-table-section mt-6"
-          title="Conversations Managed by Agent"
-          subtitle="Daily performance per human agent"
-          :collapsible="false"
+        <CardMetric
+          label="Avg Time to Assign"
+          label-position="header"
+          :value="formatDurationDisplay(avgAssignSeconds)"
+          :theme="theme"
+          :current-value="hhmmssToSeconds(avgAssignSeconds) ?? 0"
+          :previous-value="previousAvgTimeToAssignSeconds"
         >
-          <template #headerAside>
-            <div class="table-view-select flex justify-end">
-              <Select
-                v-model="tableViewMode"
-                :options="tableViewModeOptions"
-                aria-label-trigger="Table view mode"
-                :show-option-check="false"
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
               />
+            </svg>
+          </template>
+          <template v-if="assignDurationTrend" #headerAside>
+            <div :class="['duration-trend-badge', assignDurationTrend.class]">
+              {{ assignDurationTrend.label }}
             </div>
           </template>
+        </CardMetric>
 
-          <div class="table-section w-full min-w-0">
-            <Table
-              :key="`${tableViewMode}-${sortKey}-${sortDirection}`"
-              :columns="agentTableColumns"
-              :rows="tableRows"
-              :sort-key="sortKey"
-              :sort-direction="sortDirection"
-              :max-visible-rows="MAX_VISIBLE_ROWS"
-              row-key="id"
-              @sort="onSortColumn"
+        <CardMetric
+          label="Avg Resolution Time"
+          label-position="header"
+          :value="formatDurationDisplay(avgResolutionSeconds)"
+          :theme="theme"
+          :current-value="hhmmssToSeconds(avgResolutionSeconds) ?? 0"
+          :previous-value="previousAvgConversationDurationSeconds"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
             >
-              <template #cell-date="{ row }">
-                <span class="cell-plain">{{
-                  formatCompactDate(String(row.date))
-                }}</span>
-              </template>
-              <template #cell-name="{ row }">
-                <span class="cell-plain">{{
-                  formatAgentName(row.agent_name as string | null)
-                }}</span>
-              </template>
-              <template #cell-email="{ row }">
-                <span class="cell-plain cell-plain--muted">{{ row.agent_email }}</span>
-              </template>
-              <template #cell-handled="{ row }">
-                <span class="cell-plain">{{
-                  formatNumber(Number(row.handled))
-                }}</span>
-              </template>
-              <template #cell-transferred="{ row }">
-                <span class="cell-plain cell-plain--orange">{{
-                  formatNumber(Number(row.transferred))
-                }}</span>
-              </template>
-              <template #cell-abandoned="{ row }">
-                <span class="cell-plain cell-plain--red">{{
-                  formatAbandonedDisplay(row.abandoned as number)
-                }}</span>
-              </template>
-              <template #cell-connected="{ row }">
-                <span class="cell-plain cell-plain--muted">{{
-                  formatOptionalDisplay(row.connected_at as string | null)
-                }}</span>
-              </template>
-              <template #cell-disconnected="{ row }">
-                <span class="cell-plain cell-plain--muted">{{
-                  formatOptionalDisplay(row.disconnected_at as string | null)
-                }}</span>
-              </template>
-              <template #cell-onlineTime="{ row }">
-                <span class="cell-plain cell-plain--muted">{{
-                  formatOptionalDisplay(row.online_time_display as string | null)
-                }}</span>
-              </template>
-              <template #cell-avgAssignation="{ row }">
-                <span class="cell-plain">{{ row.avg_assignation_display }}</span>
-              </template>
-              <template #cell-avgResolution="{ row }">
-                <span class="cell-plain">{{ row.avg_resolution_display }}</span>
-              </template>
-            </Table>
-          </div>
-        </ChartMetricContainer>
-
-        <div v-else-if="!hasData" class="empty-state">
-          <div class="empty-state-content">
-            <div class="empty-icon-wrapper">
-              <svg
-                class="empty-icon"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </template>
+          <template v-if="resolutionDurationTrend" #headerAside>
+            <div
+              :class="['duration-trend-badge', resolutionDurationTrend.class]"
+            >
+              {{ resolutionDurationTrend.label }}
             </div>
-            <p class="empty-title">No agent human conversation data available</p>
-            <p class="empty-description">
-              Try adjusting the date range or check your filters.
-            </p>
+          </template>
+        </CardMetric>
+      </div>
+
+      <ChartMetricContainer
+        v-if="hasAgentRows"
+        class="agent-table-section mt-6"
+        title="Conversations Managed by Agent"
+        subtitle="Daily performance per human agent"
+        :collapsible="false"
+      >
+        <template #headerAside>
+          <div class="table-view-select flex justify-end">
+            <Select
+              v-model="tableViewMode"
+              :options="tableViewModeOptions"
+              aria-label-trigger="Table view mode"
+              :show-option-check="false"
+            />
           </div>
+        </template>
+
+        <div class="table-section w-full min-w-0">
+          <Table
+            :key="`${tableViewMode}-${sortKey}-${sortDirection}`"
+            :columns="agentTableColumns"
+            :rows="tableRows"
+            :sort-key="sortKey"
+            :sort-direction="sortDirection"
+            :max-visible-rows="MAX_VISIBLE_ROWS"
+            row-key="id"
+            @sort="onSortColumn"
+          >
+            <template #cell-date="{ row }">
+              <span class="cell-plain">{{
+                formatCompactDate(String(row.date))
+              }}</span>
+            </template>
+            <template #cell-name="{ row }">
+              <span class="cell-plain">{{
+                formatAgentName(row.agent_name as string | null)
+              }}</span>
+            </template>
+            <template #cell-email="{ row }">
+              <span class="cell-plain cell-plain--muted">{{
+                row.agent_email
+              }}</span>
+            </template>
+            <template #cell-handled="{ row }">
+              <span class="cell-plain">{{
+                formatNumber(Number(row.handled))
+              }}</span>
+            </template>
+            <template #cell-transferred="{ row }">
+              <span class="cell-plain cell-plain--orange">{{
+                formatNumber(Number(row.transferred))
+              }}</span>
+            </template>
+            <template #cell-abandoned="{ row }">
+              <span class="cell-plain cell-plain--red">{{
+                formatAbandonedDisplay(row.abandoned as number)
+              }}</span>
+            </template>
+            <template #cell-connected="{ row }">
+              <span class="cell-plain cell-plain--muted">{{
+                formatOptionalDisplay(row.connected_at as string | null)
+              }}</span>
+            </template>
+            <template #cell-disconnected="{ row }">
+              <span class="cell-plain cell-plain--muted">{{
+                formatOptionalDisplay(row.disconnected_at as string | null)
+              }}</span>
+            </template>
+            <template #cell-onlineTime="{ row }">
+              <span class="cell-plain cell-plain--muted">{{
+                formatOptionalDisplay(row.online_time_display as string | null)
+              }}</span>
+            </template>
+            <template #cell-avgAssignation="{ row }">
+              <span class="cell-plain">{{ row.avg_assignation_display }}</span>
+            </template>
+            <template #cell-avgResolution="{ row }">
+              <span class="cell-plain">{{ row.avg_resolution_display }}</span>
+            </template>
+          </Table>
+        </div>
+      </ChartMetricContainer>
+
+      <div v-else-if="!hasData" class="empty-state">
+        <div class="empty-state-content">
+          <div class="empty-icon-wrapper">
+            <svg
+              class="empty-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+          </div>
+          <p class="empty-title">No agent human conversation data available</p>
+          <p class="empty-description">
+            Try adjusting the date range or check your filters.
+          </p>
         </div>
       </div>
+    </div>
   </ChartMetricContainer>
 </template>
 
@@ -528,10 +530,7 @@ function formatChangeLabel(percent: number): string {
   return `${pct}%`;
 }
 
-function trendBadgeClass(
-  percent: number,
-  lowerIsBetter = false,
-): string {
+function trendBadgeClass(percent: number, lowerIsBetter = false): string {
   const effective = lowerIsBetter ? -percent : percent;
   if (effective > 0) return "change-badge--up";
   if (effective < 0) return "change-badge--down";
@@ -630,9 +629,15 @@ function mapAgentToRow(agent: AgentDayData, index: number): AgentTableRow {
         ? null
         : formatDurationDisplay(agent.online_time_seconds),
     avg_assignation_seconds: hhmmssToSeconds(agent.avg_time_to_assign_seconds),
-    avg_resolution_seconds: hhmmssToSeconds(agent.avg_conversation_duration_seconds),
-    avg_assignation_display: formatDurationDisplay(agent.avg_time_to_assign_seconds),
-    avg_resolution_display: formatDurationDisplay(agent.avg_conversation_duration_seconds),
+    avg_resolution_seconds: hhmmssToSeconds(
+      agent.avg_conversation_duration_seconds,
+    ),
+    avg_assignation_display: formatDurationDisplay(
+      agent.avg_time_to_assign_seconds,
+    ),
+    avg_resolution_display: formatDurationDisplay(
+      agent.avg_conversation_duration_seconds,
+    ),
   };
 }
 
@@ -695,8 +700,12 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
   }
 
   return Array.from(map.values()).map((acc, index) => {
-    const assignAvg = acc.assignWeight > 0 ? acc.assignSum / acc.assignWeight : null;
-    const resAvg = acc.resolutionWeight > 0 ? acc.resolutionSum / acc.resolutionWeight : null;
+    const assignAvg =
+      acc.assignWeight > 0 ? acc.assignSum / acc.assignWeight : null;
+    const resAvg =
+      acc.resolutionWeight > 0
+        ? acc.resolutionSum / acc.resolutionWeight
+        : null;
     return {
       id: `agg-${acc.agent_email}-${index}`,
       agent_name: acc.agent_name,
@@ -709,7 +718,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       online_time_display: null,
       avg_assignation_seconds: assignAvg,
       avg_resolution_seconds: resAvg,
-      avg_assignation_display: assignAvg !== null ? secondsToHhmmss(assignAvg) : "—",
+      avg_assignation_display:
+        assignAvg !== null ? secondsToHhmmss(assignAvg) : "—",
       avg_resolution_display: resAvg !== null ? secondsToHhmmss(resAvg) : "—",
     };
   });
@@ -785,8 +795,9 @@ const sortedTableRows = computed(() => {
   return rows;
 });
 
-const tableRows = computed((): Record<string, unknown>[] =>
-  sortedTableRows.value as unknown as Record<string, unknown>[],
+const tableRows = computed(
+  (): Record<string, unknown>[] =>
+    sortedTableRows.value as unknown as Record<string, unknown>[],
 );
 
 const agentTableColumns = computed<TableColumn[]>(() => {
@@ -915,7 +926,6 @@ defineExpose({ isDark });
   min-height: 0;
 }
 
-
 .table-view-select {
   width: 132px;
   min-width: 132px;
@@ -950,9 +960,8 @@ defineExpose({ isDark });
 
 .kpi-closed-value__main {
   font-family:
-    "Inter",
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 24px;
+    "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -961,9 +970,8 @@ defineExpose({ isDark });
 
 .kpi-closed-value__pct {
   font-family:
-    "Inter",
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 16px;
+    "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 12px;
   font-weight: 700;
   line-height: 1.2;
   color: #9191a1;
@@ -971,8 +979,7 @@ defineExpose({ isDark });
 
 .duration-trend-badge {
   font-family:
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
-    "Inter",
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), "Inter",
     sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
@@ -1119,5 +1126,15 @@ defineExpose({ isDark });
 .cell-plain--red {
   color: #ef4444;
   font-weight: 600;
+}
+
+/* Card "iniciados" usa el value default de CardMetric */
+.agent-human-conv :deep(.metric-value) {
+  font-size: 20px;
+}
+
+/* Padding del contenedor de cada card */
+.agent-human-conv :deep(.chart-metric-container) {
+  padding: 10px;
 }
 </style>
