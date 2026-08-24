@@ -200,6 +200,31 @@ const bmFunnelData = {
   ],
 };
 
+// Data: long inside labels with small terminal nodes (Check-in Metrics case)
+const longInsideLabelData = {
+  nodes: [
+    { name: 'Initiated by agent', status: 'success' as const },
+    { name: 'Check In Started', status: 'success' as const },
+    { name: 'Check In Success', status: 'success' as const },
+    { name: 'Boarding Pass Issued', status: 'success' as const },
+    { name: 'Abandoned: No booking provided', status: 'abandon' as const },
+    { name: 'Abandoned: Check In Incomplete', status: 'abandon' as const },
+    { name: 'Error: On Retrieval', status: 'error' as const },
+    { name: 'Error: On Check In Process', status: 'error' as const },
+    { name: 'Error: User error', status: 'error' as const },
+  ],
+  links: [
+    { source: 'Initiated by agent', target: 'Check In Started', value: 353 },
+    { source: 'Initiated by agent', target: 'Abandoned: No booking provided', value: 280 },
+    { source: 'Initiated by agent', target: 'Error: On Retrieval', value: 180 },
+    { source: 'Initiated by agent', target: 'Error: User error', value: 87 },
+    { source: 'Check In Started', target: 'Check In Success', value: 179 },
+    { source: 'Check In Started', target: 'Abandoned: Check In Incomplete', value: 118 },
+    { source: 'Check In Started', target: 'Error: On Check In Process', value: 56 },
+    { source: 'Check In Success', target: 'Boarding Pass Issued', value: 179 },
+  ],
+};
+
 // Story: BM funnel with semantic colors and success percentages
 export const BusinessMetricsFunnel: Story = {
   args: {
@@ -214,6 +239,25 @@ export const BusinessMetricsFunnel: Story = {
       description: {
         story:
           'Business Metrics funnel with semantic colors (green/orange/red), success→abandon→error ordering per column, node percentages against the funnel total, and link percentages against the immediately preceding node.',
+      },
+    },
+  },
+};
+
+// Story: long labels that used to overflow short nodes
+export const LongInsideLabels: Story = {
+  args: {
+    data: longInsideLabelData,
+    title: 'Check-in Metrics',
+    height: '480px',
+    useGradient: false,
+    nodeGap: 16,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Reproduction of Check-in Metrics: long multi-line labels on small abandon/error nodes. Nodes grow to fit the text when the column has room; otherwise the label truncates with an ellipsis.',
       },
     },
   },
