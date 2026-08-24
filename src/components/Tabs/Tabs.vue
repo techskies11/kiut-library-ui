@@ -17,14 +17,18 @@
         role="tab"
         :aria-selected="isActive(item)"
         :aria-disabled="item.disabled === true"
+        :aria-label="isCollapsedTab(item) ? item.label : undefined"
         :tabindex="isActive(item) ? 0 : -1"
         :class="tabButtonClass(item)"
         @click="onTabClick(item, $event)"
         @keydown="onKeydown($event, index)"
       >
         <span
-          class="tabs-tab__label flex min-h-0 min-w-0 items-center justify-center gap-2 px-3"
-          :class="{ 'min-w-0 flex-1': fullWidth }"
+          class="tabs-tab__label flex min-h-0 min-w-0 items-center justify-center gap-2"
+          :class="[
+            isCollapsedTab(item) ? 'px-2' : 'px-3',
+            { 'min-w-0 flex-1': fullWidth },
+          ]"
         >
           <component
             :is="item.icon"
@@ -32,7 +36,20 @@
             class="h-[1.125rem] w-[1.125rem] shrink-0"
             aria-hidden="true"
           />
-          <span class="truncate whitespace-nowrap font-medium tracking-tight">{{ item.label }}</span>
+          <span
+            v-if="showLabel(item)"
+            class="truncate whitespace-nowrap font-medium tracking-tight"
+          >
+            {{ item.label }}
+          </span>
+        </span>
+        <span
+          v-if="isCollapsedTab(item)"
+          role="tooltip"
+          aria-hidden="true"
+          class="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 font-sans text-xs font-medium text-[color:var(--kiut-text-primary)] opacity-0 shadow-lg shadow-slate-900/10 ring-1 ring-black/5 transition-opacity duration-150 will-change-[opacity,visibility] invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:bg-slate-800 dark:text-slate-100 dark:shadow-black/40 dark:ring-white/10"
+        >
+          {{ item.label }}
         </span>
       </button>
     </div>
@@ -64,10 +81,13 @@ const props = withDefaults(
     ariaLabel?: string;
     /** Si es true, la barra y cada pestaña reparten el ancho completo del contenedor (comportamiento tipo segmented control). */
     fullWidth?: boolean;
+    /** Si es true, solo la pestaña activa muestra texto; las demás muestran solo el icono (requiere iconos en items). */
+    collapsed?: boolean;
   }>(),
   {
     ariaLabel: 'Tabs',
     fullWidth: false,
+    collapsed: false,
   }
 );
 
@@ -90,13 +110,23 @@ function isActive(item: TabItem): boolean {
   return item.value === props.modelValue;
 }
 
+function isCollapsedTab(item: TabItem): boolean {
+  return props.collapsed && !isActive(item) && Boolean(item.icon);
+}
+
+function showLabel(item: TabItem): boolean {
+  return !props.collapsed || isActive(item) || !item.icon;
+}
+
 function tabButtonClass(item: TabItem): string {
   const active = isActive(item);
+  const collapsed = isCollapsedTab(item);
   const width =
     props.fullWidth
       ? 'relative flex min-w-0 flex-1'
       : 'relative inline-flex max-w-full shrink-0';
-  const base = `${width} h-8 max-h-8 min-h-8 items-stretch cursor-pointer rounded-lg border border-transparent text-center outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100`;
+  const group = collapsed ? 'group' : '';
+  const base = `${width} ${group} h-8 max-h-8 min-h-8 items-stretch cursor-pointer rounded-lg border border-transparent text-center outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100 transition-[padding,width]`;
   if (item.disabled) {
     return `${base} cursor-not-allowed opacity-40`;
   }
@@ -182,7 +212,9 @@ async function onKeydown(e: KeyboardEvent, index: number) {
     color 0.3s cubic-bezier(0.33, 1, 0.68, 1),
     box-shadow 0.3s cubic-bezier(0.33, 1, 0.68, 1),
     opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1),
-    transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    transform 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    padding 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    width 0.3s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 .tabs :deep([role='tablist'] [role='tab'][aria-selected='true']) {

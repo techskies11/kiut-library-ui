@@ -32,6 +32,11 @@ const meta: Meta<typeof Tabs> = {
       description:
         'Si es true, la barra ocupa todo el ancho y las pestañas se reparten (segmented control a ancho completo). Por defecto la barra solo es tan ancha como el contenido.',
     },
+    collapsed: {
+      control: 'boolean',
+      description:
+        'Si es true, solo la pestaña activa muestra texto; las inactivas muestran solo el icono con tooltip al hover/focus.',
+    },
   },
 };
 
@@ -100,6 +105,35 @@ export const WithIcons: Story = {
   args: {
     modelValue: 'ai',
     ariaLabel: 'Tabs con iconos',
+    items: [
+      { value: 'ai', label: 'IA', icon: CpuChipIcon },
+      { value: 'human', label: 'Humano', icon: UserIcon },
+      { value: 'history', label: 'Histórico', icon: ClockIcon },
+    ],
+  },
+  render: (args) => ({
+    components: { Tabs },
+    setup() {
+      const model = ref(args.modelValue);
+      return () =>
+        h('div', { class: 'max-w-2xl' }, [
+          h(Tabs, {
+            ...args,
+            modelValue: model.value,
+            'onUpdate:modelValue': (v: string) => {
+              model.value = v;
+            },
+          }),
+        ]);
+    },
+  }),
+};
+
+export const WithIconsCollapsed: Story = {
+  args: {
+    modelValue: 'ai',
+    collapsed: true,
+    ariaLabel: 'Tabs con iconos colapsados',
     items: [
       { value: 'ai', label: 'IA', icon: CpuChipIcon },
       { value: 'human', label: 'Humano', icon: UserIcon },
