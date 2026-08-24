@@ -26,6 +26,7 @@
         >
           <LineChart
             :data="dataChart"
+            :options="chartOptions"
             :theme="theme"
             area-gradient
           />
@@ -81,6 +82,7 @@ import {
   useThemeDetection,
   type Theme,
 } from "../../../../composables/useThemeDetection";
+import { formatSankeyLinkLabel } from "../../Sankey/sankeyFormatters";
 
 export interface CheckinVolumeDay {
   date: string;
@@ -230,6 +232,29 @@ const dataChart = computed(() => {
     })),
   };
 });
+
+const initiatedByIndex = computed(() =>
+  volumeDays.value.map((day) => day.initiated || 0),
+);
+
+const chartOptions = computed(() => ({
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: (context: {
+          dataset: { label?: string };
+          parsed: { y: number | null };
+          dataIndex: number;
+        }) => {
+          const label = context.dataset.label || "";
+          const value = context.parsed.y ?? 0;
+          const initiated = initiatedByIndex.value[context.dataIndex] ?? 0;
+          return `${label}: ${formatSankeyLinkLabel(value, initiated)}`;
+        },
+      },
+    },
+  },
+}));
 
 defineExpose({ isDark });
 </script>
