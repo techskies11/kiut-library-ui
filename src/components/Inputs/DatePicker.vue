@@ -41,6 +41,7 @@
         'absolute top-full z-[120] mt-2 w-[min(calc(100vw-2rem),20rem)] max-w-[calc(100vw-2rem)] rounded-2xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-xl outline-none dark:border-[color:var(--kiut-border-light)]',
       ]"
       @keydown.escape.stop="close"
+      @mousedown.prevent
     >
       <div class="p-3">
         <div class="mb-4 flex items-center justify-between gap-2">
@@ -80,7 +81,7 @@
             :disabled="isDisabled(cell)"
             class="relative flex h-[36px] w-[36px] items-center justify-center text-xs outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 disabled:cursor-not-allowed disabled:opacity-100"
             :class="dayClass(cell)"
-            @click="onDayClick(cell)"
+            @mousedown.prevent="onDayClick(cell)"
           >
             {{ cell.getDate() }}
           </button>
@@ -248,14 +249,18 @@ function onDocumentClick(e: MouseEvent) {
   }
 }
 
-function onFocusOut() {
+function onFocusOut(e: FocusEvent) {
   if (!open.value) return;
   const root = rootRef.value;
-  void nextTick(() => {
+  const related = e.relatedTarget as Node | null;
+  if (root && related && root.contains(related)) return;
+
+  window.setTimeout(() => {
+    if (!open.value) return;
     const active = document.activeElement;
     if (root && active && root.contains(active)) return;
     open.value = false;
-  });
+  }, 0);
 }
 
 onMounted(() => {
