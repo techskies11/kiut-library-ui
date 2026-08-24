@@ -7,6 +7,8 @@ export interface CheckinRecordKpiShape {
   total_record_locator_init_abandoned?: number
   total_checkin_pre_init_abandoned_error?: number
   total_checkin_pre_init_abandoned_voluntary?: number
+  avg_checkin_completion_time_seconds?: number | null
+  avg_checkin_completion_time_formatted?: string | null
 }
 
 export interface CheckinFailedKpiShape {
@@ -41,6 +43,8 @@ export function buildCheckinKpiFromRecord(
     errorCount: failedCount,
     abandonRatePct: toPercent(abandon, initiated),
     abandonCount: abandon,
+    avgCompletionTimeSeconds: record?.avg_checkin_completion_time_seconds ?? null,
+    avgCompletionTimeFormatted: record?.avg_checkin_completion_time_formatted ?? null,
   }
 }
 
@@ -55,6 +59,7 @@ export function mergeCheckinKpiWithPrevious(
       previousSuccessRatePct: null,
       previousErrorRatePct: null,
       previousAbandonRatePct: null,
+      previousAvgCompletionTimeSeconds: null,
     }
   }
 
@@ -64,5 +69,6 @@ export function mergeCheckinKpiWithPrevious(
     previousSuccessRatePct: previous.successRatePct ?? null,
     previousErrorRatePct: previous.errorRatePct ?? null,
     previousAbandonRatePct: previous.abandonRatePct ?? null,
+    previousAvgCompletionTimeSeconds: previous.avgCompletionTimeSeconds ?? null,
   }
 }
