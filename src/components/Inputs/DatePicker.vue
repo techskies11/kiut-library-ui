@@ -1,5 +1,5 @@
 <template>
-  <div ref="rootRef" class="relative font-sans">
+  <div ref="rootRef" class="relative font-sans" @focusout="onFocusOut">
     <label v-if="label" :id="labelId" :class="kiutLabelClass">{{ label }}</label>
     <button
       type="button"
@@ -246,6 +246,16 @@ function onDocumentClick(e: MouseEvent) {
   if (root && !root.contains(e.target as Node)) {
     open.value = false;
   }
+}
+
+function onFocusOut() {
+  if (!open.value) return;
+  const root = rootRef.value;
+  void nextTick(() => {
+    const active = document.activeElement;
+    if (root && active && root.contains(active)) return;
+    open.value = false;
+  });
 }
 
 onMounted(() => {
