@@ -27,7 +27,7 @@
           class="tabs-tab__label flex min-h-0 min-w-0 items-center justify-center gap-2"
           :class="[
             isCollapsedTab(item) ? 'px-2' : 'px-3',
-            { 'min-w-0 flex-1': fullWidth },
+            { 'min-w-0 flex-1': fullWidth && !isCollapsedTab(item) },
           ]"
         >
           <component
@@ -118,13 +118,20 @@ function showLabel(item: TabItem): boolean {
   return !props.collapsed || isActive(item) || !item.icon;
 }
 
+function tabWidthClass(item: TabItem): string {
+  if (isCollapsedTab(item)) {
+    return 'relative inline-flex shrink-0';
+  }
+  if (props.fullWidth) {
+    return 'relative flex min-w-0 flex-1';
+  }
+  return 'relative inline-flex max-w-full shrink-0';
+}
+
 function tabButtonClass(item: TabItem): string {
   const active = isActive(item);
   const collapsed = isCollapsedTab(item);
-  const width =
-    props.fullWidth
-      ? 'relative flex min-w-0 flex-1'
-      : 'relative inline-flex max-w-full shrink-0';
+  const width = tabWidthClass(item);
   const group = collapsed ? 'group' : '';
   const base = `${width} ${group} h-8 max-h-8 min-h-8 items-stretch cursor-pointer rounded-lg border border-transparent text-center outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--kiut-bg-primary)] dark:focus-visible:ring-offset-[color:var(--kiut-bg-primary)] active:scale-[0.99] motion-reduce:active:scale-100 transition-[padding,width]`;
   if (item.disabled) {
