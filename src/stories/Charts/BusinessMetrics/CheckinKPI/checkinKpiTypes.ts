@@ -5,6 +5,7 @@ export interface CheckinKpiLabels {
   success?: string
   errors?: string
   abandon?: string
+  avgCompletionTime?: string
 }
 
 export const DEFAULT_CHECKIN_KPI_LABELS: Required<CheckinKpiLabels> = {
@@ -12,6 +13,7 @@ export const DEFAULT_CHECKIN_KPI_LABELS: Required<CheckinKpiLabels> = {
   success: '% Check-in Success',
   errors: '% Errors',
   abandon: '% Abandon',
+  avgCompletionTime: 'Avg completion time',
 }
 
 export interface CheckinKpiProps {
@@ -34,4 +36,8 @@ export interface CheckinKpiProps {
   abandonRatePct?: number
   abandonCount?: number
   previousAbandonRatePct?: number | null
+
+  avgCompletionTimeSeconds?: number | null
+  avgCompletionTimeFormatted?: string | null
+  previousAvgCompletionTimeSeconds?: number | null
 }

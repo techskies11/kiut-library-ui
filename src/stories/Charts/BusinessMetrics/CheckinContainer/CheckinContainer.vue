@@ -49,6 +49,19 @@
         :export-loading="exportLoading"
         @export="(fmt) => handleChildExport('checkinVolume', fmt)"
       />
+      <CheckinCompletionTime
+        class="w-full min-h-0"
+        :loading="effectiveCheckinLoading"
+        :data="completionTimeData"
+        :theme="theme"
+        :title="completionTimeTitle"
+        :subtitle="completionTimeSubtitle"
+        :empty-title="completionTimeEmptyTitle"
+        :empty-description="completionTimeEmptyDescription"
+        :enable-export="enableExport"
+        :export-loading="exportLoading"
+        @export="(fmt) => handleChildExport('checkinCompletionTime', fmt)"
+      />
     </div>
   </ChartMetricContainer>
 </template>
@@ -67,6 +80,9 @@ import {
 } from '../CheckinKPI/buildCheckinKpiFromRecord'
 import type { CheckinKpiLabels, CheckinKpiProps } from '../CheckinKPI/checkinKpiTypes'
 import CheckinVolume from '../CheckinVolume/CheckinVolume.vue'
+import CheckinCompletionTime, {
+  type CheckinCompletionTimeData,
+} from '../CheckinCompletionTime/CheckinCompletionTime.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'
 
@@ -81,7 +97,11 @@ interface SegmentDatum {
 }
 
 /** Origen dentro del grupo Check in (para rutear exports en la app consumidora). */
-export type CheckinContainerExportSource = 'checkin' | 'checkinSegments' | 'checkinVolume'
+export type CheckinContainerExportSource =
+  | 'checkin'
+  | 'checkinSegments'
+  | 'checkinVolume'
+  | 'checkinCompletionTime'
 
 export interface CheckinContainerExportPayload {
   source: CheckinContainerExportSource
@@ -119,6 +139,12 @@ const props = withDefaults(
     segmentsData?: SegmentDatum[];
     /** Show Create Payment column in check-in table (Avianca). Maps to CheckinMetrics `isAvianca`. */
     showPaymentLinks?: boolean
+    /** Daily avg completion time series (checkin-completion-time-metrics API). */
+    completionTimeData?: CheckinCompletionTimeData | null
+    completionTimeTitle?: string
+    completionTimeSubtitle?: string
+    completionTimeEmptyTitle?: string
+    completionTimeEmptyDescription?: string
   }>(),
   {
     containerInitiallyOpen: false,

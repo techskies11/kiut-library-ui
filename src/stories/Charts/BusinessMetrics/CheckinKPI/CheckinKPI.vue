@@ -4,7 +4,7 @@
     :class="{ 'checkin-kpi--dark': isDark }"
     data-testid="checkin-kpi"
   >
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5 md:gap-4">
       <CardMetric
         :label="resolvedLabels.initiated"
         label-position="header"
@@ -109,6 +109,20 @@
           </div>
         </template>
       </CardMetric>
+
+      <CardMetric
+        :label="resolvedLabels.avgCompletionTime"
+        label-position="header"
+        :value="avgCompletionValueLabel"
+        :loading="loading"
+        :theme="theme"
+        :current-value="props.avgCompletionTimeSeconds ?? 0"
+        :previous-value="props.previousAvgCompletionTimeSeconds"
+      >
+        <template #icon>
+          <ClockIcon class="w-2 h-2" />
+        </template>
+      </CardMetric>
     </div>
   </div>
 </template>
@@ -126,6 +140,7 @@ import {
 import {
   ArrowLeftEndOnRectangleIcon,
   CheckCircleIcon,
+  ClockIcon,
   PaperAirplaneIcon,
   XCircleIcon,
 } from "@heroicons/vue/24/outline";
@@ -145,6 +160,9 @@ const props = withDefaults(defineProps<CheckinKpiProps>(), {
   abandonRatePct: 0,
   abandonCount: 0,
   previousAbandonRatePct: null,
+  avgCompletionTimeSeconds: null,
+  avgCompletionTimeFormatted: null,
+  previousAvgCompletionTimeSeconds: null,
 });
 
 const { isDark } = useThemeDetection(toRef(props, "theme"));
@@ -176,6 +194,10 @@ const abandonValueLabel = computed(() => formatPercent(props.abandonRatePct));
 const abandonCountLabel = computed(() => formatCountLabel(props.abandonCount));
 const abandonTrend = computed(() =>
   buildPercentTrend(props.abandonRatePct, props.previousAbandonRatePct, true),
+);
+
+const avgCompletionValueLabel = computed(() =>
+  props.avgCompletionTimeFormatted?.trim() ? props.avgCompletionTimeFormatted : "—",
 );
 
 defineExpose({ isDark });
