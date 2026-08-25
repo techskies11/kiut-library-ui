@@ -158,6 +158,36 @@ export const WithIconsCollapsed: Story = {
   }),
 };
 
+export const WithIconsCollapsedFullWidth: Story = {
+  args: {
+    modelValue: 'human',
+    collapsed: true,
+    fullWidth: true,
+    ariaLabel: 'Tabs colapsados a ancho completo',
+    items: [
+      { value: 'ai', label: 'IA', icon: CpuChipIcon },
+      { value: 'human', label: 'Humano', icon: UserIcon },
+      { value: 'history', label: 'Histórico', icon: ClockIcon },
+    ],
+  },
+  render: (args) => ({
+    components: { Tabs },
+    setup() {
+      const model = ref(args.modelValue);
+      return () =>
+        h('div', { class: 'w-[280px]' }, [
+          h(Tabs, {
+            ...args,
+            modelValue: model.value,
+            'onUpdate:modelValue': (v: string) => {
+              model.value = v;
+            },
+          }),
+        ]);
+    },
+  }),
+};
+
 export const WithDisabledTab: Story = {
   args: {
     modelValue: 'a',
