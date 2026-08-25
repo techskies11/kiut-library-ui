@@ -128,6 +128,10 @@ import {
 } from '../CheckinKPI/buildCheckinKpiFromRecord'
 import type { CheckinKpiLabels, CheckinKpiProps } from '../CheckinKPI/checkinKpiTypes'
 import CheckinVolume from '../CheckinVolume/CheckinVolume.vue'
+import CheckinErrorReasons, {
+  type CheckinErrorReasonsBreakdown,
+  type CheckinErrorStage,
+} from '../CheckinErrorReasons/CheckinErrorReasons.vue'
 import CheckinInteractions, {
   type CheckinInteractionsData,
 } from '../CheckinInteractions/CheckinInteractions.vue'
@@ -152,6 +156,7 @@ export type CheckinContainerExportSource =
   | 'checkin'
   | 'checkinSegments'
   | 'checkinVolume'
+  | 'checkinErrorReasons'
   | 'checkinInteractions'
   | 'checkinCompletionTime'
 
