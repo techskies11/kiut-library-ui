@@ -74,6 +74,29 @@
         :export-loading="exportLoading"
         @export="handleSegmentsExport"
       />
+      <CheckinVolume
+        class="w-full min-h-0"
+        :loading="effectiveCheckinLoading"
+        :checkin-data="checkinData"
+        :failed-data="checkinFailedData"
+        :theme="theme"
+        :enable-export="enableExport"
+        :export-loading="exportLoading"
+        @export="(fmt) => handleChildExport('checkinVolume', fmt)"
+      />
+      <CheckinInteractions
+        class="w-full min-h-0"
+        :loading="effectiveCheckinLoading"
+        :data="interactionsData"
+        :theme="theme"
+        :title="interactionsTitle"
+        :subtitle="interactionsSubtitle"
+        :empty-title="interactionsEmptyTitle"
+        :empty-description="interactionsEmptyDescription"
+        :enable-export="enableExport"
+        :export-loading="exportLoading"
+        @export="(fmt) => handleChildExport('checkinInteractions', fmt)"
+      />
       <CheckinCompletionTime
         class="w-full min-h-0"
         :loading="effectiveCheckinLoading"
@@ -102,19 +125,16 @@ import {
   mergeCheckinKpiWithPrevious,
   type CheckinFailedKpiShape,
   type CheckinRecordKpiShape,
-} from "../CheckinKPI/buildCheckinKpiFromRecord";
-  
-import type {
-  CheckinKpiLabels,
-  CheckinKpiProps,
-} from "../CheckinKPI/checkinKpiTypes";
-  
-import CheckinVolume from "../CheckinVolume/CheckinVolume.vue";
+} from '../CheckinKPI/buildCheckinKpiFromRecord'
+import type { CheckinKpiLabels, CheckinKpiProps } from '../CheckinKPI/checkinKpiTypes'
+import CheckinVolume from '../CheckinVolume/CheckinVolume.vue'
 import CheckinErrorReasons, {
   type CheckinErrorReasonsBreakdown,
   type CheckinErrorStage,
-} from "../CheckinErrorReasons/CheckinErrorReasons.vue";
-  
+} from '../CheckinErrorReasons/CheckinErrorReasons.vue'
+import CheckinInteractions, {
+  type CheckinInteractionsData,
+} from '../CheckinInteractions/CheckinInteractions.vue'
 import CheckinCompletionTime, {
   type CheckinCompletionTimeData,
 } from '../CheckinCompletionTime/CheckinCompletionTime.vue'
@@ -133,11 +153,12 @@ interface SegmentDatum {
 
 /** Origen dentro del grupo Check in (para rutear exports en la app consumidora). */
 export type CheckinContainerExportSource =
-  | "checkin"
-  | "checkinSegments"
-  | "checkinVolume"
-  | "checkinErrorReasons"
-  | 'checkinCompletionTime';
+  | 'checkin'
+  | 'checkinSegments'
+  | 'checkinVolume'
+  | 'checkinErrorReasons'
+  | 'checkinInteractions'
+  | 'checkinCompletionTime'
 
 export interface CheckinContainerExportPayload {
   source: CheckinContainerExportSource;
@@ -182,6 +203,12 @@ const props = withDefaults(
     errorReasonsStage?: CheckinErrorStage;
     /** Show Create Payment column in check-in table (Avianca). Maps to CheckinMetrics `isAvianca`. */
     showPaymentLinks?: boolean
+    /** Daily avg interactions series (checkin-avg-interactions-metrics API). */
+    interactionsData?: CheckinInteractionsData | null
+    interactionsTitle?: string
+    interactionsSubtitle?: string
+    interactionsEmptyTitle?: string
+    interactionsEmptyDescription?: string
     /** Daily avg completion time series (checkin-completion-time-metrics API). */
     completionTimeData?: CheckinCompletionTimeData | null
     completionTimeTitle?: string

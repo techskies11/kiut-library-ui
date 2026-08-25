@@ -4,7 +4,7 @@
     :class="{ 'checkin-kpi--dark': isDark }"
     data-testid="checkin-kpi"
   >
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5 md:gap-4">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 md:gap-4">
       <CardMetric
         :label="resolvedLabels.initiated"
         label-position="header"
@@ -123,6 +123,25 @@
           <ClockIcon class="w-2 h-2" />
         </template>
       </CardMetric>
+
+      <CardMetric
+        :label="resolvedLabels.avgInteractionsToComplete"
+        label-position="header"
+        :value="avgInteractionsValueLabel"
+        :loading="loading"
+        :theme="theme"
+        :current-value="props.avgInteractionsToComplete ?? 0"
+        :previous-value="null"
+      >
+        <template #icon>
+          <ChatBubbleLeftRightIcon class="w-2 h-2" />
+        </template>
+        <template v-if="interactionsTrend" #headerAside>
+          <div :class="['percent-trend-badge', interactionsTrend.class]">
+            {{ interactionsTrend.label }}
+          </div>
+        </template>
+      </CardMetric>
     </div>
   </div>
 </template>
@@ -139,6 +158,7 @@ import {
 } from "./checkinKpiTypes";
 import {
   ArrowLeftEndOnRectangleIcon,
+  ChatBubbleLeftRightIcon,
   CheckCircleIcon,
   ClockIcon,
   PaperAirplaneIcon,
@@ -163,6 +183,9 @@ const props = withDefaults(defineProps<CheckinKpiProps>(), {
   avgCompletionTimeSeconds: null,
   avgCompletionTimeFormatted: null,
   previousAvgCompletionTimeSeconds: null,
+  avgInteractionsToComplete: null,
+  avgInteractionsToCompleteFormatted: null,
+  previousAvgInteractionsToComplete: null,
 });
 
 const { isDark } = useThemeDetection(toRef(props, "theme"));
@@ -199,6 +222,25 @@ const abandonTrend = computed(() =>
 const avgCompletionValueLabel = computed(() =>
   props.avgCompletionTimeFormatted?.trim() ? props.avgCompletionTimeFormatted : "—",
 );
+
+const avgInteractionsValueLabel = computed(() =>
+  props.avgInteractionsToCompleteFormatted?.trim()
+    ? props.avgInteractionsToCompleteFormatted
+    : "—",
+);
+const interactionsTrend = computed(() => {
+  if (
+    props.avgInteractionsToComplete === null ||
+    props.avgInteractionsToComplete === undefined
+  ) {
+    return null;
+  }
+  return buildPercentTrend(
+    props.avgInteractionsToComplete,
+    props.previousAvgInteractionsToComplete,
+    true,
+  );
+});
 
 defineExpose({ isDark });
 </script>
