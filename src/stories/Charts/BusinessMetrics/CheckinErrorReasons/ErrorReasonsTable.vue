@@ -68,14 +68,14 @@ const props = defineProps<{
 const columns: TableColumn[] = [
   {
     key: "category_label",
-    label: "Category / Raw log",
+    label: "Reason",
     align: "left",
     headerClass: "w-[58%]",
     cellClass: "error-reasons-label-cell",
   },
   {
     key: "error_count",
-    label: "Count",
+    label: "Errors",
     align: "center",
     headerClass: "w-[16%]",
     cellClass: "error-reasons-metric-cell",
@@ -127,10 +127,43 @@ const formatPercentage = (value: number): string => `${value.toFixed(1)}%`;
   min-width: 0;
 }
 
-.error-reasons-table-wrap :deep(.kiut-table-body-cell) {
-  vertical-align: top;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
+.error-reasons-table-wrap :deep(.kiut-table-wrap){
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.error-reasons-table-wrap :deep(.table-header){
+  background-color: transparent;
+  height: 1.5rem;
+}
+
+.error-reasons-table-wrap :deep(.kiut-table tbody .kiut-table-body-row) {
+  height: auto;
+}
+
+.error-reasons-table-wrap :deep(.kiut-table tbody td.kiut-table-body-cell) {
+  height: auto;
+  max-height: none;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  vertical-align: middle;
+}
+
+.error-reasons-table-wrap :deep(.kiut-table tbody td.kiut-table-body-cell .icon_chevron) {
+  height: 1rem;
+  width: 1rem;
+  margin: 0px 5px;
+}
+
+.error-reasons-table-wrap :deep(.kiut-table tbody .kiut-table-row--child),
+.error-reasons-table-wrap :deep(.kiut-table tbody .kiut-table-row--child .metric-cell) {
+  color: var(--kiut-text-secondary);
+}
+
+.error-reasons-table-wrap :deep(.kiut-table-body-cell .flex.items-start) {
+  align-items: center;
 }
 
 .error-reasons-table-wrap :deep(.error-reasons-label-cell) {

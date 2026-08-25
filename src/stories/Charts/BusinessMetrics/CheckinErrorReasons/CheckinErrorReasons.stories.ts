@@ -112,6 +112,14 @@ const meta = {
     },
     loading: { control: "boolean" },
     initiallyOpen: { control: "boolean" },
+    enableExport: {
+      control: "boolean",
+      description: "Shows PDF/CSV export buttons in the header",
+    },
+    onExport: {
+      action: "export",
+      description: "Emitted when an export button is clicked (pdf | csv)",
+    },
   },
 } satisfies Meta<typeof CheckinErrorReasons>;
 
@@ -121,6 +129,7 @@ type Story = StoryObj<typeof meta>;
 export const OnRetrieve: Story = {
   args: {
     initiallyOpen: true,
+    enableExport: true,
     stage: "on_retrieve",
     errorReasons: retrieveMock,
   },
@@ -129,6 +138,7 @@ export const OnRetrieve: Story = {
 export const OnCheckInProcess: Story = {
   args: {
     initiallyOpen: true,
+    enableExport: true,
     stage: "on_check_in_process",
     errorReasons: processMock,
   },
