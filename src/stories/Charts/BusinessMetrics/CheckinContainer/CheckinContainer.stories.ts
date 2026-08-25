@@ -118,6 +118,47 @@ const mockSegmentsData = [
   },
 ]
 
+const mockErrorReasons = {
+  stage: 'on_retrieve',
+  total_errors: 42,
+  total_unrecovered: null,
+  total_bp_not_issued: null,
+  categories: [
+    {
+      outcome_group: null,
+      category_key: 'user_error',
+      category_label: 'User error',
+      error_count: 18,
+      percentage: 42.9,
+      raw_logs: [
+        { message: 'LAST_NAME_MISMATCH', count: 12, percentage_of_total: 28.6 },
+        { message: 'INVALID_RECORD_LOCATOR', count: 6, percentage_of_total: 14.3 },
+      ],
+    },
+    {
+      outcome_group: null,
+      category_key: 'tech_error',
+      category_label: 'Tech error',
+      error_count: 14,
+      percentage: 33.3,
+      raw_logs: [
+        { message: 'UPSTREAM_CHECKIN_ERROR', count: 10, percentage_of_total: 23.8 },
+        { message: 'TIMEOUT', count: 4, percentage_of_total: 9.5 },
+      ],
+    },
+    {
+      outcome_group: null,
+      category_key: 'business_rule',
+      category_label: 'Business rule',
+      error_count: 10,
+      percentage: 23.8,
+      raw_logs: [
+        { message: 'CHECKIN_NOT_OPEN', count: 10, percentage_of_total: 23.8 },
+      ],
+    },
+  ],
+}
+
 const meta = {
   title: 'Charts/BusinessMetrics/CheckinContainer',
   component: CheckinContainer,
@@ -137,23 +178,37 @@ const meta = {
     },
     checkinLoading: { control: 'boolean' },
     segmentsLoading: { control: 'boolean' },
+    errorReasonsLoading: { control: 'boolean' },
     showCheckin: {
       control: 'boolean',
       description:
         'Muestra el bloque CheckinMetrics.vue (métricas record locator) antes de Segmentos',
     },
+    showErrorReasons: {
+      control: 'boolean',
+      description: 'Muestra Check-in Error Reasons al lado de Checkin Volume',
+    },
+    errorReasonsStage: {
+      control: 'select',
+      options: ['on_retrieve', 'on_check_in_process'],
+    },
     enableExport: { control: 'boolean' },
     exportLoading: { control: 'boolean' },
     onExport: {
       action: 'export',
-      description: 'Payload { source, format } (checkin | checkinSegments | checkinVolume | checkinInteractions | checkinCompletionTime)',
+      description:
+        'Payload { source, format } (checkin | checkinSegments | checkinVolume | checkinErrorReasons)',
+    },
+    'onUpdate:errorReasonsStage': {
+      action: 'update:errorReasonsStage',
+      description: 'Emitted when the error-reasons stage select changes',
     },
   },
   parameters: {
     docs: {
       description: {
         component:
-          'Agrupa métricas Check-in (Sankey CheckinMetrics.vue), Checkin Segments, Checkin Volume, Checkin Interactions y Checkin Completion Time bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments | checkinVolume | checkinInteractions | checkinCompletionTime.',
+          'Agrupa métricas Check-in (Sankey), Volume + Error Reasons (lado a lado) y Segments (ancho completo) bajo un único colapsable “Check in”. Los exports indican origen checkin | checkinVolume | checkinErrorReasons | checkinSegments.',
       },
     },
   },
@@ -175,14 +230,9 @@ export const Default: Story = {
     checkinData: mockCheckinData,
     checkinFailedData: mockCheckinFailedData,
     segmentsData: mockSegmentsData,
-    interactionsData: {
-      avg_checkin_interactions_to_complete: 7.4,
-      avg_checkin_interactions_by_day: {
-        '2025-11-19': 8.1,
-        '2025-12-02': 7.0,
-        '2025-12-03': 6.5,
-      },
-    },
+    showErrorReasons: true,
+    errorReasonsStage: 'on_retrieve',
+    errorReasons: mockErrorReasons,
   },
 }
 
