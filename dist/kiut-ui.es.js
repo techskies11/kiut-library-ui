@@ -13728,7 +13728,7 @@ function br(e, t, a = 0, n = 0) {
     );
   }), l;
 }
-const lv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, rv = { class: "w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, cv = { class: "table-header h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, dv = {
+const lv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, rv = { class: "w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, cv = { class: "table-header h-12 bg-[#eaeaec80] dark:bg-[#23232f80]" }, dv = {
   key: 0,
   scope: "col",
   class: "w-14 bg-transparent px-4 py-3 text-center align-middle"
@@ -13784,9 +13784,7 @@ const lv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       set(E) {
         s.value = E, n("update:expandedKeys", E);
       }
-    }), l = C(
-      () => new Set(i.value)
-    ), r = C(
+    }), l = C(() => new Set(i.value)), r = C(
       () => a.expandColumnKey ?? a.columns[0]?.key ?? ""
     ), c = C(() => ({
       childrenKey: a.childrenKey,
@@ -14081,7 +14079,7 @@ const lv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
-}), vr = /* @__PURE__ */ xe(_v, [["__scopeId", "data-v-acaef401"]]), wv = { class: "error-reasons-table-wrap table-section" }, Cv = { class: "metric-cell" }, $v = { class: "metric-cell" }, Bo = 5, Sv = /* @__PURE__ */ ce({
+}), vr = /* @__PURE__ */ xe(_v, [["__scopeId", "data-v-6e6ab14d"]]), wv = { class: "error-reasons-table-wrap table-section" }, Cv = { class: "metric-cell" }, $v = { class: "metric-cell" }, Bo = 5, Sv = /* @__PURE__ */ ce({
   __name: "ErrorReasonsTable",
   props: {
     rows: {}
