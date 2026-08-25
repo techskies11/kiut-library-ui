@@ -11,7 +11,7 @@
       >
         <thead>
           <tr
-            class="h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]"
+            class="table-header h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]"
           >
             <th
               v-if="selectable"
@@ -98,7 +98,7 @@
                 @click.stop="toggleExpand(entry)"
               >
                 <ChevronDownIcon
-                  class="h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
+                  class="icon_chevron h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
                   :class="{ '-rotate-90': !entry.isExpanded }"
                   aria-hidden="true"
                 />
@@ -136,7 +136,7 @@
                     @click.stop="toggleExpand(entry)"
                   >
                     <ChevronDownIcon
-                      class="h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
+                      class="icon_chevron h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200"
                       :class="{ '-rotate-90': !entry.isExpanded }"
                       aria-hidden="true"
                     />

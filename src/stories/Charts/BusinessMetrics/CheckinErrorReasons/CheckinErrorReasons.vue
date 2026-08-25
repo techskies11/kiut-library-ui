@@ -2,19 +2,25 @@
   <ChartMetricContainer
     class="checkin-error-reasons-root h-full min-h-0"
     title="Check-in Error Reasons"
-    subtitle="Each failed event counts once"
+    subtitle="Distribution of error reasons on booking retrieve"
     :collapsible="collapsible"
     :default-open="initiallyOpen"
     :loading="loading"
   >
     <template #headerAside>
-      <div class="stage-select flex justify-end">
+      <div class="stage-select flex items-start justify-end gap-3">
         <Select
           :model-value="stage"
           :options="stageOptions"
           aria-label-trigger="Check-in error stage"
           :show-option-check="false"
           @update:model-value="onStageChange"
+        />
+        <FooterExport
+          v-if="enableExport && !loading"
+          variant="inline"
+          :loading="exportLoading"
+          @export="handleExport"
         />
       </div>
     </template>
@@ -23,14 +29,20 @@
       <div v-if="hasData" class="error-reasons-content">
         <p class="total-summary">
           Total errors:
-          <span class="total-summary__value">{{ formatNumber(totalErrors) }}</span>
+          <span class="total-summary__value">{{
+            formatNumber(totalErrors)
+          }}</span>
           <template v-if="isProcessStage">
             <span class="total-summary__divider">·</span>
             Unrecovered:
-            <span class="total-summary__value">{{ formatNumber(totalUnrecovered) }}</span>
+            <span class="total-summary__value">{{
+              formatNumber(totalUnrecovered)
+            }}</span>
             <span class="total-summary__divider">·</span>
             BP not issued:
-            <span class="total-summary__value">{{ formatNumber(totalBpNotIssued) }}</span>
+            <span class="total-summary__value">{{
+              formatNumber(totalBpNotIssued)
+            }}</span>
           </template>
         </p>
 
@@ -41,14 +53,22 @@
             class="table-section error-reasons-section"
           >
             <h4 class="section-title">{{ section.title }}</h4>
-            <p v-if="section.subtitle" class="section-subtitle">{{ section.subtitle }}</p>
-            <ErrorReasonsTable v-if="section.rows.length > 0" :rows="section.rows" />
+            <p v-if="section.subtitle" class="section-subtitle">
+              {{ section.subtitle }}
+            </p>
+            <ErrorReasonsTable
+              v-if="section.rows.length > 0"
+              :rows="section.rows"
+            />
             <p v-else class="section-empty">No errors in this cohort.</p>
           </section>
         </template>
 
         <section v-else class="table-section">
-          <ErrorReasonsTable v-if="retrieveRows.length > 0" :rows="retrieveRows" />
+          <ErrorReasonsTable
+            v-if="retrieveRows.length > 0"
+            :rows="retrieveRows"
+          />
         </section>
       </div>
 
@@ -59,7 +79,8 @@
           </div>
           <p class="empty-title">No error reasons for this stage</p>
           <p class="empty-description">
-            Try another stage or adjust the date range to see terminal check-in failures.
+            Try another stage or adjust the date range to see terminal check-in
+            failures.
           </p>
         </div>
       </div>
@@ -71,6 +92,7 @@
 import { computed } from "vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
 import Select, {
   type KiutSelectOption,
   type KiutSelectValue,
@@ -117,19 +139,28 @@ const props = withDefaults(
     loading?: boolean;
     stage?: CheckinErrorStage;
     errorReasons?: CheckinErrorReasonsBreakdown | null;
+    enableExport?: boolean;
+    exportLoading?: boolean;
   }>(),
   {
     initiallyOpen: false,
-    collapsible: true,
+    collapsible: false,
     loading: false,
     stage: "on_retrieve",
     errorReasons: null,
+    enableExport: false,
+    exportLoading: false,
   },
 );
 
 const emit = defineEmits<{
   "update:stage": [stage: CheckinErrorStage];
+  export: [format: ExportFormat];
 }>();
+
+const handleExport = (format: ExportFormat): void => {
+  emit("export", format);
+};
 
 const stageOptions: KiutSelectOption<KiutSelectValue>[] = [
   { label: "On Retrieve", value: "on_retrieve" },
@@ -151,10 +182,17 @@ const breakdown = computed(() => props.errorReasons);
 
 const isProcessStage = computed(() => props.stage === "on_check_in_process");
 const totalErrors = computed(() => breakdown.value?.total_errors ?? 0);
-const totalUnrecovered = computed(() => breakdown.value?.total_unrecovered ?? 0);
-const totalBpNotIssued = computed(() => breakdown.value?.total_bp_not_issued ?? 0);
+const totalUnrecovered = computed(
+  () => breakdown.value?.total_unrecovered ?? 0,
+);
+const totalBpNotIssued = computed(
+  () => breakdown.value?.total_bp_not_issued ?? 0,
+);
 
-const mapCategoryToRow = (category: CheckinErrorCategory, prefix: string): ErrorReasonTableRow => ({
+const mapCategoryToRow = (
+  category: CheckinErrorCategory,
+  prefix: string,
+): ErrorReasonTableRow => ({
   id: `${prefix}-${category.category_key}`,
   category_label: category.category_label,
   error_count: category.error_count,
@@ -175,28 +213,39 @@ const retrieveRows = computed((): ErrorReasonTableRow[] => {
 
 const processSections = computed(() => {
   const categories = breakdown.value?.categories ?? [];
-  const unrecovered = categories.filter((item) => item.outcome_group === "unrecovered");
-  const bpNotIssued = categories.filter((item) => item.outcome_group === "bp_not_issued");
+  const unrecovered = categories.filter(
+    (item) => item.outcome_group === "unrecovered",
+  );
+  const bpNotIssued = categories.filter(
+    (item) => item.outcome_group === "bp_not_issued",
+  );
 
   return [
     {
       key: "unrecovered",
       title: "Error: On Check In Process",
       subtitle: "Reservations that failed before PSS close (unrecovered)",
-      rows: unrecovered.map((category) => mapCategoryToRow(category, "unrecovered")),
+      rows: unrecovered.map((category) =>
+        mapCategoryToRow(category, "unrecovered"),
+      ),
     },
     {
       key: "bp_not_issued",
       title: "Error: BP Not Issued",
       subtitle: "Closed reservations where boarding pass was not issued",
-      rows: bpNotIssued.map((category) => mapCategoryToRow(category, "bp-not-issued")),
+      rows: bpNotIssued.map((category) =>
+        mapCategoryToRow(category, "bp-not-issued"),
+      ),
     },
   ];
 });
 
 const hasData = computed(() => {
   if (!breakdown.value) return false;
-  return (breakdown.value.categories?.length ?? 0) > 0 || breakdown.value.total_errors > 0;
+  return (
+    (breakdown.value.categories?.length ?? 0) > 0 ||
+    breakdown.value.total_errors > 0
+  );
 });
 </script>
 
