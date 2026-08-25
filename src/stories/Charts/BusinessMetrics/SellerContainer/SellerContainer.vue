@@ -31,6 +31,7 @@
         @export="(fmt) => handleChildExport('salesVolume', fmt)"
       />
       <SalesByChannel
+        v-if="showSalesByChannel"
         :initially-open="childrenInitiallyOpen"
         :data="salesByChannelData"
         :channel-comparison="channelComparison"
@@ -142,6 +143,8 @@ const props = withDefaults(
     sellerExportLoading?: boolean
     salesByChannelExportLoading?: boolean
     showPaymentMethodDetails?: boolean
+    /** Si es false, oculta el bloque Sales by Channel. */
+    showSalesByChannel?: boolean
     theme?: Theme
     /** Shape Seller.vue */
     sellerData?: SellerData
@@ -163,6 +166,7 @@ const props = withDefaults(
     sellerExportLoading: false,
     salesByChannelExportLoading: false,
     showPaymentMethodDetails: false,
+    showSalesByChannel: true,
     theme: undefined,
     channelComparison: () => [],
   }

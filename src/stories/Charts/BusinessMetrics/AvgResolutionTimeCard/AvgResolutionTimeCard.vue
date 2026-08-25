@@ -80,7 +80,7 @@ defineExpose({ isDark })
 
 .art-values__item {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: baseline;
   gap: 6px;
   min-width: 0;
@@ -90,7 +90,7 @@ defineExpose({ isDark })
   font-family:
     'Inter',
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -102,7 +102,7 @@ defineExpose({ isDark })
   font-family:
     'Inter',
     var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
