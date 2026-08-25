@@ -5,6 +5,25 @@ const meta: Meta<typeof SankeyChart> = {
   title: 'Charts/Sankey',
   component: SankeyChart,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Diagrama Sankey con etiquetas internas, porcentajes por nodo y recorte automático cuando el flujo es muy bajo.
+
+### Etiquetas en nodos pequeños
+
+Cuando un nodo representa un **valor muy bajo**, su altura depende del flujo y puede no alcanzar para mostrar todo el texto. El componente resuelve esto en tres pasos:
+
+1. **Crecer el nodo si hay espacio** — Ajusta los valores de los links para que el nodo alcance una altura mínima legible, respetando la escala global de ECharts (\`ky\`) y el espacio disponible en la columna.
+2. **Recortar el texto al layout real** — Tras renderizar, mide la altura real de cada nodo y recorta \`displayLabel\` con ellipsis (\`…\`), priorizando el porcentaje \`(X.X%)\`.
+3. **Clip de seguridad** — \`labelLayout\` limita ancho y alto al rectángulo del nodo con \`overflow: truncate\`.
+
+El **tooltip** siempre muestra el nombre completo al pasar el mouse. Ver la story **LowValueLabelTruncation** para un caso con ramas del 1–5 % y nombres largos.
+        `,
+      },
+    },
+  },
   argTypes: {
     useGradient: {
       control: 'boolean',
@@ -225,6 +244,23 @@ const longInsideLabelData = {
   ],
 };
 
+// Data: ramas con valor muy bajo y nombres largos (ellipsis forzado)
+const lowValueTruncationData = {
+  nodes: [
+    { name: 'Checkin Init', status: 'success' as const },
+    { name: 'Checkin Completed', status: 'success' as const },
+    { name: 'Abandoned: User closed browser without completing', status: 'abandon' as const },
+    { name: 'Error: Payment gateway timeout on final retry', status: 'error' as const },
+    { name: 'Error: Invalid travel document format uploaded', status: 'error' as const },
+  ],
+  links: [
+    { source: 'Checkin Init', target: 'Checkin Completed', value: 940 },
+    { source: 'Checkin Init', target: 'Abandoned: User closed browser without completing', value: 35 },
+    { source: 'Checkin Init', target: 'Error: Payment gateway timeout on final retry', value: 18 },
+    { source: 'Checkin Init', target: 'Error: Invalid travel document format uploaded', value: 7 },
+  ],
+};
+
 // Story: BM funnel with semantic colors and success percentages
 export const BusinessMetricsFunnel: Story = {
   args: {
@@ -239,6 +275,25 @@ export const BusinessMetricsFunnel: Story = {
       description: {
         story:
           'Business Metrics funnel with semantic colors (green/orange/red), success→abandon→error ordering per column, node percentages against the funnel total, and link percentages against the immediately preceding node.',
+      },
+    },
+  },
+};
+
+// Story: valores bajos donde el nodo no alcanza a cubrir el texto completo
+export const LowValueLabelTruncation: Story = {
+  args: {
+    data: lowValueTruncationData,
+    title: 'Low-value branches with long labels',
+    height: '420px',
+    useGradient: false,
+    nodeGap: 16,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Ramas del 1–4 % con nombres largos: el nodo crece lo que puede dentro de la columna y, si aún no alcanza, la etiqueta se recorta con ellipsis. El porcentaje se mantiene visible; el nombre completo aparece en el tooltip.',
       },
     },
   },

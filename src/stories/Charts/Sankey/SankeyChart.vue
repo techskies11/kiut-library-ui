@@ -36,14 +36,14 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, watch, nextTick, toRef, computed } from 'vue';
 import * as echarts from 'echarts/core';
-import { TooltipComponent, TitleComponent, GraphicComponent } from 'echarts/components';
+import { TooltipComponent, TitleComponent } from 'echarts/components';
 import { SankeyChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 import { useBreakpoint, type Breakpoint } from '../../../composables/useBreakpoint';
 import { formatSankeyPercentage } from './sankeyFormatters';
 
-echarts.use([TooltipComponent, TitleComponent, GraphicComponent, SankeyChart, CanvasRenderer]);
+echarts.use([TooltipComponent, TitleComponent, SankeyChart, CanvasRenderer]);
 
 type SankeyNodeStatus = 'success' | 'abandon' | 'error';
 
@@ -845,14 +845,17 @@ const readSankeyNodeLayouts = (
 
     const layouts: SankeyNodeLayout[] = [];
     const count = data.count();
+
     for (let idx = 0; idx < count; idx += 1) {
       const layout = data.getItemLayout(idx);
       if (!layout || layout.dx == null || layout.dy == null) continue;
+
       const name =
-        processedNodes[idx]?.name ||
         data.getName(idx) ||
-        data.get('name', idx);
+        data.get('name', idx) ||
+        processedNodes[idx]?.name;
       if (!name) continue;
+
       layouts.push({
         name: String(name),
         x: layout.x ?? 0,
@@ -861,61 +864,11 @@ const readSankeyNodeLayouts = (
         dy: layout.dy,
       });
     }
+
     return layouts;
   } catch {
     return [];
   }
-};
-
-const buildInsideLabelGraphics = (
-  processedNodes: SankeyNode[],
-  layouts: SankeyNodeLayout[],
-  cfg: {
-    orient: 'horizontal' | 'vertical';
-    labelFontSize: number;
-    labelLineHeight: number;
-  },
-): Record<string, unknown>[] => {
-  const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
-
-  return layouts.map((layout) => {
-    const node = processedNodes.find((item) => item.name === layout.name);
-    const nodeW = cfg.orient === 'vertical' ? layout.dy : layout.dx;
-    const nodeH = cfg.orient === 'vertical' ? layout.dx : layout.dy;
-    const text = node?.displayLabel || layout.name;
-    const compact = nodeH < lineHeight * 1.75;
-
-    return {
-      type: 'group',
-      silent: true,
-      z: 100,
-      left: layout.x,
-      top: layout.y,
-      clipPath: {
-        type: 'rect',
-        shape: { x: 0, y: 0, width: nodeW, height: nodeH },
-      },
-      children: [
-        {
-          type: 'text',
-          x: nodeW / 2,
-          y: compact ? LABEL_PAD_Y : nodeH / 2,
-          style: {
-            text,
-            fill: '#ffffff',
-            fontSize: cfg.labelFontSize,
-            fontWeight: 700,
-            fontFamily: 'Inter, sans-serif',
-            textAlign: 'center',
-            textVerticalAlign: compact ? 'top' : 'middle',
-            lineHeight,
-            width: Math.max(nodeW - LABEL_PAD_X * 2, 20),
-            overflow: 'truncate',
-          },
-        },
-      ],
-    };
-  });
 };
 
 const syncInsideLabelsAfterLayout = (
@@ -967,10 +920,15 @@ const syncInsideLabelsAfterLayout = (
   try {
     chartInstance.setOption(
       {
-        graphic: buildInsideLabelGraphics(processedNodes, layouts, cfg),
+        series: [
+          {
+            type: 'sankey',
+            data: processedNodes,
+          },
+        ],
         animationDurationUpdate: 0,
       },
-      { replaceMerge: ['graphic'], silent: true },
+      { silent: true },
     );
   } catch (error) {
     console.warn('Sankey inside labels could not be synced:', error);
@@ -1217,7 +1175,7 @@ const setOptions = () => {
             borderWidth: 0,
           },
           label: {
-            show: cfg.labelPosition !== 'inside',
+            show: true,
             position: cfg.labelPosition,
             color: nodeLabelColor,
             fontWeight: 700,
@@ -1228,6 +1186,7 @@ const setOptions = () => {
             verticalAlign: 'middle',
             overflow: 'truncate',
             ellipsis: LABEL_ELLIPSIS,
+            lineOverflow: 'truncate',
             ...(cfg.orient === 'horizontal'
               ? { width: Math.max(maxNodeWidth - LABEL_PAD_X * 2, 48) }
               : cfg.labelWrap && cfg.labelTextWidth > 0
@@ -1237,6 +1196,20 @@ const setOptions = () => {
             fontFamily: "'Inter', 'DM Sans', sans-serif",
             formatter: (params: any) => params.data?.displayLabel || params.name || '',
           },
+          labelLayout: cfg.labelPosition === 'inside'
+            ? (params: any) => {
+                const rect = params?.rect;
+                if (!rect) return {};
+                return {
+                  width: Math.max(rect.width - LABEL_PAD_X * 2, 8),
+                  height: Math.max(rect.height - LABEL_PAD_Y * 2, 8),
+                  overflow: 'truncate',
+                  ellipsis: LABEL_ELLIPSIS,
+                  verticalAlign: 'middle',
+                  align: 'center',
+                };
+              }
+            : undefined,
           edgeLabel: cfg.edgeLabelShow
             ? {
                 show: true,
@@ -1260,7 +1233,6 @@ const setOptions = () => {
           ...contentMargins,
         },
       ],
-      graphic: cfg.labelPosition === 'inside' ? [] : undefined,
       backgroundColor: 'transparent',
       animation: true,
       animationDuration: CHART_CONFIG.animation.duration,
