@@ -24,6 +24,16 @@ describe('buildCheckinKpiFromRecord', () => {
     expect(result.abandonRatePct).toBeCloseTo(12.79, 2)
   })
 
+  it('maps average interactions to complete with one decimal', () => {
+    const result = buildCheckinKpiFromRecord({
+      total_checkin_initiated: 10,
+      avg_checkin_interactions_to_complete: 7.42,
+    })
+
+    expect(result.avgInteractionsToComplete).toBe(7.42)
+    expect(result.avgInteractionsToCompleteFormatted).toBe('7.4')
+  })
+
   it('falls back to failed payload when record has no failed total', () => {
     const result = buildCheckinKpiFromRecord(
       { total_checkin_initiated: 100, total_record_locator_closed: 80 },
@@ -45,6 +55,8 @@ describe('buildCheckinKpiFromRecord', () => {
       abandonCount: 0,
       avgCompletionTimeSeconds: null,
       avgCompletionTimeFormatted: null,
+      avgInteractionsToComplete: null,
+      avgInteractionsToCompleteFormatted: null,
     })
   })
 })
@@ -70,5 +82,6 @@ describe('mergeCheckinKpiWithPrevious', () => {
     expect(merged.previousSuccessRatePct).toBeCloseTo(76.81, 2)
     expect(merged.previousErrorRatePct).toBeCloseTo(8.57, 2)
     expect(merged.previousAbandonRatePct).toBeCloseTo(12.98, 2)
+    expect(merged.previousAvgInteractionsToComplete).toBeNull()
   })
 })

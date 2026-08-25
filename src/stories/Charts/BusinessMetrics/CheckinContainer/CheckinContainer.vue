@@ -49,6 +49,19 @@
         :export-loading="exportLoading"
         @export="(fmt) => handleChildExport('checkinVolume', fmt)"
       />
+      <CheckinInteractions
+        class="w-full min-h-0"
+        :loading="effectiveCheckinLoading"
+        :data="interactionsData"
+        :theme="theme"
+        :title="interactionsTitle"
+        :subtitle="interactionsSubtitle"
+        :empty-title="interactionsEmptyTitle"
+        :empty-description="interactionsEmptyDescription"
+        :enable-export="enableExport"
+        :export-loading="exportLoading"
+        @export="(fmt) => handleChildExport('checkinInteractions', fmt)"
+      />
       <CheckinCompletionTime
         class="w-full min-h-0"
         :loading="effectiveCheckinLoading"
@@ -80,6 +93,9 @@ import {
 } from '../CheckinKPI/buildCheckinKpiFromRecord'
 import type { CheckinKpiLabels, CheckinKpiProps } from '../CheckinKPI/checkinKpiTypes'
 import CheckinVolume from '../CheckinVolume/CheckinVolume.vue'
+import CheckinInteractions, {
+  type CheckinInteractionsData,
+} from '../CheckinInteractions/CheckinInteractions.vue'
 import CheckinCompletionTime, {
   type CheckinCompletionTimeData,
 } from '../CheckinCompletionTime/CheckinCompletionTime.vue'
@@ -101,6 +117,7 @@ export type CheckinContainerExportSource =
   | 'checkin'
   | 'checkinSegments'
   | 'checkinVolume'
+  | 'checkinInteractions'
   | 'checkinCompletionTime'
 
 export interface CheckinContainerExportPayload {
@@ -139,6 +156,12 @@ const props = withDefaults(
     segmentsData?: SegmentDatum[];
     /** Show Create Payment column in check-in table (Avianca). Maps to CheckinMetrics `isAvianca`. */
     showPaymentLinks?: boolean
+    /** Daily avg interactions series (checkin-avg-interactions-metrics API). */
+    interactionsData?: CheckinInteractionsData | null
+    interactionsTitle?: string
+    interactionsSubtitle?: string
+    interactionsEmptyTitle?: string
+    interactionsEmptyDescription?: string
     /** Daily avg completion time series (checkin-completion-time-metrics API). */
     completionTimeData?: CheckinCompletionTimeData | null
     completionTimeTitle?: string

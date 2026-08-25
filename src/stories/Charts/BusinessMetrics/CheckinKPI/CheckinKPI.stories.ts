@@ -31,6 +31,12 @@ export const Default: Story = {
     abandonRatePct: 12.8,
     abandonCount: 220,
     previousAbandonRatePct: 13.0,
+    avgCompletionTimeSeconds: 186,
+    avgCompletionTimeFormatted: '3m 6s',
+    previousAvgCompletionTimeSeconds: 210,
+    avgInteractionsToComplete: 7.4,
+    avgInteractionsToCompleteFormatted: '7.4',
+    previousAvgInteractionsToComplete: 8.0,
     loading: false,
   },
 }
@@ -59,6 +65,7 @@ export const CustomLabels: Story = {
       success: '% Éxito check-in',
       errors: '% Errores',
       abandon: '% Abandono',
+      avgInteractionsToComplete: 'Interacciones para completar',
     },
   },
 }

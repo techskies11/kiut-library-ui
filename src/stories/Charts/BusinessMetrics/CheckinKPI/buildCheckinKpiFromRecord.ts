@@ -9,6 +9,7 @@ export interface CheckinRecordKpiShape {
   total_checkin_pre_init_abandoned_voluntary?: number
   avg_checkin_completion_time_seconds?: number | null
   avg_checkin_completion_time_formatted?: string | null
+  avg_checkin_interactions_to_complete?: number | null
 }
 
 export interface CheckinFailedKpiShape {
@@ -20,6 +21,13 @@ export type CheckinKpiValues = Omit<CheckinKpiProps, 'loading' | 'theme' | 'labe
 function toPercent(count: number, initiated: number): number {
   if (!initiated) return 0
   return (count / initiated) * 100
+}
+
+function formatInteractions(value: number | null | undefined): string | null {
+  if (value === null || value === undefined || Number.isNaN(Number(value))) {
+    return null
+  }
+  return Number(value).toFixed(1)
 }
 
 export function buildCheckinKpiFromRecord(
@@ -34,6 +42,7 @@ export function buildCheckinKpiFromRecord(
     (record?.total_checkin_pre_init_abandoned_error ?? 0) +
     (record?.total_checkin_pre_init_abandoned_voluntary ?? 0) +
     (record?.total_record_locator_init_abandoned ?? 0)
+  const avgInteractions = record?.avg_checkin_interactions_to_complete ?? null
 
   return {
     checkinInitiated: initiated,
@@ -45,6 +54,8 @@ export function buildCheckinKpiFromRecord(
     abandonCount: abandon,
     avgCompletionTimeSeconds: record?.avg_checkin_completion_time_seconds ?? null,
     avgCompletionTimeFormatted: record?.avg_checkin_completion_time_formatted ?? null,
+    avgInteractionsToComplete: avgInteractions,
+    avgInteractionsToCompleteFormatted: formatInteractions(avgInteractions),
   }
 }
 
@@ -60,6 +71,7 @@ export function mergeCheckinKpiWithPrevious(
       previousErrorRatePct: null,
       previousAbandonRatePct: null,
       previousAvgCompletionTimeSeconds: null,
+      previousAvgInteractionsToComplete: null,
     }
   }
 
@@ -70,5 +82,6 @@ export function mergeCheckinKpiWithPrevious(
     previousErrorRatePct: previous.errorRatePct ?? null,
     previousAbandonRatePct: previous.abandonRatePct ?? null,
     previousAvgCompletionTimeSeconds: previous.avgCompletionTimeSeconds ?? null,
+    previousAvgInteractionsToComplete: previous.avgInteractionsToComplete ?? null,
   }
 }

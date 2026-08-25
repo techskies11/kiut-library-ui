@@ -14,6 +14,9 @@ const mockCheckinData = {
   total_checkin_pre_init_abandoned_error: 10,
   total_checkin_pre_init_abandoned_voluntary: 10,
   total_checkin_initiated: 1720,
+  avg_checkin_completion_time_seconds: 186,
+  avg_checkin_completion_time_formatted: '3m 6s',
+  avg_checkin_interactions_to_complete: 7.4,
   record_locator_by_day: [
     {
       date: '2025-12-03',
@@ -85,6 +88,7 @@ const mockPreviousCheckinData = {
   total_record_locator_init_abandoned: 196,
   total_checkin_pre_init_abandoned_error: 8,
   total_checkin_pre_init_abandoned_voluntary: 8,
+  avg_checkin_interactions_to_complete: 8.0,
 }
 
 const mockPreviousCheckinFailedData = {
@@ -142,14 +146,14 @@ const meta = {
     exportLoading: { control: 'boolean' },
     onExport: {
       action: 'export',
-      description: 'Payload { source, format } (checkin | checkinSegments | checkinVolume)',
+      description: 'Payload { source, format } (checkin | checkinSegments | checkinVolume | checkinInteractions | checkinCompletionTime)',
     },
   },
   parameters: {
     docs: {
       description: {
         component:
-          'Agrupa métricas Check-in (Sankey CheckinMetrics.vue), Checkin Segments y Checkin Volume bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments | checkinVolume.',
+          'Agrupa métricas Check-in (Sankey CheckinMetrics.vue), Checkin Segments, Checkin Volume, Checkin Interactions y Checkin Completion Time bajo un único colapsable “Check in”. Los exports pueden indicar origen checkin | checkinSegments | checkinVolume | checkinInteractions | checkinCompletionTime.',
       },
     },
   },
@@ -171,6 +175,14 @@ export const Default: Story = {
     checkinData: mockCheckinData,
     checkinFailedData: mockCheckinFailedData,
     segmentsData: mockSegmentsData,
+    interactionsData: {
+      avg_checkin_interactions_to_complete: 7.4,
+      avg_checkin_interactions_by_day: {
+        '2025-11-19': 8.1,
+        '2025-12-02': 7.0,
+        '2025-12-03': 6.5,
+      },
+    },
   },
 }
 
