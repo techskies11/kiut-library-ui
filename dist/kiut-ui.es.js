@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import { defineComponent as de, shallowRef as ll, h as at, ref as Q, onMounted as ht, onUnmounted as yt, watch as Ie, toRaw as Ro, nextTick as et, version as jr, isProxy as rl, computed as C, toRef as Be, openBlock as f, createElementBlock as x, normalizeStyle as Ae, createVNode as V, unref as A, createElementVNode as d, Fragment as ie, renderList as pe, normalizeClass as K, toDisplayString as T, createCommentVNode as I, onBeforeUnmount as cl, createStaticVNode as Eo, useSlots as Uo, renderSlot as De, Transition as Tt, withCtx as F, Comment as Hr, createBlock as Z, resolveDynamicComponent as Dt, createTextVNode as Re, Teleport as ua, withDirectives as rt, withModifiers as Fe, vModelText as aa, vShow as qt, mergeProps as It, createSlots as Un, useAttrs as wn, withKeys as La, inject as dl } from "vue";
 import * as bs from "echarts/core";
 import { TooltipComponent as Wr, TitleComponent as Kr } from "echarts/components";
 import { SankeyChart as Ur } from "echarts/charts";
 import { CanvasRenderer as Yr } from "echarts/renderers";
 import Ye from "moment";
+=======
+import { defineComponent as ce, shallowRef as ll, h as at, ref as Q, onMounted as ht, onUnmounted as yt, watch as Ie, toRaw as Eo, nextTick as et, version as zr, isProxy as rl, computed as C, toRef as Be, openBlock as g, createElementBlock as x, normalizeStyle as Ae, createVNode as V, unref as A, createElementVNode as d, Fragment as ie, renderList as pe, normalizeClass as K, toDisplayString as T, createCommentVNode as I, onBeforeUnmount as cl, createStaticVNode as Ro, useSlots as Uo, renderSlot as De, Transition as Tt, withCtx as F, Comment as jr, createBlock as Z, resolveDynamicComponent as Dt, createTextVNode as Ee, Teleport as ua, withDirectives as rt, withModifiers as Fe, vModelText as aa, vShow as qt, mergeProps as It, createSlots as Un, useAttrs as wn, withKeys as La, inject as dl } from "vue";
+import * as bs from "echarts/core";
+import { TooltipComponent as Hr, TitleComponent as Wr } from "echarts/components";
+import { SankeyChart as Kr } from "echarts/charts";
+import { CanvasRenderer as Ur } from "echarts/renderers";
+import je from "moment";
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function Cn(e) {
   return e + 0.5 | 0;
 }
@@ -20,8 +29,13 @@ function ra(e) {
 function vs(e) {
   return ya(Cn(e * 100), 0, 100);
 }
+<<<<<<< HEAD
 const zt = { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, A: 10, B: 11, C: 12, D: 13, E: 14, F: 15, a: 10, b: 11, c: 12, d: 13, e: 14, f: 15 }, Io = [..."0123456789ABCDEF"], qr = (e) => Io[e & 15], Gr = (e) => Io[(e & 240) >> 4] + Io[e & 15], Sn = (e) => (e & 240) >> 4 === (e & 15), Xr = (e) => Sn(e.r) && Sn(e.g) && Sn(e.b) && Sn(e.a);
 function Zr(e) {
+=======
+const zt = { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, A: 10, B: 11, C: 12, D: 13, E: 14, F: 15, a: 10, b: 11, c: 12, d: 13, e: 14, f: 15 }, Io = [..."0123456789ABCDEF"], Yr = (e) => Io[e & 15], qr = (e) => Io[(e & 240) >> 4] + Io[e & 15], Sn = (e) => (e & 240) >> 4 === (e & 15), Gr = (e) => Sn(e.r) && Sn(e.g) && Sn(e.b) && Sn(e.a);
+function Xr(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   var t = e.length, a;
   return e[0] === "#" && (t === 4 || t === 5 ? a = {
     r: 255 & zt[e[1]] * 17,
@@ -35,40 +49,66 @@ function Zr(e) {
     a: t === 9 ? zt[e[7]] << 4 | zt[e[8]] : 255
   })), a;
 }
+<<<<<<< HEAD
 const Qr = (e, t) => e < 255 ? t(e) : "";
 function Jr(e) {
   var t = Xr(e) ? qr : Gr;
   return e ? "#" + t(e.r) + t(e.g) + t(e.b) + Qr(e.a, t) : void 0;
 }
 const ec = /^(hsla?|hwb|hsv)\(\s*([-+.e\d]+)(?:deg)?[\s,]+([-+.e\d]+)%[\s,]+([-+.e\d]+)%(?:[\s,]+([-+.e\d]+)(%)?)?\s*\)$/;
+=======
+const Zr = (e, t) => e < 255 ? t(e) : "";
+function Qr(e) {
+  var t = Gr(e) ? Yr : qr;
+  return e ? "#" + t(e.r) + t(e.g) + t(e.b) + Zr(e.a, t) : void 0;
+}
+const Jr = /^(hsla?|hwb|hsv)\(\s*([-+.e\d]+)(?:deg)?[\s,]+([-+.e\d]+)%[\s,]+([-+.e\d]+)%(?:[\s,]+([-+.e\d]+)(%)?)?\s*\)$/;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function ul(e, t, a) {
   const n = t * Math.min(a, 1 - a), o = (s, i = (s + e / 30) % 12) => a - n * Math.max(Math.min(i - 3, 9 - i, 1), -1);
   return [o(0), o(8), o(4)];
 }
+<<<<<<< HEAD
 function tc(e, t, a) {
   const n = (o, s = (o + e / 60) % 6) => a - a * t * Math.max(Math.min(s, 4 - s, 1), 0);
   return [n(5), n(3), n(1)];
 }
 function ac(e, t, a) {
+=======
+function ec(e, t, a) {
+  const n = (o, s = (o + e / 60) % 6) => a - a * t * Math.max(Math.min(s, 4 - s, 1), 0);
+  return [n(5), n(3), n(1)];
+}
+function tc(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = ul(e, 1, 0.5);
   let o;
   for (t + a > 1 && (o = 1 / (t + a), t *= o, a *= o), o = 0; o < 3; o++)
     n[o] *= 1 - t - a, n[o] += t;
   return n;
 }
+<<<<<<< HEAD
 function nc(e, t, a, n, o) {
+=======
+function ac(e, t, a, n, o) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return e === o ? (t - a) / n + (t < a ? 6 : 0) : t === o ? (a - e) / n + 2 : (e - t) / n + 4;
 }
 function Yo(e) {
   const a = e.r / 255, n = e.g / 255, o = e.b / 255, s = Math.max(a, n, o), i = Math.min(a, n, o), l = (s + i) / 2;
   let r, c, u;
+<<<<<<< HEAD
   return s !== i && (u = s - i, c = l > 0.5 ? u / (2 - s - i) : u / (s + i), r = nc(a, n, o, u, s), r = r * 60 + 0.5), [r | 0, c || 0, l];
+=======
+  return s !== i && (u = s - i, c = l > 0.5 ? u / (2 - s - i) : u / (s + i), r = ac(a, n, o, u, s), r = r * 60 + 0.5), [r | 0, c || 0, l];
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function qo(e, t, a, n) {
   return (Array.isArray(t) ? e(t[0], t[1], t[2]) : e(t, a, n)).map(_a);
 }
 function Go(e, t, a) {
   return qo(ul, e, t, a);
+<<<<<<< HEAD
 }
 function oc(e, t, a) {
   return qo(ac, e, t, a);
@@ -81,23 +121,49 @@ function hl(e) {
 }
 function ic(e) {
   const t = ec.exec(e);
+=======
+}
+function nc(e, t, a) {
+  return qo(tc, e, t, a);
+}
+function oc(e, t, a) {
+  return qo(ec, e, t, a);
+}
+function hl(e) {
+  return (e % 360 + 360) % 360;
+}
+function sc(e) {
+  const t = Jr.exec(e);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let a = 255, n;
   if (!t)
     return;
   t[5] !== n && (a = t[6] ? sn(+t[5]) : _a(+t[5]));
   const o = hl(+t[2]), s = +t[3] / 100, i = +t[4] / 100;
+<<<<<<< HEAD
   return t[1] === "hwb" ? n = oc(o, s, i) : t[1] === "hsv" ? n = sc(o, s, i) : n = Go(o, s, i), {
+=======
+  return t[1] === "hwb" ? n = nc(o, s, i) : t[1] === "hsv" ? n = oc(o, s, i) : n = Go(o, s, i), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     r: n[0],
     g: n[1],
     b: n[2],
     a
   };
 }
+<<<<<<< HEAD
 function lc(e, t) {
   var a = Yo(e);
   a[0] = hl(a[0] + t), a = Go(a), e.r = a[0], e.g = a[1], e.b = a[2];
 }
 function rc(e) {
+=======
+function ic(e, t) {
+  var a = Yo(e);
+  a[0] = hl(a[0] + t), a = Go(a), e.r = a[0], e.g = a[1], e.b = a[2];
+}
+function lc(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!e)
     return;
   const t = Yo(e), a = t[0], n = vs(t[1]), o = vs(t[2]);
@@ -281,7 +347,11 @@ const ys = {
   Lw: "ffff00",
   LwgYF: "9acd32"
 };
+<<<<<<< HEAD
 function cc() {
+=======
+function rc() {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const e = {}, t = Object.keys(xs), a = Object.keys(ys);
   let n, o, s, i, l;
   for (n = 0; n < t.length; n++) {
@@ -292,8 +362,13 @@ function cc() {
   return e;
 }
 let Mn;
+<<<<<<< HEAD
 function dc(e) {
   Mn || (Mn = cc(), Mn.transparent = [0, 0, 0, 0]);
+=======
+function cc(e) {
+  Mn || (Mn = rc(), Mn.transparent = [0, 0, 0, 0]);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = Mn[e.toLowerCase()];
   return t && {
     r: t[0],
@@ -302,9 +377,15 @@ function dc(e) {
     a: t.length === 4 ? t[3] : 255
   };
 }
+<<<<<<< HEAD
 const uc = /^rgba?\(\s*([-+.\d]+)(%)?[\s,]+([-+.e\d]+)(%)?[\s,]+([-+.e\d]+)(%)?(?:[\s,/]+([-+.e\d]+)(%)?)?\s*\)$/;
 function hc(e) {
   const t = uc.exec(e);
+=======
+const dc = /^rgba?\(\s*([-+.\d]+)(%)?[\s,]+([-+.e\d]+)(%)?[\s,]+([-+.e\d]+)(%)?(?:[\s,/]+([-+.e\d]+)(%)?)?\s*\)$/;
+function uc(e) {
+  const t = dc.exec(e);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let a = 255, n, o, s;
   if (t) {
     if (t[7] !== n) {
@@ -319,11 +400,19 @@ function hc(e) {
     };
   }
 }
+<<<<<<< HEAD
 function fc(e) {
   return e && (e.a < 255 ? `rgba(${e.r}, ${e.g}, ${e.b}, ${ra(e.a)})` : `rgb(${e.r}, ${e.g}, ${e.b})`);
 }
 const mo = (e) => e <= 31308e-7 ? e * 12.92 : Math.pow(e, 1 / 2.4) * 1.055 - 0.055, Fa = (e) => e <= 0.04045 ? e / 12.92 : Math.pow((e + 0.055) / 1.055, 2.4);
 function gc(e, t, a) {
+=======
+function hc(e) {
+  return e && (e.a < 255 ? `rgba(${e.r}, ${e.g}, ${e.b}, ${ra(e.a)})` : `rgb(${e.r}, ${e.g}, ${e.b})`);
+}
+const mo = (e) => e <= 31308e-7 ? e * 12.92 : Math.pow(e, 1 / 2.4) * 1.055 - 0.055, Fa = (e) => e <= 0.04045 ? e / 12.92 : Math.pow((e + 0.055) / 1.055, 2.4);
+function fc(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = Fa(ra(e.r)), o = Fa(ra(e.g)), s = Fa(ra(e.b));
   return {
     r: _a(mo(n + a * (Fa(ra(t.r)) - n))),
@@ -345,8 +434,13 @@ function ks(e) {
   var t = { r: 0, g: 0, b: 0, a: 255 };
   return Array.isArray(e) ? e.length >= 3 && (t = { r: e[0], g: e[1], b: e[2], a: 255 }, e.length > 3 && (t.a = _a(e[3]))) : (t = fl(e, { r: 0, g: 0, b: 0, a: 1 }), t.a = _a(t.a)), t;
 }
+<<<<<<< HEAD
 function mc(e) {
   return e.charAt(0) === "r" ? hc(e) : ic(e);
+=======
+function gc(e) {
+  return e.charAt(0) === "r" ? uc(e) : sc(e);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 class fn {
   constructor(t) {
@@ -354,7 +448,11 @@ class fn {
       return t;
     const a = typeof t;
     let n;
+<<<<<<< HEAD
     a === "object" ? n = ks(t) : a === "string" && (n = Zr(t) || dc(t) || mc(t)), this._rgb = n, this._valid = !!n;
+=======
+    a === "object" ? n = ks(t) : a === "string" && (n = Xr(t) || cc(t) || gc(t)), this._rgb = n, this._valid = !!n;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   get valid() {
     return this._valid;
@@ -367,6 +465,7 @@ class fn {
     this._rgb = ks(t);
   }
   rgbString() {
+<<<<<<< HEAD
     return this._valid ? fc(this._rgb) : void 0;
   }
   hexString() {
@@ -374,6 +473,15 @@ class fn {
   }
   hslString() {
     return this._valid ? rc(this._rgb) : void 0;
+=======
+    return this._valid ? hc(this._rgb) : void 0;
+  }
+  hexString() {
+    return this._valid ? Qr(this._rgb) : void 0;
+  }
+  hslString() {
+    return this._valid ? lc(this._rgb) : void 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   mix(t, a) {
     if (t) {
@@ -385,7 +493,11 @@ class fn {
     return this;
   }
   interpolate(t, a) {
+<<<<<<< HEAD
     return t && (this._rgb = gc(this._rgb, t._rgb, a)), this;
+=======
+    return t && (this._rgb = fc(this._rgb, t._rgb, a)), this;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   clone() {
     return new fn(this.rgb);
@@ -422,12 +534,20 @@ class fn {
     return Dn(this._rgb, 1, -t), this;
   }
   rotate(t) {
+<<<<<<< HEAD
     return lc(this._rgb, t), this;
+=======
+    return ic(this._rgb, t), this;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
 }
 function sa() {
 }
+<<<<<<< HEAD
 const pc = /* @__PURE__ */ (() => {
+=======
+const mc = /* @__PURE__ */ (() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let e = 0;
   return () => e++;
 })();
@@ -443,21 +563,25 @@ function dt(e) {
 function Oe(e) {
   return e !== null && Object.prototype.toString.call(e) === "[object Object]";
 }
-function wt(e) {
+function Ct(e) {
   return (typeof e == "number" || e instanceof Number) && isFinite(+e);
 }
 function Qt(e, t) {
-  return wt(e) ? e : t;
+  return Ct(e) ? e : t;
 }
-function Ee(e, t) {
+function Re(e, t) {
   return typeof e > "u" ? t : e;
 }
+<<<<<<< HEAD
 const bc = (e, t) => typeof e == "string" && e.endsWith("%") ? parseFloat(e) / 100 : +e / t, gl = (e, t) => typeof e == "string" && e.endsWith("%") ? parseFloat(e) / 100 * t : +e;
+=======
+const pc = (e, t) => typeof e == "string" && e.endsWith("%") ? parseFloat(e) / 100 : +e / t, gl = (e, t) => typeof e == "string" && e.endsWith("%") ? parseFloat(e) / 100 * t : +e;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function Je(e, t, a) {
   if (e && typeof e.call == "function")
     return e.apply(a, t);
 }
-function We(e, t, a, n) {
+function Ke(e, t, a, n) {
   let o, s, i;
   if (dt(e))
     for (s = e.length, o = 0; o < s; o++)
@@ -494,7 +618,11 @@ function ml(e) {
     "constructor"
   ].indexOf(e) === -1;
 }
+<<<<<<< HEAD
 function vc(e, t, a, n) {
+=======
+function bc(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!ml(e))
     return;
   const o = t[e], s = a[e];
@@ -507,7 +635,11 @@ function gn(e, t, a) {
   if (!Oe(e))
     return e;
   a = a || {};
+<<<<<<< HEAD
   const s = a.merger || vc;
+=======
+  const s = a.merger || bc;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let i;
   for (let l = 0; l < o; ++l) {
     if (i = n[l], !Oe(i))
@@ -520,10 +652,17 @@ function gn(e, t, a) {
 }
 function cn(e, t) {
   return gn(e, t, {
+<<<<<<< HEAD
     merger: yc
   });
 }
 function yc(e, t, a) {
+=======
+    merger: vc
+  });
+}
+function vc(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!ml(e))
     return;
   const n = t[e], o = a[e];
@@ -536,15 +675,24 @@ const _s = {
   x: (e) => e.x,
   y: (e) => e.y
 };
+<<<<<<< HEAD
 function xc(e) {
+=======
+function yc(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = e.split("."), a = [];
   let n = "";
   for (const o of t)
     n += o, n.endsWith("\\") ? n = n.slice(0, -1) + "." : (a.push(n), n = "");
   return a;
 }
+<<<<<<< HEAD
 function kc(e) {
   const t = xc(e);
+=======
+function xc(e) {
+  const t = yc(e);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return (a) => {
     for (const n of t) {
       if (n === "")
@@ -555,7 +703,11 @@ function kc(e) {
   };
 }
 function Pa(e, t) {
+<<<<<<< HEAD
   return (_s[t] || (_s[t] = kc(t)))(e);
+=======
+  return (_s[t] || (_s[t] = xc(t)))(e);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Xo(e) {
   return e.charAt(0).toUpperCase() + e.slice(1);
@@ -568,10 +720,17 @@ const mn = (e) => typeof e < "u", wa = (e) => typeof e == "function", ws = (e, t
       return !1;
   return !0;
 };
+<<<<<<< HEAD
 function _c(e) {
   return e.type === "mouseup" || e.type === "click" || e.type === "contextmenu";
 }
 const Ue = Math.PI, nt = 2 * Ue, wc = nt + Ue, Gn = Number.POSITIVE_INFINITY, Cc = Ue / 180, mt = Ue / 2, $a = Ue / 4, Cs = Ue * 2 / 3, pl = Math.log10, na = Math.sign;
+=======
+function kc(e) {
+  return e.type === "mouseup" || e.type === "click" || e.type === "contextmenu";
+}
+const Ye = Math.PI, nt = 2 * Ye, _c = nt + Ye, Gn = Number.POSITIVE_INFINITY, wc = Ye / 180, mt = Ye / 2, $a = Ye / 4, Cs = Ye * 2 / 3, pl = Math.log10, na = Math.sign;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function dn(e, t, a) {
   return Math.abs(e - t) < a;
 }
@@ -581,13 +740,18 @@ function $s(e) {
   const a = Math.pow(10, Math.floor(pl(e))), n = e / a;
   return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * a;
 }
+<<<<<<< HEAD
 function $c(e) {
+=======
+function Cc(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = [], a = Math.sqrt(e);
   let n;
   for (n = 1; n < a; n++)
     e % n === 0 && (t.push(n), t.push(e / n));
   return a === (a | 0) && t.push(a), t.sort((o, s) => o - s).pop(), t;
 }
+<<<<<<< HEAD
 function Sc(e) {
   return typeof e == "symbol" || typeof e == "object" && e !== null && !(Symbol.toPrimitive in e || "toString" in e || "valueOf" in e);
 }
@@ -599,11 +763,25 @@ function Mc(e, t) {
   return a - t <= e && a + t >= e;
 }
 function Dc(e, t, a) {
+=======
+function $c(e) {
+  return typeof e == "symbol" || typeof e == "object" && e !== null && !(Symbol.toPrimitive in e || "toString" in e || "valueOf" in e);
+}
+function pn(e) {
+  return !$c(e) && !isNaN(parseFloat(e)) && isFinite(e);
+}
+function Sc(e, t) {
+  const a = Math.round(e);
+  return a - t <= e && a + t >= e;
+}
+function Mc(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let n, o, s;
   for (n = 0, o = e.length; n < o; n++)
     s = e[n][a], isNaN(s) || (t.min = Math.min(t.min, s), t.max = Math.max(t.max, s));
 }
 function ca(e) {
+<<<<<<< HEAD
   return e * (Ue / 180);
 }
 function Tc(e) {
@@ -611,6 +789,15 @@ function Tc(e) {
 }
 function Ss(e) {
   if (!wt(e))
+=======
+  return e * (Ye / 180);
+}
+function Dc(e) {
+  return e * (180 / Ye);
+}
+function Ss(e) {
+  if (!Ct(e))
+>>>>>>> 8a6bd9f (Sales Volume chart)
     return;
   let t = 1, a = 0;
   for (; Math.round(e * t) / t !== e; )
@@ -620,7 +807,7 @@ function Ss(e) {
 function bl(e, t) {
   const a = t.x - e.x, n = t.y - e.y, o = Math.sqrt(a * a + n * n);
   let s = Math.atan2(n, a);
-  return s < -0.5 * Ue && (s += nt), {
+  return s < -0.5 * Ye && (s += nt), {
     angle: s,
     distance: o
   };
@@ -628,8 +815,13 @@ function bl(e, t) {
 function Fo(e, t) {
   return Math.sqrt(Math.pow(t.x - e.x, 2) + Math.pow(t.y - e.y, 2));
 }
+<<<<<<< HEAD
 function Ac(e, t) {
   return (e - t + wc) % nt - Ue;
+=======
+function Tc(e, t) {
+  return (e - t + _c) % nt - Ye;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Nt(e) {
   return (e % nt + nt) % nt;
@@ -638,11 +830,16 @@ function bn(e, t, a, n) {
   const o = Nt(e), s = Nt(t), i = Nt(a), l = Nt(s - o), r = Nt(i - o), c = Nt(o - s), u = Nt(o - i);
   return o === s || o === i || n && s === i || l > r && c < u;
 }
-function kt(e, t, a) {
+function _t(e, t, a) {
   return Math.max(t, Math.min(a, e));
 }
+<<<<<<< HEAD
 function Bc(e) {
   return kt(e, -32768, 32767);
+=======
+function Ac(e) {
+  return _t(e, -32768, 32767);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function da(e, t, a, n = 1e-6) {
   return e >= Math.min(t, a) - n && e <= Math.max(t, a) + n;
@@ -660,8 +857,13 @@ function Zo(e, t, a) {
 const Aa = (e, t, a, n) => Zo(e, a, n ? (o) => {
   const s = e[o][t];
   return s < a || s === a && e[o + 1][t] === a;
+<<<<<<< HEAD
 } : (o) => e[o][t] < a), Lc = (e, t, a) => Zo(e, a, (n) => e[n][t] >= a);
 function Pc(e, t, a) {
+=======
+} : (o) => e[o][t] < a), Bc = (e, t, a) => Zo(e, a, (n) => e[n][t] >= a);
+function Lc(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let n = 0, o = e.length;
   for (; n < o && e[n] < t; )
     n++;
@@ -676,7 +878,11 @@ const vl = [
   "splice",
   "unshift"
 ];
+<<<<<<< HEAD
 function Rc(e, t) {
+=======
+function Pc(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (e._chartjs) {
     e._chartjs.listeners.push(t);
     return;
@@ -735,8 +941,13 @@ function Ec(e, t) {
     return t ? (clearTimeout(a), a = setTimeout(e, t, n)) : e.apply(this, n), t;
   };
 }
+<<<<<<< HEAD
 const Qo = (e) => e === "start" ? "left" : e === "end" ? "right" : "center", xt = (e, t, a) => e === "start" ? t : e === "end" ? a : (t + a) / 2, Ic = (e, t, a, n) => e === (n ? "left" : "right") ? a : e === "center" ? (t + a) / 2 : t;
 function Fc(e, t, a) {
+=======
+const Qo = (e) => e === "start" ? "left" : e === "end" ? "right" : "center", kt = (e, t, a) => e === "start" ? t : e === "end" ? a : (t + a) / 2, Rc = (e, t, a, n) => e === (n ? "left" : "right") ? a : e === "center" ? (t + a) / 2 : t;
+function Ic(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = t.length;
   let o = 0, s = n;
   if (e._sorted) {
@@ -744,14 +955,20 @@ function Fc(e, t, a) {
     if (p) {
       if (o = Math.min(
         // @ts-expect-error Need to type _parsed
+<<<<<<< HEAD
         Aa(r, u, g).lo,
         // @ts-expect-error Need to fix types on _lookupByKey
         a ? n : Aa(t, u, i.getPixelForValue(g)).lo
+=======
+        Aa(r, u, f).lo,
+        // @ts-expect-error Need to fix types on _lookupByKey
+        a ? n : Aa(t, u, i.getPixelForValue(f)).lo
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ), c) {
         const v = r.slice(0, o + 1).reverse().findIndex((b) => !je(b[l.axis]));
         o -= Math.max(0, v);
       }
-      o = kt(o, 0, n - 1);
+      o = _t(o, 0, n - 1);
     }
     if (m) {
       let v = Math.max(
@@ -764,7 +981,7 @@ function Fc(e, t, a) {
         const b = r.slice(v - 1).findIndex((y) => !je(y[l.axis]));
         v += Math.max(0, b);
       }
-      s = kt(v, o, n) - o;
+      s = _t(v, o, n) - o;
     } else
       s = n - o;
   }
@@ -773,7 +990,11 @@ function Fc(e, t, a) {
     count: s
   };
 }
+<<<<<<< HEAD
 function Oc(e) {
+=======
+function Fc(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { xScale: t, yScale: a, _scaleRanges: n } = e, o = {
     xmin: t.min,
     xmax: t.max,
@@ -801,7 +1022,7 @@ const Tn = (e) => e === 0 || e === 1, Ds = (e, t, a) => -(Math.pow(2, 10 * (e -=
   easeInOutQuint: (e) => (e /= 0.5) < 1 ? 0.5 * e * e * e * e * e : 0.5 * ((e -= 2) * e * e * e * e + 2),
   easeInSine: (e) => -Math.cos(e * mt) + 1,
   easeOutSine: (e) => Math.sin(e * mt),
-  easeInOutSine: (e) => -0.5 * (Math.cos(Ue * e) - 1),
+  easeInOutSine: (e) => -0.5 * (Math.cos(Ye * e) - 1),
   easeInExpo: (e) => e === 0 ? 0 : Math.pow(2, 10 * (e - 1)),
   easeOutExpo: (e) => e === 1 ? 1 : -Math.pow(2, -10 * e) + 1,
   easeInOutExpo: (e) => Tn(e) ? e : e < 0.5 ? 0.5 * Math.pow(2, 10 * (e * 2 - 1)) : 0.5 * (-Math.pow(2, -10 * (e * 2 - 1)) + 2),
@@ -842,18 +1063,30 @@ function As(e) {
 function po(e) {
   return Jo(e) ? e : new fn(e).saturate(0.5).darken(0.1).hexString();
 }
+<<<<<<< HEAD
 const Vc = [
+=======
+const Oc = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
   "x",
   "y",
   "borderWidth",
   "radius",
   "tension"
+<<<<<<< HEAD
 ], Nc = [
+=======
+], Vc = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
   "color",
   "borderColor",
   "backgroundColor"
 ];
+<<<<<<< HEAD
 function zc(e) {
+=======
+function Nc(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   e.set("animation", {
     delay: void 0,
     duration: 1e3,
@@ -870,11 +1103,19 @@ function zc(e) {
   }), e.set("animations", {
     colors: {
       type: "color",
+<<<<<<< HEAD
       properties: Nc
     },
     numbers: {
       type: "number",
       properties: Vc
+=======
+      properties: Vc
+    },
+    numbers: {
+      type: "number",
+      properties: Oc
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }), e.describe("animations", {
     _fallback: "animation"
@@ -914,7 +1155,11 @@ function zc(e) {
     }
   });
 }
+<<<<<<< HEAD
 function jc(e) {
+=======
+function zc(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   e.set("layout", {
     autoPadding: !0,
     padding: {
@@ -926,16 +1171,26 @@ function jc(e) {
   });
 }
 const Bs = /* @__PURE__ */ new Map();
+<<<<<<< HEAD
 function Hc(e, t) {
+=======
+function jc(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   t = t || {};
   const a = e + JSON.stringify(t);
   let n = Bs.get(a);
   return n || (n = new Intl.NumberFormat(e, t), Bs.set(a, n)), n;
 }
 function es(e, t, a) {
+<<<<<<< HEAD
   return Hc(t, a).format(e);
 }
 const Wc = {
+=======
+  return jc(t, a).format(e);
+}
+const Hc = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   values(e) {
     return dt(e) ? e : "" + e;
   },
@@ -946,7 +1201,11 @@ const Wc = {
     let o, s = e;
     if (a.length > 1) {
       const c = Math.max(Math.abs(a[0].value), Math.abs(a[a.length - 1].value));
+<<<<<<< HEAD
       (c < 1e-4 || c > 1e15) && (o = "scientific"), s = Kc(e, a);
+=======
+      (c < 1e-4 || c > 1e15) && (o = "scientific"), s = Wc(e, a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     const i = pl(Math.abs(s)), l = isNaN(i) ? 1 : Math.max(Math.min(-1 * Math.floor(i), 20), 0), r = {
       notation: o,
@@ -956,14 +1215,24 @@ const Wc = {
     return Object.assign(r, this.options.ticks.format), es(e, n, r);
   }
 };
+<<<<<<< HEAD
 function Kc(e, t) {
+=======
+function Wc(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let a = t.length > 3 ? t[2].value - t[1].value : t[1].value - t[0].value;
   return Math.abs(a) >= 1 && e !== Math.floor(e) && (a = e - Math.floor(e)), a;
 }
 var _l = {
+<<<<<<< HEAD
   formatters: Wc
 };
 function Uc(e) {
+=======
+  formatters: Hc
+};
+function Kc(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   e.set("scale", {
     display: !0,
     offset: !1,
@@ -1027,7 +1296,11 @@ function Uc(e) {
     _indexable: (t) => t !== "backdropPadding"
   });
 }
+<<<<<<< HEAD
 const Ra = /* @__PURE__ */ Object.create(null), Oo = /* @__PURE__ */ Object.create(null);
+=======
+const Ea = /* @__PURE__ */ Object.create(null), Oo = /* @__PURE__ */ Object.create(null);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function hn(e, t) {
   if (!t)
     return e;
@@ -1041,7 +1314,11 @@ function hn(e, t) {
 function bo(e, t, a) {
   return typeof t == "string" ? gn(hn(e, t), a) : gn(hn(e, ""), t);
 }
+<<<<<<< HEAD
 class Yc {
+=======
+class Uc {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   constructor(t, a) {
     this.animation = void 0, this.backgroundColor = "rgba(0,0,0,0.1)", this.borderColor = "rgba(0,0,0,0.1)", this.color = "#666", this.datasets = {}, this.devicePixelRatio = (n) => n.chart.platform.getDevicePixelRatio(), this.elements = {}, this.events = [
       "mousemove",
@@ -1071,7 +1348,11 @@ class Yc {
     return bo(Oo, t, a);
   }
   override(t, a) {
+<<<<<<< HEAD
     return bo(Ra, t, a);
+=======
+    return bo(Ea, t, a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   route(t, a, n, o) {
     const s = hn(this, t), i = hn(this, n), l = "_" + a;
@@ -1084,7 +1365,7 @@ class Yc {
         enumerable: !0,
         get() {
           const r = this[l], c = i[o];
-          return Oe(r) ? Object.assign({}, c, r) : Ee(r, c);
+          return Oe(r) ? Object.assign({}, c, r) : Re(r, c);
         },
         set(r) {
           this[l] = r;
@@ -1096,7 +1377,11 @@ class Yc {
     t.forEach((a) => a(this));
   }
 }
+<<<<<<< HEAD
 var lt = /* @__PURE__ */ new Yc({
+=======
+var lt = /* @__PURE__ */ new Uc({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   _scriptable: (e) => !e.startsWith("on"),
   _indexable: (e) => e !== "events",
   hover: {
@@ -1107,12 +1392,21 @@ var lt = /* @__PURE__ */ new Yc({
     _indexable: !1
   }
 }, [
+<<<<<<< HEAD
   zc,
   jc,
   Uc
 ]);
 function qc(e) {
   return !e || je(e.size) || je(e.family) ? null : (e.style ? e.style + " " : "") + (e.weight ? e.weight + " " : "") + e.size + "px " + e.family;
+=======
+  Nc,
+  zc,
+  Kc
+]);
+function Yc(e) {
+  return !e || He(e.size) || He(e.family) ? null : (e.style ? e.style + " " : "") + (e.weight ? e.weight + " " : "") + e.size + "px " + e.family;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Ls(e, t, a, n, o) {
   let s = t[o];
@@ -1129,11 +1423,19 @@ function Vo(e, t, a, n) {
   wl(e, t, a, n, null);
 }
 function wl(e, t, a, n, o) {
+<<<<<<< HEAD
   let s, i, l, r, c, u, g, h;
   const p = t.pointStyle, m = t.rotation, v = t.radius;
   let b = (m || 0) * Cc;
   if (p && typeof p == "object" && (s = p.toString(), s === "[object HTMLImageElement]" || s === "[object HTMLCanvasElement]")) {
     e.save(), e.translate(a, n), e.rotate(b), e.drawImage(p, -p.width / 2, -p.height / 2, p.width, p.height), e.restore();
+=======
+  let s, i, l, r, c, u, f, h;
+  const b = t.pointStyle, m = t.rotation, v = t.radius;
+  let p = (m || 0) * wc;
+  if (b && typeof b == "object" && (s = b.toString(), s === "[object HTMLImageElement]" || s === "[object HTMLCanvasElement]")) {
+    e.save(), e.translate(a, n), e.rotate(p), e.drawImage(b, -b.width / 2, -b.height / 2, b.width, b.height), e.restore();
+>>>>>>> 8a6bd9f (Sales Volume chart)
     return;
   }
   if (!(isNaN(v) || v <= 0)) {
@@ -1143,10 +1445,17 @@ function wl(e, t, a, n, o) {
         o ? e.ellipse(a, n, o / 2, v, 0, 0, nt) : e.arc(a, n, v, 0, nt), e.closePath();
         break;
       case "triangle":
+<<<<<<< HEAD
         u = o ? o / 2 : v, e.moveTo(a + Math.sin(b) * u, n - Math.cos(b) * v), b += Cs, e.lineTo(a + Math.sin(b) * u, n - Math.cos(b) * v), b += Cs, e.lineTo(a + Math.sin(b) * u, n - Math.cos(b) * v), e.closePath();
         break;
       case "rectRounded":
         c = v * 0.516, r = v - c, i = Math.cos(b + $a) * r, g = Math.cos(b + $a) * (o ? o / 2 - c : r), l = Math.sin(b + $a) * r, h = Math.sin(b + $a) * (o ? o / 2 - c : r), e.arc(a - g, n - l, c, b - Ue, b - mt), e.arc(a + h, n - i, c, b - mt, b), e.arc(a + g, n + l, c, b, b + mt), e.arc(a - h, n + i, c, b + mt, b + Ue), e.closePath();
+=======
+        u = o ? o / 2 : v, e.moveTo(a + Math.sin(p) * u, n - Math.cos(p) * v), p += Cs, e.lineTo(a + Math.sin(p) * u, n - Math.cos(p) * v), p += Cs, e.lineTo(a + Math.sin(p) * u, n - Math.cos(p) * v), e.closePath();
+        break;
+      case "rectRounded":
+        c = v * 0.516, r = v - c, i = Math.cos(p + $a) * r, f = Math.cos(p + $a) * (o ? o / 2 - c : r), l = Math.sin(p + $a) * r, h = Math.sin(p + $a) * (o ? o / 2 - c : r), e.arc(a - f, n - l, c, p - Ye, p - mt), e.arc(a + h, n - i, c, p - mt, p), e.arc(a + f, n + l, c, p, p + mt), e.arc(a - h, n + i, c, p + mt, p + Ye), e.closePath();
+>>>>>>> 8a6bd9f (Sales Volume chart)
         break;
       case "rect":
         if (!m) {
@@ -1189,7 +1498,11 @@ function ao(e, t) {
 function no(e) {
   e.restore();
 }
+<<<<<<< HEAD
 function Gc(e, t, a, n, o) {
+=======
+function qc(e, t, a, n, o) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!t)
     return e.lineTo(a.x, a.y);
   if (o === "middle") {
@@ -1198,21 +1511,36 @@ function Gc(e, t, a, n, o) {
   } else o === "after" != !!n ? e.lineTo(t.x, a.y) : e.lineTo(a.x, t.y);
   e.lineTo(a.x, a.y);
 }
+<<<<<<< HEAD
 function Xc(e, t, a, n) {
+=======
+function Gc(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!t)
     return e.lineTo(a.x, a.y);
   e.bezierCurveTo(n ? t.cp1x : t.cp2x, n ? t.cp1y : t.cp2y, n ? a.cp2x : a.cp1x, n ? a.cp2y : a.cp1y, a.x, a.y);
 }
+<<<<<<< HEAD
 function Zc(e, t) {
   t.translation && e.translate(t.translation[0], t.translation[1]), je(t.rotation) || e.rotate(t.rotation), t.color && (e.fillStyle = t.color), t.textAlign && (e.textAlign = t.textAlign), t.textBaseline && (e.textBaseline = t.textBaseline);
 }
 function Qc(e, t, a, n, o) {
+=======
+function Xc(e, t) {
+  t.translation && e.translate(t.translation[0], t.translation[1]), He(t.rotation) || e.rotate(t.rotation), t.color && (e.fillStyle = t.color), t.textAlign && (e.textAlign = t.textAlign), t.textBaseline && (e.textBaseline = t.textBaseline);
+}
+function Zc(e, t, a, n, o) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (o.strikethrough || o.underline) {
     const s = e.measureText(n), i = t - s.actualBoundingBoxLeft, l = t + s.actualBoundingBoxRight, r = a - s.actualBoundingBoxAscent, c = a + s.actualBoundingBoxDescent, u = o.strikethrough ? (r + c) / 2 : c;
     e.strokeStyle = e.fillStyle, e.beginPath(), e.lineWidth = o.decorationWidth || 2, e.moveTo(i, u), e.lineTo(l, u), e.stroke();
   }
 }
+<<<<<<< HEAD
 function Jc(e, t) {
+=======
+function Qc(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = e.fillStyle;
   e.fillStyle = t.color, e.fillRect(t.left, t.top, t.width, t.height), e.fillStyle = a;
 }
@@ -1221,17 +1549,28 @@ function yn(e, t, a, n, o, s = {}) {
     t
   ], l = s.strokeWidth > 0 && s.strokeColor !== "";
   let r, c;
+<<<<<<< HEAD
   for (e.save(), e.font = o.string, Zc(e, s), r = 0; r < i.length; ++r)
     c = i[r], s.backdrop && Jc(e, s.backdrop), l && (s.strokeColor && (e.strokeStyle = s.strokeColor), je(s.strokeWidth) || (e.lineWidth = s.strokeWidth), e.strokeText(c, a, n, s.maxWidth)), e.fillText(c, a, n, s.maxWidth), Qc(e, a, n, c, s), n += Number(o.lineHeight);
+=======
+  for (e.save(), e.font = o.string, Xc(e, s), r = 0; r < i.length; ++r)
+    c = i[r], s.backdrop && Qc(e, s.backdrop), l && (s.strokeColor && (e.strokeStyle = s.strokeColor), He(s.strokeWidth) || (e.lineWidth = s.strokeWidth), e.strokeText(c, a, n, s.maxWidth)), e.fillText(c, a, n, s.maxWidth), Zc(e, a, n, c, s), n += Number(o.lineHeight);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   e.restore();
 }
 function Xn(e, t) {
   const { x: a, y: n, w: o, h: s, radius: i } = t;
-  e.arc(a + i.topLeft, n + i.topLeft, i.topLeft, 1.5 * Ue, Ue, !0), e.lineTo(a, n + s - i.bottomLeft), e.arc(a + i.bottomLeft, n + s - i.bottomLeft, i.bottomLeft, Ue, mt, !0), e.lineTo(a + o - i.bottomRight, n + s), e.arc(a + o - i.bottomRight, n + s - i.bottomRight, i.bottomRight, mt, 0, !0), e.lineTo(a + o, n + i.topRight), e.arc(a + o - i.topRight, n + i.topRight, i.topRight, 0, -mt, !0), e.lineTo(a + i.topLeft, n);
+  e.arc(a + i.topLeft, n + i.topLeft, i.topLeft, 1.5 * Ye, Ye, !0), e.lineTo(a, n + s - i.bottomLeft), e.arc(a + i.bottomLeft, n + s - i.bottomLeft, i.bottomLeft, Ye, mt, !0), e.lineTo(a + o - i.bottomRight, n + s), e.arc(a + o - i.bottomRight, n + s - i.bottomRight, i.bottomRight, mt, 0, !0), e.lineTo(a + o, n + i.topRight), e.arc(a + o - i.topRight, n + i.topRight, i.topRight, 0, -mt, !0), e.lineTo(a + i.topLeft, n);
 }
+<<<<<<< HEAD
 const ed = /^(normal|(\d+(?:\.\d+)?)(px|em|%)?)$/, td = /^(normal|italic|initial|inherit|unset|(oblique( -?[0-9]?[0-9]deg)?))$/;
 function ad(e, t) {
   const a = ("" + e).match(ed);
+=======
+const Jc = /^(normal|(\d+(?:\.\d+)?)(px|em|%)?)$/, ed = /^(normal|italic|initial|inherit|unset|(oblique( -?[0-9]?[0-9]deg)?))$/;
+function td(e, t) {
+  const a = ("" + e).match(Jc);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!a || a[1] === "normal")
     return t * 1.2;
   switch (e = +a[2], a[3]) {
@@ -1243,11 +1582,19 @@ function ad(e, t) {
   }
   return t * e;
 }
+<<<<<<< HEAD
 const nd = (e) => +e || 0;
 function ts(e, t) {
   const a = {}, n = Oe(t), o = n ? Object.keys(t) : t, s = Oe(e) ? n ? (i) => Ee(e[i], e[t[i]]) : (i) => e[i] : () => e;
   for (const i of o)
     a[i] = nd(s(i));
+=======
+const ad = (e) => +e || 0;
+function ts(e, t) {
+  const a = {}, n = Oe(t), o = n ? Object.keys(t) : t, s = Oe(e) ? n ? (i) => Re(e[i], e[t[i]]) : (i) => e[i] : () => e;
+  for (const i of o)
+    a[i] = ad(s(i));
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return a;
 }
 function Cl(e) {
@@ -1270,21 +1617,33 @@ function Wt(e) {
   const t = Cl(e);
   return t.width = t.left + t.right, t.height = t.top + t.bottom, t;
 }
-function _t(e, t) {
+function wt(e, t) {
   e = e || {}, t = t || lt.font;
-  let a = Ee(e.size, t.size);
+  let a = Re(e.size, t.size);
   typeof a == "string" && (a = parseInt(a, 10));
+<<<<<<< HEAD
   let n = Ee(e.style, t.style);
   n && !("" + n).match(td) && (console.warn('Invalid font style specified: "' + n + '"'), n = void 0);
   const o = {
     family: Ee(e.family, t.family),
     lineHeight: ad(Ee(e.lineHeight, t.lineHeight), a),
+=======
+  let n = Re(e.style, t.style);
+  n && !("" + n).match(ed) && (console.warn('Invalid font style specified: "' + n + '"'), n = void 0);
+  const o = {
+    family: Re(e.family, t.family),
+    lineHeight: td(Re(e.lineHeight, t.lineHeight), a),
+>>>>>>> 8a6bd9f (Sales Volume chart)
     size: a,
     style: n,
-    weight: Ee(e.weight, t.weight),
+    weight: Re(e.weight, t.weight),
     string: ""
   };
+<<<<<<< HEAD
   return o.string = qc(o), o;
+=======
+  return o.string = Yc(o), o;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function An(e, t, a, n) {
   let o, s, i;
@@ -1292,7 +1651,11 @@ function An(e, t, a, n) {
     if (i = e[o], i !== void 0 && i !== void 0)
       return i;
 }
+<<<<<<< HEAD
 function od(e, t, a) {
+=======
+function nd(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { min: n, max: o } = e, s = gl(t, (o - n) / 2), i = (l, r) => a && l === 0 ? 0 : l + r;
   return {
     min: i(n, -Math.abs(s)),
@@ -1330,7 +1693,11 @@ function as(e, t = [
     * A trap for getting property values.
     */
     get(l, r) {
+<<<<<<< HEAD
       return Sl(l, r, () => hd(r, t, e, l));
+=======
+      return Sl(l, r, () => ud(r, t, e, l));
+>>>>>>> 8a6bd9f (Sales Volume chart)
     },
     /**
     * A trap for Object.getOwnPropertyDescriptor.
@@ -1349,13 +1716,21 @@ function as(e, t = [
     * A trap for the in operator.
     */
     has(l, r) {
+<<<<<<< HEAD
       return Es(l).includes(r);
+=======
+      return Rs(l).includes(r);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     },
     /**
     * A trap for Object.getOwnPropertyNames and Object.getOwnPropertySymbols.
     */
     ownKeys(l) {
+<<<<<<< HEAD
       return Es(l);
+=======
+      return Rs(l);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     },
     /**
     * A trap for setting property values.
@@ -1388,7 +1763,11 @@ function Ua(e, t, a, n) {
     * A trap for getting property values.
     */
     get(s, i, l) {
+<<<<<<< HEAD
       return Sl(s, i, () => id(s, i, l));
+=======
+      return Sl(s, i, () => sd(s, i, l));
+>>>>>>> 8a6bd9f (Sales Volume chart)
     },
     /**
     * A trap for Object.getOwnPropertyDescriptor.
@@ -1439,19 +1818,32 @@ function $l(e, t = {
     isIndexable: wa(n) ? n : () => n
   };
 }
+<<<<<<< HEAD
 const sd = (e, t) => e ? e + Xo(t) : t, ns = (e, t) => Oe(t) && e !== "adapters" && (Object.getPrototypeOf(t) === null || t.constructor === Object);
+=======
+const od = (e, t) => e ? e + Xo(t) : t, ns = (e, t) => Oe(t) && e !== "adapters" && (Object.getPrototypeOf(t) === null || t.constructor === Object);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function Sl(e, t, a) {
   if (Object.prototype.hasOwnProperty.call(e, t) || t === "constructor")
     return e[t];
   const n = a();
   return e[t] = n, n;
 }
+<<<<<<< HEAD
 function id(e, t, a) {
   const { _proxy: n, _context: o, _subProxy: s, _descriptors: i } = e;
   let l = n[t];
   return wa(l) && i.isScriptable(t) && (l = ld(t, l, e, a)), dt(l) && l.length && (l = rd(t, l, e, i.isIndexable)), ns(t, l) && (l = Ua(l, o, s && s[t], i)), l;
 }
 function ld(e, t, a, n) {
+=======
+function sd(e, t, a) {
+  const { _proxy: n, _context: o, _subProxy: s, _descriptors: i } = e;
+  let l = n[t];
+  return wa(l) && i.isScriptable(t) && (l = id(t, l, e, a)), dt(l) && l.length && (l = ld(t, l, e, i.isIndexable)), ns(t, l) && (l = Ua(l, o, s && s[t], i)), l;
+}
+function id(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { _proxy: o, _context: s, _subProxy: i, _stack: l } = a;
   if (l.has(e))
     throw new Error("Recursion detected: " + Array.from(l).join("->") + "->" + e);
@@ -1459,7 +1851,11 @@ function ld(e, t, a, n) {
   let r = t(s, i || n);
   return l.delete(e), ns(e, r) && (r = os(o._scopes, o, e, r)), r;
 }
+<<<<<<< HEAD
 function rd(e, t, a, n) {
+=======
+function ld(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { _proxy: o, _context: s, _subProxy: i, _descriptors: l } = a;
   if (typeof s.index < "u" && n(e))
     return t[s.index % t.length];
@@ -1467,8 +1863,13 @@ function rd(e, t, a, n) {
     const r = t, c = o._scopes.filter((u) => u !== r);
     t = [];
     for (const u of r) {
+<<<<<<< HEAD
       const g = os(c, o, e, u);
       t.push(Ua(g, s, i && i[e], l));
+=======
+      const f = os(c, o, e, u);
+      t.push(Ua(f, s, i && i[e], l));
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   return t;
@@ -1476,10 +1877,17 @@ function rd(e, t, a, n) {
 function Ml(e, t, a) {
   return wa(e) ? e(t, a) : e;
 }
+<<<<<<< HEAD
 const cd = (e, t) => e === !0 ? t : typeof e == "string" ? Pa(t, e) : void 0;
 function dd(e, t, a, n, o) {
   for (const s of t) {
     const i = cd(a, s);
+=======
+const rd = (e, t) => e === !0 ? t : typeof e == "string" ? Pa(t, e) : void 0;
+function cd(e, t, a, n, o) {
+  for (const s of t) {
+    const i = rd(a, s);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     if (i) {
       e.add(i);
       const l = Ml(i._fallback, a, o);
@@ -1496,26 +1904,47 @@ function os(e, t, a, n) {
     ...o
   ], l = /* @__PURE__ */ new Set();
   l.add(n);
+<<<<<<< HEAD
   let r = Rs(l, i, a, s || a, n);
   return r === null || typeof s < "u" && s !== a && (r = Rs(l, i, s, r, n), r === null) ? !1 : as(Array.from(l), [
     ""
   ], o, s, () => ud(t, a, n));
+=======
+  let r = Es(l, i, a, s || a, n);
+  return r === null || typeof s < "u" && s !== a && (r = Es(l, i, s, r, n), r === null) ? !1 : as(Array.from(l), [
+    ""
+  ], o, s, () => dd(t, a, n));
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Rs(e, t, a, n, o) {
   for (; a; )
+<<<<<<< HEAD
     a = dd(e, t, a, n, o);
   return a;
 }
 function ud(e, t, a) {
+=======
+    a = cd(e, t, a, n, o);
+  return a;
+}
+function dd(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e._getTarget();
   t in n || (n[t] = {});
   const o = n[t];
   return dt(o) && Oe(a) ? a : o || {};
 }
+<<<<<<< HEAD
 function hd(e, t, a, n) {
   let o;
   for (const s of t)
     if (o = Dl(sd(s, e), a), typeof o < "u")
+=======
+function ud(e, t, a, n) {
+  let o;
+  for (const s of t)
+    if (o = Dl(od(s, e), a), typeof o < "u")
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return ns(e, o) ? os(a, n, e, o) : o;
 }
 function Dl(e, t) {
@@ -1527,19 +1956,32 @@ function Dl(e, t) {
       return n;
   }
 }
+<<<<<<< HEAD
 function Es(e) {
   let t = e._keys;
   return t || (t = e._keys = fd(e._scopes)), t;
 }
 function fd(e) {
+=======
+function Rs(e) {
+  let t = e._keys;
+  return t || (t = e._keys = hd(e._scopes)), t;
+}
+function hd(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = /* @__PURE__ */ new Set();
   for (const a of e)
     for (const n of Object.keys(a).filter((o) => !o.startsWith("_")))
       t.add(n);
   return Array.from(t);
 }
+<<<<<<< HEAD
 const gd = Number.EPSILON || 1e-14, Ya = (e, t) => t < e.length && !e[t].skip && e[t], Tl = (e) => e === "x" ? "y" : "x";
 function md(e, t, a, n) {
+=======
+const fd = Number.EPSILON || 1e-14, Ya = (e, t) => t < e.length && !e[t].skip && e[t], Tl = (e) => e === "x" ? "y" : "x";
+function gd(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = e.skip ? t : e, s = t, i = a.skip ? t : a, l = Fo(s, o), r = Fo(i, s);
   let c = l / (l + r), u = r / (l + r);
   c = isNaN(c) ? 0 : c, u = isNaN(u) ? 0 : u;
@@ -1555,19 +1997,31 @@ function md(e, t, a, n) {
     }
   };
 }
+<<<<<<< HEAD
 function pd(e, t, a) {
+=======
+function md(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e.length;
   let o, s, i, l, r, c = Ya(e, 0);
   for (let u = 0; u < n - 1; ++u)
     if (r = c, c = Ya(e, u + 1), !(!r || !c)) {
+<<<<<<< HEAD
       if (dn(t[u], 0, gd)) {
+=======
+      if (dn(t[u], 0, fd)) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         a[u] = a[u + 1] = 0;
         continue;
       }
       o = a[u] / t[u], s = a[u + 1] / t[u], l = Math.pow(o, 2) + Math.pow(s, 2), !(l <= 9) && (i = 3 / Math.sqrt(l), a[u] = o * i * t[u], a[u + 1] = s * i * t[u]);
     }
 }
+<<<<<<< HEAD
 function bd(e, t, a = "x") {
+=======
+function pd(e, t, a = "x") {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = Tl(a), o = e.length;
   let s, i, l, r = Ya(e, 0);
   for (let c = 0; c < o; ++c) {
@@ -1577,7 +2031,11 @@ function bd(e, t, a = "x") {
     i && (s = (u - i[a]) / 3, l[`cp1${a}`] = u - s, l[`cp1${n}`] = g - s * t[c]), r && (s = (r[a] - u) / 3, l[`cp2${a}`] = u + s, l[`cp2${n}`] = g + s * t[c]);
   }
 }
+<<<<<<< HEAD
 function vd(e, t = "x") {
+=======
+function bd(e, t = "x") {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = Tl(t), n = e.length, o = Array(n).fill(0), s = Array(n);
   let i, l, r, c = Ya(e, 0);
   for (i = 0; i < n; ++i)
@@ -1588,16 +2046,25 @@ function vd(e, t = "x") {
       }
       s[i] = l ? c ? na(o[i - 1]) !== na(o[i]) ? 0 : (o[i - 1] + o[i]) / 2 : o[i - 1] : o[i];
     }
+<<<<<<< HEAD
   pd(e, o, s), bd(e, s, t);
+=======
+  md(e, o, s), pd(e, s, t);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Bn(e, t, a) {
   return Math.max(Math.min(e, a), t);
 }
+<<<<<<< HEAD
 function yd(e, t) {
+=======
+function vd(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let a, n, o, s, i, l = vn(e[0], t);
   for (a = 0, n = e.length; a < n; ++a)
     i = s, s = l, l = a < n - 1 && vn(e[a + 1], t), s && (o = e[a], i && (o.cp1x = Bn(o.cp1x, t.left, t.right), o.cp1y = Bn(o.cp1y, t.top, t.bottom)), l && (o.cp2x = Bn(o.cp2x, t.left, t.right), o.cp2y = Bn(o.cp2y, t.top, t.bottom)));
 }
+<<<<<<< HEAD
 function xd(e, t, a, n, o) {
   let s, i, l, r;
   if (t.spanGaps && (e = e.filter((c) => !c.skip)), t.cubicInterpolationMode === "monotone")
@@ -1608,6 +2075,18 @@ function xd(e, t, a, n, o) {
       l = e[s], r = md(c, l, e[Math.min(s + 1, i - (n ? 0 : 1)) % i], t.tension), l.cp1x = r.previous.x, l.cp1y = r.previous.y, l.cp2x = r.next.x, l.cp2y = r.next.y, c = l;
   }
   t.capBezierPoints && yd(e, a);
+=======
+function yd(e, t, a, n, o) {
+  let s, i, l, r;
+  if (t.spanGaps && (e = e.filter((c) => !c.skip)), t.cubicInterpolationMode === "monotone")
+    bd(e, o);
+  else {
+    let c = n ? e[e.length - 1] : e[0];
+    for (s = 0, i = e.length; s < i; ++s)
+      l = e[s], r = gd(c, l, e[Math.min(s + 1, i - (n ? 0 : 1)) % i], t.tension), l.cp1x = r.previous.x, l.cp1y = r.previous.y, l.cp2x = r.next.x, l.cp2y = r.next.y, c = l;
+  }
+  t.capBezierPoints && vd(e, a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function ss() {
   return typeof window < "u" && typeof document < "u";
@@ -1621,10 +2100,17 @@ function Zn(e, t, a) {
   return typeof e == "string" ? (n = parseInt(e, 10), e.indexOf("%") !== -1 && (n = n / 100 * t.parentNode[a])) : n = e, n;
 }
 const oo = (e) => e.ownerDocument.defaultView.getComputedStyle(e, null);
+<<<<<<< HEAD
 function kd(e, t) {
   return oo(e).getPropertyValue(t);
 }
 const _d = [
+=======
+function xd(e, t) {
+  return oo(e).getPropertyValue(t);
+}
+const kd = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
   "top",
   "right",
   "bottom",
@@ -1634,16 +2120,28 @@ function Ba(e, t, a) {
   const n = {};
   a = a ? "-" + a : "";
   for (let o = 0; o < 4; o++) {
+<<<<<<< HEAD
     const s = _d[o];
+=======
+    const s = kd[o];
+>>>>>>> 8a6bd9f (Sales Volume chart)
     n[s] = parseFloat(e[t + "-" + s + a]) || 0;
   }
   return n.width = n.left + n.right, n.height = n.top + n.bottom, n;
 }
+<<<<<<< HEAD
 const wd = (e, t, a) => (e > 0 || t > 0) && (!a || !a.shadowRoot);
 function Cd(e, t) {
   const a = e.touches, n = a && a.length ? a[0] : e, { offsetX: o, offsetY: s } = n;
   let i = !1, l, r;
   if (wd(o, s, e.target))
+=======
+const _d = (e, t, a) => (e > 0 || t > 0) && (!a || !a.shadowRoot);
+function wd(e, t) {
+  const a = e.touches, n = a && a.length ? a[0] : e, { offsetX: o, offsetY: s } = n;
+  let i = !1, l, r;
+  if (_d(o, s, e.target))
+>>>>>>> 8a6bd9f (Sales Volume chart)
     l = o, r = s;
   else {
     const c = t.getBoundingClientRect();
@@ -1658,6 +2156,7 @@ function Cd(e, t) {
 function Da(e, t) {
   if ("native" in e)
     return e;
+<<<<<<< HEAD
   const { canvas: a, currentDevicePixelRatio: n } = t, o = oo(a), s = o.boxSizing === "border-box", i = Ba(o, "padding"), l = Ba(o, "border", "width"), { x: r, y: c, box: u } = Cd(e, a), g = i.left + (u && l.left), h = i.top + (u && l.top);
   let { width: p, height: m } = t;
   return s && (p -= i.width + l.width, m -= i.height + l.height), {
@@ -1666,6 +2165,16 @@ function Da(e, t) {
   };
 }
 function $d(e, t, a) {
+=======
+  const { canvas: a, currentDevicePixelRatio: n } = t, o = oo(a), s = o.boxSizing === "border-box", i = Ba(o, "padding"), l = Ba(o, "border", "width"), { x: r, y: c, box: u } = wd(e, a), f = i.left + (u && l.left), h = i.top + (u && l.top);
+  let { width: b, height: m } = t;
+  return s && (b -= i.width + l.width, m -= i.height + l.height), {
+    x: Math.round((r - f) / b * a.width / n),
+    y: Math.round((c - h) / m * a.height / n)
+  };
+}
+function Cd(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let n, o;
   if (t === void 0 || a === void 0) {
     const s = e && is(e);
@@ -1684,12 +2193,21 @@ function $d(e, t, a) {
   };
 }
 const xa = (e) => Math.round(e * 10) / 10;
+<<<<<<< HEAD
 function Sd(e, t, a, n) {
   const o = oo(e), s = Ba(o, "margin"), i = Zn(o.maxWidth, e, "clientWidth") || Gn, l = Zn(o.maxHeight, e, "clientHeight") || Gn, r = $d(e, t, a);
   let { width: c, height: u } = r;
   if (o.boxSizing === "content-box") {
     const h = Ba(o, "border", "width"), p = Ba(o, "padding");
     c -= p.width + h.width, u -= p.height + h.height;
+=======
+function $d(e, t, a, n) {
+  const o = oo(e), s = Ba(o, "margin"), i = Zn(o.maxWidth, e, "clientWidth") || Gn, l = Zn(o.maxHeight, e, "clientHeight") || Gn, r = Cd(e, t, a);
+  let { width: c, height: u } = r;
+  if (o.boxSizing === "content-box") {
+    const h = Ba(o, "border", "width"), b = Ba(o, "padding");
+    c -= b.width + h.width, u -= b.height + h.height;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   return c = Math.max(0, c - s.width), u = Math.max(0, n ? c / n : u - s.height), c = xa(Math.min(c, i, r.maxWidth)), u = xa(Math.min(u, l, r.maxHeight)), c && !u && (u = xa(c / 2)), (t !== void 0 || a !== void 0) && n && r.height && u > r.height && (u = r.height, c = xa(Math.floor(u * n))), {
     width: c,
@@ -1702,7 +2220,11 @@ function Is(e, t, a) {
   const i = e.canvas;
   return i.style && (a || !i.style.height && !i.style.width) && (i.style.height = `${e.height}px`, i.style.width = `${e.width}px`), e.currentDevicePixelRatio !== n || i.height !== o || i.width !== s ? (e.currentDevicePixelRatio = n, i.height = o, i.width = s, e.ctx.setTransform(n, 0, 0, n, 0, 0), !0) : !1;
 }
+<<<<<<< HEAD
 const Md = (function() {
+=======
+const Sd = (function() {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let e = !1;
   try {
     const t = {
@@ -1716,7 +2238,11 @@ const Md = (function() {
   return e;
 })();
 function Fs(e, t) {
+<<<<<<< HEAD
   const a = kd(e, t), n = a && a.match(/^(\d+)(\.\d+)?px$/);
+=======
+  const a = xd(e, t), n = a && a.match(/^(\d+)(\.\d+)?px$/);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return n ? +n[1] : void 0;
 }
 function Ta(e, t, a, n) {
@@ -1725,13 +2251,21 @@ function Ta(e, t, a, n) {
     y: e.y + a * (t.y - e.y)
   };
 }
+<<<<<<< HEAD
 function Dd(e, t, a, n) {
+=======
+function Md(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     x: e.x + a * (t.x - e.x),
     y: n === "middle" ? a < 0.5 ? e.y : t.y : n === "after" ? a < 1 ? e.y : t.y : a > 0 ? t.y : e.y
   };
 }
+<<<<<<< HEAD
 function Td(e, t, a, n) {
+=======
+function Dd(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = {
     x: e.cp2x,
     y: e.cp2y
@@ -1741,7 +2275,11 @@ function Td(e, t, a, n) {
   }, i = Ta(e, o, a), l = Ta(o, s, a), r = Ta(s, t, a), c = Ta(i, l, a), u = Ta(l, r, a);
   return Ta(c, u, a);
 }
+<<<<<<< HEAD
 const Ad = function(e, t) {
+=======
+const Td = function(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     x(a) {
       return e + e + t - a;
@@ -1759,7 +2297,11 @@ const Ad = function(e, t) {
       return a - n;
     }
   };
+<<<<<<< HEAD
 }, Bd = function() {
+=======
+}, Ad = function() {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     x(e) {
       return e;
@@ -1778,7 +2320,11 @@ const Ad = function(e, t) {
   };
 };
 function Ka(e, t, a) {
+<<<<<<< HEAD
   return e ? Ad(t, a) : Bd();
+=======
+  return e ? Td(t, a) : Ad();
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Al(e, t) {
   let a, n;
@@ -1793,7 +2339,11 @@ function Bl(e, t) {
 function Ll(e) {
   return e === "angle" ? {
     between: bn,
+<<<<<<< HEAD
     compare: Ac,
+=======
+    compare: Tc,
+>>>>>>> 8a6bd9f (Sales Volume chart)
     normalize: Nt
   } : {
     between: da,
@@ -1809,11 +2359,19 @@ function Os({ start: e, end: t, count: a, loop: n, style: o }) {
     style: o
   };
 }
+<<<<<<< HEAD
 function Ld(e, t, a) {
   const { property: n, start: o, end: s } = a, { between: i, normalize: l } = Ll(n), r = t.length;
   let { start: c, end: u, loop: g } = e, h, p;
   if (g) {
     for (c += r, u += r, h = 0, p = r; h < p && i(l(t[c % r][n]), o, s); ++h)
+=======
+function Bd(e, t, a) {
+  const { property: n, start: o, end: s } = a, { between: i, normalize: l } = Ll(n), r = t.length;
+  let { start: c, end: u, loop: f } = e, h, b;
+  if (f) {
+    for (c += r, u += r, h = 0, b = r; h < b && i(l(t[c % r][n]), o, s); ++h)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       c--, u--;
     c %= r, u %= r;
   }
@@ -1829,6 +2387,7 @@ function Pl(e, t, a) {
     return [
       e
     ];
+<<<<<<< HEAD
   const { property: n, start: o, end: s } = a, i = t.length, { compare: l, between: r, normalize: c } = Ll(n), { start: u, end: g, loop: h, style: p } = Ld(e, t, a), m = [];
   let v = !1, b = null, y, w, k;
   const _ = () => r(o, k, y) && l(o, k) !== 0, $ = () => l(s, y) === 0 || r(s, k, y), S = () => v || _(), M = () => !v || $();
@@ -1843,6 +2402,22 @@ function Pl(e, t, a) {
   return b !== null && m.push(Os({
     start: b,
     end: g,
+=======
+  const { property: n, start: o, end: s } = a, i = t.length, { compare: l, between: r, normalize: c } = Ll(n), { start: u, end: f, loop: h, style: b } = Bd(e, t, a), m = [];
+  let v = !1, p = null, y, w, k;
+  const _ = () => r(o, k, y) && l(o, k) !== 0, $ = () => l(s, y) === 0 || r(s, k, y), S = () => v || _(), M = () => !v || $();
+  for (let P = u, R = u; P <= f; ++P)
+    w = t[P % i], !w.skip && (y = c(w[n]), y !== k && (v = r(y, o, s), p === null && S() && (p = l(y, o) === 0 ? P : R), p !== null && M() && (m.push(Os({
+      start: p,
+      end: P,
+      loop: h,
+      count: i,
+      style: b
+    })), p = null), R = P, k = y));
+  return p !== null && m.push(Os({
+    start: p,
+    end: f,
+>>>>>>> 8a6bd9f (Sales Volume chart)
     loop: h,
     count: i,
     style: p
@@ -1856,7 +2431,11 @@ function Rl(e, t) {
   }
   return a;
 }
+<<<<<<< HEAD
 function Pd(e, t, a, n) {
+=======
+function Ld(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let o = 0, s = t - 1;
   if (a && !n)
     for (; o < t && !e[o].skip; )
@@ -1870,7 +2449,11 @@ function Pd(e, t, a, n) {
     end: s
   };
 }
+<<<<<<< HEAD
 function Rd(e, t, a, n) {
+=======
+function Pd(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = e.length, s = [];
   let i = t, l = e[t], r;
   for (r = t + 1; r <= a; ++r) {
@@ -1891,7 +2474,11 @@ function Ed(e, t) {
   const a = e.points, n = e.options.spanGaps, o = a.length;
   if (!o)
     return [];
+<<<<<<< HEAD
   const s = !!e._loop, { start: i, end: l } = Pd(a, o, s, n);
+=======
+  const s = !!e._loop, { start: i, end: l } = Ld(a, o, s, n);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (n === !0)
     return Vs(e, [
       {
@@ -1901,6 +2488,7 @@ function Ed(e, t) {
       }
     ], a, t);
   const r = l < i ? l + o : l, c = !!e._fullLoop && i === 0 && l === o - 1;
+<<<<<<< HEAD
   return Vs(e, Rd(a, i, r, c), a, t);
 }
 function Vs(e, t, a, n) {
@@ -1910,6 +2498,17 @@ function Id(e, t, a, n) {
   const o = e._chart.getContext(), s = Ns(e.options), { _datasetIndex: i, options: { spanGaps: l } } = e, r = a.length, c = [];
   let u = s, g = t[0].start, h = g;
   function p(m, v, b, y) {
+=======
+  return Vs(e, Pd(a, i, r, c), a, t);
+}
+function Vs(e, t, a, n) {
+  return !n || !n.setContext || !a ? t : Rd(e, t, a, n);
+}
+function Rd(e, t, a, n) {
+  const o = e._chart.getContext(), s = Ns(e.options), { _datasetIndex: i, options: { spanGaps: l } } = e, r = a.length, c = [];
+  let u = s, f = t[0].start, h = f;
+  function b(m, v, p, y) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const w = l ? -1 : 1;
     if (m !== v) {
       for (m += r; a[m % r].skip; )
@@ -1929,14 +2528,22 @@ function Id(e, t, a, n) {
     let v = a[g % r], b;
     for (h = g + 1; h <= m.end; h++) {
       const y = a[h % r];
+<<<<<<< HEAD
       b = Ns(n.setContext(Ia(o, {
+=======
+      p = Ns(n.setContext(Ia(o, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         type: "segment",
         p0: v,
         p1: y,
         p0DataIndex: (h - 1) % r,
         p1DataIndex: h % r,
         datasetIndex: i
+<<<<<<< HEAD
       }))), Fd(b, u) && p(g, h - 1, m.loop, u), v = y, u = b;
+=======
+      }))), Id(p, u) && b(f, h - 1, m.loop, u), v = y, u = p;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     g < h - 1 && p(g, h - 1, m.loop, u);
   }
@@ -1953,7 +2560,11 @@ function Ns(e) {
     borderColor: e.borderColor
   };
 }
+<<<<<<< HEAD
 function Fd(e, t) {
+=======
+function Id(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!t)
     return !1;
   const a = [], n = function(o, s) {
@@ -1964,7 +2575,11 @@ function Fd(e, t) {
 function Ln(e, t, a) {
   return e.options.clip ? e[a] : t[a];
 }
+<<<<<<< HEAD
 function Od(e, t) {
+=======
+function Fd(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { xScale: a, yScale: n } = e;
   return a && n ? {
     left: Ln(a, t, "left"),
@@ -1973,11 +2588,19 @@ function Od(e, t) {
     bottom: Ln(n, t, "bottom")
   } : t;
 }
+<<<<<<< HEAD
 function El(e, t) {
   const a = t._clip;
   if (a.disabled)
     return !1;
   const n = Od(t, e.chartArea);
+=======
+function Rl(e, t) {
+  const a = t._clip;
+  if (a.disabled)
+    return !1;
+  const n = Fd(t, e.chartArea);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     left: a.left === !1 ? 0 : n.left - (a.left === !0 ? 0 : a.left),
     right: a.right === !1 ? e.width : n.right + (a.right === !0 ? 0 : a.right),
@@ -1985,7 +2608,11 @@ function El(e, t) {
     bottom: a.bottom === !1 ? e.height : n.bottom + (a.bottom === !0 ? 0 : a.bottom)
   };
 }
+<<<<<<< HEAD
 class Vd {
+=======
+class Od {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   constructor() {
     this._request = null, this._charts = /* @__PURE__ */ new Map(), this._running = !1, this._lastDate = void 0;
   }
@@ -2061,8 +2688,13 @@ class Vd {
     return this._charts.delete(t);
   }
 }
+<<<<<<< HEAD
 var ia = /* @__PURE__ */ new Vd();
 const zs = "transparent", Nd = {
+=======
+var ia = /* @__PURE__ */ new Od();
+const zs = "transparent", Vd = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   boolean(e, t, a) {
     return a > 0.5 ? t : e;
   },
@@ -2074,7 +2706,11 @@ const zs = "transparent", Nd = {
     return e + (t - e) * a;
   }
 };
+<<<<<<< HEAD
 class zd {
+=======
+class Nd {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   constructor(t, a, n, o) {
     const s = a[n];
     o = An([
@@ -2088,7 +2724,11 @@ class zd {
       s,
       o
     ]);
+<<<<<<< HEAD
     this._active = !0, this._fn = t.fn || Nd[t.type || typeof i], this._easing = un[t.easing] || un.linear, this._start = Math.floor(Date.now() + (t.delay || 0)), this._duration = this._total = Math.floor(t.duration), this._loop = !!t.loop, this._target = a, this._prop = n, this._from = i, this._to = o, this._promises = void 0;
+=======
+    this._active = !0, this._fn = t.fn || Vd[t.type || typeof i], this._easing = un[t.easing] || un.linear, this._start = Math.floor(Date.now() + (t.delay || 0)), this._duration = this._total = Math.floor(t.duration), this._loop = !!t.loop, this._target = a, this._prop = n, this._from = i, this._to = o, this._promises = void 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   active() {
     return this._active;
@@ -2163,11 +2803,19 @@ class Il {
     });
   }
   _animateOptions(t, a) {
+<<<<<<< HEAD
     const n = a.options, o = Hd(t, n);
     if (!o)
       return [];
     const s = this._createAnimations(o, n);
     return n.$shared && jd(t.options.$animations, n).then(() => {
+=======
+    const n = a.options, o = jd(t, n);
+    if (!o)
+      return [];
+    const s = this._createAnimations(o, n);
+    return n.$shared && zd(t.options.$animations, n).then(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       t.options = n;
     }, () => {
     }), s;
@@ -2196,7 +2844,11 @@ class Il {
         t[c] = u;
         continue;
       }
+<<<<<<< HEAD
       s[c] = g = new zd(h, t, c, u), o.push(g);
+=======
+      s[c] = f = new Nd(h, t, c, u), o.push(f);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     return o;
   }
@@ -2210,7 +2862,11 @@ class Il {
       return ia.add(this._chart, n), !0;
   }
 }
+<<<<<<< HEAD
 function jd(e, t) {
+=======
+function zd(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = [], n = Object.keys(t);
   for (let o = 0; o < n.length; o++) {
     const s = e[n[o]];
@@ -2218,7 +2874,11 @@ function jd(e, t) {
   }
   return Promise.all(a);
 }
+<<<<<<< HEAD
 function Hd(e, t) {
+=======
+function jd(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!t)
     return;
   let a = e.options;
@@ -2238,7 +2898,11 @@ function js(e, t) {
     end: n ? o : s
   };
 }
+<<<<<<< HEAD
 function Wd(e, t, a) {
+=======
+function Hd(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (a === !1)
     return !1;
   const n = js(e, a), o = js(t, a);
@@ -2249,7 +2913,11 @@ function Wd(e, t, a) {
     left: n.start
   };
 }
+<<<<<<< HEAD
 function Kd(e) {
+=======
+function Wd(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let t, a, n, o;
   return Oe(e) ? (t = e.top, a = e.right, n = e.bottom, o = e.left) : t = a = n = o = e, {
     top: t,
@@ -2278,11 +2946,15 @@ function Hs(e, t, a, n = {}) {
         continue;
       break;
     }
-    c = e.values[r], wt(c) && (s || t === 0 || na(t) === na(c)) && (t += c);
+    c = e.values[r], Ct(c) && (s || t === 0 || na(t) === na(c)) && (t += c);
   }
   return !u && !n.all ? 0 : t;
 }
+<<<<<<< HEAD
 function Ud(e, t) {
+=======
+function Kd(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { iScale: a, vScale: n } = t, o = a.axis === "x" ? "x" : "y", s = n.axis === "x" ? "x" : "y", i = Object.keys(e), l = new Array(i.length);
   let r, c, u;
   for (r = 0, c = i.length; r < c; ++r)
@@ -2296,17 +2968,28 @@ function vo(e, t) {
   const a = e && e.options.stacked;
   return a || a === void 0 && t.stack !== void 0;
 }
+<<<<<<< HEAD
 function Yd(e, t, a) {
   return `${e.id}.${t.id}.${a.stack || a.type}`;
 }
 function qd(e) {
+=======
+function Ud(e, t, a) {
+  return `${e.id}.${t.id}.${a.stack || a.type}`;
+}
+function Yd(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { min: t, max: a, minDefined: n, maxDefined: o } = e.getUserBounds();
   return {
     min: n ? t : Number.NEGATIVE_INFINITY,
     max: o ? a : Number.POSITIVE_INFINITY
   };
 }
+<<<<<<< HEAD
 function Gd(e, t, a) {
+=======
+function qd(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e[t] || (e[t] = {});
   return n[a] || (n[a] = {});
 }
@@ -2319,11 +3002,19 @@ function Ws(e, t, a, n) {
   return null;
 }
 function Ks(e, t) {
+<<<<<<< HEAD
   const { chart: a, _cachedMeta: n } = e, o = a._stacks || (a._stacks = {}), { iScale: s, vScale: i, index: l } = n, r = s.axis, c = i.axis, u = Yd(s, i, n), g = t.length;
   let h;
   for (let p = 0; p < g; ++p) {
     const m = t[p], { [r]: v, [c]: b } = m, y = m._stacks || (m._stacks = {});
     h = y[c] = Gd(o, u, v), h[l] = b, h._top = Ws(h, i, !0, n.type), h._bottom = Ws(h, i, !1, n.type);
+=======
+  const { chart: a, _cachedMeta: n } = e, o = a._stacks || (a._stacks = {}), { iScale: s, vScale: i, index: l } = n, r = s.axis, c = i.axis, u = Ud(s, i, n), f = t.length;
+  let h;
+  for (let b = 0; b < f; ++b) {
+    const m = t[b], { [r]: v, [c]: p } = m, y = m._stacks || (m._stacks = {});
+    h = y[c] = qd(o, u, v), h[l] = p, h._top = Ws(h, i, !0, n.type), h._bottom = Ws(h, i, !1, n.type);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const w = h._visualValues || (h._visualValues = {});
     w[l] = b;
   }
@@ -2332,7 +3023,11 @@ function yo(e, t) {
   const a = e.scales;
   return Object.keys(a).filter((n) => a[n].axis === t).shift();
 }
+<<<<<<< HEAD
 function Xd(e, t) {
+=======
+function Gd(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return Ia(e, {
     active: !1,
     dataset: void 0,
@@ -2342,7 +3037,11 @@ function Xd(e, t) {
     type: "dataset"
   });
 }
+<<<<<<< HEAD
 function Zd(e, t, a) {
+=======
+function Xd(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return Ia(e, {
     active: !1,
     dataIndex: t,
@@ -2366,7 +3065,11 @@ function Za(e, t) {
     }
   }
 }
+<<<<<<< HEAD
 const xo = (e) => e === "reset" || e === "none", Us = (e, t) => t ? e : Object.assign({}, e), Qd = (e, t, a) => e && !t.hidden && t._stacked && {
+=======
+const xo = (e) => e === "reset" || e === "none", Us = (e, t) => t ? e : Object.assign({}, e), Zd = (e, t, a) => e && !t.hidden && t._stacked && {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   keys: Fl(a, !0),
   values: null
 };
@@ -2385,7 +3088,11 @@ class so {
     this.index !== t && Za(this._cachedMeta), this.index = t;
   }
   linkScales() {
+<<<<<<< HEAD
     const t = this.chart, a = this._cachedMeta, n = this.getDataset(), o = (g, h, p, m) => g === "x" ? h : g === "r" ? m : p, s = a.xAxisID = Ee(n.xAxisID, yo(t, "x")), i = a.yAxisID = Ee(n.yAxisID, yo(t, "y")), l = a.rAxisID = Ee(n.rAxisID, yo(t, "r")), r = a.indexAxis, c = a.iAxisID = o(r, s, i, l), u = a.vAxisID = o(r, i, s, l);
+=======
+    const t = this.chart, a = this._cachedMeta, n = this.getDataset(), o = (f, h, b, m) => f === "x" ? h : f === "r" ? m : b, s = a.xAxisID = Re(n.xAxisID, yo(t, "x")), i = a.yAxisID = Re(n.yAxisID, yo(t, "y")), l = a.rAxisID = Re(n.rAxisID, yo(t, "r")), r = a.indexAxis, c = a.iAxisID = o(r, s, i, l), u = a.vAxisID = o(r, i, s, l);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     a.xScale = this.getScaleForId(s), a.yScale = this.getScaleForId(i), a.rScale = this.getScaleForId(l), a.iScale = this.getScaleForId(c), a.vScale = this.getScaleForId(u);
   }
   getDataset() {
@@ -2412,14 +3119,22 @@ class so {
     const t = this.getDataset(), a = t.data || (t.data = []), n = this._data;
     if (Oe(a)) {
       const o = this._cachedMeta;
+<<<<<<< HEAD
       this._data = Ud(a, o);
+=======
+      this._data = Kd(a, o);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     } else if (n !== a) {
       if (n) {
         Ms(n, this);
         const o = this._cachedMeta;
         Za(o), o._parsed = [];
       }
+<<<<<<< HEAD
       a && Object.isExtensible(a) && Rc(a, this), this._syncList = [], this._data = a;
+=======
+      a && Object.isExtensible(a) && Pc(a, this), this._syncList = [], this._data = a;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   addElements() {
@@ -2444,7 +3159,11 @@ class so {
       n._parsed = o, n._sorted = !0, h = o;
     else {
       dt(o[t]) ? h = this.parseArrayData(n, o, t, a) : Oe(o[t]) ? h = this.parseObjectData(n, o, t, a) : h = this.parsePrimitiveData(n, o, t, a);
+<<<<<<< HEAD
       const p = () => g[l] === null || c && g[l] < c[l];
+=======
+      const b = () => f[l] === null || c && f[l] < c[l];
+>>>>>>> 8a6bd9f (Sales Volume chart)
       for (u = 0; u < a; ++u)
         n._parsed[u + t] = g = h[u], r && (p() && (r = !1), c = g);
       n._sorted = r;
@@ -2473,11 +3192,19 @@ class so {
   }
   parseObjectData(t, a, n, o) {
     const { xScale: s, yScale: i } = t, { xAxisKey: l = "x", yAxisKey: r = "y" } = this._parsing, c = new Array(o);
+<<<<<<< HEAD
     let u, g, h, p;
     for (u = 0, g = o; u < g; ++u)
       h = u + n, p = a[h], c[u] = {
         x: s.parse(Pa(p, l), h),
         y: i.parse(Pa(p, r), h)
+=======
+    let u, f, h, b;
+    for (u = 0, f = o; u < f; ++u)
+      h = u + n, b = a[h], c[u] = {
+        x: s.parse(Pa(b, l), h),
+        y: i.parse(Pa(b, r), h)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       };
     return c;
   }
@@ -2503,6 +3230,7 @@ class so {
     o && l && (o.values = l, i = Hs(o, s, this._cachedMeta.index)), t.min = Math.min(t.min, i), t.max = Math.max(t.max, i);
   }
   getMinMax(t, a) {
+<<<<<<< HEAD
     const n = this._cachedMeta, o = n._parsed, s = n._sorted && t === n.iScale, i = o.length, l = this._getOtherScale(t), r = Qd(a, n, this.chart), c = {
       min: Number.POSITIVE_INFINITY,
       max: Number.NEGATIVE_INFINITY
@@ -2512,6 +3240,17 @@ class so {
       p = o[h];
       const v = p[l.axis];
       return !wt(p[t.axis]) || u > v || g < v;
+=======
+    const n = this._cachedMeta, o = n._parsed, s = n._sorted && t === n.iScale, i = o.length, l = this._getOtherScale(t), r = Zd(a, n, this.chart), c = {
+      min: Number.POSITIVE_INFINITY,
+      max: Number.NEGATIVE_INFINITY
+    }, { min: u, max: f } = Yd(l);
+    let h, b;
+    function m() {
+      b = o[h];
+      const v = b[l.axis];
+      return !Ct(b[t.axis]) || u > v || f < v;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     for (h = 0; h < i && !(!m() && (this.updateRangeFromParsed(c, t, p, r), s)); ++h)
       ;
@@ -2528,7 +3267,7 @@ class so {
     const a = this._cachedMeta._parsed, n = [];
     let o, s, i;
     for (o = 0, s = a.length; o < s; ++o)
-      i = a[o][t.axis], wt(i) && n.push(i);
+      i = a[o][t.axis], Ct(i) && n.push(i);
     return n;
   }
   getMaxOverflow() {
@@ -2543,7 +3282,11 @@ class so {
   }
   _update(t) {
     const a = this._cachedMeta;
+<<<<<<< HEAD
     this.update(t || "default"), a._clip = Kd(Ee(this.options.clip, Wd(a.xScale, a.yScale, this.getMaxOverflow())));
+=======
+    this.update(t || "default"), a._clip = Wd(Re(this.options.clip, Hd(a.xScale, a.yScale, this.getMaxOverflow())));
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   update(t) {
   }
@@ -2566,9 +3309,15 @@ class so {
     let s;
     if (t >= 0 && t < this._cachedMeta.data.length) {
       const i = this._cachedMeta.data[t];
+<<<<<<< HEAD
       s = i.$context || (i.$context = Zd(this.getContext(), t, i)), s.parsed = this.getParsed(t), s.raw = o.data[t], s.index = s.dataIndex = t;
     } else
       s = this.$context || (this.$context = Xd(this.chart.getContext(), this.index)), s.dataset = o, s.index = s.datasetIndex = this.index;
+=======
+      s = i.$context || (i.$context = Xd(this.getContext(), t, i)), s.parsed = this.getParsed(t), s.raw = o.data[t], s.index = s.dataIndex = t;
+    } else
+      s = this.$context || (this.$context = Gd(this.chart.getContext(), this.index)), s.dataset = o, s.index = s.datasetIndex = this.index;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     return s.active = !!a, s.mode = n, s;
   }
   resolveDatasetElementOptions(t) {
@@ -2581,7 +3330,11 @@ class so {
     const o = a === "active", s = this._cachedDataOpts, i = t + "-" + a, l = s[i], r = this.enableOptionSharing && mn(n);
     if (l)
       return Us(l, r);
+<<<<<<< HEAD
     const c = this.chart.config, u = c.datasetElementScopeKeys(this._type, t), g = o ? [
+=======
+    const c = this.chart.config, u = c.datasetElementScopeKeys(this._type, t), f = o ? [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       `${t}Hover`,
       "hover",
       t,
@@ -2589,7 +3342,11 @@ class so {
     ] : [
       t,
       ""
+<<<<<<< HEAD
     ], h = c.getOptionScopes(this.getDataset(), u), p = Object.keys(lt.elements[t]), m = () => this.getContext(n, o, a), v = c.resolveNamedOptions(h, p, m, g);
+=======
+    ], h = c.getOptionScopes(this.getDataset(), u), b = Object.keys(lt.elements[t]), m = () => this.getContext(n, o, a), v = c.resolveNamedOptions(h, b, m, f);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     return v.$shared && (v.$shared = r, s[i] = Object.freeze(Us(v, r))), v;
   }
   _resolveAnimations(t, a, n) {
@@ -2729,7 +3486,11 @@ class so {
     ]);
   }
 }
+<<<<<<< HEAD
 function Jd(e, t) {
+=======
+function Qd(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!e._cache.$bar) {
     const a = e.getMatchingVisibleMetas(t);
     let n = [];
@@ -2739,8 +3500,13 @@ function Jd(e, t) {
   }
   return e._cache.$bar;
 }
+<<<<<<< HEAD
 function eu(e) {
   const t = e.iScale, a = Jd(t, e.type);
+=======
+function Jd(e) {
+  const t = e.iScale, a = Qd(t, e.type);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let n = t._length, o, s, i, l;
   const r = () => {
     i === 32767 || i === -32768 || (mn(l) && (n = Math.min(n, Math.abs(i - l) || n)), l = i);
@@ -2751,7 +3517,11 @@ function eu(e) {
     i = t.getPixelForTick(o), r();
   return n;
 }
+<<<<<<< HEAD
 function tu(e, t, a, n) {
+=======
+function eu(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = a.barThickness;
   let s, i;
   return je(o) ? (s = t.min * a.categoryPercentage, i = a.barPercentage) : (s = o * n, i = 1), {
@@ -2760,7 +3530,11 @@ function tu(e, t, a, n) {
     start: t.pixels[e] - s / 2
   };
 }
+<<<<<<< HEAD
 function au(e, t, a, n) {
+=======
+function tu(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = t.pixels, s = o[e];
   let i = e > 0 ? o[e - 1] : null, l = e < o.length - 1 ? o[e + 1] : null;
   const r = a.categoryPercentage;
@@ -2772,7 +3546,11 @@ function au(e, t, a, n) {
     start: c
   };
 }
+<<<<<<< HEAD
 function nu(e, t, a, n) {
+=======
+function au(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = a.parse(e[0], n), s = a.parse(e[1], n), i = Math.min(o, s), l = Math.max(o, s);
   let r = i, c = l;
   Math.abs(i) > Math.abs(l) && (r = l, c = i), t[a.axis] = c, t._custom = {
@@ -2785,22 +3563,37 @@ function nu(e, t, a, n) {
   };
 }
 function Ol(e, t, a, n) {
+<<<<<<< HEAD
   return dt(e) ? nu(e, t, a, n) : t[a.axis] = a.parse(e, n), t;
+=======
+  return dt(e) ? au(e, t, a, n) : t[a.axis] = a.parse(e, n), t;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Ys(e, t, a, n) {
   const o = e.iScale, s = e.vScale, i = o.getLabels(), l = o === s, r = [];
   let c, u, g, h;
   for (c = a, u = a + n; c < u; ++c)
+<<<<<<< HEAD
     h = t[c], g = {}, g[o.axis] = l || o.parse(i[c], c), r.push(Ol(h, g, s, c));
+=======
+    h = t[c], f = {}, f[o.axis] = l || o.parse(i[c], c), r.push(Ol(h, f, s, c));
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return r;
 }
 function ko(e) {
   return e && e.barStart !== void 0 && e.barEnd !== void 0;
 }
+<<<<<<< HEAD
 function ou(e, t, a) {
   return e !== 0 ? na(e) : (t.isHorizontal() ? 1 : -1) * (t.min >= a ? 1 : -1);
 }
 function su(e) {
+=======
+function nu(e, t, a) {
+  return e !== 0 ? na(e) : (t.isHorizontal() ? 1 : -1) * (t.min >= a ? 1 : -1);
+}
+function ou(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let t, a, n, o, s;
   return e.horizontal ? (t = e.base > e.x, a = "left", n = "right") : (t = e.base < e.y, a = "bottom", n = "top"), t ? (o = "end", s = "start") : (o = "start", s = "end"), {
     start: a,
@@ -2810,7 +3603,11 @@ function su(e) {
     bottom: s
   };
 }
+<<<<<<< HEAD
 function iu(e, t, a, n) {
+=======
+function su(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let o = t.borderSkipped;
   const s = {};
   if (!o) {
@@ -2826,6 +3623,7 @@ function iu(e, t, a, n) {
     };
     return;
   }
+<<<<<<< HEAD
   const { start: i, end: l, reverse: r, top: c, bottom: u } = su(e);
   o === "middle" && a && (e.enableBorderRadius = !0, (a._top || 0) === n ? o = c : (a._bottom || 0) === n ? o = u : (s[qs(u, i, l, r)] = !0, o = c)), s[qs(o, i, l, r)] = !0, e.borderSkipped = s;
 }
@@ -2833,15 +3631,31 @@ function qs(e, t, a, n) {
   return n ? (e = lu(e, t, a), e = Gs(e, a, t)) : e = Gs(e, t, a), e;
 }
 function lu(e, t, a) {
+=======
+  const { start: i, end: l, reverse: r, top: c, bottom: u } = ou(e);
+  o === "middle" && a && (e.enableBorderRadius = !0, (a._top || 0) === n ? o = c : (a._bottom || 0) === n ? o = u : (s[qs(u, i, l, r)] = !0, o = c)), s[qs(o, i, l, r)] = !0, e.borderSkipped = s;
+}
+function qs(e, t, a, n) {
+  return n ? (e = iu(e, t, a), e = Gs(e, a, t)) : e = Gs(e, t, a), e;
+}
+function iu(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return e === t ? a : e === a ? t : e;
 }
 function Gs(e, t, a) {
   return e === "start" ? t : e === "end" ? a : e;
 }
+<<<<<<< HEAD
 function ru(e, { inflateAmount: t }, a) {
   e.inflateAmount = t === "auto" ? a === 1 ? 0.33 : 0 : t;
 }
 class cu extends so {
+=======
+function lu(e, { inflateAmount: t }, a) {
+  e.inflateAmount = t === "auto" ? a === 1 ? 0.33 : 0 : t;
+}
+class ru extends so {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "bar";
   static defaults = {
     datasetElementType: !1,
@@ -2884,11 +3698,19 @@ class cu extends so {
     return Ys(t, a, n, o);
   }
   parseObjectData(t, a, n, o) {
+<<<<<<< HEAD
     const { iScale: s, vScale: i } = t, { xAxisKey: l = "x", yAxisKey: r = "y" } = this._parsing, c = s.axis === "x" ? l : r, u = i.axis === "x" ? l : r, g = [];
     let h, p, m, v;
     for (h = n, p = n + o; h < p; ++h)
       v = a[h], m = {}, m[s.axis] = s.parse(Pa(v, c), h), g.push(Ol(Pa(v, u), m, i, h));
     return g;
+=======
+    const { iScale: s, vScale: i } = t, { xAxisKey: l = "x", yAxisKey: r = "y" } = this._parsing, c = s.axis === "x" ? l : r, u = i.axis === "x" ? l : r, f = [];
+    let h, b, m, v;
+    for (h = n, b = n + o; h < b; ++h)
+      v = a[h], m = {}, m[s.axis] = s.parse(Pa(v, c), h), f.push(Ol(Pa(v, u), m, i, h));
+    return f;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   updateRangeFromParsed(t, a, n, o) {
     super.updateRangeFromParsed(t, a, n, o);
@@ -2924,6 +3746,7 @@ class cu extends so {
         horizontal: c,
         base: v.base,
         enableBorderRadius: !y || ko(m._custom) || i === y._top || i === y._bottom,
+<<<<<<< HEAD
         x: c ? v.head : b.center,
         y: c ? b.center : v.head,
         height: c ? b.size : Math.abs(v.size),
@@ -2932,6 +3755,16 @@ class cu extends so {
       h && (w.options = g || this.resolveDataElementOptions(p, t[p].active ? "active" : o));
       const k = w.options || t[p].options;
       iu(w, k, y, i), ru(w, k, u.ratio), this.updateElement(t[p], p, w, o);
+=======
+        x: c ? v.head : p.center,
+        y: c ? p.center : v.head,
+        height: c ? p.size : Math.abs(v.size),
+        width: c ? Math.abs(v.size) : p.size
+      };
+      h && (w.options = f || this.resolveDataElementOptions(b, t[b].active ? "active" : o));
+      const k = w.options || t[b].options;
+      su(w, k, y, i), lu(w, k, u.ratio), this.updateElement(t[b], b, w, o);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   _getStacks(t, a) {
@@ -2958,7 +3791,7 @@ class cu extends so {
   _getAxis() {
     const t = {}, a = this.getFirstScaleIdForIndexAxis();
     for (const n of this.chart.data.datasets)
-      t[Ee(this.chart.options.indexAxis === "x" ? n.xAxisID : n.yAxisID, a)] = !0;
+      t[Re(this.chart.options.indexAxis === "x" ? n.xAxisID : n.yAxisID, a)] = !0;
     return Object.keys(t);
   }
   _getStackIndex(t, a, n) {
@@ -2972,7 +3805,11 @@ class cu extends so {
       o.push(n.getPixelForValue(this.getParsed(s)[n.axis], s));
     const l = t.barThickness;
     return {
+<<<<<<< HEAD
       min: l || eu(a),
+=======
+      min: l || Jd(a),
+>>>>>>> 8a6bd9f (Sales Volume chart)
       pixels: o,
       start: n._startPixel,
       end: n._endPixel,
@@ -2984,12 +3821,21 @@ class cu extends so {
   }
   _calculateBarValuePixels(t) {
     const { _cachedMeta: { vScale: a, _stacked: n, index: o }, options: { base: s, minBarLength: i } } = this, l = s || 0, r = this.getParsed(t), c = r._custom, u = ko(c);
+<<<<<<< HEAD
     let g = r[a.axis], h = 0, p = n ? this.applyStack(a, r, n) : g, m, v;
     p !== g && (h = p - g, p = g), u && (g = c.barStart, p = c.barEnd - c.barStart, g !== 0 && na(g) !== na(c.barEnd) && (h = 0), h += g);
     const b = !je(s) && !u ? s : h;
     let y = a.getPixelForValue(b);
     if (this.chart.getDataVisibility(t) ? m = a.getPixelForValue(h + p) : m = y, v = m - y, Math.abs(v) < i) {
       v = ou(v, a, l) * i, g === l && (y -= v / 2);
+=======
+    let f = r[a.axis], h = 0, b = n ? this.applyStack(a, r, n) : f, m, v;
+    b !== f && (h = b - f, b = f), u && (f = c.barStart, b = c.barEnd - c.barStart, f !== 0 && na(f) !== na(c.barEnd) && (h = 0), h += f);
+    const p = !He(s) && !u ? s : h;
+    let y = a.getPixelForValue(p);
+    if (this.chart.getDataVisibility(t) ? m = a.getPixelForValue(h + b) : m = y, v = m - y, Math.abs(v) < i) {
+      v = nu(v, a, l) * i, f === l && (y -= v / 2);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const w = a.getPixelForDecimal(0), k = a.getPixelForDecimal(1), _ = Math.min(w, k), $ = Math.max(w, k);
       y = Math.max(Math.min(y, $), _), m = y + v, n && !u && (r._stacks[a.axis]._visualValues[o] = a.getValueForPixel(m) - a.getValueForPixel(y));
     }
@@ -3005,12 +3851,17 @@ class cu extends so {
     };
   }
   _calculateBarIndexPixels(t, a) {
-    const n = a.scale, o = this.options, s = o.skipNull, i = Ee(o.maxBarThickness, 1 / 0);
+    const n = a.scale, o = this.options, s = o.skipNull, i = Re(o.maxBarThickness, 1 / 0);
     let l, r;
     const c = this._getAxisCount();
     if (a.grouped) {
+<<<<<<< HEAD
       const u = s ? this._getStackCount(t) : a.stackCount, g = o.barThickness === "flex" ? au(t, a, o, u * c) : tu(t, a, o, u * c), h = this.chart.options.indexAxis === "x" ? this.getDataset().xAxisID : this.getDataset().yAxisID, p = this._getAxis().indexOf(Ee(h, this.getFirstScaleIdForIndexAxis())), m = this._getStackIndex(this.index, this._cachedMeta.stack, s ? t : void 0) + p;
       l = g.start + g.chunk * m + g.chunk / 2, r = Math.min(i, g.chunk * g.ratio);
+=======
+      const u = s ? this._getStackCount(t) : a.stackCount, f = o.barThickness === "flex" ? tu(t, a, o, u * c) : eu(t, a, o, u * c), h = this.chart.options.indexAxis === "x" ? this.getDataset().xAxisID : this.getDataset().yAxisID, b = this._getAxis().indexOf(Re(h, this.getFirstScaleIdForIndexAxis())), m = this._getStackIndex(this.index, this._cachedMeta.stack, s ? t : void 0) + b;
+      l = f.start + f.chunk * m + f.chunk / 2, r = Math.min(i, f.chunk * f.ratio);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     } else
       l = n.getPixelForValue(this.getParsed(t)[n.axis], t), r = Math.min(i, a.min * a.ratio);
     return {
@@ -3027,11 +3878,19 @@ class cu extends so {
       this.getParsed(s)[a.axis] !== null && !n[s].hidden && n[s].draw(this._ctx);
   }
 }
+<<<<<<< HEAD
 function du(e, t, a) {
   let n = 1, o = 1, s = 0, i = 0;
   if (t < nt) {
     const l = e, r = l + t, c = Math.cos(l), u = Math.sin(l), g = Math.cos(r), h = Math.sin(r), p = (k, _, $) => bn(k, l, r, !0) ? 1 : Math.max(_, _ * a, $, $ * a), m = (k, _, $) => bn(k, l, r, !0) ? -1 : Math.min(_, _ * a, $, $ * a), v = p(0, c, g), b = p(mt, u, h), y = m(Ue, c, g), w = m(Ue + mt, u, h);
     n = (v - y) / 2, o = (b - w) / 2, s = -(v + y) / 2, i = -(b + w) / 2;
+=======
+function cu(e, t, a) {
+  let n = 1, o = 1, s = 0, i = 0;
+  if (t < nt) {
+    const l = e, r = l + t, c = Math.cos(l), u = Math.sin(l), f = Math.cos(r), h = Math.sin(r), b = (k, _, $) => bn(k, l, r, !0) ? 1 : Math.max(_, _ * a, $, $ * a), m = (k, _, $) => bn(k, l, r, !0) ? -1 : Math.min(_, _ * a, $, $ * a), v = b(0, c, f), p = b(mt, u, h), y = m(Ye, c, f), w = m(Ye + mt, u, h);
+    n = (v - y) / 2, o = (p - w) / 2, s = -(v + y) / 2, i = -(p + w) / 2;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   return {
     ratioX: n,
@@ -3040,7 +3899,11 @@ function du(e, t, a) {
     offsetY: i
   };
 }
+<<<<<<< HEAD
 class uu extends so {
+=======
+class du extends so {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "doughnut";
   static defaults = {
     datasetElementType: !1,
@@ -3149,7 +4012,11 @@ class uu extends so {
     };
   }
   update(t) {
+<<<<<<< HEAD
     const a = this.chart, { chartArea: n } = a, o = this._cachedMeta, s = o.data, i = this.getMaxBorderWidth() + this.getMaxOffset(s) + this.options.spacing, l = Math.max((Math.min(n.width, n.height) - i) / 2, 0), r = Math.min(bc(this.options.cutout, l), 1), c = this._getRingWeight(this.index), { circumference: u, rotation: g } = this._getRotationExtents(), { ratioX: h, ratioY: p, offsetX: m, offsetY: v } = du(g, u, r), b = (n.width - i) / h, y = (n.height - i) / p, w = Math.max(Math.min(b, y) / 2, 0), k = gl(this.options.radius, w), _ = Math.max(k * r, 0), $ = (k - _) / this._getVisibleDatasetWeightTotal();
+=======
+    const a = this.chart, { chartArea: n } = a, o = this._cachedMeta, s = o.data, i = this.getMaxBorderWidth() + this.getMaxOffset(s) + this.options.spacing, l = Math.max((Math.min(n.width, n.height) - i) / 2, 0), r = Math.min(pc(this.options.cutout, l), 1), c = this._getRingWeight(this.index), { circumference: u, rotation: f } = this._getRotationExtents(), { ratioX: h, ratioY: b, offsetX: m, offsetY: v } = cu(f, u, r), p = (n.width - i) / h, y = (n.height - i) / b, w = Math.max(Math.min(p, y) / 2, 0), k = gl(this.options.radius, w), _ = Math.max(k * r, 0), $ = (k - _) / this._getVisibleDatasetWeightTotal();
+>>>>>>> 8a6bd9f (Sales Volume chart)
     this.offsetX = m * k, this.offsetY = v * k, o.total = this.calculateTotal(), this.outerRadius = k - $ * this._getRingWeightOffset(this.index), this.innerRadius = Math.max(this.outerRadius - $ * c, 0), this.updateElements(s, 0, s.length, t);
   }
   _circumference(t, a) {
@@ -3226,13 +4093,17 @@ class uu extends so {
     return a;
   }
   _getRingWeight(t) {
-    return Math.max(Ee(this.chart.data.datasets[t].weight, 1), 0);
+    return Math.max(Re(this.chart.data.datasets[t].weight, 1), 0);
   }
   _getVisibleDatasetWeightTotal() {
     return this._getRingWeightOffset(this.chart.data.datasets.length) || 1;
   }
 }
+<<<<<<< HEAD
 class hu extends so {
+=======
+class uu extends so {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "line";
   static defaults = {
     datasetElementType: "line",
@@ -3255,8 +4126,13 @@ class hu extends so {
   }
   update(t) {
     const a = this._cachedMeta, { dataset: n, data: o = [], _dataset: s } = a, i = this.chart._animationsDisabled;
+<<<<<<< HEAD
     let { start: l, count: r } = Fc(a, o, i);
     this._drawStart = l, this._drawCount = r, Oc(a) && (l = 0, r = o.length), n._chart = this.chart, n._datasetIndex = this.index, n._decimated = !!s._decimated, n.points = o;
+=======
+    let { start: l, count: r } = Ic(a, o, i);
+    this._drawStart = l, this._drawCount = r, Fc(a) && (l = 0, r = o.length), n._chart = this.chart, n._datasetIndex = this.index, n._decimated = !!s._decimated, n.points = o;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const c = this.resolveDatasetElementOptions(t);
     this.options.showLine || (c.borderWidth = 0), c.segment = this.options.segment, this.updateElement(n, void 0, {
       animated: !i,
@@ -3264,7 +4140,11 @@ class hu extends so {
     }, t), this.updateElements(o, l, r, t);
   }
   updateElements(t, a, n, o) {
+<<<<<<< HEAD
     const s = o === "reset", { iScale: i, vScale: l, _stacked: r, _dataset: c } = this._cachedMeta, { sharedOptions: u, includeOptions: g } = this._getSharedOptions(a, o), h = i.axis, p = l.axis, { spanGaps: m, segment: v } = this.options, b = pn(m) ? m : Number.POSITIVE_INFINITY, y = this.chart._animationsDisabled || s || o === "none", w = a + n, k = t.length;
+=======
+    const s = o === "reset", { iScale: i, vScale: l, _stacked: r, _dataset: c } = this._cachedMeta, { sharedOptions: u, includeOptions: f } = this._getSharedOptions(a, o), h = i.axis, b = l.axis, { spanGaps: m, segment: v } = this.options, p = pn(m) ? m : Number.POSITIVE_INFINITY, y = this.chart._animationsDisabled || s || o === "none", w = a + n, k = t.length;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     let _ = a > 0 && this.getParsed(a - 1);
     for (let $ = 0; $ < k; ++$) {
       const S = t[$], M = y ? S : {};
@@ -3272,8 +4152,13 @@ class hu extends so {
         M.skip = !0;
         continue;
       }
+<<<<<<< HEAD
       const P = this.getParsed($), E = je(P[p]), N = M[h] = i.getPixelForValue(P[h], $), D = M[p] = s || E ? l.getBasePixel() : l.getPixelForValue(r ? this.applyStack(l, P, r) : P[p], $);
       M.skip = isNaN(N) || isNaN(D) || E, M.stop = $ > 0 && Math.abs(P[h] - _[h]) > b, v && (M.parsed = P, M.raw = c.data[$]), g && (M.options = u || this.resolveDataElementOptions($, S.active ? "active" : o)), y || this.updateElement(S, $, M, o), _ = P;
+=======
+      const P = this.getParsed($), R = He(P[b]), N = M[h] = i.getPixelForValue(P[h], $), D = M[b] = s || R ? l.getBasePixel() : l.getPixelForValue(r ? this.applyStack(l, P, r) : P[b], $);
+      M.skip = isNaN(N) || isNaN(D) || R, M.stop = $ > 0 && Math.abs(P[h] - _[h]) > p, v && (M.parsed = P, M.raw = c.data[$]), f && (M.options = u || this.resolveDataElementOptions($, S.active ? "active" : o)), y || this.updateElement(S, $, M, o), _ = P;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   getMaxOverflow() {
@@ -3288,7 +4173,11 @@ class hu extends so {
     t.dataset.updateControlPoints(this.chart.chartArea, t.iScale.axis), super.draw();
   }
 }
+<<<<<<< HEAD
 class fu extends uu {
+=======
+class hu extends du {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "pie";
   static defaults = {
     cutout: 0,
@@ -3343,6 +4232,7 @@ class ls {
     return Ma();
   }
 }
+<<<<<<< HEAD
 var gu = {
   _date: ls
 };
@@ -3350,6 +4240,15 @@ function mu(e, t, a, n) {
   const { controller: o, data: s, _sorted: i } = e, l = o._cachedMeta.iScale, r = e.dataset && e.dataset.options ? e.dataset.options.spanGaps : null;
   if (l && t === l.axis && t !== "r" && i && s.length) {
     const c = l._reversePixels ? Lc : Aa;
+=======
+var fu = {
+  _date: ls
+};
+function gu(e, t, a, n) {
+  const { controller: o, data: s, _sorted: i } = e, l = o._cachedMeta.iScale, r = e.dataset && e.dataset.options ? e.dataset.options.spanGaps : null;
+  if (l && t === l.axis && t !== "r" && i && s.length) {
+    const c = l._reversePixels ? Bc : Aa;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     if (n) {
       if (o._sharedOptions) {
         const u = s[0], g = typeof u.getRange == "function" && u.getRange(t);
@@ -3380,6 +4279,7 @@ function mu(e, t, a, n) {
 function io(e, t, a, n, o) {
   const s = e.getSortedVisibleDatasetMetas(), i = a[t];
   for (let l = 0, r = s.length; l < r; ++l) {
+<<<<<<< HEAD
     const { index: c, data: u } = s[l], { lo: g, hi: h } = mu(s[l], t, i, o);
     for (let p = g; p <= h; ++p) {
       const m = u[p];
@@ -3388,6 +4288,16 @@ function io(e, t, a, n, o) {
   }
 }
 function pu(e) {
+=======
+    const { index: c, data: u } = s[l], { lo: f, hi: h } = gu(s[l], t, i, o);
+    for (let b = f; b <= h; ++b) {
+      const m = u[b];
+      m.skip || n(m, c, b);
+    }
+  }
+}
+function mu(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = e.indexOf("x") !== -1, a = e.indexOf("y") !== -1;
   return function(n, o) {
     const s = t ? Math.abs(n.x - o.x) : 0, i = a ? Math.abs(n.y - o.y) : 0;
@@ -3404,17 +4314,29 @@ function _o(e, t, a, n, o) {
     });
   }, !0), s;
 }
+<<<<<<< HEAD
 function bu(e, t, a, n) {
+=======
+function pu(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let o = [];
   function s(i, l, r) {
     const { startAngle: c, endAngle: u } = i.getProps([
       "startAngle",
       "endAngle"
+<<<<<<< HEAD
     ], n), { angle: g } = bl(i, {
       x: t.x,
       y: t.y
     });
     bn(g, c, u) && o.push({
+=======
+    ], n), { angle: f } = bl(i, {
+      x: t.x,
+      y: t.y
+    });
+    bn(f, c, u) && o.push({
+>>>>>>> 8a6bd9f (Sales Volume chart)
       element: i,
       datasetIndex: l,
       index: r
@@ -3422,9 +4344,15 @@ function bu(e, t, a, n) {
   }
   return io(e, a, t, s), o;
 }
+<<<<<<< HEAD
 function vu(e, t, a, n, o, s) {
   let i = [];
   const l = pu(a);
+=======
+function bu(e, t, a, n, o, s) {
+  let i = [];
+  const l = mu(a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let r = Number.POSITIVE_INFINITY;
   function c(u, g, h) {
     const p = u.inRange(t.x, t.y, o);
@@ -3449,7 +4377,11 @@ function vu(e, t, a, n, o, s) {
   return io(e, a, t, c), i;
 }
 function wo(e, t, a, n, o, s) {
+<<<<<<< HEAD
   return !s && !e.isPointInArea(t) ? [] : a === "r" && !n ? bu(e, t, a, o) : vu(e, t, a, n, o, s);
+=======
+  return !s && !e.isPointInArea(t) ? [] : a === "r" && !n ? pu(e, t, a, o) : bu(e, t, a, n, o, s);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Xs(e, t, a, n, o) {
   const s = [], i = a === "x" ? "inXRange" : "inYRange";
@@ -3462,7 +4394,11 @@ function Xs(e, t, a, n, o) {
     }), l = l || r.inRange(t.x, t.y, o));
   }), n && !l ? [] : s;
 }
+<<<<<<< HEAD
 var yu = {
+=======
+var vu = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   modes: {
     index(e, t, a, n) {
       const o = Da(t, e), s = a.axis || "x", i = a.includeInvisible || !1, l = a.intersect ? _o(e, o, s, n, i) : wo(e, o, s, !1, n, i), r = [];
@@ -3526,7 +4462,11 @@ function Ja(e, t) {
     return o.weight === s.weight ? o.index - s.index : o.weight - s.weight;
   });
 }
+<<<<<<< HEAD
 function xu(e) {
+=======
+function yu(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = [];
   let a, n, o, s, i, l;
   for (a = 0, n = (e || []).length; a < n; ++a)
@@ -3541,7 +4481,11 @@ function xu(e) {
     });
   return t;
 }
+<<<<<<< HEAD
 function ku(e) {
+=======
+function xu(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = {};
   for (const a of e) {
     const { stack: n, pos: o, stackWeight: s } = a;
@@ -3557,8 +4501,13 @@ function ku(e) {
   }
   return t;
 }
+<<<<<<< HEAD
 function _u(e, t) {
   const a = ku(e), { vBoxMaxWidth: n, hBoxMaxHeight: o } = t;
+=======
+function ku(e, t) {
+  const a = xu(e), { vBoxMaxWidth: n, hBoxMaxHeight: o } = t;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let s, i, l;
   for (s = 0, i = e.length; s < i; ++s) {
     l = e[s];
@@ -3567,8 +4516,13 @@ function _u(e, t) {
   }
   return a;
 }
+<<<<<<< HEAD
 function wu(e) {
   const t = xu(e), a = Ja(t.filter((c) => c.box.fullSize), !0), n = Ja(Qa(t, "left"), !0), o = Ja(Qa(t, "right")), s = Ja(Qa(t, "top"), !0), i = Ja(Qa(t, "bottom")), l = Zs(t, "x"), r = Zs(t, "y");
+=======
+function _u(e) {
+  const t = yu(e), a = Ja(t.filter((c) => c.box.fullSize), !0), n = Ja(Qa(t, "left"), !0), o = Ja(Qa(t, "right")), s = Ja(Qa(t, "top"), !0), i = Ja(Qa(t, "bottom")), l = Zs(t, "x"), r = Zs(t, "y");
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     fullSize: a,
     leftAndTop: n.concat(s),
@@ -3584,7 +4538,11 @@ function Qs(e, t, a, n) {
 function Nl(e, t) {
   e.top = Math.max(e.top, t.top), e.left = Math.max(e.left, t.left), e.bottom = Math.max(e.bottom, t.bottom), e.right = Math.max(e.right, t.right);
 }
+<<<<<<< HEAD
 function Cu(e, t, a, n) {
+=======
+function wu(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { pos: o, box: s } = a, i = e.maxPadding;
   if (!Oe(o)) {
     a.size && (e[o] -= a.size);
@@ -3604,7 +4562,11 @@ function Cu(e, t, a, n) {
     other: c
   };
 }
+<<<<<<< HEAD
 function $u(e) {
+=======
+function Cu(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = e.maxPadding;
   function a(n) {
     const o = Math.max(t[n] - e[n], 0);
@@ -3612,7 +4574,11 @@ function $u(e) {
   }
   e.y += a("top"), e.x += a("left"), a("right"), a("bottom");
 }
+<<<<<<< HEAD
 function Su(e, t) {
+=======
+function $u(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = t.maxPadding;
   function n(o) {
     const s = {
@@ -3637,9 +4603,15 @@ function ln(e, t, a, n) {
   const o = [];
   let s, i, l, r, c, u;
   for (s = 0, i = e.length, c = 0; s < i; ++s) {
+<<<<<<< HEAD
     l = e[s], r = l.box, r.update(l.width || t.w, l.height || t.h, Su(l.horizontal, t));
     const { same: g, other: h } = Cu(t, a, l, n);
     c |= g && o.length, u = u || h, r.fullSize || o.push(l);
+=======
+    l = e[s], r = l.box, r.update(l.width || t.w, l.height || t.h, $u(l.horizontal, t));
+    const { same: f, other: h } = wu(t, a, l, n);
+    c |= f && o.length, u = u || h, r.fullSize || o.push(l);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   return c && ln(o, t, a, n) || u;
 }
@@ -3655,11 +4627,19 @@ function Js(e, t, a, n) {
       weight: 1
     }, u = l.stackWeight / c.weight || 1;
     if (l.horizontal) {
+<<<<<<< HEAD
       const g = t.w * u, h = c.size || r.height;
       mn(c.start) && (i = c.start), r.fullSize ? Pn(r, o.left, i, a.outerWidth - o.right - o.left, h) : Pn(r, t.left + c.placed, i, g, h), c.start = i, c.placed += g, i = r.bottom;
     } else {
       const g = t.h * u, h = c.size || r.width;
       mn(c.start) && (s = c.start), r.fullSize ? Pn(r, s, o.top, h, a.outerHeight - o.bottom - o.top) : Pn(r, s, t.top + c.placed, h, g), c.start = s, c.placed += g, s = r.right;
+=======
+      const f = t.w * u, h = c.size || r.height;
+      mn(c.start) && (i = c.start), r.fullSize ? Pn(r, o.left, i, a.outerWidth - o.right - o.left, h) : Pn(r, t.left + c.placed, i, f, h), c.start = i, c.placed += f, i = r.bottom;
+    } else {
+      const f = t.h * u, h = c.size || r.width;
+      mn(c.start) && (s = c.start), r.fullSize ? Pn(r, s, o.top, h, a.outerHeight - o.bottom - o.top) : Pn(r, s, t.top + c.placed, h, f), c.start = s, c.placed += f, s = r.right;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   t.x = s, t.y = i;
@@ -3687,8 +4667,13 @@ var jt = {
   update(e, t, a, n) {
     if (!e)
       return;
+<<<<<<< HEAD
     const o = Wt(e.options.layout.padding), s = Math.max(t - o.width, 0), i = Math.max(a - o.height, 0), l = wu(e.boxes), r = l.vertical, c = l.horizontal;
     We(e.boxes, (v) => {
+=======
+    const o = Wt(e.options.layout.padding), s = Math.max(t - o.width, 0), i = Math.max(a - o.height, 0), l = _u(e.boxes), r = l.vertical, c = l.horizontal;
+    Ke(e.boxes, (v) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       typeof v.beforeLayout == "function" && v.beforeLayout();
     });
     const u = r.reduce((v, b) => b.box.options && b.box.options.display === !1 ? v : v + 1, 0) || 1, g = Object.freeze({
@@ -3701,12 +4686,17 @@ var jt = {
       hBoxMaxHeight: i / 2
     }), h = Object.assign({}, o);
     Nl(h, Wt(n));
+<<<<<<< HEAD
     const p = Object.assign({
+=======
+    const b = Object.assign({
+>>>>>>> 8a6bd9f (Sales Volume chart)
       maxPadding: h,
       w: s,
       h: i,
       x: o.left,
       y: o.top
+<<<<<<< HEAD
     }, o), m = _u(r.concat(c), g);
     ln(l.fullSize, p, g, m), ln(r, p, g, m), ln(c, p, g, m) && ln(r, p, g, m), $u(p), Js(l.leftAndTop, p, g, m), p.x += p.w, p.y += p.h, Js(l.rightAndBottom, p, g, m), e.chartArea = {
       left: p.left,
@@ -3718,6 +4708,19 @@ var jt = {
     }, We(l.chartArea, (v) => {
       const b = v.box;
       Object.assign(b, e.chartArea), b.update(p.w, p.h, {
+=======
+    }, o), m = ku(r.concat(c), f);
+    ln(l.fullSize, b, f, m), ln(r, b, f, m), ln(c, b, f, m) && ln(r, b, f, m), Cu(b), Js(l.leftAndTop, b, f, m), b.x += b.w, b.y += b.h, Js(l.rightAndBottom, b, f, m), e.chartArea = {
+      left: b.left,
+      top: b.top,
+      right: b.left + b.w,
+      bottom: b.top + b.h,
+      height: b.h,
+      width: b.w
+    }, Ke(l.chartArea, (v) => {
+      const p = v.box;
+      Object.assign(p, e.chartArea), p.update(b.w, b.h, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         left: 0,
         top: 0,
         right: 0,
@@ -3751,7 +4754,11 @@ class zl {
   updateConfig(t) {
   }
 }
+<<<<<<< HEAD
 class Mu extends zl {
+=======
+class Su extends zl {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   acquireContext(t) {
     return t && t.getContext && t.getContext("2d") || null;
   }
@@ -3759,7 +4766,11 @@ class Mu extends zl {
     t.options.animation = !1;
   }
 }
+<<<<<<< HEAD
 const Hn = "$chartjs", Du = {
+=======
+const Hn = "$chartjs", Mu = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   touchstart: "mousedown",
   touchmove: "mousemove",
   touchend: "mouseup",
@@ -3770,7 +4781,11 @@ const Hn = "$chartjs", Du = {
   pointerleave: "mouseout",
   pointerout: "mouseout"
 }, ei = (e) => e === null || e === "";
+<<<<<<< HEAD
 function Tu(e, t) {
+=======
+function Du(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = e.style, n = e.getAttribute("height"), o = e.getAttribute("width");
   if (e[Hn] = {
     initial: {
@@ -3795,6 +4810,7 @@ function Tu(e, t) {
     }
   return e;
 }
+<<<<<<< HEAD
 const jl = Md ? {
   passive: !0
 } : !1;
@@ -3806,6 +4822,19 @@ function Bu(e, t, a) {
 }
 function Lu(e, t) {
   const a = Du[e.type] || e.type, { x: n, y: o } = Da(e, t);
+=======
+const jl = Sd ? {
+  passive: !0
+} : !1;
+function Tu(e, t, a) {
+  e && e.addEventListener(t, a, jl);
+}
+function Au(e, t, a) {
+  e && e.canvas && e.canvas.removeEventListener(t, a, jl);
+}
+function Bu(e, t) {
+  const a = Mu[e.type] || e.type, { x: n, y: o } = Da(e, t);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     type: a,
     chart: t,
@@ -3819,6 +4848,7 @@ function Qn(e, t) {
     if (a === t || a.contains(t))
       return !0;
 }
+<<<<<<< HEAD
 function Pu(e, t, a) {
   const n = e.canvas, o = new MutationObserver((s) => {
     let i = !1;
@@ -3836,6 +4866,13 @@ function Ru(e, t, a) {
     let i = !1;
     for (const l of s)
       i = i || Qn(l.removedNodes, n), i = i && !Qn(l.addedNodes, n);
+=======
+function Lu(e, t, a) {
+  const n = e.canvas, o = new MutationObserver((s) => {
+    let i = !1;
+    for (const l of s)
+      i = i || Qn(l.addedNodes, n), i = i && !Qn(l.removedNodes, n);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     i && a();
   });
   return o.observe(document, {
@@ -3843,6 +4880,21 @@ function Ru(e, t, a) {
     subtree: !0
   }), o;
 }
+<<<<<<< HEAD
+=======
+function Pu(e, t, a) {
+  const n = e.canvas, o = new MutationObserver((s) => {
+    let i = !1;
+    for (const l of s)
+      i = i || Qn(l.removedNodes, n), i = i && !Qn(l.addedNodes, n);
+    i && a();
+  });
+  return o.observe(document, {
+    childList: !0,
+    subtree: !0
+  }), o;
+}
+>>>>>>> 8a6bd9f (Sales Volume chart)
 const xn = /* @__PURE__ */ new Map();
 let ti = 0;
 function Hl() {
@@ -3854,10 +4906,17 @@ function Hl() {
 function Eu(e, t) {
   xn.size || window.addEventListener("resize", Hl), xn.set(e, t);
 }
+<<<<<<< HEAD
 function Iu(e) {
   xn.delete(e), xn.size || window.removeEventListener("resize", Hl);
 }
 function Fu(e, t, a) {
+=======
+function Ru(e) {
+  xn.delete(e), xn.size || window.removeEventListener("resize", Hl);
+}
+function Iu(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e.canvas, o = n && is(n);
   if (!o)
     return;
@@ -3871,6 +4930,7 @@ function Fu(e, t, a) {
   return i.observe(o), Eu(e, s), i;
 }
 function Co(e, t, a) {
+<<<<<<< HEAD
   a && a.disconnect(), t === "resize" && Iu(e);
 }
 function Ou(e, t, a) {
@@ -3883,6 +4943,20 @@ class Vu extends zl {
   acquireContext(t, a) {
     const n = t && t.getContext && t.getContext("2d");
     return n && n.canvas === t ? (Tu(t, a), n) : null;
+=======
+  a && a.disconnect(), t === "resize" && Ru(e);
+}
+function Fu(e, t, a) {
+  const n = e.canvas, o = kl((s) => {
+    e.ctx !== null && a(Bu(s, e));
+  }, e);
+  return Tu(n, t, o), o;
+}
+class Ou extends zl {
+  acquireContext(t, a) {
+    const n = t && t.getContext && t.getContext("2d");
+    return n && n.canvas === t ? (Du(t, a), n) : null;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   releaseContext(t) {
     const a = t.canvas;
@@ -3904,10 +4978,17 @@ class Vu extends zl {
   addEventListener(t, a, n) {
     this.removeEventListener(t, a);
     const o = t.$proxies || (t.$proxies = {}), i = {
+<<<<<<< HEAD
       attach: Pu,
       detach: Ru,
       resize: Fu
     }[a] || Ou;
+=======
+      attach: Lu,
+      detach: Pu,
+      resize: Iu
+    }[a] || Fu;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     o[a] = i(t, a, n);
   }
   removeEventListener(t, a) {
@@ -3918,21 +4999,34 @@ class Vu extends zl {
       attach: Co,
       detach: Co,
       resize: Co
+<<<<<<< HEAD
     }[a] || Bu)(t, a, o), n[a] = void 0;
+=======
+    }[a] || Au)(t, a, o), n[a] = void 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   getDevicePixelRatio() {
     return window.devicePixelRatio;
   }
   getMaximumSize(t, a, n, o) {
+<<<<<<< HEAD
     return Sd(t, a, n, o);
+=======
+    return $d(t, a, n, o);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   isAttached(t) {
     const a = t && is(t);
     return !!(a && a.isConnected);
   }
 }
+<<<<<<< HEAD
 function Nu(e) {
   return !ss() || typeof OffscreenCanvas < "u" && e instanceof OffscreenCanvas ? Mu : Vu;
+=======
+function Vu(e) {
+  return !ss() || typeof OffscreenCanvas < "u" && e instanceof OffscreenCanvas ? Su : Ou;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 let fa = class {
   static defaults = {};
@@ -3965,11 +5059,19 @@ let fa = class {
     }), o;
   }
 };
+<<<<<<< HEAD
 function zu(e, t) {
   const a = e.options.ticks, n = ju(e), o = Math.min(a.maxTicksLimit || n, n), s = a.major.enabled ? Wu(t) : [], i = s.length, l = s[0], r = s[i - 1], c = [];
   if (i > o)
     return Ku(t, c, s, i / o), c;
   const u = Hu(s, t, o);
+=======
+function Nu(e, t) {
+  const a = e.options.ticks, n = zu(e), o = Math.min(a.maxTicksLimit || n, n), s = a.major.enabled ? Hu(t) : [], i = s.length, l = s[0], r = s[i - 1], c = [];
+  if (i > o)
+    return Wu(t, c, s, i / o), c;
+  const u = ju(s, t, o);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (i > 0) {
     let g, h;
     const p = i > 1 ? Math.round((r - l) / (i - 1)) : null;
@@ -3979,6 +5081,7 @@ function zu(e, t) {
   }
   return Rn(t, c, u), c;
 }
+<<<<<<< HEAD
 function ju(e) {
   const t = e.options.offset, a = e._tickSize(), n = e._length / a + (t ? 0 : 1), o = e._maxLength / a;
   return Math.floor(Math.min(n, o));
@@ -3988,6 +5091,17 @@ function Hu(e, t, a) {
   if (!n)
     return Math.max(o, 1);
   const s = $c(n);
+=======
+function zu(e) {
+  const t = e.options.offset, a = e._tickSize(), n = e._length / a + (t ? 0 : 1), o = e._maxLength / a;
+  return Math.floor(Math.min(n, o));
+}
+function ju(e, t, a) {
+  const n = Ku(e), o = t.length / a;
+  if (!n)
+    return Math.max(o, 1);
+  const s = Cc(n);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   for (let i = 0, l = s.length - 1; i < l; i++) {
     const r = s[i];
     if (r > o)
@@ -3995,27 +5109,44 @@ function Hu(e, t, a) {
   }
   return Math.max(o, 1);
 }
+<<<<<<< HEAD
 function Wu(e) {
+=======
+function Hu(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = [];
   let a, n;
   for (a = 0, n = e.length; a < n; a++)
     e[a].major && t.push(a);
   return t;
 }
+<<<<<<< HEAD
 function Ku(e, t, a, n) {
+=======
+function Wu(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let o = 0, s = a[0], i;
   for (n = Math.ceil(n), i = 0; i < e.length; i++)
     i === s && (t.push(e[i]), o++, s = a[o * n]);
 }
+<<<<<<< HEAD
 function Rn(e, t, a, n, o) {
   const s = Ee(n, 0), i = Math.min(Ee(o, e.length), e.length);
+=======
+function En(e, t, a, n, o) {
+  const s = Re(n, 0), i = Math.min(Re(o, e.length), e.length);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let l = 0, r, c, u;
   for (a = Math.ceil(a), o && (r = o - n, a = r / Math.floor(r / a)), u = s; u < 0; )
     l++, u = Math.round(s + l * a);
   for (c = Math.max(s, 0); c < i; c++)
     c === u && (t.push(e[c]), l++, u = Math.round(s + l * a));
 }
+<<<<<<< HEAD
 function Uu(e) {
+=======
+function Ku(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = e.length;
   let a, n;
   if (t < 2)
@@ -4025,7 +5156,11 @@ function Uu(e) {
       return !1;
   return n;
 }
+<<<<<<< HEAD
 const Yu = (e) => e === "left" ? "right" : e === "right" ? "left" : e, ai = (e, t, a) => t === "top" || t === "left" ? e[t] + a : e[t] - a, ni = (e, t) => Math.min(t || e, e);
+=======
+const Uu = (e) => e === "left" ? "right" : e === "right" ? "left" : e, ai = (e, t, a) => t === "top" || t === "left" ? e[t] + a : e[t] - a, ni = (e, t) => Math.min(t || e, e);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function oi(e, t) {
   const a = [], n = e.length / t, o = e.length;
   let s = 0;
@@ -4033,14 +5168,23 @@ function oi(e, t) {
     a.push(e[Math.floor(s)]);
   return a;
 }
+<<<<<<< HEAD
 function qu(e, t, a) {
+=======
+function Yu(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e.ticks.length, o = Math.min(t, n - 1), s = e._startPixel, i = e._endPixel, l = 1e-6;
   let r = e.getPixelForTick(o), c;
   if (!(a && (n === 1 ? c = Math.max(r - s, i - r) : t === 0 ? c = (e.getPixelForTick(1) - r) / 2 : c = (r - e.getPixelForTick(o - 1)) / 2, r += o < t ? c : -c, r < s - l || r > i + l)))
     return r;
 }
+<<<<<<< HEAD
 function Gu(e, t) {
   We(e, (a) => {
+=======
+function qu(e, t) {
+  Ke(e, (a) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const n = a.gc, o = n.length / 2;
     let s;
     if (o > t) {
@@ -4056,32 +5200,55 @@ function en(e) {
 function si(e, t) {
   if (!e.display)
     return 0;
+<<<<<<< HEAD
   const a = _t(e.font, t), n = Wt(e.padding);
   return (dt(e.text) ? e.text.length : 1) * a.lineHeight + n.height;
 }
 function Xu(e, t) {
+=======
+  const a = wt(e.font, t), n = Wt(e.padding);
+  return (dt(e.text) ? e.text.length : 1) * a.lineHeight + n.height;
+}
+function Gu(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return Ia(e, {
     scale: t,
     type: "scale"
   });
 }
+<<<<<<< HEAD
 function Zu(e, t, a) {
+=======
+function Xu(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return Ia(e, {
     tick: a,
     index: t,
     type: "tick"
   });
 }
+<<<<<<< HEAD
 function Qu(e, t, a) {
   let n = Qo(e);
   return (a && t !== "right" || !a && t === "right") && (n = Yu(n)), n;
 }
 function Ju(e, t, a, n) {
+=======
+function Zu(e, t, a) {
+  let n = Qo(e);
+  return (a && t !== "right" || !a && t === "right") && (n = Uu(n)), n;
+}
+function Qu(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { top: o, left: s, bottom: i, right: l, chart: r } = e, { chartArea: c, scales: u } = r;
   let g = 0, h, p, m;
   const v = i - o, b = l - s;
   if (e.isHorizontal()) {
+<<<<<<< HEAD
     if (p = xt(n, s, l), Oe(a)) {
+=======
+    if (b = kt(n, s, l), Oe(a)) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const y = Object.keys(a)[0], w = a[y];
       m = u[y].getPixelForValue(w) + v - t;
     } else a === "center" ? m = (c.bottom + c.top) / 2 + v - t : m = ai(e, a, t);
@@ -4089,9 +5256,15 @@ function Ju(e, t, a, n) {
   } else {
     if (Oe(a)) {
       const y = Object.keys(a)[0], w = a[y];
+<<<<<<< HEAD
       p = u[y].getPixelForValue(w) - b + t;
     } else a === "center" ? p = (c.left + c.right) / 2 - b + t : p = ai(e, a, t);
     m = xt(n, i, o), g = a === "left" ? -mt : mt;
+=======
+      b = u[y].getPixelForValue(w) - p + t;
+    } else a === "center" ? b = (c.left + c.right) / 2 - p + t : b = ai(e, a, t);
+    m = kt(n, i, o), f = a === "left" ? -mt : mt;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   return {
     titleX: p,
@@ -4120,8 +5293,8 @@ class qa extends fa {
     return t = Qt(t, Number.POSITIVE_INFINITY), a = Qt(a, Number.NEGATIVE_INFINITY), n = Qt(n, Number.POSITIVE_INFINITY), o = Qt(o, Number.NEGATIVE_INFINITY), {
       min: Qt(t, n),
       max: Qt(a, o),
-      minDefined: wt(t),
-      maxDefined: wt(a)
+      minDefined: Ct(t),
+      maxDefined: Ct(a)
     };
   }
   getMinMax(t) {
@@ -4172,9 +5345,15 @@ class qa extends fa {
       right: 0,
       top: 0,
       bottom: 0
+<<<<<<< HEAD
     }, n), this.ticks = null, this._labelSizes = null, this._gridLineItems = null, this._labelItems = null, this.beforeSetDimensions(), this.setDimensions(), this.afterSetDimensions(), this._maxLength = this.isHorizontal() ? this.width + n.left + n.right : this.height + n.top + n.bottom, this._dataLimitsCached || (this.beforeDataLimits(), this.determineDataLimits(), this.afterDataLimits(), this._range = od(this, s, o), this._dataLimitsCached = !0), this.beforeBuildTicks(), this.ticks = this.buildTicks() || [], this.afterBuildTicks();
     const r = l < this.ticks.length;
     this._convertTicksToLabels(r ? oi(this.ticks, l) : this.ticks), this.configure(), this.beforeCalculateLabelRotation(), this.calculateLabelRotation(), this.afterCalculateLabelRotation(), i.display && (i.autoSkip || i.source === "auto") && (this.ticks = zu(this, this.ticks), this._labelSizes = null, this.afterAutoSkip()), r && this._convertTicksToLabels(this.ticks), this.beforeFit(), this.fit(), this.afterFit(), this.afterUpdate();
+=======
+    }, n), this.ticks = null, this._labelSizes = null, this._gridLineItems = null, this._labelItems = null, this.beforeSetDimensions(), this.setDimensions(), this.afterSetDimensions(), this._maxLength = this.isHorizontal() ? this.width + n.left + n.right : this.height + n.top + n.bottom, this._dataLimitsCached || (this.beforeDataLimits(), this.determineDataLimits(), this.afterDataLimits(), this._range = nd(this, s, o), this._dataLimitsCached = !0), this.beforeBuildTicks(), this.ticks = this.buildTicks() || [], this.afterBuildTicks();
+    const r = l < this.ticks.length;
+    this._convertTicksToLabels(r ? oi(this.ticks, l) : this.ticks), this.configure(), this.beforeCalculateLabelRotation(), this.calculateLabelRotation(), this.afterCalculateLabelRotation(), i.display && (i.autoSkip || i.source === "auto") && (this.ticks = Nu(this, this.ticks), this._labelSizes = null, this.afterAutoSkip()), r && this._convertTicksToLabels(this.ticks), this.beforeFit(), this.fit(), this.afterFit(), this.afterUpdate();
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   configure() {
     let t = this.options.reverse, a, n;
@@ -4252,8 +5431,13 @@ class qa extends fa {
       this.labelRotation = o;
       return;
     }
+<<<<<<< HEAD
     const u = this._getLabelSizes(), g = u.widest.width, h = u.highest.height, p = kt(this.chart.width - g, 0, this.maxWidth);
     l = t.offset ? this.maxWidth / n : p / (n - 1), g + 6 > l && (l = p / (n - (t.offset ? 0.5 : 1)), r = this.maxHeight - en(t.grid) - a.padding - si(t.title, this.chart.options.font), c = Math.sqrt(g * g + h * h), i = Tc(Math.min(Math.asin(kt((u.highest.height + 6) / l, -1, 1)), Math.asin(kt(r / c, -1, 1)) - Math.asin(kt(h / c, -1, 1)))), i = Math.max(o, Math.min(s, i))), this.labelRotation = i;
+=======
+    const u = this._getLabelSizes(), f = u.widest.width, h = u.highest.height, b = _t(this.chart.width - f, 0, this.maxWidth);
+    l = t.offset ? this.maxWidth / n : b / (n - 1), f + 6 > l && (l = b / (n - (t.offset ? 0.5 : 1)), r = this.maxHeight - en(t.grid) - a.padding - si(t.title, this.chart.options.font), c = Math.sqrt(f * f + h * h), i = Dc(Math.min(Math.asin(_t((u.highest.height + 6) / l, -1, 1)), Math.asin(_t(r / c, -1, 1)) - Math.asin(_t(h / c, -1, 1)))), i = Math.max(o, Math.min(s, i))), this.labelRotation = i;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   afterCalculateLabelRotation() {
     Je(this.options.afterCalculateLabelRotation, [
@@ -4275,7 +5459,11 @@ class qa extends fa {
     if (i) {
       const r = si(o, a.options.font);
       if (l ? (t.width = this.maxWidth, t.height = en(s) + r) : (t.height = this.maxHeight, t.width = en(s) + r), n.display && this.ticks.length) {
+<<<<<<< HEAD
         const { first: c, last: u, widest: g, highest: h } = this._getLabelSizes(), p = n.padding * 2, m = ca(this.labelRotation), v = Math.cos(m), b = Math.sin(m);
+=======
+        const { first: c, last: u, widest: f, highest: h } = this._getLabelSizes(), b = n.padding * 2, m = ca(this.labelRotation), v = Math.cos(m), p = Math.sin(m);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         if (l) {
           const y = n.mirror ? 0 : b * g.width + v * h.height;
           t.height = Math.min(this.maxHeight, t.height + y + p);
@@ -4332,6 +5520,7 @@ class qa extends fa {
   }
   _computeLabelSizes(t, a, n) {
     const { ctx: o, _longestTextCache: s } = this, i = [], l = [], r = Math.floor(a / ni(a, n));
+<<<<<<< HEAD
     let c = 0, u = 0, g, h, p, m, v, b, y, w, k, _, $;
     for (g = 0; g < a; g += r) {
       if (m = t[g].label, v = this._resolveTickFontOptions(g), o.font = b = v.string, y = s[b] = s[b] || {
@@ -4348,6 +5537,24 @@ class qa extends fa {
     const S = i.indexOf(c), M = l.indexOf(u), P = (E) => ({
       width: i[E] || 0,
       height: l[E] || 0
+=======
+    let c = 0, u = 0, f, h, b, m, v, p, y, w, k, _, $;
+    for (f = 0; f < a; f += r) {
+      if (m = t[f].label, v = this._resolveTickFontOptions(f), o.font = p = v.string, y = s[p] = s[p] || {
+        data: {},
+        gc: []
+      }, w = v.lineHeight, k = _ = 0, !He(m) && !dt(m))
+        k = Ls(o, y.data, y.gc, k, m), _ = w;
+      else if (dt(m))
+        for (h = 0, b = m.length; h < b; ++h)
+          $ = m[h], !He($) && !dt($) && (k = Ls(o, y.data, y.gc, k, $), _ += w);
+      i.push(k), l.push(_), c = Math.max(k, c), u = Math.max(_, u);
+    }
+    qu(s, a);
+    const S = i.indexOf(c), M = l.indexOf(u), P = (R) => ({
+      width: i[R] || 0,
+      height: l[R] || 0
+>>>>>>> 8a6bd9f (Sales Volume chart)
     });
     return {
       first: P(0),
@@ -4373,7 +5580,11 @@ class qa extends fa {
   getPixelForDecimal(t) {
     this._reversePixels && (t = 1 - t);
     const a = this._startPixel + t * this._length;
+<<<<<<< HEAD
     return Bc(this._alignToPixels ? Sa(this.chart, a, 0) : a);
+=======
+    return Ac(this._alignToPixels ? Sa(this.chart, a, 0) : a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   getDecimalForPixel(t) {
     const a = (t - this._startPixel) / this._length;
@@ -4390,9 +5601,15 @@ class qa extends fa {
     const a = this.ticks || [];
     if (t >= 0 && t < a.length) {
       const n = a[t];
+<<<<<<< HEAD
       return n.$context || (n.$context = Zu(this.getContext(), t, n));
     }
     return this.$context || (this.$context = Xu(this.chart.getContext(), this));
+=======
+      return n.$context || (n.$context = Xu(this.getContext(), t, n));
+    }
+    return this.$context || (this.$context = Gu(this.chart.getContext(), this));
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   _tickSize() {
     const t = this.options.ticks, a = ca(this.labelRotation), n = Math.abs(Math.cos(a)), o = Math.abs(Math.sin(a)), s = this._getLabelSizes(), i = t.autoSkipPadding || 0, l = s ? s.widest.width + i : 0, r = s ? s.highest.height + i : 0;
@@ -4403,14 +5620,24 @@ class qa extends fa {
     return t !== "auto" ? !!t : this.getMatchingVisibleMetas().length > 0;
   }
   _computeGridLineItems(t) {
+<<<<<<< HEAD
     const a = this.axis, n = this.chart, o = this.options, { grid: s, position: i, border: l } = o, r = s.offset, c = this.isHorizontal(), g = this.ticks.length + (r ? 1 : 0), h = en(s), p = [], m = l.setContext(this.getContext()), v = m.display ? m.width : 0, b = v / 2, y = function(X) {
+=======
+    const a = this.axis, n = this.chart, o = this.options, { grid: s, position: i, border: l } = o, r = s.offset, c = this.isHorizontal(), f = this.ticks.length + (r ? 1 : 0), h = en(s), b = [], m = l.setContext(this.getContext()), v = m.display ? m.width : 0, p = v / 2, y = function(X) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return Sa(n, X, v);
     };
-    let w, k, _, $, S, M, P, E, N, D, B, L;
+    let w, k, _, $, S, M, P, R, N, D, B, L;
     if (i === "top")
+<<<<<<< HEAD
       w = y(this.bottom), M = this.bottom - h, E = w - b, D = y(t.top) + b, L = t.bottom;
     else if (i === "bottom")
       w = y(this.top), D = t.top, L = y(t.bottom) - b, M = w + b, E = this.top + h;
+=======
+      w = y(this.bottom), M = this.bottom - h, R = w - p, D = y(t.top) + p, L = t.bottom;
+    else if (i === "bottom")
+      w = y(this.top), D = t.top, L = y(t.bottom) - p, M = w + p, R = this.top + h;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     else if (i === "left")
       w = y(this.right), S = this.right - h, P = w - b, N = y(t.left) + b, B = t.right;
     else if (i === "right")
@@ -4422,7 +5649,11 @@ class qa extends fa {
         const X = Object.keys(i)[0], se = i[X];
         w = y(this.chart.scales[X].getPixelForValue(se));
       }
+<<<<<<< HEAD
       D = t.top, L = t.bottom, M = w + b, E = M + h;
+=======
+      D = t.top, L = t.bottom, M = w + p, R = M + h;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     } else if (a === "y") {
       if (i === "center")
         w = y((t.left + t.right) / 2);
@@ -4432,21 +5663,28 @@ class qa extends fa {
       }
       S = w - b, P = S - h, N = t.left, B = t.right;
     }
+<<<<<<< HEAD
     const j = Ee(o.ticks.maxTicksLimit, g), W = Math.max(1, Math.ceil(g / j));
     for (k = 0; k < g; k += W) {
       const X = this.getContext(k), se = s.setContext(X), ce = l.setContext(X), G = se.lineWidth, te = se.color, R = ce.dash || [], U = ce.dashOffset, Y = se.tickWidth, O = se.tickColor, oe = se.tickBorderDash || [], re = se.tickBorderDashOffset;
       _ = qu(this, k, r), _ !== void 0 && ($ = Sa(n, _, G), c ? S = P = N = B = $ : M = E = D = L = $, p.push({
+=======
+    const j = Re(o.ticks.maxTicksLimit, f), W = Math.max(1, Math.ceil(f / j));
+    for (k = 0; k < f; k += W) {
+      const X = this.getContext(k), se = s.setContext(X), de = l.setContext(X), G = se.lineWidth, te = se.color, E = de.dash || [], U = de.dashOffset, Y = se.tickWidth, O = se.tickColor, oe = se.tickBorderDash || [], re = se.tickBorderDashOffset;
+      _ = Yu(this, k, r), _ !== void 0 && ($ = Sa(n, _, G), c ? S = P = N = B = $ : M = R = D = L = $, b.push({
+>>>>>>> 8a6bd9f (Sales Volume chart)
         tx1: S,
         ty1: M,
         tx2: P,
-        ty2: E,
+        ty2: R,
         x1: N,
         y1: D,
         x2: B,
         y2: L,
         width: G,
         color: te,
-        borderDash: R,
+        borderDash: E,
         borderDashOffset: U,
         tickWidth: Y,
         tickColor: O,
@@ -4457,8 +5695,13 @@ class qa extends fa {
     return this._ticksLength = g, this._borderValue = w, p;
   }
   _computeLabelItems(t) {
+<<<<<<< HEAD
     const a = this.axis, n = this.options, { position: o, ticks: s } = n, i = this.isHorizontal(), l = this.ticks, { align: r, crossAlign: c, padding: u, mirror: g } = s, h = en(n.grid), p = h + u, m = g ? -u : p, v = -ca(this.labelRotation), b = [];
     let y, w, k, _, $, S, M, P, E, N, D, B, L = "middle";
+=======
+    const a = this.axis, n = this.options, { position: o, ticks: s } = n, i = this.isHorizontal(), l = this.ticks, { align: r, crossAlign: c, padding: u, mirror: f } = s, h = en(n.grid), b = h + u, m = f ? -u : b, v = -ca(this.labelRotation), p = [];
+    let y, w, k, _, $, S, M, P, R, N, D, B, L = "middle";
+>>>>>>> 8a6bd9f (Sales Volume chart)
     if (o === "top")
       S = this.bottom - m, M = this._getXAxisLabelAlignment();
     else if (o === "bottom")
@@ -4491,11 +5734,19 @@ class qa extends fa {
     for (y = 0, w = l.length; y < w; ++y) {
       k = l[y], _ = k.label;
       const W = s.setContext(this.getContext(y));
+<<<<<<< HEAD
       P = this.getPixelForTick(y) + s.labelOffset, E = this._resolveTickFontOptions(y), N = E.lineHeight, D = dt(_) ? _.length : 1;
       const X = D / 2, se = W.color, ce = W.textStrokeColor, G = W.textStrokeWidth;
       let te = M;
       i ? ($ = P, M === "inner" && (y === w - 1 ? te = this.options.reverse ? "left" : "right" : y === 0 ? te = this.options.reverse ? "right" : "left" : te = "center"), o === "top" ? c === "near" || v !== 0 ? B = -D * N + N / 2 : c === "center" ? B = -j.highest.height / 2 - X * N + N : B = -j.highest.height + N / 2 : c === "near" || v !== 0 ? B = N / 2 : c === "center" ? B = j.highest.height / 2 - X * N : B = j.highest.height - D * N, g && (B *= -1), v !== 0 && !W.showLabelBackdrop && ($ += N / 2 * Math.sin(v))) : (S = P, B = (1 - D) * N / 2);
       let R;
+=======
+      P = this.getPixelForTick(y) + s.labelOffset, R = this._resolveTickFontOptions(y), N = R.lineHeight, D = dt(_) ? _.length : 1;
+      const X = D / 2, se = W.color, de = W.textStrokeColor, G = W.textStrokeWidth;
+      let te = M;
+      i ? ($ = P, M === "inner" && (y === w - 1 ? te = this.options.reverse ? "left" : "right" : y === 0 ? te = this.options.reverse ? "right" : "left" : te = "center"), o === "top" ? c === "near" || v !== 0 ? B = -D * N + N / 2 : c === "center" ? B = -j.highest.height / 2 - X * N + N : B = -j.highest.height + N / 2 : c === "near" || v !== 0 ? B = N / 2 : c === "center" ? B = j.highest.height / 2 - X * N : B = j.highest.height - D * N, f && (B *= -1), v !== 0 && !W.showLabelBackdrop && ($ += N / 2 * Math.sin(v))) : (S = P, B = (1 - D) * N / 2);
+      let E;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (W.showLabelBackdrop) {
         const U = Wt(W.backdropPadding), Y = j.heights[y], O = j.widths[y];
         let oe = B - U.top, re = 0 - U.left;
@@ -4518,7 +5769,11 @@ class qa extends fa {
             y === w - 1 ? re -= O : y > 0 && (re -= O / 2);
             break;
         }
+<<<<<<< HEAD
         R = {
+=======
+        E = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           left: re,
           top: oe,
           width: O + U.width,
@@ -4528,7 +5783,7 @@ class qa extends fa {
       }
       b.push({
         label: _,
-        font: E,
+        font: R,
         textOffset: B,
         options: {
           rotation: v,
@@ -4541,7 +5796,7 @@ class qa extends fa {
             $,
             S
           ],
-          backdrop: R
+          backdrop: E
         }
       });
     }
@@ -4645,15 +5900,26 @@ class qa extends fa {
     const { ctx: t, options: { position: a, title: n, reverse: o } } = this;
     if (!n.display)
       return;
+<<<<<<< HEAD
     const s = _t(n.font), i = Wt(n.padding), l = n.align;
     let r = s.lineHeight / 2;
     a === "bottom" || a === "center" || Oe(a) ? (r += i.bottom, dt(n.text) && (r += s.lineHeight * (n.text.length - 1))) : r += i.top;
     const { titleX: c, titleY: u, maxWidth: g, rotation: h } = Ju(this, r, a, l);
+=======
+    const s = wt(n.font), i = Wt(n.padding), l = n.align;
+    let r = s.lineHeight / 2;
+    a === "bottom" || a === "center" || Oe(a) ? (r += i.bottom, dt(n.text) && (r += s.lineHeight * (n.text.length - 1))) : r += i.top;
+    const { titleX: c, titleY: u, maxWidth: f, rotation: h } = Qu(this, r, a, l);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     yn(t, n.text, 0, 0, s, {
       color: n.color,
       maxWidth: g,
       rotation: h,
+<<<<<<< HEAD
       textAlign: Qu(l, a, o),
+=======
+      textAlign: Zu(l, a, o),
+>>>>>>> 8a6bd9f (Sales Volume chart)
       textBaseline: "middle",
       translation: [
         c,
@@ -4665,7 +5931,11 @@ class qa extends fa {
     this._isVisible() && (this.drawBackground(), this.drawGrid(t), this.drawBorder(), this.drawTitle(), this.drawLabels(t));
   }
   _layers() {
+<<<<<<< HEAD
     const t = this.options, a = t.ticks && t.ticks.z || 0, n = Ee(t.grid && t.grid.z, -1), o = Ee(t.border && t.border.z, 0);
+=======
+    const t = this.options, a = t.ticks && t.ticks.z || 0, n = Re(t.grid && t.grid.z, -1), o = Re(t.border && t.border.z, 0);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     return !this._isVisible() || this.draw !== qa.prototype.draw ? [
       {
         z: a,
@@ -4705,14 +5975,18 @@ class qa extends fa {
   }
   _resolveTickFontOptions(t) {
     const a = this.options.ticks.setContext(this.getContext(t));
-    return _t(a.font);
+    return wt(a.font);
   }
   _maxDigits() {
     const t = this._resolveTickFontOptions(0).lineHeight;
     return (this.isHorizontal() ? this.width : this.height) / t;
   }
 }
+<<<<<<< HEAD
 class En {
+=======
+class Rn {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   constructor(t, a, n) {
     this.type = t, this.scope = a, this.override = n, this.items = /* @__PURE__ */ Object.create(null);
   }
@@ -4722,11 +5996,19 @@ class En {
   register(t) {
     const a = Object.getPrototypeOf(t);
     let n;
+<<<<<<< HEAD
     ah(a) && (n = this.register(a));
     const o = this.items, s = t.id, i = this.scope + "." + s;
     if (!s)
       throw new Error("class does not have id: " + t);
     return s in o || (o[s] = t, eh(t, i, n), this.override && lt.override(t.id, t.overrides)), i;
+=======
+    th(a) && (n = this.register(a));
+    const o = this.items, s = t.id, i = this.scope + "." + s;
+    if (!s)
+      throw new Error("class does not have id: " + t);
+    return s in o || (o[s] = t, Ju(t, i, n), this.override && lt.override(t.id, t.overrides)), i;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   get(t) {
     return this.items[t];
@@ -4736,15 +6018,25 @@ class En {
     n in a && delete a[n], o && n in lt[o] && (delete lt[o][n], this.override && delete Ra[n]);
   }
 }
+<<<<<<< HEAD
 function eh(e, t, a) {
+=======
+function Ju(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = gn(/* @__PURE__ */ Object.create(null), [
     a ? lt.get(a) : {},
     lt.get(t),
     e.defaults
   ]);
+<<<<<<< HEAD
   lt.set(t, n), e.defaultRoutes && th(t, e.defaultRoutes), e.descriptors && lt.describe(t, e.descriptors);
 }
 function th(e, t) {
+=======
+  lt.set(t, n), e.defaultRoutes && eh(t, e.defaultRoutes), e.descriptors && lt.describe(t, e.descriptors);
+}
+function eh(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   Object.keys(t).forEach((a) => {
     const n = a.split("."), o = n.pop(), s = [
       e
@@ -4752,12 +6044,21 @@ function th(e, t) {
     lt.route(s, o, r, l);
   });
 }
+<<<<<<< HEAD
 function ah(e) {
   return "id" in e && "defaults" in e;
 }
 class nh {
   constructor() {
     this.controllers = new En(so, "datasets", !0), this.elements = new En(fa, "elements"), this.plugins = new En(Object, "plugins"), this.scales = new En(qa, "scales"), this._typedRegistries = [
+=======
+function th(e) {
+  return "id" in e && "defaults" in e;
+}
+class ah {
+  constructor() {
+    this.controllers = new Rn(so, "datasets", !0), this.elements = new Rn(fa, "elements"), this.plugins = new Rn(Object, "plugins"), this.scales = new Rn(qa, "scales"), this._typedRegistries = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       this.controllers,
       this.scales,
       this.elements
@@ -4810,7 +6111,7 @@ class nh {
       ...a
     ].forEach((o) => {
       const s = n || this._getRegistryForType(o);
-      n || s.isForType(o) || s === this.plugins && o.id ? this._exec(t, s, o) : We(o, (i) => {
+      n || s.isForType(o) || s === this.plugins && o.id ? this._exec(t, s, o) : Ke(o, (i) => {
         const l = n || this._getRegistryForType(i);
         this._exec(t, l, i);
       });
@@ -4835,8 +6136,13 @@ class nh {
     return o;
   }
 }
+<<<<<<< HEAD
 var ea = /* @__PURE__ */ new nh();
 class oh {
+=======
+var ea = /* @__PURE__ */ new ah();
+class nh {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   constructor() {
     this._init = void 0;
   }
@@ -4869,15 +6175,24 @@ class oh {
     return this._notifyStateChanges(t), a;
   }
   _createDescriptors(t, a) {
+<<<<<<< HEAD
     const n = t && t.config, o = Ee(n.options && n.options.plugins, {}), s = sh(n);
     return o === !1 && !a ? [] : lh(t, s, o, a);
+=======
+    const n = t && t.config, o = Re(n.options && n.options.plugins, {}), s = oh(n);
+    return o === !1 && !a ? [] : ih(t, s, o, a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   _notifyStateChanges(t) {
     const a = this._oldCache || [], n = this._cache, o = (s, i) => s.filter((l) => !i.some((r) => l.plugin.id === r.plugin.id));
     this._notify(o(a, n), t, "stop"), this._notify(o(n, a), t, "start");
   }
 }
+<<<<<<< HEAD
 function sh(e) {
+=======
+function oh(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = {}, a = [], n = Object.keys(ea.plugins.items);
   for (let s = 0; s < n.length; s++)
     a.push(ea.getPlugin(n[s]));
@@ -4891,6 +6206,7 @@ function sh(e) {
     localIds: t
   };
 }
+<<<<<<< HEAD
 function ih(e, t) {
   return !t && e === !1 ? null : e === !0 ? {} : e;
 }
@@ -4901,6 +6217,18 @@ function lh(e, { plugins: t, localIds: a }, n, o) {
     c !== null && s.push({
       plugin: l,
       options: rh(e.config, {
+=======
+function sh(e, t) {
+  return !t && e === !1 ? null : e === !0 ? {} : e;
+}
+function ih(e, { plugins: t, localIds: a }, n, o) {
+  const s = [], i = e.getContext();
+  for (const l of t) {
+    const r = l.id, c = sh(n[r], o);
+    c !== null && s.push({
+      plugin: l,
+      options: lh(e.config, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         plugin: l,
         local: a[r]
       }, c, i)
@@ -4908,7 +6236,11 @@ function lh(e, { plugins: t, localIds: a }, n, o) {
   }
   return s;
 }
+<<<<<<< HEAD
 function rh(e, { plugin: t, local: a }, n, o) {
+=======
+function lh(e, { plugin: t, local: a }, n, o) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const s = e.pluginScopeKeys(t), i = e.getOptionScopes(n, s);
   return a && t.defaults && i.push(t.defaults), e.createResolver(i, o, [
     ""
@@ -4922,18 +6254,30 @@ function No(e, t) {
   const a = lt.datasets[e] || {};
   return ((t.datasets || {})[e] || {}).indexAxis || t.indexAxis || a.indexAxis || "x";
 }
+<<<<<<< HEAD
 function ch(e, t) {
   let a = e;
   return e === "_index_" ? a = t : e === "_value_" && (a = t === "x" ? "y" : "x"), a;
 }
 function dh(e, t) {
+=======
+function rh(e, t) {
+  let a = e;
+  return e === "_index_" ? a = t : e === "_value_" && (a = t === "x" ? "y" : "x"), a;
+}
+function ch(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return e === t ? "_index_" : "_value_";
 }
 function ii(e) {
   if (e === "x" || e === "y" || e === "r")
     return e;
 }
+<<<<<<< HEAD
 function uh(e) {
+=======
+function dh(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (e === "top" || e === "bottom")
     return "x";
   if (e === "left" || e === "right")
@@ -4943,7 +6287,11 @@ function zo(e, ...t) {
   if (ii(e))
     return e;
   for (const a of t) {
+<<<<<<< HEAD
     const n = a.axis || uh(a.position) || e.length > 1 && ii(e[0].toLowerCase());
+=======
+    const n = a.axis || dh(a.position) || e.length > 1 && ii(e[0].toLowerCase());
+>>>>>>> 8a6bd9f (Sales Volume chart)
     if (n)
       return n;
   }
@@ -4955,7 +6303,11 @@ function li(e, t, a) {
       axis: t
     };
 }
+<<<<<<< HEAD
 function hh(e, t) {
+=======
+function uh(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (t.data && t.data.datasets) {
     const a = t.data.datasets.filter((n) => n.xAxisID === e || n.yAxisID === e);
     if (a.length)
@@ -4963,8 +6315,13 @@ function hh(e, t) {
   }
   return {};
 }
+<<<<<<< HEAD
 function fh(e, t) {
   const a = Ra[e.type] || {
+=======
+function hh(e, t) {
+  const a = Ea[e.type] || {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     scales: {}
   }, n = t.scales || {}, o = No(e.type, t), s = /* @__PURE__ */ Object.create(null);
   return Object.keys(n).forEach((i) => {
@@ -4973,7 +6330,11 @@ function fh(e, t) {
       return console.error(`Invalid scale configuration for scale: ${i}`);
     if (l._proxy)
       return console.warn(`Ignoring resolver passed as options for scale: ${i}`);
+<<<<<<< HEAD
     const r = zo(i, l, hh(i, e), lt.scales[l.type]), c = dh(r, o), u = a.scales || {};
+=======
+    const r = zo(i, l, uh(i, e), lt.scales[l.type]), c = ch(r, o), u = a.scales || {};
+>>>>>>> 8a6bd9f (Sales Volume chart)
     s[i] = cn(/* @__PURE__ */ Object.create(null), [
       {
         axis: r
@@ -4983,10 +6344,17 @@ function fh(e, t) {
       u[c]
     ]);
   }), e.data.datasets.forEach((i) => {
+<<<<<<< HEAD
     const l = i.type || e.type, r = i.indexAxis || No(l, t), u = (Ra[l] || {}).scales || {};
     Object.keys(u).forEach((g) => {
       const h = ch(g, r), p = i[h + "AxisID"] || h;
       s[p] = s[p] || /* @__PURE__ */ Object.create(null), cn(s[p], [
+=======
+    const l = i.type || e.type, r = i.indexAxis || No(l, t), u = (Ea[l] || {}).scales || {};
+    Object.keys(u).forEach((f) => {
+      const h = rh(f, r), b = i[h + "AxisID"] || h;
+      s[b] = s[b] || /* @__PURE__ */ Object.create(null), cn(s[b], [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         {
           axis: h
         },
@@ -5004,12 +6372,20 @@ function fh(e, t) {
 }
 function Wl(e) {
   const t = e.options || (e.options = {});
+<<<<<<< HEAD
   t.plugins = Ee(t.plugins, {}), t.scales = fh(e, t);
+=======
+  t.plugins = Re(t.plugins, {}), t.scales = hh(e, t);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Kl(e) {
   return e = e || {}, e.datasets = e.datasets || [], e.labels = e.labels || [], e;
 }
+<<<<<<< HEAD
 function gh(e) {
+=======
+function fh(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return e = e || {}, e.data = Kl(e.data), Wl(e), e;
 }
 const ri = /* @__PURE__ */ new Map(), Ul = /* @__PURE__ */ new Set();
@@ -5021,9 +6397,15 @@ const tn = (e, t, a) => {
   const n = Pa(t, a);
   n !== void 0 && e.add(n);
 };
+<<<<<<< HEAD
 class mh {
   constructor(t) {
     this._config = gh(t), this._scopeCache = /* @__PURE__ */ new Map(), this._resolverCache = /* @__PURE__ */ new Map();
+=======
+class gh {
+  constructor(t) {
+    this._config = fh(t), this._scopeCache = /* @__PURE__ */ new Map(), this._resolverCache = /* @__PURE__ */ new Map();
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   get platform() {
     return this._config.platform;
@@ -5106,7 +6488,11 @@ class mh {
       return l;
     const r = /* @__PURE__ */ new Set();
     a.forEach((u) => {
+<<<<<<< HEAD
       t && (r.add(t), u.forEach((g) => tn(r, t, g))), u.forEach((g) => tn(r, o, g)), u.forEach((g) => tn(r, Ra[s] || {}, g)), u.forEach((g) => tn(r, lt, g)), u.forEach((g) => tn(r, Oo, g));
+=======
+      t && (r.add(t), u.forEach((f) => tn(r, t, f))), u.forEach((f) => tn(r, o, f)), u.forEach((f) => tn(r, Ea[s] || {}, f)), u.forEach((f) => tn(r, lt, f)), u.forEach((f) => tn(r, Oo, f));
+>>>>>>> 8a6bd9f (Sales Volume chart)
     });
     const c = Array.from(r);
     return c.length === 0 && c.push(/* @__PURE__ */ Object.create(null)), Ul.has(a) && i.set(a, c), c;
@@ -5131,7 +6517,11 @@ class mh {
       $shared: !0
     }, { resolver: i, subPrefixes: l } = ci(this._resolverCache, t, o);
     let r = i;
+<<<<<<< HEAD
     if (bh(i, a)) {
+=======
+    if (ph(i, a)) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       s.$shared = !1, n = wa(n) ? n() : n;
       const c = this.createResolver(t, n, l);
       r = Ua(i, n, c);
@@ -5157,18 +6547,32 @@ function ci(e, t, a) {
     subPrefixes: a.filter((l) => !l.toLowerCase().includes("hover"))
   }, n.set(o, s)), s;
 }
+<<<<<<< HEAD
 const ph = (e) => Oe(e) && Object.getOwnPropertyNames(e).some((t) => wa(e[t]));
 function bh(e, t) {
   const { isScriptable: a, isIndexable: n } = $l(e);
   for (const o of t) {
     const s = a(o), i = n(o), l = (i || s) && e[o];
     if (s && (wa(l) || ph(l)) || i && dt(l))
+=======
+const mh = (e) => Oe(e) && Object.getOwnPropertyNames(e).some((t) => wa(e[t]));
+function ph(e, t) {
+  const { isScriptable: a, isIndexable: n } = $l(e);
+  for (const o of t) {
+    const s = a(o), i = n(o), l = (i || s) && e[o];
+    if (s && (wa(l) || mh(l)) || i && dt(l))
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return !0;
   }
   return !1;
 }
+<<<<<<< HEAD
 var vh = "4.5.1";
 const yh = [
+=======
+var bh = "4.5.1";
+const vh = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
   "top",
   "bottom",
   "left",
@@ -5176,7 +6580,11 @@ const yh = [
   "chartArea"
 ];
 function di(e, t) {
+<<<<<<< HEAD
   return e === "top" || e === "bottom" || yh.indexOf(e) === -1 && t === "x";
+=======
+  return e === "top" || e === "bottom" || vh.indexOf(e) === -1 && t === "x";
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function ui(e, t) {
   return function(a, n) {
@@ -5189,7 +6597,11 @@ function hi(e) {
     e
   ], t);
 }
+<<<<<<< HEAD
 function xh(e) {
+=======
+function yh(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = e.chart, a = t.options.animation;
   Je(a && a.onProgress, [
     e
@@ -5202,7 +6614,11 @@ const Wn = {}, fi = (e) => {
   const t = Yl(e);
   return Object.values(Wn).filter((a) => a.canvas === t).pop();
 };
+<<<<<<< HEAD
 function kh(e, t, a) {
+=======
+function xh(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = Object.keys(e);
   for (const o of n) {
     const s = +o;
@@ -5212,15 +6628,25 @@ function kh(e, t, a) {
     }
   }
 }
+<<<<<<< HEAD
 function _h(e, t, a, n) {
+=======
+function kh(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return !a || e.type === "mouseout" ? null : n ? t : e;
 }
 let Ca = class {
   static defaults = lt;
   static instances = Wn;
+<<<<<<< HEAD
   static overrides = Ra;
   static registry = ea;
   static version = vh;
+=======
+  static overrides = Ea;
+  static registry = ea;
+  static version = bh;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static getChart = fi;
   static register(...t) {
     ea.add(...t), gi();
@@ -5229,6 +6655,7 @@ let Ca = class {
     ea.remove(...t), gi();
   }
   constructor(t, a) {
+<<<<<<< HEAD
     const n = this.config = new mh(a), o = Yl(t), s = fi(o);
     if (s)
       throw new Error("Canvas is already in use. Chart with ID '" + s.id + "' must be destroyed before the canvas with ID '" + s.canvas.id + "' can be reused.");
@@ -5240,6 +6667,19 @@ let Ca = class {
       return;
     }
     ia.listen(this, "complete", hi), ia.listen(this, "progress", xh), this._initialize(), this.attached && this.update();
+=======
+    const n = this.config = new gh(a), o = Yl(t), s = fi(o);
+    if (s)
+      throw new Error("Canvas is already in use. Chart with ID '" + s.id + "' must be destroyed before the canvas with ID '" + s.canvas.id + "' can be reused.");
+    const i = n.createResolver(n.chartOptionScopes(), this.getContext());
+    this.platform = new (n.platform || Vu(o))(), this.platform.updateConfig(n);
+    const l = this.platform.acquireContext(o, i.aspectRatio), r = l && l.canvas, c = r && r.height, u = r && r.width;
+    if (this.id = mc(), this.ctx = l, this.canvas = r, this.width = u, this.height = c, this._options = i, this._aspectRatio = this.aspectRatio, this._layers = [], this._metasets = [], this._stacks = void 0, this.boxes = [], this.currentDevicePixelRatio = void 0, this.chartArea = void 0, this._active = [], this._lastEvent = void 0, this._listeners = {}, this._responsiveListeners = void 0, this._sortedMetasets = [], this.scales = {}, this._plugins = new nh(), this.$proxies = {}, this._hiddenIndices = {}, this.attached = !1, this._animationsDisabled = void 0, this.$context = void 0, this._doResize = Ec((f) => this.update(f), i.resizeDelay || 0), this._dataChanges = [], Wn[this.id] = this, !l || !r) {
+      console.error("Failed to create chart: can't acquire context from the given item");
+      return;
+    }
+    ia.listen(this, "complete", hi), ia.listen(this, "progress", yh), this._initialize(), this.attached && this.update();
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   get aspectRatio() {
     const { options: { aspectRatio: t, maintainAspectRatio: a }, width: n, height: o, _aspectRatio: s } = this;
@@ -5286,7 +6726,7 @@ let Ca = class {
   }
   ensureScalesHaveIDs() {
     const a = this.options.scales || {};
-    We(a, (n, o) => {
+    Ke(a, (n, o) => {
       n.id = o;
     });
   }
@@ -5300,10 +6740,17 @@ let Ca = class {
         dposition: c ? "chartArea" : u ? "bottom" : "left",
         dtype: c ? "radialLinear" : u ? "category" : "linear"
       };
+<<<<<<< HEAD
     }))), We(s, (i) => {
       const l = i.options, r = l.id, c = zo(r, l), u = Ee(l.type, i.dtype);
       (l.position === void 0 || di(l.position, c) !== di(i.dposition)) && (l.position = i.dposition), o[r] = !0;
       let g = null;
+=======
+    }))), Ke(s, (i) => {
+      const l = i.options, r = l.id, c = zo(r, l), u = Re(l.type, i.dtype);
+      (l.position === void 0 || di(l.position, c) !== di(i.dposition)) && (l.position = i.dposition), o[r] = !0;
+      let f = null;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (r in n && n[r].type === u)
         g = n[r];
       else {
@@ -5315,10 +6762,17 @@ let Ca = class {
           chart: this
         }), n[g.id] = g;
       }
+<<<<<<< HEAD
       g.init(l, t);
     }), We(o, (i, l) => {
       i || delete n[l];
     }), We(n, (i) => {
+=======
+      f.init(l, t);
+    }), Ke(o, (i, l) => {
+      i || delete n[l];
+    }), Ke(n, (i) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       jt.configure(this, i, i.options), jt.addBox(this, i);
     });
   }
@@ -5357,7 +6811,7 @@ let Ca = class {
     return this._updateMetasets(), t;
   }
   _resetElements() {
-    We(this.data.datasets, (t, a) => {
+    Ke(this.data.datasets, (t, a) => {
       this.getDatasetMeta(a).controller.reset();
     }, this);
   }
@@ -5380,7 +6834,7 @@ let Ca = class {
       const { controller: g } = this.getDatasetMeta(c), h = !o && s.indexOf(g) === -1;
       g.buildOrUpdateElements(h), i = Math.max(+g.getMaxOverflow(), i);
     }
-    i = this._minPadding = n.layout.autoPadding ? i : 0, this._updateLayout(i), o || We(s, (c) => {
+    i = this._minPadding = n.layout.autoPadding ? i : 0, this._updateLayout(i), o || Ke(s, (c) => {
       c.reset();
     }), this._updateDatasets(t), this.notifyPlugins("afterUpdate", {
       mode: t
@@ -5389,7 +6843,11 @@ let Ca = class {
     r ? this._eventHandler(r, !0) : l.length && this._updateHoverStyles(l, l, !0), this.render();
   }
   _updateScales() {
+<<<<<<< HEAD
     We(this.scales, (t) => {
+=======
+    Ke(this.scales, (t) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       jt.removeBox(this, t);
     }), this.ensureScalesHaveIDs(), this.buildOrUpdateScales();
   }
@@ -5401,7 +6859,11 @@ let Ca = class {
     const { _hiddenIndices: t } = this, a = this._getUniformDataChanges() || [];
     for (const { method: n, start: o, count: s } of a) {
       const i = n === "_removeElements" ? -s : s;
+<<<<<<< HEAD
       kh(t, o, i);
+=======
+      xh(t, o, i);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   _getUniformDataChanges() {
@@ -5426,7 +6888,7 @@ let Ca = class {
       return;
     jt.update(this, this.width, this.height, t);
     const a = this.chartArea, n = a.width <= 0 || a.height <= 0;
-    this._layers = [], We(this.boxes, (o) => {
+    this._layers = [], Ke(this.boxes, (o) => {
       n && o.position === "chartArea" || (o.configure && o.configure(), this._layers.push(...o._layers()));
     }, this), this._layers.forEach((o, s) => {
       o._idx = s;
@@ -5508,14 +6970,22 @@ let Ca = class {
       meta: t,
       index: t.index,
       cancelable: !0
+<<<<<<< HEAD
     }, o = El(this, t);
+=======
+    }, o = Rl(this, t);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     this.notifyPlugins("beforeDatasetDraw", n) !== !1 && (o && ao(a, o), t.controller.draw(), o && no(a), n.cancelable = !1, this.notifyPlugins("afterDatasetDraw", n));
   }
   isPointInArea(t) {
     return vn(t, this.chartArea, this._minPadding);
   }
   getElementsAtEventForMode(t, a, n, o) {
+<<<<<<< HEAD
     const s = yu.modes[a];
+=======
+    const s = vu.modes[a];
+>>>>>>> 8a6bd9f (Sales Volume chart)
     return typeof s == "function" ? s(this, t, n, o) : [];
   }
   getDatasetMeta(t) {
@@ -5600,7 +7070,7 @@ let Ca = class {
     }, o = (s, i, l) => {
       s.offsetX = i, s.offsetY = l, this._eventHandler(s);
     };
-    We(this.options.events, (s) => n(s, o));
+    Ke(this.options.events, (s) => n(s, o));
   }
   bindResponsiveEvents() {
     this._responsiveListeners || (this._responsiveListeners = {});
@@ -5620,9 +7090,9 @@ let Ca = class {
     }, a.isAttached(this.canvas) ? l() : i();
   }
   unbindEvents() {
-    We(this._listeners, (t, a) => {
+    Ke(this._listeners, (t, a) => {
       this.platform.removeEventListener(this, a, t);
-    }), this._listeners = {}, We(this._responsiveListeners, (t, a) => {
+    }), this._listeners = {}, Ke(this._responsiveListeners, (t, a) => {
       this.platform.removeEventListener(this, a, t);
     }), this._responsiveListeners = void 0;
   }
@@ -5674,7 +7144,11 @@ let Ca = class {
     return n.cancelable = !1, this.notifyPlugins("afterEvent", n, o), (s || n.changed) && this.render(), this;
   }
   _handleEvent(t, a, n) {
+<<<<<<< HEAD
     const { _active: o = [], options: s } = this, i = a, l = this._getActiveElements(t, o, n, i), r = _c(t), c = _h(t, this._lastEvent, n, r);
+=======
+    const { _active: o = [], options: s } = this, i = a, l = this._getActiveElements(t, o, n, i), r = kc(t), c = kh(t, this._lastEvent, n, r);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     n && (this._lastEvent = null, Je(s.onHover, [
       t,
       l,
@@ -5697,30 +7171,51 @@ let Ca = class {
   }
 };
 function gi() {
+<<<<<<< HEAD
   return We(Ca.instances, (e) => e._plugins.invalidate());
 }
 function wh(e, t, a) {
   const { startAngle: n, x: o, y: s, outerRadius: i, innerRadius: l, options: r } = t, { borderWidth: c, borderJoinStyle: u } = r, g = Math.min(c / i, Nt(n - a));
   if (e.beginPath(), e.arc(o, s, i - c / 2, n + g / 2, a - g / 2), l > 0) {
+=======
+  return Ke(Ca.instances, (e) => e._plugins.invalidate());
+}
+function _h(e, t, a) {
+  const { startAngle: n, x: o, y: s, outerRadius: i, innerRadius: l, options: r } = t, { borderWidth: c, borderJoinStyle: u } = r, f = Math.min(c / i, Nt(n - a));
+  if (e.beginPath(), e.arc(o, s, i - c / 2, n + f / 2, a - f / 2), l > 0) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const h = Math.min(c / l, Nt(n - a));
     e.arc(o, s, l + c / 2, a - h / 2, n + h / 2, !0);
   } else {
     const h = Math.min(c / 2, i * Nt(n - a));
     if (u === "round")
-      e.arc(o, s, h, a - Ue / 2, n + Ue / 2, !0);
+      e.arc(o, s, h, a - Ye / 2, n + Ye / 2, !0);
     else if (u === "bevel") {
+<<<<<<< HEAD
       const p = 2 * h * h, m = -p * Math.cos(a + Ue / 2) + o, v = -p * Math.sin(a + Ue / 2) + s, b = p * Math.cos(n + Ue / 2) + o, y = p * Math.sin(n + Ue / 2) + s;
       e.lineTo(m, v), e.lineTo(b, y);
+=======
+      const b = 2 * h * h, m = -b * Math.cos(a + Ye / 2) + o, v = -b * Math.sin(a + Ye / 2) + s, p = b * Math.cos(n + Ye / 2) + o, y = b * Math.sin(n + Ye / 2) + s;
+      e.lineTo(m, v), e.lineTo(p, y);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   e.closePath(), e.moveTo(0, 0), e.rect(0, 0, e.canvas.width, e.canvas.height), e.clip("evenodd");
 }
+<<<<<<< HEAD
 function Ch(e, t, a) {
+=======
+function wh(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { startAngle: n, pixelMargin: o, x: s, y: i, outerRadius: l, innerRadius: r } = t;
   let c = o / l;
   e.beginPath(), e.arc(s, i, l, n - c, a + c), r > o ? (c = o / r, e.arc(s, i, r, a + c, n - c, !0)) : e.arc(s, i, o, a + mt, n - mt), e.closePath(), e.clip();
 }
+<<<<<<< HEAD
 function $h(e) {
+=======
+function Ch(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return ts(e, [
     "outerStart",
     "outerEnd",
@@ -5728,16 +7223,21 @@ function $h(e) {
     "innerEnd"
   ]);
 }
+<<<<<<< HEAD
 function Sh(e, t, a, n) {
   const o = $h(e.options.borderRadius), s = (a - t) / 2, i = Math.min(s, n * t / 2), l = (r) => {
+=======
+function $h(e, t, a, n) {
+  const o = Ch(e.options.borderRadius), s = (a - t) / 2, i = Math.min(s, n * t / 2), l = (r) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const c = (a - Math.min(s, r)) * n / 2;
-    return kt(r, 0, Math.min(s, c));
+    return _t(r, 0, Math.min(s, c));
   };
   return {
     outerStart: l(o.outerStart),
     outerEnd: l(o.outerEnd),
-    innerStart: kt(o.innerStart, 0, i),
-    innerEnd: kt(o.innerEnd, 0, i)
+    innerStart: _t(o.innerStart, 0, i),
+    innerEnd: _t(o.innerEnd, 0, i)
   };
 }
 function Oa(e, t, a, n) {
@@ -5747,17 +7247,29 @@ function Oa(e, t, a, n) {
   };
 }
 function Jn(e, t, a, n, o, s) {
+<<<<<<< HEAD
   const { x: i, y: l, startAngle: r, pixelMargin: c, innerRadius: u } = t, g = Math.max(t.outerRadius + n + a - c, 0), h = u > 0 ? u + n + a + c : 0;
   let p = 0;
+=======
+  const { x: i, y: l, startAngle: r, pixelMargin: c, innerRadius: u } = t, f = Math.max(t.outerRadius + n + a - c, 0), h = u > 0 ? u + n + a + c : 0;
+  let b = 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const m = o - r;
   if (n) {
     const W = u > 0 ? u - n : 0, X = g > 0 ? g - n : 0, se = (W + X) / 2, ce = se !== 0 ? m * se / (se + n) : m;
     p = (m - ce) / 2;
   }
+<<<<<<< HEAD
   const v = Math.max(1e-3, m * g - a / Ue) / g, b = (m - v) / 2, y = r + b + p, w = o - b - p, { outerStart: k, outerEnd: _, innerStart: $, innerEnd: S } = Sh(t, h, g, w - y), M = g - k, P = g - _, E = y + k / M, N = w - _ / P, D = h + $, B = h + S, L = y + $ / D, j = w - S / B;
   if (e.beginPath(), s) {
     const W = (E + N) / 2;
     if (e.arc(i, l, g, E, W), e.arc(i, l, g, W, N), _ > 0) {
+=======
+  const v = Math.max(1e-3, m * f - a / Ye) / f, p = (m - v) / 2, y = r + p + b, w = o - p - b, { outerStart: k, outerEnd: _, innerStart: $, innerEnd: S } = $h(t, h, f, w - y), M = f - k, P = f - _, R = y + k / M, N = w - _ / P, D = h + $, B = h + S, L = y + $ / D, j = w - S / B;
+  if (e.beginPath(), s) {
+    const W = (R + N) / 2;
+    if (e.arc(i, l, f, R, W), e.arc(i, l, f, W, N), _ > 0) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const G = Oa(P, N, i, l);
       e.arc(G.x, G.y, _, N, w + mt);
     }
@@ -5771,6 +7283,7 @@ function Jn(e, t, a, n, o, s) {
       const G = Oa(D, L, i, l);
       e.arc(G.x, G.y, $, L + Math.PI, y - mt);
     }
+<<<<<<< HEAD
     const ce = Oa(M, y, i, l);
     if (e.lineTo(ce.x, ce.y), k > 0) {
       const G = Oa(M, E, i, l);
@@ -5779,13 +7292,27 @@ function Jn(e, t, a, n, o, s) {
   } else {
     e.moveTo(i, l);
     const W = Math.cos(E) * g + i, X = Math.sin(E) * g + l;
+=======
+    const de = Oa(M, y, i, l);
+    if (e.lineTo(de.x, de.y), k > 0) {
+      const G = Oa(M, R, i, l);
+      e.arc(G.x, G.y, k, y - mt, R);
+    }
+  } else {
+    e.moveTo(i, l);
+    const W = Math.cos(R) * f + i, X = Math.sin(R) * f + l;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     e.lineTo(W, X);
     const se = Math.cos(N) * g + i, ce = Math.sin(N) * g + l;
     e.lineTo(se, ce);
   }
   e.closePath();
 }
+<<<<<<< HEAD
 function Mh(e, t, a, n, o) {
+=======
+function Sh(e, t, a, n, o) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { fullCircles: s, startAngle: i, circumference: l } = t;
   let r = t.endAngle;
   if (s) {
@@ -5796,14 +7323,20 @@ function Mh(e, t, a, n, o) {
   }
   return Jn(e, t, a, n, r, o), e.fill(), r;
 }
+<<<<<<< HEAD
 function Dh(e, t, a, n, o) {
   const { fullCircles: s, startAngle: i, circumference: l, options: r } = t, { borderWidth: c, borderJoinStyle: u, borderDash: g, borderDashOffset: h, borderRadius: p } = r, m = r.borderAlign === "inner";
+=======
+function Mh(e, t, a, n, o) {
+  const { fullCircles: s, startAngle: i, circumference: l, options: r } = t, { borderWidth: c, borderJoinStyle: u, borderDash: f, borderDashOffset: h, borderRadius: b } = r, m = r.borderAlign === "inner";
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (!c)
     return;
   e.setLineDash(g || []), e.lineDashOffset = h, m ? (e.lineWidth = c * 2, e.lineJoin = u || "round") : (e.lineWidth = c, e.lineJoin = u || "bevel");
   let v = t.endAngle;
   if (s) {
     Jn(e, t, a, n, v, o);
+<<<<<<< HEAD
     for (let b = 0; b < s; ++b)
       e.stroke();
     isNaN(l) || (v = i + (l % nt || nt));
@@ -5811,6 +7344,15 @@ function Dh(e, t, a, n, o) {
   m && Ch(e, t, v), r.selfJoin && v - i >= Ue && p === 0 && u !== "miter" && wh(e, t, v), s || (Jn(e, t, a, n, v, o), e.stroke());
 }
 class Th extends fa {
+=======
+    for (let p = 0; p < s; ++p)
+      e.stroke();
+    isNaN(l) || (v = i + (l % nt || nt));
+  }
+  m && wh(e, t, v), r.selfJoin && v - i >= Ye && b === 0 && u !== "miter" && _h(e, t, v), s || (Jn(e, t, a, n, v, o), e.stroke());
+}
+class Dh extends fa {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "arc";
   static defaults = {
     borderAlign: "center",
@@ -5856,8 +7398,13 @@ class Th extends fa {
       "innerRadius",
       "outerRadius",
       "circumference"
+<<<<<<< HEAD
     ], n), h = (this.options.spacing + this.options.borderWidth) / 2, p = Ee(g, r - l), m = bn(s, l, r) && l !== r, v = p >= nt || m, b = da(i, c + h, u + h);
     return v && b;
+=======
+    ], n), h = (this.options.spacing + this.options.borderWidth) / 2, b = Re(f, r - l), m = bn(s, l, r) && l !== r, v = b >= nt || m, p = da(i, c + h, u + h);
+    return v && p;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   getCenterPoint(t) {
     const { x: a, y: n, startAngle: o, endAngle: s, innerRadius: i, outerRadius: l } = this.getProps([
@@ -5883,6 +7430,7 @@ class Th extends fa {
     t.save();
     const l = (this.startAngle + this.endAngle) / 2;
     t.translate(Math.cos(l) * o, Math.sin(l) * o);
+<<<<<<< HEAD
     const r = 1 - Math.sin(Math.min(Ue, n || 0)), c = o * r;
     t.fillStyle = a.backgroundColor, t.strokeStyle = a.borderColor, Mh(t, this, c, s, i), Dh(t, this, c, s, i), t.restore();
   }
@@ -5895,6 +7443,20 @@ function Ah(e, t, a) {
 }
 function Bh(e) {
   return e.stepped ? Gc : e.tension || e.cubicInterpolationMode === "monotone" ? Xc : Ah;
+=======
+    const r = 1 - Math.sin(Math.min(Ye, n || 0)), c = o * r;
+    t.fillStyle = a.backgroundColor, t.strokeStyle = a.borderColor, Sh(t, this, c, s, i), Mh(t, this, c, s, i), t.restore();
+  }
+}
+function ql(e, t, a = t) {
+  e.lineCap = Re(a.borderCapStyle, t.borderCapStyle), e.setLineDash(Re(a.borderDash, t.borderDash)), e.lineDashOffset = Re(a.borderDashOffset, t.borderDashOffset), e.lineJoin = Re(a.borderJoinStyle, t.borderJoinStyle), e.lineWidth = Re(a.borderWidth, t.borderWidth), e.strokeStyle = Re(a.borderColor, t.borderColor);
+}
+function Th(e, t, a) {
+  e.lineTo(a.x, a.y);
+}
+function Ah(e) {
+  return e.stepped ? qc : e.tension || e.cubicInterpolationMode === "monotone" ? Gc : Th;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Gl(e, t, a = {}) {
   const n = e.length, { start: o = 0, end: s = n - 1 } = a, { start: i, end: l } = t, r = Math.max(o, i), c = Math.min(s, l), u = o < i && s < i || o > l && s > l;
@@ -5905,6 +7467,7 @@ function Gl(e, t, a = {}) {
     ilen: c < r && !u ? n + c - r : c - r
   };
 }
+<<<<<<< HEAD
 function Lh(e, t, a, n) {
   const { points: o, options: s } = t, { count: i, start: l, loop: r, ilen: c } = Gl(o, a, n), u = Bh(s);
   let { move: g = !0, reverse: h } = n || {}, p, m, v;
@@ -5915,6 +7478,18 @@ function Lh(e, t, a, n) {
 function Ph(e, t, a, n) {
   const o = t.points, { count: s, start: i, ilen: l } = Gl(o, a, n), { move: r = !0, reverse: c } = n || {};
   let u = 0, g = 0, h, p, m, v, b, y;
+=======
+function Bh(e, t, a, n) {
+  const { points: o, options: s } = t, { count: i, start: l, loop: r, ilen: c } = Gl(o, a, n), u = Ah(s);
+  let { move: f = !0, reverse: h } = n || {}, b, m, v;
+  for (b = 0; b <= c; ++b)
+    m = o[(l + (h ? c - b : b)) % i], !m.skip && (f ? (e.moveTo(m.x, m.y), f = !1) : u(e, v, m, h, s.stepped), v = m);
+  return r && (m = o[(l + (h ? c : 0)) % i], u(e, v, m, h, s.stepped)), !!r;
+}
+function Lh(e, t, a, n) {
+  const o = t.points, { count: s, start: i, ilen: l } = Gl(o, a, n), { move: r = !0, reverse: c } = n || {};
+  let u = 0, f = 0, h, b, m, v, p, y;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const w = (_) => (i + (c ? l - _ : _)) % s, k = () => {
     v !== b && (e.lineTo(u, b), e.lineTo(u, v), e.lineTo(u, y));
   };
@@ -5928,6 +7503,7 @@ function Ph(e, t, a, n) {
 }
 function jo(e) {
   const t = e.options, a = t.borderDash && t.borderDash.length;
+<<<<<<< HEAD
   return !e._decimated && !e._loop && !t.tension && t.cubicInterpolationMode !== "monotone" && !t.stepped && !a ? Ph : Lh;
 }
 function Rh(e) {
@@ -5938,6 +7514,18 @@ function Eh(e, t, a, n) {
   o || (o = t._path = new Path2D(), t.path(o, a, n) && o.closePath()), ql(e, t.options), e.stroke(o);
 }
 function Ih(e, t, a, n) {
+=======
+  return !e._decimated && !e._loop && !t.tension && t.cubicInterpolationMode !== "monotone" && !t.stepped && !a ? Lh : Bh;
+}
+function Ph(e) {
+  return e.stepped ? Md : e.tension || e.cubicInterpolationMode === "monotone" ? Dd : Ta;
+}
+function Eh(e, t, a, n) {
+  let o = t._path;
+  o || (o = t._path = new Path2D(), t.path(o, a, n) && o.closePath()), ql(e, t.options), e.stroke(o);
+}
+function Rh(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { segments: o, options: s } = t, i = jo(t);
   for (const l of o)
     ql(e, s, l.style), e.beginPath(), i(e, t, l, {
@@ -5945,9 +7533,15 @@ function Ih(e, t, a, n) {
       end: a + n - 1
     }) && e.closePath(), e.stroke();
 }
+<<<<<<< HEAD
 const Fh = typeof Path2D == "function";
 function Oh(e, t, a, n) {
   Fh && !t.options.segment ? Eh(e, t, a, n) : Ih(e, t, a, n);
+=======
+const Ih = typeof Path2D == "function";
+function Fh(e, t, a, n) {
+  Ih && !t.options.segment ? Eh(e, t, a, n) : Rh(e, t, a, n);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 class lo extends fa {
   static id = "line";
@@ -5979,7 +7573,11 @@ class lo extends fa {
     const n = this.options;
     if ((n.tension || n.cubicInterpolationMode === "monotone") && !n.stepped && !this._pointsUpdated) {
       const o = n.spanGaps ? this._loop : this._fullLoop;
+<<<<<<< HEAD
       xd(this._points, n, t, o, a), this._pointsUpdated = !0;
+=======
+      yd(this._points, n, t, o, a), this._pointsUpdated = !0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
   }
   set points(t) {
@@ -6007,7 +7605,11 @@ class lo extends fa {
     });
     if (!i.length)
       return;
+<<<<<<< HEAD
     const l = [], r = Rh(n);
+=======
+    const l = [], r = Ph(n);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     let c, u;
     for (c = 0, u = i.length; c < u; ++c) {
       const { start: g, end: h } = i[c], p = s[g], m = s[h];
@@ -6036,7 +7638,11 @@ class lo extends fa {
   }
   draw(t, a, n, o) {
     const s = this.options || {};
+<<<<<<< HEAD
     (this.points || []).length && s.borderWidth && (t.save(), Oh(t, this, n, o), t.restore()), this.animated && (this._pointsUpdated = !1, this._path = void 0);
+=======
+    (this.points || []).length && s.borderWidth && (t.save(), Fh(t, this, n, o), t.restore()), this.animated && (this._pointsUpdated = !1, this._path = void 0);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
 }
 function mi(e, t, a, n) {
@@ -6045,7 +7651,11 @@ function mi(e, t, a, n) {
   ], n);
   return Math.abs(t - s) < o.radius + o.hitRadius;
 }
+<<<<<<< HEAD
 class Vh extends fa {
+=======
+class Oh extends fa {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "point";
   parsed;
   skip;
@@ -6128,9 +7738,13 @@ function Xl(e, t) {
   };
 }
 function ka(e, t, a, n) {
-  return e ? 0 : kt(t, a, n);
+  return e ? 0 : _t(t, a, n);
 }
+<<<<<<< HEAD
 function Nh(e, t, a) {
+=======
+function Vh(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e.options.borderWidth, o = e.borderSkipped, s = Cl(n);
   return {
     t: ka(o.top, s.top, 0, a),
@@ -6139,7 +7753,11 @@ function Nh(e, t, a) {
     l: ka(o.left, s.left, 0, t)
   };
 }
+<<<<<<< HEAD
 function zh(e, t, a) {
+=======
+function Nh(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { enableBorderRadius: n } = e.getProps([
     "enableBorderRadius"
   ]), o = e.options.borderRadius, s = Wa(o), i = Math.min(t, a), l = e.borderSkipped, r = n || Oe(o);
@@ -6150,8 +7768,13 @@ function zh(e, t, a) {
     bottomRight: ka(!r || l.bottom || l.right, s.bottomRight, 0, i)
   };
 }
+<<<<<<< HEAD
 function jh(e) {
   const t = Xl(e), a = t.right - t.left, n = t.bottom - t.top, o = Nh(e, a / 2, n / 2), s = zh(e, a / 2, n / 2);
+=======
+function zh(e) {
+  const t = Xl(e), a = t.right - t.left, n = t.bottom - t.top, o = Vh(e, a / 2, n / 2), s = Nh(e, a / 2, n / 2);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     outer: {
       x: t.left,
@@ -6178,10 +7801,17 @@ function $o(e, t, a, n) {
   const o = t === null, s = a === null, l = e && !(o && s) && Xl(e, n);
   return l && (o || da(t, l.left, l.right)) && (s || da(a, l.top, l.bottom));
 }
+<<<<<<< HEAD
 function Hh(e) {
   return e.topLeft || e.topRight || e.bottomLeft || e.bottomRight;
 }
 function Wh(e, t) {
+=======
+function jh(e) {
+  return e.topLeft || e.topRight || e.bottomLeft || e.bottomRight;
+}
+function Hh(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   e.rect(t.x, t.y, t.w, t.h);
 }
 function So(e, t, a = {}) {
@@ -6194,7 +7824,11 @@ function So(e, t, a = {}) {
     radius: e.radius
   };
 }
+<<<<<<< HEAD
 class Kh extends fa {
+=======
+class Wh extends fa {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "bar";
   static defaults = {
     borderSkipped: "start",
@@ -6211,7 +7845,11 @@ class Kh extends fa {
     super(), this.options = void 0, this.horizontal = void 0, this.base = void 0, this.width = void 0, this.height = void 0, this.inflateAmount = void 0, t && Object.assign(this, t);
   }
   draw(t) {
+<<<<<<< HEAD
     const { inflateAmount: a, options: { borderColor: n, backgroundColor: o } } = this, { inner: s, outer: i } = jh(this), l = Hh(i.radius) ? Xn : Wh;
+=======
+    const { inflateAmount: a, options: { borderColor: n, backgroundColor: o } } = this, { inner: s, outer: i } = zh(this), l = jh(i.radius) ? Xn : Hh;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     t.save(), (i.w !== s.w || i.h !== s.h) && (t.beginPath(), l(t, So(i, a, s)), t.clip(), l(t, So(s, -a, i)), t.fillStyle = n, t.fill("evenodd")), t.beginPath(), l(t, So(s, a)), t.fillStyle = o, t.fill(), t.restore();
   }
   inRange(t, a, n) {
@@ -6239,7 +7877,11 @@ class Kh extends fa {
     return t === "x" ? this.width / 2 : this.height / 2;
   }
 }
+<<<<<<< HEAD
 function Uh(e, t, a) {
+=======
+function Kh(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e.segments, o = e.points, s = t.points, i = [];
   for (const l of n) {
     let { start: r, end: c } = l;
@@ -6254,18 +7896,31 @@ function Uh(e, t, a) {
       });
       continue;
     }
+<<<<<<< HEAD
     const g = Rl(t, u);
     for (const h of g) {
       const p = Ho(a, s[h.start], s[h.end], h.loop), m = Pl(l, o, p);
+=======
+    const f = El(t, u);
+    for (const h of f) {
+      const b = Ho(a, s[h.start], s[h.end], h.loop), m = Pl(l, o, b);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       for (const v of m)
         i.push({
           source: v,
           target: h,
           start: {
+<<<<<<< HEAD
             [a]: pi(u, p, "start", Math.max)
           },
           end: {
             [a]: pi(u, p, "end", Math.min)
+=======
+            [a]: pi(u, b, "start", Math.max)
+          },
+          end: {
+            [a]: pi(u, b, "end", Math.min)
+>>>>>>> 8a6bd9f (Sales Volume chart)
           }
         });
     }
@@ -6282,7 +7937,11 @@ function Ho(e, t, a, n) {
     end: s
   };
 }
+<<<<<<< HEAD
 function Yh(e, t) {
+=======
+function Uh(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { x: a = null, y: n = null } = e || {}, o = t.points, s = [];
   return t.segments.forEach(({ start: i, end: l }) => {
     l = ro(i, l, o);
@@ -6315,7 +7974,11 @@ function pi(e, t, a, n) {
 }
 function Zl(e, t) {
   let a = [], n = !1;
+<<<<<<< HEAD
   return dt(e) ? (n = !0, a = e) : a = Yh(e, t), a.length ? new lo({
+=======
+  return dt(e) ? (n = !0, a = e) : a = Uh(e, t), a.length ? new lo({
+>>>>>>> 8a6bd9f (Sales Volume chart)
     points: a,
     options: {
       tension: 0
@@ -6327,7 +7990,11 @@ function Zl(e, t) {
 function bi(e) {
   return e && e.fill !== !1;
 }
+<<<<<<< HEAD
 function qh(e, t, a) {
+=======
+function Yh(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let o = e[t].fill;
   const s = [
     t
@@ -6336,7 +8003,7 @@ function qh(e, t, a) {
   if (!a)
     return o;
   for (; o !== !1 && s.indexOf(o) === -1; ) {
-    if (!wt(o))
+    if (!Ct(o))
       return o;
     if (i = e[o], !i)
       return !1;
@@ -6346,12 +8013,21 @@ function qh(e, t, a) {
   }
   return !1;
 }
+<<<<<<< HEAD
 function Gh(e, t, a) {
   const n = Jh(e);
   if (Oe(n))
     return isNaN(n.value) ? !1 : n;
   let o = parseFloat(n);
   return wt(o) && Math.floor(o) === o ? Xh(n[0], t, o, a) : [
+=======
+function qh(e, t, a) {
+  const n = Qh(e);
+  if (Oe(n))
+    return isNaN(n.value) ? !1 : n;
+  let o = parseFloat(n);
+  return Ct(o) && Math.floor(o) === o ? Gh(n[0], t, o, a) : [
+>>>>>>> 8a6bd9f (Sales Volume chart)
     "origin",
     "start",
     "end",
@@ -6359,6 +8035,7 @@ function Gh(e, t, a) {
     "shape"
   ].indexOf(n) >= 0 && n;
 }
+<<<<<<< HEAD
 function Xh(e, t, a, n) {
   return (e === "-" || e === "+") && (a = t + a), a === t || a < 0 || a >= n ? !1 : a;
 }
@@ -6371,12 +8048,31 @@ function Qh(e, t, a) {
   return e === "start" ? n = a : e === "end" ? n = t.options.reverse ? t.min : t.max : Oe(e) ? n = e.value : n = t.getBaseValue(), n;
 }
 function Jh(e) {
+=======
+function Gh(e, t, a, n) {
+  return (e === "-" || e === "+") && (a = t + a), a === t || a < 0 || a >= n ? !1 : a;
+}
+function Xh(e, t) {
+  let a = null;
+  return e === "start" ? a = t.bottom : e === "end" ? a = t.top : Oe(e) ? a = t.getPixelForValue(e.value) : t.getBasePixel && (a = t.getBasePixel()), a;
+}
+function Zh(e, t, a) {
+  let n;
+  return e === "start" ? n = a : e === "end" ? n = t.options.reverse ? t.min : t.max : Oe(e) ? n = e.value : n = t.getBaseValue(), n;
+}
+function Qh(e) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const t = e.options, a = t.fill;
-  let n = Ee(a && a.target, a);
+  let n = Re(a && a.target, a);
   return n === void 0 && (n = !!t.backgroundColor), n === !1 || n === null ? !1 : n === !0 ? "origin" : n;
 }
+<<<<<<< HEAD
 function ef(e) {
   const { scale: t, index: a, line: n } = e, o = [], s = n.segments, i = n.points, l = tf(t, a);
+=======
+function Jh(e) {
+  const { scale: t, index: a, line: n } = e, o = [], s = n.segments, i = n.points, l = ef(t, a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   l.push(Zl({
     x: null,
     y: t.bottom
@@ -6384,14 +8080,22 @@ function ef(e) {
   for (let r = 0; r < s.length; r++) {
     const c = s[r];
     for (let u = c.start; u <= c.end; u++)
+<<<<<<< HEAD
       af(o, i[u], l);
+=======
+      tf(o, i[u], l);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   return new lo({
     points: o,
     options: {}
   });
 }
+<<<<<<< HEAD
 function tf(e, t) {
+=======
+function ef(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = [], n = e.getMatchingVisibleMetas("line");
   for (let o = 0; o < n.length; o++) {
     const s = n[o];
@@ -6401,10 +8105,17 @@ function tf(e, t) {
   }
   return a;
 }
+<<<<<<< HEAD
 function af(e, t, a) {
   const n = [];
   for (let o = 0; o < a.length; o++) {
     const s = a[o], { first: i, last: l, point: r } = nf(s, t, "x");
+=======
+function tf(e, t, a) {
+  const n = [];
+  for (let o = 0; o < a.length; o++) {
+    const s = a[o], { first: i, last: l, point: r } = af(s, t, "x");
+>>>>>>> 8a6bd9f (Sales Volume chart)
     if (!(!r || i && l)) {
       if (i)
         n.unshift(r);
@@ -6414,16 +8125,26 @@ function af(e, t, a) {
   }
   e.push(...n);
 }
+<<<<<<< HEAD
 function nf(e, t, a) {
+=======
+function af(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = e.interpolate(t, a);
   if (!n)
     return {};
   const o = n[a], s = e.segments, i = e.points;
   let l = !1, r = !1;
   for (let c = 0; c < s.length; c++) {
+<<<<<<< HEAD
     const u = s[c], g = i[u.start][a], h = i[u.end][a];
     if (da(o, g, h)) {
       l = o === g, r = o === h;
+=======
+    const u = s[c], f = i[u.start][a], h = i[u.end][a];
+    if (da(o, f, h)) {
+      l = o === f, r = o === h;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       break;
     }
   }
@@ -6453,6 +8174,7 @@ class Ql {
     };
   }
 }
+<<<<<<< HEAD
 function of(e) {
   const { chart: t, fill: a, line: n } = e;
   if (wt(a))
@@ -6474,6 +8196,29 @@ function lf(e) {
 function rf(e) {
   const { scale: t = {}, fill: a } = e, n = Zh(a, t);
   if (wt(n)) {
+=======
+function nf(e) {
+  const { chart: t, fill: a, line: n } = e;
+  if (Ct(a))
+    return of(t, a);
+  if (a === "stack")
+    return Jh(e);
+  if (a === "shape")
+    return !0;
+  const o = sf(e);
+  return o instanceof Ql ? o : Zl(o, n);
+}
+function of(e, t) {
+  const a = e.getDatasetMeta(t);
+  return a && e.isDatasetVisible(t) ? a.dataset : null;
+}
+function sf(e) {
+  return (e.scale || {}).getPointPositionForValue ? rf(e) : lf(e);
+}
+function lf(e) {
+  const { scale: t = {}, fill: a } = e, n = Xh(a, t);
+  if (Ct(n)) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const o = t.isHorizontal();
     return {
       x: o ? n : null,
@@ -6482,8 +8227,13 @@ function rf(e) {
   }
   return null;
 }
+<<<<<<< HEAD
 function cf(e) {
   const { scale: t, fill: a } = e, n = t.options, o = t.getLabels().length, s = n.reverse ? t.max : t.min, i = Qh(a, t, s), l = [];
+=======
+function rf(e) {
+  const { scale: t, fill: a } = e, n = t.options, o = t.getLabels().length, s = n.reverse ? t.max : t.min, i = Zh(a, t, s), l = [];
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if (n.grid.circular) {
     const r = t.getPointPositionForValue(0, s);
     return new Ql({
@@ -6497,8 +8247,13 @@ function cf(e) {
   return l;
 }
 function Mo(e, t, a) {
+<<<<<<< HEAD
   const n = of(t), { chart: o, index: s, line: i, scale: l, axis: r } = t, c = i.options, u = c.fill, g = c.backgroundColor, { above: h = g, below: p = g } = u || {}, m = o.getDatasetMeta(s), v = El(o, m);
   n && i.points.length && (ao(e, a), df(e, {
+=======
+  const n = nf(t), { chart: o, index: s, line: i, scale: l, axis: r } = t, c = i.options, u = c.fill, f = c.backgroundColor, { above: h = f, below: b = f } = u || {}, m = o.getDatasetMeta(s), v = Rl(o, m);
+  n && i.points.length && (ao(e, a), cf(e, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     line: i,
     target: n,
     above: h,
@@ -6509,7 +8264,11 @@ function Mo(e, t, a) {
     clip: v
   }), no(e));
 }
+<<<<<<< HEAD
 function df(e, t) {
+=======
+function cf(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { line: a, target: n, above: o, below: s, area: i, scale: l, clip: r } = t, c = a._loop ? "angle" : t.axis;
   e.save();
   let u = s;
@@ -6537,6 +8296,7 @@ function df(e, t) {
   }), e.restore();
 }
 function vi(e, t, a) {
+<<<<<<< HEAD
   const { segments: n, points: o } = t;
   let s = !0, i = !1;
   e.beginPath();
@@ -6549,11 +8309,29 @@ function vi(e, t, a) {
   e.lineTo(t.first().x, a), e.closePath(), e.clip();
 }
 function yi(e, t, a) {
+=======
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { segments: n, points: o } = t;
   let s = !0, i = !1;
   e.beginPath();
   for (const l of n) {
+<<<<<<< HEAD
     const { start: r, end: c } = l, u = o[r], g = o[ro(r, c, o)];
+=======
+    const { start: r, end: c } = l, u = o[r], f = o[ro(r, c, o)];
+    s ? (e.moveTo(u.x, u.y), s = !1) : (e.lineTo(u.x, a), e.lineTo(u.x, u.y)), i = !!t.pathSegment(e, l, {
+      move: i
+    }), i ? e.closePath() : e.lineTo(f.x, a);
+  }
+  e.lineTo(t.first().x, a), e.closePath(), e.clip();
+}
+function yi(e, t, a) {
+  const { segments: n, points: o } = t;
+  let s = !0, i = !1;
+  e.beginPath();
+  for (const l of n) {
+    const { start: r, end: c } = l, u = o[r], f = o[ro(r, c, o)];
+>>>>>>> 8a6bd9f (Sales Volume chart)
     s ? (e.moveTo(u.x, u.y), s = !1) : (e.lineTo(a, u.y), e.lineTo(u.x, u.y)), i = !!t.pathSegment(e, l, {
       move: i
     }), i ? e.closePath() : e.lineTo(a, g.y);
@@ -6561,10 +8339,17 @@ function yi(e, t, a) {
   e.lineTo(a, t.first().y), e.closePath(), e.clip();
 }
 function Do(e, t) {
+<<<<<<< HEAD
   const { line: a, target: n, property: o, color: s, scale: i, clip: l } = t, r = Uh(a, n, o);
   for (const { source: c, target: u, start: g, end: h } of r) {
     const { style: { backgroundColor: p = s } = {} } = c, m = n !== !0;
     e.save(), e.fillStyle = p, uf(e, i, l, m && Ho(o, g, h)), e.beginPath();
+=======
+  const { line: a, target: n, property: o, color: s, scale: i, clip: l } = t, r = Kh(a, n, o);
+  for (const { source: c, target: u, start: f, end: h } of r) {
+    const { style: { backgroundColor: b = s } = {} } = c, m = n !== !0;
+    e.save(), e.fillStyle = b, df(e, i, l, m && Ho(o, f, h)), e.beginPath();
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const v = !!a.pathSegment(e, c);
     let b;
     if (m) {
@@ -6573,12 +8358,20 @@ function Do(e, t) {
         move: v,
         reverse: !0
       });
+<<<<<<< HEAD
       b = v && y, b || xi(e, n, g, o);
+=======
+      p = v && y, p || xi(e, n, f, o);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     e.closePath(), e.fill(b ? "evenodd" : "nonzero"), e.restore();
   }
 }
+<<<<<<< HEAD
 function uf(e, t, a, n) {
+=======
+function df(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = t.chart.chartArea, { property: s, start: i, end: l } = n || {};
   if (s === "x" || s === "y") {
     let r, c, u, g;
@@ -6589,7 +8382,11 @@ function xi(e, t, a, n) {
   const o = t.interpolate(a, n);
   o && e.lineTo(o.x, o.y);
 }
+<<<<<<< HEAD
 var hf = {
+=======
+var uf = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   id: "filler",
   afterDatasetsUpdate(e, t, a) {
     const n = (e.data.datasets || []).length, o = [];
@@ -6598,14 +8395,22 @@ var hf = {
       s = e.getDatasetMeta(i), l = s.dataset, r = null, l && l.options && l instanceof lo && (r = {
         visible: e.isDatasetVisible(i),
         index: i,
+<<<<<<< HEAD
         fill: Gh(l, i, n),
+=======
+        fill: qh(l, i, n),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         chart: e,
         axis: s.controller.options.indexAxis,
         scale: s.vScale,
         line: l
       }), s.$filler = r, o.push(r);
     for (i = 0; i < n; ++i)
+<<<<<<< HEAD
       r = o[i], !(!r || r.fill === !1) && (r.fill = qh(o, i, a.propagate));
+=======
+      r = o[i], !(!r || r.fill === !1) && (r.fill = Yh(o, i, a.propagate));
+>>>>>>> 8a6bd9f (Sales Volume chart)
   },
   beforeDraw(e, t, a) {
     const n = a.drawTime === "beforeDraw", o = e.getSortedVisibleDatasetMetas(), s = e.chartArea;
@@ -6639,7 +8444,11 @@ const ki = (e, t) => {
     boxHeight: a,
     itemHeight: Math.max(t, a)
   };
+<<<<<<< HEAD
 }, ff = (e, t) => e !== null && t !== null && e.datasetIndex === t.datasetIndex && e.index === t.index;
+=======
+}, hf = (e, t) => e !== null && t !== null && e.datasetIndex === t.datasetIndex && e.index === t.index;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 class _i extends fa {
   constructor(t) {
     super(), this._added = !1, this.legendHitBoxes = [], this._hoveredItem = null, this.doughnutMode = !1, this.chart = t.chart, this.options = t.options, this.ctx = t.ctx, this.legendItems = void 0, this.columnSizes = void 0, this.lineWidths = void 0, this.maxHeight = void 0, this.maxWidth = void 0, this.top = void 0, this.bottom = void 0, this.left = void 0, this.right = void 0, this.height = void 0, this.width = void 0, this._margins = void 0, this.position = void 0, this.weight = void 0, this.fullSize = void 0;
@@ -6663,7 +8472,11 @@ class _i extends fa {
       this.width = this.height = 0;
       return;
     }
+<<<<<<< HEAD
     const n = t.labels, o = _t(n.font), s = o.size, i = this._computeTitleHeight(), { boxWidth: l, itemHeight: r } = ki(n, s);
+=======
+    const n = t.labels, o = wt(n.font), s = o.size, i = this._computeTitleHeight(), { boxWidth: l, itemHeight: r } = ki(n, s);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     let c, u;
     a.font = o.string, this.isHorizontal() ? (c = this.maxWidth, u = this._fitRows(i, s, l, r) + 10) : (u = this.maxHeight, c = this._fitCols(i, o, l, r) + 10), this.width = Math.min(c, t.maxWidth || this.maxWidth), this.height = Math.min(u, t.maxHeight || this.maxHeight);
   }
@@ -6687,10 +8500,17 @@ class _i extends fa {
   }
   _fitCols(t, a, n, o) {
     const { ctx: s, maxHeight: i, options: { labels: { padding: l } } } = this, r = this.legendHitBoxes = [], c = this.columnSizes = [], u = i - t;
+<<<<<<< HEAD
     let g = l, h = 0, p = 0, m = 0, v = 0;
     return this.legendItems.forEach((b, y) => {
       const { itemWidth: w, itemHeight: k } = gf(n, a, s, b, o);
       y > 0 && p + k + 2 * l > u && (g += h + l, c.push({
+=======
+    let f = l, h = 0, b = 0, m = 0, v = 0;
+    return this.legendItems.forEach((p, y) => {
+      const { itemWidth: w, itemHeight: k } = ff(n, a, s, p, o);
+      y > 0 && b + k + 2 * l > u && (f += h + l, c.push({
+>>>>>>> 8a6bd9f (Sales Volume chart)
         width: h,
         height: p
       }), m += h + l, v++, h = p = 0), r[y] = {
@@ -6710,13 +8530,13 @@ class _i extends fa {
       return;
     const t = this._computeTitleHeight(), { legendHitBoxes: a, options: { align: n, labels: { padding: o }, rtl: s } } = this, i = Ka(s, this.left, this.width);
     if (this.isHorizontal()) {
-      let l = 0, r = xt(n, this.left + o, this.right - this.lineWidths[l]);
+      let l = 0, r = kt(n, this.left + o, this.right - this.lineWidths[l]);
       for (const c of a)
-        l !== c.row && (l = c.row, r = xt(n, this.left + o, this.right - this.lineWidths[l])), c.top += this.top + t + o, c.left = i.leftForLtr(i.x(r), c.width), r += c.width + o;
+        l !== c.row && (l = c.row, r = kt(n, this.left + o, this.right - this.lineWidths[l])), c.top += this.top + t + o, c.left = i.leftForLtr(i.x(r), c.width), r += c.width + o;
     } else {
-      let l = 0, r = xt(n, this.top + t + o, this.bottom - this.columnSizes[l].height);
+      let l = 0, r = kt(n, this.top + t + o, this.bottom - this.columnSizes[l].height);
       for (const c of a)
-        c.col !== l && (l = c.col, r = xt(n, this.top + t + o, this.bottom - this.columnSizes[l].height)), c.top = r, c.left += this.left + o, c.left = i.leftForLtr(i.x(c.left), c.width), r += c.height + o;
+        c.col !== l && (l = c.col, r = kt(n, this.top + t + o, this.bottom - this.columnSizes[l].height)), c.top = r, c.left += this.left + o, c.left = i.leftForLtr(i.x(c.left), c.width), r += c.height + o;
     }
   }
   isHorizontal() {
@@ -6729,48 +8549,69 @@ class _i extends fa {
     }
   }
   _draw() {
+<<<<<<< HEAD
     const { options: t, columnSizes: a, lineWidths: n, ctx: o } = this, { align: s, labels: i } = t, l = lt.color, r = Ka(t.rtl, this.left, this.width), c = _t(i.font), { padding: u } = i, g = c.size, h = g / 2;
     let p;
     this.drawTitle(), o.textAlign = r.textAlign("left"), o.textBaseline = "middle", o.lineWidth = 0.5, o.font = c.string;
     const { boxWidth: m, boxHeight: v, itemHeight: b } = ki(i, g), y = function(S, M, P) {
+=======
+    const { options: t, columnSizes: a, lineWidths: n, ctx: o } = this, { align: s, labels: i } = t, l = lt.color, r = Ka(t.rtl, this.left, this.width), c = wt(i.font), { padding: u } = i, f = c.size, h = f / 2;
+    let b;
+    this.drawTitle(), o.textAlign = r.textAlign("left"), o.textBaseline = "middle", o.lineWidth = 0.5, o.font = c.string;
+    const { boxWidth: m, boxHeight: v, itemHeight: p } = ki(i, f), y = function(S, M, P) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (isNaN(m) || m <= 0 || isNaN(v) || v < 0)
         return;
       o.save();
-      const E = Ee(P.lineWidth, 1);
-      if (o.fillStyle = Ee(P.fillStyle, l), o.lineCap = Ee(P.lineCap, "butt"), o.lineDashOffset = Ee(P.lineDashOffset, 0), o.lineJoin = Ee(P.lineJoin, "miter"), o.lineWidth = E, o.strokeStyle = Ee(P.strokeStyle, l), o.setLineDash(Ee(P.lineDash, [])), i.usePointStyle) {
+      const R = Re(P.lineWidth, 1);
+      if (o.fillStyle = Re(P.fillStyle, l), o.lineCap = Re(P.lineCap, "butt"), o.lineDashOffset = Re(P.lineDashOffset, 0), o.lineJoin = Re(P.lineJoin, "miter"), o.lineWidth = R, o.strokeStyle = Re(P.strokeStyle, l), o.setLineDash(Re(P.lineDash, [])), i.usePointStyle) {
         const N = {
           radius: v * Math.SQRT2 / 2,
           pointStyle: P.pointStyle,
           rotation: P.rotation,
-          borderWidth: E
+          borderWidth: R
         }, D = r.xPlus(S, m / 2), B = M + h;
         wl(o, N, D, B, i.pointStyleWidth && m);
       } else {
+<<<<<<< HEAD
         const N = M + Math.max((g - v) / 2, 0), D = r.leftForLtr(S, m), B = Wa(P.borderRadius);
+=======
+        const N = M + Math.max((f - v) / 2, 0), D = r.leftForLtr(S, m), B = Wa(P.borderRadius);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         o.beginPath(), Object.values(B).some((L) => L !== 0) ? Xn(o, {
           x: D,
           y: N,
           w: m,
           h: v,
           radius: B
-        }) : o.rect(D, N, m, v), o.fill(), E !== 0 && o.stroke();
+        }) : o.rect(D, N, m, v), o.fill(), R !== 0 && o.stroke();
       }
       o.restore();
     }, w = function(S, M, P) {
+<<<<<<< HEAD
       yn(o, P.text, S, M + b / 2, c, {
+=======
+      yn(o, P.text, S, M + p / 2, c, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         strikethrough: P.hidden,
         textAlign: r.textAlign(P.textAlign)
       });
     }, k = this.isHorizontal(), _ = this._computeTitleHeight();
+<<<<<<< HEAD
     k ? p = {
       x: xt(s, this.left + u, this.right - n[0]),
+=======
+    k ? b = {
+      x: kt(s, this.left + u, this.right - n[0]),
+>>>>>>> 8a6bd9f (Sales Volume chart)
       y: this.top + u + _,
       line: 0
     } : p = {
       x: this.left + u,
-      y: xt(s, this.top + _ + u, this.bottom - a[0].height),
+      y: kt(s, this.top + _ + u, this.bottom - a[0].height),
       line: 0
     }, Al(this.ctx, t.textDirection);
+<<<<<<< HEAD
     const $ = b + u;
     this.legendItems.forEach((S, M) => {
       o.strokeStyle = S.fontColor, o.fillStyle = S.fontColor;
@@ -6804,6 +8645,41 @@ class _i extends fa {
   }
   _computeTitleHeight() {
     const t = this.options.title, a = _t(t.font), n = Wt(t.padding);
+=======
+    const $ = p + u;
+    this.legendItems.forEach((S, M) => {
+      o.strokeStyle = S.fontColor, o.fillStyle = S.fontColor;
+      const P = o.measureText(S.text).width, R = r.textAlign(S.textAlign || (S.textAlign = i.textAlign)), N = m + h + P;
+      let D = b.x, B = b.y;
+      r.setWidth(this.width), k ? M > 0 && D + N + u > this.right && (B = b.y += $, b.line++, D = b.x = kt(s, this.left + u, this.right - n[b.line])) : M > 0 && B + $ > this.bottom && (D = b.x = D + a[b.line].width + u, b.line++, B = b.y = kt(s, this.top + _ + u, this.bottom - a[b.line].height));
+      const L = r.x(D);
+      if (y(L, B, S), D = Rc(R, D + m + h, k ? D + N : this.right, t.rtl), w(r.x(D), B, S), k)
+        b.x += N + u;
+      else if (typeof S.text != "string") {
+        const j = c.lineHeight;
+        b.y += Jl(S, j) + u;
+      } else
+        b.y += $;
+    }), Bl(this.ctx, t.textDirection);
+  }
+  drawTitle() {
+    const t = this.options, a = t.title, n = wt(a.font), o = Wt(a.padding);
+    if (!a.display)
+      return;
+    const s = Ka(t.rtl, this.left, this.width), i = this.ctx, l = a.position, r = n.size / 2, c = o.top + r;
+    let u, f = this.left, h = this.width;
+    if (this.isHorizontal())
+      h = Math.max(...this.lineWidths), u = this.top + c, f = kt(t.align, f, this.right - h);
+    else {
+      const m = this.columnSizes.reduce((v, p) => Math.max(v, p.height), 0);
+      u = c + kt(t.align, this.top, this.bottom - m - t.labels.padding - this._computeTitleHeight());
+    }
+    const b = kt(l, f, f + h);
+    i.textAlign = s.textAlign(Qo(l)), i.textBaseline = "middle", i.strokeStyle = a.color, i.fillStyle = a.color, i.font = n.string, yn(i, a.text, b, u, n);
+  }
+  _computeTitleHeight() {
+    const t = this.options.title, a = wt(t.font), n = Wt(t.padding);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     return t.display ? a.lineHeight + n.height : 0;
   }
   _getLegendItemAt(t, a) {
@@ -6817,11 +8693,19 @@ class _i extends fa {
   }
   handleEvent(t) {
     const a = this.options;
+<<<<<<< HEAD
     if (!bf(t.type, a))
       return;
     const n = this._getLegendItemAt(t.x, t.y);
     if (t.type === "mousemove" || t.type === "mouseout") {
       const o = this._hoveredItem, s = ff(o, n);
+=======
+    if (!pf(t.type, a))
+      return;
+    const n = this._getLegendItemAt(t.x, t.y);
+    if (t.type === "mousemove" || t.type === "mouseout") {
+      const o = this._hoveredItem, s = hf(o, n);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       o && !s && Je(a.onLeave, [
         t,
         o,
@@ -6838,18 +8722,31 @@ class _i extends fa {
     ], this);
   }
 }
+<<<<<<< HEAD
 function gf(e, t, a, n, o) {
   const s = mf(n, e, t, a), i = pf(o, n, t.lineHeight);
+=======
+function ff(e, t, a, n, o) {
+  const s = gf(n, e, t, a), i = mf(o, n, t.lineHeight);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return {
     itemWidth: s,
     itemHeight: i
   };
 }
+<<<<<<< HEAD
 function mf(e, t, a, n) {
   let o = e.text;
   return o && typeof o != "string" && (o = o.reduce((s, i) => s.length > i.length ? s : i)), t + a.size / 2 + n.measureText(o).width;
 }
 function pf(e, t, a) {
+=======
+function gf(e, t, a, n) {
+  let o = e.text;
+  return o && typeof o != "string" && (o = o.reduce((s, i) => s.length > i.length ? s : i)), t + a.size / 2 + n.measureText(o).width;
+}
+function mf(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let n = e;
   return typeof t.text != "string" && (n = Jl(t, a)), n;
 }
@@ -6857,7 +8754,11 @@ function Jl(e, t) {
   const a = e.text ? e.text.length : 0;
   return t * a;
 }
+<<<<<<< HEAD
 function bf(e, t) {
+=======
+function pf(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return !!((e === "mousemove" || e === "mouseout") && (t.onHover || t.onLeave) || t.onClick && (e === "click" || e === "mouseup"));
 }
 var rs = {
@@ -6957,7 +8858,11 @@ class er extends fa {
     this.width = this.right = t, this.height = this.bottom = a;
     const o = dt(n.text) ? n.text.length : 1;
     this._padding = Wt(n.padding);
+<<<<<<< HEAD
     const s = o * _t(n.font).lineHeight + this._padding.height;
+=======
+    const s = o * wt(n.font).lineHeight + this._padding.height;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     this.isHorizontal() ? this.height = s : this.width = s;
   }
   isHorizontal() {
@@ -6966,8 +8871,13 @@ class er extends fa {
   }
   _drawArgs(t) {
     const { top: a, left: n, bottom: o, right: s, options: i } = this, l = i.align;
+<<<<<<< HEAD
     let r = 0, c, u, g;
     return this.isHorizontal() ? (u = xt(l, n, s), g = a + t, c = s - n) : (i.position === "left" ? (u = n + t, g = xt(l, o, a), r = Ue * -0.5) : (u = s - t, g = xt(l, a, o), r = Ue * 0.5), c = o - a), {
+=======
+    let r = 0, c, u, f;
+    return this.isHorizontal() ? (u = kt(l, n, s), f = a + t, c = s - n) : (i.position === "left" ? (u = n + t, f = kt(l, o, a), r = Ye * -0.5) : (u = s - t, f = kt(l, a, o), r = Ye * 0.5), c = o - a), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       titleX: u,
       titleY: g,
       maxWidth: c,
@@ -6978,7 +8888,11 @@ class er extends fa {
     const t = this.ctx, a = this.options;
     if (!a.display)
       return;
+<<<<<<< HEAD
     const n = _t(a.font), s = n.lineHeight / 2 + this._padding.top, { titleX: i, titleY: l, maxWidth: r, rotation: c } = this._drawArgs(s);
+=======
+    const n = wt(a.font), s = n.lineHeight / 2 + this._padding.top, { titleX: i, titleY: l, maxWidth: r, rotation: c } = this._drawArgs(s);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     yn(t, a.text, 0, 0, n, {
       color: a.color,
       maxWidth: r,
@@ -6992,7 +8906,11 @@ class er extends fa {
     });
   }
 }
+<<<<<<< HEAD
 function vf(e, t) {
+=======
+function bf(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = new er({
     ctx: e.ctx,
     options: t,
@@ -7004,7 +8922,11 @@ var tr = {
   id: "title",
   _element: er,
   start(e, t, a) {
+<<<<<<< HEAD
     vf(e, a);
+=======
+    bf(e, a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   },
   stop(e) {
     const t = e.titleBlock;
@@ -7082,7 +9004,11 @@ function la(e) {
 `) > -1 ? e.split(`
 `) : e;
 }
+<<<<<<< HEAD
 function yf(e, t) {
+=======
+function vf(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { element: a, datasetIndex: n, index: o } = t, s = e.getDatasetMeta(n).controller, { label: i, value: l } = s.getLabelAndValue(o);
   return {
     chart: e,
@@ -7097,9 +9023,15 @@ function yf(e, t) {
   };
 }
 function wi(e, t) {
+<<<<<<< HEAD
   const a = e.chart.ctx, { body: n, footer: o, title: s } = e, { boxWidth: i, boxHeight: l } = t, r = _t(t.bodyFont), c = _t(t.titleFont), u = _t(t.footerFont), g = s.length, h = o.length, p = n.length, m = Wt(t.padding);
   let v = m.height, b = 0, y = n.reduce((_, $) => _ + $.before.length + $.lines.length + $.after.length, 0);
   if (y += e.beforeBody.length + e.afterBody.length, g && (v += g * c.lineHeight + (g - 1) * t.titleSpacing + t.titleMarginBottom), y) {
+=======
+  const a = e.chart.ctx, { body: n, footer: o, title: s } = e, { boxWidth: i, boxHeight: l } = t, r = wt(t.bodyFont), c = wt(t.titleFont), u = wt(t.footerFont), f = s.length, h = o.length, b = n.length, m = Wt(t.padding);
+  let v = m.height, p = 0, y = n.reduce((_, $) => _ + $.before.length + $.lines.length + $.after.length, 0);
+  if (y += e.beforeBody.length + e.afterBody.length, f && (v += f * c.lineHeight + (f - 1) * t.titleSpacing + t.titleMarginBottom), y) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const _ = t.displayColors ? Math.max(l, r.lineHeight) : r.lineHeight;
     v += p * _ + (y - p) * r.lineHeight + (y - 1) * t.bodySpacing;
   }
@@ -7108,6 +9040,7 @@ function wi(e, t) {
   const k = function(_) {
     b = Math.max(b, a.measureText(_).width + w);
   };
+<<<<<<< HEAD
   return a.save(), a.font = c.string, We(e.title, k), a.font = r.string, We(e.beforeBody.concat(e.afterBody), k), w = t.displayColors ? i + 2 + t.boxPadding : 0, We(n, (_) => {
     We(_.before, k), We(_.lines, k), We(_.after, k);
   }), w = 0, a.font = u.string, We(e.footer, k), a.restore(), b += m.width, {
@@ -7120,10 +9053,25 @@ function xf(e, t) {
   return a < n / 2 ? "top" : a > e.height - n / 2 ? "bottom" : "center";
 }
 function kf(e, t, a, n) {
+=======
+  return a.save(), a.font = c.string, Ke(e.title, k), a.font = r.string, Ke(e.beforeBody.concat(e.afterBody), k), w = t.displayColors ? i + 2 + t.boxPadding : 0, Ke(n, (_) => {
+    Ke(_.before, k), Ke(_.lines, k), Ke(_.after, k);
+  }), w = 0, a.font = u.string, Ke(e.footer, k), a.restore(), p += m.width, {
+    width: p,
+    height: v
+  };
+}
+function yf(e, t) {
+  const { y: a, height: n } = t;
+  return a < n / 2 ? "top" : a > e.height - n / 2 ? "bottom" : "center";
+}
+function xf(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const { x: o, width: s } = n, i = a.caretSize + a.caretPadding;
   if (e === "left" && o + s + i > t.width || e === "right" && o - s - i < 0)
     return !0;
 }
+<<<<<<< HEAD
 function _f(e, t, a, n) {
   const { x: o, width: s } = a, { width: i, chartArea: { left: l, right: r } } = e;
   let c = "center";
@@ -7141,16 +9089,44 @@ function wf(e, t) {
   return t === "right" ? a -= n : t === "center" && (a -= n / 2), a;
 }
 function Cf(e, t, a) {
+=======
+function kf(e, t, a, n) {
+  const { x: o, width: s } = a, { width: i, chartArea: { left: l, right: r } } = e;
+  let c = "center";
+  return n === "center" ? c = o <= (l + r) / 2 ? "left" : "right" : o <= s / 2 ? c = "left" : o >= i - s / 2 && (c = "right"), xf(c, e, t, a) && (c = "center"), c;
+}
+function Ci(e, t, a) {
+  const n = a.yAlign || t.yAlign || yf(e, a);
+  return {
+    xAlign: a.xAlign || t.xAlign || kf(e, t, a, n),
+    yAlign: n
+  };
+}
+function _f(e, t) {
+  let { x: a, width: n } = e;
+  return t === "right" ? a -= n : t === "center" && (a -= n / 2), a;
+}
+function wf(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   let { y: n, height: o } = e;
   return t === "top" ? n += a : t === "bottom" ? n -= o + a : n -= o / 2, n;
 }
 function $i(e, t, a, n) {
+<<<<<<< HEAD
   const { caretSize: o, caretPadding: s, cornerRadius: i } = e, { xAlign: l, yAlign: r } = a, c = o + s, { topLeft: u, topRight: g, bottomLeft: h, bottomRight: p } = Wa(i);
   let m = wf(t, l);
   const v = Cf(t, r, c);
   return r === "center" ? l === "left" ? m += c : l === "right" && (m -= c) : l === "left" ? m -= Math.max(u, h) + o : l === "right" && (m += Math.max(g, p) + o), {
     x: kt(m, 0, n.width - t.width),
     y: kt(v, 0, n.height - t.height)
+=======
+  const { caretSize: o, caretPadding: s, cornerRadius: i } = e, { xAlign: l, yAlign: r } = a, c = o + s, { topLeft: u, topRight: f, bottomLeft: h, bottomRight: b } = Wa(i);
+  let m = _f(t, l);
+  const v = wf(t, r, c);
+  return r === "center" ? l === "left" ? m += c : l === "right" && (m -= c) : l === "left" ? m -= Math.max(u, h) + o : l === "right" && (m += Math.max(f, b) + o), {
+    x: _t(m, 0, n.width - t.width),
+    y: _t(v, 0, n.height - t.height)
+>>>>>>> 8a6bd9f (Sales Volume chart)
   };
 }
 function Fn(e, t, a) {
@@ -7160,7 +9136,11 @@ function Fn(e, t, a) {
 function Si(e) {
   return Jt([], la(e));
 }
+<<<<<<< HEAD
 function $f(e, t, a) {
+=======
+function Cf(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return Ia(e, {
     tooltip: t,
     tooltipItems: a,
@@ -7243,7 +9223,11 @@ class Di extends fa {
     return o._cacheable && (this._cachedAnimations = Object.freeze(s)), s;
   }
   getContext() {
+<<<<<<< HEAD
     return this.$context || (this.$context = $f(this.chart.getContext(), this, this._tooltipItems));
+=======
+    return this.$context || (this.$context = Cf(this.chart.getContext(), this, this._tooltipItems));
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   getTitle(t, a) {
     const { callbacks: n } = a, o = Lt(n, "beforeTitle", this, t), s = Lt(n, "title", this, t), i = Lt(n, "afterTitle", this, t);
@@ -7255,7 +9239,7 @@ class Di extends fa {
   }
   getBody(t, a) {
     const { callbacks: n } = a, o = [];
-    return We(t, (s) => {
+    return Ke(t, (s) => {
       const i = {
         before: [],
         lines: [],
@@ -7276,10 +9260,17 @@ class Di extends fa {
     const a = this._active, n = this.chart.data, o = [], s = [], i = [];
     let l = [], r, c;
     for (r = 0, c = a.length; r < c; ++r)
+<<<<<<< HEAD
       l.push(yf(this.chart, a[r]));
     return t.filter && (l = l.filter((u, g, h) => t.filter(u, g, h, n))), t.itemSort && (l = l.sort((u, g) => t.itemSort(u, g, n))), We(l, (u) => {
       const g = Mi(t.callbacks, u);
       o.push(Lt(g, "labelColor", this, u)), s.push(Lt(g, "labelPointStyle", this, u)), i.push(Lt(g, "labelTextColor", this, u));
+=======
+      l.push(vf(this.chart, a[r]));
+    return t.filter && (l = l.filter((u, f, h) => t.filter(u, f, h, n))), t.itemSort && (l = l.sort((u, f) => t.itemSort(u, f, n))), Ke(l, (u) => {
+      const f = Mi(t.callbacks, u);
+      o.push(Lt(f, "labelColor", this, u)), s.push(Lt(f, "labelPointStyle", this, u)), i.push(Lt(f, "labelTextColor", this, u));
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }), this.labelColors = o, this.labelPointStyles = s, this.labelTextColors = i, this.dataPoints = l, l;
   }
   update(t, a) {
@@ -7292,7 +9283,11 @@ class Di extends fa {
     else {
       const l = rn[n.position].call(this, o, this._eventPosition);
       i = this._createItems(n), this.title = this.getTitle(i, n), this.beforeBody = this.getBeforeBody(i, n), this.body = this.getBody(i, n), this.afterBody = this.getAfterBody(i, n), this.footer = this.getFooter(i, n);
+<<<<<<< HEAD
       const r = this._size = wi(this, n), c = Object.assign({}, l, r), u = Ci(this.chart, n, c), g = $i(n, c, u, this.chart);
+=======
+      const r = this._size = wi(this, n), c = Object.assign({}, l, r), u = Ci(this.chart, n, c), f = $i(n, c, u, this.chart);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       this.xAlign = u.xAlign, this.yAlign = u.yAlign, s = {
         opacity: 1,
         x: g.x,
@@ -7314,10 +9309,17 @@ class Di extends fa {
     a.lineTo(s.x1, s.y1), a.lineTo(s.x2, s.y2), a.lineTo(s.x3, s.y3);
   }
   getCaretPosition(t, a, n) {
+<<<<<<< HEAD
     const { xAlign: o, yAlign: s } = this, { caretSize: i, cornerRadius: l } = n, { topLeft: r, topRight: c, bottomLeft: u, bottomRight: g } = Wa(l), { x: h, y: p } = t, { width: m, height: v } = a;
     let b, y, w, k, _, $;
     return s === "center" ? (_ = p + v / 2, o === "left" ? (b = h, y = b - i, k = _ + i, $ = _ - i) : (b = h + m, y = b + i, k = _ - i, $ = _ + i), w = b) : (o === "left" ? y = h + Math.max(r, u) + i : o === "right" ? y = h + m - Math.max(c, g) - i : y = this.caretX, s === "top" ? (k = p, _ = k - i, b = y - i, w = y + i) : (k = p + v, _ = k + i, b = y + i, w = y - i), $ = k), {
       x1: b,
+=======
+    const { xAlign: o, yAlign: s } = this, { caretSize: i, cornerRadius: l } = n, { topLeft: r, topRight: c, bottomLeft: u, bottomRight: f } = Wa(l), { x: h, y: b } = t, { width: m, height: v } = a;
+    let p, y, w, k, _, $;
+    return s === "center" ? (_ = b + v / 2, o === "left" ? (p = h, y = p - i, k = _ + i, $ = _ - i) : (p = h + m, y = p + i, k = _ - i, $ = _ + i), w = p) : (o === "left" ? y = h + Math.max(r, u) + i : o === "right" ? y = h + m - Math.max(c, f) - i : y = this.caretX, s === "top" ? (k = b, _ = k - i, p = y - i, w = y + i) : (k = b + v, _ = k + i, p = y + i, w = y - i), $ = k), {
+      x1: p,
+>>>>>>> 8a6bd9f (Sales Volume chart)
       x2: y,
       x3: w,
       y1: k,
@@ -7330,23 +9332,39 @@ class Di extends fa {
     let i, l, r;
     if (s) {
       const c = Ka(n.rtl, this.x, this.width);
+<<<<<<< HEAD
       for (t.x = Fn(this, n.titleAlign, n), a.textAlign = c.textAlign(n.titleAlign), a.textBaseline = "middle", i = _t(n.titleFont), l = n.titleSpacing, a.fillStyle = n.titleColor, a.font = i.string, r = 0; r < s; ++r)
+=======
+      for (t.x = Fn(this, n.titleAlign, n), a.textAlign = c.textAlign(n.titleAlign), a.textBaseline = "middle", i = wt(n.titleFont), l = n.titleSpacing, a.fillStyle = n.titleColor, a.font = i.string, r = 0; r < s; ++r)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         a.fillText(o[r], c.x(t.x), t.y + i.lineHeight / 2), t.y += i.lineHeight + l, r + 1 === s && (t.y += n.titleMarginBottom - l);
     }
   }
   _drawColorBox(t, a, n, o, s) {
+<<<<<<< HEAD
     const i = this.labelColors[n], l = this.labelPointStyles[n], { boxHeight: r, boxWidth: c } = s, u = _t(s.bodyFont), g = Fn(this, "left", s), h = o.x(g), p = r < u.lineHeight ? (u.lineHeight - r) / 2 : 0, m = a.y + p;
+=======
+    const i = this.labelColors[n], l = this.labelPointStyles[n], { boxHeight: r, boxWidth: c } = s, u = wt(s.bodyFont), f = Fn(this, "left", s), h = o.x(f), b = r < u.lineHeight ? (u.lineHeight - r) / 2 : 0, m = a.y + b;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     if (s.usePointStyle) {
       const v = {
         radius: Math.min(c, r) / 2,
         pointStyle: l.pointStyle,
         rotation: l.rotation,
         borderWidth: 1
+<<<<<<< HEAD
       }, b = o.leftForLtr(h, c) + c / 2, y = m + r / 2;
       t.strokeStyle = s.multiKeyBackground, t.fillStyle = s.multiKeyBackground, Vo(t, v, b, y), t.strokeStyle = i.borderColor, t.fillStyle = i.backgroundColor, Vo(t, v, b, y);
     } else {
       t.lineWidth = Oe(i.borderWidth) ? Math.max(...Object.values(i.borderWidth)) : i.borderWidth || 1, t.strokeStyle = i.borderColor, t.setLineDash(i.borderDash || []), t.lineDashOffset = i.borderDashOffset || 0;
       const v = o.leftForLtr(h, c), b = o.leftForLtr(o.xPlus(h, 1), c - 2), y = Wa(i.borderRadius);
+=======
+      }, p = o.leftForLtr(h, c) + c / 2, y = m + r / 2;
+      t.strokeStyle = s.multiKeyBackground, t.fillStyle = s.multiKeyBackground, Vo(t, v, p, y), t.strokeStyle = i.borderColor, t.fillStyle = i.backgroundColor, Vo(t, v, p, y);
+    } else {
+      t.lineWidth = Oe(i.borderWidth) ? Math.max(...Object.values(i.borderWidth)) : i.borderWidth || 1, t.strokeStyle = i.borderColor, t.setLineDash(i.borderDash || []), t.lineDashOffset = i.borderDashOffset || 0;
+      const v = o.leftForLtr(h, c), p = o.leftForLtr(o.xPlus(h, 1), c - 2), y = Wa(i.borderRadius);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       Object.values(y).some((w) => w !== 0) ? (t.beginPath(), t.fillStyle = s.multiKeyBackground, Xn(t, {
         x: v,
         y: m,
@@ -7354,7 +9372,11 @@ class Di extends fa {
         h: r,
         radius: y
       }), t.fill(), t.stroke(), t.fillStyle = i.backgroundColor, t.beginPath(), Xn(t, {
+<<<<<<< HEAD
         x: b,
+=======
+        x: p,
+>>>>>>> 8a6bd9f (Sales Volume chart)
         y: m + 1,
         w: c - 2,
         h: r - 2,
@@ -7364,6 +9386,7 @@ class Di extends fa {
     t.fillStyle = this.labelTextColors[n];
   }
   drawBody(t, a, n) {
+<<<<<<< HEAD
     const { body: o } = this, { bodySpacing: s, bodyAlign: i, displayColors: l, boxHeight: r, boxWidth: c, boxPadding: u } = n, g = _t(n.bodyFont);
     let h = g.lineHeight, p = 0;
     const m = Ka(n.rtl, this.x, this.width), v = function(P) {
@@ -7376,19 +9399,42 @@ class Di extends fa {
       We(y.after, v);
     }
     p = 0, h = g.lineHeight, We(this.afterBody, v), t.y -= s;
+=======
+    const { body: o } = this, { bodySpacing: s, bodyAlign: i, displayColors: l, boxHeight: r, boxWidth: c, boxPadding: u } = n, f = wt(n.bodyFont);
+    let h = f.lineHeight, b = 0;
+    const m = Ka(n.rtl, this.x, this.width), v = function(P) {
+      a.fillText(P, m.x(t.x + b), t.y + h / 2), t.y += h + s;
+    }, p = m.textAlign(i);
+    let y, w, k, _, $, S, M;
+    for (a.textAlign = i, a.textBaseline = "middle", a.font = f.string, t.x = Fn(this, p, n), a.fillStyle = n.bodyColor, Ke(this.beforeBody, v), b = l && p !== "right" ? i === "center" ? c / 2 + u : c + 2 + u : 0, _ = 0, S = o.length; _ < S; ++_) {
+      for (y = o[_], w = this.labelTextColors[_], a.fillStyle = w, Ke(y.before, v), k = y.lines, l && k.length && (this._drawColorBox(a, t, _, m, n), h = Math.max(f.lineHeight, r)), $ = 0, M = k.length; $ < M; ++$)
+        v(k[$]), h = f.lineHeight;
+      Ke(y.after, v);
+    }
+    b = 0, h = f.lineHeight, Ke(this.afterBody, v), t.y -= s;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   drawFooter(t, a, n) {
     const o = this.footer, s = o.length;
     let i, l;
     if (s) {
       const r = Ka(n.rtl, this.x, this.width);
+<<<<<<< HEAD
       for (t.x = Fn(this, n.footerAlign, n), t.y += n.footerMarginTop, a.textAlign = r.textAlign(n.footerAlign), a.textBaseline = "middle", i = _t(n.footerFont), a.fillStyle = n.footerColor, a.font = i.string, l = 0; l < s; ++l)
+=======
+      for (t.x = Fn(this, n.footerAlign, n), t.y += n.footerMarginTop, a.textAlign = r.textAlign(n.footerAlign), a.textBaseline = "middle", i = wt(n.footerFont), a.fillStyle = n.footerColor, a.font = i.string, l = 0; l < s; ++l)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         a.fillText(o[l], r.x(t.x), t.y + i.lineHeight / 2), t.y += i.lineHeight + n.footerSpacing;
     }
   }
   drawBackground(t, a, n, o) {
+<<<<<<< HEAD
     const { xAlign: s, yAlign: i } = this, { x: l, y: r } = t, { width: c, height: u } = n, { topLeft: g, topRight: h, bottomLeft: p, bottomRight: m } = Wa(o.cornerRadius);
     a.fillStyle = o.backgroundColor, a.strokeStyle = o.borderColor, a.lineWidth = o.borderWidth, a.beginPath(), a.moveTo(l + g, r), i === "top" && this.drawCaret(t, a, n, o), a.lineTo(l + c - h, r), a.quadraticCurveTo(l + c, r, l + c, r + h), i === "center" && s === "right" && this.drawCaret(t, a, n, o), a.lineTo(l + c, r + u - m), a.quadraticCurveTo(l + c, r + u, l + c - m, r + u), i === "bottom" && this.drawCaret(t, a, n, o), a.lineTo(l + p, r + u), a.quadraticCurveTo(l, r + u, l, r + u - p), i === "center" && s === "left" && this.drawCaret(t, a, n, o), a.lineTo(l, r + g), a.quadraticCurveTo(l, r, l + g, r), a.closePath(), a.fill(), o.borderWidth > 0 && a.stroke();
+=======
+    const { xAlign: s, yAlign: i } = this, { x: l, y: r } = t, { width: c, height: u } = n, { topLeft: f, topRight: h, bottomLeft: b, bottomRight: m } = Wa(o.cornerRadius);
+    a.fillStyle = o.backgroundColor, a.strokeStyle = o.borderColor, a.lineWidth = o.borderWidth, a.beginPath(), a.moveTo(l + f, r), i === "top" && this.drawCaret(t, a, n, o), a.lineTo(l + c - h, r), a.quadraticCurveTo(l + c, r, l + c, r + h), i === "center" && s === "right" && this.drawCaret(t, a, n, o), a.lineTo(l + c, r + u - m), a.quadraticCurveTo(l + c, r + u, l + c - m, r + u), i === "bottom" && this.drawCaret(t, a, n, o), a.lineTo(l + b, r + u), a.quadraticCurveTo(l, r + u, l, r + u - b), i === "center" && s === "left" && this.drawCaret(t, a, n, o), a.lineTo(l, r + f), a.quadraticCurveTo(l, r, l + f, r), a.closePath(), a.fill(), o.borderWidth > 0 && a.stroke();
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   _updateAnimationTarget(t) {
     const a = this.chart, n = this.$animations, o = n && n.x, s = n && n.y;
@@ -7576,6 +9622,7 @@ var cs = {
     "interaction"
   ]
 };
+<<<<<<< HEAD
 const Sf = (e, t, a, n) => (typeof t == "string" ? (a = e.push(t) - 1, n.unshift({
   index: a,
   label: t
@@ -7588,6 +9635,20 @@ function Mf(e, t, a, n) {
   return o !== s ? a : o;
 }
 const Df = (e, t) => e === null ? null : kt(Math.round(e), 0, t);
+=======
+const $f = (e, t, a, n) => (typeof t == "string" ? (a = e.push(t) - 1, n.unshift({
+  index: a,
+  label: t
+})) : isNaN(t) && (a = null), a);
+function Sf(e, t, a, n) {
+  const o = e.indexOf(t);
+  if (o === -1)
+    return $f(e, t, a, n);
+  const s = e.lastIndexOf(t);
+  return o !== s ? a : o;
+}
+const Mf = (e, t) => e === null ? null : _t(Math.round(e), 0, t);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function Ti(e) {
   const t = this.getLabels();
   return e >= 0 && e < t.length ? t[e] : e;
@@ -7616,7 +9677,11 @@ class nr extends qa {
     if (je(t))
       return null;
     const n = this.getLabels();
+<<<<<<< HEAD
     return a = isFinite(a) && n[a] === t ? a : Mf(n, t, Ee(a, t), this._addedLabels), Df(a, n.length - 1);
+=======
+    return a = isFinite(a) && n[a] === t ? a : Sf(n, t, Re(a, t), this._addedLabels), Mf(a, n.length - 1);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   determineDataLimits() {
     const { minDefined: t, maxDefined: a } = this.getUserBounds();
@@ -7653,9 +9718,15 @@ class nr extends qa {
     return this.bottom;
   }
 }
+<<<<<<< HEAD
 function Tf(e, t) {
   const a = [], { bounds: o, step: s, min: i, max: l, precision: r, count: c, maxTicks: u, maxDigits: g, includeBounds: h } = e, p = s || 1, m = u - 1, { min: v, max: b } = t, y = !je(i), w = !je(l), k = !je(c), _ = (b - v) / (g + 1);
   let $ = $s((b - v) / m / p) * p, S, M, P, E;
+=======
+function Df(e, t) {
+  const a = [], { bounds: o, step: s, min: i, max: l, precision: r, count: c, maxTicks: u, maxDigits: f, includeBounds: h } = e, b = s || 1, m = u - 1, { min: v, max: p } = t, y = !He(i), w = !He(l), k = !He(c), _ = (p - v) / (f + 1);
+  let $ = $s((p - v) / m / b) * b, S, M, P, R;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   if ($ < 1e-14 && !y && !w)
     return [
       {
@@ -7665,6 +9736,7 @@ function Tf(e, t) {
         value: b
       }
     ];
+<<<<<<< HEAD
   E = Math.ceil(b / $) - Math.floor(v / $), E > m && ($ = $s(E * $ / m / p) * p), je(r) || (S = Math.pow(10, r), $ = Math.ceil($ * S) / S), o === "ticks" ? (M = Math.floor(v / $) * $, P = Math.ceil(b / $) * $) : (M = v, P = b), y && w && s && Mc((l - i) / s, $ / 1e3) ? (E = Math.round(Math.min((l - i) / $, u)), $ = (l - i) / E, M = i, P = l) : k ? (M = y ? i : M, P = w ? l : P, E = c - 1, $ = (P - M) / E) : (E = (P - M) / $, dn(E, Math.round(E), $ / 1e3) ? E = Math.round(E) : E = Math.ceil(E));
   const N = Math.max(Ss($), Ss(M));
   S = Math.pow(10, je(r) ? N : r), M = Math.round(M * S) / S, P = Math.round(P * S) / S;
@@ -7672,6 +9744,15 @@ function Tf(e, t) {
   for (y && (h && M !== i ? (a.push({
     value: i
   }), M < i && D++, dn(Math.round((M + D * $) * S) / S, i, Ai(i, _, e)) && D++) : M < i && D++); D < E; ++D) {
+=======
+  R = Math.ceil(p / $) - Math.floor(v / $), R > m && ($ = $s(R * $ / m / b) * b), He(r) || (S = Math.pow(10, r), $ = Math.ceil($ * S) / S), o === "ticks" ? (M = Math.floor(v / $) * $, P = Math.ceil(p / $) * $) : (M = v, P = p), y && w && s && Sc((l - i) / s, $ / 1e3) ? (R = Math.round(Math.min((l - i) / $, u)), $ = (l - i) / R, M = i, P = l) : k ? (M = y ? i : M, P = w ? l : P, R = c - 1, $ = (P - M) / R) : (R = (P - M) / $, dn(R, Math.round(R), $ / 1e3) ? R = Math.round(R) : R = Math.ceil(R));
+  const N = Math.max(Ss($), Ss(M));
+  S = Math.pow(10, He(r) ? N : r), M = Math.round(M * S) / S, P = Math.round(P * S) / S;
+  let D = 0;
+  for (y && (h && M !== i ? (a.push({
+    value: i
+  }), M < i && D++, dn(Math.round((M + D * $) * S) / S, i, Ai(i, _, e)) && D++) : M < i && D++); D < R; ++D) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const B = Math.round((M + D * $) * S) / S;
     if (w && B > l)
       break;
@@ -7689,7 +9770,11 @@ function Ai(e, t, { horizontal: a, minRotation: n }) {
   const o = ca(n), s = (a ? Math.sin(o) : Math.cos(o)) || 1e-3, i = 0.75 * t * ("" + e).length;
   return Math.min(t / s, i);
 }
+<<<<<<< HEAD
 class Af extends qa {
+=======
+class Tf extends qa {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   constructor(t) {
     super(t), this.start = void 0, this.end = void 0, this._startValue = void 0, this._endValue = void 0, this._valueRange = 0;
   }
@@ -7734,8 +9819,13 @@ class Af extends qa {
       horizontal: this.isHorizontal(),
       minRotation: a.minRotation || 0,
       includeBounds: a.includeBounds !== !1
+<<<<<<< HEAD
     }, s = this._range || this, i = Tf(o, s);
     return t.bounds === "ticks" && Dc(i, this, "value"), t.reverse ? (i.reverse(), this.start = this.max, this.end = this.min) : (this.start = this.min, this.end = this.max), i;
+=======
+    }, s = this._range || this, i = Df(o, s);
+    return t.bounds === "ticks" && Mc(i, this, "value"), t.reverse ? (i.reverse(), this.start = this.max, this.end = this.min) : (this.start = this.min, this.end = this.max), i;
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   configure() {
     const t = this.ticks;
@@ -7750,7 +9840,11 @@ class Af extends qa {
     return es(t, this.chart.options.locale, this.options.ticks.format);
   }
 }
+<<<<<<< HEAD
 class or extends Af {
+=======
+class or extends Tf {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "linear";
   static defaults = {
     ticks: {
@@ -7759,7 +9853,7 @@ class or extends Af {
   };
   determineDataLimits() {
     const { min: t, max: a } = this.getMinMax(!0);
-    this.min = wt(t) ? t : 0, this.max = wt(a) ? a : 1, this.handleTickRangeOptions();
+    this.min = Ct(t) ? t : 0, this.max = Ct(a) ? a : 1, this.handleTickRangeOptions();
   }
   computeTickLimit() {
     const t = this.isHorizontal(), a = t ? this.width : this.height, n = ca(this.options.ticks.minRotation), o = (t ? Math.sin(n) : Math.cos(n)) || 1e-3, s = this._resolveTickFontOptions(0);
@@ -7817,11 +9911,16 @@ const co = {
     common: !0,
     size: 3154e7
   }
+<<<<<<< HEAD
 }, Rt = /* @__PURE__ */ Object.keys(co);
+=======
+}, Et = /* @__PURE__ */ Object.keys(co);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function Bi(e, t) {
   return e - t;
 }
 function Li(e, t) {
+<<<<<<< HEAD
   if (je(t))
     return null;
   const a = e._adapter, { parser: n, round: o, isoWeekday: s } = e._parseOpts;
@@ -7832,23 +9931,48 @@ function Pi(e, t, a, n) {
   const o = Rt.length;
   for (let s = Rt.indexOf(e); s < o - 1; ++s) {
     const i = co[Rt[s]], l = i.steps ? i.steps : Number.MAX_SAFE_INTEGER;
-    if (i.common && Math.ceil((a - t) / (l * i.size)) <= n)
-      return Rt[s];
-  }
-  return Rt[o - 1];
+=======
+  if (He(t))
+    return null;
+  const a = e._adapter, { parser: n, round: o, isoWeekday: s } = e._parseOpts;
+  let i = t;
+  return typeof n == "function" && (i = n(i)), Ct(i) || (i = typeof n == "string" ? a.parse(i, n) : a.parse(i)), i === null ? null : (o && (i = o === "week" && (pn(s) || s === !0) ? a.startOf(i, "isoWeek", s) : a.startOf(i, o)), +i);
 }
+function Pi(e, t, a, n) {
+  const o = Et.length;
+  for (let s = Et.indexOf(e); s < o - 1; ++s) {
+    const i = co[Et[s]], l = i.steps ? i.steps : Number.MAX_SAFE_INTEGER;
+>>>>>>> 8a6bd9f (Sales Volume chart)
+    if (i.common && Math.ceil((a - t) / (l * i.size)) <= n)
+      return Et[s];
+  }
+  return Et[o - 1];
+}
+<<<<<<< HEAD
 function Bf(e, t, a, n, o) {
   for (let s = Rt.length - 1; s >= Rt.indexOf(a); s--) {
     const i = Rt[s];
+=======
+function Af(e, t, a, n, o) {
+  for (let s = Et.length - 1; s >= Et.indexOf(a); s--) {
+    const i = Et[s];
+>>>>>>> 8a6bd9f (Sales Volume chart)
     if (co[i].common && e._adapter.diff(o, n, i) >= t - 1)
       return i;
   }
-  return Rt[a ? Rt.indexOf(a) : 0];
+  return Et[a ? Et.indexOf(a) : 0];
 }
+<<<<<<< HEAD
 function Lf(e) {
   for (let t = Rt.indexOf(e) + 1, a = Rt.length; t < a; ++t)
     if (co[Rt[t]].common)
       return Rt[t];
+=======
+function Bf(e) {
+  for (let t = Et.indexOf(e) + 1, a = Et.length; t < a; ++t)
+    if (co[Et[t]].common)
+      return Et[t];
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function Ri(e, t, a) {
   if (!a)
@@ -7858,14 +9982,22 @@ function Ri(e, t, a) {
     e[s] = !0;
   }
 }
+<<<<<<< HEAD
 function Pf(e, t, a, n) {
+=======
+function Lf(e, t, a, n) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const o = e._adapter, s = +o.startOf(t[0].value, n), i = t[t.length - 1].value;
   let l, r;
   for (l = s; l <= i; l = +o.add(l, 1, n))
     r = a[l], r >= 0 && (t[r].major = !0);
   return t;
 }
+<<<<<<< HEAD
 function Ei(e, t, a) {
+=======
+function Ri(e, t, a) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const n = [], o = {}, s = t.length;
   let i, l;
   for (i = 0; i < s; ++i)
@@ -7873,7 +10005,11 @@ function Ei(e, t, a) {
       value: l,
       major: !1
     });
+<<<<<<< HEAD
   return s === 0 || !a ? n : Pf(e, n, o, a);
+=======
+  return s === 0 || !a ? n : Lf(e, n, o, a);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 class Ii extends qa {
   static id = "time";
@@ -7904,7 +10040,11 @@ class Ii extends qa {
     }, this._unit = "day", this._majorUnit = void 0, this._offsets = {}, this._normalized = !1, this._parseOpts = void 0;
   }
   init(t, a = {}) {
+<<<<<<< HEAD
     const n = t.time || (t.time = {}), o = this._adapter = new gu._date(t.adapters.date);
+=======
+    const n = t.time || (t.time = {}), o = this._adapter = new fu._date(t.adapters.date);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     o.init(a), cn(n.displayFormats, o.formats()), this._parseOpts = {
       parser: n.parser,
       round: n.round,
@@ -7927,7 +10067,7 @@ class Ii extends qa {
     function r(c) {
       !i && !isNaN(c.min) && (o = Math.min(o, c.min)), !l && !isNaN(c.max) && (s = Math.max(s, c.max));
     }
-    (!i || !l) && (r(this._getLabelBounds()), (t.bounds !== "ticks" || t.ticks.source !== "labels") && r(this.getMinMax(!1))), o = wt(o) && !isNaN(o) ? o : +a.startOf(Date.now(), n), s = wt(s) && !isNaN(s) ? s : +a.endOf(Date.now(), n) + 1, this.min = Math.min(o, s - 1), this.max = Math.max(o + 1, s);
+    (!i || !l) && (r(this._getLabelBounds()), (t.bounds !== "ticks" || t.ticks.source !== "labels") && r(this.getMinMax(!1))), o = Ct(o) && !isNaN(o) ? o : +a.startOf(Date.now(), n), s = Ct(s) && !isNaN(s) ? s : +a.endOf(Date.now(), n) + 1, this.min = Math.min(o, s - 1), this.max = Math.max(o + 1, s);
   }
   _getLabelBounds() {
     const t = this.getLabelTimestamps();
@@ -7940,8 +10080,13 @@ class Ii extends qa {
   buildTicks() {
     const t = this.options, a = t.time, n = t.ticks, o = n.source === "labels" ? this.getLabelTimestamps() : this._generate();
     t.bounds === "ticks" && o.length && (this.min = this._userMin || o[0], this.max = this._userMax || o[o.length - 1]);
+<<<<<<< HEAD
     const s = this.min, i = this.max, l = Pc(o, s, i);
     return this._unit = a.unit || (n.autoSkip ? Pi(a.minUnit, this.min, this.max, this._getLabelCapacity(s)) : Bf(this, l.length, a.minUnit, this.min, this.max)), this._majorUnit = !n.major.enabled || this._unit === "year" ? void 0 : Lf(this._unit), this.initOffsets(o), t.reverse && l.reverse(), Ei(this, l, this._majorUnit);
+=======
+    const s = this.min, i = this.max, l = Lc(o, s, i);
+    return this._unit = a.unit || (n.autoSkip ? Pi(a.minUnit, this.min, this.max, this._getLabelCapacity(s)) : Af(this, l.length, a.minUnit, this.min, this.max)), this._majorUnit = !n.major.enabled || this._unit === "year" ? void 0 : Bf(this._unit), this.initOffsets(o), t.reverse && l.reverse(), Ri(this, l, this._majorUnit);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   afterAutoSkip() {
     this.options.offsetAfterAutoskip && this.initOffsets(this.ticks.map((t) => +t.value));
@@ -7950,13 +10095,14 @@ class Ii extends qa {
     let a = 0, n = 0, o, s;
     this.options.offset && t.length && (o = this.getDecimalForValue(t[0]), t.length === 1 ? a = 1 - o : a = (this.getDecimalForValue(t[1]) - o) / 2, s = this.getDecimalForValue(t[t.length - 1]), t.length === 1 ? n = s : n = (s - this.getDecimalForValue(t[t.length - 2])) / 2);
     const i = t.length < 3 ? 0.5 : 0.25;
-    a = kt(a, 0, i), n = kt(n, 0, i), this._offsets = {
+    a = _t(a, 0, i), n = _t(n, 0, i), this._offsets = {
       start: a,
       end: n,
       factor: 1 / (a + 1 + n)
     };
   }
   _generate() {
+<<<<<<< HEAD
     const t = this._adapter, a = this.min, n = this.max, o = this.options, s = o.time, i = s.unit || Pi(s.minUnit, a, n, this._getLabelCapacity(a)), l = Ee(o.ticks.stepSize, 1), r = i === "week" ? s.isoWeekday : !1, c = pn(r) || r === !0, u = {};
     let g = a, h, p;
     if (c && (g = +t.startOf(g, "isoWeek", r)), g = +t.startOf(g, c ? "day" : i), t.diff(n, a, i) > 1e5 * l)
@@ -7965,6 +10111,16 @@ class Ii extends qa {
     for (h = g, p = 0; h < n; h = +t.add(h, l, i), p++)
       Ri(u, h, m);
     return (h === n || o.bounds === "ticks" || p === 1) && Ri(u, h, m), Object.keys(u).sort(Bi).map((v) => +v);
+=======
+    const t = this._adapter, a = this.min, n = this.max, o = this.options, s = o.time, i = s.unit || Pi(s.minUnit, a, n, this._getLabelCapacity(a)), l = Re(o.ticks.stepSize, 1), r = i === "week" ? s.isoWeekday : !1, c = pn(r) || r === !0, u = {};
+    let f = a, h, b;
+    if (c && (f = +t.startOf(f, "isoWeek", r)), f = +t.startOf(f, c ? "day" : i), t.diff(n, a, i) > 1e5 * l)
+      throw new Error(a + " and " + n + " are too far apart with stepSize of " + l + " " + i);
+    const m = o.ticks.source === "data" && this.getDataTimestamps();
+    for (h = f, b = 0; h < n; h = +t.add(h, l, i), b++)
+      Ei(u, h, m);
+    return (h === n || o.bounds === "ticks" || b === 1) && Ei(u, h, m), Object.keys(u).sort(Bi).map((v) => +v);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   }
   getLabelForValue(t) {
     const a = this._adapter, n = this.options.time;
@@ -8009,7 +10165,11 @@ class Ii extends qa {
     };
   }
   _getLabelCapacity(t) {
+<<<<<<< HEAD
     const a = this.options.time, n = a.displayFormats, o = n[a.unit] || n.millisecond, s = this._tickFormatFunction(t, 0, Ei(this, [
+=======
+    const a = this.options.time, n = a.displayFormats, o = n[a.unit] || n.millisecond, s = this._tickFormatFunction(t, 0, Ri(this, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       t
     ], this._majorUnit), o), i = this._getLabelSize(s), l = Math.floor(this.isHorizontal() ? this.width / i.w : this.height / i.h) - 1;
     return l > 0 ? l : 1;
@@ -8045,7 +10205,11 @@ function On(e, t, a) {
   const c = i - s;
   return c ? l + (r - l) * (t - s) / c : l;
 }
+<<<<<<< HEAD
 class S6 extends Ii {
+=======
+class L6 extends Ii {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   static id = "timeseries";
   static defaults = Ii.defaults;
   constructor(t) {
@@ -8119,7 +10283,11 @@ const sr = {
     type: String,
     default: void 0
   }
+<<<<<<< HEAD
 }, Rf = {
+=======
+}, Pf = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   ariaLabel: {
     type: String
   },
@@ -8137,6 +10305,7 @@ const sr = {
     // No delay by default
   },
   ...sr,
+<<<<<<< HEAD
   ...Rf
 }, If = jr[0] === "2" ? (e, t) => Object.assign(e, {
   attrs: t
@@ -8149,6 +10318,20 @@ function Ff(e) {
   return rl(t) ? new Proxy(e, {}) : e;
 }
 function Of(e, t) {
+=======
+  ...Pf
+}, Rf = zr[0] === "2" ? (e, t) => Object.assign(e, {
+  attrs: t
+}) : (e, t) => Object.assign(e, t);
+function Va(e) {
+  return rl(e) ? Eo(e) : e;
+}
+function If(e) {
+  let t = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : e;
+  return rl(t) ? new Proxy(e, {}) : e;
+}
+function Ff(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = e.options;
   a && t && Object.assign(a, t);
 }
@@ -8164,14 +10347,22 @@ function lr(e, t, a) {
     } : (n.push(s), Object.assign(s, o), s);
   });
 }
+<<<<<<< HEAD
 function Vf(e, t) {
+=======
+function Of(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = {
     labels: [],
     datasets: []
   };
   return ir(a, e.labels), lr(a, e.datasets, t), a;
 }
+<<<<<<< HEAD
 const Nf = de({
+=======
+const Vf = ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   props: Ef,
   setup(e, t) {
     let { expose: a, slots: n } = t;
@@ -8181,7 +10372,11 @@ const Nf = de({
     });
     const i = () => {
       if (!o.value) return;
+<<<<<<< HEAD
       const { type: c, data: u, options: g, plugins: h, datasetIdKey: p } = e, m = Vf(u, p), v = Ff(m, u);
+=======
+      const { type: c, data: u, options: f, plugins: h, datasetIdKey: b } = e, m = Of(u, b), v = If(m, u);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       s.value = new Ca(o.value, {
         type: c,
         data: v,
@@ -8206,6 +10401,7 @@ const Nf = de({
       const v = Ro(s.value);
       if (!v)
         return;
+<<<<<<< HEAD
       let b = !1;
       if (g) {
         const y = Va(g), w = Va(p);
@@ -8214,6 +10410,16 @@ const Nf = de({
       if (h) {
         const y = Va(h.labels), w = Va(m.labels), k = Va(h.datasets), _ = Va(m.datasets);
         y !== w && (ir(v.config.data, y), b = !0), k && k !== _ && (lr(v.config.data, k, e.datasetIdKey), b = !0);
+=======
+      let p = !1;
+      if (f) {
+        const y = Va(f), w = Va(b);
+        y && y !== w && (Ff(v, y), p = !0);
+      }
+      if (h) {
+        const y = Va(h.labels), w = Va(m.labels), k = Va(h.datasets), _ = Va(m.datasets);
+        y !== w && (ir(v.config.data, y), p = !0), k && k !== _ && (lr(v.config.data, k, e.datasetIdKey), p = !0);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }
       b && et(() => {
         r(v);
@@ -8233,7 +10439,11 @@ const Nf = de({
   }
 });
 function ds(e, t) {
+<<<<<<< HEAD
   return Ca.register(t), de({
+=======
+  return Ca.register(t), ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
     props: sr,
     setup(a, n) {
       let { expose: o } = n;
@@ -8242,7 +10452,11 @@ function ds(e, t) {
       };
       return o({
         chart: s
+<<<<<<< HEAD
       }), () => at(Nf, If({
+=======
+      }), () => at(Vf, Rf({
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ref: i
       }, {
         type: e,
@@ -8251,7 +10465,11 @@ function ds(e, t) {
     }
   });
 }
+<<<<<<< HEAD
 const zf = /* @__PURE__ */ ds("bar", cu), jf = /* @__PURE__ */ ds("line", hu), Hf = /* @__PURE__ */ ds("pie", fu), Fi = {
+=======
+const Nf = /* @__PURE__ */ ds("bar", ru), zf = /* @__PURE__ */ ds("line", uu), jf = /* @__PURE__ */ ds("pie", hu), Fi = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   // Backgrounds
   bgPrimary: "#f8f9fa",
   bgSecondary: "#ffffff",
@@ -8321,7 +10539,11 @@ const zf = /* @__PURE__ */ ds("bar", cu), jf = /* @__PURE__ */ ds("line", hu), H
   primaryLight: "#c67dff",
   primaryDefault: "#5d4b93",
   primaryDark: "#4a3a75"
+<<<<<<< HEAD
 }, Wf = [
+=======
+}, Hf = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
   "#C67DFF",
   // Purple light
   "#5D4B93",
@@ -8364,10 +10586,17 @@ function Pe(e) {
     // Export color constants for direct access if needed
     lightColors: Fi,
     darkColors: Oi,
+<<<<<<< HEAD
     chartSeriesColors: Wf
   };
 }
 const kn = 5, us = 8, Kf = /^x\d*$/, Uf = /^y\d*$/;
+=======
+    chartSeriesColors: Hf
+  };
+}
+const kn = 5, us = 8, Wf = /^x\d*$/, Kf = /^y\d*$/;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function rr(e) {
   if (!e || typeof e != "object") return e;
   const t = { ...e }, a = t.scales;
@@ -8377,7 +10606,11 @@ function rr(e) {
     const s = n[o];
     if (!s || typeof s != "object") continue;
     const i = { ...s }, l = i.ticks, r = l && typeof l == "object" ? { ...l } : {};
+<<<<<<< HEAD
     if (Kf.test(o) && (r.maxTicksLimit = us, r.autoSkip = !0, r.minRotation = 0, r.maxRotation = 0, r.autoSkipPadding = r.autoSkipPadding ?? 8), Uf.test(o)) {
+=======
+    if (Wf.test(o) && (r.maxTicksLimit = us, r.autoSkip = !0, r.minRotation = 0, r.maxRotation = 0, r.autoSkipPadding = r.autoSkipPadding ?? 8), Kf.test(o)) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (i.type === "category") {
         i.ticks = r, n[o] = i;
         continue;
@@ -8385,8 +10618,13 @@ function rr(e) {
       if (Array.isArray(r.values) && r.values.length > 0)
         r.maxTicksLimit = r.values.length;
       else if (r.stepSize != null) {
+<<<<<<< HEAD
         const c = Number(i.min ?? i.suggestedMin ?? 0), u = Number(i.max ?? i.suggestedMax ?? 0), g = Number(r.stepSize);
         u > c && g > 0 ? r.maxTicksLimit = Math.floor((u - c) / g) + 1 : r.maxTicksLimit = kn;
+=======
+        const c = Number(i.min ?? i.suggestedMin ?? 0), u = Number(i.max ?? i.suggestedMax ?? 0), f = Number(r.stepSize);
+        u > c && f > 0 ? r.maxTicksLimit = Math.floor((u - c) / f) + 1 : r.maxTicksLimit = kn;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       } else
         r.maxTicksLimit = kn;
     }
@@ -8394,7 +10632,11 @@ function rr(e) {
   }
   return t.scales = n, t;
 }
+<<<<<<< HEAD
 const Pt = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", Yf = ["titleFont", "bodyFont", "footerFont"];
+=======
+const Pt = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", Uf = ["titleFont", "bodyFont", "footerFont"];
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function cr(e, t = Pt) {
   if (!e || typeof e != "object") return e;
   const a = { ...e }, n = typeof a.font == "object" && a.font !== null ? a.font : {};
@@ -8430,7 +10672,11 @@ function cr(e, t = Pt) {
     const i = o.tooltip;
     if (i && typeof i == "object") {
       const l = { ...i };
+<<<<<<< HEAD
       for (const r of Yf) {
+=======
+      for (const r of Uf) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         const c = l[r];
         c && typeof c == "object" && (l[r] = { ...c, family: t });
       }
@@ -8440,7 +10686,11 @@ function cr(e, t = Pt) {
   }
   return a;
 }
+<<<<<<< HEAD
 const Vi = 10, qf = /* @__PURE__ */ de({
+=======
+const Vi = 10, Yf = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ChartBar",
   props: {
     data: {},
@@ -8453,11 +10703,19 @@ const Vi = 10, qf = /* @__PURE__ */ de({
   },
   setup(e, { expose: t }) {
     const a = e;
+<<<<<<< HEAD
     Ca.register(nr, or, Kh, tr, cs, rs), Ca.defaults.font.family = Pt;
     const { isDark: n, colors: o } = Pe(Be(a, "theme")), s = C(() => a.data), i = (h) => typeof h == "string" ? h.charAt(0).toUpperCase() + h.slice(1).toLowerCase() : h, l = (h) => typeof h != "string" ? h : a.uppercaseLegendLabels ? h.toUpperCase() : i(h), r = (h, p) => h.length <= p ? h : `${h.slice(0, Math.max(1, p - 1))}…`;
     function c(h, p) {
       if (p == null) return h;
       if (Array.isArray(p) || typeof p != "object" || h == null || Array.isArray(h) || typeof h != "object") return p;
+=======
+    Ca.register(nr, or, Wh, tr, cs, rs), Ca.defaults.font.family = Pt;
+    const { isDark: n, colors: o } = Pe(Be(a, "theme")), s = C(() => a.data), i = (h) => typeof h == "string" ? h.charAt(0).toUpperCase() + h.slice(1).toLowerCase() : h, l = (h) => typeof h != "string" ? h : a.uppercaseLegendLabels ? h.toUpperCase() : i(h), r = (h, b) => h.length <= b ? h : `${h.slice(0, Math.max(1, b - 1))}…`;
+    function c(h, b) {
+      if (b == null) return h;
+      if (Array.isArray(b) || typeof b != "object" || h == null || Array.isArray(h) || typeof h != "object") return b;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const m = { ...h };
       for (const v of Object.keys(p)) {
         const b = p[v];
@@ -8631,14 +10889,22 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         };
       }
       return cr(
+<<<<<<< HEAD
         rr(p)
+=======
+        rr(b)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       );
     }), g = C(() => a.heightPx ?? 230);
     return t({ isDark: n }), (h, p) => (f(), x("div", {
       class: "relative w-full shrink-0 bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]",
       style: Ae({ height: `${g.value}px` })
     }, [
+<<<<<<< HEAD
       V(A(zf), {
+=======
+      V(A(Nf), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         data: s.value,
         options: u.value
       }, null, 8, ["data", "options"])
@@ -8649,6 +10915,7 @@ const Vi = 10, qf = /* @__PURE__ */ de({
   for (const [n, o] of t)
     a[n] = o;
   return a;
+<<<<<<< HEAD
 }, Kt = /* @__PURE__ */ xe(qf, [["__scopeId", "data-v-1d64fb88"]]), Gf = { class: "chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] min-w-0" }, Xf = { class: "chart-line-canvas-host relative min-h-0 w-full flex-1" }, Zf = {
   key: 0,
   class: "chart-line-indicators mt-0 flex shrink-0 list-none flex-nowrap items-center justify-center gap-x-4 overflow-x-auto overflow-y-hidden px-1 pb-0.5 pt-0.5",
@@ -8657,6 +10924,16 @@ const Vi = 10, qf = /* @__PURE__ */ de({
   class: "inline-flex shrink-0 items-center",
   "aria-hidden": "true"
 }, eg = /* @__PURE__ */ de({
+=======
+}, Kt = /* @__PURE__ */ xe(Yf, [["__scopeId", "data-v-1d64fb88"]]), qf = { class: "chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] min-w-0" }, Gf = { class: "chart-line-canvas-host relative min-h-0 w-full flex-1" }, Xf = {
+  key: 0,
+  class: "chart-line-indicators mt-0 flex shrink-0 list-none flex-nowrap items-center justify-center gap-x-4 overflow-x-auto overflow-y-hidden px-1 pb-0.5 pt-0.5",
+  role: "list"
+}, Zf = ["aria-pressed", "aria-label", "onClick"], Qf = {
+  class: "inline-flex shrink-0 items-center",
+  "aria-hidden": "true"
+}, Jf = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ChartLine",
   props: {
     data: {},
@@ -8670,9 +10947,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
     Ca.register(
       nr,
       or,
+<<<<<<< HEAD
       Vh,
       lo,
       hf,
+=======
+      Oh,
+      lo,
+      uf,
+>>>>>>> 8a6bd9f (Sales Volume chart)
       tr,
       cs,
       rs
@@ -8684,8 +10967,8 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         return `rgba(${S[1]}, ${S[2]}, ${S[3]}, ${_})`;
       const M = $.startsWith("#") ? $.slice(1) : "";
       if (M.length === 3 || M.length === 6) {
-        const P = M.length === 3 ? M.split("").map((B) => B + B).join("") : M, E = parseInt(P.slice(0, 2), 16), N = parseInt(P.slice(2, 4), 16), D = parseInt(P.slice(4, 6), 16);
-        return `rgba(${E}, ${N}, ${D}, ${_})`;
+        const P = M.length === 3 ? M.split("").map((B) => B + B).join("") : M, R = parseInt(P.slice(0, 2), 16), N = parseInt(P.slice(2, 4), 16), D = parseInt(P.slice(4, 6), 16);
+        return `rgba(${R}, ${N}, ${D}, ${_})`;
       }
       return $;
     }
@@ -8702,13 +10985,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
       return {
         labels: a.data.labels,
         datasets: a.data.datasets.map(($) => {
-          const S = $.borderColor, M = Array.isArray(S) ? S[0] : S, P = typeof M == "string" && M.length > 0 ? M : s.value.textSecondary, E = $.pointBackgroundColor !== void 0 ? $.pointBackgroundColor : k, N = $.pointHoverBackgroundColor !== void 0 ? $.pointHoverBackgroundColor : E, D = $.pointBorderWidth ?? 2, B = $.pointHoverBorderWidth ?? D, L = $.fill ?? _;
+          const S = $.borderColor, M = Array.isArray(S) ? S[0] : S, P = typeof M == "string" && M.length > 0 ? M : s.value.textSecondary, R = $.pointBackgroundColor !== void 0 ? $.pointBackgroundColor : k, N = $.pointHoverBackgroundColor !== void 0 ? $.pointHoverBackgroundColor : R, D = $.pointBorderWidth ?? 2, B = $.pointHoverBorderWidth ?? D, L = $.fill ?? _;
           return {
             ...$,
             fill: L,
             clip: $.clip ?? !1,
             backgroundColor: L && _ ? r(P) : $.backgroundColor,
-            pointBackgroundColor: E,
+            pointBackgroundColor: R,
             pointHoverBackgroundColor: N,
             pointBorderColor: $.pointBorderColor ?? P,
             pointHoverBorderColor: $.pointHoverBorderColor ?? P,
@@ -8871,7 +11154,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             hoverBorderWidth: 2
           }
         }
+<<<<<<< HEAD
       }, _ = a.options ? b(k, a.options) : k;
+=======
+      }, _ = a.options ? p(k, a.options) : k;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return cr(
         rr(_)
       );
@@ -8884,15 +11171,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           afterDraw(_) {
             const $ = _.tooltip;
             if (!$?.getActiveElements().length) return;
-            const S = $.caretX, { top: M, bottom: P } = _.chartArea, E = _.ctx;
-            E.save(), E.beginPath(), E.setLineDash([4, 4]), E.lineWidth = 1, E.strokeStyle = k, E.moveTo(S, M), E.lineTo(S, P), E.stroke(), E.restore();
+            const S = $.caretX, { top: M, bottom: P } = _.chartArea, R = _.ctx;
+            R.save(), R.beginPath(), R.setLineDash([4, 4]), R.lineWidth = 1, R.strokeStyle = k, R.moveTo(S, M), R.lineTo(S, P), R.stroke(), R.restore();
           }
         }
       ];
     });
+<<<<<<< HEAD
     return t({ isDark: o }), (k, _) => (f(), x("div", Gf, [
       d("div", Xf, [
         V(A(jf), {
+=======
+    return t({ isDark: o }), (k, _) => (g(), x("div", qf, [
+      d("div", Gf, [
+        V(A(zf), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ref_key: "lineChartRef",
           ref: n,
           data: c.value,
@@ -8900,8 +11193,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           plugins: w.value
         }, null, 8, ["data", "options", "plugins"])
       ]),
+<<<<<<< HEAD
       p.value.length > 0 ? (f(), x("ul", Zf, [
         (f(!0), x(ie, null, pe(p.value, ($, S) => (f(), x("li", {
+=======
+      b.value.length > 0 ? (g(), x("ul", Xf, [
+        (g(!0), x(ie, null, pe(b.value, ($, S) => (g(), x("li", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: $.key,
           role: "listitem"
         }, [
@@ -8913,7 +11211,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "aria-label": `${$.label}. ${m.value[S] !== !1 ? "Visible" : "Oculta"}. Pulsa para alternar.`,
             onClick: (M) => v(S)
           }, [
+<<<<<<< HEAD
             d("span", Jf, [
+=======
+            d("span", Qf, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               _[0] || (_[0] = d("span", { class: "h-0.5 w-2 shrink-0 rounded-full bg-current" }, null, -1)),
               d("span", {
                 class: "relative z-[1] box-border size-2 shrink-0 rounded-full border-2 bg-transparent",
@@ -8922,12 +11224,20 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               _[1] || (_[1] = d("span", { class: "h-0.5 w-2 shrink-0 rounded-full bg-current" }, null, -1))
             ]),
             d("span", null, T($.label), 1)
+<<<<<<< HEAD
           ], 14, Qf)
+=======
+          ], 14, Zf)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ]))), 128))
       ])) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), Ct = /* @__PURE__ */ xe(eg, [["__scopeId", "data-v-4276e1de"]]), tg = { class: "chart-container" }, ag = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", ng = /* @__PURE__ */ de({
+=======
+}), xt = /* @__PURE__ */ xe(Jf, [["__scopeId", "data-v-4276e1de"]]), eg = { class: "chart-container" }, tg = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", ag = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "PieChart",
   props: {
     data: {},
@@ -8937,7 +11247,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
   },
   setup(e, { expose: t }) {
     const a = e;
+<<<<<<< HEAD
     Ca.register(Th, cs, rs);
+=======
+    Ca.register(Dh, cs, rs);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     const { isDark: n, colors: o } = Pe(Be(a, "theme")), s = a.data, i = (r) => typeof r == "string" ? r.charAt(0).toUpperCase() + r.slice(1).toLowerCase() : r, l = C(() => a.options ? a.options : {
       responsive: !0,
       maintainAspectRatio: !1,
@@ -8949,7 +11263,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           align: "center",
           labels: {
             font: {
+<<<<<<< HEAD
               family: ag,
+=======
+              family: tg,
+>>>>>>> 8a6bd9f (Sales Volume chart)
               size: 13,
               weight: 500
             },
@@ -9023,14 +11341,23 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         animateScale: !0
       }
     });
+<<<<<<< HEAD
     return t({ isDark: n }), (r, c) => (f(), x("div", tg, [
       V(A(Hf), {
+=======
+    return t({ isDark: n }), (r, c) => (g(), x("div", eg, [
+      V(A(jf), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         data: A(s),
         options: l.value
       }, null, 8, ["data", "options"])
     ]));
   }
+<<<<<<< HEAD
 }), uo = /* @__PURE__ */ xe(ng, [["__scopeId", "data-v-0f7806d6"]]), og = { class: "chart-container" }, sg = ["viewBox"], ig = ["transform"], lg = ["x", "width", "fill", "stroke"], rg = ["fill"], cg = ["x1", "y1", "x2", "y2", "stroke"], dg = ["points", "fill"], ug = ["x1", "y1", "x2", "y2", "stroke"], hg = ["x", "y", "fill"], fg = ["x1", "y1", "x2", "y2", "stroke"], gg = ["points", "fill"], mg = ["transform"], pg = ["y1", "y2"], bg = ["y1", "y2"], vg = ["y1", "y2"], yg = ["y1", "y2"], xg = ["y", "height"], kg = ["y1", "y2"], _g = ["y1", "y2"], wg = ["y1", "y2"], Cg = ["y1", "y2"], $g = ["y", "height"], Sg = ["cy", "stroke", "onMouseenter"], Mg = ["cy", "stroke", "onMouseenter"], Dg = ["cy", "stroke", "onMouseenter"], Tg = ["cy", "stroke", "onMouseenter"], Ag = ["y1", "y2", "onMouseenter"], Bg = ["y1", "y2", "onMouseenter"], Lg = ["x", "y", "fill"], Pg = ["x", "y", "fill"], Rg = ["transform"], Eg = { transform: "translate(-200, 0)" }, Ig = ["stroke"], Fg = ["fill"], Og = { transform: "translate(-130, 0)" }, Vg = ["stroke"], Ng = ["fill"], zg = { transform: "translate(-60, 0)" }, jg = ["stroke"], Hg = ["fill"], Wg = { transform: "translate(10, 0)" }, Kg = ["stroke"], Ug = ["fill"], Yg = { transform: "translate(80, 0)" }, qg = ["fill"], Gg = { transform: "translate(150, 0)" }, Xg = ["fill"], Zg = /* @__PURE__ */ de({
+=======
+}), uo = /* @__PURE__ */ xe(ag, [["__scopeId", "data-v-0f7806d6"]]), ng = { class: "chart-container" }, og = ["viewBox"], sg = ["transform"], ig = ["x", "width", "fill", "stroke"], lg = ["fill"], rg = ["x1", "y1", "x2", "y2", "stroke"], cg = ["points", "fill"], dg = ["x1", "y1", "x2", "y2", "stroke"], ug = ["x", "y", "fill"], hg = ["x1", "y1", "x2", "y2", "stroke"], fg = ["points", "fill"], gg = ["transform"], mg = ["y1", "y2"], pg = ["y1", "y2"], bg = ["y1", "y2"], vg = ["y1", "y2"], yg = ["y", "height"], xg = ["y1", "y2"], kg = ["y1", "y2"], _g = ["y1", "y2"], wg = ["y1", "y2"], Cg = ["y", "height"], $g = ["cy", "stroke", "onMouseenter"], Sg = ["cy", "stroke", "onMouseenter"], Mg = ["cy", "stroke", "onMouseenter"], Dg = ["cy", "stroke", "onMouseenter"], Tg = ["y1", "y2", "onMouseenter"], Ag = ["y1", "y2", "onMouseenter"], Bg = ["x", "y", "fill"], Lg = ["x", "y", "fill"], Pg = ["transform"], Eg = { transform: "translate(-200, 0)" }, Rg = ["stroke"], Ig = ["fill"], Fg = { transform: "translate(-130, 0)" }, Og = ["stroke"], Vg = ["fill"], Ng = { transform: "translate(-60, 0)" }, zg = ["stroke"], jg = ["fill"], Hg = { transform: "translate(10, 0)" }, Wg = ["stroke"], Kg = ["fill"], Ug = { transform: "translate(80, 0)" }, Yg = ["fill"], qg = { transform: "translate(150, 0)" }, Gg = ["fill"], Xg = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "BoxplotChart",
   props: {
     boxplotData: {},
@@ -9089,8 +11416,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
       }
       return h;
     });
+<<<<<<< HEAD
     return t({ isDark: n }), (h, p) => (f(), x("div", og, [
       (f(), x("svg", {
+=======
+    return t({ isDark: n }), (h, b) => (g(), x("div", ng, [
+      (g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         viewBox: `0 0 ${e.chartWidth} ${e.chartHeight}`,
         class: "w-full boxplot-svg",
         style: Ae(`min-height: ${e.chartHeight}px;`),
@@ -9110,7 +11442,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             rx: "6",
             stroke: o.value.tooltipBorder,
             "stroke-width": "1"
+<<<<<<< HEAD
           }, null, 8, lg),
+=======
+          }, null, 8, ig),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("text", {
             x: "0",
             y: "0",
@@ -9120,8 +11456,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif",
             "dominant-baseline": "middle"
+<<<<<<< HEAD
           }, T(s.value.text), 9, rg)
         ], 8, ig)) : I("", !0),
+=======
+          }, T(s.value.text), 9, lg)
+        ], 8, sg)) : I("", !0),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("line", {
           x1: e.chartMargin,
           y1: e.chartMargin,
@@ -9129,12 +11470,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           y2: e.chartHeight - e.chartBottomMargin,
           stroke: o.value.axis,
           "stroke-width": "2"
+<<<<<<< HEAD
         }, null, 8, cg),
         d("polygon", {
           points: `${e.chartMargin - 4},${e.chartMargin} ${e.chartMargin + 4},${e.chartMargin} ${e.chartMargin},${e.chartMargin - 10}`,
           fill: o.value.axis
         }, null, 8, dg),
         (f(!0), x(ie, null, pe(g.value, (m, v) => (f(), x(ie, { key: v }, [
+=======
+        }, null, 8, rg),
+        d("polygon", {
+          points: `${e.chartMargin - 4},${e.chartMargin} ${e.chartMargin + 4},${e.chartMargin} ${e.chartMargin},${e.chartMargin - 10}`,
+          fill: o.value.axis
+        }, null, 8, cg),
+        (g(!0), x(ie, null, pe(f.value, (m, v) => (g(), x(ie, { key: v }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("line", {
             x1: e.chartMargin - 6,
             y1: m.y,
@@ -9142,7 +11492,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             y2: m.y,
             stroke: o.value.tickLine,
             "stroke-width": "1"
+<<<<<<< HEAD
           }, null, 8, ug),
+=======
+          }, null, 8, dg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("text", {
             x: e.chartMargin - 12,
             y: m.y + 4,
@@ -9151,7 +11505,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "12",
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, T(m.value), 9, hg)
+=======
+          }, T(m.value), 9, ug)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 64))), 128)),
         d("line", {
           x1: e.chartMargin,
@@ -9160,6 +11518,7 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           y2: e.chartHeight - e.chartBottomMargin,
           stroke: o.value.axis,
           "stroke-width": "2"
+<<<<<<< HEAD
         }, null, 8, fg),
         d("polygon", {
           points: `${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin - 4} ${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin + 4} ${e.chartWidth - e.chartMargin + 10},${e.chartHeight - e.chartBottomMargin}`,
@@ -9170,6 +11529,18 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             transform: `translate(${m.centerX}, 0)`
           }, [
             m.isTotal ? (f(), x(ie, { key: 0 }, [
+=======
+        }, null, 8, hg),
+        d("polygon", {
+          points: `${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin - 4} ${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin + 4} ${e.chartWidth - e.chartMargin + 10},${e.chartHeight - e.chartBottomMargin}`,
+          fill: o.value.axis
+        }, null, 8, fg),
+        (g(!0), x(ie, null, pe(e.boxplotData, (m, v) => (g(), x(ie, { key: v }, [
+          d("g", {
+            transform: `translate(${m.centerX}, 0)`
+          }, [
+            m.isTotal ? (g(), x(ie, { key: 0 }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: 0,
                 y1: m.minY,
@@ -9177,7 +11548,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.q1Y,
                 stroke: "#8b5cf6",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, pg),
+=======
+              }, null, 8, mg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: 0,
                 y1: m.q3Y,
@@ -9185,7 +11560,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.maxY,
                 stroke: "#8b5cf6",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, bg),
+=======
+              }, null, 8, pg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: -18,
                 y1: m.minY,
@@ -9193,7 +11572,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.minY,
                 stroke: "#8b5cf6",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, vg),
+=======
+              }, null, 8, bg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: -18,
                 y1: m.maxY,
@@ -9201,7 +11584,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.maxY,
                 stroke: "#8b5cf6",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, yg),
+=======
+              }, null, 8, vg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("rect", {
                 x: -24,
                 y: m.q3Y,
@@ -9212,8 +11599,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 stroke: "#8b5cf6",
                 "stroke-width": "2.5",
                 rx: "4"
+<<<<<<< HEAD
               }, null, 8, xg)
             ], 64)) : (f(), x(ie, { key: 1 }, [
+=======
+              }, null, 8, yg)
+            ], 64)) : (g(), x(ie, { key: 1 }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: 0,
                 y1: m.minY,
@@ -9221,7 +11613,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.q1Y,
                 stroke: "#C67DFF",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, kg),
+=======
+              }, null, 8, xg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: 0,
                 y1: m.q3Y,
@@ -9229,7 +11625,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.maxY,
                 stroke: "#C67DFF",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, _g),
+=======
+              }, null, 8, kg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: -18,
                 y1: m.minY,
@@ -9237,7 +11637,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.minY,
                 stroke: "#C67DFF",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, wg),
+=======
+              }, null, 8, _g),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("line", {
                 x1: -18,
                 y1: m.maxY,
@@ -9245,7 +11649,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 y2: m.maxY,
                 stroke: "#C67DFF",
                 "stroke-width": "2.5"
+<<<<<<< HEAD
               }, null, 8, Cg),
+=======
+              }, null, 8, wg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("rect", {
                 x: -24,
                 y: m.q3Y,
@@ -9256,7 +11664,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
                 stroke: "#C67DFF",
                 "stroke-width": "2.5",
                 rx: "4"
+<<<<<<< HEAD
               }, null, 8, $g)
+=======
+              }, null, 8, Cg)
+>>>>>>> 8a6bd9f (Sales Volume chart)
             ], 64)),
             d("circle", {
               cx: 0,
@@ -9269,7 +11681,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (b) => l(b, `Min: ${m.min.toFixed(1)}`),
               onMouseleave: u,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, Sg),
+=======
+            }, null, 40, $g),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: 0,
               cy: m.q1Y,
@@ -9281,7 +11697,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (b) => l(b, `Q1: ${m.q1.toFixed(1)}`),
               onMouseleave: u,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, Mg),
+=======
+            }, null, 40, Sg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: 0,
               cy: m.q3Y,
@@ -9293,7 +11713,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (b) => l(b, `Q3: ${m.q3.toFixed(1)}`),
               onMouseleave: u,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, Dg),
+=======
+            }, null, 40, Mg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: 0,
               cy: m.maxY,
@@ -9305,7 +11729,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (b) => l(b, `Max: ${m.max.toFixed(1)}`),
               onMouseleave: u,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, Tg),
+=======
+            }, null, 40, Dg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("line", {
               x1: -24,
               y1: m.medianY,
@@ -9317,8 +11745,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (b) => l(b, `Median: ${m.median.toFixed(1)}`),
               onMouseleave: u,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, Ag),
             m.averageY ? (f(), x("line", {
+=======
+            }, null, 40, Tg),
+            m.averageY ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: 2,
               x1: -24,
               y1: m.averageY,
@@ -9331,8 +11764,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (b) => l(b, `Avg: ${m.average.toFixed(1)}`),
               onMouseleave: u,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, Bg)) : I("", !0)
           ], 8, mg),
+=======
+            }, null, 40, Ag)) : I("", !0)
+          ], 8, gg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("text", {
             x: m.centerX,
             y: e.chartHeight - e.chartBottomMargin + 22,
@@ -9341,8 +11779,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "13",
             "font-weight": "600",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, T(i(m.label)), 9, Lg),
           m.responseCount ? (f(), x("text", {
+=======
+          }, T(i(m.label)), 9, Bg),
+          m.responseCount ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 0,
             x: m.centerX,
             y: e.chartHeight - e.chartBottomMargin + 38,
@@ -9351,7 +11794,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "11",
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, " n=" + T(m.responseCount), 9, Pg)) : I("", !0)
+=======
+          }, " n=" + T(m.responseCount), 9, Lg)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 64))), 128)),
         e.showLegend ? (f(), x("g", {
           key: 1,
@@ -9365,7 +11812,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               fill: "#5d4b93",
               stroke: o.value.dotStroke,
               "stroke-width": "1.5"
+<<<<<<< HEAD
             }, null, 8, Ig),
+=======
+            }, null, 8, Rg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("text", {
               x: "10",
               y: "4",
@@ -9373,9 +11824,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Min ", 8, Fg)
           ]),
           d("g", Og, [
+=======
+            }, " Min ", 8, Ig)
+          ]),
+          d("g", Fg, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: "0",
               cy: "0",
@@ -9383,7 +11840,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               fill: "#a855f7",
               stroke: o.value.dotStroke,
               "stroke-width": "1.5"
+<<<<<<< HEAD
             }, null, 8, Vg),
+=======
+            }, null, 8, Og),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("text", {
               x: "10",
               y: "4",
@@ -9391,9 +11852,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Q1 ", 8, Ng)
           ]),
           d("g", zg, [
+=======
+            }, " Q1 ", 8, Vg)
+          ]),
+          d("g", Ng, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: "0",
               cy: "0",
@@ -9401,7 +11868,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               fill: "#7c3aed",
               stroke: o.value.dotStroke,
               "stroke-width": "1.5"
+<<<<<<< HEAD
             }, null, 8, jg),
+=======
+            }, null, 8, zg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("text", {
               x: "10",
               y: "4",
@@ -9409,9 +11880,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Q3 ", 8, Hg)
           ]),
           d("g", Wg, [
+=======
+            }, " Q3 ", 8, jg)
+          ]),
+          d("g", Hg, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: "0",
               cy: "0",
@@ -9419,7 +11896,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               fill: "#C67DFF",
               stroke: o.value.dotStroke,
               "stroke-width": "1.5"
+<<<<<<< HEAD
             }, null, 8, Kg),
+=======
+            }, null, 8, Wg),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("text", {
               x: "10",
               y: "4",
@@ -9427,10 +11908,17 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Max ", 8, Ug)
           ]),
           d("g", Yg, [
             p[0] || (p[0] = d("line", {
+=======
+            }, " Max ", 8, Kg)
+          ]),
+          d("g", Ug, [
+            b[0] || (b[0] = d("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               x1: "0",
               y1: "0",
               x2: "14",
@@ -9446,10 +11934,17 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Avg ", 8, qg)
           ]),
           d("g", Gg, [
             p[1] || (p[1] = d("line", {
+=======
+            }, " Avg ", 8, Yg)
+          ]),
+          d("g", qg, [
+            b[1] || (b[1] = d("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               x1: "0",
               y1: "0",
               x2: "14",
@@ -9464,6 +11959,7 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Median ", 8, Xg)
           ])
         ], 8, Rg)) : I("", !0)
@@ -9471,6 +11967,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
     ]));
   }
 }), Qg = /* @__PURE__ */ xe(Zg, [["__scopeId", "data-v-9ac5c075"]]), Jg = { class: "chart-container" }, em = ["viewBox"], tm = ["x1", "y1", "x2", "y2", "stroke"], am = ["points", "fill"], nm = ["x1", "y1", "x2", "y2", "stroke"], om = ["x1", "y1", "x2", "y2", "stroke"], sm = ["x", "y", "fill"], im = ["x", "y", "fill", "transform"], lm = ["x1", "y1", "x2", "y2", "stroke"], rm = ["points", "fill"], cm = ["transform"], dm = ["y1", "y2", "stroke", "onMouseenter"], um = ["x", "y", "width", "height", "fill", "stroke", "onMouseenter"], hm = ["x1", "y1", "x2", "y2", "onMouseenter"], fm = ["x1", "y1", "x2", "y2", "onMouseenter"], gm = ["cy", "stroke", "onMouseenter"], mm = ["cy", "stroke", "onMouseenter"], pm = ["x", "y", "fill"], bm = ["x", "y", "fill"], vm = ["transform"], ym = { transform: "translate(-180, 0)" }, xm = ["stroke"], km = ["fill"], _m = { transform: "translate(-120, 0)" }, wm = ["fill"], Cm = { transform: "translate(-60, 0)" }, $m = ["fill"], Sm = { transform: "translate(0, 0)" }, Mm = ["stroke"], Dm = ["fill"], Tm = { transform: "translate(60, 0)" }, Am = ["fill"], Bm = { transform: "translate(130, 0)" }, Lm = ["fill"], Pm = ["transform"], Rm = ["x", "y", "width", "height", "fill", "stroke"], Em = ["y", "fill"], Im = ["y", "fill"], Vn = 10, Fm = 14, To = 13, Ni = 4, zi = 12, Om = /* @__PURE__ */ de({
+=======
+            }, " Median ", 8, Gg)
+          ])
+        ], 8, Pg)) : I("", !0)
+      ], 44, og))
+    ]));
+  }
+}), Zg = /* @__PURE__ */ xe(Xg, [["__scopeId", "data-v-9ac5c075"]]), Qg = { class: "chart-container" }, Jg = ["viewBox"], em = ["x1", "y1", "x2", "y2", "stroke"], tm = ["points", "fill"], am = ["x1", "y1", "x2", "y2", "stroke"], nm = ["x1", "y1", "x2", "y2", "stroke"], om = ["x", "y", "fill"], sm = ["x", "y", "fill", "transform"], im = ["x1", "y1", "x2", "y2", "stroke"], lm = ["points", "fill"], rm = ["transform"], cm = ["y1", "y2", "stroke", "onMouseenter"], dm = ["x", "y", "width", "height", "fill", "stroke", "onMouseenter"], um = ["x1", "y1", "x2", "y2", "onMouseenter"], hm = ["x1", "y1", "x2", "y2", "onMouseenter"], fm = ["cy", "stroke", "onMouseenter"], gm = ["cy", "stroke", "onMouseenter"], mm = ["x", "y", "fill"], pm = ["x", "y", "fill"], bm = ["transform"], vm = { transform: "translate(-180, 0)" }, ym = ["stroke"], xm = ["fill"], km = { transform: "translate(-120, 0)" }, _m = ["fill"], wm = { transform: "translate(-60, 0)" }, Cm = ["fill"], $m = { transform: "translate(0, 0)" }, Sm = ["stroke"], Mm = ["fill"], Dm = { transform: "translate(60, 0)" }, Tm = ["fill"], Am = { transform: "translate(130, 0)" }, Bm = ["fill"], Lm = ["transform"], Pm = ["x", "y", "width", "height", "fill", "stroke"], Em = ["y", "fill"], Rm = ["y", "fill"], Vn = 10, Im = 14, To = 13, Ni = 4, zi = 12, Fm = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CandlestickChart",
   props: {
     candlestickData: {},
@@ -9499,13 +12004,17 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         l(w.length, To, !0),
         l(k.length, zi, !1),
         52
+<<<<<<< HEAD
       ) + Fm * 2;
+=======
+      ) + Im * 2;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function c(w, k, _, $) {
       const S = _ / 2, M = 6, P = Math.min(
         Math.max(w, S + M),
         a.chartWidth - S - M
-      ), E = M + $ + 10, N = a.chartHeight - M + 10, D = Math.min(Math.max(k, E), N);
+      ), R = M + $ + 10, N = a.chartHeight - M + 10, D = Math.min(Math.max(k, R), N);
       return { x: P, y: D };
     }
     const u = C(() => ({
@@ -9534,28 +12043,28 @@ const Vi = 10, qf = /* @__PURE__ */ de({
       if (!$) return;
       const S = $.getBoundingClientRect(), M = $.createSVGPoint();
       M.x = w.clientX - S.left, M.y = w.clientY - S.top;
-      let P = h(k.label), E = "";
+      let P = h(k.label), R = "";
       switch (_) {
         case "body":
-          E = `Q1: ${k.q1.toFixed(1)} | Q3: ${k.q3.toFixed(1)}`;
+          R = `Q1: ${k.q1.toFixed(1)} | Q3: ${k.q3.toFixed(1)}`;
           break;
         case "wick":
-          E = `Min: ${k.low.toFixed(1)} | Max: ${k.high.toFixed(1)}`;
+          R = `Min: ${k.low.toFixed(1)} | Max: ${k.high.toFixed(1)}`;
           break;
         case "median":
-          E = `Median: ${k.median.toFixed(1)}`;
+          R = `Median: ${k.median.toFixed(1)}`;
           break;
         case "average":
-          E = `Average: ${k.average?.toFixed(1) ?? ""}`;
+          R = `Average: ${k.average?.toFixed(1) ?? ""}`;
           break;
         case "min":
-          E = `Min: ${k.low.toFixed(1)}`;
+          R = `Min: ${k.low.toFixed(1)}`;
           break;
         case "max":
-          E = `Max: ${k.high.toFixed(1)}`;
+          R = `Max: ${k.high.toFixed(1)}`;
           break;
       }
-      const N = r(P, E), D = s;
+      const N = r(P, R), D = s;
       let B = M.x, L = M.y - 20;
       const j = c(B, L, N, D);
       B = j.x, L = j.y, g.value = {
@@ -9563,7 +12072,7 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         x: B,
         y: L,
         title: P,
-        text: E,
+        text: R,
         width: N,
         height: D
       };
@@ -9587,8 +12096,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
       }
       return w;
     });
+<<<<<<< HEAD
     return t({ isDark: n }), (w, k) => (f(), x("div", Jg, [
       (f(), x("svg", {
+=======
+    return t({ isDark: n }), (w, k) => (g(), x("div", Qg, [
+      (g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         viewBox: `0 0 ${e.chartWidth} ${e.chartHeight}`,
         class: "candlestick-svg",
         style: Ae(`min-height: ${e.chartHeight}px; min-width: ${e.chartWidth}px;`),
@@ -9619,12 +12133,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           y2: e.chartHeight - e.chartBottomMargin,
           stroke: u.value.axis,
           "stroke-width": "2"
+<<<<<<< HEAD
         }, null, 8, tm),
         d("polygon", {
           points: `${e.chartMargin - 4},${e.chartMargin} ${e.chartMargin + 4},${e.chartMargin} ${e.chartMargin},${e.chartMargin - 10}`,
           fill: u.value.axis
         }, null, 8, am),
         (f(!0), x(ie, null, pe(y.value, (_, $) => (f(), x("line", {
+=======
+        }, null, 8, em),
+        d("polygon", {
+          points: `${e.chartMargin - 4},${e.chartMargin} ${e.chartMargin + 4},${e.chartMargin} ${e.chartMargin},${e.chartMargin - 10}`,
+          fill: u.value.axis
+        }, null, 8, tm),
+        (g(!0), x(ie, null, pe(y.value, (_, $) => (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: `grid-${$}`,
           x1: e.chartMargin,
           y1: _.y,
@@ -9634,8 +12157,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "1",
           "stroke-dasharray": "4,4",
           opacity: "0.6"
+<<<<<<< HEAD
         }, null, 8, nm))), 128)),
         (f(!0), x(ie, null, pe(y.value, (_, $) => (f(), x(ie, { key: $ }, [
+=======
+        }, null, 8, am))), 128)),
+        (g(!0), x(ie, null, pe(y.value, (_, $) => (g(), x(ie, { key: $ }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("line", {
             x1: e.chartMargin - 6,
             y1: _.y,
@@ -9643,7 +12171,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             y2: _.y,
             stroke: u.value.tickLine,
             "stroke-width": "1"
+<<<<<<< HEAD
           }, null, 8, om),
+=======
+          }, null, 8, nm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("text", {
             x: e.chartMargin - 12,
             y: _.y + 4,
@@ -9652,7 +12184,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "12",
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, T(_.value), 9, sm)
+=======
+          }, T(_.value), 9, om)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 64))), 128)),
         d("text", {
           x: e.chartMargin - 35,
@@ -9663,7 +12199,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-weight": "600",
           "font-family": "'DM Sans', sans-serif",
           transform: `rotate(-90, ${e.chartMargin - 35}, ${e.chartHeight / 2})`
+<<<<<<< HEAD
         }, T(h(e.yAxisLabel)), 9, im),
+=======
+        }, T(h(e.yAxisLabel)), 9, sm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("line", {
           x1: e.chartMargin,
           y1: e.chartHeight - e.chartBottomMargin,
@@ -9671,12 +12211,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           y2: e.chartHeight - e.chartBottomMargin,
           stroke: u.value.axis,
           "stroke-width": "2"
+<<<<<<< HEAD
         }, null, 8, lm),
         d("polygon", {
           points: `${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin - 4} ${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin + 4} ${e.chartWidth - e.chartMargin + 10},${e.chartHeight - e.chartBottomMargin}`,
           fill: u.value.axis
         }, null, 8, rm),
         (f(!0), x(ie, null, pe(e.candlestickData, (_, $) => (f(), x(ie, { key: $ }, [
+=======
+        }, null, 8, im),
+        d("polygon", {
+          points: `${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin - 4} ${e.chartWidth - e.chartMargin},${e.chartHeight - e.chartBottomMargin + 4} ${e.chartWidth - e.chartMargin + 10},${e.chartHeight - e.chartBottomMargin}`,
+          fill: u.value.axis
+        }, null, 8, lm),
+        (g(!0), x(ie, null, pe(e.candlestickData, (_, $) => (g(), x(ie, { key: $ }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("g", {
             transform: `translate(${_.centerX}, 0)`
           }, [
@@ -9691,7 +12240,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (S) => p(S, _, "wick"),
               onMouseleave: b,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, dm),
+=======
+            }, null, 40, cm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("rect", {
               x: -e.candleWidth / 2,
               y: Math.min(_.q1Y, _.q3Y) - (Math.abs(_.q3Y - _.q1Y) < 4 ? 4 : 0),
@@ -9705,8 +12258,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (S) => p(S, _, "body"),
               onMouseleave: b,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, um),
             _.medianY ? (f(), x("line", {
+=======
+            }, null, 40, dm),
+            _.medianY ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: 0,
               x1: -e.candleWidth / 2,
               y1: _.medianY,
@@ -9718,8 +12276,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (S) => p(S, _, "median"),
               onMouseleave: b,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, hm)) : I("", !0),
             _.averageY ? (f(), x("line", {
+=======
+            }, null, 40, um)) : I("", !0),
+            _.averageY ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: 1,
               x1: -e.candleWidth / 2,
               y1: _.averageY,
@@ -9732,7 +12295,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (S) => p(S, _, "average"),
               onMouseleave: b,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, fm)) : I("", !0),
+=======
+            }, null, 40, hm)) : I("", !0),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: 0,
               cy: _.lowY,
@@ -9744,7 +12311,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (S) => p(S, _, "min"),
               onMouseleave: b,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, gm),
+=======
+            }, null, 40, fm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: 0,
               cy: _.highY,
@@ -9756,8 +12327,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               onMouseenter: (S) => p(S, _, "max"),
               onMouseleave: b,
               style: { cursor: "pointer" }
+<<<<<<< HEAD
             }, null, 40, mm)
           ], 8, cm),
+=======
+            }, null, 40, gm)
+          ], 8, rm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("text", {
             x: _.centerX,
             y: e.chartHeight - e.chartBottomMargin + 22,
@@ -9766,8 +12342,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "13",
             "font-weight": "600",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, T(h(_.label)), 9, pm),
           _.responseCount ? (f(), x("text", {
+=======
+          }, T(h(_.label)), 9, mm),
+          _.responseCount ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 0,
             x: _.centerX,
             y: e.chartHeight - e.chartBottomMargin + 38,
@@ -9776,13 +12357,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "11",
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, " n=" + T(_.responseCount), 9, bm)) : I("", !0)
+=======
+          }, " n=" + T(_.responseCount), 9, pm)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 64))), 128)),
         e.showLegend ? (f(), x("g", {
           key: 0,
           transform: `translate(${e.chartWidth / 2}, ${e.chartMargin - 35})`
         }, [
+<<<<<<< HEAD
           d("g", ym, [
+=======
+          d("g", vm, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: "0",
               cy: "0",
@@ -9790,7 +12379,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               fill: "#5d4b93",
               stroke: u.value.dotStroke,
               "stroke-width": "1.5"
+<<<<<<< HEAD
             }, null, 8, xm),
+=======
+            }, null, 8, ym),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("text", {
               x: "10",
               y: "4",
@@ -9798,9 +12391,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Min ", 8, km)
           ]),
           d("g", _m, [
+=======
+            }, " Min ", 8, xm)
+          ]),
+          d("g", km, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             k[0] || (k[0] = d("rect", {
               x: "-6",
               y: "-6",
@@ -9818,9 +12417,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Q1 ", 8, wm)
           ]),
           d("g", Cm, [
+=======
+            }, " Q1 ", 8, _m)
+          ]),
+          d("g", wm, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             k[1] || (k[1] = d("rect", {
               x: "-6",
               y: "-6",
@@ -9838,9 +12443,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Q3 ", 8, $m)
           ]),
           d("g", Sm, [
+=======
+            }, " Q3 ", 8, Cm)
+          ]),
+          d("g", $m, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("circle", {
               cx: "0",
               cy: "0",
@@ -9848,7 +12459,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               fill: "#C67DFF",
               stroke: u.value.dotStroke,
               "stroke-width": "1.5"
+<<<<<<< HEAD
             }, null, 8, Mm),
+=======
+            }, null, 8, Sm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("text", {
               x: "10",
               y: "4",
@@ -9856,9 +12471,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Max ", 8, Dm)
           ]),
           d("g", Tm, [
+=======
+            }, " Max ", 8, Mm)
+          ]),
+          d("g", Dm, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             k[2] || (k[2] = d("line", {
               x1: "0",
               y1: "0",
@@ -9875,9 +12496,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Avg ", 8, Am)
           ]),
           d("g", Bm, [
+=======
+            }, " Avg ", 8, Tm)
+          ]),
+          d("g", Am, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             k[3] || (k[3] = d("line", {
               x1: "0",
               y1: "0",
@@ -9893,10 +12520,17 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "12",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Median ", 8, Lm)
           ])
         ], 8, vm)) : I("", !0),
         g.value.visible ? (f(), x("g", {
+=======
+            }, " Median ", 8, Bm)
+          ])
+        ], 8, bm)) : I("", !0),
+        f.value.visible ? (g(), x("g", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 1,
           "pointer-events": "none",
           transform: `translate(${g.value.x}, ${g.value.y})`
@@ -9911,32 +12545,55 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             rx: "8",
             stroke: i.value.border,
             "stroke-width": "1"
+<<<<<<< HEAD
           }, null, 8, Rm),
           d("text", {
             x: "0",
             y: -g.value.height - 10 + Vn,
+=======
+          }, null, 8, Pm),
+          d("text", {
+            x: "0",
+            y: -f.value.height - 10 + Vn,
+>>>>>>> 8a6bd9f (Sales Volume chart)
             "text-anchor": "middle",
             fill: i.value.text,
             "font-size": "13",
             "font-weight": "600",
             "font-family": "'DM Sans', sans-serif",
             "dominant-baseline": "hanging"
+<<<<<<< HEAD
           }, T(g.value.title), 9, Em),
           d("text", {
             x: "0",
             y: -g.value.height - 10 + Vn + To + Ni,
+=======
+          }, T(f.value.title), 9, Em),
+          d("text", {
+            x: "0",
+            y: -f.value.height - 10 + Vn + To + Ni,
+>>>>>>> 8a6bd9f (Sales Volume chart)
             "text-anchor": "middle",
             fill: i.value.secondary,
             "font-size": "12",
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif",
             "dominant-baseline": "hanging"
+<<<<<<< HEAD
           }, T(g.value.text), 9, Im)
         ], 8, Pm)) : I("", !0)
       ], 44, em))
     ]));
   }
 }), Vm = /* @__PURE__ */ xe(Om, [["__scopeId", "data-v-22efd66d"]]), Nm = ["viewBox"], zm = ["x1", "y1", "x2", "y2", "stroke"], jm = ["x1", "y1", "x2", "y2", "stroke"], Hm = ["points", "fill"], Wm = ["x1", "y1", "x2", "y2", "stroke"], Km = ["x", "y", "fill"], Um = ["x", "y", "fill", "transform"], Ym = ["x1", "y1", "x2", "y2", "stroke"], qm = ["points", "fill"], Gm = ["x1", "y1", "x2", "y2", "stroke"], Xm = ["x", "y", "fill"], Zm = ["x", "y", "fill"], Qm = ["d"], Jm = ["x", "y", "width", "height", "onMouseenter"], ep = ["x1", "y1", "x2", "y2"], tp = ["x", "y"], ap = ["x1", "y1", "x2", "y2"], np = ["x", "y"], op = ["x1", "y1", "x2", "y2"], sp = ["x", "y"], ip = ["x1", "y1", "x2", "y2"], lp = ["x", "y"], rp = ["x1", "y1", "x2", "y2"], cp = ["x", "y"], dp = ["x1", "y1", "x2", "y2"], up = ["x", "y"], hp = ["transform"], fp = { transform: "translate(-220, 0)" }, gp = ["fill"], mp = { transform: "translate(-140, 0)" }, pp = ["fill"], bp = { transform: "translate(-80, 0)" }, vp = ["fill"], yp = { transform: "translate(-20, 0)" }, xp = ["fill"], kp = { transform: "translate(60, 0)" }, _p = ["fill"], wp = { transform: "translate(130, 0)" }, Cp = ["fill"], $p = { transform: "translate(180, 0)" }, Sp = ["fill"], Mp = ["transform"], Dp = ["x", "y", "width", "height", "fill", "stroke"], Tp = ["y", "fill"], Ap = ["y", "fill"], Nn = 10, Bp = 14, Ao = 13, ji = 12, Hi = 4, Lp = /* @__PURE__ */ de({
+=======
+          }, T(f.value.text), 9, Rm)
+        ], 8, Lm)) : I("", !0)
+      ], 44, Jg))
+    ]));
+  }
+}), Om = /* @__PURE__ */ xe(Fm, [["__scopeId", "data-v-22efd66d"]]), Vm = ["viewBox"], Nm = ["x1", "y1", "x2", "y2", "stroke"], zm = ["x1", "y1", "x2", "y2", "stroke"], jm = ["points", "fill"], Hm = ["x1", "y1", "x2", "y2", "stroke"], Wm = ["x", "y", "fill"], Km = ["x", "y", "fill", "transform"], Um = ["x1", "y1", "x2", "y2", "stroke"], Ym = ["points", "fill"], qm = ["x1", "y1", "x2", "y2", "stroke"], Gm = ["x", "y", "fill"], Xm = ["x", "y", "fill"], Zm = ["d"], Qm = ["x", "y", "width", "height", "onMouseenter"], Jm = ["x1", "y1", "x2", "y2"], ep = ["x", "y"], tp = ["x1", "y1", "x2", "y2"], ap = ["x", "y"], np = ["x1", "y1", "x2", "y2"], op = ["x", "y"], sp = ["x1", "y1", "x2", "y2"], ip = ["x", "y"], lp = ["x1", "y1", "x2", "y2"], rp = ["x", "y"], cp = ["x1", "y1", "x2", "y2"], dp = ["x", "y"], up = ["transform"], hp = { transform: "translate(-220, 0)" }, fp = ["fill"], gp = { transform: "translate(-140, 0)" }, mp = ["fill"], pp = { transform: "translate(-80, 0)" }, bp = ["fill"], vp = { transform: "translate(-20, 0)" }, yp = ["fill"], xp = { transform: "translate(60, 0)" }, kp = ["fill"], _p = { transform: "translate(130, 0)" }, wp = ["fill"], Cp = { transform: "translate(180, 0)" }, $p = ["fill"], Sp = ["transform"], Mp = ["x", "y", "width", "height", "fill", "stroke"], Dp = ["y", "fill"], Tp = ["y", "fill"], Nn = 10, Ap = 14, Ao = 13, ji = 12, Hi = 4, Bp = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "HistogramChart",
   props: {
     histogram: { default: () => [] },
@@ -9973,14 +12630,23 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         l(H.length, Ao, !0),
         l(q.length, ji, !1),
         52
+<<<<<<< HEAD
       ) + Bp * 2;
+=======
+      ) + Ap * 2;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function c(H, q, J, ke) {
       const Me = J / 2, z = 6, ae = Math.min(
         Math.max(H, Me + z),
         a.chartWidth - Me - z
+<<<<<<< HEAD
       ), ge = z + ke + 10, we = a.chartHeight - z + 10, He = Math.min(Math.max(q, ge), we);
       return { x: ae, y: He };
+=======
+      ), ge = z + ke + 10, we = a.chartHeight - z + 10, We = Math.min(Math.max(q, ge), we);
+      return { x: ae, y: We };
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     const u = C(() => ({
       // Axis
@@ -10044,13 +12710,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
       if (Me <= 0) return null;
       let z = 0;
       for (let we = 0; we <= J; we++) {
+<<<<<<< HEAD
         const He = 1 + 9 * (we / J), ft = S(He, H, q);
+=======
+        const We = 1 + 9 * (we / J), ft = S(We, H, q);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ft > z && (z = ft);
       }
       if (z <= 0) return null;
       const ae = Me / z, ge = [];
       for (let we = 0; we <= J; we++) {
+<<<<<<< HEAD
         const He = 1 + 9 * (we / J), ft = S(He, H, q) * ae, ee = w(He);
+=======
+        const We = 1 + 9 * (we / J), ft = S(We, H, q) * ae, ee = w(We);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         if (ee !== null) {
           const le = a.chartHeight - a.chartBottomMargin - ft;
           ge.push(`${we === 0 ? "M" : "L"} ${ee} ${le}`);
@@ -10073,7 +12747,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           height: Me
         };
       }).filter((q) => q !== null);
+<<<<<<< HEAD
     }), E = C(() => w(a.minScore)), N = C(() => w(a.maxScore)), D = C(() => w(a.q1Score)), B = C(() => w(a.medianScore)), L = C(() => w(a.q3Score)), j = C(() => w(a.averageScore)), W = C(() => a.minScore), X = C(() => a.maxScore), se = C(() => a.q1Score), ce = C(() => a.medianScore), G = C(() => a.q3Score), te = C(() => a.averageScore), R = C(() => {
+=======
+    }), R = C(() => w(a.minScore)), N = C(() => w(a.maxScore)), D = C(() => w(a.q1Score)), B = C(() => w(a.medianScore)), L = C(() => w(a.q3Score)), j = C(() => w(a.averageScore)), W = C(() => a.minScore), X = C(() => a.maxScore), se = C(() => a.q1Score), de = C(() => a.medianScore), G = C(() => a.q3Score), te = C(() => a.averageScore), E = C(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const H = [], q = a.chartMargin - 8, J = 18;
       D.value !== null && H.push({
         x: D.value,
@@ -10114,9 +12792,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         let ae = -1;
         for (let ge = 0; ge < ke.length; ge++) {
           let we = !1;
+<<<<<<< HEAD
           for (const He of ke[ge]) {
             if (He.x === null) continue;
             const ft = Math.abs(z.x - He.x), ee = (z.width + He.width) / 2 + 10;
+=======
+          for (const We of ke[ge]) {
+            if (We.x === null) continue;
+            const ft = Math.abs(z.x - We.x), ee = (z.width + We.width) / 2 + 10;
+>>>>>>> 8a6bd9f (Sales Volume chart)
             if (ft < ee) {
               we = !0;
               break;
@@ -10133,7 +12817,7 @@ const Vi = 10, qf = /* @__PURE__ */ de({
       return H.forEach((z) => {
         z.y < Me && (z.y = Me);
       }), H;
-    }), U = (H) => R.value.find((J) => J.id === H)?.y || a.chartMargin - 10, Y = C(() => {
+    }), U = (H) => E.value.find((J) => J.id === H)?.y || a.chartMargin - 10, Y = C(() => {
       const H = [];
       for (let J = 0; J <= 5; J++) {
         const ke = Math.round(_.value / 5 * J), Me = a.chartHeight - a.chartBottomMargin - J / 5 * b.value;
@@ -10159,10 +12843,17 @@ const Vi = 10, qf = /* @__PURE__ */ de({
     }, Te = (H, q) => {
       const J = H.currentTarget.closest("svg");
       if (!J) return;
+<<<<<<< HEAD
       const { x: ke, y: Me } = O(J, H.clientX, H.clientY), z = `Score: ${q.score}`, ae = `Count: ${Number(q.count ?? 0).toLocaleString()}`, ge = r(z, ae), we = s, He = typeof q?.x == "number" ? q.x : ke;
       let ft = Me - 20;
       const ee = c(He, ft, ge, we);
       g.value = {
+=======
+      const { x: ke, y: Me } = O(J, H.clientX, H.clientY), z = `Score: ${q.score}`, ae = `Count: ${Number(q.count ?? 0).toLocaleString()}`, ge = r(z, ae), we = s, We = typeof q?.x == "number" ? q.x : ke;
+      let ft = Me - 20;
+      const ee = c(We, ft, ge, we);
+      f.value = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         visible: !0,
         x: ee.x,
         y: ee.y,
@@ -10173,16 +12864,28 @@ const Vi = 10, qf = /* @__PURE__ */ de({
         anchorX: typeof q?.x == "number" ? q.x : null
       };
     }, be = (H) => {
+<<<<<<< HEAD
       if (a.interactive && g.value.visible) {
         const q = H.currentTarget, { x: J, y: ke } = O(q, H.clientX, H.clientY), Me = g.value.anchorX, z = Me != null && Number.isFinite(Me) ? Me : J;
         let ae = ke - 20;
         const ge = c(z, ae, g.value.width, g.value.height);
         g.value.x = ge.x, g.value.y = ge.y;
+=======
+      if (a.interactive && f.value.visible) {
+        const q = H.currentTarget, { x: J, y: ke } = O(q, H.clientX, H.clientY), Me = f.value.anchorX, z = Me != null && Number.isFinite(Me) ? Me : J;
+        let ae = ke - 20;
+        const ge = c(z, ae, f.value.width, f.value.height);
+        f.value.x = ge.x, f.value.y = ge.y;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }
     }, _e = () => {
       Ve();
     }, Ve = () => {
+<<<<<<< HEAD
       g.value.visible = !1, g.value.anchorX = null;
+=======
+      f.value.visible = !1, f.value.anchorX = null;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     };
     return t({ isDark: n }), (H, q) => (f(), x("div", {
       class: K(["chart-container", { "chart-container--static": !e.interactive }])
@@ -10211,7 +12914,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             })
           ])
         ], -1)),
+<<<<<<< HEAD
         (f(!0), x(ie, null, pe(Y.value, (J, ke) => (f(), x("line", {
+=======
+        (g(!0), x(ie, null, pe(Y.value, (J, ke) => (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: `grid-${ke}`,
           x1: p.value,
           y1: J.y,
@@ -10221,7 +12928,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "1",
           "stroke-dasharray": "4,4",
           opacity: "0.6"
+<<<<<<< HEAD
         }, null, 8, zm))), 128)),
+=======
+        }, null, 8, Nm))), 128)),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("line", {
           x1: e.chartMargin,
           y1: e.chartMargin,
@@ -10229,12 +12940,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           y2: e.chartHeight - e.chartBottomMargin,
           stroke: u.value.axis,
           "stroke-width": "2"
+<<<<<<< HEAD
         }, null, 8, jm),
         d("polygon", {
           points: `${e.chartMargin - 4},${e.chartMargin} ${e.chartMargin + 4},${e.chartMargin} ${e.chartMargin},${e.chartMargin - 10}`,
           fill: u.value.axis
         }, null, 8, Hm),
         (f(!0), x(ie, null, pe(Y.value, (J, ke) => (f(), x(ie, {
+=======
+        }, null, 8, zm),
+        d("polygon", {
+          points: `${e.chartMargin - 4},${e.chartMargin} ${e.chartMargin + 4},${e.chartMargin} ${e.chartMargin},${e.chartMargin - 10}`,
+          fill: u.value.axis
+        }, null, 8, jm),
+        (g(!0), x(ie, null, pe(Y.value, (J, ke) => (g(), x(ie, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: `y-tick-${ke}`
         }, [
           d("line", {
@@ -10244,7 +12964,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             y2: J.y,
             stroke: u.value.tickLine,
             "stroke-width": "1"
+<<<<<<< HEAD
           }, null, 8, Wm),
+=======
+          }, null, 8, Hm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("text", {
             x: e.chartMargin - 12,
             y: J.y + 4,
@@ -10253,7 +12977,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "12",
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, T(J.value), 9, Km)
+=======
+          }, T(J.value), 9, Wm)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 64))), 128)),
         d("text", {
           x: e.chartMargin - 35,
@@ -10264,7 +12992,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-weight": "600",
           "font-family": "'DM Sans', sans-serif",
           transform: `rotate(-90, ${e.chartMargin - 35}, ${e.chartHeight / 2})`
+<<<<<<< HEAD
         }, " Count ", 8, Um),
+=======
+        }, " Count ", 8, Km),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("line", {
           x1: p.value,
           y1: e.chartHeight - e.chartBottomMargin,
@@ -10272,12 +13004,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           y2: e.chartHeight - e.chartBottomMargin,
           stroke: u.value.axis,
           "stroke-width": "2"
+<<<<<<< HEAD
         }, null, 8, Ym),
         d("polygon", {
           points: `${m.value - 4},${e.chartHeight - e.chartBottomMargin - 4} ${m.value - 4},${e.chartHeight - e.chartBottomMargin + 4} ${m.value},${e.chartHeight - e.chartBottomMargin}`,
           fill: u.value.axis
         }, null, 8, qm),
         (f(!0), x(ie, null, pe(k.value, (J) => (f(), x(ie, {
+=======
+        }, null, 8, Um),
+        d("polygon", {
+          points: `${m.value - 4},${e.chartHeight - e.chartBottomMargin - 4} ${m.value - 4},${e.chartHeight - e.chartBottomMargin + 4} ${m.value},${e.chartHeight - e.chartBottomMargin}`,
+          fill: u.value.axis
+        }, null, 8, Ym),
+        (g(!0), x(ie, null, pe(k.value, (J) => (g(), x(ie, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: `tick-${J.score}`
         }, [
           d("line", {
@@ -10287,7 +13028,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             y2: e.chartHeight - e.chartBottomMargin + 5,
             stroke: u.value.tickLine,
             "stroke-width": "1"
+<<<<<<< HEAD
           }, null, 8, Gm),
+=======
+          }, null, 8, qm),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("text", {
             x: J.x,
             y: e.chartHeight - e.chartBottomMargin + 20,
@@ -10296,7 +13041,11 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             "font-size": "13",
             "font-weight": "600",
             "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
           }, T(J.score), 9, Xm)
+=======
+          }, T(J.score), 9, Gm)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 64))), 128)),
         d("text", {
           x: e.chartWidth / 2,
@@ -10306,8 +13055,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-size": "14",
           "font-weight": "600",
           "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
         }, " Score ", 8, Zm),
         M.value ? (f(), x("path", {
+=======
+        }, " Score ", 8, Xm),
+        M.value ? (g(), x("path", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           d: M.value,
           fill: "none",
@@ -10315,8 +13069,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "2.5",
           opacity: "0.7",
           class: "gaussian-curve"
+<<<<<<< HEAD
         }, null, 8, Qm)) : I("", !0),
         (f(!0), x(ie, null, pe(P.value, (J, ke) => (f(), x("rect", {
+=======
+        }, null, 8, Zm)) : I("", !0),
+        (g(!0), x(ie, null, pe(P.value, (J, ke) => (g(), x("rect", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: `bar-${ke}`,
           x: J.x - y.value / 2,
           y: J.y,
@@ -10330,29 +13089,44 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           onMouseenter: (Me) => oe(Me, J),
           onMouseleave: re,
           style: Ae({ cursor: e.interactive ? "pointer" : "default" })
+<<<<<<< HEAD
         }, null, 44, Jm))), 128)),
         e.showStatLabels && E.value ? (f(), x("line", {
+=======
+        }, null, 44, Qm))), 128)),
+        e.showStatLabels && R.value ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 1,
-          x1: E.value,
+          x1: R.value,
           y1: e.chartMargin,
-          x2: E.value,
+          x2: R.value,
           y2: e.chartHeight - e.chartBottomMargin,
           stroke: "#5d4b93",
           "stroke-width": "2.5",
           "stroke-dasharray": "6,4",
           opacity: "0.8"
+<<<<<<< HEAD
         }, null, 8, ep)) : I("", !0),
         e.showStatLabels && E.value ? (f(), x("text", {
+=======
+        }, null, 8, Jm)) : I("", !0),
+        e.showStatLabels && R.value ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 2,
-          x: E.value,
+          x: R.value,
           y: e.chartHeight - e.chartBottomMargin + 60,
           "text-anchor": "middle",
           fill: "#5d4b93",
           "font-size": "12",
           "font-weight": "600",
           "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
         }, " Min: " + T(W.value.toFixed(1)), 9, tp)) : I("", !0),
         e.showStatLabels && D.value ? (f(), x("line", {
+=======
+        }, " Min: " + T(W.value.toFixed(1)), 9, ep)) : I("", !0),
+        e.showStatLabels && D.value ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 3,
           x1: D.value,
           y1: e.chartMargin,
@@ -10362,8 +13136,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "2.5",
           "stroke-dasharray": "6,4",
           opacity: "0.8"
+<<<<<<< HEAD
         }, null, 8, ap)) : I("", !0),
         e.showStatLabels && D.value ? (f(), x("text", {
+=======
+        }, null, 8, tp)) : I("", !0),
+        e.showStatLabels && D.value ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 4,
           x: D.value,
           y: U("q1"),
@@ -10372,8 +13151,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-size": "12",
           "font-weight": "600",
           "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
         }, " Q1: " + T(se.value.toFixed(1)), 9, np)) : I("", !0),
         e.showStatLabels && B.value ? (f(), x("line", {
+=======
+        }, " Q1: " + T(se.value.toFixed(1)), 9, ap)) : I("", !0),
+        e.showStatLabels && B.value ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 5,
           x1: B.value,
           y1: e.chartMargin,
@@ -10383,8 +13167,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "3",
           "stroke-dasharray": "6,4",
           opacity: "0.9"
+<<<<<<< HEAD
         }, null, 8, op)) : I("", !0),
         e.showStatLabels && B.value ? (f(), x("text", {
+=======
+        }, null, 8, np)) : I("", !0),
+        e.showStatLabels && B.value ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 6,
           x: B.value,
           y: U("median"),
@@ -10393,8 +13182,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-size": "13",
           "font-weight": "700",
           "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
         }, " Median: " + T(ce.value.toFixed(1)), 9, sp)) : I("", !0),
         e.showStatLabels && j.value ? (f(), x("line", {
+=======
+        }, " Median: " + T(de.value.toFixed(1)), 9, op)) : I("", !0),
+        e.showStatLabels && j.value ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 7,
           x1: j.value,
           y1: e.chartMargin,
@@ -10404,8 +13198,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "3",
           "stroke-dasharray": "6,4",
           opacity: "0.9"
+<<<<<<< HEAD
         }, null, 8, ip)) : I("", !0),
         e.showStatLabels && j.value ? (f(), x("text", {
+=======
+        }, null, 8, sp)) : I("", !0),
+        e.showStatLabels && j.value ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 8,
           x: j.value,
           y: U("avg"),
@@ -10414,8 +13213,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-size": "13",
           "font-weight": "700",
           "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
         }, " Avg: " + T(te.value.toFixed(1)), 9, lp)) : I("", !0),
         e.showStatLabels && L.value ? (f(), x("line", {
+=======
+        }, " Avg: " + T(te.value.toFixed(1)), 9, ip)) : I("", !0),
+        e.showStatLabels && L.value ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 9,
           x1: L.value,
           y1: e.chartMargin,
@@ -10425,8 +13229,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "2.5",
           "stroke-dasharray": "6,4",
           opacity: "0.8"
+<<<<<<< HEAD
         }, null, 8, rp)) : I("", !0),
         e.showStatLabels && L.value ? (f(), x("text", {
+=======
+        }, null, 8, lp)) : I("", !0),
+        e.showStatLabels && L.value ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 10,
           x: L.value,
           y: U("q3"),
@@ -10435,8 +13244,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-size": "12",
           "font-weight": "600",
           "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
         }, " Q3: " + T(G.value.toFixed(1)), 9, cp)) : I("", !0),
         e.showStatLabels && N.value ? (f(), x("line", {
+=======
+        }, " Q3: " + T(G.value.toFixed(1)), 9, rp)) : I("", !0),
+        e.showStatLabels && N.value ? (g(), x("line", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 11,
           x1: N.value,
           y1: e.chartMargin,
@@ -10446,8 +13260,13 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "stroke-width": "2.5",
           "stroke-dasharray": "6,4",
           opacity: "0.8"
+<<<<<<< HEAD
         }, null, 8, dp)) : I("", !0),
         e.showStatLabels && N.value ? (f(), x("text", {
+=======
+        }, null, 8, cp)) : I("", !0),
+        e.showStatLabels && N.value ? (g(), x("text", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 12,
           x: N.value,
           y: e.chartHeight - e.chartBottomMargin + 60,
@@ -10456,12 +13275,21 @@ const Vi = 10, qf = /* @__PURE__ */ de({
           "font-size": "12",
           "font-weight": "600",
           "font-family": "'DM Sans', sans-serif"
+<<<<<<< HEAD
         }, " Max: " + T(X.value.toFixed(1)), 9, up)) : I("", !0),
         e.showLegend ? (f(), x("g", {
           key: 13,
           transform: `translate(${e.chartWidth / 2}, ${e.chartMargin - 50})`
         }, [
           d("g", fp, [
+=======
+        }, " Max: " + T(X.value.toFixed(1)), 9, dp)) : I("", !0),
+        e.showLegend ? (g(), x("g", {
+          key: 13,
+          transform: `translate(${e.chartWidth / 2}, ${e.chartMargin - 50})`
+        }, [
+          d("g", hp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             q[0] || (q[0] = d("line", {
               x1: "0",
               y1: "0",
@@ -10477,9 +13305,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "11",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Gaussian ", 8, gp)
           ]),
           d("g", mp, [
+=======
+            }, " Gaussian ", 8, fp)
+          ]),
+          d("g", gp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             q[1] || (q[1] = d("line", {
               x1: "0",
               y1: "0",
@@ -10496,9 +13330,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "11",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Min ", 8, pp)
           ]),
           d("g", bp, [
+=======
+            }, " Min ", 8, mp)
+          ]),
+          d("g", pp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             q[2] || (q[2] = d("line", {
               x1: "0",
               y1: "0",
@@ -10515,9 +13355,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "11",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Q1 ", 8, vp)
           ]),
           d("g", yp, [
+=======
+            }, " Q1 ", 8, bp)
+          ]),
+          d("g", vp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             q[3] || (q[3] = d("line", {
               x1: "0",
               y1: "0",
@@ -10534,9 +13380,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "11",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Median ", 8, xp)
           ]),
           d("g", kp, [
+=======
+            }, " Median ", 8, yp)
+          ]),
+          d("g", xp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             q[4] || (q[4] = d("line", {
               x1: "0",
               y1: "0",
@@ -10553,9 +13405,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "11",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Avg ", 8, _p)
           ]),
           d("g", wp, [
+=======
+            }, " Avg ", 8, kp)
+          ]),
+          d("g", _p, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             q[5] || (q[5] = d("line", {
               x1: "0",
               y1: "0",
@@ -10572,9 +13430,15 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "11",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Q3 ", 8, Cp)
           ]),
           d("g", $p, [
+=======
+            }, " Q3 ", 8, wp)
+          ]),
+          d("g", Cp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             q[6] || (q[6] = d("line", {
               x1: "0",
               y1: "0",
@@ -10591,10 +13455,17 @@ const Vi = 10, qf = /* @__PURE__ */ de({
               "font-size": "11",
               "font-family": "'DM Sans', sans-serif",
               "font-weight": "500"
+<<<<<<< HEAD
             }, " Max ", 8, Sp)
           ])
         ], 8, hp)) : I("", !0),
         e.interactive && g.value.visible ? (f(), x("g", {
+=======
+            }, " Max ", 8, $p)
+          ])
+        ], 8, up)) : I("", !0),
+        e.interactive && f.value.visible ? (g(), x("g", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 14,
           "pointer-events": "none",
           transform: `translate(${g.value.x}, ${g.value.y})`
@@ -10609,26 +13480,41 @@ const Vi = 10, qf = /* @__PURE__ */ de({
             rx: "8",
             stroke: i.value.border,
             "stroke-width": "1"
+<<<<<<< HEAD
           }, null, 8, Dp),
           d("text", {
             x: "0",
             y: -g.value.height - 10 + Nn,
+=======
+          }, null, 8, Mp),
+          d("text", {
+            x: "0",
+            y: -f.value.height - 10 + Nn,
+>>>>>>> 8a6bd9f (Sales Volume chart)
             "text-anchor": "middle",
             fill: i.value.text,
             "font-size": "13",
             "font-weight": "600",
             "font-family": "'DM Sans', sans-serif",
             "dominant-baseline": "hanging"
+<<<<<<< HEAD
           }, T(g.value.title), 9, Tp),
           d("text", {
             x: "0",
             y: -g.value.height - 10 + Nn + Ao + Hi,
+=======
+          }, T(f.value.title), 9, Dp),
+          d("text", {
+            x: "0",
+            y: -f.value.height - 10 + Nn + Ao + Hi,
+>>>>>>> 8a6bd9f (Sales Volume chart)
             "text-anchor": "middle",
             fill: i.value.secondary,
             "font-size": "12",
             "font-weight": "500",
             "font-family": "'DM Sans', sans-serif",
             "dominant-baseline": "hanging"
+<<<<<<< HEAD
           }, T(g.value.text), 9, Ap)
         ], 8, Mp)) : I("", !0)
       ], 44, Nm))
@@ -10639,6 +13525,18 @@ function Wi(e) {
   return e < 640 ? "mobile" : e <= ur ? "tablet" : "desktop";
 }
 function Rp() {
+=======
+          }, T(f.value.text), 9, Tp)
+        ], 8, Sp)) : I("", !0)
+      ], 44, Vm))
+    ], 2));
+  }
+}), dr = /* @__PURE__ */ xe(Bp, [["__scopeId", "data-v-8f9da805"]]), Lp = 639, ur = 1024;
+function Wi(e) {
+  return e < 640 ? "mobile" : e <= ur ? "tablet" : "desktop";
+}
+function Pp() {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const e = Q(
     typeof window > "u" ? "desktop" : Wi(window.innerWidth)
   ), t = () => {
@@ -10646,7 +13544,11 @@ function Rp() {
   };
   let a = null, n = null, o = null, s = null;
   ht(() => {
+<<<<<<< HEAD
     typeof window > "u" || (t(), a = window.matchMedia(`(max-width: ${Pp}px)`), n = window.matchMedia(`(min-width: 640px) and (max-width: ${ur}px)`), o = window.matchMedia("(min-width: 1025px)"), s = () => {
+=======
+    typeof window > "u" || (t(), a = window.matchMedia(`(max-width: ${Lp}px)`), n = window.matchMedia(`(min-width: 640px) and (max-width: ${ur}px)`), o = window.matchMedia("(min-width: 1025px)"), s = () => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       t();
     }, a.addEventListener("change", s), n.addEventListener("change", s), o.addEventListener("change", s));
   }), yt(() => {
@@ -10660,10 +13562,17 @@ function Rp() {
     isDesktop: r
   };
 }
+<<<<<<< HEAD
 const oa = (e, t) => t ? `${(e / t * 100).toFixed(1)}%` : "0.0%", Se = (e, t) => `${e.toLocaleString()} (${oa(e, t)})`, Ep = { class: "chart-container" }, Ip = {
   key: 0,
   class: "loading-state loading-overlay"
 }, pa = 6, Na = 2, Fp = 4, Ki = 0.65, ba = "…", Op = /* @__PURE__ */ de({
+=======
+const oa = (e, t) => t ? `${(e / t * 100).toFixed(1)}%` : "0.0%", $e = (e, t) => `${e.toLocaleString()} (${oa(e, t)})`, Ep = { class: "chart-container" }, Rp = {
+  key: 0,
+  class: "loading-state loading-overlay"
+}, pa = 6, Na = 2, Ip = 4, Ki = 0.65, ba = "…", Fp = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "SankeyChart",
   props: {
     data: { default: () => ({ nodes: [], links: [] }) },
@@ -10675,10 +13584,17 @@ const oa = (e, t) => t ? `${(e / t * 100).toFixed(1)}%` : "0.0%", Se = (e, t) =>
     theme: { default: void 0 }
   },
   setup(e, { expose: t }) {
+<<<<<<< HEAD
     bs.use([Wr, Kr, Ur, Yr]);
     const a = e, { isDark: n, colors: o } = Pe(Be(a, "theme")), { breakpoint: s } = Rp(), i = Q(null), l = Q(!0), r = Q(!1);
     let c = 0, u = "", g = null, h = null;
     const p = {
+=======
+    bs.use([Hr, Wr, Kr, Ur]);
+    const a = e, { isDark: n, colors: o } = Pe(Be(a, "theme")), { breakpoint: s } = Pp(), i = Q(null), l = Q(!0), r = Q(!1);
+    let c = 0, u = "", f = null, h = null;
+    const b = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       animation: { duration: 1e3, easing: "cubicOut" },
       margins: { left: "3%", right: "8%", top: "2%", bottom: "2%" },
       node: { width: 88, gap: 24, align: "left", iterations: 0 },
@@ -10774,7 +13690,11 @@ ${ne[1].trim()}` : le;
     }, M = (ee, le) => {
       const ne = ee.replace(/\s+/g, " ").trim();
       return ne.endsWith(ba) ? S(ne, le) : S(`${ne}${ba}`, le);
+<<<<<<< HEAD
     }, P = (ee) => /^\(.*%\)$/.test(ee.trim()), E = (ee, le, ne) => {
+=======
+    }, P = (ee) => /^\(.*%\)$/.test(ee.trim()), R = (ee, le, ne) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const he = ee.split(`
 `).map((ve) => ve.trim()).filter(Boolean);
       if (le < 1 || he.length === 0) return "";
@@ -10799,8 +13719,13 @@ ${ne[1].trim()}` : le;
 `);
     }, N = (ee, le, ne, he) => {
       const ue = Math.max(le - Na * 2 - 2, 0), fe = Math.max(1, Math.floor(ue / Math.max(ne, 1)));
+<<<<<<< HEAD
       return E(ee, fe, he);
     }, D = (ee) => ee.status ? ee.status : b.test(ee.name) ? "abandon" : y.test(ee.name) ? "error" : "success", B = (ee) => ee.originalValue ?? ee.value, L = (ee, le) => {
+=======
+      return R(ee, fe, he);
+    }, D = (ee) => ee.status ? ee.status : p.test(ee.name) ? "abandon" : y.test(ee.name) ? "error" : "success", B = (ee) => ee.originalValue ?? ee.value, L = (ee, le) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const ne = new Set(le.map((ue) => ue.target)), he = ee.filter((ue) => !ne.has(ue.name));
       for (const ue of he) {
         if (typeof ue.value == "number" && ue.value > 0) return ue.value;
@@ -10858,7 +13783,11 @@ ${ne[1].trim()}` : le;
         const Qe = typeof ue.order == "number" ? ue.order : Number.MAX_SAFE_INTEGER, ot = typeof fe.order == "number" ? fe.order : Number.MAX_SAFE_INTEGER;
         return Qe !== ot ? Qe - ot : ue.name.localeCompare(fe.name);
       });
+<<<<<<< HEAD
     }, ce = (ee, le, ne, he) => {
+=======
+    }, de = (ee, le, ne, he) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const fe = $(ee, he).split(`
 `), ye = le * Ki, Ce = Math.max(...fe.map((Ne) => Ne.length), 1) * ye, Ge = fe.length * ne;
       return {
@@ -10874,11 +13803,19 @@ ${ne[1].trim()}` : le;
     }, te = (ee, le) => {
       const ne = le.filter((he) => he.target === ee.name);
       return ne.length > 0 ? ne.reduce((he, ue) => he + B(ue), 0) : typeof ee.value == "number" ? ee.value : le.filter((he) => he.source === ee.name).reduce((he, ue) => he + B(ue), 0);
+<<<<<<< HEAD
     }, R = (ee, le, ne) => {
       const he = le.find((ue) => ue.name === ee);
       return he ? te(he, ne) : ne.filter((ue) => ue.source === ee).reduce((ue, fe) => ue + B(fe), 0);
     }, U = (ee, le, ne, he) => {
       const ue = R(ee, ne, he);
+=======
+    }, E = (ee, le, ne) => {
+      const he = le.find((ue) => ue.name === ee);
+      return he ? te(he, ne) : ne.filter((ue) => ue.source === ee).reduce((ue, fe) => ue + B(fe), 0);
+    }, U = (ee, le, ne, he) => {
+      const ue = E(ee, ne, he);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return `${le.toLocaleString()} (${oa(le, ue)})`;
     }, Y = (ee, le = 0) => {
       if (le > 0) return le;
@@ -10905,8 +13842,13 @@ ${ne[1].trim()}` : le;
         Mt.push(St.name), Ze.set(ct, Mt);
       });
       const st = (St) => {
+<<<<<<< HEAD
         const ct = ee.find((Xa) => Xa.name === St), Mt = ct?.fullDisplayLabel || ct?.displayLabel || St, ma = ce(Mt, ne.labelFontSize, fe, ye);
         return ne.orient === "vertical" ? ma.nodeWidth : ma.height + Na * 2 + Fp;
+=======
+        const ct = ee.find((Xa) => Xa.name === St), Mt = ct?.fullDisplayLabel || ct?.displayLabel || St, ma = de(Mt, ne.labelFontSize, fe, ye);
+        return ne.orient === "vertical" ? ma.nodeWidth : ma.height + Na * 2 + Ip;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }, Bt = (St) => {
         const ct = Ze.get(St)?.length ?? 1, Mt = Math.max(ct - 1, 0) * ne.nodeGap, ma = ne.orient === "vertical" ? ot : Qe;
         return Math.max(ma - Mt, 80);
@@ -11006,8 +13948,13 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
         return [];
       }
     }, H = (ee, le) => {
+<<<<<<< HEAD
       if (!g || le.labelPosition !== "inside") return !1;
       const ne = Ve(g, ee);
+=======
+      if (!f || le.labelPosition !== "inside") return !1;
+      const ne = Ve(f, ee);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (!ne.length) return !1;
       const he = le.labelLineHeight || Math.round(le.labelFontSize * 1.25), ue = /* @__PURE__ */ new Map(), fe = /* @__PURE__ */ new Map();
       ne.forEach((ve) => {
@@ -11056,7 +14003,11 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
           he
         );
         Ce.push(Ze);
+<<<<<<< HEAD
         const st = ce(Ze, ne.labelFontSize, fe, ye);
+=======
+        const st = de(Ze, ne.labelFontSize, fe, ye);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ne.orient === "vertical" ? ve = Math.max(ve, st.height + Na * 2) : ve = Math.max(ve, st.nodeWidth);
         const Bt = a.nodeColors[Xe.name] || m[ot] || J[Qe % J.length], bt = Math.max(Math.ceil(st.nodeWidth - pa * 2), 48);
         return {
@@ -11084,7 +14035,11 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
       if (ne.orient === "vertical") {
         const Xe = Math.max(
           ...Ce.map(
+<<<<<<< HEAD
             (ot) => ce(ot, ne.labelFontSize, fe, ye).width
+=======
+            (ot) => de(ot, ne.labelFontSize, fe, ye).width
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ),
           0
         ), Qe = typeof Ne.right == "number" ? Ne.right : 10;
@@ -11128,7 +14083,11 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
       const ve = he.data?.source || he.source || "Unknown", Ce = he.data?.target || he.target || "Unknown", Ge = Number(he.data?.originalValue ?? he.data?.value ?? he.value ?? 0), Ne = U(ve, Ge, ee, le);
       return `<div style="font-weight: 600; margin-bottom: 4px; color: ${fe};">${ve} → ${Ce}</div><div style="color: ${ye}; font-size: 12px;">Flow: ${Ne}</div>`;
     }, z = () => {
+<<<<<<< HEAD
       if (!g || !a.data.nodes?.length || !a.data.links?.length) return;
+=======
+      if (!f || !a.data.nodes?.length || !a.data.links?.length) return;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const ee = w.value, le = n.value ? "rgba(110, 110, 120, 0.35)" : "rgba(148, 163, 184, 0.45)", ne = n.value ? "rgba(130, 130, 140, 0.5)" : "rgba(100, 116, 139, 0.55)", he = n.value ? "rgba(203, 213, 225, 0.92)" : "#64748b", ue = ee.labelPosition === "inside" ? "#ffffff" : n.value ? o.value.textPrimary : "#334155";
       try {
         r.value = !1;
@@ -11241,7 +14200,11 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
               nodeAlign: p.node.align,
               nodeGap: ee.nodeGap,
               nodeWidth: Ce,
+<<<<<<< HEAD
               layoutIterations: p.node.iterations,
+=======
+              layoutIterations: b.node.iterations,
+>>>>>>> 8a6bd9f (Sales Volume chart)
               orient: ee.orient,
               draggable: !1,
               ...Ge
@@ -11252,11 +14215,19 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
           animationDuration: p.animation.duration,
           animationEasing: p.animation.easing
         };
+<<<<<<< HEAD
         if (g.setOption(Bt), g.resize(), ee.labelPosition === "inside") {
           const bt = ++c, Vt = () => {
             !g || bt !== c || H(ve, st);
           };
           g.off("finished"), g.on("finished", Vt), Vt(), requestAnimationFrame(Vt);
+=======
+        if (f.setOption(Bt), f.resize(), ee.labelPosition === "inside") {
+          const bt = ++c, Vt = () => {
+            !f || bt !== c || H(ve, st);
+          };
+          f.off("finished"), f.on("finished", Vt), Vt(), requestAnimationFrame(Vt);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         } else
           g.off("finished"), u = "";
       } catch (fe) {
@@ -11265,7 +14236,11 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
     }, ae = async () => {
       if (i.value)
         try {
+<<<<<<< HEAD
           g = bs.init(i.value), z(), window.addEventListener("resize", He);
+=======
+          f = bs.init(i.value), z(), window.addEventListener("resize", We);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         } catch (ee) {
           console.error("Error initializing Sankey chart:", ee), r.value = !0;
         } finally {
@@ -11286,6 +14261,7 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
           ge() && (h?.disconnect(), h = null, ae().then(ee));
         }), h.observe(le);
       });
+<<<<<<< HEAD
     }, He = () => {
       g && z();
     }, ft = () => {
@@ -11293,12 +14269,26 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
     };
     return ht(() => we()), cl(ft), Ie(() => a.data, z, { deep: !0 }), Ie(n, z), Ie(s, z), t({ isDark: n }), (ee, le) => (f(), x("div", Ep, [
       r.value ? (f(), x("div", {
+=======
+    }, We = () => {
+      f && z();
+    }, ft = () => {
+      window.removeEventListener("resize", We), h?.disconnect(), h = null, u = "", c += 1, f && (f.off("finished"), f.dispose(), f = null);
+    };
+    return ht(() => we()), cl(ft), Ie(() => a.data, z, { deep: !0 }), Ie(n, z), Ie(s, z), t({ isDark: n }), (ee, le) => (g(), x("div", Ep, [
+      r.value ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         class: "error-state",
         style: Ae({ height: e.height })
       }, [...le[0] || (le[0] = [
+<<<<<<< HEAD
         Eo('<div class="error-content" data-v-52fbb7d0><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-52fbb7d0><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-52fbb7d0></path></svg><p class="error-title" data-v-52fbb7d0>Chart could not be loaded</p><p class="error-description" data-v-52fbb7d0>Please check the data format.</p></div>', 1)
       ])], 4)) : (f(), x("div", {
+=======
+        Ro('<div class="error-content" data-v-52fbb7d0><svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-v-52fbb7d0><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" data-v-52fbb7d0></path></svg><p class="error-title" data-v-52fbb7d0>Chart could not be loaded</p><p class="error-description" data-v-52fbb7d0>Please check the data format.</p></div>', 1)
+      ])], 4)) : (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 1,
         class: "chart-wrapper",
         style: Ae({ height: e.height })
@@ -11308,12 +14298,18 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
           ref: i,
           class: "chart-content"
         }, null, 512),
+<<<<<<< HEAD
         l.value ? (f(), x("div", Ip, [...le[1] || (le[1] = [
           Eo('<div class="loading-container" data-v-52fbb7d0><div class="sankey-loader" data-v-52fbb7d0><div class="flow flow-1" data-v-52fbb7d0></div><div class="flow flow-2" data-v-52fbb7d0></div><div class="flow flow-3" data-v-52fbb7d0></div><div class="flow flow-4" data-v-52fbb7d0></div></div><p class="loading-text" data-v-52fbb7d0>Loading Sankey diagram...</p></div>', 1)
+=======
+        l.value ? (g(), x("div", Rp, [...le[1] || (le[1] = [
+          Ro('<div class="loading-container" data-v-52fbb7d0><div class="sankey-loader" data-v-52fbb7d0><div class="flow flow-1" data-v-52fbb7d0></div><div class="flow flow-2" data-v-52fbb7d0></div><div class="flow flow-3" data-v-52fbb7d0></div><div class="flow flow-4" data-v-52fbb7d0></div></div><p class="loading-text" data-v-52fbb7d0>Loading Sankey diagram...</p></div>', 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ])])) : I("", !0)
       ], 4))
     ]));
   }
+<<<<<<< HEAD
 }), ga = /* @__PURE__ */ xe(Op, [["__scopeId", "data-v-52fbb7d0"]]), Vp = ["open"], Np = { class: "card-header metric-collapsible__summary" }, zp = { class: "header-content metric-header-content" }, jp = { class: "metric-header-content__main" }, Hp = { class: "metric-header-content__text" }, Wp = { class: "metric-header-content__loaded" }, Kp = {
   key: 0,
   class: "card-title"
@@ -11330,10 +14326,29 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
   key: 0,
   class: "chart-metric-container__body"
 }, Xp = {
+=======
+}), ga = /* @__PURE__ */ xe(Fp, [["__scopeId", "data-v-52fbb7d0"]]), Op = ["open"], Vp = { class: "card-header metric-collapsible__summary" }, Np = { class: "header-content metric-header-content" }, zp = { class: "metric-header-content__main" }, jp = { class: "metric-header-content__text" }, Hp = { class: "metric-header-content__loaded" }, Wp = {
+  key: 0,
+  class: "card-title"
+}, Kp = {
+  key: 0,
+  class: "card-subtitle"
+}, Up = {
+  key: 0,
+  class: "metric-header-content__export"
+}, Yp = {
+  key: 0,
+  class: "cmc-header-aside"
+}, qp = {
+  key: 0,
+  class: "chart-metric-container__body"
+}, Gp = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: "body-loading",
   class: "cmc-body-loading",
   "aria-busy": "true",
   "aria-label": "Loading chart"
+<<<<<<< HEAD
 }, Zp = { key: "body-content" }, Qp = {
   key: 1,
   class: "chart-metric-container chart-metric-container--static"
@@ -11353,11 +14368,36 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
   key: 0,
   class: "chart-metric-container__body"
 }, c0 = {
+=======
+}, Xp = { key: "body-content" }, Zp = {
+  key: 1,
+  class: "chart-metric-container chart-metric-container--static"
+}, Qp = { class: "card-header" }, Jp = { class: "header-content metric-header-content" }, e0 = { class: "metric-header-content__main" }, t0 = { class: "metric-header-content__text" }, a0 = { class: "metric-header-content__loaded" }, n0 = {
+  key: 0,
+  class: "card-title"
+}, o0 = {
+  key: 0,
+  class: "card-subtitle"
+}, s0 = {
+  key: 0,
+  class: "metric-header-content__export"
+}, i0 = {
+  key: 0,
+  class: "cmc-header-aside"
+}, l0 = {
+  key: 0,
+  class: "chart-metric-container__body"
+}, r0 = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: "body-loading",
   class: "cmc-body-loading",
   "aria-busy": "true",
   "aria-label": "Loading chart"
+<<<<<<< HEAD
 }, d0 = { key: "body-content" }, u0 = /* @__PURE__ */ de({
+=======
+}, c0 = { key: "body-content" }, d0 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ChartMetricContainer",
   props: {
     title: { default: "" },
@@ -11376,7 +14416,7 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
     const s = Q(null), i = Q(o(a.defaultOpen)), l = Q(o(a.defaultOpen)), r = Uo();
     function c(m) {
       return m.some((v) => {
-        if (v.type === Hr) return !1;
+        if (v.type === jr) return !1;
         if (v.type === Text) {
           const b = v.children;
           return typeof b == "string" && b.trim().length > 0;
@@ -11417,6 +14457,7 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
       open: i.value ? !0 : void 0,
       onToggle: p
     }, [
+<<<<<<< HEAD
       d("summary", Np, [
         d("div", zp, [
           d("div", jp, [
@@ -11434,6 +14475,25 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
             ])) : I("", !0)
           ]),
           m.$slots.headerAside ? (f(), x("div", qp, [
+=======
+      d("summary", Vp, [
+        d("div", Np, [
+          d("div", zp, [
+            d("div", jp, [
+              d("div", Hp, [
+                De(m.$slots, "title", {}, () => [
+                  e.title ? (g(), x("h3", Wp, T(e.title), 1)) : I("", !0)
+                ], !0),
+                e.subtitle ? (g(), x("p", Kp, T(e.subtitle), 1)) : I("", !0),
+                De(m.$slots, "headerAppend", {}, void 0, !0)
+              ])
+            ]),
+            h.value ? (g(), x("div", Up, [
+              De(m.$slots, "headerExport", {}, void 0, !0)
+            ])) : I("", !0)
+          ]),
+          m.$slots.headerAside ? (g(), x("div", Yp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             De(m.$slots, "headerAside", {}, void 0, !0)
           ])) : I("", !0)
         ]),
@@ -11452,26 +14512,39 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
           })
         ], -1))
       ]),
+<<<<<<< HEAD
       u.value ? (f(), x("div", Gp, [
+=======
+      u.value ? (g(), x("div", qp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         V(Tt, {
           name: "chart-metric-fade",
           mode: "out-in"
         }, {
           default: F(() => [
+<<<<<<< HEAD
             g.value ? (f(), x("div", Xp, [
+=======
+            f.value ? (g(), x("div", Gp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               De(m.$slots, "loading", {}, () => [
                 v[1] || (v[1] = d("div", {
                   class: "cmc-body-loading__skeleton ut-skeleton-blink",
                   "aria-hidden": "true"
                 }, null, -1))
               ], !0)
+<<<<<<< HEAD
             ])) : (f(), x("div", Zp, [
+=======
+            ])) : (g(), x("div", Xp, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               De(m.$slots, "default", {}, void 0, !0)
             ]))
           ]),
           _: 3
         })
       ])) : I("", !0)
+<<<<<<< HEAD
     ], 40, Vp)) : (f(), x("div", Qp, [
       d("div", Jp, [
         d("div", e0, [
@@ -11490,24 +14563,56 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
             ])) : I("", !0)
           ]),
           m.$slots.headerAside ? (f(), x("div", l0, [
+=======
+    ], 40, Op)) : (g(), x("div", Zp, [
+      d("div", Qp, [
+        d("div", Jp, [
+          d("div", e0, [
+            d("div", t0, [
+              d("div", a0, [
+                De(m.$slots, "title", {}, () => [
+                  e.title ? (g(), x("h3", n0, T(e.title), 1)) : I("", !0)
+                ], !0),
+                e.subtitle ? (g(), x("p", o0, T(e.subtitle), 1)) : I("", !0),
+                De(m.$slots, "headerAppend", {}, void 0, !0)
+              ])
+            ]),
+            h.value ? (g(), x("div", s0, [
+              De(m.$slots, "headerExport", {}, void 0, !0)
+            ])) : I("", !0)
+          ]),
+          m.$slots.headerAside ? (g(), x("div", i0, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             De(m.$slots, "headerAside", {}, void 0, !0)
           ])) : I("", !0)
         ])
       ]),
+<<<<<<< HEAD
       u.value ? (f(), x("div", r0, [
+=======
+      u.value ? (g(), x("div", l0, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         V(Tt, {
           name: "chart-metric-fade",
           mode: "out-in"
         }, {
           default: F(() => [
+<<<<<<< HEAD
             g.value ? (f(), x("div", c0, [
+=======
+            f.value ? (g(), x("div", r0, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               De(m.$slots, "loading", {}, () => [
                 v[2] || (v[2] = d("div", {
                   class: "cmc-body-loading__skeleton ut-skeleton-blink",
                   "aria-hidden": "true"
                 }, null, -1))
               ], !0)
+<<<<<<< HEAD
             ])) : (f(), x("div", d0, [
+=======
+            ])) : (g(), x("div", c0, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               De(m.$slots, "default", {}, void 0, !0)
             ]))
           ]),
@@ -11516,9 +14621,15 @@ ${Xe}` : Qe, Ce), Ze = N(ot, ye, ue, Ce);
       ])) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), Le = /* @__PURE__ */ xe(u0, [["__scopeId", "data-v-ade4038f"]]);
 function h0(e, t) {
   return f(), x("svg", {
+=======
+}), Le = /* @__PURE__ */ xe(d0, [["__scopeId", "data-v-ade4038f"]]);
+function u0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11534,8 +14645,13 @@ function h0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function f0(e, t) {
   return f(), x("svg", {
+=======
+function h0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11552,7 +14668,11 @@ function f0(e, t) {
   ]);
 }
 function Wo(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11569,7 +14689,11 @@ function Wo(e, t) {
   ]);
 }
 function ho(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11602,8 +14726,13 @@ function At(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function g0(e, t) {
   return f(), x("svg", {
+=======
+function f0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11624,8 +14753,13 @@ function g0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function m0(e, t) {
   return f(), x("svg", {
+=======
+function g0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11642,7 +14776,11 @@ function m0(e, t) {
   ]);
 }
 function ha(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11659,7 +14797,11 @@ function ha(e, t) {
   ]);
 }
 function fo(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11676,7 +14818,11 @@ function fo(e, t) {
   ]);
 }
 function go(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11693,7 +14839,11 @@ function go(e, t) {
   ]);
 }
 function hs(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11709,8 +14859,13 @@ function hs(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function p0(e, t) {
   return f(), x("svg", {
+=======
+function m0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11727,7 +14882,11 @@ function p0(e, t) {
   ]);
 }
 function Ui(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11743,8 +14902,13 @@ function Ui(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function b0(e, t) {
   return f(), x("svg", {
+=======
+function p0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11760,8 +14924,13 @@ function b0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function v0(e, t) {
   return f(), x("svg", {
+=======
+function b0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11777,8 +14946,13 @@ function v0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function y0(e, t) {
   return f(), x("svg", {
+=======
+function v0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11795,7 +14969,11 @@ function y0(e, t) {
   ]);
 }
 function Yi(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11816,8 +14994,13 @@ function Yi(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function x0(e, t) {
   return f(), x("svg", {
+=======
+function y0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11834,7 +15017,11 @@ function x0(e, t) {
   ]);
 }
 function fs(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11850,8 +15037,13 @@ function fs(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function k0(e, t) {
   return f(), x("svg", {
+=======
+function x0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11867,8 +15059,13 @@ function k0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function _0(e, t) {
   return f(), x("svg", {
+=======
+function k0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11884,8 +15081,13 @@ function _0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function w0(e, t) {
   return f(), x("svg", {
+=======
+function _0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11901,8 +15103,13 @@ function w0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function C0(e, t) {
   return f(), x("svg", {
+=======
+function w0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11918,8 +15125,13 @@ function C0(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function $0(e, t) {
   return f(), x("svg", {
+=======
+function C0(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11936,7 +15148,11 @@ function $0(e, t) {
   ]);
 }
 function Ko(e, t) {
+<<<<<<< HEAD
   return f(), x("svg", {
+=======
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     fill: "none",
     viewBox: "0 0 24 24",
@@ -11952,6 +15168,7 @@ function Ko(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 const S0 = {
   key: 0,
   class: "footer-divider"
@@ -11959,6 +15176,15 @@ const S0 = {
   key: 0,
   class: "export-label"
 }, D0 = { class: "export-buttons" }, T0 = ["disabled"], A0 = {
+=======
+const $0 = {
+  key: 0,
+  class: "footer-divider"
+}, S0 = {
+  key: 0,
+  class: "export-label"
+}, M0 = { class: "export-buttons" }, D0 = ["disabled"], T0 = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 0,
   class: "spinner",
   width: "14",
@@ -11968,7 +15194,11 @@ const S0 = {
   stroke: "currentColor",
   "stroke-width": "2.5",
   "stroke-linecap": "round"
+<<<<<<< HEAD
 }, B0 = {
+=======
+}, A0 = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 1,
   width: "14",
   height: "14",
@@ -11978,7 +15208,11 @@ const S0 = {
   "stroke-width": "2",
   "stroke-linecap": "round",
   "stroke-linejoin": "round"
+<<<<<<< HEAD
 }, L0 = ["disabled"], P0 = {
+=======
+}, B0 = ["disabled"], L0 = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 0,
   class: "spinner",
   width: "14",
@@ -11988,7 +15222,11 @@ const S0 = {
   stroke: "currentColor",
   "stroke-width": "2.5",
   "stroke-linecap": "round"
+<<<<<<< HEAD
 }, R0 = {
+=======
+}, P0 = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 1,
   width: "14",
   height: "14",
@@ -11998,7 +15236,11 @@ const S0 = {
   "stroke-width": "2",
   "stroke-linecap": "round",
   "stroke-linejoin": "round"
+<<<<<<< HEAD
 }, E0 = /* @__PURE__ */ de({
+=======
+}, E0 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "FooterExport",
   props: {
     formats: { default: () => ["pdf", "csv"] },
@@ -12016,6 +15258,7 @@ const S0 = {
       class: K(s.value)
     }, {
       default: F(() => [
+<<<<<<< HEAD
         e.variant === "footer" ? (f(), x("div", S0)) : I("", !0),
         d("div", {
           class: K(["export-actions", { "export-actions--inline": e.variant === "inline" }])
@@ -12023,6 +15266,15 @@ const S0 = {
           e.variant === "footer" ? (f(), x("span", M0, "Export")) : I("", !0),
           d("div", D0, [
             i("pdf") ? (f(), x("button", {
+=======
+        e.variant === "footer" ? (g(), x("div", $0)) : I("", !0),
+        d("div", {
+          class: K(["export-actions", { "export-actions--inline": e.variant === "inline" }])
+        }, [
+          e.variant === "footer" ? (g(), x("span", S0, "Export")) : I("", !0),
+          d("div", M0, [
+            i("pdf") ? (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: 0,
               type: "button",
               class: K(["export-btn", { "is-loading": e.loading }]),
@@ -12030,7 +15282,11 @@ const S0 = {
               title: "Download PDF",
               onClick: c[0] || (c[0] = (u) => l("pdf"))
             }, [
+<<<<<<< HEAD
               e.loading ? (f(), x("svg", A0, [...c[2] || (c[2] = [
+=======
+              e.loading ? (g(), x("svg", T0, [...c[2] || (c[2] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("circle", {
                   cx: "12",
                   cy: "12",
@@ -12038,7 +15294,11 @@ const S0 = {
                   "stroke-opacity": "0.25"
                 }, null, -1),
                 d("path", { d: "M12 2a10 10 0 0 1 10 10" }, null, -1)
+<<<<<<< HEAD
               ])])) : (f(), x("svg", B0, [...c[3] || (c[3] = [
+=======
+              ])])) : (g(), x("svg", A0, [...c[3] || (c[3] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("path", { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }, null, -1),
                 d("polyline", { points: "14 2 14 8 20 8" }, null, -1),
                 d("line", {
@@ -12056,8 +15316,13 @@ const S0 = {
                 d("polyline", { points: "10 9 9 9 8 9" }, null, -1)
               ])])),
               c[4] || (c[4] = d("span", null, "PDF", -1))
+<<<<<<< HEAD
             ], 10, T0)) : I("", !0),
             i("csv") ? (f(), x("button", {
+=======
+            ], 10, D0)) : I("", !0),
+            i("csv") ? (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: 1,
               type: "button",
               class: K(["export-btn", { "is-loading": e.loading }]),
@@ -12065,7 +15330,11 @@ const S0 = {
               title: "Download CSV",
               onClick: c[1] || (c[1] = (u) => l("csv"))
             }, [
+<<<<<<< HEAD
               e.loading ? (f(), x("svg", P0, [...c[5] || (c[5] = [
+=======
+              e.loading ? (g(), x("svg", L0, [...c[5] || (c[5] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("circle", {
                   cx: "12",
                   cy: "12",
@@ -12073,7 +15342,11 @@ const S0 = {
                   "stroke-opacity": "0.25"
                 }, null, -1),
                 d("path", { d: "M12 2a10 10 0 0 1 10 10" }, null, -1)
+<<<<<<< HEAD
               ])])) : (f(), x("svg", R0, [...c[6] || (c[6] = [
+=======
+              ])])) : (g(), x("svg", P0, [...c[6] || (c[6] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("path", { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }, null, -1),
                 d("polyline", { points: "14 2 14 8 20 8" }, null, -1),
                 d("line", {
@@ -12090,13 +15363,18 @@ const S0 = {
                 }, null, -1)
               ])])),
               c[7] || (c[7] = d("span", null, "CSV", -1))
+<<<<<<< HEAD
             ], 10, L0)) : I("", !0)
+=======
+            ], 10, B0)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ])
         ], 2)
       ]),
       _: 1
     }, 8, ["class"]));
   }
+<<<<<<< HEAD
 }), qe = /* @__PURE__ */ xe(E0, [["__scopeId", "data-v-ebfab47f"]]), I0 = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, F0 = {
   key: "chart",
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
@@ -12104,6 +15382,15 @@ const S0 = {
   key: "empty",
   class: "flex min-h-[280px] w-full items-center justify-center"
 }, N0 = { class: "max-w-[360px] text-center" }, z0 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, j0 = /* @__PURE__ */ de({
+=======
+}), qe = /* @__PURE__ */ xe(E0, [["__scopeId", "data-v-ebfab47f"]]), R0 = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, I0 = {
+  key: "chart",
+  class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
+}, F0 = { class: "w-full shrink-0 sm:pr-2" }, O0 = {
+  key: "empty",
+  class: "flex min-h-[280px] w-full items-center justify-center"
+}, V0 = { class: "max-w-[360px] text-center" }, N0 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, z0 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "AgentsPerDay",
   props: {
     data: { default: () => ({}) },
@@ -12157,7 +15444,11 @@ const S0 = {
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -12165,24 +15456,41 @@ const S0 = {
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", I0, [
+=======
+        d("div", R0, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           V(Tt, {
             name: "bm-fade",
             mode: "out-in"
           }, {
             default: F(() => [
+<<<<<<< HEAD
               g.value.labels && g.value.labels.length ? (f(), x("section", F0, [
                 d("div", O0, [
                   V(Kt, {
                     data: g.value,
+=======
+              f.value.labels && f.value.labels.length ? (g(), x("section", I0, [
+                d("div", F0, [
+                  V(Kt, {
+                    data: f.value,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     stacked: !0,
                     theme: l.value,
                     options: r.value
                   }, null, 8, ["data", "theme", "options"])
                 ])
+<<<<<<< HEAD
               ])) : (f(), x("section", V0, [
                 d("div", N0, [
                   d("div", z0, [
+=======
+              ])) : (g(), x("section", O0, [
+                d("div", V0, [
+                  d("div", N0, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     V(A(At), { class: "h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" })
                   ]),
                   p[0] || (p[0] = d("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " No agents data per day ", -1)),
@@ -12197,10 +15505,17 @@ const S0 = {
       _: 1
     }, 8, ["loading"]));
   }
+<<<<<<< HEAD
 }), H0 = /* @__PURE__ */ xe(j0, [["__scopeId", "data-v-f8d0ec91"]]), W0 = { class: "flex w-full min-w-0 justify-center" }, K0 = { class: "flex max-w-full min-w-0 items-center gap-2" }, U0 = { class: "min-w-0 truncate text-[12px] leading-normal capitalize" }, Y0 = { class: "text-[14px] font-bold leading-tight text-[color:var(--kiut-text-primary,#1e293b)]" }, q0 = {
   key: 0,
   class: "min-w-0 w-full truncate text-[10px] leading-normal"
 }, G0 = /* @__PURE__ */ de({
+=======
+}), j0 = /* @__PURE__ */ xe(z0, [["__scopeId", "data-v-f8d0ec91"]]), H0 = { class: "flex w-full min-w-0 justify-center" }, W0 = { class: "flex max-w-full min-w-0 items-center gap-2" }, K0 = { class: "min-w-0 truncate text-[12px] leading-normal capitalize" }, U0 = { class: "text-[14px] font-bold leading-tight text-[color:var(--kiut-text-primary,#1e293b)]" }, Y0 = {
+  key: 0,
+  class: "min-w-0 w-full truncate text-[10px] leading-normal"
+}, q0 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CardInfo",
   props: {
     color: {},
@@ -12212,14 +15527,21 @@ const S0 = {
     return (t, a) => (f(), x("div", {
       class: K(["card-info box-border flex w-full min-w-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl px-3 py-2 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] text-[color:var(--kiut-text-secondary,#64748b)]", e.subvalue ? "h-[75px]" : "h-[58px]"])
     }, [
+<<<<<<< HEAD
       d("div", W0, [
         d("div", K0, [
           e.color ? (f(), x("span", {
+=======
+      d("div", H0, [
+        d("div", W0, [
+          e.color ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 0,
             class: "inline-block h-2.5 w-2.5 shrink-0 rounded-full align-middle",
             style: Ae({ backgroundColor: e.color }),
             "aria-hidden": "true"
           }, null, 4)) : I("", !0),
+<<<<<<< HEAD
           d("span", U0, T(e.title), 1)
         ])
       ]),
@@ -12228,6 +15550,16 @@ const S0 = {
     ], 2));
   }
 }), $e = /* @__PURE__ */ xe(G0, [["__scopeId", "data-v-0d546967"]]), hr = "inline-flex w-min max-w-full min-h-[22px] items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] font-semibold leading-snug tracking-tight";
+=======
+          d("span", K0, T(e.title), 1)
+        ])
+      ]),
+      d("p", U0, T(e.value), 1),
+      e.subvalue ? (g(), x("p", Y0, T(e.subvalue), 1)) : I("", !0)
+    ], 2));
+  }
+}), Se = /* @__PURE__ */ xe(q0, [["__scopeId", "data-v-0d546967"]]), hr = "inline-flex w-min max-w-full min-h-[22px] items-center justify-center whitespace-nowrap rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] font-semibold leading-snug tracking-tight";
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function fr(e, t) {
   switch (e) {
     case "purple":
@@ -12244,11 +15576,19 @@ function fr(e, t) {
       return t ? "border border-slate-400 bg-slate-400/10 text-[color:var(--kiut-text-primary)] dark:border-slate-500 dark:bg-slate-800/90 dark:text-slate-200" : "border border-slate-200 bg-slate-100 text-[color:var(--kiut-text-primary)] dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200";
   }
 }
+<<<<<<< HEAD
 const X0 = {
   key: 0,
   class: "relative flex h-2 w-2 shrink-0 items-center justify-center",
   "aria-hidden": "true"
 }, gt = /* @__PURE__ */ de({
+=======
+const G0 = {
+  key: 0,
+  class: "relative flex h-2 w-2 shrink-0 items-center justify-center",
+  "aria-hidden": "true"
+}, gt = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Tag",
   __name: "Tag",
   props: {
@@ -12277,7 +15617,11 @@ const X0 = {
       role: "status",
       class: K(["inline-flex w-min max-w-full min-h-[22px] items-center gap-2 whitespace-nowrap rounded-full px-3 py-1 text-center text-xs font-['Inter',system-ui,sans-serif] leading-snug", o.value])
     }, [
+<<<<<<< HEAD
       e.statusLive === !0 ? (f(), x("span", X0, [...r[0] || (r[0] = [
+=======
+      e.statusLive === !0 ? (g(), x("span", G0, [...r[0] || (r[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("span", { class: "absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/50 dark:bg-emerald-400/45" }, null, -1),
         d("span", { class: "relative inline-flex h-2 w-2 rounded-full bg-[color:var(--kiut-success)]" }, null, -1)
       ])])) : I("", !0),
@@ -12289,11 +15633,11 @@ const X0 = {
       class: K([A(hr), i.value])
     }, [
       De(l.$slots, "default", {}, () => [
-        Re(T(e.label), 1)
+        Ee(T(e.label), 1)
       ])
     ], 2));
   }
-}), me = (e) => e == null ? "0" : new Intl.NumberFormat("en-US").format(e), Ke = (e, t = "USD") => e == null ? "$0.00" : new Intl.NumberFormat("en-US", {
+}), me = (e) => e == null ? "0" : new Intl.NumberFormat("en-US").format(e), Ue = (e, t = "USD") => e == null ? "$0.00" : new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: t,
   minimumFractionDigits: 2,
@@ -12302,6 +15646,7 @@ const X0 = {
   if (e == null) return "0";
   const t = Math.abs(e), a = e < 0 ? "-" : "";
   return t >= 1e6 ? `${a}${(t / 1e6).toFixed(2)}M` : t > 99999 ? `${a}${(t / 1e3).toFixed(1)}K` : `${a}${new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(t)}`;
+<<<<<<< HEAD
 }, Z0 = {
   class: "kiut-table-root table-section flex w-full min-w-0 flex-col rounded-xl font-sans antialiased text-[color:var(--kiut-text-primary,#1e293b)]",
   "data-component": "kiut-table"
@@ -12315,6 +15660,21 @@ const X0 = {
   key: 1,
   class: "kiut-table-sort-arrow kiut-table-sort-arrow--active"
 }, ob = /* @__PURE__ */ de({
+=======
+}, X0 = {
+  class: "kiut-table-root table-section flex w-full min-w-0 flex-col rounded-xl font-sans antialiased text-[color:var(--kiut-text-primary,#1e293b)]",
+  "data-component": "kiut-table"
+}, Z0 = { class: "overflow-x-auto" }, Q0 = { class: "w-full table-auto border-collapse text-left text-[14px] leading-normal" }, J0 = ["aria-sort", "onClick"], eb = {
+  class: "kiut-table-sort-icons inline-flex items-center",
+  "aria-hidden": "true"
+}, tb = {
+  key: 0,
+  class: "kiut-table-sort-arrow kiut-table-sort-arrow--active"
+}, ab = {
+  key: 1,
+  class: "kiut-table-sort-arrow kiut-table-sort-arrow--active"
+}, nb = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "Table",
   props: {
     columns: {},
@@ -12362,12 +15722,21 @@ const X0 = {
     const v = C(() => a.rows?.length ?? 0), b = C(() => v.value > a.maxVisibleRows), y = C(() => Math.max(0, v.value - a.maxVisibleRows)), w = C(() => a.rows?.length ? o.value || !b.value ? a.rows : a.rows.slice(0, a.maxVisibleRows) : []), k = C(
       () => a.viewMoreLabel.replace(/\{count\}/g, String(y.value))
     );
+<<<<<<< HEAD
     return (_, $) => (f(), x("div", Z0, [
       d("div", Q0, [
         d("table", J0, [
           d("thead", null, [
             d("tr", null, [
               (f(!0), x(ie, null, pe(e.columns, (S) => (f(), x("th", {
+=======
+    return (_, $) => (g(), x("div", X0, [
+      d("div", Z0, [
+        d("table", Q0, [
+          d("thead", null, [
+            d("tr", null, [
+              (g(!0), x(ie, null, pe(e.columns, (S) => (g(), x("th", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: S.key,
                 scope: "col",
                 class: K(["kiut-table-th whitespace-nowrap px-3 py-2 text-[#9191a1]", [l(S.align), S.headerClass]])
@@ -12380,25 +15749,44 @@ const X0 = {
                   onClick: (M) => p(S.key)
                 }, [
                   d("span", null, T(S.label), 1),
+<<<<<<< HEAD
                   d("span", tb, [
                     h(S.key) ? (f(), x(ie, { key: 0 }, [
                       e.sortDirection === "asc" ? (f(), x("span", ab, "↑")) : e.sortDirection === "desc" ? (f(), x("span", nb, "↓")) : I("", !0)
                     ], 64)) : (f(), x(ie, { key: 1 }, [
+=======
+                  d("span", eb, [
+                    h(S.key) ? (g(), x(ie, { key: 0 }, [
+                      e.sortDirection === "asc" ? (g(), x("span", tb, "↑")) : e.sortDirection === "desc" ? (g(), x("span", ab, "↓")) : I("", !0)
+                    ], 64)) : (g(), x(ie, { key: 1 }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       $[1] || ($[1] = d("span", { class: "kiut-table-sort-arrow kiut-table-sort-arrow--muted" }, "↑", -1)),
                       $[2] || ($[2] = d("span", { class: "kiut-table-sort-arrow kiut-table-sort-arrow--muted" }, "↓", -1))
                     ], 64))
                   ])
+<<<<<<< HEAD
                 ], 10, eb)) : (f(), x(ie, { key: 1 }, [
                   Re(T(S.label), 1)
+=======
+                ], 10, J0)) : (g(), x(ie, { key: 1 }, [
+                  Ee(T(S.label), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ], 64))
               ], 2))), 128))
             ])
           ]),
           d("tbody", null, [
+<<<<<<< HEAD
             (f(!0), x(ie, null, pe(w.value, (S, M) => (f(), x("tr", {
               key: g(S, M)
             }, [
               (f(!0), x(ie, null, pe(e.columns, (P) => (f(), x("td", {
+=======
+            (g(!0), x(ie, null, pe(w.value, (S, M) => (g(), x("tr", {
+              key: f(S, M)
+            }, [
+              (g(!0), x(ie, null, pe(e.columns, (P) => (g(), x("td", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: `${M}-${P.key}`,
                 class: K(["kiut-table-td px-3 py-2 text-[color:var(--kiut-text-primary,#1e293b)]", [l(P.align), P.cellClass]])
               }, [
@@ -12407,7 +15795,7 @@ const X0 = {
                   column: P,
                   value: c(S, P.key)
                 }, () => [
-                  Re(T(i(c(S, P.key))), 1)
+                  Ee(T(i(c(S, P.key))), 1)
                 ], !0)
               ], 2))), 128))
             ]))), 128))
@@ -12420,8 +15808,13 @@ const X0 = {
         class: "view-more-btn",
         onClick: $[0] || ($[0] = (S) => o.value = !o.value)
       }, [
+<<<<<<< HEAD
         Re(T(o.value ? e.viewLessLabel : k.value) + " ", 1),
         (f(), x("svg", {
+=======
+        Ee(T(o.value ? e.viewLessLabel : k.value) + " ", 1),
+        (g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           class: K(["view-more-icon", { "view-more-icon-rotated": o.value }]),
           fill: "none",
           viewBox: "0 0 24 24",
@@ -12438,6 +15831,7 @@ const X0 = {
       ])) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), Ot = /* @__PURE__ */ xe(ob, [["__scopeId", "data-v-7bdbf1bb"]]), sb = {
   key: "error",
   class: "error-state"
@@ -12457,6 +15851,27 @@ const X0 = {
   key: 1,
   class: "empty-state"
 }, kb = /* @__PURE__ */ de({
+=======
+}), Ot = /* @__PURE__ */ xe(nb, [["__scopeId", "data-v-7bdbf1bb"]]), ob = {
+  key: "error",
+  class: "error-state"
+}, sb = { class: "error-content" }, ib = { class: "error-description" }, lb = {
+  key: "content",
+  class: "card-body"
+}, rb = { class: "chart-section" }, cb = { class: "chart-wrapper" }, db = { class: "payment-success-summary" }, ub = {
+  key: 0,
+  class: "booking-daily-section"
+}, hb = { class: "w-full min-w-0" }, fb = { class: "font-medium" }, gb = { class: "percentage-text" }, mb = { class: "badges-container" }, pb = {
+  key: 0,
+  class: "badges-container"
+}, bb = {
+  key: 1,
+  class: "percentage-text"
+}, vb = { class: "badges-container" }, yb = {
+  key: 1,
+  class: "empty-state"
+}, xb = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "BookingManager",
   props: {
     data: { default: () => ({
@@ -12516,10 +15931,14 @@ const X0 = {
       const b = n.data, y = b.total_booking_initiated || 0, w = b.total_booking_started || 0, k = b.total_payment_initiated || 0, _ = b.total_not_found || 0, $ = b.total_cancelled || 0, S = b.total_no_pending_balance || 0, M = b.total_errors || 0, P = typeof b.total_payment_success == "number" ? b.total_payment_success : (b.total_payment_success_value || []).reduce(
         (W, X) => W + (X.count || 0),
         0
+<<<<<<< HEAD
       ), E = b.total_payment_failed || 0, N = Math.max(0, y - w), D = Math.max(
+=======
+      ), R = p.total_payment_failed || 0, N = Math.max(0, y - w), D = Math.max(
+>>>>>>> 8a6bd9f (Sales Volume chart)
         0,
         w - k - _ - $ - S - M
-      ), B = (W, X) => Se(W, X), L = [
+      ), B = (W, X) => $e(W, X), L = [
         { name: "Initiated by agent", status: "success" },
         { name: "Booking Started", status: "success" },
         { name: "Payment Started", status: "success" },
@@ -12577,11 +15996,11 @@ const X0 = {
         target: "Booking Success",
         value: P,
         label: B(P, y)
-      }), E > 0 && j.push({
+      }), R > 0 && j.push({
         source: "Payment Started",
         target: "Error: Payment Failed",
-        value: E,
-        label: B(E, y)
+        value: R,
+        label: B(R, y)
       }), { nodes: L, links: j };
     }), v = (b, y) => oa(b, y);
     return (b, y) => (f(), Z(Le, {
@@ -12593,7 +16012,11 @@ const X0 = {
       onOpen: y[0] || (y[0] = (w) => o("open"))
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading && !n.error ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading && !n.error ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -12606,8 +16029,13 @@ const X0 = {
           mode: "out-in"
         }, {
           default: F(() => [
+<<<<<<< HEAD
             n.error ? (f(), x("div", sb, [
               d("div", ib, [
+=======
+            n.error ? (g(), x("div", ob, [
+              d("div", sb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 y[1] || (y[1] = d("div", { class: "error-icon-wrapper" }, [
                   d("svg", {
                     class: "error-icon",
@@ -12624,11 +16052,19 @@ const X0 = {
                   ])
                 ], -1)),
                 y[2] || (y[2] = d("p", { class: "error-title" }, "Error loading data", -1)),
+<<<<<<< HEAD
                 d("p", lb, T(n.error), 1)
               ])
             ])) : (f(), x("div", rb, [
               d("section", cb, [
                 d("div", db, [
+=======
+                d("p", ib, T(n.error), 1)
+              ])
+            ])) : (g(), x("div", lb, [
+              d("section", rb, [
+                d("div", cb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(ga, {
                     data: m.value,
                     height: "400px",
@@ -12637,18 +16073,31 @@ const X0 = {
                   }, null, 8, ["data"])
                 ])
               ]),
+<<<<<<< HEAD
               d("section", ub, [
                 V($e, {
+=======
+              d("section", db, [
+                V(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   color: "#22c55e",
                   title: "Booking Success Value",
                   value: u.value
                 }, null, 8, ["value"])
               ]),
+<<<<<<< HEAD
               i.value.length > 0 ? (f(), x("section", hb, [
                 y[3] || (y[3] = d("div", { class: "section-header" }, [
                   d("h4", { class: "section-title" }, "Daily Overview")
                 ], -1)),
                 d("div", fb, [
+=======
+              i.value.length > 0 ? (g(), x("section", ub, [
+                y[3] || (y[3] = d("div", { class: "section-header" }, [
+                  d("h4", { class: "section-title" }, "Daily Overview")
+                ], -1)),
+                d("div", hb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(Ot, {
                     columns: l,
                     rows: r.value,
@@ -12656,15 +16105,24 @@ const X0 = {
                     "row-key": "id"
                   }, {
                     "cell-date": F(({ row: w }) => [
+<<<<<<< HEAD
                       d("span", gb, T(A(Ye)(String(w.date)).format("MMM DD")), 1)
+=======
+                      d("span", fb, T(A(je)(String(w.date)).format("MMM DD")), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     ]),
                     "cell-initiated": F(({ row: w }) => [
                       d("span", null, T(A(me)(Number(w.booking_initiated_count))), 1)
                     ]),
                     "cell-started": F(({ row: w }) => [
                       d("span", null, [
+<<<<<<< HEAD
                         Re(T(A(me)(Number(w.booking_started_count))) + " ", 1),
                         d("span", mb, " (" + T(v(
+=======
+                        Ee(T(A(me)(Number(w.booking_started_count))) + " ", 1),
+                        d("span", gb, " (" + T(v(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                           Number(w.booking_started_count),
                           Number(w.booking_initiated_count)
                         )) + ") ", 1)
@@ -12674,10 +16132,14 @@ const X0 = {
                       d("span", null, T(A(me)(Number(w.payment_initiated_count))), 1)
                     ]),
                     "cell-paymentResults": F(({ row: w }) => [
+<<<<<<< HEAD
                       d("div", pb, [
+=======
+                      d("div", mb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                         V(gt, { color: "success" }, {
                           default: F(() => [
-                            Re(" Booking Success: " + T(A(me)(
+                            Ee(" Booking Success: " + T(A(me)(
                               h(w)
                             )), 1)
                           ]),
@@ -12685,45 +16147,58 @@ const X0 = {
                         }, 1024),
                         V(gt, { color: "danger" }, {
                           default: F(() => [
-                            Re(" Payment Failed: " + T(A(me)(Number(w.payment_failed_count) || 0)), 1)
+                            Ee(" Payment Failed: " + T(A(me)(Number(w.payment_failed_count) || 0)), 1)
                           ]),
                           _: 2
                         }, 1024)
                       ])
                     ]),
                     "cell-paymentValue": F(({ row: w }) => [
+<<<<<<< HEAD
                       g(w).length > 0 ? (f(), x("div", bb, [
                         (f(!0), x(ie, null, pe(g(
+=======
+                      f(w).length > 0 ? (g(), x("div", pb, [
+                        (g(!0), x(ie, null, pe(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                           w
                         ), (k) => (f(), x("span", {
                           key: `${w.date}-${k.currency}`,
                           class: "badge badge-currency"
+<<<<<<< HEAD
                         }, T(k.currency) + " " + T(p(k.total_value)), 1))), 128))
                       ])) : (f(), x("span", vb, "N/A"))
                     ]),
                     "cell-outcomes": F(({ row: w }) => [
                       d("div", yb, [
+=======
+                        }, T(k.currency) + " " + T(b(k.total_value)), 1))), 128))
+                      ])) : (g(), x("span", bb, "N/A"))
+                    ]),
+                    "cell-outcomes": F(({ row: w }) => [
+                      d("div", vb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                         V(gt, { color: "danger" }, {
                           default: F(() => [
-                            Re(" Not Found: " + T(w.not_found_count ? A(me)(Number(w.not_found_count)) : "N/A"), 1)
+                            Ee(" Not Found: " + T(w.not_found_count ? A(me)(Number(w.not_found_count)) : "N/A"), 1)
                           ]),
                           _: 2
                         }, 1024),
                         V(gt, { color: "warning" }, {
                           default: F(() => [
-                            Re(" Cancelled: " + T(w.cancelled_count ? A(me)(Number(w.cancelled_count)) : "N/A"), 1)
+                            Ee(" Cancelled: " + T(w.cancelled_count ? A(me)(Number(w.cancelled_count)) : "N/A"), 1)
                           ]),
                           _: 2
                         }, 1024),
                         V(gt, { color: "orange" }, {
                           default: F(() => [
-                            Re(" No Balance: " + T(w.no_pending_balance_count ? A(me)(Number(w.no_pending_balance_count)) : "N/A"), 1)
+                            Ee(" No Balance: " + T(w.no_pending_balance_count ? A(me)(Number(w.no_pending_balance_count)) : "N/A"), 1)
                           ]),
                           _: 2
                         }, 1024),
                         V(gt, { color: "danger" }, {
                           default: F(() => [
-                            Re(" Errors: " + T(w.error_count ? A(me)(Number(w.error_count)) : "N/A"), 1)
+                            Ee(" Errors: " + T(w.error_count ? A(me)(Number(w.error_count)) : "N/A"), 1)
                           ]),
                           _: 2
                         }, 1024)
@@ -12732,7 +16207,11 @@ const X0 = {
                     _: 1
                   }, 8, ["rows"])
                 ])
+<<<<<<< HEAD
               ])) : (f(), x("section", xb, [...y[4] || (y[4] = [
+=======
+              ])) : (g(), x("section", yb, [...y[4] || (y[4] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("div", { class: "empty-state-content" }, [
                   d("div", { class: "empty-icon-wrapper" }, [
                     d("svg", {
@@ -12761,6 +16240,7 @@ const X0 = {
       _: 1
     }, 8, ["loading"]));
   }
+<<<<<<< HEAD
 }), _b = /* @__PURE__ */ xe(kb, [["__scopeId", "data-v-e1f0043e"]]), wb = { class: "card-body" }, Cb = {
   key: 0,
   class: "chart-section"
@@ -12771,12 +16251,28 @@ const X0 = {
   key: 0,
   class: "reasons-list"
 }, Lb = { class: "reason-name" }, Pb = { class: "reason-count" }, Rb = {
+=======
+}), kb = /* @__PURE__ */ xe(xb, [["__scopeId", "data-v-e1f0043e"]]), _b = { class: "card-body" }, wb = {
+  key: 0,
+  class: "chart-section"
+}, Cb = { class: "chart-wrapper" }, $b = {
+  key: 1,
+  class: "checkin-daily-section"
+}, Sb = { class: "w-full min-w-0" }, Mb = { class: "font-medium" }, Db = { class: "cell-success" }, Tb = { class: "cell-danger" }, Ab = {
+  key: 0,
+  class: "reasons-list"
+}, Bb = { class: "reason-name" }, Lb = { class: "reason-count" }, Pb = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 1,
   class: "no-reasons"
 }, Eb = {
   key: 2,
   class: "empty-state"
+<<<<<<< HEAD
 }, Ib = {
+=======
+}, Rb = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "Checkin",
   props: {
     /** Si es false, el bloque no usa <details> ni chevron (p. ej. anidado en CheckinContainer). */
@@ -12901,79 +16397,104 @@ const X0 = {
       if (!h.value.total_checkin_initiated)
         return { nodes: _, links: $ };
       M("Checkin Init", { value: h.value.total_checkin_initiated }), M("Booking retrive"), M("Booking retrive success"), M("Number of Passengers"), M("Completed"), M("Closed with BP");
+<<<<<<< HEAD
       const P = h.value.total_checkin_initiated, E = h.value.total_checkin_init, N = h.value.total_checkin_init_abandoned || 0, D = h.value.total_checkin_pre_init_abandoned_error, B = h.value.total_checkin_pre_init_abandoned_voluntary, L = D != null || B != null, j = L ? Math.max(Number(D) || 0, 0) : 0, W = L ? Math.max(Number(B) || 0, 0) : 0, X = h.value.total_checkin_init_abandoned_error, se = h.value.total_checkin_init_abandoned_voluntary, ce = X != null || se != null, G = ce ? Math.max(Number(X) || 0, 0) : 0, te = ce ? Math.max(Number(se) || 0, 0) : 0, R = ce ? Math.max(N - G - te, 0) : N, U = E - N, Y = h.value.total_checkin_started, O = h.value.total_checkin_completed, oe = h.value.total_checkin_closed, re = p.value.unrecovered_by_step || [], Te = re.reduce(
+=======
+      const P = h.value.total_checkin_initiated, R = h.value.total_checkin_init, N = h.value.total_checkin_init_abandoned || 0, D = h.value.total_checkin_pre_init_abandoned_error, B = h.value.total_checkin_pre_init_abandoned_voluntary, L = D != null || B != null, j = L ? Math.max(Number(D) || 0, 0) : 0, W = L ? Math.max(Number(B) || 0, 0) : 0, X = h.value.total_checkin_init_abandoned_error, se = h.value.total_checkin_init_abandoned_voluntary, de = X != null || se != null, G = de ? Math.max(Number(X) || 0, 0) : 0, te = de ? Math.max(Number(se) || 0, 0) : 0, E = de ? Math.max(N - G - te, 0) : N, U = R - N, Y = h.value.total_checkin_started, O = h.value.total_checkin_completed, oe = h.value.total_checkin_closed, re = b.value.unrecovered_by_step || [], Te = re.reduce(
+>>>>>>> 8a6bd9f (Sales Volume chart)
         (H, q) => H + q.count,
         0
       );
-      E > 0 && $.push({
+      R > 0 && $.push({
         source: "Checkin Init",
         target: "Booking retrive",
-        value: E,
-        label: Se(E, P)
+        value: R,
+        label: $e(R, P)
       });
+<<<<<<< HEAD
       const be = P - E;
+=======
+      const be = P - R;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       L ? (W > 0 && (M("Abandoned (Init)", { status: "abandon" }), $.push({
         source: "Checkin Init",
         target: "Abandoned (Init)",
         value: W,
-        label: Se(W, P)
+        label: $e(W, P)
       })), j > 0 && (M("Booking not retreived", { status: "error" }), $.push({
         source: "Checkin Init",
         target: "Booking not retreived",
         value: j,
+<<<<<<< HEAD
         label: Se(j, P)
+=======
+        label: $e(j, P)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }))) : be > 0 && (M("Abandoned (Init)", { status: "abandon" }), $.push({
         source: "Checkin Init",
         target: "Abandoned (Init)",
         value: be,
+<<<<<<< HEAD
         label: Se(be, P)
       })), ce ? (G > 0 && (M("Error", { status: "error" }), $.push({
+=======
+        label: $e(be, P)
+      })), de ? (G > 0 && (M("Error", { status: "error" }), $.push({
+>>>>>>> 8a6bd9f (Sales Volume chart)
         source: "Booking retrive",
         target: "Error",
         value: G,
-        label: Se(G, P)
+        label: $e(G, P)
       })), te > 0 && (M("Abandoned (Started)", { status: "abandon" }), $.push({
         source: "Booking retrive",
         target: "Abandoned (Started)",
         value: te,
-        label: Se(te, P)
-      })), R > 0 && (M("Abandoned (Started)", { status: "abandon" }), $.push({
+        label: $e(te, P)
+      })), E > 0 && (M("Abandoned (Started)", { status: "abandon" }), $.push({
         source: "Booking retrive",
         target: "Abandoned (Started)",
-        value: R,
-        label: Se(R, P)
+        value: E,
+        label: $e(E, P)
       }))) : N > 0 && (M("Abandoned (Started)", { status: "abandon" }), $.push({
         source: "Booking retrive",
         target: "Abandoned (Started)",
         value: N,
-        label: Se(N, P)
+        label: $e(N, P)
       })), U > 0 && $.push({
         source: "Booking retrive",
         target: "Booking retrive success",
         value: U,
-        label: Se(U, P)
+        label: $e(U, P)
       }), Y > 0 && $.push({
         source: "Booking retrive success",
         target: "Number of Passengers",
         value: Y,
-        label: Se(Y, P)
+        label: $e(Y, P)
       }), O > 0 && $.push({
         source: "Number of Passengers",
         target: "Completed",
         value: O,
+<<<<<<< HEAD
         label: Se(O, P)
+=======
+        label: $e(O, P)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }), re.length > 0 && Te > 0 && (M("Unrecovered", { status: "error" }), $.push({
         source: "Number of Passengers",
         target: "Unrecovered",
         value: Te,
+<<<<<<< HEAD
         label: Se(Te, P)
+=======
+        label: $e(Te, P)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }), re.forEach((H, q) => {
         const ke = H.step_name.replace(/_/g, " ").split(" ").map((Me) => Me.charAt(0).toUpperCase() + Me.slice(1)).join(" ");
         M(ke, { status: "error", order: q + 1 }), $.push({
           source: "Unrecovered",
           target: ke,
           value: H.count,
-          label: Se(H.count, P)
+          label: $e(H.count, P)
         });
       }));
       const _e = Y - (O + Te);
@@ -12981,19 +16502,27 @@ const X0 = {
         source: "Number of Passengers",
         target: "Abandoned (Flow)",
         value: _e,
+<<<<<<< HEAD
         label: Se(_e, P)
+=======
+        label: $e(_e, P)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }));
       const Ve = O - oe;
       return Ve > 0 && (M("BP Error", { status: "error", order: 0 }), $.push({
         source: "Completed",
         target: "BP Error",
         value: Ve,
+<<<<<<< HEAD
         label: Se(Ve, P)
+=======
+        label: $e(Ve, P)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       })), oe > 0 && $.push({
         source: "Completed",
         target: "Closed with BP",
         value: oe,
-        label: Se(oe, P)
+        label: $e(oe, P)
       }), { nodes: _, links: $ };
     }), w = () => {
       const _ = o.data?.record_locator_by_day;
@@ -13009,13 +16538,13 @@ const X0 = {
       l.value = [..._].map((M) => {
         const P = $.find(
           (N) => N.date === M.date
-        ), E = S.find(
+        ), R = S.find(
           (N) => N.date === M.date
         );
         return {
           ...M,
           failed_steps: P?.steps || [],
-          record_locator_create_payment_count: M.record_locator_create_payment_count ?? E?.record_locator_create_payment_count ?? 0
+          record_locator_create_payment_count: M.record_locator_create_payment_count ?? R?.record_locator_create_payment_count ?? 0
         };
       }), l.value.sort((M, P) => new Date(M.date) - new Date(P.date));
     };
@@ -13034,7 +16563,11 @@ const X0 = {
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: n,
@@ -13042,9 +16575,15 @@ const X0 = {
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", wb, [
           y.value.nodes.length > 0 ? (f(), x("section", Cb, [
             d("div", $b, [
+=======
+        d("div", _b, [
+          y.value.nodes.length > 0 ? (g(), x("section", wb, [
+            d("div", Cb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(ga, {
                 data: y.value,
                 height: "400px",
@@ -13053,8 +16592,13 @@ const X0 = {
               }, null, 8, ["data"])
             ])
           ])) : I("", !0),
+<<<<<<< HEAD
           l.value && l.value.length > 0 ? (f(), x("section", Sb, [
             d("div", Mb, [
+=======
+          l.value && l.value.length > 0 ? (g(), x("section", $b, [
+            d("div", Sb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(Ot, {
                 columns: u.value,
                 rows: g.value,
@@ -13062,7 +16606,11 @@ const X0 = {
                 "row-key": "id"
               }, {
                 "cell-date": F(({ row: S }) => [
+<<<<<<< HEAD
                   d("span", Db, T(A(Ye)(String(S.date)).format("MMM DD")), 1)
+=======
+                  d("span", Mb, T(A(je)(String(S.date)).format("MMM DD")), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 "cell-checkinInit": F(({ row: S }) => [
                   d("span", null, T(A(me)(S.checkin_initiated_count)), 1)
@@ -13083,18 +16631,28 @@ const X0 = {
                   )), 1)
                 ]),
                 "cell-closed": F(({ row: S }) => [
+<<<<<<< HEAD
                   d("span", Tb, T(v(
+=======
+                  d("span", Db, T(v(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     S.checkin_closed_count,
                     S.checkin_initiated_count
                   )), 1)
                 ]),
                 "cell-failed": F(({ row: S }) => [
+<<<<<<< HEAD
                   d("span", Ab, T(v(
                     b(S.failed_steps),
+=======
+                  d("span", Tb, T(v(
+                    p(S.failed_steps),
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     S.checkin_initiated_count
                   )), 1)
                 ]),
                 "cell-reasons": F(({ row: S }) => [
+<<<<<<< HEAD
                   S.failed_steps && S.failed_steps.length > 0 ? (f(), x("div", Bb, [
                     (f(!0), x(ie, null, pe(S.failed_steps, (M) => (f(), x("div", {
                       key: M.step_name,
@@ -13104,6 +16662,17 @@ const X0 = {
                       d("span", Pb, T(M.failed_count), 1)
                     ]))), 128))
                   ])) : (f(), x("div", Rb, "-"))
+=======
+                  S.failed_steps && S.failed_steps.length > 0 ? (g(), x("div", Ab, [
+                    (g(!0), x(ie, null, pe(S.failed_steps, (M) => (g(), x("div", {
+                      key: M.step_name,
+                      class: "reason-item"
+                    }, [
+                      d("span", Bb, T(M.step_name.replace(/_/g, " ")) + ":", 1),
+                      d("span", Lb, T(M.failed_count), 1)
+                    ]))), 128))
+                  ])) : (g(), x("div", Pb, "-"))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 "cell-createPayment": F(({ row: S }) => [
                   d("span", null, T(A(me)(S.record_locator_create_payment_count ?? 0)), 1)
@@ -13111,7 +16680,11 @@ const X0 = {
                 _: 1
               }, 8, ["columns", "rows"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", Eb, [...$[0] || ($[0] = [
+=======
+          ])) : (g(), x("section", Eb, [...$[0] || ($[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -13137,6 +16710,7 @@ const X0 = {
       _: 1
     }, 8, ["collapsible", "default-open", "loading"]));
   }
+<<<<<<< HEAD
 }, Fb = /* @__PURE__ */ xe(Ib, [["__scopeId", "data-v-ae5fc0f7"]]), Ob = { class: "card-body" }, Vb = {
   key: 0,
   class: "sankey-section"
@@ -13144,6 +16718,15 @@ const X0 = {
   key: 1,
   class: "empty-state"
 }, zb = { class: "empty-state-content" }, jb = { class: "empty-icon-wrapper" }, Hb = /* @__PURE__ */ de({
+=======
+}, Ib = /* @__PURE__ */ xe(Rb, [["__scopeId", "data-v-ae5fc0f7"]]), Fb = { class: "card-body" }, Ob = {
+  key: 0,
+  class: "sankey-section"
+}, Vb = {
+  key: 1,
+  class: "empty-state"
+}, Nb = { class: "empty-state-content" }, zb = { class: "empty-icon-wrapper" }, jb = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CheckinMetrics",
   props: {
     initiallyOpen: { type: Boolean, default: !1 },
@@ -13203,49 +16786,69 @@ const X0 = {
         return { nodes: g, links: h };
       const v = n.checkinData.total_checkin_initiated || 0;
       m("Initiated by agent", { value: v }), m("Check In Started"), m("Check In Success"), m("Boarding Pass Issued");
+<<<<<<< HEAD
       const b = n.checkinData.total_record_locator_init || 0, y = n.checkinData.total_record_locator_init_abandoned || 0, w = n.checkinData.total_checkin_pre_init_abandoned_error, k = n.checkinData.total_checkin_pre_init_abandoned_voluntary, _ = w != null || k != null, $ = _ ? Math.max(Number(w) || 0, 0) : 0, S = _ ? Math.max(Number(k) || 0, 0) : 0, M = n.checkinData.total_record_locator_init_abandoned_error, P = n.checkinData.total_record_locator_init_abandoned_voluntary, E = M != null || P != null, N = E ? Math.max(Number(M) || 0, 0) : 0, D = E ? Math.max(Number(P) || 0, 0) : 0, B = E ? Math.max(y - N - D, 0) : y, L = Math.max(b - y, 0), j = n.checkinData.total_record_locator_started || 0, W = n.checkinData.total_record_locator_completed || 0, X = n.checkinData.total_record_locator_closed || 0, se = n.checkinData.total_record_locator_unrecovered || 0, ce = Math.max(v - b, 0), G = $ + N, te = _ ? S + (E ? D + B : y) : ce + (E ? D + B : y);
+=======
+      const p = n.checkinData.total_record_locator_init || 0, y = n.checkinData.total_record_locator_init_abandoned || 0, w = n.checkinData.total_checkin_pre_init_abandoned_error, k = n.checkinData.total_checkin_pre_init_abandoned_voluntary, _ = w != null || k != null, $ = _ ? Math.max(Number(w) || 0, 0) : 0, S = _ ? Math.max(Number(k) || 0, 0) : 0, M = n.checkinData.total_record_locator_init_abandoned_error, P = n.checkinData.total_record_locator_init_abandoned_voluntary, R = M != null || P != null, N = R ? Math.max(Number(M) || 0, 0) : 0, D = R ? Math.max(Number(P) || 0, 0) : 0, B = R ? Math.max(y - N - D, 0) : y, L = Math.max(p - y, 0), j = n.checkinData.total_record_locator_started || 0, W = n.checkinData.total_record_locator_completed || 0, X = n.checkinData.total_record_locator_closed || 0, se = n.checkinData.total_record_locator_unrecovered || 0, de = Math.max(v - p, 0), G = $ + N, te = _ ? S + (R ? D + B : y) : de + (R ? D + B : y);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       L > 0 && h.push({
         source: "Initiated by agent",
         target: "Check In Started",
         value: L,
-        label: Se(L, v)
+        label: $e(L, v)
       }), te > 0 && (m("Abandoned: No booking provided", { status: "abandon" }), h.push({
         source: "Initiated by agent",
         target: "Abandoned: No booking provided",
         value: te,
-        label: Se(te, v)
+        label: $e(te, v)
       }));
+<<<<<<< HEAD
       const R = n.checkinData.total_checkin_retrieval_user_error, U = n.checkinData.total_checkin_retrieval_business_rule, Y = n.checkinData.total_checkin_retrieval_tech_error, O = n.checkinData.total_checkin_retrieval_unknown_error, oe = R != null || U != null || Y != null || O != null, re = (H, q) => {
+=======
+      const E = n.checkinData.total_checkin_retrieval_user_error, U = n.checkinData.total_checkin_retrieval_business_rule, Y = n.checkinData.total_checkin_retrieval_tech_error, O = n.checkinData.total_checkin_retrieval_unknown_error, oe = E != null || U != null || Y != null || O != null, re = (H, q) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         const J = Math.max(Number(q) || 0, 0);
         J > 0 && (m(H, { status: "error" }), h.push({
           source: "Initiated by agent",
           target: H,
           value: J,
-          label: Se(J, v)
+          label: $e(J, v)
         }));
       };
+<<<<<<< HEAD
       oe ? (re("Error: User error", R), re("Error: Business rule", U), re("Error: Tech error", Y), re("Error: Unknown error", O)) : G > 0 && (m("Error: On Retrieval", { status: "error" }), h.push({
+=======
+      oe ? (re("Error: User error", E), re("Error: Business rule", U), re("Error: Tech error", Y), re("Error: Unknown error", O)) : G > 0 && (m("Error: On Retrieval", { status: "error" }), h.push({
+>>>>>>> 8a6bd9f (Sales Volume chart)
         source: "Initiated by agent",
         target: "Error: On Retrieval",
         value: G,
-        label: Se(G, v)
+        label: $e(G, v)
       })), X > 0 && h.push({
         source: "Check In Started",
         target: "Check In Success",
         value: X,
-        label: Se(X, v)
+        label: $e(X, v)
       });
       const Te = c(n.failedData), be = Math.min(Te, Math.max(X - W, 0));
       W > 0 && h.push({
         source: "Check In Success",
         target: "Boarding Pass Issued",
         value: W,
+<<<<<<< HEAD
         label: Se(W, v)
+=======
+        label: $e(W, v)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }), be > 0 && (m("Error: BP Not Issued", { status: "error" }), h.push({
         source: "Check In Success",
         target: "Error: BP Not Issued",
         value: be,
+<<<<<<< HEAD
         label: Se(be, v)
+=======
+        label: $e(be, v)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }));
       const _e = Math.max(X - W - be, 0);
       if (_e > 0) {
@@ -13254,22 +16857,31 @@ const X0 = {
           source: "Check In Success",
           target: H,
           value: _e,
+<<<<<<< HEAD
           label: Se(_e, v)
+=======
+          label: $e(_e, v)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         });
       }
       se > 0 && (m("Error: On Check In Process", { status: "error" }), h.push({
         source: "Check In Started",
         target: "Error: On Check In Process",
         value: se,
-        label: Se(se, v)
+        label: $e(se, v)
       }));
       const Ve = Math.max(j - X - se, 0);
       return Ve > 0 && (m("Abandoned: Check In Incomplete", { status: "abandon" }), h.push({
         source: "Check In Started",
         target: "Abandoned: Check In Incomplete",
         value: Ve,
+<<<<<<< HEAD
         label: Se(Ve, v)
       })), { nodes: g, links: h };
+=======
+        label: $e(Ve, v)
+      })), { nodes: f, links: h };
+>>>>>>> 8a6bd9f (Sales Volume chart)
     });
     return t({ isDark: i }), (g, h) => (f(), Z(Le, {
       class: "checkin-metrics-root h-full min-h-0",
@@ -13280,7 +16892,11 @@ const X0 = {
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -13288,17 +16904,28 @@ const X0 = {
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", Ob, [
           u.value.nodes.length > 0 ? (f(), x("div", Vb, [
+=======
+        d("div", Fb, [
+          u.value.nodes.length > 0 ? (g(), x("div", Ob, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(ga, {
               data: u.value,
               height: "480px",
               "use-gradient": !1,
               "node-gap": 16
             }, null, 8, ["data"])
+<<<<<<< HEAD
           ])) : (f(), x("div", Nb, [
             d("div", zb, [
               d("div", jb, [
+=======
+          ])) : (g(), x("div", Vb, [
+            d("div", Nb, [
+              d("div", zb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(A(At), { class: "empty-icon" })
               ]),
               h[0] || (h[0] = d("p", { class: "empty-title" }, "No check-in data available", -1)),
@@ -13310,9 +16937,15 @@ const X0 = {
       _: 1
     }, 8, ["collapsible", "default-open", "loading"]));
   }
+<<<<<<< HEAD
 }), gr = /* @__PURE__ */ xe(Hb, [["__scopeId", "data-v-e3377f88"]]);
 function eo(e, t) {
   return f(), x("svg", {
+=======
+}), gr = /* @__PURE__ */ xe(jb, [["__scopeId", "data-v-e3377f88"]]);
+function eo(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     fill: "currentColor",
@@ -13326,8 +16959,13 @@ function eo(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function Wb(e, t) {
   return f(), x("svg", {
+=======
+function Hb(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 24 24",
     fill: "currentColor",
@@ -13345,6 +16983,7 @@ function tt() {
   const e = new Uint8Array(8);
   return globalThis.crypto.getRandomValues(e), Array.from(e, (t) => t.toString(16).padStart(2, "0")).join("");
 }
+<<<<<<< HEAD
 const $t = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100", pt = "min-h-[2.75rem] w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", Kb = "min-h-[5.5rem] w-full resize-y rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans leading-normal text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", Gt = "border-red-500 focus:border-red-500 focus:ring-red-500/25 dark:border-red-400", Xt = "mt-1 text-xs font-medium text-red-600 dark:text-red-400", Ub = "kiut-select-option-badge shrink-0 whitespace-nowrap rounded-md px-2 py-0.5 text-[0.6875rem] font-medium leading-4";
 function qi(e = "neutral") {
   return `${Ub} kiut-select-option-badge--${e}`;
@@ -13370,6 +17009,33 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
 }, sv = { class: "min-w-0 flex-1 truncate" }, Zt = /* @__PURE__ */ de({
+=======
+const $t = "mb-1.5 block text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100", pt = "min-h-[2.75rem] w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", Wb = "min-h-[5.5rem] w-full resize-y rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans leading-normal text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500", Gt = "border-red-500 focus:border-red-500 focus:ring-red-500/25 dark:border-red-400", Xt = "mt-1 text-xs font-medium text-red-600 dark:text-red-400", Kb = "kiut-select-option-badge shrink-0 whitespace-nowrap rounded-md px-2 py-0.5 text-[0.6875rem] font-medium leading-4";
+function qi(e = "neutral") {
+  return `${Kb} kiut-select-option-badge--${e}`;
+}
+const Ub = { class: "flex flex-row gap-3 items-center" }, Yb = {
+  key: 0,
+  class: "mb-1.5 inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4",
+  "aria-hidden": "true"
+}, qb = ["disabled", "aria-expanded", "aria-labelledby", "aria-label", "aria-invalid", "aria-describedby"], Gb = { class: "flex min-w-0 flex-1 items-center gap-2.5 truncate" }, Xb = {
+  key: 0,
+  class: "border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]"
+}, Zb = { class: "relative" }, Qb = {
+  class: "pointer-events-none absolute inset-y-0 left-0 flex w-9 items-center justify-center",
+  "aria-hidden": "true"
+}, Jb = ["placeholder", "aria-label"], ev = {
+  key: 1,
+  class: "px-3 pb-1 pt-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+}, tv = {
+  key: 0,
+  class: "px-3 py-2 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+}, av = ["aria-selected", "onClick", "onMouseenter"], nv = {
+  key: 1,
+  class: "flex w-5 shrink-0 justify-center",
+  "aria-hidden": "true"
+}, ov = { class: "min-w-0 flex-1 truncate" }, Zt = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Select",
   __name: "Select",
   props: {
@@ -13410,7 +17076,7 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
       () => a.ariaLabelTrigger ?? a.placeholder ?? "Seleccionar opción"
     ), M = C(
       () => a.options.find((O) => O.value === a.modelValue) ?? null
-    ), P = C(() => a.modelValue === null || a.modelValue === void 0 || a.modelValue === "" ? a.placeholder : M.value?.label ?? String(a.modelValue)), E = C(() => M.value?.leadingClass);
+    ), P = C(() => a.modelValue === null || a.modelValue === void 0 || a.modelValue === "" ? a.placeholder : M.value?.label ?? String(a.modelValue)), R = C(() => M.value?.leadingClass);
     function N(O) {
       return `${String(O.value)}-${O.label}`;
     }
@@ -13418,7 +17084,11 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
       return a.modelValue === O.value;
     }
     function B(O, oe) {
+<<<<<<< HEAD
       const re = D(O), Te = b.value === oe, be = !!a.listSectionLabel;
+=======
+      const re = D(O), Te = p.value === oe, be = !!a.listSectionLabel;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return [
         "flex cursor-pointer items-center gap-2.5 text-sm outline-none transition-colors",
         be ? "border-b border-gray-200 px-3 py-2.5 last:border-b-0 dark:border-white/5" : "gap-1.5 px-2 py-2",
@@ -13465,7 +17135,7 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
       const oe = O.target, re = u.value, Te = h.value;
       re && !re.contains(oe) && (!Te || !Te.contains(oe)) && X();
     }
-    function R(O) {
+    function E(O) {
       a.disabled || (O.key === "ArrowDown" || O.key === "Enter" || O.key === " ") && (O.preventDefault(), v.value || (v.value = !0, W()));
     }
     function U(O) {
@@ -13486,7 +17156,11 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
       }
       if (O.key === "Enter") {
         O.preventDefault();
+<<<<<<< HEAD
         const re = oe[b.value];
+=======
+        const re = oe[p.value];
+>>>>>>> 8a6bd9f (Sales Volume chart)
         re && se(re);
       }
     }
@@ -13511,13 +17185,21 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
         }
         if (O.key === "Enter") {
           O.preventDefault();
+<<<<<<< HEAD
           const re = oe[b.value];
+=======
+          const re = oe[p.value];
+>>>>>>> 8a6bd9f (Sales Volume chart)
           re && se(re);
         }
       }
     }
     return Ie(y, () => {
+<<<<<<< HEAD
       b.value = 0;
+=======
+      p.value = 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }), ht(() => {
       document.addEventListener("click", te);
     }), yt(() => {
@@ -13527,8 +17209,13 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
       ref: u,
       class: "relative font-sans"
     }, [
+<<<<<<< HEAD
       d("div", Yb, [
         O.$slots.icon ? (f(), x("span", qb, [
+=======
+      d("div", Ub, [
+        O.$slots.icon ? (g(), x("span", Yb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           De(O.$slots, "icon")
         ])) : I("", !0),
         e.label ? (f(), x("label", {
@@ -13557,12 +17244,17 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
         "aria-invalid": c.value ? "true" : void 0,
         "aria-describedby": e.errorText ? r : void 0,
         onClick: G,
-        onKeydown: R
+        onKeydown: E
       }, [
+<<<<<<< HEAD
         d("span", Xb, [
           E.value ? (f(), x("span", {
+=======
+        d("span", Gb, [
+          R.value ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 0,
-            class: K([E.value, "shrink-0"]),
+            class: K([R.value, "shrink-0"]),
             "aria-hidden": "true"
           }, null, 2)) : I("", !0),
           M.value?.leadingIcon ? (f(), x("span", {
@@ -13591,23 +17283,38 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
           class: K(["h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", v.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
+<<<<<<< HEAD
       ], 42, Gb),
       e.errorText ? (f(), x("p", {
+=======
+      ], 42, qb),
+      e.errorText ? (g(), x("p", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         id: r,
         class: K(A(Xt)),
         role: "alert"
       }, T(e.errorText), 3)) : I("", !0),
+<<<<<<< HEAD
       (f(), Z(ua, { to: "body" }, [
+=======
+      (g(), Z(ua, { to: "body" }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         rt(d("div", {
           ref_key: "panelRef",
           ref: h,
           style: Ae(w.value),
           class: "fixed z-[300] overflow-hidden rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-lg dark:border-[color:var(--kiut-border-light)]"
         }, [
+<<<<<<< HEAD
           e.searchable ? (f(), x("div", Zb, [
             d("div", Qb, [
               d("span", Jb, [
+=======
+          e.searchable ? (g(), x("div", Xb, [
+            d("div", Zb, [
+              d("span", Qb, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(A(fs), { class: "h-4 w-4 text-[color:var(--kiut-text-muted)] dark:text-slate-500" })
               ]),
               rt(d("input", {
@@ -13621,12 +17328,20 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
                 onClick: oe[1] || (oe[1] = Fe(() => {
                 }, ["stop"])),
                 onKeydown: Fe(U, ["stop"])
+<<<<<<< HEAD
               }, null, 42, ev), [
+=======
+              }, null, 42, Jb), [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 [aa, y.value]
               ])
             ])
           ])) : I("", !0),
+<<<<<<< HEAD
           e.listSectionLabel ? (f(), x("p", tv, T(e.listSectionLabel), 1)) : I("", !0),
+=======
+          e.listSectionLabel ? (g(), x("p", ev, T(e.listSectionLabel), 1)) : I("", !0),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("ul", {
             id: l,
             ref_key: "listRef",
@@ -13638,33 +17353,54 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
             ),
             onKeydown: Fe(Y, ["stop"])
           }, [
+<<<<<<< HEAD
             $.value.length === 0 ? (f(), x("li", av, T(e.noResultsText), 1)) : I("", !0),
             (f(!0), x(ie, null, pe($.value, (re, Te) => (f(), x("li", {
+=======
+            $.value.length === 0 ? (g(), x("li", tv, T(e.noResultsText), 1)) : I("", !0),
+            (g(!0), x(ie, null, pe($.value, (re, Te) => (g(), x("li", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: N(re),
               role: "option",
               "aria-selected": D(re),
               class: K(B(re, Te)),
               onClick: Fe((be) => se(re), ["stop"]),
+<<<<<<< HEAD
               onMouseenter: (be) => b.value = Te
             }, [
               re.leadingClass ? (f(), x("span", {
+=======
+              onMouseenter: (be) => p.value = Te
+            }, [
+              re.leadingClass ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: 0,
                 class: K([re.leadingClass, "shrink-0"]),
                 "aria-hidden": "true"
               }, null, 2)) : I("", !0),
+<<<<<<< HEAD
               e.showOptionCheck ? (f(), x("span", ov, [
                 D(re) ? (f(), Z(A(eo), {
+=======
+              e.showOptionCheck ? (g(), x("span", nv, [
+                D(re) ? (g(), Z(A(eo), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 0,
                   class: "h-4 w-4 text-white"
                 })) : I("", !0)
               ])) : I("", !0),
+<<<<<<< HEAD
               re.leadingIcon ? (f(), x("span", {
+=======
+              re.leadingIcon ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: 2,
                 class: K([
                   "inline-flex shrink-0 items-center justify-center rounded-full",
                   re.leadingIconWrapperClass
                 ])
               }, [
+<<<<<<< HEAD
                 (f(), Z(Dt(re.leadingIcon), {
                   class: K(["h-4 w-4", re.leadingIconClass])
                 }, null, 8, ["class"]))
@@ -13675,6 +17411,18 @@ const Yb = { class: "flex flex-row gap-3 items-center" }, qb = {
                 class: K(A(qi)(re.badge.variant))
               }, T(re.badge.label), 3)) : I("", !0)
             ], 42, nv))), 128))
+=======
+                (g(), Z(Dt(re.leadingIcon), {
+                  class: K(["h-4 w-4", re.leadingIconClass])
+                }, null, 8, ["class"]))
+              ], 2)) : I("", !0),
+              d("span", ov, T(re.label), 1),
+              re.badge ? (g(), x("span", {
+                key: 3,
+                class: K(A(qi)(re.badge.variant))
+              }, T(re.badge.label), 3)) : I("", !0)
+            ], 42, av))), 128))
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ], 34)
         ], 4), [
           [qt, v.value]
@@ -13701,8 +17449,13 @@ function mr(e, t) {
 }
 function pr(e, t, a = 0, n = null, o = 0) {
   const { childrenKey: s, expandedKeys: i, resolveRowKey: l, maxDepth: r } = t, c = [];
+<<<<<<< HEAD
   return e.forEach((u, g) => {
     const h = l(u, o + g), p = gs(u, s), m = p.length > 0, v = i.has(h);
+=======
+  return e.forEach((u, f) => {
+    const h = l(u, o + f), b = gs(u, s), m = b.length > 0, v = i.has(h);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     c.push({
       row: u,
       key: h,
@@ -13711,18 +17464,27 @@ function pr(e, t, a = 0, n = null, o = 0) {
       isExpanded: v,
       parentKey: n
     }), m && v && (r === void 0 || a < r) && c.push(
+<<<<<<< HEAD
       ...pr(p, t, a + 1, h, 0)
+=======
+      ...pr(b, t, a + 1, h, 0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
     );
   }), c;
 }
 function br(e, t, a = 0, n = 0) {
   const { childrenKey: o, resolveRowKey: s, isRowSelectable: i } = t, l = [];
   return e.forEach((r, c) => {
+<<<<<<< HEAD
     const u = s(r, n + c), g = gs(r, o), h = g.length > 0, p = {
+=======
+    const u = s(r, n + c), f = gs(r, o), h = f.length > 0, b = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       depth: a,
       isChild: a > 0,
       hasChildren: h
     };
+<<<<<<< HEAD
     (i?.(r, p) ?? !0) && l.push(u), g.length > 0 && l.push(
       ...br(g, t, a + 1, 0)
     );
@@ -13749,6 +17511,34 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
   class: "inline-block w-4 shrink-0",
   "aria-hidden": "true"
 }, xv = { class: "min-w-0 flex-1" }, kv = /* @__PURE__ */ de({
+=======
+    (i?.(r, b) ?? !0) && l.push(u), f.length > 0 && l.push(
+      ...br(f, t, a + 1, 0)
+    );
+  }), l;
+}
+const sv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, iv = { class: "w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, lv = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, rv = {
+  key: 0,
+  scope: "col",
+  class: "w-14 bg-transparent px-4 py-3 text-center align-middle"
+}, cv = ["checked", "aria-label"], dv = ["aria-sort", "onClick"], uv = {
+  class: "kiut-table-sort-icons inline-flex items-center",
+  "aria-hidden": "true"
+}, hv = {
+  key: 0,
+  class: "kiut-table-sort-arrow kiut-table-sort-arrow--active"
+}, fv = {
+  key: 1,
+  class: "kiut-table-sort-arrow kiut-table-sort-arrow--active"
+}, gv = {
+  key: 0,
+  class: "kiut-table-body-cell w-12 bg-transparent pl-4 pr-0 py-0 text-center align-middle"
+}, mv = ["checked", "aria-label", "onChange"], pv = ["aria-expanded", "aria-label", "onClick"], bv = ["aria-expanded", "aria-label", "onClick"], vv = {
+  key: 1,
+  class: "inline-block w-4 shrink-0",
+  "aria-hidden": "true"
+}, yv = { class: "min-w-0 flex-1" }, xv = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Table",
   __name: "Table",
   props: {
@@ -13781,8 +17571,8 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       get() {
         return a.expandedKeys ?? s.value;
       },
-      set(R) {
-        s.value = R, n("update:expandedKeys", R);
+      set(E) {
+        s.value = E, n("update:expandedKeys", E);
       }
     }), l = C(
       () => new Set(i.value)
@@ -13794,89 +17584,115 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       resolveRowKey: m,
       maxDepth: a.maxDepth
     })), u = C(() => {
+<<<<<<< HEAD
       const { sortKey: R, sortDirection: U, sortCompare: Y, rows: O } = a;
       return !R || !U || !Y ? O : a.expandable ? mr(O, {
+=======
+      const { sortKey: E, sortDirection: U, sortCompare: Y, rows: O } = a;
+      return !E || !U || !Y ? O : a.expandable ? mr(O, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         childrenKey: a.childrenKey,
-        sortKey: R,
+        sortKey: E,
         sortDirection: U,
         compare: Y
+<<<<<<< HEAD
       }) : [...O].sort((oe, re) => Y(oe, re, R, U));
     }), g = C(() => a.expandable ? pr(u.value, c.value) : u.value.map((R, U) => ({
       row: R,
       key: m(R, U),
+=======
+      }) : [...O].sort((oe, re) => Y(oe, re, E, U));
+    }), f = C(() => a.expandable ? pr(u.value, c.value) : u.value.map((E, U) => ({
+      row: E,
+      key: m(E, U),
+>>>>>>> 8a6bd9f (Sales Volume chart)
       depth: 0,
       hasChildren: !1,
       isExpanded: !1,
       parentKey: null
     })));
-    function h(R) {
-      return `cell-${R}`;
+    function h(E) {
+      return `cell-${E}`;
     }
+<<<<<<< HEAD
     function p(R) {
       return R === "center" ? "text-center" : R === "right" ? "text-right" : "text-left";
+=======
+    function b(E) {
+      return E === "center" ? "text-center" : E === "right" ? "text-right" : "text-left";
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
-    function m(R, U) {
+    function m(E, U) {
       if (typeof a.rowKey == "function")
-        return a.rowKey(R);
-      const Y = R[a.rowKey];
+        return a.rowKey(E);
+      const Y = E[a.rowKey];
       return Y != null ? String(Y) : `__index_${U}`;
     }
-    function v(R, U) {
-      return R[U];
+    function v(E, U) {
+      return E[U];
     }
+<<<<<<< HEAD
     function b(R) {
       return R == null || typeof R == "object" ? "" : String(R);
+=======
+    function p(E) {
+      return E == null || typeof E == "object" ? "" : String(E);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
-    function y(R) {
-      return a.expandable && R === r.value;
+    function y(E) {
+      return a.expandable && E === r.value;
     }
-    function w(R) {
-      return R.hasChildren || (a.isRowExpandable?.(R.row) ?? !1);
+    function w(E) {
+      return E.hasChildren || (a.isRowExpandable?.(E.row) ?? !1);
     }
-    function k(R, U) {
+    function k(E, U) {
       return {
-        row: R.row,
+        row: E.row,
         column: U,
-        value: v(R.row, U.key),
-        depth: R.depth,
-        isChild: R.depth > 0,
-        hasChildren: R.hasChildren,
-        expanded: R.isExpanded
+        value: v(E.row, U.key),
+        depth: E.depth,
+        isChild: E.depth > 0,
+        hasChildren: E.hasChildren,
+        expanded: E.isExpanded
       };
     }
-    function _(R) {
-      if (!w(R)) return;
+    function _(E) {
+      if (!w(E)) return;
       const U = new Set(i.value);
-      U.has(R.key) ? (U.delete(R.key), n("collapse", R.key, R.row)) : (a.singleExpand && U.clear(), U.add(R.key), n("expand", R.key, R.row)), i.value = [...U];
+      U.has(E.key) ? (U.delete(E.key), n("collapse", E.key, E.row)) : (a.singleExpand && U.clear(), U.add(E.key), n("expand", E.key, E.row)), i.value = [...U];
     }
-    function $(R) {
+    function $(E) {
       return {
-        depth: R.depth,
-        isChild: R.depth > 0,
-        hasChildren: R.hasChildren
+        depth: E.depth,
+        isChild: E.depth > 0,
+        hasChildren: E.hasChildren
       };
     }
-    function S(R, U) {
-      return a.isRowSelectable?.(R, U) ?? !0;
+    function S(E, U) {
+      return a.isRowSelectable?.(E, U) ?? !0;
     }
-    function M(R) {
-      return S(R.row, $(R));
+    function M(E) {
+      return S(E.row, $(E));
     }
-    function P(R) {
-      return a.selectable && w(R) && !M(R);
+    function P(E) {
+      return a.selectable && w(E) && !M(E);
     }
-    function E(R) {
-      return w(R) && !P(R);
+    function R(E) {
+      return w(E) && !P(E);
     }
-    function N(R) {
-      return E(R) ? !1 : R.depth > 0 ? !0 : a.selectable && !w(R);
+    function N(E) {
+      return R(E) ? !1 : E.depth > 0 ? !0 : a.selectable && !w(E);
     }
     const D = C(() => {
+<<<<<<< HEAD
       const { isRowSelectable: R } = a;
+=======
+      const { isRowSelectable: E } = a;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return a.expandable ? br(u.value, {
         childrenKey: a.childrenKey,
         resolveRowKey: m,
-        isRowSelectable: R
+        isRowSelectable: E
       }) : u.value.map((U, Y) => ({
         row: U,
         key: m(U, Y),
@@ -13887,45 +17703,49 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         }
       })).filter(({ row: U, context: Y }) => S(U, Y)).map(({ key: U }) => U);
     });
-    function B(R) {
-      const U = String(R);
+    function B(E) {
+      const U = String(E);
       return a.selectedKeys.some((Y) => String(Y) === U);
     }
     const L = C(() => !a.selectable || D.value.length === 0 ? !1 : D.value.every(
-      (R) => a.selectedKeys.some((U) => String(U) === String(R))
+      (E) => a.selectedKeys.some((U) => String(U) === String(E))
     )), j = C(() => {
       if (!a.selectable || D.value.length === 0) return !1;
-      const R = D.value.filter(
+      const E = D.value.filter(
         (U) => a.selectedKeys.some((Y) => String(Y) === String(U))
       );
-      return R.length > 0 && R.length < D.value.length;
+      return E.length > 0 && E.length < D.value.length;
     });
     Ie(
       [j, L, () => a.selectable],
       async () => {
         await et();
-        const R = o.value;
-        R && (R.indeterminate = j.value && !L.value);
+        const E = o.value;
+        E && (E.indeterminate = j.value && !L.value);
       },
       { immediate: !0 }
     );
     function W() {
       if (a.selectable)
         if (L.value) {
-          const R = new Set(
+          const E = new Set(
             D.value.map((Y) => String(Y))
           ), U = a.selectedKeys.filter(
-            (Y) => !R.has(String(Y))
+            (Y) => !E.has(String(Y))
           );
           n("update:selectedKeys", U);
         } else {
-          const R = new Set(a.selectedKeys.map((U) => String(U)));
-          D.value.forEach((U) => R.add(String(U))), n("update:selectedKeys", [...R]);
+          const E = new Set(a.selectedKeys.map((U) => String(U)));
+          D.value.forEach((U) => E.add(String(U))), n("update:selectedKeys", [...E]);
         }
     }
-    function X(R) {
+    function X(E) {
       if (!a.selectable) return;
+<<<<<<< HEAD
       const U = String(R), Y = g.value.find((oe) => String(oe.key) === U);
+=======
+      const U = String(E), Y = f.value.find((oe) => String(oe.key) === U);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (Y && !M(Y) || !Y && !D.value.some((oe) => String(oe) === U))
         return;
       a.selectedKeys.some((oe) => String(oe) === U) ? n(
@@ -13933,20 +17753,30 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         a.selectedKeys.filter((oe) => String(oe) !== U)
       ) : n("update:selectedKeys", [...a.selectedKeys, U]);
     }
-    function se(R) {
-      return `${a.ariaLabelSelectRow} ${R}`;
+    function se(E) {
+      return `${a.ariaLabelSelectRow} ${E}`;
     }
+<<<<<<< HEAD
     function ce(R) {
       n("sort", R);
+=======
+    function de(E) {
+      n("sort", E);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
-    function G(R) {
-      return a.sortKey === R && a.sortDirection != null;
+    function G(E) {
+      return a.sortKey === E && a.sortDirection != null;
     }
-    function te(R) {
-      return G(R) ? a.sortDirection === "asc" ? "ascending" : "descending" : "none";
+    function te(E) {
+      return G(E) ? a.sortDirection === "asc" ? "ascending" : "descending" : "none";
     }
+<<<<<<< HEAD
     return (R, U) => (f(), x("div", iv, [
       d("div", lv, [
+=======
+    return (E, U) => (g(), x("div", sv, [
+      d("div", iv, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("table", {
           class: K([
             "kiut-table w-full min-w-[640px] overflow-hidden border-collapse text-left text-sm",
@@ -13954,8 +17784,13 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
           ])
         }, [
           d("thead", null, [
+<<<<<<< HEAD
             d("tr", rv, [
               e.selectable ? (f(), x("th", cv, [
+=======
+            d("tr", lv, [
+              e.selectable ? (g(), x("th", rv, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("input", {
                   ref_key: "selectAllRef",
                   ref: o,
@@ -13964,9 +17799,15 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                   checked: L.value,
                   "aria-label": e.ariaLabelSelectAll,
                   onChange: W
+<<<<<<< HEAD
                 }, null, 40, dv)
               ])) : I("", !0),
               (f(!0), x(ie, null, pe(e.columns, (Y) => (f(), x("th", {
+=======
+                }, null, 40, cv)
+              ])) : I("", !0),
+              (g(!0), x(ie, null, pe(e.columns, (Y) => (g(), x("th", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: Y.key,
                 scope: "col",
                 class: K([
@@ -13984,37 +17825,62 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                   onClick: (O) => ce(Y.key)
                 }, [
                   d("span", null, T(Y.label), 1),
+<<<<<<< HEAD
                   d("span", hv, [
                     G(Y.key) ? (f(), x(ie, { key: 0 }, [
                       e.sortDirection === "asc" ? (f(), x("span", fv, "↑")) : e.sortDirection === "desc" ? (f(), x("span", gv, "↓")) : I("", !0)
                     ], 64)) : (f(), x(ie, { key: 1 }, [
+=======
+                  d("span", uv, [
+                    G(Y.key) ? (g(), x(ie, { key: 0 }, [
+                      e.sortDirection === "asc" ? (g(), x("span", hv, "↑")) : e.sortDirection === "desc" ? (g(), x("span", fv, "↓")) : I("", !0)
+                    ], 64)) : (g(), x(ie, { key: 1 }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       U[0] || (U[0] = d("span", { class: "kiut-table-sort-arrow kiut-table-sort-arrow--muted" }, "↑", -1)),
                       U[1] || (U[1] = d("span", { class: "kiut-table-sort-arrow kiut-table-sort-arrow--muted" }, "↓", -1))
                     ], 64))
                   ])
+<<<<<<< HEAD
                 ], 10, uv)) : (f(), x(ie, { key: 1 }, [
                   Re(T(Y.label), 1)
+=======
+                ], 10, dv)) : (g(), x(ie, { key: 1 }, [
+                  Ee(T(Y.label), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ], 64))
               ], 2))), 128))
             ])
           ]),
           d("tbody", null, [
+<<<<<<< HEAD
             (f(!0), x(ie, null, pe(g.value, (Y) => (f(), x("tr", {
+=======
+            (g(!0), x(ie, null, pe(f.value, (Y) => (g(), x("tr", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: Y.key,
               class: K([
                 "kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]",
                 Y.depth > 0 ? "kiut-table-row--child dark:bg-[#1a1a22]" : ""
               ])
             }, [
+<<<<<<< HEAD
               e.selectable ? (f(), x("td", mv, [
                 M(Y) ? (f(), x("input", {
+=======
+              e.selectable ? (g(), x("td", gv, [
+                M(Y) ? (g(), x("input", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 0,
                   type: "checkbox",
                   class: "kiut-table-checkbox",
                   checked: B(Y.key),
                   "aria-label": se(Y.key),
                   onChange: (O) => X(Y.key)
+<<<<<<< HEAD
                 }, null, 40, pv)) : P(Y) ? (f(), x("button", {
+=======
+                }, null, 40, mv)) : P(Y) ? (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 1,
                   type: "button",
                   class: "kiut-table-expand-btn shrink-0",
@@ -14023,12 +17889,21 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                   onClick: Fe((O) => _(Y), ["stop"])
                 }, [
                   V(A(ha), {
+<<<<<<< HEAD
                     class: K(["icon_chevron h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !Y.isExpanded }]),
                     "aria-hidden": "true"
                   }, null, 8, ["class"])
                 ], 8, bv)) : I("", !0)
               ])) : I("", !0),
               (f(!0), x(ie, null, pe(e.columns, (O) => (f(), x("td", {
+=======
+                    class: K(["h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !Y.isExpanded }]),
+                    "aria-hidden": "true"
+                  }, null, 8, ["class"])
+                ], 8, pv)) : I("", !0)
+              ])) : I("", !0),
+              (g(!0), x(ie, null, pe(e.columns, (O) => (g(), x("td", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: O.key,
                 class: K([
                   "kiut-table-body-cell bg-transparent py-0 align-middle text-[color:var(--kiut-text-secondary)]",
@@ -14042,14 +17917,18 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                   class: "flex min-w-0 items-start gap-1",
                   style: Ae({ paddingLeft: `${Y.depth * 1.25}rem` })
                 }, [
-                  De(R.$slots, "row-expand", {
+                  De(E.$slots, "row-expand", {
                     row: Y.row,
                     expanded: Y.isExpanded,
                     hasChildren: Y.hasChildren,
                     depth: Y.depth,
                     toggle: () => _(Y)
                   }, () => [
+<<<<<<< HEAD
                     E(Y) ? (f(), x("button", {
+=======
+                    R(Y) ? (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: 0,
                       type: "button",
                       class: "kiut-table-expand-btn shrink-0",
@@ -14058,6 +17937,7 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                       onClick: Fe((oe) => _(Y), ["stop"])
                     }, [
                       V(A(ha), {
+<<<<<<< HEAD
                         class: K(["icon_chevron h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !Y.isExpanded }]),
                         "aria-hidden": "true"
                       }, null, 8, ["class"])
@@ -14066,13 +17946,27 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                   d("div", xv, [
                     De(R.$slots, h(O.key), It({ ref_for: !0 }, k(Y, O)), () => [
                       Re(T(b(v(Y.row, O.key))), 1)
+=======
+                        class: K(["h-5 w-5 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !Y.isExpanded }]),
+                        "aria-hidden": "true"
+                      }, null, 8, ["class"])
+                    ], 8, bv)) : N(Y) ? (g(), x("span", vv)) : I("", !0)
+                  ], !0),
+                  d("div", yv, [
+                    De(E.$slots, h(O.key), It({ ref_for: !0 }, k(Y, O)), () => [
+                      Ee(T(p(v(Y.row, O.key))), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     ], !0)
                   ])
-                ], 4)) : De(R.$slots, h(O.key), It({
+                ], 4)) : De(E.$slots, h(O.key), It({
                   key: 1,
                   ref_for: !0
                 }, k(Y, O)), () => [
+<<<<<<< HEAD
                   Re(T(b(v(Y.row, O.key))), 1)
+=======
+                  Ee(T(p(v(Y.row, O.key))), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ], !0)
               ], 2))), 128))
             ], 2))), 128))
@@ -14081,7 +17975,11 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
+<<<<<<< HEAD
 }), vr = /* @__PURE__ */ xe(kv, [["__scopeId", "data-v-acaef401"]]), _v = { class: "error-reasons-table-wrap table-section" }, wv = { class: "metric-cell" }, Cv = { class: "metric-cell" }, Bo = 5, $v = /* @__PURE__ */ de({
+=======
+}), vr = /* @__PURE__ */ xe(xv, [["__scopeId", "data-v-b3104817"]]), kv = { class: "error-reasons-table-wrap table-section" }, _v = { class: "metric-cell" }, wv = { class: "metric-cell" }, Bo = 5, Cv = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ErrorReasonsTable",
   props: {
     rows: {}
@@ -14116,8 +18014,13 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         n.value = !1, o.value = [];
       }
     );
+<<<<<<< HEAD
     const s = C(() => t.rows.length), i = C(() => s.value > Bo), l = C(() => Math.max(0, s.value - Bo)), r = C(() => n.value || !i.value ? t.rows : t.rows.slice(0, Bo)), c = (g) => g.toLocaleString(), u = (g) => `${g.toFixed(1)}%`;
     return (g, h) => (f(), x("div", _v, [
+=======
+    const s = C(() => t.rows.length), i = C(() => s.value > Bo), l = C(() => Math.max(0, s.value - Bo)), r = C(() => n.value || !i.value ? t.rows : t.rows.slice(0, Bo)), c = (f) => f.toLocaleString(), u = (f) => `${f.toFixed(1)}%`;
+    return (f, h) => (g(), x("div", kv, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       V(vr, {
         columns: a,
         rows: r.value,
@@ -14136,11 +18039,19 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
             ])
           }, T(p.category_label), 3)
         ]),
+<<<<<<< HEAD
         "cell-error_count": F(({ row: p }) => [
           d("span", wv, T(c(Number(p.error_count))), 1)
         ]),
         "cell-percentage": F(({ row: p }) => [
           d("span", Cv, T(u(Number(p.percentage))), 1)
+=======
+        "cell-error_count": F(({ row: b }) => [
+          d("span", _v, T(c(Number(b.error_count))), 1)
+        ]),
+        "cell-percentage": F(({ row: b }) => [
+          d("span", wv, T(u(Number(b.percentage))), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ]),
         _: 1
       }, 8, ["rows", "expanded-keys"]),
@@ -14150,8 +18061,13 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         class: "view-more-btn",
         onClick: h[1] || (h[1] = (p) => n.value = !n.value)
       }, [
+<<<<<<< HEAD
         Re(T(n.value ? "View less" : `View more (${l.value} rows)`) + " ", 1),
         (f(), x("svg", {
+=======
+        Ee(T(n.value ? "View less" : `View more (${l.value} rows)`) + " ", 1),
+        (g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           class: K(["view-more-icon", { "view-more-icon-rotated": n.value }]),
           fill: "none",
           viewBox: "0 0 24 24",
@@ -14168,15 +18084,23 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), Gi = /* @__PURE__ */ xe($v, [["__scopeId", "data-v-131a2f3e"]]), Sv = { class: "stage-select flex items-start justify-end gap-3" }, Mv = { class: "card-body" }, Dv = {
   key: 0,
   class: "error-reasons-content"
 }, Tv = { class: "total-summary" }, Av = { class: "total-summary__value" }, Bv = { class: "total-summary__value" }, Lv = { class: "total-summary__value" }, Pv = { class: "section-title" }, Rv = {
+=======
+}), Gi = /* @__PURE__ */ xe(Cv, [["__scopeId", "data-v-0332587f"]]), $v = { class: "stage-select flex justify-end" }, Sv = { class: "card-body" }, Mv = {
+  key: 0,
+  class: "error-reasons-content"
+}, Dv = { class: "total-summary" }, Tv = { class: "total-summary__value" }, Av = { class: "total-summary__value" }, Bv = { class: "total-summary__value" }, Lv = { class: "section-title" }, Pv = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 0,
   class: "section-subtitle"
 }, Ev = {
   key: 2,
   class: "section-empty"
+<<<<<<< HEAD
 }, Iv = {
   key: 1,
   class: "table-section"
@@ -14184,6 +18108,15 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
   key: 1,
   class: "empty-state"
 }, Ov = { class: "empty-state-content" }, Vv = { class: "empty-icon-wrapper" }, Nv = /* @__PURE__ */ de({
+=======
+}, Rv = {
+  key: 1,
+  class: "table-section"
+}, Iv = {
+  key: 1,
+  class: "empty-state"
+}, Fv = { class: "empty-state-content" }, Ov = { class: "empty-icon-wrapper" }, Vv = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CheckinErrorReasons",
   props: {
     initiallyOpen: { type: Boolean, default: !1 },
@@ -14253,7 +18186,11 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       loading: e.loading
     }, {
       headerAside: F(() => [
+<<<<<<< HEAD
         d("div", Sv, [
+=======
+        d("div", $v, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           V(Zt, {
             "model-value": e.stage,
             options: s,
@@ -14270,6 +18207,7 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         ])
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", Mv, [
           b.value ? (f(), x("div", Dv, [
             d("p", Tv, [
@@ -14296,14 +18234,49 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
               }, null, 8, ["rows"])) : (f(), x("p", Ev, "No errors in this cohort."))
             ]))), 128)) : (f(), x("section", Iv, [
               m.value.length > 0 ? (f(), Z(Gi, {
+=======
+        d("div", Sv, [
+          v.value ? (g(), x("div", Mv, [
+            d("p", Dv, [
+              y[4] || (y[4] = Ee(" Total errors: ", -1)),
+              d("span", Tv, T(s(c.value)), 1),
+              r.value ? (g(), x(ie, { key: 0 }, [
+                y[0] || (y[0] = d("span", { class: "total-summary__divider" }, "·", -1)),
+                y[1] || (y[1] = Ee(" Unrecovered: ", -1)),
+                d("span", Av, T(s(u.value)), 1),
+                y[2] || (y[2] = d("span", { class: "total-summary__divider" }, "·", -1)),
+                y[3] || (y[3] = Ee(" BP not issued: ", -1)),
+                d("span", Bv, T(s(f.value)), 1)
+              ], 64)) : I("", !0)
+            ]),
+            r.value ? (g(!0), x(ie, { key: 0 }, pe(m.value, (w) => (g(), x("section", {
+              key: w.key,
+              class: "table-section error-reasons-section"
+            }, [
+              d("h4", Lv, T(w.title), 1),
+              w.subtitle ? (g(), x("p", Pv, T(w.subtitle), 1)) : I("", !0),
+              w.rows.length > 0 ? (g(), Z(Gi, {
+                key: 1,
+                rows: w.rows
+              }, null, 8, ["rows"])) : (g(), x("p", Ev, "No errors in this cohort."))
+            ]))), 128)) : (g(), x("section", Rv, [
+              b.value.length > 0 ? (g(), Z(Gi, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: 0,
                 rows: m.value
               }, null, 8, ["rows"])) : I("", !0)
             ]))
+<<<<<<< HEAD
           ])) : (f(), x("div", Fv, [
             d("div", Ov, [
               d("div", Vv, [
                 V(A(y0), { class: "empty-icon" })
+=======
+          ])) : (g(), x("div", Iv, [
+            d("div", Fv, [
+              d("div", Ov, [
+                V(A(v0), { class: "empty-icon" })
+>>>>>>> 8a6bd9f (Sales Volume chart)
               ]),
               w[5] || (w[5] = d("p", { class: "empty-title" }, "No error reasons for this stage", -1)),
               w[6] || (w[6] = d("p", { class: "empty-description" }, " Try another stage or adjust the date range to see terminal check-in failures. ", -1))
@@ -14314,7 +18287,11 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       _: 1
     }, 8, ["collapsible", "default-open", "loading"]));
   }
+<<<<<<< HEAD
 }), yr = /* @__PURE__ */ xe(Nv, [["__scopeId", "data-v-4c63666c"]]), zv = ["aria-label", "aria-expanded"], zn = 8, za = 12, Xi = /* @__PURE__ */ de({
+=======
+}), Nv = /* @__PURE__ */ xe(Vv, [["__scopeId", "data-v-a0beb33a"]]), zv = ["aria-label", "aria-expanded"], zn = 8, za = 12, Xi = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CardMetricInfo",
   props: {
     title: {},
@@ -14332,10 +18309,17 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       a.value = !1;
     }
     function r() {
+<<<<<<< HEAD
       const h = o.value, p = s.value;
       if (!h || !p) return;
       const m = h.getBoundingClientRect(), v = p.getBoundingClientRect(), b = m.top - za, y = window.innerHeight - m.bottom - za, w = b >= v.height + zn;
       let $ = y >= v.height + zn || !w && y >= b ? m.bottom + zn : m.top - v.height - zn;
+=======
+      const h = o.value, b = s.value;
+      if (!h || !b) return;
+      const m = h.getBoundingClientRect(), v = b.getBoundingClientRect(), p = m.top - za, y = window.innerHeight - m.bottom - za, w = p >= v.height + zn;
+      let $ = y >= v.height + zn || !w && y >= p ? m.bottom + zn : m.top - v.height - zn;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       $ = Math.max(
         za,
         Math.min($, window.innerHeight - v.height - za)
@@ -14361,9 +18345,15 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
     function g(h) {
       h.key === "Escape" && l();
     }
+<<<<<<< HEAD
     return window.addEventListener("scroll", u, !0), window.addEventListener("resize", u), window.addEventListener("keydown", g), yt(() => {
       window.removeEventListener("scroll", u, !0), window.removeEventListener("resize", u), window.removeEventListener("keydown", g);
     }), (h, p) => (f(), x(ie, null, [
+=======
+    return window.addEventListener("scroll", u, !0), window.addEventListener("resize", u), window.addEventListener("keydown", f), yt(() => {
+      window.removeEventListener("scroll", u, !0), window.removeEventListener("resize", u), window.removeEventListener("keydown", f);
+    }), (h, b) => (g(), x(ie, null, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       d("button", {
         ref_key: "triggerRef",
         ref: o,
@@ -14376,10 +18366,17 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
         onFocus: c,
         onBlur: l
       }, [
+<<<<<<< HEAD
         V(A(v0), { class: "w-2.5 h-2.5 text-gray-600 dark:text-gray-200 hover:#5d4b93" })
       ], 42, zv),
       (f(), Z(ua, { to: "body" }, [
         a.value ? (f(), x("div", {
+=======
+        V(A(b0), { class: "w-2.5 h-2.5 text-gray-600 dark:text-gray-200 hover:#5d4b93" })
+      ], 42, zv),
+      (g(), Z(ua, { to: "body" }, [
+        a.value ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           ref_key: "tooltipRef",
           ref: s,
@@ -14442,7 +18439,11 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
 }, ay = { class: "metric-value" }, ny = {
   key: 0,
   class: "metric-label metric-label--row"
+<<<<<<< HEAD
 }, oy = /* @__PURE__ */ de({
+=======
+}, oy = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CardMetric",
   props: {
     label: {},
@@ -14486,6 +18487,7 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
           mode: "out-in"
         }, {
           default: F(() => [
+<<<<<<< HEAD
             e.loading ? (f(), x("div", jv, [
               h[0] || (h[0] = d("div", { class: "ut-skeleton-blink skeleton-icon" }, null, -1)),
               o.value ? (f(), x("div", Hv)) : I("", !0)
@@ -14496,6 +18498,18 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
               o.value ? (f(), x("span", Uv, [
                 d("span", Yv, T(e.label), 1),
                 s.value ? (f(), Z(Xi, {
+=======
+            e.loading ? (g(), x("div", jv, [
+              h[0] || (h[0] = d("div", { class: "ut-skeleton-blink skeleton-icon" }, null, -1)),
+              o.value ? (g(), x("div", Hv)) : I("", !0)
+            ])) : (g(), x("div", Wv, [
+              d("div", Kv, [
+                De(f.$slots, "icon", {}, void 0, !0)
+              ]),
+              o.value ? (g(), x("span", Uv, [
+                d("span", Yv, T(e.label), 1),
+                s.value ? (g(), Z(Xi, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 0,
                   title: i.value,
                   text: s.value,
@@ -14513,9 +18527,15 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
           mode: "out-in"
         }, {
           default: F(() => [
+<<<<<<< HEAD
             e.loading ? (f(), x("div", qv)) : (f(), x("div", Gv, [
               De(g.$slots, "headerAside", {}, () => [
                 l.value ? (f(), x("div", {
+=======
+            e.loading ? (g(), x("div", qv)) : (g(), x("div", Gv, [
+              De(f.$slots, "headerAside", {}, () => [
+                l.value ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 0,
                   class: K(["change-badge", u.value])
                 }, T(c.value), 3)) : I("", !0)
@@ -14531,6 +18551,7 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
           mode: "out-in"
         }, {
           default: F(() => [
+<<<<<<< HEAD
             e.loading ? (f(), x("div", Xv, [
               h[1] || (h[1] = d("div", { class: "ut-skeleton-blink skeleton-value" }, null, -1)),
               o.value ? I("", !0) : (f(), x("div", Zv))
@@ -14545,6 +18566,22 @@ const iv = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                 o.value ? I("", !0) : (f(), x("span", ny, [
                   d("span", null, T(e.label), 1),
                   s.value ? (f(), Z(Xi, {
+=======
+            e.loading ? (g(), x("div", Xv, [
+              h[1] || (h[1] = d("div", { class: "ut-skeleton-blink skeleton-value" }, null, -1)),
+              o.value ? I("", !0) : (g(), x("div", Zv))
+            ])) : (g(), x("div", Qv, [
+              d("div", Jv, [
+                De(f.$slots, "value", {}, () => [
+                  d("div", ey, [
+                    e.prefix ? (g(), x("span", ty, T(e.prefix), 1)) : I("", !0),
+                    d("span", ay, T(e.value), 1)
+                  ])
+                ], !0),
+                o.value ? I("", !0) : (g(), x("span", ny, [
+                  d("span", null, T(e.label), 1),
+                  s.value ? (g(), Z(Xi, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     key: 0,
                     title: i.value,
                     text: s.value,
@@ -14597,7 +18634,11 @@ const ry = {
 }, py = { class: "kpi-value-with-count" }, by = { class: "kpi-value-with-count__main" }, vy = {
   key: 0,
   class: "kpi-value-with-count__secondary"
+<<<<<<< HEAD
 }, yy = /* @__PURE__ */ de({
+=======
+}, yy = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CheckinKPI",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -14629,9 +18670,15 @@ const ry = {
     function i(b) {
       return b ? `(${s(b)})` : null;
     }
+<<<<<<< HEAD
     const l = C(() => Lo(a.successRatePct)), r = C(() => i(a.successCount)), c = C(() => Lo(a.errorRatePct)), u = C(() => i(a.errorCount)), g = C(
       () => Zi(a.errorRatePct, a.previousErrorRatePct, !0)
     ), h = C(() => Lo(a.abandonRatePct)), p = C(() => i(a.abandonCount)), m = C(
+=======
+    const l = C(() => Lo(a.successRatePct)), r = C(() => i(a.successCount)), c = C(() => Lo(a.errorRatePct)), u = C(() => i(a.errorCount)), f = C(
+      () => Zi(a.errorRatePct, a.previousErrorRatePct, !0)
+    ), h = C(() => Lo(a.abandonRatePct)), b = C(() => i(a.abandonCount)), m = C(
+>>>>>>> 8a6bd9f (Sales Volume chart)
       () => Zi(a.abandonRatePct, a.previousAbandonRatePct, !0)
     ), v = C(
       () => a.avgCompletionTimeFormatted?.trim() ? a.avgCompletionTimeFormatted : "—"
@@ -14651,7 +18698,11 @@ const ry = {
           "previous-value": e.previousCheckinInitiated
         }, {
           icon: F(() => [
+<<<<<<< HEAD
             V(A(k0), { class: "w-2 h-2" })
+=======
+            V(A(x0), { class: "w-2 h-2" })
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ]),
           _: 1
         }, 8, ["label", "value", "loading", "theme", "current-value", "previous-value"]),
@@ -14665,12 +18716,20 @@ const ry = {
           "previous-value": e.previousSuccessRatePct
         }, {
           icon: F(() => [
+<<<<<<< HEAD
             V(A(m0), { class: "w-2 h-2" })
+=======
+            V(A(g0), { class: "w-2 h-2" })
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ]),
           value: F(() => [
             d("div", dy, [
               d("span", uy, T(l.value), 1),
+<<<<<<< HEAD
               r.value ? (f(), x("span", hy, T(r.value), 1)) : I("", !0)
+=======
+              r.value ? (g(), x("span", hy, T(r.value), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
             ])
           ]),
           _: 1
@@ -14685,12 +18744,20 @@ const ry = {
           "previous-value": null
         }, Un({
           icon: F(() => [
+<<<<<<< HEAD
             V(A($0), { class: "w-1 h-1" })
+=======
+            V(A(C0), { class: "w-1 h-1" })
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ]),
           value: F(() => [
             d("div", fy, [
               d("span", gy, T(c.value), 1),
+<<<<<<< HEAD
               u.value ? (f(), x("span", my, T(u.value), 1)) : I("", !0)
+=======
+              u.value ? (g(), x("span", my, T(u.value), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
             ])
           ]),
           _: 2
@@ -14715,12 +18782,20 @@ const ry = {
           "previous-value": null
         }, Un({
           icon: F(() => [
+<<<<<<< HEAD
             V(A(h0), { class: "w-1 h-1" })
+=======
+            V(A(u0), { class: "w-1 h-1" })
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ]),
           value: F(() => [
             d("div", py, [
               d("span", by, T(h.value), 1),
+<<<<<<< HEAD
               p.value ? (f(), x("span", vy, T(p.value), 1)) : I("", !0)
+=======
+              b.value ? (g(), x("span", vy, T(b.value), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
             ])
           ]),
           _: 2
@@ -14752,13 +18827,21 @@ const ry = {
       ])
     ], 2));
   }
+<<<<<<< HEAD
 }), xr = /* @__PURE__ */ xe(yy, [["__scopeId", "data-v-225c5959"]]), xy = { class: "card-body" }, ky = {
+=======
+}), yr = /* @__PURE__ */ xe(yy, [["__scopeId", "data-v-225c5959"]]), xy = { class: "card-body" }, ky = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 0,
   class: "checkin-segments-daily-section"
 }, _y = { class: "w-full min-w-0" }, wy = { class: "segment-plain" }, Cy = { class: "segment-plain" }, $y = { class: "segment-plain" }, Sy = { class: "percentage-value" }, My = { class: "percentage-value" }, Dy = { class: "percentage-value success" }, Ty = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, Ay = /* @__PURE__ */ de({
+=======
+}, Ay = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "checkinSegments",
   props: {
     data: { default: () => [] },
@@ -14806,7 +18889,11 @@ const ry = {
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -14815,7 +18902,11 @@ const ry = {
       ]),
       default: F(() => [
         d("div", xy, [
+<<<<<<< HEAD
           n.data.length > 0 ? (f(), x("section", ky, [
+=======
+          n.data.length > 0 ? (g(), x("section", ky, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", _y, [
               V(Ot, {
                 columns: l,
@@ -14837,10 +18928,14 @@ const ry = {
                   d("span", Cy, T(u(m.arrival_airport)), 1)
                 ]),
                 "cell-trip": F(({ row: m }) => [
+<<<<<<< HEAD
                   d("span", $y, T(g(m) ? "Roundtrip" : "One way"), 1)
+=======
+                  d("span", $y, T(f(m) ? "Roundtrip" : "One way"), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 "cell-init": F(({ row: m }) => [
-                  Re(T(A(me)(m.segment_init_count)), 1)
+                  Ee(T(A(me)(m.segment_init_count)), 1)
                 ]),
                 "cell-started": F(({ row: m }) => [
                   d("span", Sy, T(c(
@@ -14863,7 +18958,11 @@ const ry = {
                 _: 1
               }, 8, ["rows"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", Ty, [...p[0] || (p[0] = [
+=======
+          ])) : (g(), x("section", Ty, [...b[0] || (b[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -14889,7 +18988,11 @@ const ry = {
       _: 1
     }, 8, ["collapsible", "default-open", "loading"]));
   }
+<<<<<<< HEAD
 }), kr = /* @__PURE__ */ xe(Ay, [["__scopeId", "data-v-9a9d7a34"]]);
+=======
+}), xr = /* @__PURE__ */ xe(Ay, [["__scopeId", "data-v-9a9d7a34"]]);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function Po(e, t) {
   return t ? e / t * 100 : 0;
 }
@@ -14927,10 +19030,17 @@ function By(e, t) {
 const Ly = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Py = {
   key: 0,
   class: "flex w-full shrink-0 flex-col"
+<<<<<<< HEAD
 }, Ry = { class: "chart-line-area flex h-[280px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, Ey = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
 }, Iy = { class: "max-w-[360px] px-4 text-center" }, Fy = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, Oy = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, _r = /* @__PURE__ */ de({
+=======
+}, Ey = { class: "chart-line-area flex h-[280px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, Ry = {
+  key: 1,
+  class: "flex min-h-[280px] flex-1 items-center justify-center"
+}, Iy = { class: "max-w-[360px] px-4 text-center" }, Fy = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, Oy = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, kr = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CheckinVolume",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -14953,9 +19063,15 @@ const Ly = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       { key: "abandoned", label: "Abandoned", color: "#F97316" },
       { key: "errors", label: "Errors", color: "#EF4444" }
     ];
+<<<<<<< HEAD
     function o(b) {
       const [y, w, k] = b.split("-").map(Number);
       return y && w && k ? Ye([y, w - 1, k]).format("MMM D") : Ye(b).format("MMM D");
+=======
+    function o(p) {
+      const [y, w, k] = p.split("-").map(Number);
+      return y && w && k ? je([y, w - 1, k]).format("MMM D") : je(p).format("MMM D");
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function s(b, y) {
       const w = y?.unrecovered_by_day?.find((_) => _.date === b);
@@ -14991,9 +19107,15 @@ const Ly = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       plugins: {
         tooltip: {
           callbacks: {
+<<<<<<< HEAD
             label: (b) => {
               const y = b.dataset.label || "", w = b.parsed.y ?? 0, k = m.value[b.dataIndex] ?? 0;
               return `${y}: ${Se(w, k)}`;
+=======
+            label: (p) => {
+              const y = p.dataset.label || "", w = p.parsed.y ?? 0, k = m.value[p.dataIndex] ?? 0;
+              return `${y}: ${$e(w, k)}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
             }
           }
         }
@@ -15007,7 +19129,11 @@ const Ly = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       loading: l.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !l.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !l.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -15016,16 +19142,27 @@ const Ly = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       ]),
       default: F(() => [
         d("div", Ly, [
+<<<<<<< HEAD
           p.value.labels.length ? (f(), x("section", Py, [
             d("div", Ry, [
               V(Ct, {
                 data: p.value,
+=======
+          b.value.labels.length ? (g(), x("section", Py, [
+            d("div", Ey, [
+              V(xt, {
+                data: b.value,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 options: v.value,
                 theme: u.value,
                 "area-gradient": ""
               }, null, 8, ["data", "options", "theme"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", Ey, [
+=======
+          ])) : (g(), x("section", Ry, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", Iy, [
               y[0] || (y[0] = d("div", { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(59,130,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(59,130,246,0.15))]" }, [
                 d("svg", {
@@ -15064,7 +19201,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
 }, zy = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, jy = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, Hy = { class: "max-w-[360px] px-4 text-center" }, Wy = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, Ky = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, Uy = "#8b5cf6", Yy = /* @__PURE__ */ de({
+=======
+}, Hy = { class: "max-w-[360px] px-4 text-center" }, Wy = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, Ky = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, Uy = "#8b5cf6", Yy = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CheckinCompletionTime",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -15090,8 +19231,13 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         r.value = { labels: [], datasets: [] }, c.value = [];
         return;
       }
+<<<<<<< HEAD
       c.value = b.map((y) => v[y] ?? null), r.value = {
         labels: b.map((y) => Ye(y).format("MMM DD")),
+=======
+      c.value = p.map((y) => v[y] ?? null), r.value = {
+        labels: p.map((y) => je(y).format("MMM DD")),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         datasets: [
           {
             label: "Avg completion time",
@@ -15117,8 +19263,13 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         tooltip: {
           callbacks: {
             label: (m) => {
+<<<<<<< HEAD
               const v = m.dataset.label || "", b = c.value[m.dataIndex];
               return b == null ? `${v}: -` : `${v}: ${to(b)}`;
+=======
+              const v = m.dataset.label || "", p = c.value[m.dataIndex];
+              return p == null ? `${v}: -` : `${v}: ${to(p)}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
             }
           }
         }
@@ -15138,7 +19289,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       loading: n.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -15147,15 +19302,25 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       ]),
       default: F(() => [
         d("div", Vy, [
+<<<<<<< HEAD
           r.value.labels.length && r.value.datasets.length ? (f(), x("section", Ny, [
             d("div", zy, [
               V(Ct, {
+=======
+          r.value.labels.length && r.value.datasets.length ? (g(), x("section", Ny, [
+            d("div", zy, [
+              V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 data: r.value,
                 options: p.value,
                 theme: i.value
               }, null, 8, ["data", "options", "theme"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", jy, [
+=======
+          ])) : (g(), x("section", jy, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", Hy, [
               d("p", Wy, T(n.emptyTitle), 1),
               d("p", Ky, T(n.emptyDescription), 1)
@@ -15166,10 +19331,14 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["title", "subtitle", "loading"]));
   }
+<<<<<<< HEAD
 }), wr = /* @__PURE__ */ xe(Yy, [["__scopeId", "data-v-0f3a8dac"]]), qy = { class: "checkin-container__body" }, Gy = { class: "checkin-container__split-cell flex min-h-0 min-w-0 flex-col" }, Xy = {
   key: 0,
   class: "checkin-container__split-cell flex min-h-0 min-w-0 flex-col"
 }, Zy = /* @__PURE__ */ de({
+=======
+}), _r = /* @__PURE__ */ xe(Yy, [["__scopeId", "data-v-0f3a8dac"]]), qy = { class: "checkin-container__body" }, Gy = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CheckinContainer",
   props: {
     containerInitiallyOpen: { type: Boolean, default: !1 },
@@ -15210,6 +19379,7 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       () => a.loading ? !1 : a.checkinLoading
     ), i = C(
       () => a.loading ? !1 : a.segmentsLoading
+<<<<<<< HEAD
     ), l = C(
       () => a.loading ? !1 : a.errorReasonsLoading
     ), r = C(() => {
@@ -15217,11 +19387,22 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         a.checkinData,
         a.checkinFailedData
       ), p = Qi(
+=======
+    ), l = C(() => {
+      const f = Qi(
+        a.checkinData,
+        a.checkinFailedData
+      ), h = Qi(
+>>>>>>> 8a6bd9f (Sales Volume chart)
         a.previousCheckinData,
         a.previousCheckinFailedData
       );
       return {
+<<<<<<< HEAD
         ...By(h, p),
+=======
+        ...By(f, h),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ...a.kpiProps,
         labels: {
           ...a.kpiProps?.labels,
@@ -15253,11 +19434,19 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
     }, {
       default: F(() => [
         d("div", qy, [
+<<<<<<< HEAD
           e.showKpi ? (f(), Z(xr, It({ key: 0 }, r.value, {
             loading: o.value,
             theme: e.theme
           }), null, 16, ["loading", "theme"])) : I("", !0),
           e.showCheckin ? (f(), Z(gr, {
+=======
+          e.showKpi ? (g(), Z(yr, It({ key: 0 }, l.value, {
+            loading: o.value,
+            theme: e.theme
+          }), null, 16, ["loading", "theme"])) : I("", !0),
+          e.showCheckin ? (g(), Z(gr, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 1,
             class: "w-full min-h-0",
             collapsible: !1,
@@ -15270,6 +19459,7 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
             "is-avianca": e.showPaymentLinks,
             onExport: p[0] || (p[0] = (m) => c("checkin", m))
           }, null, 8, ["initially-open", "loading", "checkin-data", "failed-data", "enable-export", "export-loading", "is-avianca"])) : I("", !0),
+<<<<<<< HEAD
           d("div", {
             class: K(["checkin-container__split grid grid-cols-1 items-stretch gap-6", { "lg:grid-cols-2": e.showErrorReasons }])
           }, [
@@ -15301,6 +19491,9 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
             ])) : I("", !0)
           ], 2),
           e.showSegments ? (f(), Z(kr, {
+=======
+          e.showSegments ? (g(), Z(xr, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 2,
             class: "w-full min-h-0",
             collapsible: !1,
@@ -15312,7 +19505,21 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
             "export-loading": e.exportLoading,
             onExport: g
           }, null, 8, ["initially-open", "loading", "data", "theme", "enable-export", "export-loading"])) : I("", !0),
+<<<<<<< HEAD
           V(wr, {
+=======
+          V(kr, {
+            class: "w-full min-h-0",
+            loading: s.value,
+            "checkin-data": e.checkinData,
+            "failed-data": e.checkinFailedData,
+            theme: e.theme,
+            "enable-export": e.enableExport,
+            "export-loading": e.exportLoading,
+            onExport: h[1] || (h[1] = (b) => r("checkinVolume", b))
+          }, null, 8, ["loading", "checkin-data", "failed-data", "theme", "enable-export", "export-loading"]),
+          V(_r, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             class: "w-full min-h-0",
             loading: s.value,
             data: e.completionTimeData,
@@ -15330,16 +19537,24 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["default-open", "loading"]));
   }
+<<<<<<< HEAD
 }), Qy = /* @__PURE__ */ xe(Zy, [["__scopeId", "data-v-50cdad9f"]]), Jy = { class: "card-body" }, e1 = { class: "chart-section" }, t1 = { class: "chart-wrapper" }, a1 = {
+=======
+}), Xy = /* @__PURE__ */ xe(Gy, [["__scopeId", "data-v-4fa5bfef"]]), Zy = { class: "card-body" }, Qy = { class: "chart-section" }, Jy = { class: "chart-wrapper" }, e1 = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 1,
   class: "empty-chart"
-}, n1 = { class: "payment-success-summary" }, o1 = {
+}, t1 = { class: "payment-success-summary" }, a1 = {
   key: 0,
   class: "disruption-daily-section"
-}, s1 = { class: "w-full min-w-0" }, i1 = { class: "font-medium text-center" }, l1 = { class: "text-center" }, r1 = { class: "text-center" }, c1 = { class: "percentage-text" }, d1 = { class: "text-center" }, u1 = { class: "abandoned-value" }, h1 = { class: "badges-container badges-wrap" }, f1 = { class: "badges-container badges-wrap" }, g1 = {
+}, n1 = { class: "w-full min-w-0" }, o1 = { class: "font-medium text-center" }, s1 = { class: "text-center" }, i1 = { class: "text-center" }, l1 = { class: "percentage-text" }, r1 = { class: "text-center" }, c1 = { class: "abandoned-value" }, d1 = { class: "badges-container badges-wrap" }, u1 = { class: "badges-container badges-wrap" }, h1 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, m1 = /* @__PURE__ */ de({
+=======
+}, f1 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "Disruption",
   props: {
     data: { default: () => ({
@@ -15381,6 +19596,7 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         ...b
       }))
     ), c = C(() => n.data?.total_payment_success || []), u = C(() => {
+<<<<<<< HEAD
       const b = c.value;
       return b.length === 0 ? h(0) : b.map((y) => `${y.currency} ${h(y.total_value)}`).join(" · ");
     }), g = (b, y) => oa(b, y), h = (b) => Ke(b), p = (b) => (b ?? []).reduce((y, w) => y + (w.count ?? 0), 0), m = (b) => typeof b.sell_success_count == "number" ? b.sell_success_count : p(b.payment_success_total), v = C(() => {
@@ -15388,6 +19604,15 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         0,
         w - k - _
       ), D = Math.max(0, _ - $), B = Math.max(0, k - S), L = P, j = Math.max(0, S - M - L), W = (ce, G) => Se(ce, G), X = [
+=======
+      const p = c.value;
+      return p.length === 0 ? h(0) : p.map((y) => `${y.currency} ${h(y.total_value)}`).join(" · ");
+    }), f = (p, y) => oa(p, y), h = (p) => Ue(p), b = (p) => (p ?? []).reduce((y, w) => y + (w.count ?? 0), 0), m = (p) => typeof p.sell_success_count == "number" ? p.sell_success_count : b(p.payment_success_total), v = C(() => {
+      const p = n.data, y = p.total_disruption_conversations || 0, w = p.total_disruption_initiated || 0, k = p.total_voluntary || 0, _ = p.total_involuntary || 0, $ = p.total_accepted || 0, S = p.total_confirmed || 0, M = typeof p.total_sell_success == "number" ? p.total_sell_success : b(p.total_payment_success), P = p.total_sell_failed || 0, R = Math.max(0, y - w), N = Math.max(
+        0,
+        w - k - _
+      ), D = Math.max(0, _ - $), B = Math.max(0, k - S), L = P, j = Math.max(0, S - M - L), W = (de, G) => $e(de, G), X = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         { name: "Initiated by agent", status: "success" },
         { name: "Disruption started", status: "success" },
         { name: "Voluntary", status: "success" },
@@ -15407,11 +19632,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         target: "Disruption started",
         value: w,
         label: W(w, y)
-      }), E > 0 && se.push({
+      }), R > 0 && se.push({
         source: "Initiated by agent",
         target: "Abandoned: No Response",
-        value: E,
-        label: W(E, y)
+        value: R,
+        label: W(R, y)
       }), k > 0 && se.push({
         source: "Disruption started",
         target: "Voluntary",
@@ -15473,7 +19698,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       onOpen: y[0] || (y[0] = (w) => o("open"))
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -15481,32 +19710,47 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", Jy, [
           d("section", e1, [
             d("div", t1, [
               v.value.nodes.length > 0 && v.value.links.length > 0 ? (f(), Z(ga, {
+=======
+        d("div", Zy, [
+          d("section", Qy, [
+            d("div", Jy, [
+              v.value.nodes.length > 0 && v.value.links.length > 0 ? (g(), Z(ga, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: 0,
                 data: v.value,
                 height: "400px",
                 "use-gradient": !1,
                 "node-gap": 16
+<<<<<<< HEAD
               }, null, 8, ["data"])) : (f(), x("div", a1, [...y[1] || (y[1] = [
+=======
+              }, null, 8, ["data"])) : (g(), x("div", e1, [...y[1] || (y[1] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("p", { class: "empty-chart-text" }, " No disruption data available for visualization ", -1)
               ])]))
             ])
           ]),
-          d("section", n1, [
-            V($e, {
+          d("section", t1, [
+            V(Se, {
               color: "#22c55e",
               title: "Payment Success Value",
               value: u.value
             }, null, 8, ["value"])
           ]),
+<<<<<<< HEAD
           i.value && i.value.length > 0 ? (f(), x("section", o1, [
+=======
+          i.value && i.value.length > 0 ? (g(), x("section", a1, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             y[2] || (y[2] = d("div", { class: "section-header" }, [
               d("h4", { class: "section-title" }, "Daily Overview")
             ], -1)),
-            d("div", s1, [
+            d("div", n1, [
               V(Ot, {
                 columns: l,
                 rows: r.value,
@@ -15514,23 +19758,29 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                 "row-key": "id"
               }, {
                 "cell-date": F(({ row: w }) => [
-                  d("span", i1, T(A(Ye)(String(w.date)).format("MMM DD")), 1)
+                  d("span", o1, T(A(je)(String(w.date)).format("MMM DD")), 1)
                 ]),
                 "cell-initiated": F(({ row: w }) => [
-                  d("span", l1, T(A(me)(Number(w.disruption_conversations))), 1)
+                  d("span", s1, T(A(me)(Number(w.disruption_conversations))), 1)
                 ]),
                 "cell-started": F(({ row: w }) => [
+<<<<<<< HEAD
                   d("span", r1, [
                     Re(T(A(me)(Number(w.disruption_initiated_count))) + " ", 1),
                     d("span", c1, " (" + T(g(
+=======
+                  d("span", i1, [
+                    Ee(T(A(me)(Number(w.disruption_initiated_count))) + " ", 1),
+                    d("span", l1, " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       Number(w.disruption_initiated_count),
                       Number(w.disruption_conversations)
                     )) + ") ", 1)
                   ])
                 ]),
                 "cell-abandoned": F(({ row: w }) => [
-                  d("span", d1, [
-                    d("span", u1, T(A(me)(
+                  d("span", r1, [
+                    d("span", c1, T(A(me)(
                       Number(w.disruption_initiated_count) - Number(w.voluntary_count) - Number(w.involuntary_count)
                     )) + " (" + T(g(
                       Number(w.disruption_initiated_count) - Number(w.voluntary_count) - Number(w.involuntary_count),
@@ -15539,14 +19789,23 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                   ])
                 ]),
                 "cell-voluntary": F(({ row: w }) => [
+<<<<<<< HEAD
                   d("div", h1, [
                     (f(!0), x(ie, null, pe([w], (k, _) => (f(), x(ie, { key: _ }, [
+=======
+                  d("div", d1, [
+                    (g(!0), x(ie, null, pe([w], (k, _) => (g(), x(ie, { key: _ }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       V(gt, {
                         color: "neutral",
                         outlined: !0
                       }, {
                         default: F(() => [
+<<<<<<< HEAD
                           Re(" VOL " + T(A(me)(k.voluntary_count)) + " (" + T(g(
+=======
+                          Ee(" VOL " + T(A(me)(k.voluntary_count)) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             k.voluntary_count,
                             k.disruption_conversations
                           )) + ") ", 1)
@@ -15555,7 +19814,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                       }, 1024),
                       V(gt, { color: "success" }, {
                         default: F(() => [
+<<<<<<< HEAD
                           Re(" Selected " + T(A(me)(k.confirmed_count)) + " (" + T(g(
+=======
+                          Ee(" Selected " + T(A(me)(k.confirmed_count)) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             k.confirmed_count,
                             k.disruption_conversations
                           )) + ") ", 1)
@@ -15564,7 +19827,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                       }, 1024),
                       V(gt, { color: "warning" }, {
                         default: F(() => [
+<<<<<<< HEAD
                           Re(" Not Confirm " + T(A(me)(k.voluntary_count - k.confirmed_count)) + " (" + T(g(
+=======
+                          Ee(" Not Confirm " + T(A(me)(k.voluntary_count - k.confirmed_count)) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             k.voluntary_count - k.confirmed_count,
                             k.disruption_conversations
                           )) + ") ", 1)
@@ -15573,7 +19840,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                       }, 1024),
                       V(gt, { color: "danger" }, {
                         default: F(() => [
+<<<<<<< HEAD
                           Re(" Payment rejected " + T(A(me)(k.sell_failed_count)) + " (" + T(g(
+=======
+                          Ee(" Payment rejected " + T(A(me)(k.sell_failed_count)) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             k.sell_failed_count,
                             k.disruption_conversations
                           )) + ") ", 1)
@@ -15582,7 +19853,7 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                       }, 1024),
                       V(gt, { color: "orange" }, {
                         default: F(() => [
-                          Re(" Not Paid " + T(A(me)(
+                          Ee(" Not Paid " + T(A(me)(
                             Math.max(
                               0,
                               k.confirmed_count - m(k) - k.sell_failed_count
@@ -15602,19 +19873,27 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                         outlined: !0
                       }, {
                         default: F(() => [
+<<<<<<< HEAD
                           Re(" Voluntary change success " + T(A(me)(m(k))) + " (" + T(g(
+=======
+                          Ee(" Voluntary change success " + T(A(me)(m(k))) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             m(k),
                             k.disruption_conversations
                           )) + ") ", 1)
                         ]),
                         _: 2
                       }, 1024),
+<<<<<<< HEAD
                       (f(!0), x(ie, null, pe(k.payment_success_total || [], ($) => (f(), Z(gt, {
+=======
+                      (g(!0), x(ie, null, pe(k.payment_success_total || [], ($) => (g(), Z(gt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                         key: `${k.date}-${$.currency}`,
                         color: "neutral"
                       }, {
                         default: F(() => [
-                          Re(T($.currency) + " " + T(h($.total_value)), 1)
+                          Ee(T($.currency) + " " + T(h($.total_value)), 1)
                         ]),
                         _: 2
                       }, 1024))), 128))
@@ -15622,11 +19901,19 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                   ])
                 ]),
                 "cell-involuntary": F(({ row: w }) => [
+<<<<<<< HEAD
                   d("div", f1, [
                     (f(!0), x(ie, null, pe([w], (k, _) => (f(), x(ie, { key: _ }, [
                       V(gt, { color: "purple" }, {
                         default: F(() => [
                           Re(" INV " + T(A(me)(k.involuntary_count)) + " (" + T(g(
+=======
+                  d("div", u1, [
+                    (g(!0), x(ie, null, pe([w], (k, _) => (g(), x(ie, { key: _ }, [
+                      V(gt, { color: "purple" }, {
+                        default: F(() => [
+                          Ee(" INV " + T(A(me)(k.involuntary_count)) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             k.involuntary_count,
                             k.disruption_conversations
                           )) + ") ", 1)
@@ -15635,7 +19922,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                       }, 1024),
                       V(gt, { color: "danger" }, {
                         default: F(() => [
+<<<<<<< HEAD
                           Re(" Human " + T(A(me)(k.involuntary_count - k.accepted_count)) + " (" + T(g(
+=======
+                          Ee(" Human " + T(A(me)(k.involuntary_count - k.accepted_count)) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             k.involuntary_count - k.accepted_count,
                             k.disruption_conversations
                           )) + ") ", 1)
@@ -15644,7 +19935,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                       }, 1024),
                       V(gt, { color: "success" }, {
                         default: F(() => [
+<<<<<<< HEAD
                           Re(" Involuntary change accepted " + T(A(me)(k.accepted_count)) + " (" + T(g(
+=======
+                          Ee(" Involuntary change accepted " + T(A(me)(k.accepted_count)) + " (" + T(f(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                             k.accepted_count,
                             k.disruption_conversations
                           )) + ") ", 1)
@@ -15657,7 +19952,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                 _: 1
               }, 8, ["rows"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", g1, [...y[3] || (y[3] = [
+=======
+          ])) : (g(), x("section", h1, [...y[3] || (y[3] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -15683,13 +19982,17 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["loading"]));
   }
-}), p1 = /* @__PURE__ */ xe(m1, [["__scopeId", "data-v-d98cd735"]]), b1 = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, v1 = { class: "w-full shrink-0 flex min-h-0 flex-col" }, y1 = {
+}), g1 = /* @__PURE__ */ xe(f1, [["__scopeId", "data-v-d98cd735"]]), m1 = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, p1 = { class: "w-full shrink-0 flex min-h-0 flex-col" }, b1 = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-3"
-}, x1 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, k1 = { class: "grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4" }, _1 = {
+}, v1 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, y1 = { class: "grid w-full xs:grid-cols-2 gap-3 grid-cols-4 md:gap-4" }, x1 = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, w1 = /* @__PURE__ */ de({
+=======
+}, k1 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "FAQ",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -15758,8 +20061,13 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       const m = p.faq_by_day || [];
       if (m.length > 0) {
         const v = m.map(
+<<<<<<< HEAD
           (k) => Ye(k.date).format("MMM DD")
         ), b = m.map(
+=======
+          (k) => je(k.date).format("MMM DD")
+        ), p = m.map(
+>>>>>>> 8a6bd9f (Sales Volume chart)
           (k) => k.airline_information_retrieved_count || 0
         ), y = m.map(
           (k) => k.flight_status_retrieved_count || 0
@@ -15809,7 +20117,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       loading: n.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -15817,17 +20129,30 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", b1, [
           d("div", v1, [
             c.value.labels && c.value.labels.length ? (f(), x("section", y1, [
               d("div", x1, [
                 V(Ct, {
+=======
+        d("div", m1, [
+          d("div", p1, [
+            c.value.labels && c.value.labels.length ? (g(), x("section", b1, [
+              d("div", v1, [
+                V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   data: c.value,
                   theme: i.value
                 }, null, 8, ["data", "theme"])
               ]),
+<<<<<<< HEAD
               d("div", k1, [
                 (f(!0), x(ie, null, pe(g.value, (v) => (f(), Z($e, {
+=======
+              d("div", y1, [
+                (g(!0), x(ie, null, pe(f.value, (v) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: v.name,
                   class: "min-w-0",
                   color: v.color,
@@ -15836,7 +20161,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                   subvalue: v.subvalue
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ])
+<<<<<<< HEAD
             ])) : (f(), x("section", _1, [...m[0] || (m[0] = [
+=======
+            ])) : (g(), x("section", x1, [...m[0] || (m[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("div", { class: "max-w-[360px] px-4 text-center" }, [
                 d("div", { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, [
                   d("svg", {
@@ -15864,19 +20193,27 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["loading"]));
   }
+<<<<<<< HEAD
 }), C1 = /* @__PURE__ */ xe(w1, [["__scopeId", "data-v-03366ba8"]]), Ht = (e) => e.replace(/\b(seller|checkin)_state\b/gi, "$1"), $1 = {
+=======
+}), _1 = /* @__PURE__ */ xe(k1, [["__scopeId", "data-v-03366ba8"]]), Ht = (e) => e.replace(/\b(seller|checkin)_state\b/gi, "$1"), w1 = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   key: 0,
   class: "w-52"
-}, S1 = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, M1 = { class: "w-full shrink-0 flex min-h-0 flex-col" }, D1 = {
+}, C1 = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, $1 = { class: "w-full shrink-0 flex min-h-0 flex-col" }, S1 = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-3"
-}, T1 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, A1 = {
+}, M1 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, D1 = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, B1 = {
+}, T1 = {
   key: 2,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, L1 = { class: "max-w-[360px] px-4 text-center" }, P1 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, R1 = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, E1 = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, I1 = /* @__PURE__ */ de({
+=======
+}, A1 = { class: "max-w-[360px] px-4 text-center" }, B1 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, L1 = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, P1 = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, E1 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "MessagesPerAgent",
   props: {
     data: { default: () => ({}) },
@@ -15922,7 +20259,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         0
       );
       return o[Math.abs($) % o.length];
+<<<<<<< HEAD
     }, u = Be(s, "theme"), { isDark: g } = Pe(u), h = (w) => {
+=======
+    }, u = Be(s, "theme"), { isDark: f } = Pe(u), h = (w) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const k = Ht(w).replace(/_/g, " ");
       return k.charAt(0).toUpperCase() + k.slice(1);
     }, p = C(() => {
@@ -15943,7 +20284,7 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         borderColor: c(S)
       }));
       return {
-        labels: k.map((S) => Ye(S).format("MMM DD")),
+        labels: k.map((S) => je(S).format("MMM DD")),
         datasets: $
       };
     }), v = C(() => {
@@ -15968,7 +20309,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       loading: s.loading
     }, {
       headerAside: F(() => [
+<<<<<<< HEAD
         s.breakdownOptions.length ? (f(), x("div", $1, [
+=======
+        s.breakdownOptions.length ? (g(), x("div", w1, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           V(Zt, {
             "model-value": s.breakdownBy,
             options: s.breakdownOptions,
@@ -15977,7 +20322,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         ])) : I("", !0)
       ]),
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !s.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !s.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -15985,11 +20334,19 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", S1, [
           d("div", M1, [
             m.value.labels && m.value.labels.length ? (f(), x("section", D1, [
               d("div", T1, [
                 V(Ct, {
+=======
+        d("div", C1, [
+          d("div", $1, [
+            m.value.labels && m.value.labels.length ? (g(), x("section", S1, [
+              d("div", M1, [
+                V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   data: m.value,
                   options: e.options,
                   theme: u.value
@@ -16000,7 +20357,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                 class: "grid w-full gap-3 md:gap-4",
                 style: Ae(y.value)
               }, [
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(b.value, (_) => (f(), Z($e, {
+=======
+                (g(!0), x(ie, null, pe(p.value, (_) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: _.name,
                   class: "min-w-0",
                   color: _.color,
@@ -16009,12 +20370,20 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                   subvalue: `${A(me)(_.total)} ${s.unit}`
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 4)) : I("", !0)
+<<<<<<< HEAD
             ])) : s.showSummaryCards && v.value.length ? (f(), x("section", A1, [
+=======
+            ])) : s.showSummaryCards && v.value.length ? (g(), x("section", D1, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("div", {
                 class: "grid w-full gap-3 md:gap-4",
                 style: Ae(y.value)
               }, [
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(b.value, (_) => (f(), Z($e, {
+=======
+                (g(!0), x(ie, null, pe(p.value, (_) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: _.name,
                   class: "min-w-0",
                   color: _.color,
@@ -16024,13 +20393,19 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 4)
             ])) : I("", !0),
+<<<<<<< HEAD
             v.value.length ? I("", !0) : (f(), x("section", B1, [
               d("div", L1, [
                 d("div", P1, [
+=======
+            v.value.length ? I("", !0) : (g(), x("section", T1, [
+              d("div", A1, [
+                d("div", B1, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" })
                 ]),
-                d("p", R1, T(s.emptyTitle), 1),
-                d("p", E1, T(s.emptyDescription), 1)
+                d("p", L1, T(s.emptyTitle), 1),
+                d("p", P1, T(s.emptyDescription), 1)
               ])
             ]))
           ])
@@ -16039,16 +20414,20 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["title", "subtitle", "loading"]));
   }
-}), Cr = /* @__PURE__ */ xe(I1, [["__scopeId", "data-v-c2fc7beb"]]), F1 = { class: "card-body" }, O1 = {
+}), wr = /* @__PURE__ */ xe(E1, [["__scopeId", "data-v-c2fc7beb"]]), R1 = { class: "card-body" }, I1 = {
   key: 0,
   class: "chart-section"
-}, V1 = { class: "chart-wrapper" }, N1 = {
+}, F1 = { class: "chart-wrapper" }, O1 = {
   key: 1,
   class: "record-locator-daily-section"
-}, z1 = { class: "w-full min-w-0" }, j1 = { class: "cell-plain font-medium" }, H1 = { class: "cell-plain text-center" }, W1 = { class: "cell-plain text-center" }, K1 = { class: "cell-plain text-center" }, U1 = { class: "cell-plain text-center" }, Y1 = { class: "cell-plain text-center success-value" }, q1 = { class: "cell-plain text-center failed-value" }, G1 = { class: "cell-plain text-center warning-value" }, X1 = { class: "cell-plain text-center" }, Z1 = { class: "cell-plain text-center failed-value" }, Q1 = {
+}, V1 = { class: "w-full min-w-0" }, N1 = { class: "cell-plain font-medium" }, z1 = { class: "cell-plain text-center" }, j1 = { class: "cell-plain text-center" }, H1 = { class: "cell-plain text-center" }, W1 = { class: "cell-plain text-center" }, K1 = { class: "cell-plain text-center success-value" }, U1 = { class: "cell-plain text-center failed-value" }, Y1 = { class: "cell-plain text-center warning-value" }, q1 = { class: "cell-plain text-center" }, G1 = { class: "cell-plain text-center failed-value" }, X1 = {
   key: 2,
   class: "empty-state"
+<<<<<<< HEAD
 }, J1 = /* @__PURE__ */ de({
+=======
+}, Z1 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "RecordLocator",
   props: {
     data: { default: () => ({
@@ -16117,70 +20496,79 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       if (!h.value.total_checkin_initiated)
         return { nodes: b, links: y };
       k("Checkin Init"), k("Booking retrive"), k("Checkin Started"), k("Checkin Completed"), k("Checkin Closed");
+<<<<<<< HEAD
       const _ = h.value.total_checkin_initiated, $ = h.value.total_record_locator_init, S = h.value.total_record_locator_started, M = h.value.total_record_locator_completed, P = h.value.total_record_locator_closed, E = h.value.total_record_locator_failed, N = h.value.total_record_locator_abandoned, D = h.value.total_record_locator_init_abandoned, B = h.value.total_checkin_pre_init_abandoned_error, L = h.value.total_checkin_pre_init_abandoned_voluntary, j = B != null || L != null, W = j ? Math.max(Number(B) || 0, 0) : 0, X = j ? Math.max(Number(L) || 0, 0) : 0, se = h.value.total_record_locator_init_abandoned_error, ce = h.value.total_record_locator_init_abandoned_voluntary, G = se != null || ce != null, te = G ? Math.max(Number(se) || 0, 0) : 0, R = G ? Math.max(Number(ce) || 0, 0) : 0;
+=======
+      const _ = h.value.total_checkin_initiated, $ = h.value.total_record_locator_init, S = h.value.total_record_locator_started, M = h.value.total_record_locator_completed, P = h.value.total_record_locator_closed, R = h.value.total_record_locator_failed, N = h.value.total_record_locator_abandoned, D = h.value.total_record_locator_init_abandoned, B = h.value.total_checkin_pre_init_abandoned_error, L = h.value.total_checkin_pre_init_abandoned_voluntary, j = B != null || L != null, W = j ? Math.max(Number(B) || 0, 0) : 0, X = j ? Math.max(Number(L) || 0, 0) : 0, se = h.value.total_record_locator_init_abandoned_error, de = h.value.total_record_locator_init_abandoned_voluntary, G = se != null || de != null, te = G ? Math.max(Number(se) || 0, 0) : 0, E = G ? Math.max(Number(de) || 0, 0) : 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       $ > 0 && y.push({
         source: "Checkin Init",
         target: "Booking retrive",
         value: $,
-        label: Se($, _)
+        label: $e($, _)
       });
       const U = _ - $;
       return j ? (X > 0 && (k("Abandoned (Init)"), y.push({
         source: "Checkin Init",
         target: "Abandoned (Init)",
         value: X,
-        label: Se(X, _)
+        label: $e(X, _)
       })), W > 0 && (k("Booking not retreived"), y.push({
         source: "Checkin Init",
         target: "Booking not retreived",
         value: W,
-        label: Se(W, _)
+        label: $e(W, _)
       }))) : U > 0 && (k("Abandoned (Init)"), y.push({
         source: "Checkin Init",
         target: "Abandoned (Init)",
         value: U,
-        label: Se(U, _)
+        label: $e(U, _)
       })), S > 0 && y.push({
         source: "Booking retrive",
         target: "Checkin Started",
         value: S,
-        label: Se(S, _)
+        label: $e(S, _)
       }), G ? (te > 0 && (k("Error"), y.push({
         source: "Booking retrive",
         target: "Error",
         value: te,
-        label: Se(te, _)
-      })), R > 0 && (k("Abandoned (Started)"), y.push({
+        label: $e(te, _)
+      })), E > 0 && (k("Abandoned (Started)"), y.push({
         source: "Booking retrive",
         target: "Abandoned (Started)",
-        value: R,
-        label: Se(R, _)
+        value: E,
+        label: $e(E, _)
       }))) : D > 0 && (k("Abandoned (Started)"), y.push({
         source: "Booking retrive",
         target: "Abandoned (Started)",
         value: D,
-        label: Se(D, _)
+        label: $e(D, _)
       })), M > 0 && y.push({
         source: "Checkin Started",
         target: "Checkin Completed",
         value: M,
-        label: Se(M, _)
+        label: $e(M, _)
       }), P > 0 && y.push({
         source: "Checkin Completed",
         target: "Checkin Closed",
         value: P,
-        label: Se(P, _)
-      }), E > 0 && (k("Checkin Failed"), y.push({
+        label: $e(P, _)
+      }), R > 0 && (k("Checkin Failed"), y.push({
         source: "Checkin Started",
         target: "Checkin Failed",
-        value: E,
-        label: Se(E, _)
+        value: R,
+        label: $e(R, _)
       })), N > 0 && (k("Abandoned (Flow)"), y.push({
         source: "Checkin Started",
         target: "Abandoned (Flow)",
         value: N,
+<<<<<<< HEAD
         label: Se(N, _)
       })), { nodes: b, links: y };
+=======
+        label: $e(N, _)
+      })), { nodes: p, links: y };
+>>>>>>> 8a6bd9f (Sales Volume chart)
     });
     return t({ isDark: i }), (b, y) => (f(), Z(Le, {
       class: "record-locator-root h-full min-h-0",
@@ -16190,7 +20578,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       loading: n.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -16198,9 +20590,15 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", F1, [
           v.value.nodes.length > 0 ? (f(), x("section", O1, [
             d("div", V1, [
+=======
+        d("div", R1, [
+          v.value.nodes.length > 0 ? (g(), x("section", I1, [
+            d("div", F1, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(ga, {
                 data: v.value,
                 height: "400px",
@@ -16209,8 +20607,13 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
               }, null, 8, ["data"])
             ])
           ])) : I("", !0),
+<<<<<<< HEAD
           l.value && l.value.length > 0 ? (f(), x("section", N1, [
             d("div", z1, [
+=======
+          l.value && l.value.length > 0 ? (g(), x("section", O1, [
+            d("div", V1, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(Ot, {
                 columns: u.value,
                 rows: g.value,
@@ -16218,58 +20621,62 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                 "row-key": "id"
               }, {
                 "cell-date": F(({ row: w }) => [
-                  d("span", j1, T(A(Ye)(String(w.date)).format("MMM DD")), 1)
+                  d("span", N1, T(A(je)(String(w.date)).format("MMM DD")), 1)
                 ]),
                 "cell-checkinInit": F(({ row: w }) => [
-                  d("span", H1, T(A(me)(w.checkin_initiated)), 1)
+                  d("span", z1, T(A(me)(w.checkin_initiated)), 1)
                 ]),
                 "cell-bookingRetrieve": F(({ row: w }) => [
-                  d("span", W1, T(m(
+                  d("span", j1, T(m(
                     w.record_locator_init_count,
                     w.checkin_initiated
                   )), 1)
                 ]),
                 "cell-checkinStarted": F(({ row: w }) => [
-                  d("span", K1, T(A(me)(w.record_locator_started_count)), 1)
+                  d("span", H1, T(A(me)(w.record_locator_started_count)), 1)
                 ]),
                 "cell-checkinCompleted": F(({ row: w }) => [
-                  d("span", U1, T(m(
+                  d("span", W1, T(m(
                     w.record_locator_completed_count,
                     w.record_locator_started_count
                   )), 1)
                 ]),
                 "cell-checkinClosed": F(({ row: w }) => [
-                  d("span", Y1, T(m(
+                  d("span", K1, T(m(
                     w.record_locator_closed_count,
                     w.record_locator_started_count
                   )), 1)
                 ]),
                 "cell-checkinFailed": F(({ row: w }) => [
-                  d("span", q1, T(m(
+                  d("span", U1, T(m(
                     w.record_locator_failed_count,
                     w.record_locator_started_count
                   )), 1)
                 ]),
                 "cell-abandoned": F(({ row: w }) => [
-                  d("span", G1, T(m(
+                  d("span", Y1, T(m(
                     w.record_locator_abandoned_count,
                     w.record_locator_started_count
                   )), 1)
                 ]),
                 "cell-createPayment": F(({ row: w }) => [
-                  d("span", X1, T(A(me)(
+                  d("span", q1, T(A(me)(
                     w.record_locator_create_payment_count ?? 0
                   )), 1)
                 ]),
                 "cell-failedPayment": F(({ row: w }) => [
-                  d("span", Z1, T(A(me)(
+                  d("span", G1, T(A(me)(
                     w.record_locator_create_payment_failed_count ?? 0
                   )), 1)
                 ]),
                 _: 1
               }, 8, ["columns", "rows"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", Q1, [...y[0] || (y[0] = [
+=======
+          ])) : (g(), x("section", X1, [...y[0] || (y[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -16295,16 +20702,20 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["collapsible", "loading"]));
   }
-}), ex = /* @__PURE__ */ xe(J1, [["__scopeId", "data-v-f904c66a"]]), tx = { class: "card-body" }, ax = {
+}), Q1 = /* @__PURE__ */ xe(Z1, [["__scopeId", "data-v-f904c66a"]]), J1 = { class: "card-body" }, ex = {
   key: 0,
   class: "chart-section"
-}, nx = {
+}, tx = {
   key: 1,
   class: "empty-state"
-}, ox = {
+}, ax = {
   key: 2,
   class: "comparison-section"
+<<<<<<< HEAD
 }, sx = { class: "comparison-grid" }, ix = /* @__PURE__ */ de({
+=======
+}, nx = { class: "comparison-grid" }, ox = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "SalesByChannel",
   props: {
     data: { default: () => ({
@@ -16362,7 +20773,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
     const p = C(() => {
       const m = s.data?.sales_by_channel_by_day ?? [];
       if (m.length === 0) return { labels: [], datasets: [] };
+<<<<<<< HEAD
       const v = m.map((y) => Ye(y.date).format("MMM-DD")), b = c.value.map((y, w) => ({
+=======
+      const v = m.map((y) => je(y.date).format("MMM-DD")), p = c.value.map((y, w) => ({
+>>>>>>> 8a6bd9f (Sales Volume chart)
         label: y,
         data: m.map((k) => k.channels[y] ?? 0),
         backgroundColor: u(y, w),
@@ -16378,7 +20793,11 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       loading: s.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !s.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !s.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: l,
@@ -16386,6 +20805,7 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", tx, [
           p.value.labels.length > 0 ? (f(), x("section", ax, [
             V(Kt, {
@@ -16393,6 +20813,15 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
               stacked: !0
             }, null, 8, ["data"])
           ])) : (f(), x("section", nx, [...v[0] || (v[0] = [
+=======
+        d("div", J1, [
+          b.value.labels.length > 0 ? (g(), x("section", ex, [
+            V(Kt, {
+              data: b.value,
+              stacked: !0
+            }, null, 8, ["data"])
+          ])) : (g(), x("section", tx, [...v[0] || (v[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -16413,6 +20842,7 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
               d("p", { class: "empty-description" }, " No sales by channel data found for the selected period. Try adjusting the date range. ")
             ], -1)
           ])])),
+<<<<<<< HEAD
           e.channelComparison.length > 0 ? (f(), x("section", ox, [
             d("div", sx, [
               (f(!0), x(ie, null, pe(e.channelComparison, (b, y) => (f(), Z(A($e), {
@@ -16421,6 +20851,16 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
                 title: g(b.channel),
                 value: A(me)(b.current),
                 subvalue: h(b)
+=======
+          e.channelComparison.length > 0 ? (g(), x("section", ax, [
+            d("div", nx, [
+              (g(!0), x(ie, null, pe(e.channelComparison, (p, y) => (g(), Z(A(Se), {
+                key: p.channel,
+                color: u(p.channel, y),
+                title: f(p.channel),
+                value: A(me)(p.current),
+                subvalue: h(p)
+>>>>>>> 8a6bd9f (Sales Volume chart)
               }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
             ])
           ])) : I("", !0)
@@ -16429,37 +20869,41 @@ const Vy = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Int
       _: 1
     }, 8, ["default-open", "loading"]));
   }
-}), $r = /* @__PURE__ */ xe(ix, [["__scopeId", "data-v-4879d791"]]), lx = { class: "card-body" }, rx = {
+}), Cr = /* @__PURE__ */ xe(ox, [["__scopeId", "data-v-4879d791"]]), sx = { class: "card-body" }, ix = {
   key: 0,
   class: "chart-section"
-}, cx = { class: "chart-wrapper" }, dx = {
+}, lx = { class: "chart-wrapper" }, rx = {
   key: 1,
   class: "empty-state"
-}, ux = { class: "seller-value-cards" }, hx = {
+}, cx = { class: "seller-value-cards" }, dx = {
   key: 2,
   class: "seller-daily-section"
-}, fx = { class: "w-full min-w-0" }, gx = { class: "sl-cell font-medium" }, mx = { class: "sl-cell text-center" }, px = { class: "sl-cell text-center" }, bx = { class: "sl-cell text-center" }, vx = { class: "sl-cell text-center" }, yx = { class: "sl-cell text-center success-value" }, xx = {
+}, ux = { class: "w-full min-w-0" }, hx = { class: "sl-cell font-medium" }, fx = { class: "sl-cell text-center" }, gx = { class: "sl-cell text-center" }, mx = { class: "sl-cell text-center" }, px = { class: "sl-cell text-center" }, bx = { class: "sl-cell text-center success-value" }, vx = {
   key: 0,
   class: "currency-cell-list"
-}, kx = {
+}, yx = {
   key: 1,
   class: "empty-cell"
-}, _x = { class: "sl-cell text-center success-value" }, wx = { class: "sl-cell text-center success-value" }, Cx = {
+}, xx = { class: "sl-cell text-center success-value" }, kx = { class: "sl-cell text-center success-value" }, _x = {
   key: 0,
   class: "currency-cell-list"
-}, $x = {
+}, wx = {
   key: 1,
   class: "empty-cell"
-}, Sx = { class: "sl-cell text-center success-value" }, Mx = { class: "sl-cell text-center" }, Dx = { class: "sl-cell text-center success-value" }, Tx = {
+}, Cx = { class: "sl-cell text-center success-value" }, $x = { class: "sl-cell text-center" }, Sx = { class: "sl-cell text-center success-value" }, Mx = {
   key: 0,
   class: "currency-cell-list"
-}, Ax = { key: 1 }, Bx = {
+}, Dx = { key: 1 }, Tx = {
   key: 0,
   class: "failed-reasons"
-}, Lx = { class: "reason-name" }, Px = { class: "reason-count" }, Rx = {
+}, Ax = { class: "reason-name" }, Bx = { class: "reason-count" }, Lx = {
   key: 1,
   class: "empty-cell"
+<<<<<<< HEAD
 }, Ex = /* @__PURE__ */ de({
+=======
+}, Px = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "Seller",
   props: {
     sellerData: { default: () => ({
@@ -16568,22 +21012,28 @@ ${_(D)}`, S = C(() => {
         { name: "Initiated by agent", value: D, status: "success" },
         { name: "Sell Started", value: B, status: "success" },
         { name: "Booking Created", value: L, status: "success" },
+<<<<<<< HEAD
         { name: "Sell Success", value: ce, status: "success" }
       ], te = [], R = D - B;
       R > 0 && (G.push({
+=======
+        { name: "Sell Success", value: de, status: "success" }
+      ], te = [], E = D - B;
+      E > 0 && (G.push({
+>>>>>>> 8a6bd9f (Sales Volume chart)
         name: "Abandoned: No Response",
-        value: R,
+        value: E,
         status: "abandon"
       }), te.push({
         source: "Initiated by agent",
         target: "Abandoned: No Response",
-        value: R,
-        label: Se(R, D)
+        value: E,
+        label: $e(E, D)
       })), B > 0 && te.push({
         source: "Initiated by agent",
         target: "Sell Started",
         value: B,
-        label: Se(B, D)
+        label: $e(B, D)
       });
       const U = se.reduce(
         (oe, re) => (re.reasons && Array.isArray(re.reasons) && re.reasons.forEach((Te) => {
@@ -16596,7 +21046,7 @@ ${_(D)}`, S = C(() => {
         source: "Sell Started",
         target: "Booking Created",
         value: L,
-        label: Se(L, D)
+        label: $e(L, D)
       }), (W ?? 0) > 0 && (G.push({
         name: "Bank Transfer",
         value: W ?? 0,
@@ -16605,7 +21055,7 @@ ${_(D)}`, S = C(() => {
         source: "Booking Created",
         target: "Bank Transfer",
         value: W ?? 0,
-        label: Se(W ?? 0, D)
+        label: $e(W ?? 0, D)
       })), (X ?? 0) > 0 && (G.push({
         name: "Cash Option",
         value: X ?? 0,
@@ -16614,12 +21064,21 @@ ${_(D)}`, S = C(() => {
         source: "Booking Created",
         target: "Cash Option",
         value: X ?? 0,
+<<<<<<< HEAD
         label: Se(X ?? 0, D)
       })), ce > 0 && te.push({
         source: "Booking Created",
         target: "Sell Success",
         value: ce,
         label: Se(ce, D)
+=======
+        label: $e(X ?? 0, D)
+      })), de > 0 && te.push({
+        source: "Booking Created",
+        target: "Sell Success",
+        value: de,
+        label: $e(de, D)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       });
       const Y = L - ce - (W ?? 0) - (X ?? 0);
       Y > 0 && (G.push({
@@ -16630,7 +21089,7 @@ ${_(D)}`, S = C(() => {
         source: "Booking Created",
         target: "Failed at Completion",
         value: Y,
-        label: Se(Y, D)
+        label: $e(Y, D)
       }));
       const O = B - L;
       if (O > 0 && (G.push({
@@ -16641,7 +21100,7 @@ ${_(D)}`, S = C(() => {
         source: "Sell Started",
         target: "Failed at Booking",
         value: O,
-        label: Se(O, D)
+        label: $e(O, D)
       })), Object.keys(U).length > 0) {
         const oe = Object.values(U).reduce(
           (Te, be) => Te + be,
@@ -16658,7 +21117,11 @@ ${_(D)}`, S = C(() => {
             source: "Failed at Booking",
             target: _e,
             value: be,
+<<<<<<< HEAD
             label: Se(be, D)
+=======
+            label: $e(be, D)
+>>>>>>> 8a6bd9f (Sales Volume chart)
           });
         }), re > 0 && (G.push({
           name: "Failed: Without Reason",
@@ -16670,7 +21133,11 @@ Without Reason`
           source: "Failed at Booking",
           target: "Failed: Without Reason",
           value: re,
+<<<<<<< HEAD
           label: Se(re, D)
+=======
+          label: $e(re, D)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         }));
       }
       return {
@@ -16680,8 +21147,13 @@ Without Reason`
     }), M = (D, B) => oa(D, B), P = (D, B) => {
       const L = me(D), j = M(D, B);
       return `${L} (${j})`;
+<<<<<<< HEAD
     }, E = (D) => D == null ? 0 : typeof D == "number" ? D : Array.isArray(D) ? D.reduce((B, L) => B + (L.total_value || 0), 0) : 0, N = (D) => va(E(D));
     return t({ isDark: l }), (D, B) => (f(), Z(Le, {
+=======
+    }, R = (D) => D == null ? 0 : typeof D == "number" ? D : Array.isArray(D) ? D.reduce((B, L) => B + (L.total_value || 0), 0) : 0, N = (D) => va(R(D));
+    return t({ isDark: l }), (D, B) => (g(), Z(Le, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       class: "seller-metrics-root h-full min-h-0",
       title: "Seller Metrics",
       subtitle: "Sales performance and failure analysis",
@@ -16689,7 +21161,11 @@ Without Reason`
       loading: o.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !o.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !o.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: i,
@@ -16697,16 +21173,26 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", lx, [
           S.value.nodes.length > 0 ? (f(), x("section", rx, [
             d("div", cx, [
+=======
+        d("div", sx, [
+          S.value.nodes.length > 0 ? (g(), x("section", ix, [
+            d("div", lx, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(ga, {
                 data: S.value,
                 height: "420px",
                 "node-gap": 16
               }, null, 8, ["data"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", dx, [...B[0] || (B[0] = [
+=======
+          ])) : (g(), x("section", rx, [...B[0] || (B[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -16727,21 +21213,26 @@ Without Reason`
               d("p", { class: "empty-description" }, " No sales data found for the selected period. Try adjusting the date range. ")
             ], -1)
           ])])),
-          d("section", ux, [
-            V($e, {
+          d("section", cx, [
+            V(Se, {
               class: "seller-value-card",
               color: "var(--kiut-success)",
               title: "Total Sales Value",
               value: b.value
             }, null, 8, ["value"]),
+<<<<<<< HEAD
             o.showPaymentMethodDetails ? (f(), x(ie, { key: 0 }, [
               V($e, {
+=======
+            o.showPaymentMethodDetails ? (g(), x(ie, { key: 0 }, [
+              V(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 class: "seller-value-card",
                 color: "var(--kiut-success)",
                 title: "Bank Transfer Value",
                 value: w.value
               }, null, 8, ["value"]),
-              V($e, {
+              V(Se, {
                 class: "seller-value-card",
                 color: "var(--kiut-success)",
                 title: "Cash Option Value",
@@ -16749,8 +21240,13 @@ Without Reason`
               }, null, 8, ["value"])
             ], 64)) : I("", !0)
           ]),
+<<<<<<< HEAD
           r.value && r.value.length > 0 ? (f(), x("section", hx, [
             d("div", fx, [
+=======
+          r.value && r.value.length > 0 ? (g(), x("section", dx, [
+            d("div", ux, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(Ot, {
                 columns: c.value,
                 rows: u.value,
@@ -16758,90 +21254,124 @@ Without Reason`
                 "row-key": "id"
               }, {
                 "cell-date": F(({ row: L }) => [
-                  d("span", gx, T(A(Ye)(String(L.date)).format("MMM DD")), 1)
+                  d("span", hx, T(A(je)(String(L.date)).format("MMM DD")), 1)
                 ]),
                 "cell-sellInitiated": F(({ row: L }) => [
-                  d("span", mx, T(A(me)(Number(L.seller_conversations) || 0)), 1)
+                  d("span", fx, T(A(me)(Number(L.seller_conversations) || 0)), 1)
                 ]),
                 "cell-sellStarted": F(({ row: L }) => [
-                  d("span", px, T(P(
+                  d("span", gx, T(P(
                     L.sell_started_count,
                     L.seller_conversations || L.sell_started_count
                   )), 1)
                 ]),
                 "cell-getQuote": F(({ row: L }) => [
-                  d("span", bx, T(P(
+                  d("span", mx, T(P(
                     L.sell_get_quote_count,
                     L.seller_conversations || L.sell_started_count
                   )), 1)
                 ]),
                 "cell-bookingCreated": F(({ row: L }) => [
-                  d("span", vx, T(P(
+                  d("span", px, T(P(
                     L.sell_booking_created_count,
                     L.seller_conversations || L.sell_started_count
                   )), 1)
                 ]),
                 "cell-btValue": F(({ row: L }) => [
-                  d("span", yx, [
+                  d("span", bx, [
                     Array.isArray(
                       L.daily_value_sell_success_bank_transfer
+<<<<<<< HEAD
                     ) && L.daily_value_sell_success_bank_transfer.length > 0 ? (f(), x("div", xx, [
                       (f(!0), x(ie, null, pe(L.daily_value_sell_success_bank_transfer, (j) => (f(), x("span", {
                         key: `${L.date}-bt-success-${j.currency}`
                       }, T(j.currency) + " " + T(A(va)(j.total_value)), 1))), 128))
                     ])) : (f(), x("span", kx, "-"))
+=======
+                    ) && L.daily_value_sell_success_bank_transfer.length > 0 ? (g(), x("div", vx, [
+                      (g(!0), x(ie, null, pe(L.daily_value_sell_success_bank_transfer, (j) => (g(), x("span", {
+                        key: `${L.date}-bt-success-${j.currency}`
+                      }, T(j.currency) + " " + T(A(va)(j.total_value)), 1))), 128))
+                    ])) : (g(), x("span", yx, "-"))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   ])
                 ]),
                 "cell-btSuccess": F(({ row: L }) => [
-                  d("span", _x, T(A(me)(
+                  d("span", xx, T(A(me)(
                     Number(
                       L.sell_success_bank_transfer_count
                     ) || 0
                   )), 1)
                 ]),
                 "cell-coValue": F(({ row: L }) => [
-                  d("span", wx, [
+                  d("span", kx, [
                     Array.isArray(
                       L.daily_value_sell_success_cash
+<<<<<<< HEAD
                     ) && L.daily_value_sell_success_cash.length > 0 ? (f(), x("div", Cx, [
                       (f(!0), x(ie, null, pe(L.daily_value_sell_success_cash, (j) => (f(), x("span", {
                         key: `${L.date}-co-success-${j.currency}`
                       }, T(j.currency) + " " + T(A(va)(j.total_value)), 1))), 128))
                     ])) : (f(), x("span", $x, "-"))
+=======
+                    ) && L.daily_value_sell_success_cash.length > 0 ? (g(), x("div", _x, [
+                      (g(!0), x(ie, null, pe(L.daily_value_sell_success_cash, (j) => (g(), x("span", {
+                        key: `${L.date}-co-success-${j.currency}`
+                      }, T(j.currency) + " " + T(A(va)(j.total_value)), 1))), 128))
+                    ])) : (g(), x("span", wx, "-"))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   ])
                 ]),
                 "cell-cashSuccess": F(({ row: L }) => [
-                  d("span", Sx, T(A(me)(
+                  d("span", Cx, T(A(me)(
                     Number(L.sell_success_cash_count) || 0
                   )), 1)
                 ]),
                 "cell-sellSuccess": F(({ row: L }) => [
-                  d("span", Mx, T(P(
+                  d("span", $x, T(P(
                     L.sell_success_count,
                     L.seller_conversations || L.sell_started_count
                   )), 1)
                 ]),
                 "cell-totalSalesValue": F(({ row: L }) => [
+<<<<<<< HEAD
                   d("span", Dx, [
                     Array.isArray(L.daily_value_sell_success) && L.daily_value_sell_success.length > 0 ? (f(), x("div", Tx, [
                       (f(!0), x(ie, null, pe(L.daily_value_sell_success, (j) => (f(), x("span", {
                         key: `${L.date}-${j.currency}`
                       }, T(j.currency) + " " + T(A(va)(j.total_value)), 1))), 128))
                     ])) : (f(), x("span", Ax, T(N(
+=======
+                  d("span", Sx, [
+                    Array.isArray(L.daily_value_sell_success) && L.daily_value_sell_success.length > 0 ? (g(), x("div", Mx, [
+                      (g(!0), x(ie, null, pe(L.daily_value_sell_success, (j) => (g(), x("span", {
+                        key: `${L.date}-${j.currency}`
+                      }, T(j.currency) + " " + T(A(va)(j.total_value)), 1))), 128))
+                    ])) : (g(), x("span", Dx, T(N(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       L.daily_value_sell_success
                     )), 1))
                   ])
                 ]),
                 "cell-failed": F(({ row: L }) => [
+<<<<<<< HEAD
                   (L.reasons || []).length > 0 ? (f(), x("div", Bx, [
                     (f(!0), x(ie, null, pe(L.reasons || [], (j) => (f(), x("div", {
+=======
+                  (L.reasons || []).length > 0 ? (g(), x("div", Tx, [
+                    (g(!0), x(ie, null, pe(L.reasons || [], (j) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: j.reason,
                       class: "failed-reason-item"
                     }, [
-                      d("span", Lx, T(j.reason) + ":", 1),
-                      d("span", Px, T(j.failed_count), 1)
+                      d("span", Ax, T(j.reason) + ":", 1),
+                      d("span", Bx, T(j.failed_count), 1)
                     ]))), 128))
+<<<<<<< HEAD
                   ])) : (f(), x("div", Rx, "-"))
+=======
+                  ])) : (g(), x("div", Lx, "-"))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 _: 1
               }, 8, ["columns", "rows"])
@@ -16852,7 +21382,11 @@ Without Reason`
       _: 1
     }, 8, ["default-open", "loading"]));
   }
+<<<<<<< HEAD
 }), Sr = /* @__PURE__ */ xe(Ex, [["__scopeId", "data-v-fad285e5"]]), Ix = { class: "seller-container__body" }, Fx = /* @__PURE__ */ de({
+=======
+}), $r = /* @__PURE__ */ xe(Px, [["__scopeId", "data-v-fad285e5"]]), Ex = { class: "seller-container__body" }, Rx = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "SellerContainer",
   props: {
     containerInitiallyOpen: { type: Boolean, default: !1 },
@@ -16891,8 +21425,8 @@ Without Reason`
       onOpen: u[2] || (u[2] = (g) => n("open"))
     }, {
       default: F(() => [
-        d("div", Ix, [
-          V(Sr, {
+        d("div", Ex, [
+          V($r, {
             "initially-open": e.childrenInitiallyOpen,
             "seller-data": e.sellerData,
             "failed-data": e.failedData,
@@ -16903,7 +21437,7 @@ Without Reason`
             "show-payment-method-details": e.showPaymentMethodDetails,
             onExport: u[0] || (u[0] = (g) => r("seller", g))
           }, null, 8, ["initially-open", "seller-data", "failed-data", "loading", "theme", "enable-export", "export-loading", "show-payment-method-details"]),
-          V($r, {
+          V(Cr, {
             "initially-open": e.childrenInitiallyOpen,
             data: e.salesByChannelData,
             "channel-comparison": e.channelComparison,
@@ -16918,22 +21452,26 @@ Without Reason`
       _: 1
     }, 8, ["default-open", "loading"]));
   }
-}), Ox = /* @__PURE__ */ xe(Fx, [["__scopeId", "data-v-34a76e0c"]]), Vx = { class: "card-body" }, Nx = {
+}), Ix = /* @__PURE__ */ xe(Rx, [["__scopeId", "data-v-34a76e0c"]]), Fx = { class: "card-body" }, Ox = {
   key: 0,
   class: "chart-section"
-}, zx = { class: "chart-wrapper" }, jx = {
+}, Vx = { class: "chart-wrapper" }, Nx = {
   key: 1,
   class: "empty-state"
-}, Hx = { class: "ancillaries-value-cards" }, Wx = {
+}, zx = { class: "ancillaries-value-cards" }, jx = {
   key: 2,
   class: "ancillaries-daily-section"
-}, Kx = { class: "w-full min-w-0" }, Ux = { class: "sl-cell font-medium" }, Yx = { class: "sl-cell text-center" }, qx = { class: "sl-cell text-center" }, Gx = { class: "sl-cell text-center" }, Xx = { class: "sl-cell text-center" }, Zx = {
+}, Hx = { class: "w-full min-w-0" }, Wx = { class: "sl-cell font-medium" }, Kx = { class: "sl-cell text-center" }, Ux = { class: "sl-cell text-center" }, Yx = { class: "sl-cell text-center" }, qx = { class: "sl-cell text-center" }, Gx = {
   key: 0,
   class: "failed-reasons"
-}, Qx = { class: "reason-name" }, Jx = { class: "reason-count" }, ek = {
+}, Xx = { class: "reason-name" }, Zx = { class: "reason-count" }, Qx = {
   key: 1,
   class: "empty-cell"
+<<<<<<< HEAD
 }, tk = /* @__PURE__ */ de({
+=======
+}, Jx = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "Ancillaries",
   props: {
     ancillariesData: { default: () => ({
@@ -16978,7 +21516,7 @@ ${g(y)}`, p = C(() => {
         source: "Offered",
         target: "Selected",
         value: w,
-        label: Se(w, y)
+        label: $e(w, y)
       }), _ > 0) {
         S.push({ name: "Paid", value: _, status: "success" });
         const B = w > 0 ? "Selected" : "Offered", L = w > 0 ? w : y;
@@ -16986,13 +21524,13 @@ ${g(y)}`, p = C(() => {
           source: B,
           target: "Paid",
           value: _,
-          label: Se(_, L)
+          label: $e(_, L)
         });
       }
       const P = $.reduce(
         (B, L) => (L.count > 0 && (B[L.reason] = (B[L.reason] || 0) + L.count), B),
         {}
-      ), E = Object.values(P).reduce((B, L) => B + L, 0), N = Math.max(0, k - E);
+      ), R = Object.values(P).reduce((B, L) => B + L, 0), N = Math.max(0, k - R);
       Object.entries(P).sort(([, B], [, L]) => L - B).forEach(([B, L]) => {
         const j = `Declined: ${B}`;
         S.push({
@@ -17004,7 +21542,7 @@ ${g(y)}`, p = C(() => {
           source: "Offered",
           target: j,
           value: L,
-          label: Se(L, y)
+          label: $e(L, y)
         });
       }), N > 0 && (S.push({
         name: "Declined: Without Reason",
@@ -17016,7 +21554,7 @@ Without Reason`
         source: "Offered",
         target: "Declined: Without Reason",
         value: N,
-        label: Se(N, y)
+        label: $e(N, y)
       }));
       const D = Math.max(
         0,
@@ -17030,7 +21568,7 @@ Without Reason`
         source: "Offered",
         target: "No Response",
         value: D,
-        label: Se(D, y)
+        label: $e(D, y)
       })), { nodes: S, links: M };
     }), m = C(() => {
       const y = [...n.ancillariesData?.ancillaries_by_day || []];
@@ -17071,55 +21609,72 @@ Without Reason`
       loading: n.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", Vx, [
           p.value.nodes.length > 0 ? (f(), x("section", Nx, [
             d("div", zx, [
               V(ga, {
                 data: p.value,
+=======
+        d("div", Fx, [
+          b.value.nodes.length > 0 ? (g(), x("section", Ox, [
+            d("div", Vx, [
+              V(ga, {
+                data: b.value,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 height: "420px",
                 "node-gap": 16
               }, null, 8, ["data"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", jx, [...w[0] || (w[0] = [
+=======
+          ])) : (g(), x("section", Nx, [...w[0] || (w[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("p", { class: "empty-title" }, "No ancillaries data available"),
               d("p", { class: "empty-description" }, " No ancillary funnel events found for the selected period. Try adjusting the date range. ")
             ], -1)
           ])])),
-          d("section", Hx, [
-            V($e, {
+          d("section", zx, [
+            V(Se, {
               class: "ancillaries-value-card",
               color: "var(--kiut-success)",
               title: "Ancillaries CR",
               value: u.value
             }, null, 8, ["value"]),
-            V($e, {
+            V(Se, {
               class: "ancillaries-value-card",
               color: "var(--kiut-primary, #5d4b93)",
               title: "Offered",
               value: A(me)(s.value)
             }, null, 8, ["value"]),
-            V($e, {
+            V(Se, {
               class: "ancillaries-value-card",
               color: "var(--kiut-success)",
               title: "Selected",
               value: A(me)(i.value)
             }, null, 8, ["value"]),
-            V($e, {
+            V(Se, {
               class: "ancillaries-value-card",
               color: "var(--kiut-primary, #5d4b93)",
               title: "Paid",
               value: A(me)(r.value)
             }, null, 8, ["value"]),
-            V($e, {
+            V(Se, {
               class: "ancillaries-value-card",
               color: "var(--kiut-error, #ef4444)",
               title: "Declined",
               value: A(me)(l.value)
             }, null, 8, ["value"])
           ]),
+<<<<<<< HEAD
           b.value.length > 0 ? (f(), x("section", Wx, [
             d("div", Kx, [
+=======
+          p.value.length > 0 ? (g(), x("section", jx, [
+            d("div", Hx, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(Ot, {
                 columns: v.value,
                 rows: b.value,
@@ -17127,30 +21682,39 @@ Without Reason`
                 "row-key": "id"
               }, {
                 "cell-date": F(({ row: k }) => [
-                  d("span", Ux, T(A(Ye)(String(k.date)).format("MMM DD")), 1)
+                  d("span", Wx, T(A(je)(String(k.date)).format("MMM DD")), 1)
                 ]),
                 "cell-offered": F(({ row: k }) => [
-                  d("span", Yx, T(A(me)(Number(k.offered_count) || 0)), 1)
+                  d("span", Kx, T(A(me)(Number(k.offered_count) || 0)), 1)
                 ]),
                 "cell-selected": F(({ row: k }) => [
-                  d("span", qx, T(A(me)(Number(k.selected_count) || 0)), 1)
+                  d("span", Ux, T(A(me)(Number(k.selected_count) || 0)), 1)
                 ]),
                 "cell-paid": F(({ row: k }) => [
-                  d("span", Gx, T(A(me)(Number(k.paid_count) || 0)), 1)
+                  d("span", Yx, T(A(me)(Number(k.paid_count) || 0)), 1)
                 ]),
                 "cell-declined": F(({ row: k }) => [
-                  d("span", Xx, T(A(me)(Number(k.declined_count) || 0)), 1)
+                  d("span", qx, T(A(me)(Number(k.declined_count) || 0)), 1)
                 ]),
                 "cell-reasons": F(({ row: k }) => [
+<<<<<<< HEAD
                   (k.reasons || []).length > 0 ? (f(), x("div", Zx, [
                     (f(!0), x(ie, null, pe(k.reasons || [], (_) => (f(), x("div", {
+=======
+                  (k.reasons || []).length > 0 ? (g(), x("div", Gx, [
+                    (g(!0), x(ie, null, pe(k.reasons || [], (_) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: _.reason,
                       class: "failed-reason-item"
                     }, [
-                      d("span", Qx, T(_.reason) + ":", 1),
-                      d("span", Jx, T(_.count), 1)
+                      d("span", Xx, T(_.reason) + ":", 1),
+                      d("span", Zx, T(_.count), 1)
                     ]))), 128))
+<<<<<<< HEAD
                   ])) : (f(), x("div", ek, "-"))
+=======
+                  ])) : (g(), x("div", Qx, "-"))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 _: 1
               }, 8, ["columns", "rows"])
@@ -17161,7 +21725,11 @@ Without Reason`
       _: 1
     }, 8, ["default-open", "loading"]));
   }
+<<<<<<< HEAD
 }), ak = /* @__PURE__ */ xe(tk, [["__scopeId", "data-v-42f742c3"]]), nk = /* @__PURE__ */ de({
+=======
+}), ek = /* @__PURE__ */ xe(Jx, [["__scopeId", "data-v-42f742c3"]]), tk = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "AncillariesCR",
   props: {
     ancillariesCr: { default: 0 },
@@ -17175,7 +21743,11 @@ Without Reason`
     ), s = C(() => A(n.value?.isDark) ?? !1), i = C(
       () => A(n.value?.changePercent) ?? 0
     );
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Ancillaries CR",
       value: o.value,
       loading: e.loading,
@@ -17210,13 +21782,17 @@ Without Reason`
       _: 1
     }, 8, ["value", "loading", "theme", "current-value", "previous-value"]));
   }
-}), ok = { class: "card-body" }, sk = {
+}), ak = { class: "card-body" }, nk = {
   key: 0,
   class: "chart-section"
-}, ik = {
+}, ok = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, lk = { class: "empty-state-content" }, rk = { class: "empty-icon-wrapper" }, ck = /* @__PURE__ */ de({
+=======
+}, sk = { class: "empty-state-content" }, ik = { class: "empty-icon-wrapper" }, lk = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "TopAgents",
   props: {
     data: { default: () => ({}) },
@@ -17254,9 +21830,15 @@ Without Reason`
         return n[y] || "#94a3b8";
       }), v = m.map((b) => `${b}80`);
       return {
+<<<<<<< HEAD
         labels: h.map((b) => {
           const y = Number(b.conversations) || 0, w = p ? y / p * 100 : 0;
           return `${Ht(b.agent_type)} - ${y.toLocaleString()} (${w.toFixed(1)}%)`;
+=======
+        labels: h.map((p) => {
+          const y = Number(p.conversations) || 0, w = b ? y / b * 100 : 0;
+          return `${Ht(p.agent_type)} - ${y.toLocaleString()} (${w.toFixed(1)}%)`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
         }),
         datasets: [
           {
@@ -17323,7 +21905,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: i,
@@ -17331,16 +21917,28 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", ok, [
           c.value.labels && c.value.labels.length ? (f(), x("section", sk, [
+=======
+        d("div", ak, [
+          c.value.labels && c.value.labels.length ? (g(), x("section", nk, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(uo, {
               data: c.value,
               options: u.value
             }, null, 8, ["data", "options"])
+<<<<<<< HEAD
           ])) : (f(), x("section", ik, [
             d("div", lk, [
               d("div", rk, [
                 V(A(g0), { class: "empty-icon" })
+=======
+          ])) : (g(), x("section", ok, [
+            d("div", sk, [
+              d("div", ik, [
+                V(A(f0), { class: "empty-icon" })
+>>>>>>> 8a6bd9f (Sales Volume chart)
               ]),
               h[0] || (h[0] = d("p", { class: "empty-title" }, "No top agents data", -1)),
               h[1] || (h[1] = d("p", { class: "empty-description" }, " Try adjusting the date range or check your filters to see agent interaction trends. ", -1))
@@ -17351,28 +21949,32 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), dk = /* @__PURE__ */ xe(ck, [["__scopeId", "data-v-34a998ae"]]), uk = { class: "card-body" }, hk = {
+}), rk = /* @__PURE__ */ xe(lk, [["__scopeId", "data-v-34a998ae"]]), ck = { class: "card-body" }, dk = {
   key: 0,
   class: "payment-methods-section"
-}, fk = { class: "payment-methods-grid" }, gk = {
+}, uk = { class: "payment-methods-grid" }, hk = {
   key: 1,
   class: "empty-state"
-}, mk = { class: "empty-state-content" }, pk = { class: "empty-icon-wrapper" }, bk = {
+}, fk = { class: "empty-state-content" }, gk = { class: "empty-icon-wrapper" }, mk = {
   key: 2,
   class: "payment-method-daily-section"
-}, vk = { class: "w-full min-w-0" }, yk = { class: "font-medium" }, xk = { class: "text-center" }, kk = { class: "text-center success-value" }, _k = {
+}, pk = { class: "w-full min-w-0" }, bk = { class: "font-medium" }, vk = { class: "text-center" }, yk = { class: "text-center success-value" }, xk = {
   key: 0,
   class: "currency-cell-list"
-}, wk = { class: "payment-tags" }, Ck = { class: "tag-name" }, $k = {
+}, kk = { class: "payment-tags" }, _k = { class: "tag-name" }, wk = {
   key: 0,
   class: "tag-amount"
-}, Sk = {
+}, Ck = {
   key: 1,
   class: "tag-amount"
-}, Mk = { class: "tag-count" }, Dk = {
+}, $k = { class: "tag-count" }, Sk = {
   key: 3,
   class: "empty-table-state"
+<<<<<<< HEAD
 }, Tk = "Not Registered", Ak = /* @__PURE__ */ de({
+=======
+}, Mk = "Not Registered", Dk = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "PaymentMethod",
   props: {
     data: { default: void 0 },
@@ -17394,7 +21996,11 @@ Without Reason`
       total_amount_by_currency: [],
       payment_method_breakdown: [],
       payment_method_by_day: []
+<<<<<<< HEAD
     }), r = C(() => l.value.payment_method_breakdown && l.value.payment_method_breakdown.length > 0), c = C(() => l.value.payment_method_by_day && l.value.payment_method_by_day.length > 0), u = C(() => !l.value.payment_method_by_day || l.value.payment_method_by_day.length === 0 ? [] : [...l.value.payment_method_by_day].sort((M, P) => Ye(M.date).valueOf() - Ye(P.date).valueOf())), g = [
+=======
+    }), r = C(() => l.value.payment_method_breakdown && l.value.payment_method_breakdown.length > 0), c = C(() => l.value.payment_method_by_day && l.value.payment_method_by_day.length > 0), u = C(() => !l.value.payment_method_by_day || l.value.payment_method_by_day.length === 0 ? [] : [...l.value.payment_method_by_day].sort((M, P) => je(M.date).valueOf() - je(P.date).valueOf())), f = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       { key: "date", label: "Date", align: "left" },
       { key: "totalSales", label: "Total Sales", align: "center" },
       { key: "totalAmount", label: "Total Amount", align: "center" },
@@ -17427,7 +22033,7 @@ Without Reason`
           count: N.count ?? 0,
           total_amount_by_currency: N.total_amount_by_currency ?? []
         })
-      ), E = (M.payment_method_by_day || []).map((N) => ({
+      ), R = (M.payment_method_by_day || []).map((N) => ({
         date: N.date || "",
         total_count: N.total_count ?? 0,
         total_amount: N.total_amount ?? 0,
@@ -17448,20 +22054,24 @@ Without Reason`
         total_sell_usd: M.total_sell_usd,
         total_amount_by_currency: M.total_amount_by_currency ?? [],
         payment_method_breakdown: P,
-        payment_method_by_day: E
+        payment_method_by_day: R
       };
     }, m = async () => {
       if (!(!n.fetchFunction || !n.dates || n.dates.length < 2 || !n.airlineName)) {
         i.value = !0;
         try {
           const [M, P] = n.dates.map(
-            (N) => Ye(N).format("YYYY-MM-DD")
-          ), E = await n.fetchFunction(
+            (N) => je(N).format("YYYY-MM-DD")
+          ), R = await n.fetchFunction(
             n.airlineName,
             M,
             P
           );
+<<<<<<< HEAD
           l.value = p(E);
+=======
+          l.value = b(R);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         } catch (M) {
           console.error("Error fetching payment method metrics:", M), l.value = p(null);
         } finally {
@@ -17475,10 +22085,14 @@ Without Reason`
       "#f59e0b",
       "#f43f5e",
       "#06b6d4"
+<<<<<<< HEAD
     ], b = (M) => !M || M.toLowerCase() === "unknown" ? Tk : M.replace(/_/g, " "), y = (M) => M == null ? "$0.00" : Ke(M), w = (M) => {
+=======
+    ], p = (M) => !M || M.toLowerCase() === "unknown" ? Mk : M.replace(/_/g, " "), y = (M) => M == null ? "$0.00" : Ue(M), w = (M) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const P = M.total_amount_by_currency;
-      return P && P.length > 0 ? P.map((E) => `${E.currency} ${y(E.total_value)}`).join(" · ") : y(M.total_amount);
-    }, k = (M) => M ? Ye(M).format("MMM DD") : "-", _ = (M) => M == null || Number.isNaN(Number(M)) ? 0 : Number(M), $ = (M) => {
+      return P && P.length > 0 ? P.map((R) => `${R.currency} ${y(R.total_value)}`).join(" · ") : y(M.total_amount);
+    }, k = (M) => M ? je(M).format("MMM DD") : "-", _ = (M) => M == null || Number.isNaN(Number(M)) ? 0 : Number(M), $ = (M) => {
       o("export", M);
     };
     function S() {
@@ -17505,10 +22119,14 @@ Without Reason`
       subtitle: "Sales breakdown by payment method",
       loading: i.value,
       "lazy-mount": "",
-      onOpen: P[0] || (P[0] = (E) => o("open"))
+      onOpen: P[0] || (P[0] = (R) => o("open"))
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !i.value ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !i.value ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: $,
@@ -17516,6 +22134,7 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", uk, [
           r.value ? (f(), x("section", hk, [
             P[1] || (P[1] = d("p", { class: "section-label" }, "Sales by Payment Method", -1)),
@@ -17533,26 +22152,50 @@ Without Reason`
             d("div", mk, [
               d("div", pk, [
                 V(A(p0), { class: "empty-icon" })
+=======
+        d("div", ck, [
+          r.value ? (g(), x("section", dk, [
+            P[1] || (P[1] = d("p", { class: "section-label" }, "Sales by Payment Method", -1)),
+            d("div", uk, [
+              (g(!0), x(ie, null, pe(l.value.payment_method_breakdown, (R, N) => (g(), Z(Se, {
+                key: R.payment_method,
+                class: "payment-method-card-item min-w-0",
+                color: v[N % v.length],
+                title: p(R.payment_method),
+                value: w(R),
+                subvalue: `${_(R.count)} ${_(R.count) === 1 ? "sale" : "sales"}`
+              }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
+            ])
+          ])) : (g(), x("section", hk, [
+            d("div", fk, [
+              d("div", gk, [
+                V(A(m0), { class: "empty-icon" })
+>>>>>>> 8a6bd9f (Sales Volume chart)
               ]),
               P[2] || (P[2] = d("p", { class: "empty-title" }, "No payment data available", -1)),
               P[3] || (P[3] = d("p", { class: "empty-description" }, " No payment method data found for the selected period. Try adjusting the date range. ", -1))
             ])
           ])),
+<<<<<<< HEAD
           c.value ? (f(), x("section", bk, [
+=======
+          c.value ? (g(), x("section", mk, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             P[5] || (P[5] = d("p", { class: "section-label" }, "Daily Breakdown", -1)),
-            d("div", vk, [
+            d("div", pk, [
               V(Ot, {
                 columns: g,
                 rows: h.value,
                 "max-visible-rows": 3,
                 "row-key": "id"
               }, {
-                "cell-date": F(({ row: E }) => [
-                  d("span", yk, T(k(String(E.date))), 1)
+                "cell-date": F(({ row: R }) => [
+                  d("span", bk, T(k(String(R.date))), 1)
                 ]),
-                "cell-totalSales": F(({ row: E }) => [
-                  d("span", xk, T(A(me)(E.total_count ?? 0)), 1)
+                "cell-totalSales": F(({ row: R }) => [
+                  d("span", vk, T(A(me)(R.total_count ?? 0)), 1)
                 ]),
+<<<<<<< HEAD
                 "cell-totalAmount": F(({ row: E }) => [
                   d("span", kk, [
                     Array.isArray(E.total_amount_by_currency) && E.total_amount_by_currency.length > 0 ? (f(), x("div", _k, [
@@ -17573,16 +22216,42 @@ Without Reason`
                       d("span", Ck, T(b(N.payment_method)), 1),
                       P[4] || (P[4] = d("span", { class: "tag-separator" }, "•", -1)),
                       !N.total_amount_by_currency || N.total_amount_by_currency.length === 0 ? (f(), x("span", $k, T(y(N.total_amount)), 1)) : (f(), x("span", Sk, T(N.total_amount_by_currency.map(
+=======
+                "cell-totalAmount": F(({ row: R }) => [
+                  d("span", yk, [
+                    Array.isArray(R.total_amount_by_currency) && R.total_amount_by_currency.length > 0 ? (g(), x("div", xk, [
+                      (g(!0), x(ie, null, pe(R.total_amount_by_currency, (N) => (g(), x("span", {
+                        key: `${R.date}-${N.currency}`
+                      }, T(N.currency) + " " + T(y(N.total_value)), 1))), 128))
+                    ])) : (g(), x(ie, { key: 1 }, [
+                      Ee(T(y(Number(R.total_amount ?? 0))), 1)
+                    ], 64))
+                  ])
+                ]),
+                "cell-paymentMethods": F(({ row: R }) => [
+                  d("div", kk, [
+                    (g(!0), x(ie, null, pe(Array.isArray(R.payment_methods) ? R.payment_methods : [], (N) => (g(), x("div", {
+                      key: N.payment_method,
+                      class: "payment-tag"
+                    }, [
+                      d("span", _k, T(p(N.payment_method)), 1),
+                      P[4] || (P[4] = d("span", { class: "tag-separator" }, "•", -1)),
+                      !N.total_amount_by_currency || N.total_amount_by_currency.length === 0 ? (g(), x("span", wk, T(y(N.total_amount)), 1)) : (g(), x("span", Ck, T(N.total_amount_by_currency.map(
+>>>>>>> 8a6bd9f (Sales Volume chart)
                         (D) => `${D.currency} ${y(D.total_value)}`
                       ).join(" / ")), 1)),
-                      d("span", Mk, "(" + T(_(N.count)) + ")", 1)
+                      d("span", $k, "(" + T(_(N.count)) + ")", 1)
                     ]))), 128))
                   ])
                 ]),
                 _: 1
               }, 8, ["rows"])
             ])
+<<<<<<< HEAD
           ])) : r.value ? (f(), x("div", Dk, [...P[6] || (P[6] = [
+=======
+          ])) : r.value ? (g(), x("div", Sk, [...P[6] || (P[6] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("p", { class: "empty-table-text" }, "No daily breakdown available", -1)
           ])])) : I("", !0)
         ])
@@ -17590,13 +22259,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), Bk = /* @__PURE__ */ xe(Ak, [["__scopeId", "data-v-168637eb"]]), Lk = { class: "card-body" }, Pk = { class: "kpi-closed-value" }, Rk = { class: "kpi-closed-value__main" }, Ek = {
+}), Tk = /* @__PURE__ */ xe(Dk, [["__scopeId", "data-v-168637eb"]]), Ak = { class: "card-body" }, Bk = { class: "kpi-closed-value" }, Lk = { class: "kpi-closed-value__main" }, Pk = {
   key: 0,
   class: "kpi-closed-value__pct"
-}, Ik = { class: "table-view-select flex justify-end" }, Fk = { class: "table-section w-full min-w-0" }, Ok = { class: "cell-plain" }, Vk = { class: "cell-plain" }, Nk = { class: "cell-plain cell-plain--muted" }, zk = { class: "cell-plain" }, jk = { class: "cell-plain cell-plain--orange" }, Hk = { class: "cell-plain cell-plain--red" }, Wk = { class: "cell-plain cell-plain--muted" }, Kk = { class: "cell-plain cell-plain--muted" }, Uk = { class: "cell-plain cell-plain--muted" }, Yk = { class: "cell-plain" }, qk = { class: "cell-plain" }, Gk = {
+}, Ek = { class: "table-view-select flex justify-end" }, Rk = { class: "table-section w-full min-w-0" }, Ik = { class: "cell-plain" }, Fk = { class: "cell-plain" }, Ok = { class: "cell-plain cell-plain--muted" }, Vk = { class: "cell-plain" }, Nk = { class: "cell-plain cell-plain--orange" }, zk = { class: "cell-plain cell-plain--red" }, jk = { class: "cell-plain cell-plain--muted" }, Hk = { class: "cell-plain cell-plain--muted" }, Wk = { class: "cell-plain cell-plain--muted" }, Kk = { class: "cell-plain" }, Uk = { class: "cell-plain" }, Yk = {
   key: 2,
   class: "empty-state"
+<<<<<<< HEAD
 }, Xk = 6, Zk = /* @__PURE__ */ de({
+=======
+}, qk = 6, Gk = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "AgentHumanConversations",
   props: {
     data: { default: () => ({
@@ -17673,7 +22346,7 @@ Without Reason`
       const q = H.toFixed(1);
       return H > 0 ? `+${q}%` : `${q}%`;
     }
-    function E(H, q = !1) {
+    function R(H, q = !1) {
       const J = q ? -H : H;
       return J > 0 ? "change-badge--up" : J < 0 ? "change-badge--down" : "change-badge--neutral";
     }
@@ -17682,7 +22355,7 @@ Without Reason`
       const J = M(H, q);
       return J === null ? null : {
         label: P(J),
-        class: E(J, !0)
+        class: R(J, !0)
       };
     }
     function D(H) {
@@ -17723,7 +22396,7 @@ Without Reason`
         n.previousAvgConversationDurationSeconds
       )
     );
-    function R(H, q) {
+    function E(H, q) {
       return {
         id: `${H.date}-${H.agent_email}-${q}`,
         date: H.date,
@@ -17765,7 +22438,11 @@ Without Reason`
           resolutionWeight: 0
         });
         const Me = q.get(ke), z = J.assigned_count ?? 0, ae = J.closed_count ?? 0;
+<<<<<<< HEAD
         Me.handled += u(J), Me.transferred += g(J), Me.abandoned += h(J), J.agent_name?.trim() && (Me.agent_name = J.agent_name.trim());
+=======
+        Me.handled += u(J), Me.transferred += f(J), Me.abandoned += h(J), J.agent_name?.trim() && (Me.agent_name = J.agent_name.trim());
+>>>>>>> 8a6bd9f (Sales Volume chart)
         const ge = D(J.avg_time_to_assign_seconds);
         ge !== null && z > 0 && (Me.assignSum += ge * z, Me.assignWeight += z);
         const we = D(J.avg_conversation_duration_seconds);
@@ -17791,8 +22468,13 @@ Without Reason`
       });
     }
     const Y = C(() => {
+<<<<<<< HEAD
       const H = b.value;
       return k.value === "aggregated" ? U(H) : H.map(R);
+=======
+      const H = p.value;
+      return k.value === "aggregated" ? U(H) : H.map(E);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     });
     function O(H, q, J, ke) {
       const Me = ke === "asc" ? 1 : -1;
@@ -17917,7 +22599,11 @@ Without Reason`
       onOpen: q[1] || (q[1] = (J) => o("open"))
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -17925,8 +22611,13 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", Lk, [
           w.value ? (f(), x("div", {
+=======
+        d("div", Ak, [
+          w.value ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 0,
             class: K(["agent-human-conv flex flex-row gap-2 overflow-hidden", { "agent-human-conv--dark": A(i) }])
           }, [
@@ -17977,9 +22668,15 @@ Without Reason`
                 ], -1)
               ])]),
               value: F(() => [
+<<<<<<< HEAD
                 d("div", Pk, [
                   d("span", Rk, T(_e(W.value)), 1),
                   ce.value ? (f(), x("span", Ek, T(ce.value), 1)) : I("", !0)
+=======
+                d("div", Bk, [
+                  d("span", Lk, T(_e(W.value)), 1),
+                  de.value ? (g(), x("span", Pk, T(de.value), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ])
               ]),
               _: 1
@@ -18061,7 +22758,11 @@ Without Reason`
             collapsible: !1
           }, {
             headerAside: F(() => [
+<<<<<<< HEAD
               d("div", Ik, [
+=======
+              d("div", Ek, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(Zt, {
                   modelValue: k.value,
                   "onUpdate:modelValue": q[0] || (q[0] = (J) => k.value = J),
@@ -18072,56 +22773,79 @@ Without Reason`
               ])
             ]),
             default: F(() => [
+<<<<<<< HEAD
               d("div", Fk, [
                 (f(), Z(Ot, {
+=======
+              d("div", Rk, [
+                (g(), Z(Ot, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: `${k.value}-${$.value}-${S.value}`,
                   columns: Te.value,
                   rows: re.value,
                   "sort-key": $.value,
                   "sort-direction": S.value,
-                  "max-visible-rows": Xk,
+                  "max-visible-rows": qk,
                   "row-key": "id",
                   onSort: be
                 }, {
                   "cell-date": F(({ row: J }) => [
+<<<<<<< HEAD
                     d("span", Ok, T(Ve(String(J.date))), 1)
                   ]),
                   "cell-name": F(({ row: J }) => [
                     d("span", Vk, T(p(J.agent_name)), 1)
+=======
+                    d("span", Ik, T(Ve(String(J.date))), 1)
+                  ]),
+                  "cell-name": F(({ row: J }) => [
+                    d("span", Fk, T(b(J.agent_name)), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   ]),
                   "cell-email": F(({ row: J }) => [
-                    d("span", Nk, T(J.agent_email), 1)
+                    d("span", Ok, T(J.agent_email), 1)
                   ]),
                   "cell-handled": F(({ row: J }) => [
+<<<<<<< HEAD
                     d("span", zk, T(_e(Number(J.handled))), 1)
                   ]),
                   "cell-transferred": F(({ row: J }) => [
                     d("span", jk, T(_e(Number(J.transferred))), 1)
+=======
+                    d("span", Vk, T(_e(Number(J.handled))), 1)
+                  ]),
+                  "cell-transferred": F(({ row: J }) => [
+                    d("span", Nk, T(_e(Number(J.transferred))), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   ]),
                   "cell-abandoned": F(({ row: J }) => [
-                    d("span", Hk, T(v(J.abandoned)), 1)
+                    d("span", zk, T(v(J.abandoned)), 1)
                   ]),
                   "cell-connected": F(({ row: J }) => [
-                    d("span", Wk, T(m(J.connected_at)), 1)
+                    d("span", jk, T(m(J.connected_at)), 1)
                   ]),
                   "cell-disconnected": F(({ row: J }) => [
-                    d("span", Kk, T(m(J.disconnected_at)), 1)
+                    d("span", Hk, T(m(J.disconnected_at)), 1)
                   ]),
                   "cell-onlineTime": F(({ row: J }) => [
-                    d("span", Uk, T(m(J.online_time_display)), 1)
+                    d("span", Wk, T(m(J.online_time_display)), 1)
                   ]),
                   "cell-avgAssignation": F(({ row: J }) => [
-                    d("span", Yk, T(J.avg_assignation_display), 1)
+                    d("span", Kk, T(J.avg_assignation_display), 1)
                   ]),
                   "cell-avgResolution": F(({ row: J }) => [
-                    d("span", qk, T(J.avg_resolution_display), 1)
+                    d("span", Uk, T(J.avg_resolution_display), 1)
                   ]),
                   _: 1
                 }, 8, ["columns", "rows", "sort-key", "sort-direction"]))
               ])
             ]),
             _: 1
+<<<<<<< HEAD
           })) : w.value ? I("", !0) : (f(), x("div", Gk, [...q[6] || (q[6] = [
+=======
+          })) : w.value ? I("", !0) : (g(), x("div", Yk, [...q[6] || (q[6] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -18147,19 +22871,23 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), Qk = /* @__PURE__ */ xe(Zk, [["__scopeId", "data-v-313e2fd8"]]), Jk = {
+}), Xk = /* @__PURE__ */ xe(Gk, [["__scopeId", "data-v-313e2fd8"]]), Zk = {
   key: 0,
   class: "w-52"
-}, e_ = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, t_ = { class: "w-full shrink-0 flex min-h-0 flex-col" }, a_ = {
+}, Qk = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Jk = { class: "w-full shrink-0 flex min-h-0 flex-col" }, e_ = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-3"
-}, n_ = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, o_ = {
+}, t_ = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, a_ = {
   key: 1,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, s_ = {
+}, n_ = {
   key: 2,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, i_ = { class: "max-w-[360px] px-4 text-center" }, l_ = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, r_ = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, c_ = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, Ji = 5, d_ = /* @__PURE__ */ de({
+=======
+}, o_ = { class: "max-w-[360px] px-4 text-center" }, s_ = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]" }, i_ = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, l_ = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, Ji = 5, r_ = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ChannelMetrics",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -18224,7 +22952,11 @@ Without Reason`
       }));
     }), v = C(
       () => m.value.slice(0, Ji)
+<<<<<<< HEAD
     ), b = C(() => {
+=======
+    ), p = C(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const w = Math.min(v.value.length, Ji);
       if (!(w <= 0))
         return { gridTemplateColumns: `repeat(${w}, minmax(0, 1fr))` };
@@ -18240,15 +22972,20 @@ Without Reason`
       }
       const $ = /* @__PURE__ */ new Set();
       for (const P of Object.values(k))
-        for (const E of Object.keys(P))
-          $.add(E);
+        for (const R of Object.keys(P))
+          $.add(R);
       const M = Array.from($).map((P) => ({
         label: P.toUpperCase(),
+<<<<<<< HEAD
         data: _.map((E) => k[E]?.[P] || 0),
         borderColor: g(P)
+=======
+        data: _.map((R) => k[R]?.[P] || 0),
+        borderColor: f(P)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }));
       h.value = {
-        labels: _.map((P) => Ye(P).format("MMM DD")),
+        labels: _.map((P) => je(P).format("MMM DD")),
         datasets: M
       };
     };
@@ -18266,7 +23003,11 @@ Without Reason`
       loading: n.loading
     }, {
       headerAside: F(() => [
+<<<<<<< HEAD
         n.breakdownOptions.length ? (f(), x("div", Jk, [
+=======
+        n.breakdownOptions.length ? (g(), x("div", Zk, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           V(Zt, {
             "model-value": n.breakdownBy,
             options: n.breakdownOptions,
@@ -18275,7 +23016,11 @@ Without Reason`
         ])) : I("", !0)
       ]),
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -18283,11 +23028,19 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", e_, [
           d("div", t_, [
             h.value.labels && h.value.labels.length ? (f(), x("section", a_, [
               d("div", n_, [
                 V(Ct, {
+=======
+        d("div", Qk, [
+          d("div", Jk, [
+            h.value.labels && h.value.labels.length ? (g(), x("section", e_, [
+              d("div", t_, [
+                V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   data: h.value,
                   theme: l.value
                 }, null, 8, ["data", "theme"])
@@ -18297,7 +23050,11 @@ Without Reason`
                 class: "grid w-full gap-3 md:gap-4",
                 style: Ae(b.value)
               }, [
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(v.value, (_) => (f(), Z($e, {
+=======
+                (g(!0), x(ie, null, pe(v.value, (_) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: _.name,
                   class: "min-w-0",
                   color: _.color,
@@ -18306,12 +23063,20 @@ Without Reason`
                   subvalue: `${A(me)(_.total)} ${n.unit}`
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 4)) : I("", !0)
+<<<<<<< HEAD
             ])) : n.showSummaryCards && m.value.length ? (f(), x("section", o_, [
+=======
+            ])) : n.showSummaryCards && m.value.length ? (g(), x("section", a_, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("div", {
                 class: "grid w-full gap-3 md:gap-4",
                 style: Ae(b.value)
               }, [
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(v.value, (_) => (f(), Z($e, {
+=======
+                (g(!0), x(ie, null, pe(v.value, (_) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: _.name,
                   class: "min-w-0",
                   color: _.color,
@@ -18321,13 +23086,19 @@ Without Reason`
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 4)
             ])) : I("", !0),
+<<<<<<< HEAD
             m.value.length ? I("", !0) : (f(), x("section", s_, [
               d("div", i_, [
                 d("div", l_, [
+=======
+            m.value.length ? I("", !0) : (g(), x("section", n_, [
+              d("div", o_, [
+                d("div", s_, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" })
                 ]),
-                d("p", r_, T(n.emptyTitle), 1),
-                d("p", c_, T(n.emptyDescription), 1)
+                d("p", i_, T(n.emptyTitle), 1),
+                d("p", l_, T(n.emptyDescription), 1)
               ])
             ]))
           ])
@@ -18336,7 +23107,11 @@ Without Reason`
       _: 1
     }, 8, ["title", "subtitle", "loading"]));
   }
+<<<<<<< HEAD
 }), Mr = /* @__PURE__ */ xe(d_, [["__scopeId", "data-v-987b8c34"]]), u_ = /* @__PURE__ */ de({
+=======
+}), Sr = /* @__PURE__ */ xe(r_, [["__scopeId", "data-v-987b8c34"]]), c_ = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ConversationVolume",
   props: {
     data: { default: null },
@@ -18363,7 +23138,11 @@ Without Reason`
       ),
       total_conversations: o.value
     }));
+<<<<<<< HEAD
     return (c, u) => a.breakdownBy === "channel" ? (f(), Z(Mr, {
+=======
+    return (c, u) => a.breakdownBy === "channel" ? (g(), Z(Sr, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       key: 0,
       data: r.value,
       loading: a.loading,
@@ -18375,8 +23154,13 @@ Without Reason`
       "total-conversations": o.value,
       "empty-title": a.emptyTitle,
       "empty-description": a.emptyDescription,
+<<<<<<< HEAD
       onChangeBreakdown: u[0] || (u[0] = (g) => n("changeBreakdown", g))
     }, null, 8, ["data", "loading", "title", "subtitle", "breakdown-by", "breakdown-options", "total-conversations", "empty-title", "empty-description"])) : (f(), Z(Cr, {
+=======
+      onChangeBreakdown: u[0] || (u[0] = (f) => n("changeBreakdown", f))
+    }, null, 8, ["data", "loading", "title", "subtitle", "breakdown-by", "breakdown-options", "total-conversations", "empty-title", "empty-description"])) : (g(), Z(wr, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       key: 1,
       data: l.value,
       loading: a.loading,
@@ -18393,7 +23177,13 @@ Without Reason`
       onChangeBreakdown: u[1] || (u[1] = (g) => n("changeBreakdown", g))
     }, null, 8, ["data", "loading", "title", "subtitle", "breakdown-by", "breakdown-options", "total-conversations", "max-series", "show-summary-cards", "empty-title", "empty-description"]));
   }
-}), h_ = { class: "card-body" }, f_ = { class: "chart-container" }, g_ = { class: "triage-table-block w-full min-w-0" }, m_ = { class: "triage-row-label" }, p_ = {
+}), d_ = { class: "card-body" }, u_ = { class: "chart-container" }, h_ = { class: "triage-table-block w-full min-w-0" }, f_ = { class: "triage-row-label" }, g_ = {
+  key: 1,
+  class: "triage-count"
+}, m_ = {
+  key: 1,
+  class: "triage-count"
+}, p_ = {
   key: 1,
   class: "triage-count"
 }, b_ = {
@@ -18404,14 +23194,12 @@ Without Reason`
   class: "triage-count"
 }, y_ = {
   key: 1,
-  class: "triage-count"
-}, x_ = {
-  key: 1,
-  class: "triage-count"
-}, k_ = {
-  key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, __ = { class: "empty-state-content" }, w_ = { class: "empty-icon-wrapper" }, C_ = /* @__PURE__ */ de({
+=======
+}, x_ = { class: "empty-state-content" }, k_ = { class: "empty-icon-wrapper" }, __ = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "TriageCombinations",
   props: {
     data: { default: () => ({ combinations: {} }) },
@@ -18431,7 +23219,7 @@ Without Reason`
       for (const [$, S] of Object.entries(k)) {
         const M = $.split("+").filter(Boolean);
         if (!M.includes("triage")) continue;
-        const P = M.filter((E) => E !== "triage").length;
+        const P = M.filter((R) => R !== "triage").length;
         P >= 4 ? _["4p"] += Number(S) || 0 : _[P] += Number(S) || 0;
       }
       return _;
@@ -18583,7 +23371,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -18591,21 +23383,29 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", h_, [
           u.value ? (f(), x(ie, { key: 0 }, [
             d("div", f_, [
               V(Kt, {
                 data: b.value,
+=======
+        d("div", d_, [
+          u.value ? (g(), x(ie, { key: 0 }, [
+            d("div", u_, [
+              V(Kt, {
+                data: p.value,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 options: y.value
               }, null, 8, ["data", "options"])
             ]),
-            V($e, {
+            V(Se, {
               class: "w-full min-w-0",
               title: "Total",
               value: A(me)(c.value),
               subvalue: "Conversations with triage"
             }, null, 8, ["value"]),
-            d("div", g_, [
+            d("div", h_, [
               V(Ot, {
                 columns: h,
                 rows: p.value,
@@ -18613,49 +23413,75 @@ Without Reason`
                 "row-key": "id"
               }, {
                 "cell-metric": F(({ row: $ }) => [
-                  d("span", m_, T($.metric), 1)
+                  d("span", f_, T($.metric), 1)
                 ]),
                 "cell-b0": F(({ row: $ }) => [
                   $.id === "pct" ? (f(), x("span", {
                     key: 0,
                     class: "triage-pct",
                     style: Ae({ color: v(m.c0) })
+<<<<<<< HEAD
                   }, T(w(Number($.b0))) + "%", 5)) : (f(), x("span", p_, T(A(me)(Number($.b0))), 1))
+=======
+                  }, T(w(Number($.b0))) + "%", 5)) : (g(), x("span", g_, T(A(me)(Number($.b0))), 1))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 "cell-b1": F(({ row: $ }) => [
                   $.id === "pct" ? (f(), x("span", {
                     key: 0,
                     class: "triage-pct",
                     style: Ae({ color: v(m.c1) })
+<<<<<<< HEAD
                   }, T(w(Number($.b1))) + "%", 5)) : (f(), x("span", b_, T(A(me)(Number($.b1))), 1))
+=======
+                  }, T(w(Number($.b1))) + "%", 5)) : (g(), x("span", m_, T(A(me)(Number($.b1))), 1))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 "cell-b2": F(({ row: $ }) => [
                   $.id === "pct" ? (f(), x("span", {
                     key: 0,
                     class: "triage-pct",
                     style: Ae({ color: v(m.c2) })
+<<<<<<< HEAD
                   }, T(w(Number($.b2))) + "%", 5)) : (f(), x("span", v_, T(A(me)(Number($.b2))), 1))
+=======
+                  }, T(w(Number($.b2))) + "%", 5)) : (g(), x("span", p_, T(A(me)(Number($.b2))), 1))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 "cell-b3": F(({ row: $ }) => [
                   $.id === "pct" ? (f(), x("span", {
                     key: 0,
                     class: "triage-pct",
                     style: Ae({ color: v(m.c3) })
+<<<<<<< HEAD
                   }, T(w(Number($.b3))) + "%", 5)) : (f(), x("span", y_, T(A(me)(Number($.b3))), 1))
+=======
+                  }, T(w(Number($.b3))) + "%", 5)) : (g(), x("span", b_, T(A(me)(Number($.b3))), 1))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 "cell-b4p": F(({ row: $ }) => [
                   $.id === "pct" ? (f(), x("span", {
                     key: 0,
                     class: "triage-pct",
                     style: Ae({ color: v(m.c4p) })
+<<<<<<< HEAD
                   }, T(w(Number($.b4p))) + "%", 5)) : (f(), x("span", x_, T(A(me)(Number($.b4p))), 1))
+=======
+                  }, T(w(Number($.b4p))) + "%", 5)) : (g(), x("span", v_, T(A(me)(Number($.b4p))), 1))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 _: 1
               }, 8, ["rows"])
             ])
+<<<<<<< HEAD
           ], 64)) : (f(), x("div", k_, [
             d("div", __, [
               d("div", w_, [
+=======
+          ], 64)) : (g(), x("div", y_, [
+            d("div", x_, [
+              d("div", k_, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(A(At), { class: "empty-icon" })
               ]),
               _[0] || (_[0] = d("p", { class: "empty-title" }, "No triage combinations data", -1)),
@@ -18667,13 +23493,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), $_ = /* @__PURE__ */ xe(C_, [["__scopeId", "data-v-be7d2c0c"]]), S_ = { class: "card-body" }, M_ = {
+}), w_ = /* @__PURE__ */ xe(__, [["__scopeId", "data-v-be7d2c0c"]]), C_ = { class: "card-body" }, $_ = {
   key: 0,
   class: "distribution-with-total flex w-full min-w-0 flex-1 flex-col gap-3 min-h-0"
-}, D_ = { class: "pie-section" }, T_ = {
+}, S_ = { class: "pie-section" }, M_ = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, A_ = /* @__PURE__ */ de({
+=======
+}, D_ = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "SelectLanguage",
   props: {
     data: { default: () => ({ items: [] }) },
@@ -18776,21 +23606,33 @@ Without Reason`
       loading: a.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", S_, [
           r.value ? (f(), x("div", M_, [
             d("section", D_, [
               V(uo, {
                 data: g.value,
+=======
+        d("div", C_, [
+          r.value ? (g(), x("div", $_, [
+            d("section", S_, [
+              V(uo, {
+                data: f.value,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 options: h.value
               }, null, 8, ["data", "options"])
             ]),
-            V($e, {
+            V(Se, {
               class: "shrink-0",
               title: "Total",
               value: A(me)(c.value),
               color: "#8b5cf6"
             }, null, 8, ["value"])
+<<<<<<< HEAD
           ])) : (f(), x("section", T_, [...m[0] || (m[0] = [
+=======
+          ])) : (g(), x("section", M_, [...m[0] || (m[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -18816,13 +23658,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), B_ = /* @__PURE__ */ xe(A_, [["__scopeId", "data-v-9385c088"]]), L_ = { class: "card-body" }, P_ = {
+}), T_ = /* @__PURE__ */ xe(D_, [["__scopeId", "data-v-9385c088"]]), A_ = { class: "card-body" }, B_ = {
   key: 0,
   class: "guardrails-daily-section"
-}, R_ = { class: "w-full min-w-0" }, E_ = { class: "font-medium" }, I_ = { class: "font-semibold" }, F_ = { class: "type-badges-row" }, O_ = { class: "guardrails-kpis grid grid-cols-2 gap-3 lg:grid-cols-4" }, V_ = {
+}, L_ = { class: "w-full min-w-0" }, P_ = { class: "font-medium" }, E_ = { class: "font-semibold" }, R_ = { class: "type-badges-row" }, I_ = { class: "guardrails-kpis grid grid-cols-2 gap-3 lg:grid-cols-4" }, F_ = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, N_ = /* @__PURE__ */ de({
+=======
+}, O_ = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "Guardrails",
   props: {
     data: { default: () => ({ items: [] }) },
@@ -18879,7 +23725,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -18887,10 +23737,17 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", L_, [
           l.value ? (f(), x(ie, { key: 0 }, [
             p.value.length > 0 ? (f(), x("section", P_, [
               d("div", R_, [
+=======
+        d("div", A_, [
+          l.value ? (g(), x(ie, { key: 0 }, [
+            b.value.length > 0 ? (g(), x("section", B_, [
+              d("div", L_, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(Ot, {
                   columns: m,
                   rows: v.value,
@@ -18898,14 +23755,19 @@ Without Reason`
                   "row-key": "id"
                 }, {
                   "cell-date": F(({ row: w }) => [
-                    d("span", E_, T(A(Ye)(String(w.date)).format("MMM DD")), 1)
+                    d("span", P_, T(A(je)(String(w.date)).format("MMM DD")), 1)
                   ]),
                   "cell-count": F(({ row: w }) => [
-                    d("span", I_, T(A(me)(w.total)), 1)
+                    d("span", E_, T(A(me)(w.total)), 1)
                   ]),
                   "cell-types": F(({ row: w }) => [
+<<<<<<< HEAD
                     d("div", F_, [
                       (f(!0), x(ie, null, pe(w.types, (k) => (f(), x("span", {
+=======
+                    d("div", R_, [
+                      (g(!0), x(ie, null, pe(w.types, (k) => (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                         key: k.type,
                         class: "type-count-badge"
                       }, T(k.type) + " (" + T(k.count) + ") ", 1))), 128))
@@ -18915,28 +23777,32 @@ Without Reason`
                 }, 8, ["rows"])
               ])
             ])) : I("", !0),
-            d("section", O_, [
-              V($e, {
+            d("section", I_, [
+              V(Se, {
                 title: "Total Events",
                 value: A(me)(r.value)
               }, null, 8, ["value"]),
-              V($e, {
+              V(Se, {
                 title: "Top type",
                 value: u.value.name,
                 subvalue: u.value.pct > 0 ? `(${u.value.pct}%)` : void 0
               }, null, 8, ["value", "subvalue"]),
-              V($e, {
+              V(Se, {
                 title: "Top action",
                 value: g.value.name,
                 subvalue: g.value.pct > 0 ? `(${g.value.pct}%)` : void 0
               }, null, 8, ["value", "subvalue"]),
-              V($e, {
+              V(Se, {
                 title: "Top source",
                 value: h.value.name,
                 subvalue: h.value.pct > 0 ? `(${h.value.pct}%)` : void 0
               }, null, 8, ["value", "subvalue"])
             ])
+<<<<<<< HEAD
           ], 64)) : (f(), x("section", V_, [...y[0] || (y[0] = [
+=======
+          ], 64)) : (g(), x("section", F_, [...y[0] || (y[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -18962,19 +23828,23 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), z_ = /* @__PURE__ */ xe(N_, [["__scopeId", "data-v-c042ede0"]]), j_ = { class: "card-body" }, H_ = { class: "chart-section" }, W_ = { class: "chart-wrapper" }, K_ = {
+}), V_ = /* @__PURE__ */ xe(O_, [["__scopeId", "data-v-c042ede0"]]), N_ = { class: "card-body" }, z_ = { class: "chart-section" }, j_ = { class: "chart-wrapper" }, H_ = {
   key: 1,
   class: "empty-chart"
-}, U_ = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5" }, Y_ = {
+}, W_ = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5" }, K_ = {
   key: 0,
   class: "dn-failure-section"
-}, q_ = { class: "w-full min-w-0" }, G_ = { class: "failure-reason" }, X_ = { class: "failure-count" }, Z_ = { class: "impact-bar-container" }, Q_ = { class: "impact-label" }, J_ = { class: "dn-trend-health-block flex flex-col gap-0" }, e2 = {
+}, U_ = { class: "w-full min-w-0" }, Y_ = { class: "failure-reason" }, q_ = { class: "failure-count" }, G_ = { class: "impact-bar-container" }, X_ = { class: "impact-label" }, Z_ = { class: "dn-trend-health-block flex flex-col gap-0" }, Q_ = {
   key: 0,
   class: "chart-section dn-trend-chart-section"
-}, t2 = { class: "dn-trend-chart-area min-h-[280px] w-full min-w-0 flex-1" }, a2 = { class: "system-health" }, n2 = { class: "system-health-content" }, o2 = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" }, s2 = {
+}, J_ = { class: "dn-trend-chart-area min-h-[280px] w-full min-w-0 flex-1" }, e2 = { class: "system-health" }, t2 = { class: "system-health-content" }, a2 = { class: "grid w-full grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" }, n2 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, i2 = /* @__PURE__ */ de({
+=======
+}, o2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "DisruptionNotifier",
   props: {
     data: { default: () => ({
@@ -19060,7 +23930,11 @@ Without Reason`
         impactPct: $.impactPct
       }))
     ), w = C(() => {
+<<<<<<< HEAD
       const $ = g.value, S = u.value.processing_success, M = Math.max(0, S - u.value.totalDqErrors), P = u.value.notification_sent, E = Math.max(0, $ - S), N = u.value.totalDqErrors, D = Math.max(0, M - P), B = (W, X) => Se(W, X), L = [
+=======
+      const $ = f.value, S = u.value.processing_success, M = Math.max(0, S - u.value.totalDqErrors), P = u.value.notification_sent, R = Math.max(0, $ - S), N = u.value.totalDqErrors, D = Math.max(0, M - P), B = (W, X) => $e(W, X), L = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         { name: "Records Detected", status: "success" },
         { name: "Valid Reservations", status: "success" },
         { name: "Invalid / Unprocessed", status: "error" },
@@ -19074,11 +23948,11 @@ Without Reason`
         target: "Valid Reservations",
         value: S,
         label: B(S, $)
-      }), E > 0 && j.push({
+      }), R > 0 && j.push({
         source: "Records Detected",
         target: "Invalid / Unprocessed",
-        value: E,
-        label: B(E, $)
+        value: R,
+        label: B(R, $)
       }), M > 0 && j.push({
         source: "Valid Reservations",
         target: "Contactable",
@@ -19111,12 +23985,12 @@ Without Reason`
           ...$.map((B) => B.date),
           ...S.map((B) => B.date)
         ])
-      ].sort(), E = P.map((B) => Ye(B).format("MMM DD")), N = P.map((B) => {
+      ].sort(), R = P.map((B) => je(B).format("MMM DD")), N = P.map((B) => {
         const L = $.find((X) => X.date === B), j = L?.notification_sent || 0, W = M[B] || L?.processing_started || 0;
         return W > 0 ? Math.round(j / W * 100) : 0;
       }), D = P.map((B) => $.find((j) => j.date === B)?.notification_sent || 0);
       return {
-        labels: E,
+        labels: R,
         datasets: [
           {
             label: "Success Rate (%)",
@@ -19234,7 +24108,11 @@ Without Reason`
       onOpen: S[0] || (S[0] = (M) => o("open"))
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !n.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !n.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -19242,6 +24120,7 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", j_, [
           r.value ? (f(), x(ie, { key: 0 }, [
             d("section", H_, [
@@ -19250,51 +24129,69 @@ Without Reason`
               ], -1)),
               d("div", W_, [
                 w.value.nodes.length > 0 && w.value.links.length > 0 ? (f(), Z(ga, {
+=======
+        d("div", N_, [
+          r.value ? (g(), x(ie, { key: 0 }, [
+            d("section", z_, [
+              S[2] || (S[2] = d("div", { class: "chart-header" }, [
+                d("h4", { class: "section-title" }, "Passenger Disruption Funnel")
+              ], -1)),
+              d("div", j_, [
+                w.value.nodes.length > 0 && w.value.links.length > 0 ? (g(), Z(ga, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 0,
                   data: w.value,
                   height: "350px",
                   "use-gradient": !1,
                   "node-gap": 16
+<<<<<<< HEAD
                 }, null, 8, ["data"])) : (f(), x("div", K_, [...S[1] || (S[1] = [
+=======
+                }, null, 8, ["data"])) : (g(), x("div", H_, [...S[1] || (S[1] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   d("p", { class: "empty-chart-text" }, " No processing data available for visualization ", -1)
                 ])]))
               ])
             ]),
-            d("div", U_, [
-              V($e, {
+            d("div", W_, [
+              V(Se, {
                 color: "#3b82f6",
                 title: "Total Records",
                 value: A(me)(c.value.row_count_total)
               }, null, 8, ["value"]),
-              V($e, {
+              V(Se, {
                 color: "#8b5cf6",
                 title: "Passengers Affected",
                 value: A(me)(g.value)
               }, null, 8, ["value"]),
-              V($e, {
+              V(Se, {
                 color: "#10b981",
                 title: "Successfully Notified",
                 value: A(me)(u.value.notification_sent),
                 subvalue: p(u.value.notification_sent, g.value)
               }, null, 8, ["value", "subvalue"]),
-              V($e, {
+              V(Se, {
                 color: "#ef4444",
                 title: "Not Notified",
                 value: A(me)(h.value),
                 subvalue: p(h.value, g.value)
               }, null, 8, ["value", "subvalue"]),
-              V($e, {
+              V(Se, {
                 color: "#f59e0b",
                 title: "Main Failure Reason",
                 value: m.value.reason,
                 subvalue: m.value.count > 0 ? `${A(me)(m.value.count)} cases` : void 0
               }, null, 8, ["value", "subvalue"])
             ]),
+<<<<<<< HEAD
             v.value.length > 0 ? (f(), x("section", Y_, [
+=======
+            v.value.length > 0 ? (g(), x("section", K_, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               S[3] || (S[3] = d("div", { class: "section-header" }, [
                 d("h4", { class: "section-title" }, "Why Passengers Were Not Notified")
               ], -1)),
-              d("div", q_, [
+              d("div", U_, [
                 V(Ot, {
                   columns: b,
                   rows: y.value,
@@ -19302,38 +24199,43 @@ Without Reason`
                   "row-key": "id"
                 }, {
                   "cell-reason": F(({ row: M }) => [
-                    d("span", G_, T(M.reason), 1)
+                    d("span", Y_, T(M.reason), 1)
                   ]),
                   "cell-count": F(({ row: M }) => [
-                    d("span", X_, T(A(me)(M.count)), 1)
+                    d("span", q_, T(A(me)(M.count)), 1)
                   ]),
                   "cell-impact": F(({ row: M }) => [
-                    d("div", Z_, [
+                    d("div", G_, [
                       d("div", {
                         class: "impact-bar",
                         style: Ae({ width: M.impactPct + "%" })
                       }, null, 4),
-                      d("span", Q_, T(M.impactPct) + "%", 1)
+                      d("span", X_, T(M.impactPct) + "%", 1)
                     ])
                   ]),
                   _: 1
                 }, 8, ["rows"])
               ])
             ])) : I("", !0),
+<<<<<<< HEAD
             d("div", J_, [
               k.value.labels.length > 0 ? (f(), x("section", e2, [
+=======
+            d("div", Z_, [
+              k.value.labels.length > 0 ? (g(), x("section", Q_, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 S[4] || (S[4] = d("div", { class: "chart-header" }, [
                   d("h4", { class: "section-title" }, "Notification Success Rate by Day")
                 ], -1)),
-                d("div", t2, [
-                  V(Ct, {
+                d("div", J_, [
+                  V(xt, {
                     data: k.value,
                     options: _.value,
                     theme: n.theme
                   }, null, 8, ["data", "options", "theme"])
                 ])
               ])) : I("", !0),
-              d("details", a2, [
+              d("details", e2, [
                 S[5] || (S[5] = d("summary", { class: "system-health-toggle" }, [
                   d("svg", {
                     class: "toggle-icon",
@@ -19354,31 +24256,31 @@ Without Reason`
                       d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                     })
                   ]),
-                  Re(" System Health Details ")
+                  Ee(" System Health Details ")
                 ], -1)),
-                d("div", n2, [
-                  d("div", o2, [
-                    V($e, {
+                d("div", t2, [
+                  d("div", a2, [
+                    V(Se, {
                       title: "Docs Started",
                       value: A(me)(c.value.processing_started)
                     }, null, 8, ["value"]),
-                    V($e, {
+                    V(Se, {
                       title: "Docs Completed",
                       value: A(me)(c.value.processing_completed)
                     }, null, 8, ["value"]),
-                    V($e, {
+                    V(Se, {
                       title: "Docs Failed",
                       value: A(me)(c.value.processing_failed)
                     }, null, 8, ["value"]),
-                    V($e, {
+                    V(Se, {
                       title: "Processing Started",
                       value: A(me)(u.value.processing_started)
                     }, null, 8, ["value"]),
-                    V($e, {
+                    V(Se, {
                       title: "Processing Success",
                       value: A(me)(u.value.processing_success)
                     }, null, 8, ["value"]),
-                    V($e, {
+                    V(Se, {
                       title: "Notification Failed",
                       value: A(me)(u.value.notification_failed)
                     }, null, 8, ["value"])
@@ -19386,7 +24288,11 @@ Without Reason`
                 ])
               ])
             ])
+<<<<<<< HEAD
           ], 64)) : (f(), x("section", s2, [...S[6] || (S[6] = [
+=======
+          ], 64)) : (g(), x("section", n2, [...S[6] || (S[6] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", { class: "empty-state-content" }, [
               d("div", { class: "empty-icon-wrapper" }, [
                 d("svg", {
@@ -19412,18 +24318,26 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
+<<<<<<< HEAD
 }), l2 = /* @__PURE__ */ xe(i2, [["__scopeId", "data-v-2342d485"]]), r2 = "Total number of conversations initiated during the selected period.", c2 = /* @__PURE__ */ de({
+=======
+}), s2 = /* @__PURE__ */ xe(o2, [["__scopeId", "data-v-2342d485"]]), i2 = "Total number of conversations initiated during the selected period.", l2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "TotalConversationsCard",
   props: {
     totalConversations: { default: 0 },
     previousTotalConversations: { default: null },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: r2 }
+    tooltip: { default: i2 }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(() => me(a.totalConversations)), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Total Conversations",
       value: o.value,
       tooltip: e.tooltip,
@@ -19451,18 +24365,26 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme", "current-value", "previous-value"]));
   }
+<<<<<<< HEAD
 }), d2 = "Score of the top 5% most satisfied customers. If it drops, it serves as an alert that the remaining 95% are receiving worse service and overall quality is declining.", u2 = /* @__PURE__ */ de({
+=======
+}), r2 = "Score of the top 5% most satisfied customers. If it drops, it serves as an alert that the remaining 95% are receiving worse service and overall quality is declining.", c2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CsatP95Card",
   props: {
     csatP95: { default: 0 },
     previousCsatP95: { default: null },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: d2 }
+    tooltip: { default: r2 }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(() => `${a.csatP95.toFixed(1)}`), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "CSAT P95",
       value: o.value,
       tooltip: e.tooltip,
@@ -19490,7 +24412,11 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme", "current-value", "previous-value"]));
   }
+<<<<<<< HEAD
 }), h2 = /* @__PURE__ */ de({
+=======
+}), d2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CsatPulseCard",
   props: {
     csatPulse: { default: 0 },
@@ -19500,7 +24426,11 @@ Without Reason`
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(() => `${a.csatPulse.toFixed(1)}%`), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "CSAT Pulse",
       value: o.value,
       loading: e.loading,
@@ -19527,13 +24457,13 @@ Without Reason`
       _: 1
     }, 8, ["value", "loading", "theme", "current-value", "previous-value"]));
   }
-}), f2 = {
+}), u2 = {
   key: 0,
   class: "card-body"
-}, g2 = { class: "chart-wrapper" }, m2 = { class: "overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4" }, p2 = {
+}, h2 = { class: "chart-wrapper" }, f2 = { class: "overview-card-infos mt-4 flex w-full flex-col gap-3 sm:flex-row sm:gap-4" }, g2 = {
   key: 1,
   class: "empty-state"
-}, b2 = 520, v2 = 300, y2 = 40, x2 = 48, k2 = 48, _2 = {
+}, m2 = 520, p2 = 300, b2 = 40, v2 = 48, y2 = 48, x2 = {
   __name: "npsOverviewMetrics",
   props: {
     data: {
@@ -19570,7 +24500,11 @@ Without Reason`
       loading: s.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !s.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !s.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: o,
@@ -19578,8 +24512,13 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         l.value && l.value.total_nps_responses > 0 ? (f(), x("div", f2, [
           d("div", g2, [
+=======
+        l.value && l.value.total_nps_responses > 0 ? (g(), x("div", u2, [
+          d("div", h2, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(dr, {
               histogram: l.value.histogram || [],
               "min-score": l.value.min_score || 0,
@@ -19588,30 +24527,38 @@ Without Reason`
               "median-score": l.value.median_score || 0,
               "q3-score": l.value.q3_score || 0,
               "average-score": l.value.average_score || 0,
-              "chart-width": b2,
-              "chart-height": v2,
-              "chart-margin": y2,
-              "chart-margin-right": x2,
-              "chart-bottom-margin": k2,
+              "chart-width": m2,
+              "chart-height": p2,
+              "chart-margin": b2,
+              "chart-margin-right": v2,
+              "chart-bottom-margin": y2,
               "plot-inset": 10,
               "show-legend": !1,
               "show-stat-labels": !1
             }, null, 8, ["histogram", "min-score", "max-score", "q1-score", "median-score", "q3-score", "average-score"])
           ]),
-          d("div", m2, [
-            V($e, {
+          d("div", f2, [
+            V(Se, {
               class: "min-w-0 flex-1",
               title: "Responses",
               value: String(l.value.total_nps_responses)
             }, null, 8, ["value"]),
+<<<<<<< HEAD
             l.value.p95_score > 0 ? (f(), Z($e, {
+=======
+            l.value.p95_score > 0 ? (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: 0,
               class: "min-w-0 flex-1",
               title: "Percentile 95",
               value: String(l.value.p95_score)
             }, null, 8, ["value"])) : I("", !0)
           ])
+<<<<<<< HEAD
         ])) : (f(), x("div", p2, [...c[0] || (c[0] = [
+=======
+        ])) : (g(), x("div", g2, [...c[0] || (c[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("div", { class: "empty-state-content" }, [
             d("div", { class: "empty-icon-wrapper" }, [
               d("svg", {
@@ -19636,13 +24583,13 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}, Dr = /* @__PURE__ */ xe(_2, [["__scopeId", "data-v-e98fe9b2"]]), w2 = {
+}, Mr = /* @__PURE__ */ xe(x2, [["__scopeId", "data-v-e98fe9b2"]]), k2 = {
   key: 0,
   class: "card-body"
-}, C2 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, $2 = {
+}, _2 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, w2 = {
   key: 1,
   class: "empty-state"
-}, S2 = {
+}, C2 = {
   __name: "npsDailyMetrics",
   props: {
     data: {
@@ -19667,7 +24614,7 @@ Without Reason`
     const a = t, n = (c) => {
       a("export", c);
     }, o = e, s = C(() => o.data?.csat_p95_by_day || []), i = C(() => s.value.length > 0), l = C(() => ({
-      labels: s.value.map((c) => Ye(c.date).format("DD-MM-YYYY")),
+      labels: s.value.map((c) => je(c.date).format("DD-MM-YYYY")),
       datasets: [
         {
           label: "CSAT P95",
@@ -19710,7 +24657,11 @@ Without Reason`
       loading: o.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !o.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !o.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: n,
@@ -19718,15 +24669,25 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         i.value ? (f(), x("div", w2, [
           d("div", C2, [
             V(Ct, {
+=======
+        i.value ? (g(), x("div", k2, [
+          d("div", _2, [
+            V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               data: l.value,
               options: r,
               "uppercase-legend-labels": !0
             }, null, 8, ["data"])
           ])
+<<<<<<< HEAD
         ])) : (f(), x("div", $2, [...u[0] || (u[0] = [
+=======
+        ])) : (g(), x("div", w2, [...u[0] || (u[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("p", { class: "empty-title" }, "No daily CSAT P95 available", -1),
           d("p", { class: "empty-description" }, " No CSAT P95 points were found for the selected date range. ", -1)
         ])]))
@@ -19734,13 +24695,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}, Tr = /* @__PURE__ */ xe(S2, [["__scopeId", "data-v-5207cfa7"]]), M2 = {
+}, Dr = /* @__PURE__ */ xe(C2, [["__scopeId", "data-v-5207cfa7"]]), $2 = {
   key: 0,
   class: "card-body"
-}, D2 = {
+}, S2 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, T2 = /* @__PURE__ */ de({
+=======
+}, M2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "npsResolutionMetrics",
   props: {
     data: {
@@ -19796,13 +24761,21 @@ Without Reason`
       loading: t.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         n.value ? (f(), x("div", M2, [
+=======
+        n.value ? (g(), x("div", $2, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           V(Kt, {
             data: o.value,
             options: s,
             "uppercase-legend-labels": !0
           }, null, 8, ["data"])
+<<<<<<< HEAD
         ])) : (f(), x("div", D2, [...l[0] || (l[0] = [
+=======
+        ])) : (g(), x("div", S2, [...l[0] || (l[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("p", { class: "empty-title" }, "No resolution answers available", -1),
           d("p", { class: "empty-description" }, " This airline has the resolution survey configured, but no responses were found for the selected dates. ", -1)
         ])]))
@@ -19810,13 +24783,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), A2 = /* @__PURE__ */ xe(T2, [["__scopeId", "data-v-6849ef24"]]), B2 = {
+}), D2 = /* @__PURE__ */ xe(M2, [["__scopeId", "data-v-6849ef24"]]), T2 = {
   key: 0,
   class: "card-body"
-}, L2 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, P2 = {
+}, A2 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, B2 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, R2 = /* @__PURE__ */ de({
+=======
+}, L2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "npsPulseMetrics",
   props: {
     data: {
@@ -19890,7 +24867,11 @@ Without Reason`
       loading: o.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !o.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !o.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -19898,15 +24879,25 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         i.value ? (f(), x("div", B2, [
           d("div", L2, [
             V(Ct, {
+=======
+        i.value ? (g(), x("div", T2, [
+          d("div", A2, [
+            V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               data: l.value,
               options: r,
               "uppercase-legend-labels": !0
             }, null, 8, ["data"])
           ])
+<<<<<<< HEAD
         ])) : (f(), x("div", P2, [...u[0] || (u[0] = [
+=======
+        ])) : (g(), x("div", B2, [...u[0] || (u[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           d("p", { class: "empty-title" }, "No CSAT Pulse data available", -1),
           d("p", { class: "empty-description" }, " No CSAT pulse points were found for the selected date range. ", -1)
         ])]))
@@ -19914,7 +24905,7 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), E2 = /* @__PURE__ */ xe(R2, [["__scopeId", "data-v-72955d9a"]]), I2 = { class: "nps-metrics-container flex flex-col gap-6 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, F2 = { class: "grid w-full grid-cols-1 items-start gap-6 md:grid-cols-2" }, Ar = {
+}), P2 = /* @__PURE__ */ xe(L2, [["__scopeId", "data-v-72955d9a"]]), E2 = { class: "nps-metrics-container flex flex-col gap-6 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, R2 = { class: "grid w-full grid-cols-1 items-start gap-6 md:grid-cols-2" }, Tr = {
   __name: "npsMetrics",
   props: {
     data: {
@@ -19947,16 +24938,22 @@ Without Reason`
     ), r = C(() => l.value > 0), c = C(
       () => l.value > 1 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
     );
+<<<<<<< HEAD
     return (u, g) => (f(), x("div", I2, [
       d("div", F2, [
         V(Dr, {
+=======
+    return (u, f) => (g(), x("div", E2, [
+      d("div", R2, [
+        V(Mr, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           class: "min-w-0",
           data: e.data,
           loading: e.loading,
           "enable-export": e.enableExport,
           onExport: n
         }, null, 8, ["data", "loading", "enable-export"]),
-        V(Tr, {
+        V(Dr, {
           class: "min-w-0",
           data: e.data,
           loading: e.loading,
@@ -19968,13 +24965,21 @@ Without Reason`
         key: 0,
         class: K(["grid w-full items-start gap-6", c.value])
       }, [
+<<<<<<< HEAD
         s.value ? (f(), Z(A2, {
+=======
+        s.value ? (g(), Z(D2, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           class: "min-w-0",
           data: e.data,
           loading: e.loading
         }, null, 8, ["data", "loading"])) : I("", !0),
+<<<<<<< HEAD
         i.value ? (f(), Z(E2, {
+=======
+        i.value ? (g(), Z(P2, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 1,
           class: "min-w-0",
           data: e.data,
@@ -19985,7 +24990,11 @@ Without Reason`
       ], 2)) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }, O2 = { class: "csat-container__body" }, V2 = /* @__PURE__ */ de({
+=======
+}, I2 = { class: "csat-container__body" }, F2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CSATContainer",
   props: {
     containerInitiallyOpen: { type: Boolean, default: !1 },
@@ -20011,8 +25020,8 @@ Without Reason`
       onOpen: s[0] || (s[0] = (i) => a("open"))
     }, {
       default: F(() => [
-        d("div", O2, [
-          V(Ar, {
+        d("div", I2, [
+          V(Tr, {
             data: e.data,
             "enable-export": e.enableExport,
             "show-resolution-chart": e.showResolutionChart,
@@ -20024,7 +25033,11 @@ Without Reason`
       _: 1
     }, 8, ["default-open", "loading"]));
   }
+<<<<<<< HEAD
 }), N2 = /* @__PURE__ */ xe(V2, [["__scopeId", "data-v-37178ba1"]]), z2 = "Sum of all sales made across all flows (check-in, seller, ancillaries, booking manager, disruptions) in all currencies, converted to the selected currency.", j2 = /* @__PURE__ */ de({
+=======
+}), O2 = /* @__PURE__ */ xe(F2, [["__scopeId", "data-v-37178ba1"]]), V2 = "Sum of all sales made across all flows (check-in, seller, ancillaries, booking manager, disruptions) in all currencies, converted to the selected currency.", N2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "AiGeneratedRevenueCard",
   props: {
     totalRevenue: { default: 0 },
@@ -20032,11 +25045,15 @@ Without Reason`
     currencyCode: { default: "USD" },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: z2 }
+    tooltip: { default: V2 }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(() => va(a.totalRevenue)), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "AI Revenue",
       value: o.value,
       prefix: e.currencyCode,
@@ -20065,21 +25082,25 @@ Without Reason`
       _: 1
     }, 8, ["value", "prefix", "tooltip", "loading", "theme", "current-value", "previous-value"]));
   }
-}), H2 = { class: "flex justify-end" }, W2 = { class: "w-52" }, K2 = {
+}), z2 = { class: "flex justify-end" }, j2 = { class: "w-52" }, H2 = {
   key: "loading",
   class: "bm-status shrink-0",
   "aria-busy": "true",
   "aria-label": "Loading chart"
-}, U2 = {
+}, W2 = {
   key: "content",
   class: "w-full shrink-0 flex min-h-0 flex-col"
-}, Y2 = {
+}, K2 = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, q2 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, G2 = {
+}, U2 = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, Y2 = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, X2 = /* @__PURE__ */ de({
+=======
+}, q2 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "AiGeneratedChart",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -20116,7 +25137,11 @@ Without Reason`
       if (!D) return "0";
       const B = Math.abs(D);
       return B >= 1e6 ? (D / 1e6).toFixed(2) + "M" : B >= 1e5 ? (D / 1e3).toFixed(1) + "K" : Math.round(D).toLocaleString();
+<<<<<<< HEAD
     }, b = (D) => !D || D === "unknown" ? "Unknown" : Ht(D).split(/[_|]/).map((B) => B ? B.charAt(0).toUpperCase() + B.slice(1) : "").join(" "), y = Q({
+=======
+    }, p = (D) => !D || D === "unknown" ? "Unknown" : Ht(D).split(/[_|]/).map((B) => B ? B.charAt(0).toUpperCase() + B.slice(1) : "").join(" "), y = Q({
+>>>>>>> 8a6bd9f (Sales Volume chart)
       labels: [],
       datasets: []
     }), w = Q([]), k = C(() => {
@@ -20129,7 +25154,7 @@ Without Reason`
         y.value = { labels: [], datasets: [] }, w.value = [];
         return;
       }
-      const j = [...B].sort((G, te) => G.date.localeCompare(te.date)), W = j.map((G) => Ye(G.date).format("MMM DD")), X = "ai_revenue";
+      const j = [...B].sort((G, te) => G.date.localeCompare(te.date)), W = j.map((G) => je(G.date).format("MMM DD")), X = "ai_revenue";
       if (r.value === "all") {
         y.value = {
           labels: W,
@@ -20146,22 +25171,27 @@ Without Reason`
         }, w.value = [];
         return;
       }
+<<<<<<< HEAD
       const ce = L.slice(0, 7).map((G) => G.key).map((G, te) => {
         const R = m(te), U = j.map((Y) => {
+=======
+      const de = L.slice(0, 7).map((G) => G.key).map((G, te) => {
+        const E = m(te), U = j.map((Y) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           const O = (Y.breakdown ?? {})[G];
           return O ? Number(O[X] ?? 0) : 0;
         });
         return h.value ? {
           label: b(G),
           data: U,
-          backgroundColor: R,
-          borderColor: R,
+          backgroundColor: E,
+          borderColor: E,
           borderWidth: 1,
           borderRadius: 3
         } : {
           label: b(G),
           data: U,
-          borderColor: R,
+          borderColor: E,
           backgroundColor: "transparent",
           fill: !1,
           tension: 0.35
@@ -20192,7 +25222,7 @@ Without Reason`
         x: S.value,
         y: M.value
       }
-    })), E = C(() => ({
+    })), R = C(() => ({
       scales: {
         x: { ...S.value, stacked: !0 },
         y: { ...M.value, stacked: !0 }
@@ -20219,8 +25249,13 @@ Without Reason`
       loading: e.loading
     }, {
       headerAside: F(() => [
+<<<<<<< HEAD
         d("div", H2, [
           d("div", W2, [
+=======
+        d("div", z2, [
+          d("div", j2, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(Zt, {
               "model-value": r.value,
               options: u,
@@ -20238,20 +25273,35 @@ Without Reason`
             mode: "out-in"
           }, {
             default: F(() => [
+<<<<<<< HEAD
               n.loading ? (f(), x("div", K2, [...B[0] || (B[0] = [
+=======
+              n.loading ? (g(), x("div", H2, [...B[0] || (B[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("div", {
                   class: "flex-1 bm-skeleton-blink",
                   "aria-hidden": "true"
                 }, null, -1)
+<<<<<<< HEAD
               ])])) : (f(), x("div", U2, [
                 y.value.labels && y.value.labels.length && y.value.datasets.length ? (f(), x("section", Y2, [
                   d("div", q2, [
                     h.value ? (f(), Z(Kt, {
+=======
+              ])])) : (g(), x("div", W2, [
+                y.value.labels && y.value.labels.length && y.value.datasets.length ? (g(), x("section", K2, [
+                  d("div", U2, [
+                    h.value ? (g(), Z(Kt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: 0,
                       data: y.value,
-                      options: E.value,
+                      options: R.value,
                       theme: s.value
+<<<<<<< HEAD
                     }, null, 8, ["data", "options", "theme"])) : (f(), Z(Ct, {
+=======
+                    }, null, 8, ["data", "options", "theme"])) : (g(), Z(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: 1,
                       data: y.value,
                       options: P.value,
@@ -20263,7 +25313,11 @@ Without Reason`
                     class: "grid w-full gap-3 md:gap-4",
                     style: Ae(k.value)
                   }, [
+<<<<<<< HEAD
                     (f(!0), x(ie, null, pe(w.value, (L) => (f(), Z($e, {
+=======
+                    (g(!0), x(ie, null, pe(w.value, (L) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: `card-${L.key}`,
                       class: "min-w-0",
                       color: L.color,
@@ -20272,7 +25326,11 @@ Without Reason`
                       subvalue: `${L.percentage.toFixed(1)}%`
                     }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
                   ], 4)) : I("", !0)
+<<<<<<< HEAD
                 ])) : (f(), x("section", G2, [...B[1] || (B[1] = [
+=======
+                ])) : (g(), x("section", Y2, [...B[1] || (B[1] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   d("div", { class: "max-w-[360px] px-4 text-center" }, [
                     d("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " No revenue data available "),
                     d("p", { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, " No AI revenue found for the selected period. Try adjusting the date range. ")
@@ -20287,21 +25345,25 @@ Without Reason`
       _: 1
     }, 8, ["title", "loading"]));
   }
-}), Z2 = /* @__PURE__ */ xe(X2, [["__scopeId", "data-v-4f72028b"]]), Q2 = { class: "flex justify-end" }, J2 = { class: "w-52" }, ew = {
+}), G2 = /* @__PURE__ */ xe(q2, [["__scopeId", "data-v-4f72028b"]]), X2 = { class: "flex justify-end" }, Z2 = { class: "w-52" }, Q2 = {
   key: "loading",
   class: "bm-status shrink-0",
   "aria-busy": "true",
   "aria-label": "Loading chart"
-}, tw = {
+}, J2 = {
   key: "content",
   class: "w-full shrink-0 flex min-h-0 flex-col"
-}, aw = {
+}, ew = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, nw = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, ow = {
+}, tw = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, aw = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, sw = /* @__PURE__ */ de({
+=======
+}, nw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "TransactionsChart",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -20338,7 +25400,11 @@ Without Reason`
       if (!D) return "0";
       const B = Math.abs(D);
       return B >= 1e6 ? (D / 1e6).toFixed(2) + "M" : B >= 1e5 ? (D / 1e3).toFixed(1) + "K" : Math.round(D).toLocaleString();
+<<<<<<< HEAD
     }, v = (D) => !D || D === "unknown" ? "Unknown" : Ht(D).split(/[_|]/).map((B) => B ? B.charAt(0).toUpperCase() + B.slice(1) : "").join(" "), b = Q({
+=======
+    }, v = (D) => !D || D === "unknown" ? "Unknown" : Ht(D).split(/[_|]/).map((B) => B ? B.charAt(0).toUpperCase() + B.slice(1) : "").join(" "), p = Q({
+>>>>>>> 8a6bd9f (Sales Volume chart)
       labels: [],
       datasets: []
     }), y = Q([]), w = C(() => {
@@ -20353,9 +25419,15 @@ Without Reason`
           b.value = { labels: [], datasets: [] }, y.value = [];
           return;
         }
+<<<<<<< HEAD
         const G = [...ce].sort((te, R) => te.date.localeCompare(R.date));
         b.value = {
           labels: G.map((te) => Ye(te.date).format("MMM DD")),
+=======
+        const G = [...de].sort((te, E) => te.date.localeCompare(E.date));
+        p.value = {
+          labels: G.map((te) => je(te.date).format("MMM DD")),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           datasets: [
             {
               label: "Transactions",
@@ -20374,18 +25446,31 @@ Without Reason`
         b.value = { labels: [], datasets: [] }, y.value = [];
         return;
       }
+<<<<<<< HEAD
       const j = [...L].sort((ce, G) => ce.date.localeCompare(G.date)), W = j.map((ce) => Ye(ce.date).format("MMM DD")), se = B.slice(0, 7).map((ce) => ce.key).map((ce, G) => {
         const te = p(G), R = j.map((U) => Number((U.breakdown ?? {})[ce] ?? 0));
         return g.value ? {
           label: v(ce),
           data: R,
+=======
+      const j = [...L].sort((de, G) => de.date.localeCompare(G.date)), W = j.map((de) => je(de.date).format("MMM DD")), se = B.slice(0, 7).map((de) => de.key).map((de, G) => {
+        const te = b(G), E = j.map((U) => Number((U.breakdown ?? {})[de] ?? 0));
+        return f.value ? {
+          label: v(de),
+          data: E,
+>>>>>>> 8a6bd9f (Sales Volume chart)
           backgroundColor: te,
           borderColor: te,
           borderWidth: 1,
           borderRadius: 3
         } : {
+<<<<<<< HEAD
           label: v(ce),
           data: R,
+=======
+          label: v(de),
+          data: E,
+>>>>>>> 8a6bd9f (Sales Volume chart)
           borderColor: te,
           backgroundColor: "transparent",
           fill: !1,
@@ -20417,7 +25502,7 @@ Without Reason`
         x: S.value,
         y: M.value
       }
-    })), E = C(() => ({
+    })), R = C(() => ({
       scales: {
         x: { ...S.value, stacked: !0 },
         y: { ...M.value, stacked: !0 }
@@ -20444,8 +25529,13 @@ Without Reason`
       loading: e.loading
     }, {
       headerAside: F(() => [
+<<<<<<< HEAD
         d("div", Q2, [
           d("div", J2, [
+=======
+        d("div", X2, [
+          d("div", Z2, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(Zt, {
               "model-value": r.value,
               options: c,
@@ -20463,11 +25553,16 @@ Without Reason`
             mode: "out-in"
           }, {
             default: F(() => [
+<<<<<<< HEAD
               n.loading ? (f(), x("div", ew, [...B[0] || (B[0] = [
+=======
+              n.loading ? (g(), x("div", Q2, [...B[0] || (B[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("div", {
                   class: "flex-1 bm-skeleton-blink",
                   "aria-hidden": "true"
                 }, null, -1)
+<<<<<<< HEAD
               ])])) : (f(), x("div", tw, [
                 b.value.labels && b.value.labels.length && b.value.datasets.length ? (f(), x("section", aw, [
                   d("div", nw, [
@@ -20477,6 +25572,17 @@ Without Reason`
                       options: E.value,
                       theme: s.value
                     }, null, 8, ["data", "options", "theme"])) : (f(), Z(Ct, {
+=======
+              ])])) : (g(), x("div", J2, [
+                p.value.labels && p.value.labels.length && p.value.datasets.length ? (g(), x("section", ew, [
+                  d("div", tw, [
+                    f.value ? (g(), Z(Kt, {
+                      key: 0,
+                      data: p.value,
+                      options: R.value,
+                      theme: s.value
+                    }, null, 8, ["data", "options", "theme"])) : (g(), Z(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: 1,
                       data: b.value,
                       options: P.value,
@@ -20488,7 +25594,11 @@ Without Reason`
                     class: "grid w-full gap-3 md:gap-4",
                     style: Ae(w.value)
                   }, [
+<<<<<<< HEAD
                     (f(!0), x(ie, null, pe(y.value, (L) => (f(), Z($e, {
+=======
+                    (g(!0), x(ie, null, pe(y.value, (L) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: `card-${L.key}`,
                       class: "min-w-0",
                       color: L.color,
@@ -20497,7 +25607,11 @@ Without Reason`
                       subvalue: `${L.percentage.toFixed(1)}%`
                     }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
                   ], 4)) : I("", !0)
+<<<<<<< HEAD
                 ])) : (f(), x("section", ow, [...B[1] || (B[1] = [
+=======
+                ])) : (g(), x("section", aw, [...B[1] || (B[1] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   d("div", { class: "max-w-[360px] px-4 text-center" }, [
                     d("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " No transaction data available "),
                     d("p", { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, " No transactions found for the selected period. Try adjusting the date range. ")
@@ -20512,7 +25626,11 @@ Without Reason`
       _: 1
     }, 8, ["title", "loading"]));
   }
+<<<<<<< HEAD
 }), iw = /* @__PURE__ */ xe(sw, [["__scopeId", "data-v-df15ed82"]]), el = 1, lw = /* @__PURE__ */ de({
+=======
+}), ow = /* @__PURE__ */ xe(nw, [["__scopeId", "data-v-df15ed82"]]), el = 1, sw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CostCard",
   props: {
     totalConversations: { default: 0 },
@@ -20530,8 +25648,13 @@ Without Reason`
     }), u = C(() => {
       const h = c.value.toFixed(1);
       return c.value > 0 ? `+${h}%` : `${h}%`;
+<<<<<<< HEAD
     }), g = C(() => c.value < 0 ? "change-badge--up" : c.value > 0 ? "change-badge--down" : "change-badge--neutral");
     return t({ isDark: o, changePercent: c }), (h, p) => (f(), Z(ut, {
+=======
+    }), f = C(() => c.value < 0 ? "change-badge--up" : c.value > 0 ? "change-badge--down" : "change-badge--neutral");
+    return t({ isDark: o, changePercent: c }), (h, b) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Cost",
       value: l.value,
       prefix: "USD",
@@ -20561,13 +25684,17 @@ Without Reason`
       _: 1
     }, 8, ["value", "loading", "theme"]));
   }
-}), rw = /* @__PURE__ */ xe(lw, [["__scopeId", "data-v-411e0735"]]), cw = { class: "flex justify-end" }, dw = { class: "w-52" }, uw = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, hw = { class: "w-full shrink-0 flex min-h-0 flex-col" }, fw = {
+}), iw = /* @__PURE__ */ xe(sw, [["__scopeId", "data-v-411e0735"]]), lw = { class: "flex justify-end" }, rw = { class: "w-52" }, cw = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, dw = { class: "w-full shrink-0 flex min-h-0 flex-col" }, uw = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, gw = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, mw = {
+}, hw = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, fw = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, pw = /* @__PURE__ */ de({
+=======
+}, gw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "HumanEscalations",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -20634,8 +25761,13 @@ Without Reason`
           return;
         }
         const L = [...B].sort((j, W) => j.date.localeCompare(W.date));
+<<<<<<< HEAD
         g.value = {
           labels: L.map((j) => Ye(j.date).format("MMM DD")),
+=======
+        f.value = {
+          labels: L.map((j) => je(j.date).format("MMM DD")),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           datasets: [
             {
               label: "All",
@@ -20658,7 +25790,7 @@ Without Reason`
       }
       const P = [...S].sort(
         (B, L) => B.date.localeCompare(L.date)
-      ), E = M.slice(0, 5).map((B) => B.key), N = P.map((B) => Ye(B.date).format("MMM DD")), D = E.map((B, L) => {
+      ), R = M.slice(0, 5).map((B) => B.key), N = P.map((B) => je(B.date).format("MMM DD")), D = R.map((B, L) => {
         const j = M.find((W) => W.key === B);
         return {
           label: k(j?.label || B),
@@ -20705,7 +25837,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -20713,8 +25849,13 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       headerAside: F(() => [
+<<<<<<< HEAD
         d("div", cw, [
           d("div", dw, [
+=======
+        d("div", lw, [
+          d("div", rw, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(Zt, {
               "model-value": c.value,
               options: i,
@@ -20724,12 +25865,21 @@ Without Reason`
         ])
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", uw, [
           d("div", hw, [
             g.value.labels && g.value.labels.length && g.value.datasets.length ? (f(), x("section", fw, [
               d("div", gw, [
                 V(Ct, {
                   data: g.value,
+=======
+        d("div", cw, [
+          d("div", dw, [
+            f.value.labels && f.value.labels.length && f.value.datasets.length ? (g(), x("section", uw, [
+              d("div", hw, [
+                V(xt, {
+                  data: f.value,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   options: y,
                   theme: l.value
                 }, null, 8, ["data", "theme"])
@@ -20739,7 +25889,11 @@ Without Reason`
                 class: "grid w-full gap-3 md:gap-4",
                 style: Ae(p.value)
               }, [
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(h.value, (M) => (f(), Z($e, {
+=======
+                (g(!0), x(ie, null, pe(h.value, (M) => (g(), Z(Se, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: `card-${M.key}`,
                   class: "min-w-0",
                   color: M.color,
@@ -20747,7 +25901,11 @@ Without Reason`
                   value: `${M.percentage.toFixed(1)}%`
                 }, null, 8, ["color", "title", "value"]))), 128))
               ], 4)) : I("", !0)
+<<<<<<< HEAD
             ])) : (f(), x("section", mw, [...S[0] || (S[0] = [
+=======
+            ])) : (g(), x("section", fw, [...S[0] || (S[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("div", { class: "max-w-[360px] px-4 text-center" }, [
                 d("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " No human escalations data available "),
                 d("p", { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, " No escalation data found for the selected period. Try adjusting the date range. ")
@@ -20759,18 +25917,26 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
+<<<<<<< HEAD
 }), bw = /* @__PURE__ */ xe(pw, [["__scopeId", "data-v-23d909e1"]]), vw = "Percentage of conversations transferred to a human out of the total initiated conversations.", yw = /* @__PURE__ */ de({
+=======
+}), mw = /* @__PURE__ */ xe(gw, [["__scopeId", "data-v-23d909e1"]]), pw = "Percentage of conversations transferred to a human out of the total initiated conversations.", bw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "HumanEscalationsCard",
   props: {
     escalationRatePercentage: { default: 0 },
     previousEscalationRatePercentage: { default: null },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: vw }
+    tooltip: { default: pw }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(() => `${Number(a.escalationRatePercentage || 0).toFixed(2)}%`), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Human Escalations",
       value: o.value,
       tooltip: e.tooltip,
@@ -20813,13 +25979,17 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme", "current-value", "previous-value"]));
   }
-}), xw = { class: "flex justify-end" }, kw = { class: "w-52" }, _w = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, ww = { class: "w-full shrink-0 flex min-h-0 flex-col" }, Cw = {
+}), vw = { class: "flex justify-end" }, yw = { class: "w-52" }, xw = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, kw = { class: "w-full shrink-0 flex min-h-0 flex-col" }, _w = {
   key: 0,
   class: "flex w-full shrink-0 flex-col gap-4 sm:gap-6"
-}, $w = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, Sw = {
+}, ww = { class: "chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, Cw = {
   key: 1,
   class: "flex min-h-[280px] flex-1 items-center justify-center"
+<<<<<<< HEAD
 }, Mw = "#8b5cf6", Dw = "#9ca3af", Tw = "#94a3b8", Aw = /* @__PURE__ */ de({
+=======
+}, $w = "#8b5cf6", Sw = "#9ca3af", Mw = "#94a3b8", Dw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "AvgResolutionTime",
   props: {
     loading: { type: Boolean, default: !1 },
@@ -20863,7 +26033,11 @@ Without Reason`
       messenger: "#0084ff",
       telegram: "#0088cc",
       instagram: "#E4405F"
+<<<<<<< HEAD
     }, m = (G) => p[G.toLowerCase()] || Dw, v = {
+=======
+    }, m = (G) => b[G.toLowerCase()] || Sw, v = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       checkin: "#3B82F6",
       faq: "#EF4444",
       disruption_manager: "#F59E0B",
@@ -20873,9 +26047,15 @@ Without Reason`
       human: "#F472B6",
       agency: "#6366F1",
       loyalty: "#EAB308"
+<<<<<<< HEAD
     }, b = (G) => v[G.toLowerCase()] || Tw, y = (G) => {
       const [te] = G.split("|").map((R) => R.trim());
       return b(te || G);
+=======
+    }, p = (G) => v[G.toLowerCase()] || Mw, y = (G) => {
+      const [te] = G.split("|").map((E) => E.trim());
+      return p(te || G);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }, w = (G) => {
       if (!G) return "Unknown";
       const te = Ht(G).replace(/_/g, " ").trim();
@@ -20909,7 +26089,7 @@ Without Reason`
         ai_agent: G.ai_agent_total_conversations,
         human: G.human_total_conversations,
         hybrid: G.hybrid_total_conversations
-      }, R = {
+      }, E = {
         ai_agent: G.ai_agent_avg_resolution_time_formatted,
         human: G.human_avg_resolution_time_formatted,
         hybrid: G.hybrid_avg_resolution_time_formatted
@@ -20918,20 +26098,25 @@ Without Reason`
         key: U.key,
         label: U.label,
         color: U.color,
-        formattedValue: R[U.key] || "-",
+        formattedValue: E[U.key] || "-",
         subvalue: `${te[U.key] || 0} conversations`
       }));
-    }), S = (G, te) => G.map((R) => ({
-      key: R.key,
-      label: w(R.label),
-      color: te(R.key),
-      formattedValue: R.avg_resolution_time_formatted || "-",
-      subvalue: `${R.total_conversations} conversations (${R.percentage.toFixed(1)}%)`
+    }), S = (G, te) => G.map((E) => ({
+      key: E.key,
+      label: w(E.label),
+      color: te(E.key),
+      formattedValue: E.avg_resolution_time_formatted || "-",
+      subvalue: `${E.total_conversations} conversations (${E.percentage.toFixed(1)}%)`
     })), M = C(
       () => S(k.value.channel_breakdown_items ?? [], m)
     ), P = C(
+<<<<<<< HEAD
       () => S(k.value.agent_breakdown_items ?? [], b)
     ), E = C(
+=======
+      () => S(k.value.agent_breakdown_items ?? [], p)
+    ), R = C(
+>>>>>>> 8a6bd9f (Sales Volume chart)
       () => S(
         k.value.agent_channel_breakdown_items ?? [],
         y
@@ -20943,7 +26128,7 @@ Without Reason`
         case "agent":
           return P.value;
         case "agent_channel":
-          return E.value;
+          return R.value;
         case "resolution_mode":
           return $.value;
         default:
@@ -20954,18 +26139,18 @@ Without Reason`
       if (!(G <= 0))
         return { gridTemplateColumns: `repeat(${G}, minmax(0, 1fr))` };
     }), B = (G) => G == null ? null : Number((G / 60).toFixed(2)), L = Q([]), j = (G) => {
-      const te = G?.overall_resolution_time_by_day ?? {}, R = Object.keys(te).sort((U, Y) => U.localeCompare(Y));
-      if (!R.length) {
+      const te = G?.overall_resolution_time_by_day ?? {}, E = Object.keys(te).sort((U, Y) => U.localeCompare(Y));
+      if (!E.length) {
         _.value = { labels: [], datasets: [] }, L.value = [];
         return;
       }
-      L.value = [R.map((U) => te[U] ?? null)], _.value = {
-        labels: R.map((U) => Ye(U).format("MMM DD")),
+      L.value = [E.map((U) => te[U] ?? null)], _.value = {
+        labels: E.map((U) => je(U).format("MMM DD")),
         datasets: [
           {
             label: "All",
             data: L.value[0].map((U) => B(U)),
-            borderColor: Mw,
+            borderColor: $w,
             backgroundColor: "transparent",
             fill: !1,
             tension: 0.35,
@@ -20974,15 +26159,15 @@ Without Reason`
         ]
       };
     }, W = (G) => {
-      const te = G?.resolution_time_by_day ?? {}, R = Object.keys(te).sort((U, Y) => U.localeCompare(Y));
-      if (!R.length) {
+      const te = G?.resolution_time_by_day ?? {}, E = Object.keys(te).sort((U, Y) => U.localeCompare(Y));
+      if (!E.length) {
         _.value = { labels: [], datasets: [] }, L.value = [];
         return;
       }
       L.value = h.map(
-        (U) => R.map((Y) => te[Y]?.[U.key] ?? null)
+        (U) => E.map((Y) => te[Y]?.[U.key] ?? null)
       ), _.value = {
-        labels: R.map((U) => Ye(U).format("MMM DD")),
+        labels: E.map((U) => je(U).format("MMM DD")),
         datasets: h.map((U, Y) => ({
           label: U.label,
           data: L.value[Y].map((O) => B(O)),
@@ -20993,7 +26178,7 @@ Without Reason`
           spanGaps: !0
         }))
       };
-    }, X = (G, te, R) => {
+    }, X = (G, te, E) => {
       const U = Object.keys(G).sort((O, oe) => O.localeCompare(oe));
       if (!U.length || !te.length) {
         _.value = { labels: [], datasets: [] }, L.value = [];
@@ -21001,13 +26186,13 @@ Without Reason`
       }
       const Y = te.map((O) => O.key);
       L.value = Y.map((O) => U.map((oe) => G[oe]?.[O] ?? null)), _.value = {
-        labels: U.map((O) => Ye(O).format("MMM DD")),
+        labels: U.map((O) => je(O).format("MMM DD")),
         datasets: Y.map((O, oe) => {
           const re = te.find((Te) => Te.key === O);
           return {
             label: w(re?.label || O),
             data: L.value[oe].map((Te) => B(Te)),
-            borderColor: R(O),
+            borderColor: E(O),
             backgroundColor: "transparent",
             fill: !1,
             tension: 0.35,
@@ -21057,8 +26242,13 @@ Without Reason`
         tooltip: {
           callbacks: {
             label: (G) => {
+<<<<<<< HEAD
               const te = G.dataset.label || "", R = L.value[G.datasetIndex]?.[G.dataIndex];
               return R == null ? `${te}: -` : `${te}: ${to(R)}`;
+=======
+              const te = G.dataset.label || "", E = L.value[G.datasetIndex]?.[G.dataIndex];
+              return E == null ? `${te}: -` : `${te}: ${to(E)}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
             }
           }
         }
@@ -21083,7 +26273,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           loading: e.exportLoading,
@@ -21091,8 +26285,13 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       headerAside: F(() => [
+<<<<<<< HEAD
         d("div", xw, [
           d("div", kw, [
+=======
+        d("div", vw, [
+          d("div", yw, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(Zt, {
               "model-value": c.value,
               options: i,
@@ -21102,11 +26301,19 @@ Without Reason`
         ])
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", _w, [
           d("div", ww, [
             _.value.labels.length && _.value.datasets.length ? (f(), x("section", Cw, [
               d("div", $w, [
                 V(Ct, {
+=======
+        d("div", xw, [
+          d("div", kw, [
+            _.value.labels.length && _.value.datasets.length ? (g(), x("section", _w, [
+              d("div", ww, [
+                V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   data: _.value,
                   options: ce.value,
                   theme: l.value
@@ -21117,16 +26324,25 @@ Without Reason`
                 class: "grid w-full gap-3 md:gap-4",
                 style: Ae(D.value)
               }, [
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(N.value, (R) => (f(), Z($e, {
                   key: `card-${R.key}`,
+=======
+                (g(!0), x(ie, null, pe(N.value, (E) => (g(), Z(Se, {
+                  key: `card-${E.key}`,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   class: "min-w-0",
-                  color: R.color,
-                  title: R.label,
-                  value: R.formattedValue,
-                  subvalue: R.subvalue
+                  color: E.color,
+                  title: E.label,
+                  value: E.formattedValue,
+                  subvalue: E.subvalue
                 }, null, 8, ["color", "title", "value", "subvalue"]))), 128))
               ], 4)) : I("", !0)
+<<<<<<< HEAD
             ])) : (f(), x("section", Sw, [...te[0] || (te[0] = [
+=======
+            ])) : (g(), x("section", Cw, [...te[0] || (te[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               d("div", { class: "max-w-[360px] px-4 text-center" }, [
                 d("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " No resolution time data available "),
                 d("p", { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, " No conversations found for the selected period. Try adjusting the date range. ")
@@ -21138,18 +26354,26 @@ Without Reason`
       _: 1
     }, 8, ["title", "loading"]));
   }
+<<<<<<< HEAD
 }), Bw = /* @__PURE__ */ xe(Aw, [["__scopeId", "data-v-05854dc5"]]), Lw = { class: "art-values__item" }, Pw = { class: "art-values__number" }, Rw = { class: "art-values__item" }, Ew = { class: "art-values__number" }, Iw = "Average time from the first message to the resolution of each conversation, broken down by resolver: AI Agent vs. Human.", Fw = /* @__PURE__ */ de({
+=======
+}), Tw = /* @__PURE__ */ xe(Dw, [["__scopeId", "data-v-05854dc5"]]), Aw = { class: "art-values__item" }, Bw = { class: "art-values__number" }, Lw = { class: "art-values__item" }, Pw = { class: "art-values__number" }, Ew = "Average time from the first message to the resolution of each conversation, broken down by resolver: AI Agent vs. Human.", Rw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "AvgResolutionTimeCard",
   props: {
     aiAgentAvgResolutionTimeSeconds: { default: null },
     humanAvgResolutionTimeSeconds: { default: null },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: Iw }
+    tooltip: { default: Ew }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), { isDark: o } = Pe(Be(a, "theme")), s = C(() => to(a.aiAgentAvgResolutionTimeSeconds)), i = C(() => to(a.humanAvgResolutionTimeSeconds));
+<<<<<<< HEAD
     return t({ isDark: o }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: o }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Average Resolution Time",
       value: s.value,
       tooltip: e.tooltip,
@@ -21176,16 +26400,16 @@ Without Reason`
         d("div", {
           class: K(["art-values", { "art-values--dark": A(o) }])
         }, [
-          d("div", Lw, [
-            d("span", Pw, T(s.value), 1),
+          d("div", Aw, [
+            d("span", Bw, T(s.value), 1),
             r[1] || (r[1] = d("span", { class: "art-values__label" }, "AI Agent", -1))
           ]),
           r[3] || (r[3] = d("div", {
             class: "art-values__divider",
             "aria-hidden": "true"
           }, null, -1)),
-          d("div", Rw, [
-            d("span", Ew, T(i.value), 1),
+          d("div", Lw, [
+            d("span", Pw, T(i.value), 1),
             r[2] || (r[2] = d("span", { class: "art-values__label" }, "Human", -1))
           ])
         ], 2)
@@ -21193,18 +26417,26 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme"]));
   }
+<<<<<<< HEAD
 }), Ow = /* @__PURE__ */ xe(Fw, [["__scopeId", "data-v-39d7bf7a"]]), Vw = "Percentage of Check In Success relative to Check In Started.", Nw = /* @__PURE__ */ de({
+=======
+}), Iw = /* @__PURE__ */ xe(Rw, [["__scopeId", "data-v-39d7bf7a"]]), Fw = "Percentage of Check In Success relative to Check In Started.", Ow = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CheckinCR",
   props: {
     checkinCr: { default: 0 },
     previousCheckinCr: { default: null },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: Vw }
+    tooltip: { default: Fw }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(() => `${Number(a.checkinCr || 0).toFixed(1)}%`), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Check-in CR",
       value: o.value,
       tooltip: e.tooltip,
@@ -21231,18 +26463,173 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme", "current-value", "previous-value"]));
   }
+<<<<<<< HEAD
 }), zw = "Percentage of Sell Success relative to Sell Started.", jw = /* @__PURE__ */ de({
+=======
+}), Vw = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Nw = {
+  key: 0,
+  class: "flex w-full shrink-0 flex-col"
+}, zw = { class: "chart-line-area flex h-[280px] w-full min-w-0 shrink-0 flex-col overflow-hidden" }, jw = {
+  key: 1,
+  class: "flex min-h-[280px] flex-1 items-center justify-center"
+}, Hw = { class: "max-w-[360px] px-4 text-center" }, Ww = { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, Kw = { class: "m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]" }, Uw = /* @__PURE__ */ ce({
+  __name: "SalesVolume",
+  props: {
+    loading: { type: Boolean, default: !1 },
+    data: { default: null },
+    failedData: { default: null },
+    theme: { default: void 0 },
+    enableExport: { type: Boolean, default: !1 },
+    exportLoading: { type: Boolean, default: !1 },
+    title: { default: "Sales Volume" },
+    subtitle: { default: "Daily sales volume by outcome, with share over initiated" },
+    emptyTitle: { default: "No sales volume data" },
+    emptyDescription: { default: "No daily sales outcomes found for the selected period. Try adjusting the date range." }
+  },
+  emits: ["export"],
+  setup(e, { expose: t, emit: a }) {
+    const n = [
+      { key: "initiated", label: "Initiated", color: "#3B82F6" },
+      { key: "success", label: "Success", color: "#10B981" },
+      { key: "abandoned", label: "Abandoned", color: "#F97316" },
+      { key: "errors", label: "Errors", color: "#EF4444" }
+    ];
+    function o(k) {
+      const [_, $, S] = k.split("-").map(Number);
+      return _ && $ && S ? je([_, $ - 1, S]).format("MMM D") : je(k).format("MMM D");
+    }
+    function s(k) {
+      return "seller_by_day" in k;
+    }
+    function i(k) {
+      return (k.sell_success_count || 0) + (k.sell_success_bank_transfer_count ?? 0) + (k.sell_success_cash_count ?? 0);
+    }
+    function l(k) {
+      return k.reasons?.length ? k.reasons.reduce((_, $) => _ + ($.failed_count || 0), 0) : 0;
+    }
+    function r(k) {
+      const _ = k.seller_conversations || 0, $ = i(k), S = l(k), M = Math.max(0, _ - $ - S);
+      return {
+        date: k.date,
+        initiated: _,
+        success: $,
+        abandoned: M,
+        errors: S
+      };
+    }
+    function c(k, _) {
+      const $ = [...k?.seller_by_day ?? []];
+      return _?.failed_by_reason_by_day && _.failed_by_reason_by_day.forEach((S) => {
+        const M = $.findIndex((P) => P.date === S.date);
+        M !== -1 ? $[M] = { ...$[M], reasons: S.reasons } : $.push({
+          date: S.date,
+          seller_conversations: 0,
+          sell_started_count: 0,
+          sell_get_quote_count: 0,
+          sell_booking_created_count: 0,
+          sell_success_count: 0,
+          daily_value_sell_success: 0,
+          reasons: S.reasons
+        });
+      }), $.map(r).sort((S, M) => new Date(S.date).getTime() - new Date(M.date).getTime());
+    }
+    const u = e, f = a, h = (k) => {
+      f("export", k);
+    }, b = Be(u, "theme"), { isDark: m } = Pe(b), v = C(() => u.data && s(u.data) && u.data.seller_by_day?.length ? c(u.data, u.failedData) : u.data && "by_day" in u.data ? u.data.by_day ?? [] : []), p = C(() => {
+      const k = v.value;
+      return {
+        labels: k.map((_) => o(_.date)),
+        datasets: n.map((_) => ({
+          label: _.label,
+          data: k.map(($) => $[_.key] || 0),
+          borderColor: _.color,
+          tension: 0.4
+        }))
+      };
+    }), y = C(
+      () => v.value.map((k) => k.initiated || 0)
+    ), w = C(() => ({
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (k) => {
+              const _ = k.dataset.label || "", $ = k.parsed.y ?? 0, S = y.value[k.dataIndex] ?? 0;
+              return `${_}: ${$e($, S)}`;
+            }
+          }
+        }
+      }
+    }));
+    return t({ isDark: m }), (k, _) => (g(), Z(Le, {
+      class: "w-full min-h-0 self-start",
+      title: u.title,
+      subtitle: u.subtitle,
+      collapsible: !1,
+      loading: u.loading
+    }, {
+      headerExport: F(() => [
+        e.enableExport && !u.loading ? (g(), Z(A(qe), {
+          key: 0,
+          variant: "inline",
+          loading: e.exportLoading,
+          onExport: h
+        }, null, 8, ["loading"])) : I("", !0)
+      ]),
+      default: F(() => [
+        d("div", Vw, [
+          p.value.labels.length ? (g(), x("section", Nw, [
+            d("div", zw, [
+              V(xt, {
+                data: p.value,
+                options: w.value,
+                theme: b.value,
+                "area-gradient": ""
+              }, null, 8, ["data", "options", "theme"])
+            ])
+          ])) : (g(), x("section", jw, [
+            d("div", Hw, [
+              _[0] || (_[0] = d("div", { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(59,130,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(59,130,246,0.15))]" }, [
+                d("svg", {
+                  class: "h-10 w-10 text-[var(--kiut-primary,#3b82f6)]",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  stroke: "currentColor",
+                  "aria-hidden": "true"
+                }, [
+                  d("path", {
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-width": "1.75",
+                    d: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  })
+                ])
+              ], -1)),
+              d("p", Ww, T(u.emptyTitle), 1),
+              d("p", Kw, T(u.emptyDescription), 1)
+            ])
+          ]))
+        ])
+      ]),
+      _: 1
+    }, 8, ["title", "subtitle", "loading"]));
+  }
+}), Yw = "Percentage of Sell Success relative to Sell Started.", qw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "SellerCR",
   props: {
     sellerCr: { default: 0 },
     previousSellerCr: { default: null },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: zw }
+    tooltip: { default: Yw }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(() => `${Number(a.sellerCr || 0).toFixed(1)}%`), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Seller CR",
       value: o.value,
       tooltip: e.tooltip,
@@ -21270,20 +26657,28 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme", "current-value", "previous-value"]));
   }
+<<<<<<< HEAD
 }), Hw = "Percentage of Booking Success relative to Booking Started.", Ww = /* @__PURE__ */ de({
+=======
+}), Gw = "Percentage of Booking Success relative to Booking Started.", Xw = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "BookingManagerCR",
   props: {
     bookingManagerCr: { default: 0 },
     previousBookingManagerCr: { default: null },
     loading: { type: Boolean, default: !1 },
     theme: { default: void 0 },
-    tooltip: { default: Hw }
+    tooltip: { default: Gw }
   },
   setup(e, { expose: t }) {
     const a = e, n = Q(null), o = C(
       () => `${Number(a.bookingManagerCr || 0).toFixed(1)}%`
     ), s = C(() => A(n.value?.isDark) ?? !1), i = C(() => A(n.value?.changePercent) ?? 0);
+<<<<<<< HEAD
     return t({ isDark: s, changePercent: i }), (l, r) => (f(), Z(ut, {
+=======
+    return t({ isDark: s, changePercent: i }), (l, r) => (g(), Z(ut, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       label: "Booking Manager CR",
       value: o.value,
       tooltip: e.tooltip,
@@ -21315,13 +26710,13 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme", "current-value", "previous-value"]));
   }
-}), Kw = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Uw = {
+}), Zw = { class: "flex w-full shrink-0 flex-col min-h-0 font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Qw = {
   key: 0,
   class: "flex w-full shrink-0 flex-col min-h-0"
-}, Yw = { class: "flex h-[230px] max-h-[230px] w-full shrink-0 flex-col min-h-0 mb-4" }, qw = { class: "grid w-full grid-cols-1 gap-3 sm:grid-cols-2" }, Gw = {
+}, Jw = { class: "flex h-[230px] max-h-[230px] w-full shrink-0 flex-col min-h-0 mb-4" }, e5 = { class: "grid w-full grid-cols-1 gap-3 sm:grid-cols-2" }, t5 = {
   key: 1,
   class: "flex min-h-[280px] w-full items-center justify-center"
-}, Xw = { class: "max-w-[360px] text-center" }, Zw = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))]" }, Qw = {
+}, a5 = { class: "max-w-[360px] text-center" }, n5 = { class: "mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))]" }, o5 = {
   __name: "AWSCost",
   props: {
     data: {
@@ -21431,7 +26826,7 @@ Without Reason`
           callbacks: {
             label(l) {
               const r = l.dataset.label ? `${l.dataset.label}: ` : "", c = l.parsed.y;
-              return l.dataset.yAxisID === "y" ? r + Ke(c) : r + String(c);
+              return l.dataset.yAxisID === "y" ? r + Ue(c) : r + String(c);
             }
           }
         }
@@ -21448,7 +26843,7 @@ Without Reason`
           ticks: {
             color: n.value.textSecondary,
             font: { family: "'Inter', ui-sans-serif, system-ui, sans-serif", size: 10 },
-            callback: (l) => Ke(l)
+            callback: (l) => Ue(l)
           }
         },
         y1: {
@@ -21477,30 +26872,43 @@ Without Reason`
       loading: e.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", Kw, [
           o.value.daily.length > 0 ? (f(), x("div", Uw, [
             d("div", Yw, [
               V(Ct, {
+=======
+        d("div", Zw, [
+          o.value.daily.length > 0 ? (g(), x("div", Qw, [
+            d("div", Jw, [
+              V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 class: "h-full min-h-0 w-full",
                 data: s.value,
                 options: i.value
               }, null, 8, ["data", "options"])
             ]),
-            d("div", qw, [
-              V($e, {
+            d("div", e5, [
+              V(Se, {
                 color: A(n).primaryLight,
                 title: "Total Allocated",
-                value: A(Ke)(o.value.total_allocated_cost)
+                value: A(Ue)(o.value.total_allocated_cost)
               }, null, 8, ["color", "value"]),
-              V($e, {
+              V(Se, {
                 color: "#FF9900",
                 title: "Total AWS",
-                value: A(Ke)(o.value.total_cost)
+                value: A(Ue)(o.value.total_cost)
               }, null, 8, ["value"])
             ])
+<<<<<<< HEAD
           ])) : (f(), x("section", Gw, [
             d("div", Xw, [
               d("div", Zw, [
+=======
+          ])) : (g(), x("section", t5, [
+            d("div", a5, [
+              d("div", n5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(A(At), { class: "h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" })
               ]),
               r[0] || (r[0] = d("p", { class: "mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]" }, " Sin datos de costos ", -1)),
@@ -21512,13 +26920,17 @@ Without Reason`
       _: 1
     }, 8, ["title", "loading"]));
   }
-}, Jw = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, e5 = { class: "card-body" }, t5 = {
+}, s5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, i5 = { class: "card-body" }, l5 = {
   key: 0,
   class: "chart-section"
-}, a5 = { class: "chart-container" }, n5 = { class: "mt-auto grid grid-cols-2 gap-3 sm:grid-cols-3 max-[768px]:gap-2" }, o5 = {
+}, r5 = { class: "chart-container" }, c5 = { class: "mt-auto grid grid-cols-2 gap-3 sm:grid-cols-3 max-[768px]:gap-2" }, d5 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, s5 = { class: "empty-state-content" }, i5 = { class: "empty-icon-wrapper" }, an = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", tl = 10, l5 = /* @__PURE__ */ de({
+=======
+}, u5 = { class: "empty-state-content" }, h5 = { class: "empty-icon-wrapper" }, an = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", tl = 10, f5 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CostUsage",
   props: {
     data: { default: () => ({}) },
@@ -21812,6 +27224,221 @@ Without Reason`
           align: "center",
           labels: {
             font: {
+              family: an,
+              size: 13,
+              weight: "500"
+            },
+            color: s.value.textSecondary,
+            padding: 12,
+            boxWidth: tl,
+            boxHeight: tl,
+            usePointStyle: !1
+          }
+        },
+        tooltip: {
+          enabled: !0,
+          backgroundColor: s.value.tooltipBg,
+          titleColor: s.value.tooltipText,
+          bodyColor: s.value.tooltipText,
+          borderColor: o.value ? "rgba(198, 125, 255, 0.2)" : "rgba(148, 163, 184, 0.2)",
+          borderWidth: 1,
+          padding: 12,
+          cornerRadius: 8,
+          titleFont: {
+            family: an,
+            size: 13,
+            weight: "600"
+          },
+          bodyFont: {
+            family: an,
+            size: 12,
+            weight: "500"
+<<<<<<< HEAD
+=======
+          },
+          callbacks: {
+            label: function(m) {
+              let v = m.dataset.label || "";
+              return v && (v += ": "), m.parsed.y !== null && (v += Ue(m.parsed.y)), v;
+            }
+>>>>>>> 8a6bd9f (Sales Volume chart)
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: !0,
+          border: { display: !1 },
+          grid: { display: !1 },
+          ticks: {
+            font: { family: an, size: 12, weight: "500" },
+            color: s.value.textSecondary,
+            padding: 8
+          }
+        },
+        y: {
+          stacked: !0,
+          beginAtZero: !0,
+          border: { display: !1 },
+          grid: {
+            color: s.value.gridLines,
+            lineWidth: 1,
+            drawTicks: !1
+          },
+          ticks: {
+            font: { family: an, size: 12, weight: "500" },
+            color: s.value.textSecondary,
+<<<<<<< HEAD
+=======
+            padding: 8,
+            callback: function(m) {
+              return Ue(m);
+            }
+          }
+        }
+      }
+    });
+    return t({ isDark: o }), (m, v) => (g(), Z(Le, {
+      class: "h-full min-h-0",
+      title: "Cost Usage",
+      subtitle: "Cost breakdown over time (stacked)",
+      collapsible: !1,
+      loading: e.loading
+    }, {
+      default: F(() => [
+        d("div", s5, [
+          d("div", i5, [
+            h.value.labels && h.value.labels.length ? (g(), x("section", l5, [
+              d("div", r5, [
+                V(Kt, {
+                  data: h.value,
+                  options: b.value,
+                  stacked: !0
+                }, null, 8, ["data", "options"])
+              ]),
+              d("footer", c5, [
+                V(Se, {
+                  title: "Total Cost",
+                  value: A(Ue)(e.data.total_cost)
+                }, null, 8, ["value"]),
+                V(Se, {
+                  title: "Input Cost",
+                  value: A(Ue)(r.value),
+                  color: l.input
+                }, null, 8, ["value", "color"]),
+                V(Se, {
+                  title: "Output Cost",
+                  value: A(Ue)(c.value),
+                  color: l.output
+                }, null, 8, ["value", "color"]),
+                V(Se, {
+                  title: "Cache Read",
+                  value: A(Ue)(u.value),
+                  color: l.cache_read
+                }, null, 8, ["value", "color"]),
+                V(Se, {
+                  title: "Cache Write",
+                  value: A(Ue)(f.value),
+                  color: l.cache_write
+                }, null, 8, ["value", "color"]),
+                V(Se, {
+                  title: "Avg / Conv.",
+                  value: A(Ue)(e.data.avg_cost_per_conversation)
+                }, null, 8, ["value"])
+              ])
+            ])) : (g(), x("section", d5, [
+              d("div", u5, [
+                d("div", h5, [
+                  V(A(At), { class: "empty-icon" })
+                ]),
+                v[0] || (v[0] = d("p", { class: "empty-title" }, "No cost usage data", -1)),
+                v[1] || (v[1] = d("p", { class: "empty-description" }, "Try adjusting the date range or check your filters to see cost breakdown trends.", -1))
+              ])
+            ]))
+          ])
+        ])
+      ]),
+      _: 1
+    }, 8, ["loading"]));
+  }
+}), g5 = /* @__PURE__ */ xe(f5, [["__scopeId", "data-v-e1c4a95b"]]), m5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, p5 = { class: "card-body" }, b5 = {
+  key: 0,
+  class: "chart-section"
+}, v5 = { class: "chart-container" }, y5 = { class: "mt-auto flex w-full min-w-0 flex-nowrap items-stretch gap-2 sm:gap-3" }, x5 = {
+  key: 1,
+  class: "empty-state"
+}, k5 = { class: "empty-state-content" }, _5 = { class: "empty-icon-wrapper" }, nn = "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", al = 10, w5 = /* @__PURE__ */ ce({
+  __name: "TokenUsage",
+  props: {
+    data: { default: () => ({}) },
+    loading: { type: Boolean, default: !1 },
+    options: { default: void 0 },
+    theme: { default: void 0 },
+    enableExport: { type: Boolean, default: !1 },
+    exportLoading: { type: Boolean, default: !1 }
+  },
+  emits: ["export"],
+  setup(e, { expose: t, emit: a }) {
+    const n = e, { isDark: o, colors: s } = Pe(Be(n, "theme")), i = (u) => {
+      const f = new Date(u), h = String(f.getDate()).padStart(2, "0"), b = String(f.getMonth() + 1).padStart(2, "0");
+      return `${h}-${b}`;
+    }, l = {
+      input: "#a78bfa",
+      output: "#f59e0b",
+      cache_read: "#10b981",
+      cache_write: "#ef4444"
+    }, r = C(() => {
+      const u = n.data?.tokens_by_day || {}, f = Object.keys(u).sort();
+      if (f.length === 0)
+        return { labels: [], datasets: [] };
+      const h = f.map((m) => i(m)), b = [
+        {
+          label: "Input Tokens",
+          data: f.map((m) => u[m]?.input_tokens || 0),
+          backgroundColor: `${l.input}80`,
+          borderColor: l.input,
+          borderWidth: 1
+        },
+        {
+          label: "Output Tokens",
+          data: f.map((m) => u[m]?.output_tokens || 0),
+          backgroundColor: `${l.output}80`,
+          borderColor: l.output,
+          borderWidth: 1
+        },
+        {
+          label: "Cache Read",
+          data: f.map((m) => u[m]?.cache_read_tokens || 0),
+          backgroundColor: `${l.cache_read}80`,
+          borderColor: l.cache_read,
+          borderWidth: 1
+        },
+        {
+          label: "Cache Write",
+          data: f.map((m) => u[m]?.cache_write_tokens || 0),
+          backgroundColor: `${l.cache_write}80`,
+          borderColor: l.cache_write,
+          borderWidth: 1
+        }
+      ];
+      return {
+        labels: h,
+        datasets: b
+      };
+    }), c = C(() => n.options ? n.options : {
+      responsive: !0,
+      maintainAspectRatio: !1,
+      interaction: {
+        mode: "index",
+        intersect: !1
+      },
+      plugins: {
+        legend: {
+          display: !0,
+          position: "bottom",
+          align: "center",
+          labels: {
+            font: {
               family: nn,
               size: 13,
               weight: "500"
@@ -21867,6 +27494,7 @@ Without Reason`
           ticks: {
             font: { family: nn, size: 12, weight: "500" },
             color: s.value.textSecondary,
+>>>>>>> 8a6bd9f (Sales Volume chart)
             padding: 8
           }
         }
@@ -21880,50 +27508,63 @@ Without Reason`
       loading: e.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", c5, [
           d("div", d5, [
             r.value.labels && r.value.labels.length ? (f(), x("section", u5, [
               d("div", h5, [
+=======
+        d("div", m5, [
+          d("div", p5, [
+            r.value.labels && r.value.labels.length ? (g(), x("section", b5, [
+              d("div", v5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(Kt, {
                   data: r.value,
                   options: c.value,
                   stacked: !0
                 }, null, 8, ["data", "options"])
               ]),
-              d("footer", f5, [
-                V($e, {
+              d("footer", y5, [
+                V(Se, {
                   class: "min-w-0 flex-1",
                   title: "Total Tokens",
                   value: A(me)(e.data.total_tokens)
                 }, null, 8, ["value"]),
-                V($e, {
+                V(Se, {
                   class: "min-w-0 flex-1",
                   title: "Input",
                   value: A(me)(e.data.total_input_tokens),
                   color: l.input
                 }, null, 8, ["value", "color"]),
-                V($e, {
+                V(Se, {
                   class: "min-w-0 flex-1",
                   title: "Output",
                   value: A(me)(e.data.total_output_tokens),
                   color: l.output
                 }, null, 8, ["value", "color"]),
-                V($e, {
+                V(Se, {
                   class: "min-w-0 flex-1",
                   title: "Cache Read",
                   value: A(me)(e.data.total_cache_read_tokens),
                   color: l.cache_read
                 }, null, 8, ["value", "color"]),
-                V($e, {
+                V(Se, {
                   class: "min-w-0 flex-1",
                   title: "Cache Write",
                   value: A(me)(e.data.total_cache_write_tokens),
                   color: l.cache_write
                 }, null, 8, ["value", "color"])
               ])
+<<<<<<< HEAD
             ])) : (f(), x("section", g5, [
               d("div", m5, [
                 d("div", p5, [
+=======
+            ])) : (g(), x("section", x5, [
+              d("div", k5, [
+                d("div", _5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "empty-icon" })
                 ]),
                 g[0] || (g[0] = d("p", { class: "empty-title" }, "No token usage data", -1)),
@@ -21936,13 +27577,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), v5 = /* @__PURE__ */ xe(b5, [["__scopeId", "data-v-554d3cda"]]), y5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, x5 = { class: "card-body" }, k5 = {
+}), C5 = /* @__PURE__ */ xe(w5, [["__scopeId", "data-v-554d3cda"]]), $5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, S5 = { class: "card-body" }, M5 = {
   key: 0,
   class: "chart-section"
-}, _5 = { class: "chart-container" }, w5 = { class: "mt-4 w-full min-w-0" }, C5 = {
+}, D5 = { class: "chart-container" }, T5 = { class: "mt-4 w-full min-w-0" }, A5 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, $5 = { class: "empty-state-content" }, S5 = { class: "empty-icon-wrapper" }, M5 = /* @__PURE__ */ de({
+=======
+}, B5 = { class: "empty-state-content" }, L5 = { class: "empty-icon-wrapper" }, P5 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ConversationCount",
   props: {
     data: { default: () => ({}) },
@@ -22065,25 +27710,39 @@ Without Reason`
       loading: e.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", y5, [
           d("div", x5, [
             l.value.labels && l.value.labels.length ? (f(), x("section", k5, [
               d("div", _5, [
                 V(Ct, {
+=======
+        d("div", $5, [
+          d("div", S5, [
+            l.value.labels && l.value.labels.length ? (g(), x("section", M5, [
+              d("div", D5, [
+                V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   data: l.value,
                   options: r.value
                 }, null, 8, ["data", "options"])
               ]),
-              d("div", w5, [
-                V($e, {
+              d("div", T5, [
+                V(Se, {
                   class: "min-w-0 w-full",
                   title: "Total",
                   value: i.value
                 }, null, 8, ["value"])
               ])
+<<<<<<< HEAD
             ])) : (f(), x("section", C5, [
               d("div", $5, [
                 d("div", S5, [
+=======
+            ])) : (g(), x("section", A5, [
+              d("div", B5, [
+                d("div", L5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "empty-icon" })
                 ]),
                 u[0] || (u[0] = d("p", { class: "empty-title" }, "No conversation count data", -1)),
@@ -22096,13 +27755,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), D5 = /* @__PURE__ */ xe(M5, [["__scopeId", "data-v-311f443a"]]), T5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, A5 = { class: "card-body" }, B5 = {
+}), E5 = /* @__PURE__ */ xe(P5, [["__scopeId", "data-v-311f443a"]]), R5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, I5 = { class: "card-body" }, F5 = {
   key: 0,
   class: "charts-grid"
-}, L5 = { class: "chart-section" }, P5 = { class: "chart-container" }, R5 = { class: "chart-section" }, E5 = { class: "chart-container" }, I5 = {
+}, O5 = { class: "chart-section" }, V5 = { class: "chart-container" }, N5 = { class: "chart-section" }, z5 = { class: "chart-container" }, j5 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, F5 = { class: "empty-state-content" }, O5 = { class: "empty-icon-wrapper" }, V5 = /* @__PURE__ */ de({
+=======
+}, H5 = { class: "empty-state-content" }, W5 = { class: "empty-icon-wrapper" }, K5 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "TopAgentsAnalysis",
   props: {
     data: { default: () => ({}) },
@@ -22114,7 +27777,11 @@ Without Reason`
     const a = e, { isDark: n, colors: o } = Pe(Be(a, "theme")), s = C(() => a.data?.top_agents && a.data.top_agents.length > 0), i = C(() => a.data?.top_agents ? [...a.data.top_agents].sort((h, p) => (p.total_cost || 0) - (h.total_cost || 0)) : []), l = C(() => a.data?.top_agents ? [...a.data.top_agents].sort((h, p) => (p.total_tokens || 0) - (h.total_tokens || 0)) : []), r = C(() => {
       const h = i.value;
       return h.length === 0 ? { labels: [], datasets: [] } : {
+<<<<<<< HEAD
         labels: h.map((p) => Ht(p.agent_type)),
+=======
+        labels: h.map((b) => Ht(b.agent_type)),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         datasets: [
           {
             label: "Total Cost",
@@ -22128,7 +27795,11 @@ Without Reason`
     }), c = C(() => {
       const h = l.value;
       return h.length === 0 ? { labels: [], datasets: [] } : {
+<<<<<<< HEAD
         labels: h.map((p) => Ht(p.agent_type)),
+=======
+        labels: h.map((b) => Ht(b.agent_type)),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         datasets: [
           {
             label: "Total Tokens",
@@ -22170,15 +27841,20 @@ Without Reason`
               return h[0]?.label || "";
             },
             label: function(h) {
+<<<<<<< HEAD
               const p = h.label, m = a.data?.top_agents?.find(
                 (v) => Ht(v.agent_type) === p
+=======
+              const b = h.label, m = a.data?.top_agents?.find(
+                (v) => Ht(v.agent_type) === b
+>>>>>>> 8a6bd9f (Sales Volume chart)
               );
               return m ? [
-                `Total Cost: ${Ke(m.total_cost)}`,
-                `Input Cost: ${Ke(m.total_input_tokens_cost)}`,
-                `Output Cost: ${Ke(m.total_output_tokens_cost)}`,
-                `Cache Read: ${Ke(m.total_read_tokens_cost)}`,
-                `Cache Write: ${Ke(m.total_write_tokens_cost)}`
+                `Total Cost: ${Ue(m.total_cost)}`,
+                `Input Cost: ${Ue(m.total_input_tokens_cost)}`,
+                `Output Cost: ${Ue(m.total_output_tokens_cost)}`,
+                `Cache Read: ${Ue(m.total_read_tokens_cost)}`,
+                `Cache Write: ${Ue(m.total_write_tokens_cost)}`
               ] : "No data";
             }
           }
@@ -22207,7 +27883,7 @@ Without Reason`
             color: o.value.textSecondary,
             padding: 8,
             callback: function(h) {
-              return Ke(h);
+              return Ue(h);
             }
           }
         }
@@ -22243,8 +27919,13 @@ Without Reason`
               return h[0]?.label || "";
             },
             label: function(h) {
+<<<<<<< HEAD
               const p = h.label, m = a.data?.top_agents?.find(
                 (v) => Ht(v.agent_type) === p
+=======
+              const b = h.label, m = a.data?.top_agents?.find(
+                (v) => Ht(v.agent_type) === b
+>>>>>>> 8a6bd9f (Sales Volume chart)
               );
               return m ? [
                 `Total Tokens: ${m.total_tokens.toLocaleString()}`,
@@ -22294,30 +27975,51 @@ Without Reason`
       loading: e.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", T5, [
           d("div", A5, [
             s.value ? (f(), x("div", B5, [
               d("section", L5, [
                 p[0] || (p[0] = d("h4", { class: "chart-section-title" }, "Total cost per agent", -1)),
                 d("div", P5, [
+=======
+        d("div", R5, [
+          d("div", I5, [
+            s.value ? (g(), x("div", F5, [
+              d("section", O5, [
+                b[0] || (b[0] = d("h4", { class: "chart-section-title" }, "Total cost per agent", -1)),
+                d("div", V5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(Kt, {
                     data: r.value,
                     options: u.value
                   }, null, 8, ["data", "options"])
                 ])
               ]),
+<<<<<<< HEAD
               d("section", R5, [
                 p[1] || (p[1] = d("h4", { class: "chart-section-title" }, "Total tokens per agent", -1)),
                 d("div", E5, [
+=======
+              d("section", N5, [
+                b[1] || (b[1] = d("h4", { class: "chart-section-title" }, "Total tokens per agent", -1)),
+                d("div", z5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(Kt, {
                     data: c.value,
                     options: g.value
                   }, null, 8, ["data", "options"])
                 ])
               ])
+<<<<<<< HEAD
             ])) : (f(), x("section", I5, [
               d("div", F5, [
                 d("div", O5, [
+=======
+            ])) : (g(), x("section", j5, [
+              d("div", H5, [
+                d("div", W5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "empty-icon" })
                 ]),
                 p[2] || (p[2] = d("p", { class: "empty-title" }, "No top agents data", -1)),
@@ -22330,13 +28032,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), N5 = /* @__PURE__ */ xe(V5, [["__scopeId", "data-v-ae26eabc"]]), z5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, j5 = { class: "card-body" }, H5 = {
+}), U5 = /* @__PURE__ */ xe(K5, [["__scopeId", "data-v-ae26eabc"]]), Y5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, q5 = { class: "card-body" }, G5 = {
   key: 0,
   class: "chart-section"
-}, W5 = { class: "chart-container" }, K5 = {
+}, X5 = { class: "chart-container" }, Z5 = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, U5 = { class: "empty-state-content" }, Y5 = { class: "empty-icon-wrapper" }, q5 = /* @__PURE__ */ de({
+=======
+}, Q5 = { class: "empty-state-content" }, J5 = { class: "empty-icon-wrapper" }, eC = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "TopAgents",
   props: {
     data: { default: () => ({}) },
@@ -22369,9 +28075,15 @@ Without Reason`
         return s[b] || "#a78bfa";
       });
       return {
+<<<<<<< HEAD
         labels: g.map((v) => {
           const b = v.conversations || 0, y = r.value ? b / r.value * 100 : 0;
           return `${Ht(v.agent_type)} - ${b.toLocaleString()} (${y.toFixed(1)}%)`;
+=======
+        labels: f.map((v) => {
+          const p = v.conversations || 0, y = r.value ? p / r.value * 100 : 0;
+          return `${Ht(v.agent_type)} - ${p.toLocaleString()} (${y.toFixed(1)}%)`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
         }),
         datasets: [
           {
@@ -22437,18 +28149,31 @@ Without Reason`
       loading: e.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", z5, [
           d("div", j5, [
             l.value ? (f(), x("section", H5, [
               d("div", W5, [
+=======
+        d("div", Y5, [
+          d("div", q5, [
+            l.value ? (g(), x("section", G5, [
+              d("div", X5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(uo, {
                   data: c.value,
                   options: u.value
                 }, null, 8, ["data", "options"])
               ])
+<<<<<<< HEAD
             ])) : (f(), x("section", K5, [
               d("div", U5, [
                 d("div", Y5, [
+=======
+            ])) : (g(), x("section", Z5, [
+              d("div", Q5, [
+                d("div", J5, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "empty-icon" })
                 ]),
                 h[0] || (h[0] = d("p", { class: "empty-title" }, "No top agents data", -1)),
@@ -22461,13 +28186,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), G5 = /* @__PURE__ */ xe(q5, [["__scopeId", "data-v-a909b73c"]]), X5 = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, Z5 = { class: "card-body" }, Q5 = {
+}), tC = /* @__PURE__ */ xe(eC, [["__scopeId", "data-v-a909b73c"]]), aC = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, nC = { class: "card-body" }, oC = {
   key: 0,
   class: "chart-section"
-}, J5 = { class: "chart-container" }, eC = {
+}, sC = { class: "chart-container" }, iC = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, tC = { class: "empty-state-content" }, aC = { class: "empty-icon-wrapper" }, nC = /* @__PURE__ */ de({
+=======
+}, lC = { class: "empty-state-content" }, rC = { class: "empty-icon-wrapper" }, cC = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "DailyCostTrends",
   props: {
     costData: { default: () => ({}) },
@@ -22582,7 +28311,7 @@ Without Reason`
           callbacks: {
             label: function(c) {
               let u = c.dataset.label || "";
-              return u && (u += ": "), c.parsed.y !== null && (u += Ke(c.parsed.y)), u;
+              return u && (u += ": "), c.parsed.y !== null && (u += Ue(c.parsed.y)), u;
             }
           }
         }
@@ -22610,7 +28339,7 @@ Without Reason`
             color: o.value.textSecondary,
             padding: 8,
             callback: function(c) {
-              return Ke(c);
+              return Ue(c);
             }
           }
         }
@@ -22624,18 +28353,32 @@ Without Reason`
       loading: e.loading
     }, {
       default: F(() => [
+<<<<<<< HEAD
         d("div", X5, [
           d("div", Z5, [
             i.value ? (f(), x("section", Q5, [
               d("div", J5, [
                 V(Ct, {
+=======
+        d("div", aC, [
+          d("div", nC, [
+            i.value ? (g(), x("section", oC, [
+              d("div", sC, [
+                V(xt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   data: l.value,
                   options: r.value
                 }, null, 8, ["data", "options"])
               ])
+<<<<<<< HEAD
             ])) : (f(), x("section", eC, [
               d("div", tC, [
                 d("div", aC, [
+=======
+            ])) : (g(), x("section", iC, [
+              d("div", lC, [
+                d("div", rC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "empty-icon" })
                 ]),
                 u[0] || (u[0] = d("p", { class: "empty-title" }, "No daily cost trends data", -1)),
@@ -22648,15 +28391,19 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), oC = /* @__PURE__ */ xe(nC, [["__scopeId", "data-v-ae6c48b1"]]), sC = { class: "tabs text-sm" }, iC = ["aria-label"], lC = ["id", "aria-selected", "aria-disabled", "aria-label", "tabindex", "onClick", "onKeydown"], rC = {
+}), dC = /* @__PURE__ */ xe(cC, [["__scopeId", "data-v-ae6c48b1"]]), uC = { class: "tabs text-sm" }, hC = ["aria-label"], fC = ["id", "aria-selected", "aria-disabled", "aria-label", "tabindex", "onClick", "onKeydown"], gC = {
   key: 1,
   class: "truncate whitespace-nowrap font-medium tracking-tight"
-}, cC = {
+}, mC = {
   key: 0,
   role: "tooltip",
   "aria-hidden": "true",
   class: "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 font-sans text-xs font-medium text-[color:var(--kiut-text-primary)] opacity-0 shadow-lg shadow-slate-900/10 ring-1 ring-black/5 transition-opacity duration-150 will-change-[opacity,visibility] invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:bg-slate-800 dark:text-slate-100 dark:shadow-black/40 dark:ring-white/10"
+<<<<<<< HEAD
 }, dC = /* @__PURE__ */ de({
+=======
+}, pC = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Tabs",
   __name: "Tabs",
   props: {
@@ -22708,7 +28455,11 @@ Without Reason`
       const _ = a.items[k];
       !_ || _.disabled || (h(_.value, a.modelValue), await et(), o.value[k]?.focus());
     }
+<<<<<<< HEAD
     return (b, y) => (f(), x("div", sC, [
+=======
+    return (p, y) => (g(), x("div", uC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       d("div", {
         role: "tablist",
         "aria-label": e.ariaLabel,
@@ -22717,7 +28468,11 @@ Without Reason`
           e.fullWidth ? "flex w-full" : "inline-flex w-fit max-w-full"
         ])
       }, [
+<<<<<<< HEAD
         (f(!0), x(ie, null, pe(e.items, (w, k) => (f(), x("button", {
+=======
+        (g(!0), x(ie, null, pe(e.items, (w, k) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           id: i(w.value),
           key: w.value,
           ref_for: !0,
@@ -22744,12 +28499,21 @@ Without Reason`
               class: "h-[1.125rem] w-[1.125rem] shrink-0",
               "aria-hidden": "true"
             })) : I("", !0),
+<<<<<<< HEAD
             u(w) ? (f(), x("span", rC, T(w.label), 1)) : I("", !0)
           ], 2),
           c(w) ? (f(), x("span", cC, T(w.label), 1)) : I("", !0)
         ], 42, lC))), 128))
       ], 10, iC),
       b.$slots.default ? (f(), Z(Tt, {
+=======
+            u(w) ? (g(), x("span", gC, T(w.label), 1)) : I("", !0)
+          ], 2),
+          c(w) ? (g(), x("span", mC, T(w.label), 1)) : I("", !0)
+        ], 42, fC))), 128))
+      ], 10, hC),
+      p.$slots.default ? (g(), Z(Tt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         name: "tabs-panel",
         mode: "out-in"
@@ -22766,13 +28530,17 @@ Without Reason`
       })) : I("", !0)
     ]));
   }
-}), Br = /* @__PURE__ */ xe(dC, [["__scopeId", "data-v-8d843da0"]]), uC = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, hC = { class: "card-body" }, fC = {
+}), Ar = /* @__PURE__ */ xe(pC, [["__scopeId", "data-v-8d843da0"]]), bC = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, vC = { class: "card-body" }, yC = {
   key: 0,
   class: "model-usage-table-block"
-}, gC = { class: "w-full min-w-0" }, mC = {
+}, xC = { class: "w-full min-w-0" }, kC = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, pC = { class: "empty-state-content" }, bC = { class: "empty-icon-wrapper" }, vC = /* @__PURE__ */ de({
+=======
+}, _C = { class: "empty-state-content" }, wC = { class: "empty-icon-wrapper" }, CC = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "ModelUsage",
   props: {
     data: { default: () => ({
@@ -22808,8 +28576,13 @@ Without Reason`
         totalCost: p(v.total_cost),
         totalTokens: h(v.total_tokens)
       }))
+<<<<<<< HEAD
     ), h = (m) => m == null ? "0" : me(m), p = (m) => m == null ? "$0.00" : Ke(m);
     return t({ isDark: i }), (m, v) => (f(), Z(Le, {
+=======
+    ), h = (m) => m == null ? "0" : me(m), b = (m) => m == null ? "$0.00" : Ue(m);
+    return t({ isDark: i }), (m, v) => (g(), Z(Le, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       class: "h-full min-h-0",
       title: "Model Usage",
       subtitle: "AI model performance and costs",
@@ -22817,7 +28590,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -22825,9 +28602,9 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
-        d("div", uC, [
-          d("div", hC, [
-            V(Br, {
+        d("div", bC, [
+          d("div", vC, [
+            V(Ar, {
               modelValue: r.value,
               "onUpdate:modelValue": v[0] || (v[0] = (b) => r.value = b),
               items: l,
@@ -22835,8 +28612,13 @@ Without Reason`
               "full-width": ""
             }, {
               default: F(() => [
+<<<<<<< HEAD
                 c.value && Object.keys(c.value).length > 0 ? (f(), x("div", fC, [
                   d("div", gC, [
+=======
+                c.value && Object.keys(c.value).length > 0 ? (g(), x("div", yC, [
+                  d("div", xC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     V(Ot, {
                       columns: u.value,
                       rows: g.value,
@@ -22844,9 +28626,15 @@ Without Reason`
                       "row-key": "id"
                     }, null, 8, ["columns", "rows"])
                   ])
+<<<<<<< HEAD
                 ])) : (f(), x("div", mC, [
                   d("div", pC, [
                     d("div", bC, [
+=======
+                ])) : (g(), x("div", kC, [
+                  d("div", _C, [
+                    d("div", wC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       V(A(At), { class: "empty-icon" })
                     ]),
                     v[1] || (v[1] = d("p", { class: "empty-title" }, "No model usage data available", -1)),
@@ -22862,13 +28650,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), yC = /* @__PURE__ */ xe(vC, [["__scopeId", "data-v-48a6cc07"]]), xC = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, kC = { class: "card-body" }, _C = {
+}), $C = /* @__PURE__ */ xe(CC, [["__scopeId", "data-v-48a6cc07"]]), SC = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, MC = { class: "card-body" }, DC = {
   key: 0,
   class: "message-roles-table-block"
-}, wC = { class: "w-full min-w-0" }, CC = {
+}, TC = { class: "w-full min-w-0" }, AC = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, $C = { class: "empty-state-content" }, SC = { class: "empty-icon-wrapper" }, MC = /* @__PURE__ */ de({
+=======
+}, BC = { class: "empty-state-content" }, LC = { class: "empty-icon-wrapper" }, PC = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "MessageRoles",
   props: {
     data: { default: () => ({
@@ -22900,8 +28692,13 @@ Without Reason`
         totalCost: p(c.value[v]?.total_cost),
         totalTokens: h(c.value[v]?.total_tokens)
       }))
+<<<<<<< HEAD
     ), g = C(() => Object.keys(c.value).length > 0), h = (v) => v == null ? "0" : me(v), p = (v) => v == null ? "$0.00" : Ke(v), m = (v) => v.charAt(0).toUpperCase() + v.slice(1);
     return t({ isDark: i }), (v, b) => (f(), Z(Le, {
+=======
+    ), f = C(() => Object.keys(c.value).length > 0), h = (v) => v == null ? "0" : me(v), b = (v) => v == null ? "$0.00" : Ue(v), m = (v) => v.charAt(0).toUpperCase() + v.slice(1);
+    return t({ isDark: i }), (v, p) => (g(), Z(Le, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       class: "h-full min-h-0",
       title: "Message Roles",
       subtitle: "Performance by message role",
@@ -22909,7 +28706,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -22917,10 +28718,17 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", xC, [
           d("div", kC, [
             g.value ? (f(), x("div", _C, [
               d("div", wC, [
+=======
+        d("div", SC, [
+          d("div", MC, [
+            f.value ? (g(), x("div", DC, [
+              d("div", TC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(Ot, {
                   columns: r,
                   rows: u.value,
@@ -22928,9 +28736,15 @@ Without Reason`
                   "row-key": "id"
                 }, null, 8, ["rows"])
               ])
+<<<<<<< HEAD
             ])) : (f(), x("div", CC, [
               d("div", $C, [
                 d("div", SC, [
+=======
+            ])) : (g(), x("div", AC, [
+              d("div", BC, [
+                d("div", LC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "empty-icon" })
                 ]),
                 b[0] || (b[0] = d("p", { class: "empty-title" }, "No message role data available", -1)),
@@ -22943,13 +28757,17 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), DC = /* @__PURE__ */ xe(MC, [["__scopeId", "data-v-d38e854e"]]), TC = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, AC = { class: "card-body" }, BC = {
+}), EC = /* @__PURE__ */ xe(PC, [["__scopeId", "data-v-d38e854e"]]), RC = { class: "flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, IC = { class: "card-body" }, FC = {
   key: 0,
   class: "chart-section"
-}, LC = { class: "chart-container" }, PC = { class: "kpi-grid" }, RC = {
+}, OC = { class: "chart-container" }, VC = { class: "kpi-grid" }, NC = {
   key: 1,
   class: "empty-state"
+<<<<<<< HEAD
 }, EC = { class: "empty-state-content" }, IC = { class: "empty-icon-wrapper" }, FC = 40, OC = 230, VC = /* @__PURE__ */ de({
+=======
+}, zC = { class: "empty-state-content" }, jC = { class: "empty-icon-wrapper" }, HC = 40, WC = 230, KC = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "CostPerConversations",
   props: {
     data: { default: () => ({ top_agents: [] }) },
@@ -22975,15 +28793,25 @@ Without Reason`
       booking_assistant: "#06b6d4",
       flight_info: "#f59e0b",
       support: "#10b981"
+<<<<<<< HEAD
     }, c = (k) => k.agent_type || k.agent_id || k.agent_name || "", u = (k) => k.agent_name ? Ht(k.agent_name) : Ht(c(k)).split("_").map(($) => $.charAt(0).toUpperCase() + $.slice(1)).join(" ").replace(/V\d+$/, "").trim(), g = (k) => {
+=======
+    }, c = (k) => k.agent_type || k.agent_id || k.agent_name || "", u = (k) => k.agent_name ? Ht(k.agent_name) : Ht(c(k)).split("_").map(($) => $.charAt(0).toUpperCase() + $.slice(1)).join(" ").replace(/V\d+$/, "").trim(), f = (k) => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const _ = c(k).toLowerCase();
       for (const [$, S] of Object.entries(r))
         if (_.includes($))
           return S;
       return "#9ca3af";
+<<<<<<< HEAD
     }, h = C(() => [...n.data?.top_agents || []].sort((_, $) => $.avg_cost_per_conversation - _.avg_cost_per_conversation)), p = C(
       () => Math.max(OC, h.value.length * FC + 32)
     ), m = C(() => n.data?.total_conversations !== void 0 ? Number(n.data.total_conversations) || 0 : h.value.reduce((k, _) => k + _.conversations, 0)), v = C(() => n.data?.total_cost !== void 0 ? Number(n.data.total_cost) || 0 : h.value.reduce((k, _) => k + _.total_cost, 0)), b = C(() => n.data?.overall_avg_cost_per_conversation !== void 0 ? Number(n.data.overall_avg_cost_per_conversation) || 0 : m.value === 0 ? 0 : v.value / m.value), y = C(() => {
+=======
+    }, h = C(() => [...n.data?.top_agents || []].sort((_, $) => $.avg_cost_per_conversation - _.avg_cost_per_conversation)), b = C(
+      () => Math.max(WC, h.value.length * HC + 32)
+    ), m = C(() => n.data?.total_conversations !== void 0 ? Number(n.data.total_conversations) || 0 : h.value.reduce((k, _) => k + _.conversations, 0)), v = C(() => n.data?.total_cost !== void 0 ? Number(n.data.total_cost) || 0 : h.value.reduce((k, _) => k + _.total_cost, 0)), p = C(() => n.data?.overall_avg_cost_per_conversation !== void 0 ? Number(n.data.overall_avg_cost_per_conversation) || 0 : m.value === 0 ? 0 : v.value / m.value), y = C(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const k = h.value;
       if (k.length === 0)
         return { labels: [], datasets: [] };
@@ -23036,9 +28864,9 @@ Without Reason`
             label: function(k) {
               const _ = h.value[k.dataIndex];
               return [
-                `Cost: ${Ke(k.parsed.x)}`,
+                `Cost: ${Ue(k.parsed.x)}`,
                 `Conversations: ${me(_.conversations)}`,
-                `Total Cost: ${Ke(_.total_cost)}`
+                `Total Cost: ${Ue(_.total_cost)}`
               ];
             }
           }
@@ -23059,7 +28887,7 @@ Without Reason`
             color: l.value.textSecondary,
             padding: 8,
             callback: function(k) {
-              return Ke(k);
+              return Ue(k);
             }
           }
         },
@@ -23083,7 +28911,11 @@ Without Reason`
       loading: e.loading
     }, {
       headerExport: F(() => [
+<<<<<<< HEAD
         e.enableExport && !e.loading ? (f(), Z(A(qe), {
+=======
+        e.enableExport && !e.loading ? (g(), Z(A(qe), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           variant: "inline",
           onExport: s,
@@ -23091,10 +28923,17 @@ Without Reason`
         }, null, 8, ["loading"])) : I("", !0)
       ]),
       default: F(() => [
+<<<<<<< HEAD
         d("div", TC, [
           d("div", AC, [
             y.value.labels && y.value.labels.length ? (f(), x("section", BC, [
               d("div", LC, [
+=======
+        d("div", RC, [
+          d("div", IC, [
+            y.value.labels && y.value.labels.length ? (g(), x("section", FC, [
+              d("div", OC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(Kt, {
                   data: y.value,
                   options: w.value,
@@ -23102,27 +28941,36 @@ Without Reason`
                   "category-label-max-length": 18
                 }, null, 8, ["data", "options", "height-px"])
               ]),
-              d("footer", PC, [
-                V(A($e), {
+              d("footer", VC, [
+                V(A(Se), {
                   title: "Total Agents",
                   value: String(h.value.length)
                 }, null, 8, ["value"]),
-                V(A($e), {
+                V(A(Se), {
                   title: "Total Conversations",
                   value: A(me)(m.value)
                 }, null, 8, ["value"]),
-                V(A($e), {
+                V(A(Se), {
                   title: "Total Cost",
-                  value: A(Ke)(v.value)
+                  value: A(Ue)(v.value)
                 }, null, 8, ["value"]),
-                V(A($e), {
+                V(A(Se), {
                   title: "Avg Cost / Conv.",
+<<<<<<< HEAD
                   value: A(Ke)(b.value)
                 }, null, 8, ["value"])
               ])
             ])) : (f(), x("section", RC, [
               d("div", EC, [
                 d("div", IC, [
+=======
+                  value: A(Ue)(p.value)
+                }, null, 8, ["value"])
+              ])
+            ])) : (g(), x("section", NC, [
+              d("div", zC, [
+                d("div", jC, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   V(A(At), { class: "empty-icon" })
                 ]),
                 _[0] || (_[0] = d("p", { class: "empty-title" }, "No cost per conversation data", -1)),
@@ -23135,7 +28983,11 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
+<<<<<<< HEAD
 }), NC = /* @__PURE__ */ xe(VC, [["__scopeId", "data-v-2a8f51ca"]]), nl = /* @__PURE__ */ de({
+=======
+}), UC = /* @__PURE__ */ xe(KC, [["__scopeId", "data-v-2a8f51ca"]]), nl = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "ButtonLoadingSpinner",
   __name: "ButtonLoadingSpinner",
   props: {
@@ -23163,50 +29015,54 @@ Without Reason`
       d("path", { d: "M12 2a10 10 0 0 1 10 10" }, null, -1)
     ])], 2));
   }
-}), zC = ["disabled", "aria-expanded", "aria-label"], jC = {
+}), YC = ["disabled", "aria-expanded", "aria-label"], qC = {
   key: 0,
   class: "inline-flex shrink-0 [&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]",
   "aria-hidden": "true"
-}, HC = { class: "min-w-0 truncate" }, WC = ["disabled", "onClick", "onMouseenter"], KC = {
+}, GC = { class: "min-w-0 truncate" }, XC = ["disabled", "onClick", "onMouseenter"], ZC = {
   key: 0,
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] dark:text-slate-400",
   "aria-hidden": "true"
-}, UC = {
+}, QC = {
   key: 1,
   class: "h-5 w-5 shrink-0",
   "aria-hidden": "true"
-}, YC = { class: "min-w-0 flex-1 text-left" }, qC = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, GC = {
+}, JC = { class: "min-w-0 flex-1 text-left" }, e$ = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, t$ = {
   key: 0,
   class: "mt-0.5 block text-xs text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, XC = ["disabled", "aria-expanded", "aria-label"], ZC = {
+}, a$ = ["disabled", "aria-expanded", "aria-label"], n$ = {
   key: 0,
   class: "inline-flex shrink-0 [&>svg]:size-4",
   "aria-hidden": "true"
-}, QC = ["disabled", "onClick", "onMouseenter"], JC = {
+}, o$ = ["disabled", "onClick", "onMouseenter"], s$ = {
   key: 0,
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] dark:text-slate-400",
   "aria-hidden": "true"
-}, e$ = {
+}, i$ = {
   key: 1,
   class: "h-5 w-5 shrink-0",
   "aria-hidden": "true"
-}, t$ = { class: "min-w-0 flex-1 text-left" }, a$ = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, n$ = {
+}, l$ = { class: "min-w-0 flex-1 text-left" }, r$ = { class: "block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, c$ = {
   key: 0,
   class: "mt-0.5 block text-xs text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, o$ = {
+}, d$ = {
   key: 2,
   class: "group relative inline-flex shrink-0"
-}, s$ = ["type", "disabled", "aria-busy", "aria-label"], i$ = {
+}, u$ = ["type", "disabled", "aria-busy", "aria-label"], h$ = {
   key: 2,
   class: "min-w-0 truncate"
-}, l$ = {
+}, f$ = {
   role: "tooltip",
   "aria-hidden": "true",
   class: "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-1.5 font-sans text-xs font-medium text-[color:var(--kiut-text-primary)] opacity-0 shadow-lg shadow-slate-900/10 ring-1 ring-black/5 transition-opacity duration-150 will-change-[opacity,visibility] invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 dark:bg-slate-800 dark:text-slate-100 dark:shadow-black/40 dark:ring-white/10"
-}, r$ = ["type", "disabled", "aria-busy", "aria-label"], c$ = {
+}, g$ = ["type", "disabled", "aria-busy", "aria-label"], m$ = {
   key: 2,
   class: "min-w-0 truncate"
+<<<<<<< HEAD
 }, Ut = /* @__PURE__ */ de({
+=======
+}, Ut = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Button",
   inheritAttrs: !1,
   __name: "Button",
@@ -23227,14 +29083,20 @@ Without Reason`
     ), i = C(() => a.variant === "dropdown"), l = C(() => a.variant === "split"), r = C(() => a.variant === "action"), c = C(() => !r.value && !l.value), u = C(() => a.disabled || a.loading), g = C(
       () => a.loading ? "cursor-wait disabled:pointer-events-none" : "disabled:pointer-events-none disabled:opacity-45"
     ), h = C(() => {
-      const R = o["aria-label"];
-      if (typeof R == "string" && R.length > 0) return R;
+      const E = o["aria-label"];
+      if (typeof E == "string" && E.length > 0) return E;
       if ((r.value || l.value) && a.tooltip?.trim()) return a.tooltip.trim();
+<<<<<<< HEAD
     }), p = C(() => {
       const R = o.type;
       return R === "submit" || R === "reset" || R === "button" ? R : "button";
+=======
+    }), b = C(() => {
+      const E = o.type;
+      return E === "submit" || E === "reset" || E === "button" ? E : "button";
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }), m = C(() => {
-      const { class: R, type: U, "aria-label": Y, ...O } = o;
+      const { class: E, type: U, "aria-label": Y, ...O } = o;
       return O;
     }), v = C(() => a.variant === "primary" || a.variant === "dropdown" ? [
       "px-4 py-2.5",
@@ -23264,23 +29126,29 @@ Without Reason`
       "dark:text-slate-200",
       "dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white",
       "dark:active:bg-[color:var(--kiut-primary-dark)]"
+<<<<<<< HEAD
     ]), b = `kiut-button-menu-${tt()}`, y = `${b}-btn`, w = `${b}-menu`, k = Q(null), _ = Q(null), $ = Q(null), S = Q(!1), M = Q(0), P = Q({}), E = C(() => a.options.filter((R) => !R.disabled));
     function N(R) {
       return `${R.value}-${R.label}`;
+=======
+    ]), p = `kiut-button-menu-${tt()}`, y = `${p}-btn`, w = `${p}-menu`, k = Q(null), _ = Q(null), $ = Q(null), S = Q(!1), M = Q(0), P = Q({}), R = C(() => a.options.filter((E) => !E.disabled));
+    function N(E) {
+      return `${E.value}-${E.label}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function D() {
-      const R = _.value;
-      if (!R) return;
-      const U = R.getBoundingClientRect(), Y = {
+      const E = _.value;
+      if (!E) return;
+      const U = E.getBoundingClientRect(), Y = {
         top: `${U.bottom - 3}px`,
         minWidth: `max(${U.width}px, ${a.menuMinWidth})`
       };
       a.menuAlign === "right" ? (Y.right = `${window.innerWidth - U.right}px`, Y.left = "auto") : (Y.left = `${U.left}px`, Y.right = "auto"), P.value = Y;
     }
-    function B(R) {
+    function B(E) {
       return [
         "mx-1 flex w-full cursor-pointer items-start gap-3 rounded-lg px-3 py-2.5 text-left outline-none transition-colors disabled:cursor-not-allowed disabled:opacity-45",
-        M.value === R ? "bg-slate-100 dark:bg-white/5" : ""
+        M.value === E ? "bg-slate-100 dark:bg-white/5" : ""
       ];
     }
     function L() {
@@ -23298,47 +29166,58 @@ Without Reason`
         S.value = !0, j();
       }
     }
-    function X(R) {
-      R.disabled || (n("select", R), L());
+    function X(E) {
+      E.disabled || (n("select", E), L());
     }
-    function se(R) {
-      R.stopPropagation(), W();
+    function se(E) {
+      E.stopPropagation(), W();
     }
+<<<<<<< HEAD
     function ce(R) {
+=======
+    function de(E) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (!S.value) return;
-      const U = R.target, Y = k.value, O = $.value;
+      const U = E.target, Y = k.value, O = $.value;
       Y && !Y.contains(U) && (!O || !O.contains(U)) && L();
     }
-    function G(R) {
-      a.disabled || (R.key === "ArrowDown" || R.key === "Enter" || R.key === " ") && (R.preventDefault(), S.value || (S.value = !0, j()));
+    function G(E) {
+      a.disabled || (E.key === "ArrowDown" || E.key === "Enter" || E.key === " ") && (E.preventDefault(), S.value || (S.value = !0, j()));
     }
-    function te(R) {
-      const U = E.value;
-      if (R.key === "Escape") {
-        R.preventDefault(), L(), _.value?.focus();
+    function te(E) {
+      const U = R.value;
+      if (E.key === "Escape") {
+        E.preventDefault(), L(), _.value?.focus();
         return;
       }
       if (U.length !== 0) {
-        if (R.key === "ArrowDown") {
-          R.preventDefault(), M.value = Math.min(M.value + 1, U.length - 1);
+        if (E.key === "ArrowDown") {
+          E.preventDefault(), M.value = Math.min(M.value + 1, U.length - 1);
           return;
         }
-        if (R.key === "ArrowUp") {
-          R.preventDefault(), M.value = Math.max(M.value - 1, 0);
+        if (E.key === "ArrowUp") {
+          E.preventDefault(), M.value = Math.max(M.value - 1, 0);
           return;
         }
-        if (R.key === "Enter" || R.key === " ") {
-          R.preventDefault();
+        if (E.key === "Enter" || E.key === " ") {
+          E.preventDefault();
           const Y = U[M.value];
           Y && X(Y);
         }
       }
     }
     return ht(() => {
+<<<<<<< HEAD
       document.addEventListener("click", ce);
     }), yt(() => {
       document.removeEventListener("click", ce);
     }), (R, U) => i.value ? (f(), x("div", {
+=======
+      document.addEventListener("click", de);
+    }), yt(() => {
+      document.removeEventListener("click", de);
+    }), (E, U) => i.value ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       key: 0,
       ref_key: "rootRef",
       ref: k,
@@ -23359,18 +29238,28 @@ Without Reason`
         onClick: se,
         onKeydown: G
       }), [
+<<<<<<< HEAD
         R.$slots.icon ? (f(), x("span", jC, [
           De(R.$slots, "icon")
+=======
+        E.$slots.icon ? (g(), x("span", qC, [
+          De(E.$slots, "icon")
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ])) : I("", !0),
-        d("span", HC, [
-          De(R.$slots, "default")
+        d("span", GC, [
+          De(E.$slots, "default")
         ]),
         V(A(ha), {
           class: K(["h-[1.125rem] w-[1.125rem] shrink-0 transition-transform", S.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
+<<<<<<< HEAD
       ], 16, zC),
       (f(), Z(ua, { to: "body" }, [
+=======
+      ], 16, YC),
+      (g(), Z(ua, { to: "body" }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         rt(d("div", {
           ref_key: "panelRef",
           ref: $,
@@ -23381,7 +29270,11 @@ Without Reason`
           style: Ae(P.value),
           onKeydown: Fe(te, ["stop"])
         }, [
+<<<<<<< HEAD
           (f(!0), x(ie, null, pe(E.value, (Y, O) => (f(), x("button", {
+=======
+          (g(!0), x(ie, null, pe(R.value, (Y, O) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: N(Y),
             type: "button",
             role: "menuitem",
@@ -23390,14 +29283,23 @@ Without Reason`
             onClick: Fe((oe) => X(Y), ["stop"]),
             onMouseenter: (oe) => M.value = O
           }, [
+<<<<<<< HEAD
             Y.icon ? (f(), x("span", KC, [
               (f(), Z(Dt(Y.icon), { class: "h-5 w-5" }))
             ])) : (f(), x("span", UC)),
             d("span", YC, [
               d("span", qC, T(Y.label), 1),
               Y.description ? (f(), x("span", GC, T(Y.description), 1)) : I("", !0)
+=======
+            Y.icon ? (g(), x("span", ZC, [
+              (g(), Z(Dt(Y.icon), { class: "h-5 w-5" }))
+            ])) : (g(), x("span", QC)),
+            d("span", JC, [
+              d("span", e$, T(Y.label), 1),
+              Y.description ? (g(), x("span", t$, T(Y.description), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
             ])
-          ], 42, WC))), 128))
+          ], 42, XC))), 128))
         ], 36), [
           [qt, S.value]
         ])
@@ -23422,11 +29324,19 @@ Without Reason`
         onClick: se,
         onKeydown: G
       }), [
+<<<<<<< HEAD
         R.$slots.icon ? (f(), x("span", ZC, [
           De(R.$slots, "icon")
         ])) : I("", !0)
       ], 16, XC),
       (f(), Z(ua, { to: "body" }, [
+=======
+        E.$slots.icon ? (g(), x("span", n$, [
+          De(E.$slots, "icon")
+        ])) : I("", !0)
+      ], 16, a$),
+      (g(), Z(ua, { to: "body" }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         rt(d("div", {
           ref_key: "panelRef",
           ref: $,
@@ -23437,7 +29347,11 @@ Without Reason`
           style: Ae(P.value),
           onKeydown: Fe(te, ["stop"])
         }, [
+<<<<<<< HEAD
           (f(!0), x(ie, null, pe(E.value, (Y, O) => (f(), x("button", {
+=======
+          (g(!0), x(ie, null, pe(R.value, (Y, O) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: N(Y),
             type: "button",
             role: "menuitem",
@@ -23446,19 +29360,32 @@ Without Reason`
             onClick: Fe((oe) => X(Y), ["stop"]),
             onMouseenter: (oe) => M.value = O
           }, [
+<<<<<<< HEAD
             Y.icon ? (f(), x("span", JC, [
               (f(), Z(Dt(Y.icon), { class: "h-5 w-5" }))
             ])) : (f(), x("span", e$)),
             d("span", t$, [
               d("span", a$, T(Y.label), 1),
               Y.description ? (f(), x("span", n$, T(Y.description), 1)) : I("", !0)
+=======
+            Y.icon ? (g(), x("span", s$, [
+              (g(), Z(Dt(Y.icon), { class: "h-5 w-5" }))
+            ])) : (g(), x("span", i$)),
+            d("span", l$, [
+              d("span", r$, T(Y.label), 1),
+              Y.description ? (g(), x("span", c$, T(Y.description), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
             ])
-          ], 42, QC))), 128))
+          ], 42, o$))), 128))
         ], 36), [
           [qt, S.value]
         ])
       ]))
+<<<<<<< HEAD
     ], 512)) : s.value ? (f(), x("span", o$, [
+=======
+    ], 512)) : s.value ? (g(), x("span", d$, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       d("button", It({
         type: p.value,
         class: ["inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]", [g.value, v.value, A(o).class]],
@@ -23466,22 +29393,38 @@ Without Reason`
         "aria-busy": e.loading || void 0,
         "aria-label": h.value
       }, m.value), [
+<<<<<<< HEAD
         e.loading ? (f(), Z(nl, {
           key: 0,
           compact: r.value
         }, null, 8, ["compact"])) : R.$slots.icon ? (f(), x("span", {
+=======
+        e.loading ? (g(), Z(nl, {
+          key: 0,
+          compact: r.value
+        }, null, 8, ["compact"])) : E.$slots.icon ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 1,
           class: K(["inline-flex shrink-0", r.value ? "[&>svg]:size-4" : "[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]"]),
           "aria-hidden": "true"
         }, [
-          De(R.$slots, "icon")
+          De(E.$slots, "icon")
         ], 2)) : I("", !0),
+<<<<<<< HEAD
         c.value ? (f(), x("span", i$, [
           De(R.$slots, "default")
         ])) : I("", !0)
       ], 16, s$),
       d("span", l$, T(e.tooltip), 1)
     ])) : (f(), x("button", It({
+=======
+        c.value ? (g(), x("span", h$, [
+          De(E.$slots, "default")
+        ])) : I("", !0)
+      ], 16, u$),
+      d("span", f$, T(e.tooltip), 1)
+    ])) : (g(), x("button", It({
+>>>>>>> 8a6bd9f (Sales Volume chart)
       key: 3,
       type: p.value,
       class: ["inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]", [g.value, v.value, A(o).class]],
@@ -23489,22 +29432,38 @@ Without Reason`
       "aria-busy": e.loading || void 0,
       "aria-label": h.value
     }, m.value), [
+<<<<<<< HEAD
       e.loading ? (f(), Z(nl, {
         key: 0,
         compact: r.value
       }, null, 8, ["compact"])) : R.$slots.icon ? (f(), x("span", {
+=======
+      e.loading ? (g(), Z(nl, {
+        key: 0,
+        compact: r.value
+      }, null, 8, ["compact"])) : E.$slots.icon ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 1,
         class: K(["inline-flex shrink-0", r.value ? "[&>svg]:size-4" : "[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]"]),
         "aria-hidden": "true"
       }, [
-        De(R.$slots, "icon")
+        De(E.$slots, "icon")
       ], 2)) : I("", !0),
+<<<<<<< HEAD
       c.value ? (f(), x("span", c$, [
         De(R.$slots, "default")
+=======
+      c.value ? (g(), x("span", m$, [
+        De(E.$slots, "default")
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ])) : I("", !0)
-    ], 16, r$));
+    ], 16, g$));
   }
+<<<<<<< HEAD
 }), d$ = ["id", "data-kiut-toggle-size", "aria-checked", "aria-disabled", "disabled", "onKeydown"], u$ = { class: "sr-only" }, Lr = /* @__PURE__ */ de({
+=======
+}), p$ = ["id", "data-kiut-toggle-size", "aria-checked", "aria-disabled", "disabled", "onKeydown"], b$ = { class: "sr-only" }, Br = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Toggle",
   __name: "Toggle",
   props: {
@@ -23548,10 +29507,10 @@ Without Reason`
         ]]),
         "aria-hidden": "true"
       }, null, 2),
-      d("span", u$, T(e.ariaLabel), 1)
-    ], 42, d$));
+      d("span", b$, T(e.ariaLabel), 1)
+    ], 42, p$));
   }
-}), h$ = {
+}), v$ = {
   method: "MÉTODO",
   name: "NOMBRE",
   url: "URL",
@@ -23573,7 +29532,7 @@ Without Reason`
   collapseRow: "Contraer fila",
   toggleActive: "Activar o desactivar",
   loadingHistory: "Cargando historial de versiones"
-}, f$ = [
+}, y$ = [
   {
     key: "method",
     label: "MÉTODO",
@@ -23625,7 +29584,7 @@ Without Reason`
     cellClass: "w-28",
     actions: ["view", "run", "edit"]
   }
-], M6 = [
+], P6 = [
   {
     key: "name",
     label: "NOMBRE",
@@ -23671,24 +29630,28 @@ Without Reason`
     cellClass: "w-36",
     actions: ["view", "createDraft", "edit", "delete"]
   }
-], g$ = { class: "kiut-table-versions-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, m$ = { class: "w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, p$ = { class: "kiut-table-versions w-full min-w-[640px] table-fixed border-collapse text-left text-sm" }, b$ = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, v$ = { class: "h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]" }, y$ = {
+], x$ = { class: "kiut-table-versions-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, k$ = { class: "w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, _$ = { class: "kiut-table-versions w-full min-w-[640px] table-fixed border-collapse text-left text-sm" }, w$ = { class: "h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]" }, C$ = { class: "h-14 border-b border-[#e5e7eb] bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]" }, $$ = {
   key: 0,
   class: "flex min-w-0 items-center gap-1.5"
-}, x$ = ["aria-expanded", "aria-label", "onClick"], k$ = { class: "min-w-0 flex-1" }, _$ = {
+}, S$ = ["aria-expanded", "aria-label", "onClick"], M$ = { class: "min-w-0 flex-1" }, D$ = {
   key: 0,
   class: "border-b border-[#e5e7eb] bg-[#f9fafb] dark:border-[color:var(--kiut-border-light)] dark:bg-[#1a1a22]"
-}, w$ = ["colspan"], C$ = { class: "mb-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]" }, $$ = ["aria-label"], S$ = {
+}, T$ = ["colspan"], A$ = { class: "mb-2 text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]" }, B$ = ["aria-label"], L$ = {
   key: 1,
   class: "text-sm text-[color:var(--kiut-text-muted)]"
-}, M$ = {
+}, P$ = {
   key: 2,
   class: "space-y-2"
+<<<<<<< HEAD
 }, D$ = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)]" }, T$ = ["title"], A$ = { class: "whitespace-nowrap text-xs text-[color:var(--kiut-text-muted)]" }, B$ = { class: "ml-auto flex shrink-0 items-center gap-2" }, L$ = /* @__PURE__ */ de({
+=======
+}, E$ = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)]" }, R$ = ["title"], I$ = { class: "whitespace-nowrap text-xs text-[color:var(--kiut-text-muted)]" }, F$ = { class: "ml-auto flex shrink-0 items-center gap-2" }, O$ = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "TableVersions",
   __name: "TableVersions",
   props: {
     rows: { default: () => [] },
-    columns: { default: () => f$ },
+    columns: { default: () => y$ },
     rowKey: { type: [String, Function], default: "id" },
     expandedKeys: { default: void 0 },
     defaultExpandedKeys: { default: () => [] },
@@ -23707,7 +29670,7 @@ Without Reason`
         o.value = D, n("update:expandedKeys", D);
       }
     }), i = C(() => ({
-      ...h$,
+      ...v$,
       ...a.labels
     })), l = C(
       () => a.expandColumnKey ?? a.columns[0]?.key ?? ""
@@ -23798,7 +29761,7 @@ Without Reason`
         D.method
       ) : null;
     }
-    function E(D, B) {
+    function R(D, B) {
       const L = B.actions ?? ["view", "edit"], j = [];
       for (const W of L)
         W === "view" ? j.push(
@@ -23821,7 +29784,11 @@ Without Reason`
               ariaLabel: i.value.run,
               onClick: () => n("run", D)
             },
+<<<<<<< HEAD
             { icon: () => at(w0, { class: "h-4 w-4" }) }
+=======
+            { icon: () => at(_0, { class: "h-4 w-4" }) }
+>>>>>>> 8a6bd9f (Sales Volume chart)
           )
         ) : W === "edit" ? j.push(
           at(
@@ -23832,7 +29799,11 @@ Without Reason`
               ariaLabel: i.value.edit,
               onClick: () => n("edit", D)
             },
+<<<<<<< HEAD
             { icon: () => at(_0, { class: "h-4 w-4" }) }
+=======
+            { icon: () => at(k0, { class: "h-4 w-4" }) }
+>>>>>>> 8a6bd9f (Sales Volume chart)
           )
         ) : W === "createDraft" ? j.push(
           at(
@@ -23855,7 +29826,11 @@ Without Reason`
               ariaLabel: i.value.delete,
               onClick: () => n("delete", D)
             },
+<<<<<<< HEAD
             { icon: () => at(C0, { class: "h-4 w-4" }) }
+=======
+            { icon: () => at(w0, { class: "h-4 w-4" }) }
+>>>>>>> 8a6bd9f (Sales Volume chart)
           )
         );
       return at(
@@ -23894,23 +29869,32 @@ Without Reason`
             $(D.updatedAt)
           );
         case "active":
-          return at(Lr, {
+          return at(Br, {
             modelValue: D.active ?? !1,
             ariaLabel: i.value.toggleActive,
             "onUpdate:modelValue": (W) => n("toggleActive", D, W)
           });
         case "actions":
-          return E(D, B);
+          return R(D, B);
         default:
           return at("span", {}, String(D[B.key] ?? ""));
       }
     }
+<<<<<<< HEAD
     return (D, B) => (f(), x("div", g$, [
       d("div", m$, [
         d("table", p$, [
           d("thead", null, [
             d("tr", b$, [
               (f(!0), x(ie, null, pe(e.columns, (L) => (f(), x("th", {
+=======
+    return (D, B) => (g(), x("div", x$, [
+      d("div", k$, [
+        d("table", _$, [
+          d("thead", null, [
+            d("tr", w$, [
+              (g(!0), x(ie, null, pe(e.columns, (L) => (g(), x("th", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: L.key,
                 scope: "col",
                 class: K([
@@ -23922,11 +29906,19 @@ Without Reason`
             ])
           ]),
           d("tbody", null, [
+<<<<<<< HEAD
             (f(!0), x(ie, null, pe(e.rows, (L, j) => (f(), x(ie, {
               key: m(L, j)
             }, [
               d("tr", v$, [
                 (f(!0), x(ie, null, pe(e.columns, (W) => (f(), x("td", {
+=======
+            (g(!0), x(ie, null, pe(e.rows, (L, j) => (g(), x(ie, {
+              key: m(L, j)
+            }, [
+              d("tr", C$, [
+                (g(!0), x(ie, null, pe(e.columns, (W) => (g(), x("td", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: W.key,
                   class: K([
                     "px-4 py-3 align-middle text-[color:var(--kiut-text-secondary)]",
@@ -23935,7 +29927,11 @@ Without Reason`
                   ])
                 }, [
                   De(D.$slots, c(W.key), It({ ref_for: !0 }, u(L, W, j)), () => [
+<<<<<<< HEAD
                     p(W.key) ? (f(), x("div", y$, [
+=======
+                    b(W.key) ? (g(), x("div", $$, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       d("button", {
                         type: "button",
                         class: "kiut-table-versions-expand-btn shrink-0",
@@ -23947,36 +29943,62 @@ Without Reason`
                           class: K(["h-4 w-4 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !v(L, j) }]),
                           "aria-hidden": "true"
                         }, null, 8, ["class"])
+<<<<<<< HEAD
                       ], 8, x$),
                       d("div", k$, [
                         (f(), Z(Dt(() => N(L, W))))
+=======
+                      ], 8, S$),
+                      d("div", M$, [
+                        (g(), Z(Dt(() => N(L, W))))
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       ])
                     ])) : (f(), Z(Dt(() => N(L, W)), { key: 1 }))
                   ], !0)
                 ], 2))), 128))
               ]),
+<<<<<<< HEAD
               v(L, j) ? (f(), x("tr", _$, [
+=======
+              v(L, j) ? (g(), x("tr", D$, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("td", {
                   colspan: e.columns.length,
                   class: "py-3 px-4"
                 }, [
+<<<<<<< HEAD
                   d("h4", C$, T(i.value.historialTitle), 1),
                   b(L) ? (f(), x("div", {
+=======
+                  d("h4", A$, T(i.value.historialTitle), 1),
+                  p(L) ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     key: 0,
                     class: "space-y-2",
                     role: "status",
                     "aria-busy": "true",
                     "aria-label": i.value.loadingHistory
                   }, [
+<<<<<<< HEAD
                     (f(!0), x(ie, null, pe(e.historySkeletonCount, (W) => (f(), x("div", {
+=======
+                    (g(!0), x(ie, null, pe(e.historySkeletonCount, (W) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: W,
                       class: "flex flex-wrap items-center gap-3 rounded-lg border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] px-4 py-3 dark:border-[color:var(--kiut-border-light)]",
                       "aria-hidden": "true"
                     }, [...B[0] || (B[0] = [
+<<<<<<< HEAD
                       Eo('<div class="kiut-table-versions-skeleton h-5 w-16 rounded-full" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 w-8" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 w-14 rounded-full" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 min-w-[8rem] flex-1" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 w-28" data-v-177ecafb></div>', 5)
                     ])]))), 128))
                   ], 8, $$)) : L.versions?.length ? (f(), x("div", M$, [
                     (f(!0), x(ie, null, pe(L.versions, (W) => (f(), x("div", {
+=======
+                      Ro('<div class="kiut-table-versions-skeleton h-5 w-16 rounded-full" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 w-8" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 w-14 rounded-full" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 min-w-[8rem] flex-1" data-v-177ecafb></div><div class="kiut-table-versions-skeleton h-4 w-28" data-v-177ecafb></div>', 5)
+                    ])]))), 128))
+                  ], 8, B$)) : L.versions?.length ? (g(), x("div", P$, [
+                    (g(!0), x(ie, null, pe(L.versions, (W) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: W.id,
                       class: "flex flex-wrap items-center gap-3 rounded-lg border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] px-4 py-3 dark:border-[color:var(--kiut-border-light)]"
                     }, [
@@ -23989,12 +30011,17 @@ Without Reason`
                           outlined: ""
                         }, {
                           default: F(() => [
-                            Re(T(W.status), 1)
+                            Ee(T(W.status), 1)
                           ]),
                           _: 2
                         }, 1024),
+<<<<<<< HEAD
                         d("span", D$, T(W.version), 1),
                         W.method ? (f(), x("span", {
+=======
+                        d("span", E$, T(W.version), 1),
+                        W.method ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                           key: 0,
                           class: K(["inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold", k(W.method)])
                         }, T(W.method), 3)) : I("", !0),
@@ -24002,10 +30029,10 @@ Without Reason`
                           key: 1,
                           class: "min-w-0 flex-1 truncate font-mono text-xs text-[color:var(--kiut-text-secondary)]",
                           title: W.url
-                        }, T(W.url), 9, T$)) : I("", !0),
-                        d("span", A$, T(S(W.updatedAt)), 1)
+                        }, T(W.url), 9, R$)) : I("", !0),
+                        d("span", I$, T(S(W.updatedAt)), 1)
                       ], !0),
-                      d("div", B$, [
+                      d("div", F$, [
                         De(D.$slots, "history-actions", {
                           version: W,
                           row: L
@@ -24019,7 +30046,7 @@ Without Reason`
                               V(A(Yi), { class: "h-4 w-4" })
                             ]),
                             default: F(() => [
-                              Re(" " + T(i.value.viewVersion), 1)
+                              Ee(" " + T(i.value.viewVersion), 1)
                             ]),
                             _: 1
                           }, 8, ["onClick"]),
@@ -24032,15 +30059,20 @@ Without Reason`
                               V(A(Ui), { class: "h-4 w-4" })
                             ]),
                             default: F(() => [
-                              Re(" " + T(i.value.createDraftFromVersion), 1)
+                              Ee(" " + T(i.value.createDraftFromVersion), 1)
                             ]),
                             _: 1
                           }, 8, ["onClick"])
                         ], !0)
                       ])
                     ]))), 128))
+<<<<<<< HEAD
                   ])) : (f(), x("p", S$, T(i.value.emptyHistory), 1))
                 ], 8, w$)
+=======
+                  ])) : (g(), x("p", L$, T(i.value.emptyHistory), 1))
+                ], 8, T$)
+>>>>>>> 8a6bd9f (Sales Volume chart)
               ])) : I("", !0)
             ], 64))), 128))
           ])
@@ -24048,40 +30080,44 @@ Without Reason`
       ])
     ]));
   }
-}), P$ = /* @__PURE__ */ xe(L$, [["__scopeId", "data-v-177ecafb"]]), R$ = {
+}), V$ = /* @__PURE__ */ xe(O$, [["__scopeId", "data-v-177ecafb"]]), N$ = {
   rowHeader: "METRIC",
   empty: "No metrics to compare.",
   expandGroup: "Expand group",
   collapseGroup: "Collapse group",
   deltaHint: "vs benchmark",
   metricsCount: (e) => e === 1 ? "1 metric" : `${e} metrics`
-}, E$ = { class: "kiut-table-comparative-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, I$ = {
+}, z$ = { class: "kiut-table-comparative-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, j$ = {
   key: 0,
   class: "space-y-3 px-4 py-8",
   role: "status",
   "aria-live": "polite"
-}, F$ = {
+}, H$ = {
   key: 1,
   class: "px-4 py-12 text-center text-sm text-[color:var(--kiut-text-secondary)]"
-}, O$ = { class: "kiut-table-comparative w-full min-w-[640px] text-left text-sm" }, V$ = { class: "border-b border-[#e5e7eb] dark:border-[color:var(--kiut-border-light)]" }, N$ = {
+}, W$ = { class: "kiut-table-comparative w-full min-w-[640px] text-left text-sm" }, K$ = { class: "border-b border-[#e5e7eb] dark:border-[color:var(--kiut-border-light)]" }, U$ = {
   scope: "col",
   class: "kiut-table-comparative__head-corner text-[13px] font-semibold uppercase tracking-wide text-[color:var(--kiut-text-muted)]"
-}, z$ = { class: "inline-flex items-center justify-center gap-2" }, j$ = { class: "kiut-table-comparative__category-row" }, H$ = {
+}, Y$ = { class: "inline-flex items-center justify-center gap-2" }, q$ = { class: "kiut-table-comparative__category-row" }, G$ = {
   scope: "row",
   class: "kiut-table-comparative__category-cell kiut-table-comparative__category-cell--label px-2 py-2 text-left"
-}, W$ = ["aria-expanded", "aria-label", "onClick"], K$ = { class: "min-w-0 truncate text-[11px] font-bold uppercase tracking-wider text-[color:var(--kiut-primary)]" }, U$ = { class: "shrink-0 text-[11px] font-medium text-[color:var(--kiut-text-muted)]" }, Y$ = ["onClick"], q$ = {
+}, X$ = ["aria-expanded", "aria-label", "onClick"], Z$ = { class: "min-w-0 truncate text-[11px] font-bold uppercase tracking-wider text-[color:var(--kiut-primary)]" }, Q$ = { class: "shrink-0 text-[11px] font-medium text-[color:var(--kiut-text-muted)]" }, J$ = ["onClick"], e4 = {
   scope: "row",
   class: "kiut-table-comparative__row-label align-middle px-3 py-2.5 text-sm font-normal"
-}, G$ = { class: "block font-semibold text-[color:var(--kiut-text-primary)]" }, X$ = {
+}, t4 = { class: "block font-semibold text-[color:var(--kiut-text-primary)]" }, a4 = {
   key: 0,
   class: "text-xs text-[color:var(--kiut-text-muted)]"
-}, Z$ = {
+}, n4 = {
   key: 1,
   class: "flex flex-col items-center gap-0.5"
-}, Q$ = {
+}, o4 = {
   key: 1,
   class: "sr-only"
+<<<<<<< HEAD
 }, J$ = /* @__PURE__ */ de({
+=======
+}, s4 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "TableComparative",
   __name: "TableComparative",
   props: {
@@ -24101,7 +30137,7 @@ Without Reason`
       neutral: "text-[color:var(--kiut-text-primary)]"
     }, n = e, o = t, s = C(
       () => ({
-        ...R$,
+        ...N$,
         ...n.labels
       })
     ), i = C(() => n.empty !== void 0 ? n.empty : n.groups.length === 0);
@@ -24171,29 +30207,49 @@ Without Reason`
     function $(S) {
       return a[S ?? "neutral"];
     }
+<<<<<<< HEAD
     return (S, M) => (f(), x("div", E$, [
       e.loading ? (f(), x("div", I$, [...M[0] || (M[0] = [
+=======
+    return (S, M) => (g(), x("div", z$, [
+      e.loading ? (g(), x("div", j$, [...M[0] || (M[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("span", { class: "sr-only" }, "Loading", -1),
         d("div", { class: "h-4 max-w-xs animate-pulse rounded bg-[#eaeaec] dark:bg-[#2d2d39]" }, null, -1),
         d("div", { class: "h-24 animate-pulse rounded bg-[#f3f4f6] dark:bg-[#23232f]" }, null, -1),
         d("div", { class: "h-24 animate-pulse rounded bg-[#f3f4f6] dark:bg-[#23232f]" }, null, -1)
+<<<<<<< HEAD
       ])])) : i.value ? (f(), x("p", F$, T(s.value.empty), 1)) : (f(), x("div", {
+=======
+      ])])) : i.value ? (g(), x("p", H$, T(s.value.empty), 1)) : (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 2,
         class: "kiut-table-comparative-scroll w-full overflow-auto",
         style: Ae({ maxHeight: e.maxHeight })
       }, [
-        d("table", O$, [
+        d("table", W$, [
           d("thead", null, [
+<<<<<<< HEAD
             d("tr", V$, [
               d("th", N$, T(s.value.rowHeader), 1),
               (f(!0), x(ie, null, pe(e.columns, (P) => (f(), x("th", {
+=======
+            d("tr", K$, [
+              d("th", U$, T(s.value.rowHeader), 1),
+              (g(!0), x(ie, null, pe(e.columns, (P) => (g(), x("th", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: P.key,
                 scope: "col",
                 class: "kiut-table-comparative__head-cell min-w-[7.5rem] px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-[color:var(--kiut-text-table-header)]"
               }, [
                 De(S.$slots, "column-header", { column: P }, () => [
+<<<<<<< HEAD
                   d("div", z$, [
                     P.color ? (f(), x("span", {
+=======
+                  d("div", Y$, [
+                    P.color ? (g(), x("span", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                       key: 0,
                       class: "h-2 w-2 shrink-0 rounded-full",
                       style: Ae({ backgroundColor: P.color }),
@@ -24206,45 +30262,67 @@ Without Reason`
             ])
           ]),
           d("tbody", null, [
+<<<<<<< HEAD
             (f(!0), x(ie, null, pe(e.groups, (P) => (f(), x(ie, {
+=======
+            (g(!0), x(ie, null, pe(e.groups, (P) => (g(), x(ie, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: P.id
             }, [
-              d("tr", j$, [
-                d("th", H$, [
+              d("tr", q$, [
+                d("th", G$, [
                   d("button", {
                     type: "button",
                     class: "kiut-table-comparative__group-btn flex w-full min-w-0 items-center gap-2",
                     "aria-expanded": u(P.id),
+<<<<<<< HEAD
                     "aria-label": p(P),
                     onClick: (E) => h(P.id)
+=======
+                    "aria-label": b(P),
+                    onClick: (R) => h(P.id)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   }, [
                     V(A(ha), {
                       class: K(["h-4 w-4 shrink-0 text-[color:var(--kiut-text-muted)] transition-transform duration-200", { "-rotate-90": !u(P.id) }]),
                       "aria-hidden": "true"
                     }, null, 8, ["class"]),
-                    d("span", K$, T(P.label), 1),
-                    d("span", U$, T(s.value.metricsCount(P.rows.length)), 1)
-                  ], 8, W$)
+                    d("span", Z$, T(P.label), 1),
+                    d("span", Q$, T(s.value.metricsCount(P.rows.length)), 1)
+                  ], 8, X$)
                 ]),
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(e.columns, (E) => (f(), x("td", {
                   key: `${P.id}-${E.key}`,
+=======
+                (g(!0), x(ie, null, pe(e.columns, (R) => (g(), x("td", {
+                  key: `${P.id}-${R.key}`,
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   class: "kiut-table-comparative__category-cell kiut-table-comparative__category-cell--fill",
                   "aria-hidden": "true"
                 }))), 128))
               ]),
+<<<<<<< HEAD
               (f(!0), x(ie, null, pe(P.rows, (E) => rt((f(), x("tr", {
                 key: `${P.id}-${E.id}`,
                 class: K(["kiut-table-comparative__metric-row h-14 dark:border-[color:var(--kiut-border-table-row)]", { "is-active": k(P, E) }]),
                 onClick: (N) => _(P, E)
+=======
+              (g(!0), x(ie, null, pe(P.rows, (R) => rt((g(), x("tr", {
+                key: `${P.id}-${R.id}`,
+                class: K(["kiut-table-comparative__metric-row h-14 dark:border-[color:var(--kiut-border-table-row)]", { "is-active": k(P, R) }]),
+                onClick: (N) => _(P, R)
+>>>>>>> 8a6bd9f (Sales Volume chart)
               }, [
-                d("th", q$, [
+                d("th", e4, [
                   De(S.$slots, "row-header", {
-                    row: E,
+                    row: R,
                     group: P
                   }, () => [
-                    d("span", G$, T(E.label), 1)
+                    d("span", t4, T(R.label), 1)
                   ], !0)
                 ]),
+<<<<<<< HEAD
                 (f(!0), x(ie, null, pe(e.columns, (N) => (f(), x("td", {
                   key: `${E.id}-${N.key}`,
                   class: "kiut-table-comparative__row-data align-middle px-3 py-2.5 text-center"
@@ -24263,6 +30341,26 @@ Without Reason`
                   ], !0)
                 ]))), 128))
               ], 10, Y$)), [
+=======
+                (g(!0), x(ie, null, pe(e.columns, (N) => (g(), x("td", {
+                  key: `${R.id}-${N.key}`,
+                  class: "kiut-table-comparative__row-data align-middle px-3 py-2.5 text-center"
+                }, [
+                  De(S.$slots, "cell", It({ ref_for: !0 }, p(R, P, N)), () => [
+                    v(R, N) ? (g(), x("div", a4, " — ")) : (g(), x("div", n4, [
+                      d("span", {
+                        class: K(["tabular-nums text-sm font-bold leading-tight", $(m(R, N)?.tone)])
+                      }, T(m(R, N)?.value), 3),
+                      m(R, N)?.delta ? (g(), x("span", {
+                        key: 0,
+                        class: K(["tabular-nums text-[11px] font-medium leading-tight", $(m(R, N)?.tone)])
+                      }, T(m(R, N)?.delta), 3)) : I("", !0),
+                      m(R, N)?.delta ? (g(), x("span", o4, T(s.value.deltaHint), 1)) : I("", !0)
+                    ]))
+                  ], !0)
+                ]))), 128))
+              ], 10, J$)), [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 [qt, u(P.id)]
               ])), 128))
             ], 64))), 128))
@@ -24271,9 +30369,15 @@ Without Reason`
       ], 4))
     ]));
   }
+<<<<<<< HEAD
 }), e4 = /* @__PURE__ */ xe(J$, [["__scopeId", "data-v-e16ad10f"]]);
 function ol(e, t) {
   return f(), x("svg", {
+=======
+}), i4 = /* @__PURE__ */ xe(s4, [["__scopeId", "data-v-e16ad10f"]]);
+function ol(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24287,8 +30391,13 @@ function ol(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function t4(e, t) {
   return f(), x("svg", {
+=======
+function l4(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24302,8 +30411,13 @@ function t4(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function a4(e, t) {
   return f(), x("svg", {
+=======
+function r4(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24317,8 +30431,13 @@ function a4(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function n4(e, t) {
   return f(), x("svg", {
+=======
+function c4(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24332,8 +30451,13 @@ function n4(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function o4(e, t) {
   return f(), x("svg", {
+=======
+function d4(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24343,8 +30467,13 @@ function o4(e, t) {
     d("path", { d: "M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" })
   ]);
 }
+<<<<<<< HEAD
 function s4(e, t) {
   return f(), x("svg", {
+=======
+function u4(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24354,8 +30483,13 @@ function s4(e, t) {
     d("path", { d: "M15.98 1.804a1 1 0 0 0-1.96 0l-.24 1.192a1 1 0 0 1-.784.785l-1.192.238a1 1 0 0 0 0 1.962l1.192.238a1 1 0 0 1 .785.785l.238 1.192a1 1 0 0 0 1.962 0l.238-1.192a1 1 0 0 1 .785-.785l1.192-.238a1 1 0 0 0 0-1.962l-1.192-.238a1 1 0 0 1-.785-.785l-.238-1.192ZM6.949 5.684a1 1 0 0 0-1.898 0l-.683 2.051a1 1 0 0 1-.633.633l-2.051.683a1 1 0 0 0 0 1.898l2.051.684a1 1 0 0 1 .633.632l.683 2.051a1 1 0 0 0 1.898 0l.683-2.051a1 1 0 0 1 .633-.633l2.051-.683a1 1 0 0 0 0-1.898l-2.051-.683a1 1 0 0 1-.633-.633L6.95 5.684ZM13.949 13.684a1 1 0 0 0-1.898 0l-.184.551a1 1 0 0 1-.632.633l-.551.183a1 1 0 0 0 0 1.898l.551.183a1 1 0 0 1 .633.633l.183.551a1 1 0 0 0 1.898 0l.184-.551a1 1 0 0 1 .632-.633l.551-.183a1 1 0 0 0 0-1.898l-.551-.184a1 1 0 0 1-.633-.632l-.183-.551Z" })
   ]);
 }
+<<<<<<< HEAD
 function i4(e, t) {
   return f(), x("svg", {
+=======
+function h4(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24369,8 +30503,13 @@ function i4(e, t) {
     })
   ]);
 }
+<<<<<<< HEAD
 function l4(e, t) {
   return f(), x("svg", {
+=======
+function f4(e, t) {
+  return g(), x("svg", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
     xmlns: "http://www.w3.org/2000/svg",
     viewBox: "0 0 20 20",
     fill: "currentColor",
@@ -24380,16 +30519,20 @@ function l4(e, t) {
     d("path", { d: "M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" })
   ]);
 }
-const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, d4 = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, u4 = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, h4 = ["aria-label", "aria-expanded", "aria-controls", "onClick"], f4 = { class: "truncate" }, g4 = {
+const g4 = ["aria-label"], m4 = { class: "flex flex-wrap items-center gap-x-2 gap-y-1.5" }, p4 = { class: "shrink-0 font-medium text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, b4 = { class: "flex min-w-0 flex-1 flex-wrap items-center gap-1.5" }, v4 = ["aria-label", "aria-expanded", "aria-controls", "onClick"], y4 = { class: "truncate" }, x4 = {
   key: 0,
   class: "ml-0.5 inline-flex min-h-[1.125rem] min-w-[1.125rem] shrink-0 items-center justify-center rounded-full bg-[color:var(--kiut-primary)]/20 px-1 text-[10px] font-semibold tabular-nums text-[color:var(--kiut-primary-default)] dark:bg-[color:var(--kiut-primary)]/25 dark:text-[color:var(--kiut-primary-light)]"
-}, m4 = {
+}, k4 = {
   key: 0,
   class: "mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5"
-}, p4 = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, b4 = ["aria-label", "onClick"], v4 = ["aria-label", "onClick"], y4 = ["aria-label"], x4 = ["aria-label"], k4 = {
+}, _4 = { class: "flex min-w-0 flex-wrap items-center gap-1.5" }, w4 = ["aria-label", "onClick"], C4 = ["aria-label", "onClick"], $4 = ["aria-label"], S4 = ["aria-label"], M4 = {
   key: 1,
   class: "space-y-2"
+<<<<<<< HEAD
 }, _4 = ["for"], w4 = ["id", "placeholder", "onKeydown"], C4 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, $4 = ["aria-label"], S4 = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, M4 = ["checked", "onChange"], D4 = { class: "min-w-0 flex-1" }, T4 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, A4 = { class: "flex flex-wrap items-end gap-2" }, B4 = { class: "min-w-[120px] flex-1" }, L4 = ["for"], P4 = ["id"], R4 = { class: "min-w-[120px] flex-1" }, E4 = ["for"], I4 = ["id"], F4 = /* @__PURE__ */ de({
+=======
+}, D4 = ["for"], T4 = ["id", "placeholder", "onKeydown"], A4 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, B4 = ["aria-label"], L4 = { class: "flex cursor-pointer items-center gap-2.5 rounded-md px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] transition hover:bg-black/[0.04] dark:text-slate-100 dark:hover:bg-white/[0.06]" }, P4 = ["checked", "onChange"], E4 = { class: "min-w-0 flex-1" }, R4 = { class: "text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400" }, I4 = { class: "flex flex-wrap items-end gap-2" }, F4 = { class: "min-w-[120px] flex-1" }, O4 = ["for"], V4 = ["id"], N4 = { class: "min-w-[120px] flex-1" }, z4 = ["for"], j4 = ["id"], H4 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Filters",
   __name: "Filters",
   props: {
@@ -24401,7 +30544,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
   },
   emits: ["update:modelValue", "change"],
   setup(e, { emit: t }) {
+<<<<<<< HEAD
     const a = e, n = t, o = Uo(), i = `${`kiut-filters-${tt()}`}-panel`, l = Q(null), r = /* @__PURE__ */ new Map(), c = Q(null), u = Q(!1), g = Q({}), h = Q(null), p = Q(""), m = Q([]), v = Q(""), b = Q(""), y = C(() => c.value ? a.filterDefinitions.find((z) => z.id === c.value) ?? null : null), w = C(() => {
+=======
+    const a = e, n = t, o = Uo(), i = `${`kiut-filters-${tt()}`}-panel`, l = Q(null), r = /* @__PURE__ */ new Map(), c = Q(null), u = Q(!1), f = Q({}), h = Q(null), b = Q(""), m = Q([]), v = Q(""), p = Q(""), y = C(() => c.value ? a.filterDefinitions.find((z) => z.id === c.value) ?? null : null), w = C(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const z = y.value;
       if (z)
         return z.type === "text" ? p.value : z.type === "select" ? m.value : { start: v.value, end: b.value };
@@ -24455,7 +30602,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       }
       return z;
     });
-    function E(z) {
+    function R(z) {
       return z.type !== "select" ? 0 : $(_(z.id)).length;
     }
     function N(z) {
@@ -24465,15 +30612,24 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         const le = $(ae).map((ne) => z.options.find((ue) => ue.value === ne)?.label ?? ne);
         return `${ge}: ${le.join(", ")}`;
       }
+<<<<<<< HEAD
       const we = ae, He = B(we.start), ft = B(we.end);
       return `${ge}: ${He} – ${ft}`;
+=======
+      const we = ae, We = B(we.start), ft = B(we.end);
+      return `${ge}: ${We} – ${ft}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function D(z) {
       return z.kind === "text" || z.kind === "dateRange" ? N(z.def) : z.def.options.find((ge) => ge.value === z.optionValue)?.label ?? z.optionValue;
     }
     function B(z) {
       if (!z) return "";
+<<<<<<< HEAD
       const ae = Ye(z, "YYYY-MM-DD", !0);
+=======
+      const ae = je(z, "YYYY-MM-DD", !0);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return ae.isValid() ? ae.format("L") : z;
     }
     function L(z) {
@@ -24486,7 +30642,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
     function W(z) {
       const ae = _(z.id);
       if (z.type === "text") {
+<<<<<<< HEAD
         p.value = ae != null ? String(ae) : "";
+=======
+        b.value = ae != null ? String(ae) : "";
+>>>>>>> 8a6bd9f (Sales Volume chart)
         return;
       }
       if (z.type === "select") {
@@ -24494,7 +30654,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         return;
       }
       const ge = ae;
+<<<<<<< HEAD
       v.value = ge?.start?.trim() ?? "", b.value = ge?.end?.trim() ?? "";
+=======
+      v.value = ge?.start?.trim() ?? "", p.value = ge?.end?.trim() ?? "";
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function X() {
       const z = y.value;
@@ -24511,10 +30675,17 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       h.value = z;
       const ae = z.getBoundingClientRect(), ge = 300;
       let we = ae.left;
+<<<<<<< HEAD
       const He = window.innerWidth - ge - 12;
       we > He && (we = Math.max(12, He)), we < 12 && (we = 12);
       const ft = ae.bottom + 8;
       g.value = {
+=======
+      const We = window.innerWidth - ge - 12;
+      we > We && (we = Math.max(12, We)), we < 12 && (we = 12);
+      const ft = ae.bottom + 8;
+      f.value = {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         top: `${ft}px`,
         left: `${we}px`,
         width: `${Math.min(ge, window.innerWidth - 24)}px`
@@ -24526,7 +30697,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         return;
       }
       u.value && c.value !== z.id && O(), c.value = z.id, u.value = !0, W(z), et().then(async () => {
+<<<<<<< HEAD
         ce(ae.currentTarget), await et(), R();
+=======
+        de(ae.currentTarget), await et(), E();
+>>>>>>> 8a6bd9f (Sales Volume chart)
       });
     }
     function te(z, ae) {
@@ -24536,10 +30711,14 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       }
       u.value && c.value !== z.id && O(), c.value = z.id, u.value = !0, W(z), et().then(async () => {
         const ge = r.get(z.id) ?? ae.currentTarget;
+<<<<<<< HEAD
         ce(ge), await et(), R();
+=======
+        de(ge), await et(), E();
+>>>>>>> 8a6bd9f (Sales Volume chart)
       });
     }
-    function R() {
+    function E() {
       const z = l.value;
       if (!z) return;
       z.querySelector(
@@ -24553,7 +30732,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       const ae = y.value;
       if (!ae) return;
       if (ae.type === "text") {
+<<<<<<< HEAD
         p.value = z != null ? String(z) : "";
+=======
+        b.value = z != null ? String(z) : "";
+>>>>>>> 8a6bd9f (Sales Volume chart)
         return;
       }
       if (ae.type === "select") {
@@ -24567,15 +30750,24 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       const z = y.value;
       if (!z) return;
       if (z.type === "text") {
+<<<<<<< HEAD
         const He = p.value.trim(), ft = { ...a.modelValue };
         He === "" ? delete ft[z.id] : ft[z.id] = He, n("update:modelValue", ft), n("change", ft), U();
+=======
+        const We = b.value.trim(), ft = { ...a.modelValue };
+        We === "" ? delete ft[z.id] : ft[z.id] = We, n("update:modelValue", ft), n("change", ft), U();
+>>>>>>> 8a6bd9f (Sales Volume chart)
         return;
       }
       if (z.type === "select") {
         X(), U();
         return;
       }
+<<<<<<< HEAD
       const ae = v.value.trim(), ge = b.value.trim(), we = { ...a.modelValue };
+=======
+      const ae = v.value.trim(), ge = p.value.trim(), we = { ...a.modelValue };
+>>>>>>> 8a6bd9f (Sales Volume chart)
       !ae || !ge || ae > ge ? delete we[z.id] : we[z.id] = { start: ae, end: ge }, n("update:modelValue", we), n("change", we), U();
     }
     function oe(z) {
@@ -24587,7 +30779,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         oe(z.def.id);
         return;
       }
+<<<<<<< HEAD
       const ae = { ...a.modelValue }, we = $(ae[z.def.id]).filter((He) => He !== z.optionValue);
+=======
+      const ae = { ...a.modelValue }, we = $(ae[z.def.id]).filter((We) => We !== z.optionValue);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       we.length === 0 ? delete ae[z.def.id] : ae[z.def.id] = we, n("update:modelValue", ae), n("change", ae), c.value === z.def.id && W(z.def);
     }
     function Te() {
@@ -24600,12 +30796,20 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
     });
     function _e(z) {
       const ae = z.def.label.replace(/^\+\s*/, "");
+<<<<<<< HEAD
       return z.kind === "select" ? `Quitar ${z.def.options.find((He) => He.value === z.optionValue)?.label ?? z.optionValue} del filtro ${ae}` : `Quitar filtro ${ae}`;
+=======
+      return z.kind === "select" ? `Quitar ${z.def.options.find((We) => We.value === z.optionValue)?.label ?? z.optionValue} del filtro ${ae}` : `Quitar filtro ${ae}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function Ve(z) {
       const ae = z.def.label.replace(/^\+\s*/, "");
       if (z.kind === "select") {
+<<<<<<< HEAD
         const we = z.def.options.find((He) => He.value === z.optionValue)?.label ?? z.optionValue;
+=======
+        const we = z.def.options.find((We) => We.value === z.optionValue)?.label ?? z.optionValue;
+>>>>>>> 8a6bd9f (Sales Volume chart)
         return `Editar filtro ${ae}: ${we}`;
       }
       return `Editar filtro ${ae}`;
@@ -24640,15 +30844,26 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         z && u.value && !o.panel && W(z);
       },
       { deep: !0 }
+<<<<<<< HEAD
     ), (z, ae) => (f(), x("div", {
+=======
+    ), (z, ae) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       class: "kiut-filters font-[Inter] text-xs",
       role: "region",
       "aria-label": e.regionAriaLabel
     }, [
+<<<<<<< HEAD
       d("div", c4, [
         d("span", d4, T(e.label), 1),
         d("div", u4, [
           (f(!0), x(ie, null, pe(e.filterDefinitions, (ge) => (f(), x("button", {
+=======
+      d("div", m4, [
+        d("span", p4, T(e.label), 1),
+        d("div", b4, [
+          (g(!0), x(ie, null, pe(e.filterDefinitions, (ge) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: `pill-${ge.id}`,
             ref_for: !0,
             ref: (we) => k(ge.id, we),
@@ -24660,10 +30875,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-controls": c.value === ge.id ? i : void 0,
             onClick: (we) => te(ge, we)
           }, [
-            V(A(o4), {
+            V(A(d4), {
               class: "h-2.5 w-2.5 shrink-0",
               "aria-hidden": "true"
             }),
+<<<<<<< HEAD
             d("span", f4, T(ge.label), 1),
             ge.type === "select" && E(ge) > 0 ? (f(), x("span", g4, T(E(ge)), 1)) : I("", !0)
           ], 10, h4))), 128))
@@ -24672,6 +30888,16 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       M.value ? (f(), x("div", m4, [
         d("div", p4, [
           (f(!0), x(ie, null, pe(P.value, (ge) => (f(), x("div", {
+=======
+            d("span", y4, T(ge.label), 1),
+            ge.type === "select" && R(ge) > 0 ? (g(), x("span", x4, T(R(ge)), 1)) : I("", !0)
+          ], 10, v4))), 128))
+        ])
+      ]),
+      M.value ? (g(), x("div", k4, [
+        d("div", _4, [
+          (g(!0), x(ie, null, pe(P.value, (ge) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: ge.key,
             "data-kiut-filter-chip": "",
             class: "inline-flex h-[26px] max-w-full items-center gap-1 rounded-full border border-[color:var(--kiut-border-light)] bg-slate-100/90 pl-2 pr-1 text-[color:var(--kiut-text-primary)] dark:bg-white/[0.08] dark:text-slate-100"
@@ -24687,20 +30913,20 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
                 value: _(ge.def.id),
                 optionValue: ge.kind === "select" ? ge.optionValue : void 0
               }, () => [
-                Re(T(D(ge)), 1)
+                Ee(T(D(ge)), 1)
               ], !0)
-            ], 8, b4),
+            ], 8, w4),
             d("button", {
               type: "button",
               class: "shrink-0 rounded p-0.5 text-[color:var(--kiut-text-muted)] transition hover:bg-black/5 hover:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/10 dark:hover:text-slate-100",
               "aria-label": _e(ge),
               onClick: (we) => re(ge)
             }, [
-              V(A(l4), {
+              V(A(f4), {
                 class: "h-3.5 w-3.5",
                 "aria-hidden": "true"
               })
-            ], 8, v4)
+            ], 8, C4)
           ]))), 128))
         ]),
         d("button", {
@@ -24708,10 +30934,15 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           class: "shrink-0 text-[color:var(--kiut-text-secondary)] underline-offset-2 transition hover:text-[color:var(--kiut-primary)] hover:underline dark:text-slate-400 dark:hover:text-[color:var(--kiut-primary-light)]",
           "aria-label": q.value,
           onClick: Te
-        }, T(e.clearLabel), 9, y4)
+        }, T(e.clearLabel), 9, $4)
       ])) : I("", !0),
+<<<<<<< HEAD
       (f(), Z(ua, { to: "body" }, [
         c.value && u.value ? (f(), x("div", {
+=======
+      (g(), Z(ua, { to: "body" }, [
+        c.value && u.value ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           id: i,
           ref_key: "panelRef",
@@ -24720,95 +30951,144 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-modal": !0,
           "aria-label": be.value,
           class: "fixed z-[100] rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] p-3 shadow-lg dark:bg-[#252528]",
+<<<<<<< HEAD
           style: Ae(g.value),
           onKeydown: ae[3] || (ae[3] = Fe(() => {
           }, ["stop"]))
         }, [
           y.value ? (f(), x(ie, { key: 0 }, [
+=======
+          style: Ae(f.value),
+          onKeydown: ae[3] || (ae[3] = Fe(() => {
+          }, ["stop"]))
+        }, [
+          y.value ? (g(), x(ie, { key: 0 }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             z.$slots.panel ? De(z.$slots, "panel", {
               key: 0,
               filter: y.value,
               close: O,
               value: w.value,
               updateValue: Y
+<<<<<<< HEAD
             }, void 0, !0) : (f(), x("div", k4, [
               y.value.type === "text" ? (f(), x(ie, { key: 0 }, [
+=======
+            }, void 0, !0) : (g(), x("div", M4, [
+              y.value.type === "text" ? (g(), x(ie, { key: 0 }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("label", {
                   for: `${i}-text`,
                   class: "block text-xs font-medium leading-tight text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-                }, T(y.value.label), 9, _4),
+                }, T(y.value.label), 9, D4),
                 rt(d("input", {
                   id: `${i}-text`,
+<<<<<<< HEAD
                   "onUpdate:modelValue": ae[0] || (ae[0] = (ge) => p.value = ge),
+=======
+                  "onUpdate:modelValue": ae[0] || (ae[0] = (ge) => b.value = ge),
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   type: "text",
                   class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-2 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none ring-[color:var(--kiut-primary)]/25 placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 dark:bg-[#1e1e20] dark:text-slate-100 dark:placeholder:text-slate-500",
                   placeholder: y.value.placeholder ?? "…",
                   onKeydown: La(Fe(O, ["prevent"]), ["enter"])
+<<<<<<< HEAD
                 }, null, 40, w4), [
                   [aa, p.value]
                 ])
               ], 64)) : y.value.type === "select" ? (f(), x(ie, { key: 1 }, [
                 d("p", C4, T(y.value.label), 1),
+=======
+                }, null, 40, T4), [
+                  [aa, b.value]
+                ])
+              ], 64)) : y.value.type === "select" ? (g(), x(ie, { key: 1 }, [
+                d("p", A4, T(y.value.label), 1),
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 d("ul", {
                   class: "max-h-[min(280px,50vh)] space-y-0.5 overflow-y-auto",
                   role: "listbox",
                   "aria-label": y.value.label,
                   "aria-multiselectable": !0
                 }, [
+<<<<<<< HEAD
                   (f(!0), x(ie, null, pe(y.value.options, (ge) => (f(), x("li", {
+=======
+                  (g(!0), x(ie, null, pe(y.value.options, (ge) => (g(), x("li", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     key: ge.value
                   }, [
-                    d("label", S4, [
+                    d("label", L4, [
                       d("input", {
                         type: "checkbox",
                         class: "kiut-filter-ms-checkbox shrink-0",
                         checked: m.value.includes(ge.value),
                         onChange: (we) => se(ge.value)
-                      }, null, 40, M4),
-                      d("span", D4, T(ge.label), 1)
+                      }, null, 40, P4),
+                      d("span", E4, T(ge.label), 1)
                     ])
                   ]))), 128))
+<<<<<<< HEAD
                 ], 8, $4)
               ], 64)) : y.value.type === "dateRange" ? (f(), x(ie, { key: 2 }, [
                 d("p", T4, T(y.value.label), 1),
                 d("div", A4, [
                   d("div", B4, [
+=======
+                ], 8, B4)
+              ], 64)) : y.value.type === "dateRange" ? (g(), x(ie, { key: 2 }, [
+                d("p", R4, T(y.value.label), 1),
+                d("div", I4, [
+                  d("div", F4, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     d("label", {
                       for: `${i}-start`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Desde ", 8, L4),
+                    }, " Desde ", 8, O4),
                     rt(d("input", {
                       id: `${i}-start`,
                       "onUpdate:modelValue": ae[1] || (ae[1] = (ge) => v.value = ge),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
-                    }, null, 8, P4), [
+                    }, null, 8, V4), [
                       [aa, v.value]
                     ])
                   ]),
-                  d("div", R4, [
+                  d("div", N4, [
                     d("label", {
                       for: `${i}-end`,
                       class: "mb-0.5 block text-xs leading-tight text-[color:var(--kiut-text-muted)]"
-                    }, " Hasta ", 8, E4),
+                    }, " Hasta ", 8, z4),
                     rt(d("input", {
                       id: `${i}-end`,
+<<<<<<< HEAD
                       "onUpdate:modelValue": ae[2] || (ae[2] = (ge) => b.value = ge),
                       type: "date",
                       class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
                     }, null, 8, I4), [
                       [aa, b.value]
+=======
+                      "onUpdate:modelValue": ae[2] || (ae[2] = (ge) => p.value = ge),
+                      type: "date",
+                      class: "w-full rounded-md border border-[color:var(--kiut-border-table)] bg-white px-1.5 py-1.5 text-xs text-[color:var(--kiut-text-primary)] outline-none focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 dark:bg-[#1e1e20] dark:text-slate-100"
+                    }, null, 8, j4), [
+                      [aa, p.value]
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     ])
                   ])
                 ])
               ], 64)) : I("", !0)
             ]))
           ], 64)) : I("", !0)
-        ], 44, x4)) : I("", !0)
+        ], 44, S4)) : I("", !0)
       ]))
-    ], 8, r4));
+    ], 8, g4));
   }
+<<<<<<< HEAD
 }), O4 = /* @__PURE__ */ xe(F4, [["__scopeId", "data-v-f38e0100"]]), V4 = { class: "font-sans" }, N4 = ["for"], z4 = { class: "relative" }, j4 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], H4 = ["id"], Pr = /* @__PURE__ */ de({
+=======
+}), W4 = /* @__PURE__ */ xe(H4, [["__scopeId", "data-v-f38e0100"]]), K4 = { class: "font-sans" }, U4 = ["for"], Y4 = { class: "relative" }, q4 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], G4 = ["id"], Lr = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputText",
   inheritAttrs: !1,
   __name: "InputText",
@@ -24856,6 +31136,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       const { name: y, id: w, type: k, ..._ } = o;
       return _;
     });
+<<<<<<< HEAD
     return (y, w) => (f(), x("div", V4, [
       e.label ? (f(), x("label", {
         key: 0,
@@ -24864,6 +31145,16 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       }, T(e.label), 11, N4)) : I("", !0),
       d("div", z4, [
         e.icon ? (f(), Z(Dt(e.icon), {
+=======
+    return (y, w) => (g(), x("div", K4, [
+      e.label ? (g(), x("label", {
+        key: 0,
+        for: l.value,
+        class: K(A($t))
+      }, T(e.label), 11, U4)) : I("", !0),
+      d("div", Y4, [
+        e.icon ? (g(), Z(Dt(e.icon), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
@@ -24886,17 +31177,17 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           onInput: p,
           onChange: m,
           onBlur: v
-        }), null, 16, j4)
+        }), null, 16, q4)
       ]),
       e.errorText ? (f(), x("p", {
         key: 1,
         id: r.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, H4)) : I("", !0)
+      }, T(e.errorText), 11, G4)) : I("", !0)
     ]));
   }
-}), W4 = { class: "font-sans" }, K4 = ["for"], U4 = { class: "relative" }, Y4 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], q4 = ["aria-label"], G4 = {
+}), X4 = { class: "font-sans" }, Z4 = ["for"], Q4 = { class: "relative" }, J4 = ["id", "name", "type", "placeholder", "disabled", "value", "aria-invalid", "aria-describedby"], eS = ["aria-label"], tS = {
   key: 0,
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -24904,7 +31195,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
   "stroke-width": "1.5",
   stroke: "currentColor",
   class: "size-4"
-}, X4 = {
+}, aS = {
   key: 1,
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
@@ -24912,7 +31203,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
   "stroke-width": "1.5",
   stroke: "currentColor",
   class: "size-4"
+<<<<<<< HEAD
 }, Z4 = ["id"], Q4 = /* @__PURE__ */ de({
+=======
+}, nS = ["id"], oS = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputPassword",
   inheritAttrs: !1,
   __name: "InputPassword",
@@ -24928,7 +31223,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
   },
   emits: ["update:modelValue"],
   setup(e, { emit: t }) {
+<<<<<<< HEAD
     const a = e, n = t, o = wn(), s = dl("$pcForm", null), i = `kiut-input-password-${tt()}`, l = C(() => a.id ?? i), r = C(() => `${l.value}-err`), c = C(() => a.name ?? o.name ?? ""), u = Q(!1), g = Q(a.modelValue ?? "");
+=======
+    const a = e, n = t, o = wn(), s = dl("$pcForm", null), i = `kiut-input-password-${tt()}`, l = C(() => a.id ?? i), r = C(() => `${l.value}-err`), c = C(() => a.name ?? o.name ?? ""), u = Q(!1), f = Q(a.modelValue ?? "");
+>>>>>>> 8a6bd9f (Sales Volume chart)
     Ie(
       () => a.modelValue,
       (w) => {
@@ -24958,19 +31257,28 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       const { name: w, id: k, ..._ } = o;
       return _;
     });
+<<<<<<< HEAD
     return (w, k) => (f(), x("div", W4, [
       e.label ? (f(), x("label", {
+=======
+    return (w, k) => (g(), x("div", X4, [
+      e.label ? (g(), x("label", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         for: l.value,
         class: K(A($t))
-      }, T(e.label), 11, K4)) : I("", !0),
-      d("div", U4, [
+      }, T(e.label), 11, Z4)) : I("", !0),
+      d("div", Q4, [
         d("input", It(y.value, {
           id: l.value,
           name: c.value,
           type: u.value ? "text" : "password",
           autocomplete: "current-password",
+<<<<<<< HEAD
           class: [A(pt), p.value ? A(Gt) : "", "pr-10"],
+=======
+          class: [A(pt), b.value ? A(Gt) : "", "pr-10"],
+>>>>>>> 8a6bd9f (Sales Volume chart)
           placeholder: e.placeholder,
           disabled: e.disabled,
           value: h.value,
@@ -24978,8 +31286,13 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-describedby": e.errorText ? r.value : void 0,
           onInput: m,
           onChange: v,
+<<<<<<< HEAD
           onBlur: b
         }), null, 16, Y4),
+=======
+          onBlur: p
+        }), null, 16, J4),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("button", {
           type: "button",
           tabindex: "-1",
@@ -24987,13 +31300,21 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           class: "absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors",
           "aria-label": u.value ? "Hide password" : "Show password"
         }, [
+<<<<<<< HEAD
           u.value ? (f(), x("svg", X4, [...k[2] || (k[2] = [
+=======
+          u.value ? (g(), x("svg", aS, [...k[2] || (k[2] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("path", {
               "stroke-linecap": "round",
               "stroke-linejoin": "round",
               d: "M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
             }, null, -1)
+<<<<<<< HEAD
           ])])) : (f(), x("svg", G4, [...k[1] || (k[1] = [
+=======
+          ])])) : (g(), x("svg", tS, [...k[1] || (k[1] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("path", {
               "stroke-linecap": "round",
               "stroke-linejoin": "round",
@@ -25005,17 +31326,21 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
               d: "M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
             }, null, -1)
           ])]))
-        ], 8, q4)
+        ], 8, eS)
       ]),
       e.errorText ? (f(), x("p", {
         key: 1,
         id: r.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, Z4)) : I("", !0)
+      }, T(e.errorText), 11, nS)) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), J4 = { class: "font-sans" }, eS = ["for"], tS = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], aS = ["id"], nS = /* @__PURE__ */ de({
+=======
+}), sS = { class: "font-sans" }, iS = ["for"], lS = ["id", "rows", "placeholder", "disabled", "aria-invalid", "aria-describedby"], rS = ["id"], cS = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputTextarea",
   __name: "InputTextarea",
   props: {
@@ -25034,23 +31359,32 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       get: () => a.modelValue,
       set: (r) => n("update:modelValue", r)
     });
+<<<<<<< HEAD
     return (r, c) => (f(), x("div", J4, [
       e.label ? (f(), x("label", {
+=======
+    return (r, c) => (g(), x("div", sS, [
+      e.label ? (g(), x("label", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         for: s.value,
         class: K(A($t))
-      }, T(e.label), 11, eS)) : I("", !0),
+      }, T(e.label), 11, iS)) : I("", !0),
       rt(d("textarea", {
         id: s.value,
         "onUpdate:modelValue": c[0] || (c[0] = (u) => l.value = u),
         rows: e.rows,
         autocomplete: "off",
+<<<<<<< HEAD
         class: K([A(Kb), e.invalid ? A(Gt) : ""]),
+=======
+        class: K([A(Wb), e.invalid ? A(Gt) : ""]),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         placeholder: e.placeholder,
         disabled: e.disabled,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
-      }, null, 10, tS), [
+      }, null, 10, lS), [
         [aa, l.value]
       ]),
       e.errorText ? (f(), x("p", {
@@ -25058,20 +31392,24 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         id: i.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, aS)) : I("", !0)
+      }, T(e.errorText), 11, rS)) : I("", !0)
     ]));
   }
-}), oS = { class: "font-sans" }, sS = ["for"], iS = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], lS = ["for"], rS = ["title"], cS = ["aria-label"], dS = {
+}), dS = { class: "font-sans" }, uS = ["for"], hS = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], fS = ["for"], gS = ["title"], mS = ["aria-label"], pS = {
   key: 2,
   class: "space-y-3"
-}, uS = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], hS = ["for"], fS = { class: "min-w-0 flex-1 truncate text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400" }, gS = {
+}, bS = ["id", "name", "accept", "disabled", "aria-invalid", "aria-describedby"], vS = ["for"], yS = { class: "min-w-0 flex-1 truncate text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400" }, xS = {
   key: 0,
   class: "shrink-0 text-xs text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, mS = {
+}, kS = {
   key: 0,
   class: "space-y-2",
   role: "list"
+<<<<<<< HEAD
 }, pS = { class: "flex items-start gap-2" }, bS = { class: "min-w-0 flex-1 space-y-2" }, vS = { class: "flex items-center gap-2" }, yS = ["title"], xS = { class: "shrink-0 text-xs text-[color:var(--kiut-text-muted)]" }, kS = ["aria-label", "onClick"], _S = ["id"], wS = /* @__PURE__ */ de({
+=======
+}, _S = { class: "flex items-start gap-2" }, wS = { class: "min-w-0 flex-1 space-y-2" }, CS = { class: "flex items-center gap-2" }, $S = ["title"], SS = { class: "shrink-0 text-xs text-[color:var(--kiut-text-muted)]" }, MS = ["aria-label", "onClick"], DS = ["id"], TS = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputFile",
   __name: "InputFile",
   props: {
@@ -25125,21 +31463,21 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
     }
     function b(M, P) {
       return M.some(
-        (E) => E.file.name === P.name && E.file.size === P.size && E.file.lastModified === P.lastModified
+        (R) => R.file.name === P.name && R.file.size === P.size && R.file.lastModified === P.lastModified
       );
     }
     function y() {
       l.value && (l.value.value = "");
     }
     function w(M) {
-      const E = M.target.files?.[0] ?? null;
-      n("update:modelValue", E);
+      const R = M.target.files?.[0] ?? null;
+      n("update:modelValue", R);
     }
     function k(M) {
-      const P = M.target, E = Array.from(P.files ?? []);
-      if (E.length === 0) return;
+      const P = M.target, R = Array.from(P.files ?? []);
+      if (R.length === 0) return;
       const N = [...c.value];
-      for (const D of E) {
+      for (const D of R) {
         if (N.length >= a.maxFiles) break;
         b(N, D) || N.push(v(D));
       }
@@ -25158,10 +31496,11 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
       n(
         "update:modelValue",
         c.value.map(
-          (E) => E.id === M ? { ...E, description: P } : E
+          (R) => R.id === M ? { ...R, description: P } : R
         )
       );
     }
+<<<<<<< HEAD
     return (M, P) => (f(), x("div", oS, [
       e.label ? (f(), x("label", {
         key: 0,
@@ -25169,6 +31508,15 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         class: K(A($t))
       }, T(e.label), 11, sS)) : I("", !0),
       e.multiple ? (f(), x("div", dS, [
+=======
+    return (M, P) => (g(), x("div", dS, [
+      e.label ? (g(), x("label", {
+        key: 0,
+        for: s.value,
+        class: K(A($t))
+      }, T(e.label), 11, uS)) : I("", !0),
+      e.multiple ? (g(), x("div", pS, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("div", {
           class: K([
             A(pt),
@@ -25191,7 +31539,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
             "aria-invalid": e.invalid ? "true" : void 0,
             "aria-describedby": e.errorText ? i.value : void 0,
             onChange: k
-          }, null, 40, uS),
+          }, null, 40, bS),
           d("label", {
             for: s.value,
             class: K(["inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-[color:var(--kiut-text-primary)] transition hover:bg-gray-100 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]", e.disabled || g.value ? "cursor-not-allowed opacity-50" : ""])
@@ -25200,6 +31548,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
               class: "h-4 w-4 shrink-0 text-[color:var(--kiut-primary)]",
               "aria-hidden": "true"
             }),
+<<<<<<< HEAD
             Re(" " + T(e.chooseLabel), 1)
           ], 10, hS),
           d("span", fS, T(h.value), 1),
@@ -25212,38 +31561,69 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           }, [
             d("div", pS, [
               V(A(b0), {
+=======
+            Ee(" " + T(e.chooseLabel), 1)
+          ], 10, vS),
+          d("span", yS, T(h.value), 1),
+          e.filesCountLabel ? (g(), x("span", xS, T(e.filesCountLabel), 1)) : I("", !0)
+        ], 2),
+        c.value.length > 0 ? (g(), x("ul", kS, [
+          (g(!0), x(ie, null, pe(c.value, (R) => (g(), x("li", {
+            key: R.id,
+            class: "rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--bg-secondary,#f9fafb)] p-3 dark:bg-white/[0.03]"
+          }, [
+            d("div", _S, [
+              V(A(p0), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 class: "mt-0.5 h-5 w-5 shrink-0 text-[color:var(--kiut-primary)]",
                 "aria-hidden": "true"
               }),
-              d("div", bS, [
-                d("div", vS, [
+              d("div", wS, [
+                d("div", CS, [
                   d("span", {
                     class: "min-w-0 flex-1 truncate text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100",
+<<<<<<< HEAD
                     title: E.file.name
                   }, T(E.file.name), 9, yS),
                   d("span", xS, T(m(E.file.size)), 1),
                   e.disabled ? I("", !0) : (f(), x("button", {
+=======
+                    title: R.file.name
+                  }, T(R.file.name), 9, $S),
+                  d("span", SS, T(m(R.file.size)), 1),
+                  e.disabled ? I("", !0) : (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     key: 0,
                     type: "button",
                     class: "inline-flex shrink-0 rounded-lg p-1 text-[color:var(--kiut-text-muted)] transition hover:bg-gray-100 hover:text-[color:var(--kiut-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 dark:hover:bg-white/[0.08] dark:hover:text-slate-100",
                     "aria-label": e.removeFileAriaLabel,
-                    onClick: (N) => $(E.id)
+                    onClick: (N) => $(R.id)
                   }, [
                     V(A(Ko), {
                       class: "h-4 w-4",
                       "aria-hidden": "true"
                     })
-                  ], 8, kS))
+                  ], 8, MS))
                 ]),
+<<<<<<< HEAD
                 e.showDescriptions ? (f(), Z(Pr, {
+=======
+                e.showDescriptions ? (g(), Z(Lr, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 0,
-                  "model-value": E.description,
+                  "model-value": R.description,
                   label: e.descriptionLabel,
                   placeholder: e.descriptionPlaceholder,
                   disabled: e.disabled,
+<<<<<<< HEAD
                   invalid: p(E),
                   "error-text": p(E) ? e.descriptionErrorText : "",
                   "onUpdate:modelValue": (N) => S(E.id, N)
+=======
+                  invalid: b(R),
+                  "error-text": b(R) ? e.descriptionErrorText : "",
+                  "onUpdate:modelValue": (N) => S(R.id, N)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 }, null, 8, ["model-value", "label", "placeholder", "disabled", "invalid", "error-text", "onUpdate:modelValue"])) : I("", !0)
               ])
             ])
@@ -25271,7 +31651,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? i.value : void 0,
           onChange: w
-        }, null, 40, iS),
+        }, null, 40, hS),
         d("label", {
           for: s.value,
           class: K(["inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-[color:var(--kiut-text-primary)] transition hover:bg-gray-100 dark:border-[color:var(--kiut-border-light)] dark:bg-white/[0.06] dark:hover:bg-white/[0.1]", e.disabled ? "cursor-not-allowed opacity-50" : ""])
@@ -25280,13 +31660,18 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
             class: "h-4 w-4 shrink-0 text-[color:var(--kiut-primary)]",
             "aria-hidden": "true"
           }),
-          Re(" " + T(e.chooseLabel), 1)
-        ], 10, lS),
+          Ee(" " + T(e.chooseLabel), 1)
+        ], 10, fS),
         d("span", {
           class: "min-w-0 flex-1 truncate text-sm text-[color:var(--kiut-text-primary)] dark:text-slate-100",
           title: u.value || void 0
+<<<<<<< HEAD
         }, T(u.value), 9, rS),
         r.value && !e.disabled ? (f(), x("button", {
+=======
+        }, T(u.value), 9, gS),
+        r.value && !e.disabled ? (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           type: "button",
           class: "inline-flex shrink-0 rounded-lg p-1.5 text-[color:var(--kiut-text-muted)] transition hover:bg-gray-100 hover:text-[color:var(--kiut-text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 dark:hover:bg-white/[0.08] dark:hover:text-slate-100",
@@ -25297,17 +31682,21 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
             class: "h-4 w-4",
             "aria-hidden": "true"
           })
-        ], 8, cS)) : I("", !0)
+        ], 8, mS)) : I("", !0)
       ], 2)),
       e.errorText ? (f(), x("p", {
         key: 3,
         id: i.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, _S)) : I("", !0)
+      }, T(e.errorText), 11, DS)) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), CS = ["for"], $S = { class: "flex w-full min-w-0 items-center gap-3" }, SS = ["for", "aria-label"], MS = ["src"], DS = ["id", "accept", "disabled"], TS = ["id", "value", "placeholder", "disabled"], AS = /* @__PURE__ */ de({
+=======
+}), AS = ["for"], BS = { class: "flex w-full min-w-0 items-center gap-3" }, LS = ["for", "aria-label"], PS = ["src"], ES = ["id", "accept", "disabled"], RS = ["id", "value", "placeholder", "disabled"], IS = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "ImageUploadCircle",
   inheritAttrs: !1,
   __name: "ImageUploadCircle",
@@ -25345,8 +31734,8 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
         key: 0,
         for: l.value,
         class: K(A($t))
-      }, T(e.label), 11, CS)) : I("", !0),
-      d("div", $S, [
+      }, T(e.label), 11, AS)) : I("", !0),
+      d("div", BS, [
         d("label", {
           for: l.value,
           class: K(["relative flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-primary)] text-[color:var(--kiut-text-muted)] transition hover:border-[color:var(--kiut-primary)]/40", [
@@ -25360,17 +31749,26 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
             src: e.modelValue,
             alt: "",
             class: "h-full w-full object-cover",
+<<<<<<< HEAD
             onError: v[0] || (v[0] = (b) => o.value = !0)
           }, null, 40, MS)) : e.loading ? (f(), Z(A(f0), {
             key: 1,
             class: K([u.value, "animate-spin text-[color:var(--kiut-primary)]"]),
             "aria-hidden": "true"
           }, null, 8, ["class"])) : (f(), Z(A(Wo), {
+=======
+            onError: v[0] || (v[0] = (p) => o.value = !0)
+          }, null, 40, PS)) : e.loading ? (g(), Z(A(h0), {
+            key: 1,
+            class: K([u.value, "animate-spin text-[color:var(--kiut-primary)]"]),
+            "aria-hidden": "true"
+          }, null, 8, ["class"])) : (g(), Z(A(Wo), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 2,
             class: K([u.value, "text-[color:var(--kiut-primary)]"]),
             "aria-hidden": "true"
           }, null, 8, ["class"]))
-        ], 10, SS),
+        ], 10, LS),
         d("input", {
           id: l.value,
           ref_key: "fileInputRef",
@@ -25380,8 +31778,13 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
           accept: e.accept,
           disabled: e.disabled || e.loading,
           onChange: h
+<<<<<<< HEAD
         }, null, 40, DS),
         e.showUrlInput ? (f(), x("div", {
+=======
+        }, null, 40, ES),
+        e.showUrlInput ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           class: K(["min-w-0 flex-1 basis-0", e.urlInputClass])
         }, [
@@ -25393,22 +31796,27 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
             placeholder: e.urlPlaceholder,
             disabled: e.disabled,
             class: K([A(pt), "w-full min-w-0"]),
+<<<<<<< HEAD
             onInput: p
           }, null, 42, TS)
+=======
+            onInput: b
+          }, null, 42, RS)
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 2)) : I("", !0)
       ])
     ], 16));
   }
-}), BS = {
+}), FS = {
   en: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
   es: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
-}, LS = {
+}, OS = {
   en: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
   es: ["lu", "ma", "mi", "ju", "vi", "sá", "do"]
-}, PS = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/, RS = {
+}, VS = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/, NS = {
   en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
   es: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
-}, ES = {
+}, zS = {
   en: [
     "January",
     "February",
@@ -25437,7 +31845,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
     "Noviembre",
     "Diciembre"
   ]
-}, IS = {
+}, jS = {
   es: {
     today: "Hoy",
     yesterday: "Ayer",
@@ -25460,7 +31868,7 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
     lastMonth: "Last month",
     yearToDate: "Year to date"
   }
-}, FS = [
+}, HS = [
   "today",
   "yesterday",
   "last7",
@@ -25471,19 +31879,19 @@ const r4 = ["aria-label"], c4 = { class: "flex flex-wrap items-center gap-x-2 ga
   "lastMonth",
   "yearToDate"
 ];
-function OS(e = "en") {
-  return BS[e];
+function WS(e = "en") {
+  return FS[e];
 }
-function VS(e = "en") {
-  return LS[e];
+function KS(e = "en") {
+  return OS[e];
 }
-function Rr(e = "en") {
-  return FS.map((t) => ({ id: t, label: IS[e][t] }));
+function Pr(e = "en") {
+  return HS.map((t) => ({ id: t, label: jS[e][t] }));
 }
-function NS(e = "en") {
+function US(e = "en") {
   return "Presets";
 }
-Rr("es");
+Pr("es");
 function it(e) {
   const [t, a, n] = e.split("-").map(Number);
   return new Date(t, a - 1, n);
@@ -25498,17 +31906,25 @@ function ze(e) {
 function Ft(e) {
   return new Date(e.getFullYear(), e.getMonth(), 1);
 }
+<<<<<<< HEAD
 function Ea(e, t) {
+=======
+function Ra(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return new Date(e.getFullYear(), e.getMonth() + t, e.getDate());
 }
-function zS(e, t) {
+function YS(e, t) {
   const a = new Date(e.getFullYear(), e.getMonth(), e.getDate() + t);
   return ze(a);
 }
 function on(e, t) {
+<<<<<<< HEAD
   return zS(e, -t);
+=======
+  return YS(e, -t);
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
-function jS(e) {
+function qS(e) {
   return new Date(e.getFullYear(), e.getMonth() + 1, 0);
 }
 function Er(e, t = /* @__PURE__ */ new Date()) {
@@ -25531,14 +31947,19 @@ function Er(e, t = /* @__PURE__ */ new Date()) {
     case "thisMonth":
       return { start: Ft(a), end: a };
     case "lastMonth": {
+<<<<<<< HEAD
       const n = Ft(Ea(a, -1));
       return { start: n, end: jS(n) };
+=======
+      const n = Ft(Ra(a, -1));
+      return { start: n, end: qS(n) };
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     case "yearToDate":
       return { start: new Date(a.getFullYear(), 0, 1), end: a };
   }
 }
-function Ir(e, t, a) {
+function Rr(e, t, a) {
   let n = ze(e.start), o = ze(e.end);
   if (t) {
     const s = ze(it(t));
@@ -25550,16 +31971,24 @@ function Ir(e, t, a) {
   }
   return Kn(n, o) ? { start: o, end: n } : { start: n, end: o };
 }
-function HS(e, t, a = /* @__PURE__ */ new Date(), n, o) {
+function GS(e, t, a = /* @__PURE__ */ new Date(), n, o) {
   if (!e.start || !e.end) return !1;
+<<<<<<< HEAD
   const s = Ir(Er(t, a), n, o);
+=======
+  const s = Rr(Er(t, a), n, o);
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return vt(s.start) === e.start && vt(s.end) === e.end;
 }
 function $n(e, t) {
   const a = Date.UTC(e.getFullYear(), e.getMonth(), e.getDate()), n = Date.UTC(t.getFullYear(), t.getMonth(), t.getDate());
   return a < n ? -1 : a > n ? 1 : 0;
 }
+<<<<<<< HEAD
 function Et(e, t) {
+=======
+function Rt(e, t) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   return $n(e, t) === 0;
 }
 function Yt(e, t) {
@@ -25567,6 +31996,7 @@ function Yt(e, t) {
 }
 function Kn(e, t) {
   return $n(e, t) > 0;
+<<<<<<< HEAD
 }
 function Fr(e, t) {
   return $n(e, t) >= 0;
@@ -25574,6 +32004,15 @@ function Fr(e, t) {
 function Or(e, t) {
   return $n(e, t) <= 0;
 }
+=======
+}
+function Ir(e, t) {
+  return $n(e, t) >= 0;
+}
+function Fr(e, t) {
+  return $n(e, t) <= 0;
+}
+>>>>>>> 8a6bd9f (Sales Volume chart)
 function ms(e) {
   const t = e.getFullYear(), a = e.getMonth(), n = new Date(t, a, 1), o = new Date(n);
   o.setDate(n.getDate() - n.getDay());
@@ -25582,7 +32021,7 @@ function ms(e) {
     s.push(new Date(i)), i.setDate(i.getDate() + 1);
   return s;
 }
-function WS(e) {
+function XS(e) {
   const t = e.getFullYear(), a = e.getMonth(), n = new Date(t, a, 1), o = new Date(n);
   o.setDate(n.getDate() - (n.getDay() + 6) % 7);
   const s = [], i = new Date(o);
@@ -25592,20 +32031,28 @@ function WS(e) {
 }
 function Ha(e) {
   if (!e?.trim()) return null;
-  const t = PS.exec(e.trim());
+  const t = VS.exec(e.trim());
   if (!t) return null;
   const a = Number(t[1]), n = Number(t[2]), o = Number(t[3]), s = Number(t[4]), i = Number(t[5]), l = new Date(a, n - 1, o, s, i);
   return Number.isNaN(l.getTime()) ? null : l;
 }
-function KS(e) {
+function ZS(e) {
   const t = e.getFullYear(), a = String(e.getMonth() + 1).padStart(2, "0"), n = String(e.getDate()).padStart(2, "0"), o = String(e.getHours()).padStart(2, "0"), s = String(e.getMinutes()).padStart(2, "0");
   return `${t}-${a}-${n}T${o}:${s}`;
 }
+<<<<<<< HEAD
 function US(e) {
   const t = Ha(e);
   return t ? `${String(t.getHours()).padStart(2, "0")}:${String(t.getMinutes()).padStart(2, "0")}` : "00:00";
 }
 function YS(e, t = "es") {
+=======
+function QS(e) {
+  const t = Ha(e);
+  return t ? `${String(t.getHours()).padStart(2, "0")}:${String(t.getMinutes()).padStart(2, "0")}` : "00:00";
+}
+function JS(e, t = "es") {
+>>>>>>> 8a6bd9f (Sales Volume chart)
   const a = Ha(e);
   if (!a) return "";
   const n = new Intl.DateTimeFormat(t, {
@@ -25626,16 +32073,24 @@ function il(e, t) {
   return e.getTime() > t.getTime();
 }
 function _n(e, t = "en") {
+<<<<<<< HEAD
   return `${RS[t][e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
+=======
+  return `${NS[t][e.getMonth()]} ${String(e.getDate()).padStart(2, "0")}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
 }
 function ta(e, t = "en") {
-  return `${ES[t][e.getMonth()]} ${e.getFullYear()}`;
+  return `${zS[t][e.getMonth()]} ${e.getFullYear()}`;
 }
-const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }, XS = {
+const e3 = ["name", "value"], t3 = { class: "flex flex-row gap-3 items-center" }, a3 = {
   key: 0,
   class: "mb-1.5 inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4",
   "aria-hidden": "true"
+<<<<<<< HEAD
 }, ZS = ["for"], QS = ["id", "disabled", "aria-expanded", "aria-labelledby", "aria-label", "aria-invalid", "aria-describedby"], JS = ["aria-label", "onKeydown"], e3 = { class: "p-3" }, t3 = { class: "mb-4 flex items-center justify-between gap-2" }, a3 = ["aria-label"], n3 = { class: "min-w-0 truncate px-1 text-sm font-medium text-[#61616b] dark:text-[#e3e3e8]" }, o3 = ["aria-label"], s3 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-normal tracking-wide text-[#61616b] dark:text-[#e3e3e8]" }, i3 = { class: "grid grid-cols-7 gap-y-2" }, l3 = ["disabled", "onClick"], r3 = { class: "border-t border-gray-200 px-3 py-3 dark:border-[color:var(--kiut-border-light)]" }, c3 = { class: "relative" }, d3 = ["value", "disabled", "min", "max", "step", "aria-label"], u3 = /* @__PURE__ */ de({
+=======
+}, n3 = ["for"], o3 = ["id", "disabled", "aria-expanded", "aria-labelledby", "aria-label", "aria-invalid", "aria-describedby"], s3 = ["aria-label", "onKeydown"], i3 = { class: "p-3" }, l3 = { class: "mb-4 flex items-center justify-between gap-2" }, r3 = ["aria-label"], c3 = { class: "min-w-0 truncate px-1 text-sm font-medium text-[#61616b] dark:text-[#e3e3e8]" }, d3 = ["aria-label"], u3 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-normal tracking-wide text-[#61616b] dark:text-[#e3e3e8]" }, h3 = { class: "grid grid-cols-7 gap-y-2" }, f3 = ["disabled", "onClick"], g3 = { class: "border-t border-gray-200 px-3 py-3 dark:border-[color:var(--kiut-border-light)]" }, m3 = { class: "relative" }, p3 = ["value", "disabled", "min", "max", "step", "aria-label"], b3 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputDateTime",
   __name: "InputDateTime",
   props: {
@@ -25655,7 +32110,11 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
   },
   emits: ["update:modelValue"],
   setup(e, { emit: t }) {
+<<<<<<< HEAD
     const a = e, n = t, o = `kiut-input-datetime-${tt()}`, s = `${o}-label`, i = C(() => a.id ?? `${o}-btn`), l = `${o}-panel`, r = `${o}-err`, c = Q(null), u = Q(null), g = Q(null), h = Q(!1), p = Q(Ft(/* @__PURE__ */ new Date())), m = Q(null), v = Q("00:00"), b = C(() => !!a.modelValue), y = C(() => VS(a.locale)), w = C(() => WS(p.value)), k = C(() => a.placeholder), _ = C(() => a.modelValue ? YS(a.modelValue, a.locale) : a.placeholder), $ = C(() => {
+=======
+    const a = e, n = t, o = `kiut-input-datetime-${tt()}`, s = `${o}-label`, i = C(() => a.id ?? `${o}-btn`), l = `${o}-panel`, r = `${o}-err`, c = Q(null), u = Q(null), f = Q(null), h = Q(!1), b = Q(Ft(/* @__PURE__ */ new Date())), m = Q(null), v = Q("00:00"), p = C(() => !!a.modelValue), y = C(() => KS(a.locale)), w = C(() => XS(b.value)), k = C(() => a.placeholder), _ = C(() => a.modelValue ? JS(a.modelValue, a.locale) : a.placeholder), $ = C(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const be = "max-sm:left-1/2 max-sm:right-auto max-sm:-translate-x-1/2 sm:translate-x-0";
       return a.panelAlign === "end" ? `right-0 left-auto ${be}` : `left-0 right-auto ${be}`;
     }), S = C(
@@ -25664,13 +32123,17 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       () => a.locale === "es" ? "Mes anterior" : "Previous month"
     ), P = C(
       () => a.locale === "es" ? "Mes siguiente" : "Next month"
-    ), E = C(
+    ), R = C(
       () => a.locale === "es" ? "Hora" : "Time"
     ), N = C(() => Ha(a.min)), D = C(() => Ha(a.max)), B = C(() => {
+<<<<<<< HEAD
       if (!(!m.value || !N.value) && Et(m.value, N.value))
+=======
+      if (!(!m.value || !N.value) && Rt(m.value, N.value))
+>>>>>>> 8a6bd9f (Sales Volume chart)
         return `${String(N.value.getHours()).padStart(2, "0")}:${String(N.value.getMinutes()).padStart(2, "0")}`;
     }), L = C(() => {
-      if (!(!m.value || !D.value) && Et(m.value, D.value))
+      if (!(!m.value || !D.value) && Rt(m.value, D.value))
         return `${String(D.value.getHours()).padStart(2, "0")}:${String(D.value.getMinutes()).padStart(2, "0")}`;
     });
     function j(be, _e) {
@@ -25681,7 +32144,11 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       return !!(N.value && Yt(_e, ze(N.value)) || D.value && Kn(_e, ze(D.value)));
     }
     function X(be) {
+<<<<<<< HEAD
       const _e = j(be, p.value), Ve = W(be), H = m.value ? Et(be, m.value) : !1;
+=======
+      const _e = j(be, b.value), Ve = W(be), H = m.value ? Rt(be, m.value) : !1;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (Ve)
         return "rounded-lg text-[#61616b] opacity-40";
       let q = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white";
@@ -25690,24 +32157,40 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
     function se() {
       const be = Ha(a.modelValue);
       if (be) {
+<<<<<<< HEAD
         m.value = ze(be), v.value = US(a.modelValue), p.value = Ft(be);
+=======
+        m.value = ze(be), v.value = QS(a.modelValue), b.value = Ft(be);
+>>>>>>> 8a6bd9f (Sales Volume chart)
         return;
       }
       m.value = null, v.value = "00:00", p.value = Ft(/* @__PURE__ */ new Date());
     }
+<<<<<<< HEAD
     function ce(be) {
+=======
+    function de(be) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (!m.value) return be;
       let _e = Ha(
         `${vt(m.value)}T${be}`
       );
+<<<<<<< HEAD
       return _e ? (N.value && Et(m.value, N.value) && sl(_e, N.value) && (_e = N.value), D.value && Et(m.value, D.value) && il(_e, D.value) && (_e = D.value), `${String(_e.getHours()).padStart(2, "0")}:${String(_e.getMinutes()).padStart(2, "0")}`) : be;
+=======
+      return _e ? (N.value && Rt(m.value, N.value) && sl(_e, N.value) && (_e = N.value), D.value && Rt(m.value, D.value) && il(_e, D.value) && (_e = D.value), `${String(_e.getHours()).padStart(2, "0")}:${String(_e.getMinutes()).padStart(2, "0")}`) : be;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function G() {
       if (!m.value) {
         n("update:modelValue", null);
         return;
       }
+<<<<<<< HEAD
       const be = ce(v.value);
+=======
+      const be = de(v.value);
+>>>>>>> 8a6bd9f (Sales Volume chart)
       v.value = be;
       const _e = new Date(
         m.value.getFullYear(),
@@ -25715,6 +32198,7 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
         m.value.getDate(),
         Number(be.slice(0, 2)),
         Number(be.slice(3, 5))
+<<<<<<< HEAD
       ), Ve = KS(_e);
       N.value && sl(_e, N.value) || D.value && il(_e, D.value) || n("update:modelValue", Ve);
     }
@@ -25722,11 +32206,24 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       W(be) || (m.value = ze(be), v.value = ce(v.value), G());
     }
     function R(be) {
+=======
+      ), Ve = ZS(_e);
+      N.value && sl(_e, N.value) || D.value && il(_e, D.value) || n("update:modelValue", Ve);
+    }
+    function te(be) {
+      W(be) || (m.value = ze(be), v.value = de(v.value), G());
+    }
+    function E(be) {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const _e = be.target.value;
       _e && (v.value = _e, G());
     }
     function U(be) {
+<<<<<<< HEAD
       p.value = Ea(p.value, be);
+=======
+      b.value = Ra(b.value, be);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function Y() {
       h.value = !1;
@@ -25760,7 +32257,11 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       se(), document.addEventListener("click", Te);
     }), yt(() => {
       document.removeEventListener("click", Te);
+<<<<<<< HEAD
     }), (be, _e) => (f(), x("div", {
+=======
+    }), (be, _e) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ref_key: "rootRef",
       ref: c,
       class: "relative font-sans"
@@ -25770,9 +32271,15 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
         type: "hidden",
         name: e.name,
         value: e.modelValue ?? ""
+<<<<<<< HEAD
       }, null, 8, qS)) : I("", !0),
       d("div", GS, [
         be.$slots.icon ? (f(), x("span", XS, [
+=======
+      }, null, 8, e3)) : I("", !0),
+      d("div", t3, [
+        be.$slots.icon ? (g(), x("span", a3, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           De(be.$slots, "icon")
         ])) : I("", !0),
         e.label ? (f(), x("label", {
@@ -25780,7 +32287,7 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
           id: s,
           for: i.value,
           class: K(A($t))
-        }, T(e.label), 11, ZS)) : I("", !0)
+        }, T(e.label), 11, n3)) : I("", !0)
       ]),
       d("button", {
         id: i.value,
@@ -25814,8 +32321,13 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
             b.value ? "" : "text-[color:var(--kiut-text-muted)] dark:text-slate-500"
           ])
         }, T(_.value), 3)
+<<<<<<< HEAD
       ], 42, QS),
       e.errorText ? (f(), x("p", {
+=======
+      ], 42, o3),
+      e.errorText ? (g(), x("p", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 1,
         id: r,
         class: K(A(Xt)),
@@ -25835,18 +32347,34 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
         ]),
         onKeydown: La(Fe(Y, ["stop"]), ["escape"])
       }, [
-        d("div", e3, [
-          d("div", t3, [
+        d("div", i3, [
+          d("div", l3, [
             d("button", {
               type: "button",
               class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
               "aria-label": M.value,
               onClick: _e[0] || (_e[0] = Fe((Ve) => U(-1), ["stop"]))
+<<<<<<< HEAD
+=======
             }, [
               V(A(fo), {
                 class: "h-4 w-4",
                 "aria-hidden": "true"
               })
+            ], 8, r3),
+            d("span", c3, T(A(ta)(b.value, e.locale)), 1),
+            d("button", {
+              type: "button",
+              class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
+              "aria-label": P.value,
+              onClick: _e[1] || (_e[1] = Fe((Ve) => U(1), ["stop"]))
+>>>>>>> 8a6bd9f (Sales Volume chart)
+            }, [
+              V(A(fo), {
+                class: "h-4 w-4",
+                "aria-hidden": "true"
+              })
+<<<<<<< HEAD
             ], 8, a3),
             d("span", n3, T(A(ta)(p.value, e.locale)), 1),
             d("button", {
@@ -25866,16 +32394,33 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
           ]),
           d("div", i3, [
             (f(!0), x(ie, null, pe(w.value, (Ve) => (f(), x("button", {
+=======
+            ], 8, d3)
+          ]),
+          d("div", u3, [
+            (g(!0), x(ie, null, pe(y.value, (Ve) => (g(), x("span", { key: Ve }, T(Ve), 1))), 128))
+          ]),
+          d("div", h3, [
+            (g(!0), x(ie, null, pe(w.value, (Ve) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: A(vt)(Ve),
               type: "button",
               disabled: W(Ve),
               class: K(["relative mx-auto flex h-[36px] w-[36px] items-center justify-center text-xs outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 disabled:cursor-not-allowed", X(Ve)]),
               onClick: Fe((H) => te(Ve), ["stop"])
+<<<<<<< HEAD
             }, T(Ve.getDate()), 11, l3))), 128))
           ])
         ]),
         d("div", r3, [
           d("div", c3, [
+=======
+            }, T(Ve.getDate()), 11, f3))), 128))
+          ])
+        ]),
+        d("div", g3, [
+          d("div", m3, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(A(hs), {
               class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
               "aria-hidden": "true"
@@ -25889,23 +32434,36 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
               min: B.value,
               max: L.value,
               step: e.step,
+<<<<<<< HEAD
               "aria-label": E.value,
               onInput: R,
+=======
+              "aria-label": R.value,
+              onInput: E,
+>>>>>>> 8a6bd9f (Sales Volume chart)
               onClick: _e[2] || (_e[2] = Fe(() => {
               }, ["stop"]))
-            }, null, 42, d3)
+            }, null, 42, p3)
           ])
         ])
+<<<<<<< HEAD
       ], 42, JS), [
+=======
+      ], 42, s3), [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         [qt, h.value]
       ])
     ], 512));
   }
-}), h3 = { class: "font-sans" }, f3 = { class: "flex flex-row gap-3 items-center" }, g3 = {
+}), v3 = { class: "font-sans" }, y3 = { class: "flex flex-row gap-3 items-center" }, x3 = {
   key: 0,
   class: "mb-1.5 inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4",
   "aria-hidden": "true"
+<<<<<<< HEAD
 }, m3 = ["for"], p3 = { class: "relative" }, b3 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], v3 = ["id"], y3 = /* @__PURE__ */ de({
+=======
+}, k3 = ["for"], _3 = { class: "relative" }, w3 = ["id", "value", "name", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], C3 = ["id"], $3 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputTime",
   __name: "InputTime",
   props: {
@@ -25936,18 +32494,29 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       const h = g.target.value;
       s("update:modelValue", n(h));
     }
+<<<<<<< HEAD
     return (g, h) => (f(), x("div", h3, [
       d("div", f3, [
         g.$slots.icon ? (f(), x("span", g3, [
           De(g.$slots, "icon")
+=======
+    return (f, h) => (g(), x("div", v3, [
+      d("div", y3, [
+        f.$slots.icon ? (g(), x("span", x3, [
+          De(f.$slots, "icon")
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ])) : I("", !0),
         e.label ? (f(), x("label", {
           key: 1,
           for: l.value,
           class: K(A($t))
-        }, T(e.label), 11, m3)) : I("", !0)
+        }, T(e.label), 11, k3)) : I("", !0)
       ]),
+<<<<<<< HEAD
       d("div", p3, [
+=======
+      d("div", _3, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         V(A(hs), {
           class: "pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500 dark:text-slate-400",
           "aria-hidden": "true"
@@ -25970,32 +32539,36 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
           "aria-invalid": e.invalid ? "true" : void 0,
           "aria-describedby": e.errorText ? r.value : void 0,
           onInput: u
-        }, null, 42, b3)
+        }, null, 42, w3)
       ]),
       e.errorText ? (f(), x("p", {
         key: 0,
         id: r.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, v3)) : I("", !0)
+      }, T(e.errorText), 11, C3)) : I("", !0)
     ]));
   }
-}), x3 = { class: "font-sans" }, k3 = ["for"], _3 = {
+}), S3 = { class: "font-sans" }, M3 = ["for"], D3 = {
   key: 0,
   class: "order-1 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, w3 = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], C3 = {
+}, T3 = ["id", "value", "min", "max", "step", "disabled", "aria-orientation", "aria-invalid", "aria-describedby"], A3 = {
   key: 1,
   class: "text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, $3 = {
+}, B3 = {
   key: 2,
   class: "grid w-full max-w-full grid-cols-[1fr_auto_1fr] items-start gap-x-3 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, S3 = { class: "min-w-0 text-left leading-snug" }, M3 = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, D3 = { class: "min-w-0 text-right leading-snug" }, T3 = {
+}, L3 = { class: "min-w-0 text-left leading-snug" }, P3 = { class: "max-w-[min(100%,12rem)] shrink px-1 text-center leading-snug" }, E3 = { class: "min-w-0 text-right leading-snug" }, R3 = {
   key: 3,
   class: "order-3 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
-}, A3 = {
+}, I3 = {
   key: 4,
   class: "order-4 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-400"
+<<<<<<< HEAD
 }, B3 = ["id"], L3 = /* @__PURE__ */ de({
+=======
+}, F3 = ["id"], O3 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputRange",
   __name: "InputRange",
   props: {
@@ -26034,16 +32607,25 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       const m = Number(p.target.value);
       n("update:modelValue", Number.isNaN(m) ? a.min : m);
     }
+<<<<<<< HEAD
     return (p, m) => (f(), x("div", x3, [
       e.label ? (f(), x("label", {
+=======
+    return (b, m) => (g(), x("div", S3, [
+      e.label ? (g(), x("label", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         for: s.value,
         class: K(A($t))
-      }, T(e.label), 11, k3)) : I("", !0),
+      }, T(e.label), 11, M3)) : I("", !0),
       d("div", {
         class: K(["flex flex-col items-center gap-2", (e.orientation === "vertical", "w-full")])
       }, [
+<<<<<<< HEAD
         e.orientation === "vertical" && e.captionMax ? (f(), x("p", _3, T(e.captionMax), 1)) : I("", !0),
+=======
+        e.orientation === "vertical" && e.captionMax ? (g(), x("p", D3, T(e.captionMax), 1)) : I("", !0),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         d("div", {
           class: K(["flex items-center justify-center", [
             e.orientation === "vertical" ? "order-2 h-[var(--kiut-range-length)] w-11 shrink-0" : "order-none w-full py-1"
@@ -26067,8 +32649,9 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
               e.orientation === "vertical" ? "kiut-range-input--vertical" : "kiut-range-input--horizontal w-full"
             ]),
             onInput: h
-          }, null, 42, w3)
+          }, null, 42, T3)
         ], 6),
+<<<<<<< HEAD
         e.orientation === "horizontal" && r.value ? (f(), x("p", C3, T(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (f(), x("div", $3, [
           d("span", S3, T(e.captionMin), 1),
           d("span", M3, T(e.caption), 1),
@@ -26076,16 +32659,29 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
         ])) : I("", !0),
         e.orientation === "vertical" && e.captionMin ? (f(), x("p", T3, T(e.captionMin), 1)) : I("", !0),
         e.orientation === "vertical" && e.caption ? (f(), x("p", A3, T(e.caption), 1)) : I("", !0)
+=======
+        e.orientation === "horizontal" && r.value ? (g(), x("p", A3, T(e.caption), 1)) : e.orientation === "horizontal" && c.value ? (g(), x("div", B3, [
+          d("span", L3, T(e.captionMin), 1),
+          d("span", P3, T(e.caption), 1),
+          d("span", E3, T(e.captionMax), 1)
+        ])) : I("", !0),
+        e.orientation === "vertical" && e.captionMin ? (g(), x("p", R3, T(e.captionMin), 1)) : I("", !0),
+        e.orientation === "vertical" && e.caption ? (g(), x("p", I3, T(e.caption), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ], 2),
       e.errorText ? (f(), x("p", {
         key: 1,
         id: i.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, B3)) : I("", !0)
+      }, T(e.errorText), 11, F3)) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), P3 = /* @__PURE__ */ xe(L3, [["__scopeId", "data-v-ce7263e4"]]), R3 = { class: "font-sans" }, E3 = ["for"], I3 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], F3 = ["id"], O3 = /* @__PURE__ */ de({
+=======
+}), V3 = /* @__PURE__ */ xe(O3, [["__scopeId", "data-v-ce7263e4"]]), N3 = { class: "font-sans" }, z3 = ["for"], j3 = ["id", "value", "placeholder", "disabled", "min", "max", "step", "aria-invalid", "aria-describedby"], H3 = ["id"], W3 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputNumber",
   __name: "InputNumber",
   props: {
@@ -26124,12 +32720,17 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       const h = Number(g);
       n("update:modelValue", Number.isNaN(h) ? null : h);
     }
+<<<<<<< HEAD
     return (u, g) => (f(), x("div", R3, [
       e.label ? (f(), x("label", {
+=======
+    return (u, f) => (g(), x("div", N3, [
+      e.label ? (g(), x("label", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         for: s.value,
         class: K(A($t))
-      }, T(e.label), 11, E3)) : I("", !0),
+      }, T(e.label), 11, z3)) : I("", !0),
       d("input", {
         id: s.value,
         value: r.value,
@@ -26148,16 +32749,25 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
         step: e.step,
         "aria-invalid": e.invalid ? "true" : void 0,
         "aria-describedby": e.errorText ? i.value : void 0
+<<<<<<< HEAD
       }, null, 42, I3),
       e.errorText ? (f(), x("p", {
+=======
+      }, null, 42, j3),
+      e.errorText ? (g(), x("p", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 1,
         id: i.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, F3)) : I("", !0)
+      }, T(e.errorText), 11, H3)) : I("", !0)
     ]));
   }
+<<<<<<< HEAD
 }), V3 = { class: "font-sans" }, N3 = ["for"], z3 = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], j3 = ["disabled"], H3 = ["id"], W3 = "#3b82f6", K3 = "#aabbcc", U3 = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", Y3 = /* @__PURE__ */ de({
+=======
+}), K3 = { class: "font-sans" }, U3 = ["for"], Y3 = ["id", "value", "disabled", "aria-invalid", "aria-describedby"], q3 = ["disabled"], G3 = ["id"], X3 = "#3b82f6", Z3 = "#aabbcc", Q3 = "flex min-h-[2.75rem] w-full items-center gap-3 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-sans shadow-sm outline-none transition focus-within:border-[color:var(--kiut-primary)] focus-within:ring-2 focus-within:ring-[color:var(--kiut-primary)]/25 focus-within:ring-offset-0 dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]", J3 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputColorPicker",
   __name: "InputColorPicker",
   props: {
@@ -26182,7 +32792,7 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       return null;
     }
     function n(m) {
-      return a(m) ?? W3;
+      return a(m) ?? X3;
     }
     const o = e, s = t, i = `kiut-input-color-${tt()}`, l = C(() => o.id ?? i), r = C(() => `${l.value}-err`), c = C(() => n(o.modelValue)), u = Q(c.value), g = Q(!1);
     Ie(c, (m) => {
@@ -26201,15 +32811,24 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
       if (!g.value) return;
       const v = a(m);
       v && s("update:modelValue", v);
+<<<<<<< HEAD
     }), (m, v) => (f(), x("div", V3, [
       e.label ? (f(), x("label", {
+=======
+    }), (m, v) => (g(), x("div", K3, [
+      e.label ? (g(), x("label", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         key: 0,
         for: l.value,
         class: K(A($t))
-      }, T(e.label), 11, N3)) : I("", !0),
+      }, T(e.label), 11, U3)) : I("", !0),
       d("div", {
         class: K([
+<<<<<<< HEAD
           U3,
+=======
+          Q3,
+>>>>>>> 8a6bd9f (Sales Volume chart)
           e.invalid ? A(Gt) : "",
           e.disabled ? "cursor-not-allowed opacity-50" : ""
         ])
@@ -26223,8 +32842,13 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
           "aria-describedby": e.errorText ? r.value : void 0,
           class: "h-9 w-11 shrink-0 cursor-pointer rounded-lg border border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-0.5 shadow-inner outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/35 disabled:cursor-not-allowed dark:border-slate-600 dark:bg-slate-800/80",
           onInput: h
+<<<<<<< HEAD
         }, null, 40, z3),
         e.showHexInput ? rt((f(), x("input", {
+=======
+        }, null, 40, Y3),
+        e.showHexInput ? rt((g(), x("input", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           "onUpdate:modelValue": v[0] || (v[0] = (b) => u.value = b),
           type: "text",
@@ -26233,10 +32857,17 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
           spellcheck: "false",
           "aria-label": "Código hexadecimal del color",
           class: "min-h-0 min-w-0 flex-1 border-0 bg-transparent p-0 font-mono text-sm font-medium text-[color:var(--kiut-text-primary)] outline-none ring-0 placeholder:text-[color:var(--kiut-text-muted)] focus:ring-0 disabled:cursor-not-allowed dark:text-slate-100 dark:placeholder:text-slate-500",
+<<<<<<< HEAD
           placeholder: K3,
           onFocus: v[1] || (v[1] = (b) => g.value = !0),
           onBlur: p
         }, null, 40, j3)), [
+=======
+          placeholder: Z3,
+          onFocus: v[1] || (v[1] = (p) => f.value = !0),
+          onBlur: b
+        }, null, 40, q3)), [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           [aa, u.value]
         ]) : I("", !0)
       ], 2),
@@ -26245,16 +32876,16 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
         id: r.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, H3)) : I("", !0)
+      }, T(e.errorText), 11, G3)) : I("", !0)
     ]));
   }
-}), Vr = {
+}), Or = {
   smileys: "Smileys",
   gestures: "Gestos",
   symbols: "Símbolos",
   travel: "Viajes",
   objects: "Objetos"
-}, Nr = [
+}, Vr = [
   {
     id: "smileys",
     emojis: [
@@ -26424,14 +33055,14 @@ const qS = ["name", "value"], GS = { class: "flex flex-row gap-3 items-center" }
     ]
   }
 ];
-function q3(e, t) {
+function eM(e, t) {
   return e.char.includes(t) ? !0 : e.terms?.some((a) => a.toLowerCase().includes(t)) ?? !1;
 }
-function G3(e, t, a) {
+function tM(e, t, a) {
   const n = a.trim().toLowerCase();
   return n ? e.map((o) => {
     const s = t[o.id]?.toLowerCase().includes(n) || o.id.includes(n), i = o.emojis.filter(
-      (l) => s || q3(l, n)
+      (l) => s || eM(l, n)
     ).map((l) => l.char);
     return {
       id: o.id,
@@ -26444,36 +33075,40 @@ function G3(e, t, a) {
     emojis: o.emojis.map((s) => s.char)
   }));
 }
-function D6(e) {
+function E6(e) {
   const t = {
-    ...Vr,
+    ...Or,
     ...e
   };
-  return Nr.map((a) => ({
+  return Vr.map((a) => ({
     id: a.id,
     label: t[a.id],
     emojis: a.emojis.map((n) => n.char)
   }));
 }
-function X3(e) {
+function aM(e) {
   return e ? e.match(new RegExp("\\p{Extended_Pictographic}(\\u200d\\p{Extended_Pictographic})*", "gu")) ?? [] : [];
 }
-function Z3(e, t) {
+function nM(e, t) {
   return `${e}${t}`;
 }
-const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
+const oM = ["disabled", "aria-expanded", "aria-label"], sM = {
   class: "inline-flex shrink-0 text-[color:var(--kiut-text-muted)] dark:text-slate-400",
   "aria-hidden": "true"
-}, eM = {
+}, iM = {
   key: 0,
   class: "truncate text-sm"
-}, tM = ["aria-label"], aM = { class: "border-b border-gray-200/80 p-3 dark:border-white/10" }, nM = ["disabled", "placeholder", "aria-label"], oM = { class: "min-h-0 flex-1 space-y-4 overflow-y-auto p-3" }, sM = { class: "mb-2 text-[11px] font-bold uppercase tracking-wide text-[color:var(--kiut-text-muted)] dark:text-slate-500" }, iM = { class: "grid grid-cols-8 gap-0.5" }, lM = ["disabled", "aria-label", "onClick"], rM = { class: "text-[1.35rem] leading-none" }, cM = {
+}, lM = ["aria-label"], rM = { class: "border-b border-gray-200/80 p-3 dark:border-white/10" }, cM = ["disabled", "placeholder", "aria-label"], dM = { class: "min-h-0 flex-1 space-y-4 overflow-y-auto p-3" }, uM = { class: "mb-2 text-[11px] font-bold uppercase tracking-wide text-[color:var(--kiut-text-muted)] dark:text-slate-500" }, hM = { class: "grid grid-cols-8 gap-0.5" }, fM = ["disabled", "aria-label", "onClick"], gM = { class: "text-[1.35rem] leading-none" }, mM = {
   key: 1,
   class: "py-8 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-500"
-}, dM = {
+}, pM = {
   key: 0,
   class: "border-t border-gray-200/80 px-3 py-2.5 text-[11px] leading-relaxed text-[color:var(--kiut-text-muted)] dark:border-white/10 dark:text-slate-500"
+<<<<<<< HEAD
 }, uM = /* @__PURE__ */ de({
+=======
+}, bM = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "EmojiPicker",
   __name: "EmojiPicker",
   props: {
@@ -26493,9 +33128,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     const a = e, n = t, o = `kiut-emoji-picker-${tt()}`, s = `${o}-btn`, i = `${o}-panel`, l = Q(null), r = Q(null), c = Q(null), u = Q(null), g = Q(!1), h = Q(""), p = Q({}), m = C(
       () => a.ariaLabelTrigger ?? a.triggerLabel ?? a.ariaLabel
     ), v = C(() => ({
-      ...Vr,
+      ...Or,
       ...a.categoryLabels
+<<<<<<< HEAD
     })), b = C(() => new Set(X3(a.draft))), y = C(() => {
+=======
+    })), p = C(() => new Set(aM(a.draft))), y = C(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (a.categories?.length) {
         const L = h.value.trim().toLowerCase();
         return L ? a.categories.map((j) => ({
@@ -26503,8 +33142,8 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           emojis: j.emojis.filter((W) => W.includes(L) || j.label.toLowerCase().includes(L) ? !0 : j.id.toLowerCase().includes(L))
         })).filter((j) => j.emojis.length > 0) : a.categories;
       }
-      return G3(
-        Nr,
+      return tM(
+        Vr,
         v.value,
         h.value
       );
@@ -26529,7 +33168,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }
     function _(L) {
       if (a.disabled) return;
-      const j = Z3(a.draft ?? "", L);
+      const j = nM(a.draft ?? "", L);
       n("update:draft", j), n("select", L);
     }
     function $() {
@@ -26552,8 +33191,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     function P(L) {
       L.stopPropagation(), M();
     }
+<<<<<<< HEAD
     function E(L) {
       if (!g.value) return;
+=======
+    function R(L) {
+      if (!f.value) return;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const j = L.target, W = l.value, X = c.value;
       W && !W.contains(j) && (!X || !X.contains(j)) && S();
     }
@@ -26567,10 +33211,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       g.value && w();
     }
     return ht(() => {
+<<<<<<< HEAD
       document.addEventListener("click", E), window.addEventListener("resize", B), window.addEventListener("scroll", B, !0);
     }), yt(() => {
       document.removeEventListener("click", E), window.removeEventListener("resize", B), window.removeEventListener("scroll", B, !0);
     }), (L, j) => (f(), x("div", {
+=======
+      document.addEventListener("click", R), window.addEventListener("resize", B), window.addEventListener("scroll", B, !0);
+    }), yt(() => {
+      document.removeEventListener("click", R), window.removeEventListener("resize", B), window.removeEventListener("scroll", B, !0);
+    }), (L, j) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ref_key: "rootRef",
       ref: l,
       class: "relative inline-flex shrink-0 font-sans"
@@ -26594,19 +33245,32 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         onClick: P,
         onKeydown: N
       }, [
-        d("span", J3, [
+        d("span", sM, [
           De(L.$slots, "icon", {}, () => [
+<<<<<<< HEAD
             V(A(x0), { class: "h-5 w-5" })
           ])
         ]),
         e.triggerLabel ? (f(), x("span", eM, T(e.triggerLabel), 1)) : I("", !0),
         e.triggerLabel ? (f(), Z(A(ha), {
+=======
+            V(A(y0), { class: "h-5 w-5" })
+          ])
+        ]),
+        e.triggerLabel ? (g(), x("span", iM, T(e.triggerLabel), 1)) : I("", !0),
+        e.triggerLabel ? (g(), Z(A(ha), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 1,
           class: K(["h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", g.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])) : I("", !0)
+<<<<<<< HEAD
       ], 42, Q3),
       (f(), Z(ua, { to: "body" }, [
+=======
+      ], 42, oM),
+      (g(), Z(ua, { to: "body" }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         rt(d("div", {
           ref_key: "panelRef",
           ref: c,
@@ -26619,7 +33283,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           }, ["stop"])),
           onKeydown: Fe(D, ["stop"])
         }, [
-          d("div", aM, [
+          d("div", rM, [
             rt(d("input", {
               ref_key: "searchInputRef",
               ref: u,
@@ -26633,10 +33297,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               class: "min-h-[2.5rem] w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-[color:var(--kiut-text-primary)] shadow-sm outline-none transition placeholder:text-[color:var(--kiut-text-muted)] focus:border-[color:var(--kiut-primary)] focus:ring-2 focus:ring-[color:var(--kiut-primary)]/25 disabled:cursor-not-allowed dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)] dark:text-slate-100 dark:placeholder:text-slate-500",
               onClick: j[1] || (j[1] = Fe(() => {
               }, ["stop"]))
-            }, null, 8, nM), [
+            }, null, 8, cM), [
               [aa, h.value]
             ])
           ]),
+<<<<<<< HEAD
           d("div", oM, [
             y.value.length > 0 ? (f(!0), x(ie, { key: 0 }, pe(y.value, (W) => (f(), x("section", {
               key: W.id
@@ -26644,6 +33309,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               d("h3", sM, T(W.label), 1),
               d("div", iM, [
                 (f(!0), x(ie, null, pe(W.emojis, (X) => (f(), x("button", {
+=======
+          d("div", dM, [
+            y.value.length > 0 ? (g(!0), x(ie, { key: 0 }, pe(y.value, (W) => (g(), x("section", {
+              key: W.id
+            }, [
+              d("h3", uM, T(W.label), 1),
+              d("div", hM, [
+                (g(!0), x(ie, null, pe(W.emojis, (X) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: `${W.id}-${X}`,
                   type: "button",
                   disabled: e.disabled,
@@ -26651,19 +33325,31 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                   class: K(k(X)),
                   onClick: Fe((se) => _(X), ["stop"])
                 }, [
-                  d("span", rM, T(X), 1)
-                ], 10, lM))), 128))
+                  d("span", gM, T(X), 1)
+                ], 10, fM))), 128))
               ])
+<<<<<<< HEAD
             ]))), 128)) : (f(), x("p", cM, T(e.emptySearchText), 1))
           ]),
           e.hint ? (f(), x("p", dM, T(e.hint), 1)) : I("", !0)
         ], 44, tM), [
           [qt, g.value]
+=======
+            ]))), 128)) : (g(), x("p", mM, T(e.emptySearchText), 1))
+          ]),
+          e.hint ? (g(), x("p", pM, T(e.hint), 1)) : I("", !0)
+        ], 44, lM), [
+          [qt, f.value]
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ])
       ]))
     ], 512));
   }
+<<<<<<< HEAD
 }), hM = /* @__PURE__ */ de({
+=======
+}), vM = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "LanguageSelect",
   __name: "LanguageSelect",
   props: {
@@ -26691,7 +33377,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     function s(i) {
       n("update:modelValue", i);
     }
+<<<<<<< HEAD
     return (i, l) => (f(), Z(Zt, {
+=======
+    return (i, l) => (g(), Z(Zt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       "model-value": e.modelValue,
       options: o.value,
       label: e.label,
@@ -26706,16 +33396,20 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       "onUpdate:modelValue": s
     }, null, 8, ["model-value", "options", "label", "aria-label-trigger", "placeholder", "disabled", "show-option-check", "search-placeholder", "no-results-text", "list-section-label"]));
   }
-}), fM = { class: "border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]" }, gM = { class: "relative" }, mM = {
+}), yM = { class: "border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]" }, xM = { class: "relative" }, kM = {
   class: "pointer-events-none absolute inset-y-0 left-0 flex w-9 items-center justify-center",
   "aria-hidden": "true"
-}, pM = ["placeholder", "aria-label", "disabled"], bM = {
+}, _M = ["placeholder", "aria-label", "disabled"], wM = {
   key: 0,
   class: "px-3 pb-1 pt-3 text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-[color:var(--kiut-text-muted)] dark:text-slate-500"
-}, vM = ["aria-label"], yM = {
+}, CM = ["aria-label"], $M = {
   key: 0,
   class: "px-3 py-6 text-center text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-500"
+<<<<<<< HEAD
 }, xM = ["aria-selected", "onClick", "onMouseenter"], kM = { class: "min-w-0 flex-1 truncate" }, _M = /* @__PURE__ */ de({
+=======
+}, SM = ["aria-selected", "onClick", "onMouseenter"], MM = { class: "min-w-0 flex-1 truncate" }, DM = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "LanguagePicker",
   __name: "LanguagePicker",
   props: {
@@ -26809,9 +33503,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }), (_, $) => (f(), x("div", {
       class: K(["overflow-hidden rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] font-sans shadow-sm dark:border-[color:var(--kiut-border-light)]", e.disabled ? "pointer-events-none opacity-50" : ""])
     }, [
+<<<<<<< HEAD
       d("div", fM, [
         d("div", gM, [
           d("span", mM, [
+=======
+      d("div", yM, [
+        d("div", xM, [
+          d("span", kM, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             V(A(fs), { class: "h-4 w-4 text-[color:var(--kiut-text-muted)] dark:text-slate-500" })
           ]),
           rt(d("input", {
@@ -26824,12 +33524,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             "aria-label": e.searchPlaceholder,
             disabled: e.disabled,
             onKeydown: w
-          }, null, 42, pM), [
+          }, null, 42, _M), [
             [aa, c.value]
           ])
         ])
       ]),
+<<<<<<< HEAD
       e.listSectionLabel ? (f(), x("p", bM, T(e.listSectionLabel), 1)) : I("", !0),
+=======
+      e.listSectionLabel ? (g(), x("p", wM, T(e.listSectionLabel), 1)) : I("", !0),
+>>>>>>> 8a6bd9f (Sales Volume chart)
       d("ul", {
         id: i,
         ref_key: "listRef",
@@ -26840,9 +33544,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         class: K([e.listMaxHeightClass, "overflow-auto pb-1 outline-none"]),
         onKeydown: k
       }, [
+<<<<<<< HEAD
         h.value.length === 0 ? (f(), x("li", yM, T(e.noResultsText), 1)) : I("", !0),
         (f(!0), x(ie, null, pe(h.value, (S, M) => (f(), x("li", {
           key: p(S),
+=======
+        h.value.length === 0 ? (g(), x("li", $M, T(e.noResultsText), 1)) : I("", !0),
+        (g(!0), x(ie, null, pe(h.value, (S, M) => (g(), x("li", {
+          key: b(S),
+>>>>>>> 8a6bd9f (Sales Volume chart)
           role: "option",
           "aria-selected": m(S),
           class: K(v(S, M)),
@@ -26854,34 +33564,38 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             class: K([S.flagClass, "shrink-0"]),
             "aria-hidden": "true"
           }, null, 2)) : I("", !0),
-          d("span", kM, T(S.label), 1)
-        ], 42, xM))), 128))
-      ], 42, vM)
+          d("span", MM, T(S.label), 1)
+        ], 42, SM))), 128))
+      ], 42, CM)
     ], 2));
   }
-}), wM = { class: "flex flex-row gap-3 items-center" }, CM = {
+}), TM = { class: "flex flex-row gap-3 items-center" }, AM = {
   key: 0,
   class: "mb-1.5 inline-flex shrink-0 text-[color:var(--kiut-text-muted)] [&>svg]:h-4 [&>svg]:w-4",
   "aria-hidden": "true"
-}, $M = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], SM = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, MM = {
+}, BM = ["disabled", "aria-expanded", "aria-labelledby", "aria-label"], LM = { class: "min-h-[1.25rem] min-w-0 flex-1 max-h-32 overflow-y-auto py-0.5" }, PM = {
   key: 0,
   class: "block truncate text-[color:var(--kiut-text-muted)] dark:text-slate-500"
-}, DM = {
+}, EM = {
   key: 1,
   class: "flex flex-wrap gap-1"
-}, TM = { class: "truncate" }, AM = { class: "absolute left-0 right-0 z-50 mt-[-3px] overflow-hidden rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-lg dark:border-[color:var(--kiut-border-light)]" }, BM = {
+}, RM = { class: "truncate" }, IM = { class: "absolute left-0 right-0 z-50 mt-[-3px] overflow-hidden rounded-xl border border-gray-300 bg-[color:var(--kiut-bg-secondary)] shadow-lg dark:border-[color:var(--kiut-border-light)]" }, FM = {
   key: 0,
   class: "border-b border-gray-200 bg-[color:var(--kiut-bg-secondary)] p-3 dark:border-[color:var(--kiut-border-light)]"
-}, LM = { class: "relative" }, PM = {
+}, OM = { class: "relative" }, VM = {
   class: "pointer-events-none absolute inset-y-0 left-0 flex w-9 items-center justify-center",
   "aria-hidden": "true"
-}, RM = ["placeholder", "aria-label"], EM = ["aria-checked", "disabled"], IM = {
+}, NM = ["placeholder", "aria-label"], zM = ["aria-checked", "disabled"], jM = {
   key: 0,
   class: "px-3 py-2 text-sm text-[color:var(--kiut-text-muted)] dark:text-slate-500"
-}, FM = ["aria-selected", "onClick", "onMouseenter"], OM = {
+}, HM = ["aria-selected", "onClick", "onMouseenter"], WM = {
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
+<<<<<<< HEAD
 }, VM = { class: "min-w-0 flex-1" }, NM = /* @__PURE__ */ de({
+=======
+}, KM = { class: "min-w-0 flex-1" }, UM = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "MultiSelect",
   __name: "MultiSelect",
   props: {
@@ -26922,11 +33636,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     function P(O) {
       return `${String(O.value)}-${O.label}`;
     }
-    function E(O) {
+    function R(O) {
       return y.value.has(O.value);
     }
     function N(O, oe) {
+<<<<<<< HEAD
       const re = E(O), Te = p.value === oe;
+=======
+      const re = R(O), Te = b.value === oe;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       return [
         "flex cursor-pointer items-center gap-1.5 px-2 py-2 text-sm outline-none transition-colors",
         re ? "mx-1 rounded-lg bg-[color:var(--kiut-primary)] font-medium text-white" : "text-[color:var(--kiut-text-primary)] dark:text-slate-100",
@@ -26953,7 +33671,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         return;
       }
       const oe = y.value, re = O.findIndex((Te) => oe.has(Te.value));
+<<<<<<< HEAD
       p.value = re >= 0 ? re : 0;
+=======
+      b.value = re >= 0 ? re : 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function j() {
       if (a.searchable) {
@@ -26992,8 +33714,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     function te(O) {
       a.disabled || (O.key === "ArrowDown" || O.key === "Enter" || O.key === " ") && (O.preventDefault(), h.value || (h.value = !0, W()));
     }
+<<<<<<< HEAD
     function R(O) {
       const oe = b.value;
+=======
+    function E(O) {
+      const oe = p.value;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (O.key === "Escape") {
         O.preventDefault(), X();
         return;
@@ -27014,7 +33741,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       }
       if (O.key === "Enter") {
         O.preventDefault();
+<<<<<<< HEAD
         const re = oe[p.value];
+=======
+        const re = oe[b.value];
+>>>>>>> 8a6bd9f (Sales Volume chart)
         re && D(re);
       }
     }
@@ -27054,13 +33785,21 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         }
         if (O.key === "Enter" || O.key === " ") {
           O.preventDefault();
+<<<<<<< HEAD
           const re = oe[p.value];
+=======
+          const re = oe[b.value];
+>>>>>>> 8a6bd9f (Sales Volume chart)
           re && D(re);
         }
       }
     }
     return Ie(m, () => {
+<<<<<<< HEAD
       p.value = 0;
+=======
+      b.value = 0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }), ht(() => {
       document.addEventListener("click", G);
     }), yt(() => {
@@ -27070,8 +33809,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       ref: r,
       class: "relative font-sans"
     }, [
+<<<<<<< HEAD
       d("div", wM, [
         O.$slots.icon ? (f(), x("span", CM, [
+=======
+      d("div", TM, [
+        O.$slots.icon ? (g(), x("span", AM, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           De(O.$slots, "icon")
         ])) : I("", !0),
         e.label ? (f(), x("label", {
@@ -27097,6 +33841,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         onClick: ce,
         onKeydown: te
       }, [
+<<<<<<< HEAD
         d("div", SM, [
           S.value.length === 0 ? (f(), x("span", MM, T(e.placeholder), 1)) : (f(), x("div", DM, [
             (f(!0), x(ie, null, pe(S.value, (re) => (f(), x("span", {
@@ -27104,6 +33849,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               class: "inline-flex max-w-full items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-[color:var(--kiut-text-primary)] dark:bg-white/10 dark:text-slate-100"
             }, [
               d("span", TM, T(re.label), 1)
+=======
+        d("div", LM, [
+          S.value.length === 0 ? (g(), x("span", PM, T(e.placeholder), 1)) : (g(), x("div", EM, [
+            (g(!0), x(ie, null, pe(S.value, (re) => (g(), x("span", {
+              key: P(re),
+              class: "inline-flex max-w-full items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-[color:var(--kiut-text-primary)] dark:bg-white/10 dark:text-slate-100"
+            }, [
+              d("span", RM, T(re.label), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
             ]))), 128))
           ]))
         ]),
@@ -27111,11 +33865,19 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           class: K(["mt-0.5 h-5 w-5 shrink-0 text-gray-400 transition-transform dark:text-slate-500", h.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
+<<<<<<< HEAD
       ], 42, $M),
       rt(d("div", AM, [
         e.searchable ? (f(), x("div", BM, [
           d("div", LM, [
             d("span", PM, [
+=======
+      ], 42, BM),
+      rt(d("div", IM, [
+        e.searchable ? (g(), x("div", FM, [
+          d("div", OM, [
+            d("span", VM, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
               V(A(fs), { class: "h-4 w-4 text-[color:var(--kiut-text-muted)] dark:text-slate-500" })
             ]),
             rt(d("input", {
@@ -27128,8 +33890,8 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               "aria-label": e.searchPlaceholder,
               onClick: oe[1] || (oe[1] = Fe(() => {
               }, ["stop"])),
-              onKeydown: Fe(R, ["stop"])
-            }, null, 42, RM), [
+              onKeydown: Fe(E, ["stop"])
+            }, null, 42, NM), [
               [aa, m.value]
             ])
           ])
@@ -27153,16 +33915,23 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             ]),
             "aria-hidden": "true"
           }, [
+<<<<<<< HEAD
             _.value ? (f(), Z(A(Wb), {
               key: 0,
               class: "h-3 w-3"
             })) : k.value ? (f(), Z(A(eo), {
+=======
+            _.value ? (g(), Z(A(Hb), {
+              key: 0,
+              class: "h-3 w-3"
+            })) : k.value ? (g(), Z(A(eo), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: 1,
               class: "h-3 w-3"
             })) : I("", !0)
           ], 2),
           d("span", null, T(e.selectAllLabel), 1)
-        ], 40, EM)) : I("", !0),
+        ], 40, zM)) : I("", !0),
         d("ul", {
           id: l,
           ref_key: "listRef",
@@ -27173,6 +33942,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           class: "max-h-60 overflow-auto py-1",
           onKeydown: Fe(Y, ["stop"])
         }, [
+<<<<<<< HEAD
           b.value.length === 0 ? (f(), x("li", IM, T(e.noResultsText), 1)) : I("", !0),
           (f(!0), x(ie, null, pe(b.value, (re, Te) => (f(), x("li", {
             key: P(re),
@@ -27184,19 +33954,41 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           }, [
             d("span", OM, [
               E(re) ? (f(), Z(A(eo), {
+=======
+          p.value.length === 0 ? (g(), x("li", jM, T(e.noResultsText), 1)) : I("", !0),
+          (g(!0), x(ie, null, pe(p.value, (re, Te) => (g(), x("li", {
+            key: P(re),
+            role: "option",
+            "aria-selected": R(re),
+            class: K(N(re, Te)),
+            onClick: Fe((be) => D(re), ["stop"]),
+            onMouseenter: (be) => b.value = Te
+          }, [
+            d("span", WM, [
+              R(re) ? (g(), Z(A(eo), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: 0,
                 class: "h-4 w-4 text-white"
               })) : I("", !0)
             ]),
+<<<<<<< HEAD
             d("span", VM, T(re.label), 1)
           ], 42, FM))), 128))
+=======
+            d("span", KM, T(re.label), 1)
+          ], 42, HM))), 128))
+>>>>>>> 8a6bd9f (Sales Volume chart)
         ], 544)
       ], 512), [
         [qt, h.value]
       ])
     ], 512));
   }
+<<<<<<< HEAD
 }), zM = { class: "font-sans" }, jM = ["for"], HM = { class: "flex gap-2" }, WM = { class: "w-[7.5rem] shrink-0" }, KM = { class: "min-w-0 flex-1" }, UM = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], YM = ["id"], qM = /* @__PURE__ */ de({
+=======
+}), YM = { class: "font-sans" }, qM = ["for"], GM = { class: "flex gap-2" }, XM = { class: "w-[7.5rem] shrink-0" }, ZM = { class: "min-w-0 flex-1" }, QM = ["id", "placeholder", "disabled", "aria-invalid", "aria-describedby"], JM = ["id"], e8 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "InputPhone",
   __name: "InputPhone",
   props: {
@@ -27219,6 +34011,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       get: () => a.modelValue.number,
       set: (c) => n("update:modelValue", { ...a.modelValue, number: c })
     });
+<<<<<<< HEAD
     return (c, u) => (f(), x("div", zM, [
       e.label ? (f(), x("label", {
         key: 0,
@@ -27227,6 +34020,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       }, T(e.label), 11, jM)) : I("", !0),
       d("div", HM, [
         d("div", WM, [
+=======
+    return (c, u) => (g(), x("div", YM, [
+      e.label ? (g(), x("label", {
+        key: 0,
+        for: s.value,
+        class: K(A($t))
+      }, T(e.label), 11, qM)) : I("", !0),
+      d("div", GM, [
+        d("div", XM, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           V(Zt, {
             modelValue: l.value,
             "onUpdate:modelValue": u[0] || (u[0] = (g) => l.value = g),
@@ -27239,7 +34042,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             "search-placeholder": "Buscar país…"
           }, null, 8, ["modelValue", "options", "placeholder", "disabled"])
         ]),
-        d("div", KM, [
+        d("div", ZM, [
           rt(d("input", {
             id: s.value,
             "onUpdate:modelValue": u[1] || (u[1] = (g) => r.value = g),
@@ -27251,7 +34054,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             disabled: e.disabled,
             "aria-invalid": e.invalid ? "true" : void 0,
             "aria-describedby": e.errorText ? i.value : void 0
-          }, null, 10, UM), [
+          }, null, 10, QM), [
             [aa, r.value]
           ])
         ])
@@ -27261,13 +34064,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         id: i.value,
         class: K(A(Xt)),
         role: "alert"
-      }, T(e.errorText), 11, YM)) : I("", !0)
+      }, T(e.errorText), 11, JM)) : I("", !0)
     ]));
   }
-}), GM = ["role", "aria-label"], XM = { class: "flex flex-wrap gap-2" }, ZM = ["aria-checked", "role", "onClick"], QM = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, JM = {
+}), t8 = ["role", "aria-label"], a8 = { class: "flex flex-wrap gap-2" }, n8 = ["aria-checked", "role", "onClick"], o8 = { class: "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[color:var(--kiut-primary)] bg-white transition dark:bg-[color:var(--kiut-bg-secondary)]" }, s8 = {
   key: 0,
   class: "h-2 w-2 rounded-full bg-[color:var(--kiut-primary)]"
+<<<<<<< HEAD
 }, e8 = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, t8 = /* @__PURE__ */ de({
+=======
+}, i8 = { class: "text-sm font-medium text-[color:var(--kiut-text-primary)] dark:text-slate-100" }, l8 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "SelectablePills",
   __name: "SelectablePills",
   props: {
@@ -27302,8 +34109,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       role: e.multiple ? "group" : "radiogroup",
       "aria-label": e.ariaLabel
     }, [
+<<<<<<< HEAD
       d("div", XM, [
         (f(!0), x(ie, null, pe(e.items, (u) => (f(), x("button", {
+=======
+      d("div", a8, [
+        (g(!0), x(ie, null, pe(e.items, (u) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: u.value,
           type: "button",
           class: K(i(u)),
@@ -27311,8 +34123,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           role: e.multiple ? "checkbox" : "radio",
           onClick: (g) => l(u)
         }, [
+<<<<<<< HEAD
           d("span", QM, [
             s(u) ? (f(), x("span", JM)) : I("", !0)
+=======
+          d("span", o8, [
+            s(u) ? (g(), x("span", s8)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ]),
           u.dotColor ? (f(), x("span", {
             key: 0,
@@ -27320,12 +34137,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             style: Ae({ backgroundColor: u.dotColor }),
             "aria-hidden": "true"
           }, null, 4)) : I("", !0),
-          d("span", e8, T(u.label), 1)
-        ], 10, ZM))), 128))
+          d("span", i8, T(u.label), 1)
+        ], 10, n8))), 128))
       ])
-    ], 8, GM));
+    ], 8, t8));
   }
+<<<<<<< HEAD
 }), a8 = ["aria-label"], n8 = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], o8 = { class: "truncate px-3 py-2 text-sm font-medium" }, s8 = /* @__PURE__ */ de({
+=======
+}), r8 = ["aria-label"], c8 = ["id", "aria-selected", "aria-disabled", "tabindex", "onClick", "onKeydown"], d8 = { class: "truncate px-3 py-2 text-sm font-medium" }, u8 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "SegmentedControl",
   __name: "SegmentedControl",
   props: {
@@ -27393,7 +34214,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       "aria-label": e.ariaLabel,
       class: "inline-flex w-full max-w-full rounded-lg border border-gray-300 bg-transparent p-0.5 font-sans dark:border-[color:var(--kiut-border-light)]"
     }, [
+<<<<<<< HEAD
       (f(!0), x(ie, null, pe(e.items, (y, w) => (f(), x("button", {
+=======
+      (g(!0), x(ie, null, pe(e.items, (y, w) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         id: s(y.value),
         key: y.value,
         ref_for: !0,
@@ -27407,11 +34232,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         onClick: (k) => g(y, w),
         onKeydown: (k) => m(k, w)
       }, [
-        d("span", o8, T(y.label), 1)
-      ], 42, n8))), 128))
-    ], 8, a8));
+        d("span", d8, T(y.label), 1)
+      ], 42, c8))), 128))
+    ], 8, r8));
   }
+<<<<<<< HEAD
 }), i8 = ["aria-expanded", "aria-labelledby", "aria-label"], l8 = ["onKeydown"], r8 = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, c8 = { class: "mb-4 flex items-center justify-between gap-2" }, d8 = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, u8 = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, h8 = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, f8 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, g8 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, m8 = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, p8 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, b8 = { class: "grid grid-cols-7 gap-y-2 mt-2" }, v8 = ["disabled", "onClick"], y8 = "rounded-lg text-[#61616b]", x8 = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", k8 = "opacity-30", _8 = "bg-[#6b35e9] font-medium text-white", w8 = "bg-[#895af6] font-semibold text-white", C8 = /* @__PURE__ */ de({
+=======
+}), h8 = ["aria-expanded", "aria-labelledby", "aria-label"], f8 = ["onKeydown"], g8 = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, m8 = { class: "mb-4 flex items-center justify-between gap-2" }, p8 = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, b8 = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, v8 = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, y8 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, x8 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, k8 = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, _8 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, w8 = { class: "grid grid-cols-7 gap-y-2 mt-2" }, C8 = ["disabled", "onClick"], $8 = "rounded-lg text-[#61616b]", S8 = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", M8 = "opacity-30", D8 = "bg-[#6b35e9] font-medium text-white", T8 = "bg-[#895af6] font-semibold text-white", A8 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "DateRangePicker",
   __name: "DateRangePicker",
   props: {
@@ -27427,8 +34256,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
   setup(e, { emit: t }) {
     const a = e, n = t, s = `${`kiut-drp-${tt()}`}-lbl`, i = Q(null), l = Q(null), r = Q(!1), c = Q(null), u = Q(Ft(/* @__PURE__ */ new Date())), g = C(() => !!(a.modelValue.start && a.modelValue.end)), h = C(() => {
       const D = Ft(u.value);
+<<<<<<< HEAD
       return [D, Ea(D, 1)];
     }), p = C(() => a.ariaLabel ?? a.placeholder), m = C(() => {
+=======
+      return [D, Ra(D, 1)];
+    }), b = C(() => a.ariaLabel ?? a.placeholder), m = C(() => {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       const D = "max-sm:left-1/2 max-sm:right-auto max-sm:-translate-x-1/2 sm:translate-x-0";
       return a.panelAlign === "end" ? `right-0 left-auto ${D}` : `left-0 right-auto ${D}`;
     }), v = C(
@@ -27454,7 +34288,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       return !1;
     }
     function _(D, B, L) {
-      const j = Et(D, B), W = Et(D, L);
+      const j = Rt(D, B), W = Rt(D, L);
       if (j && W) return "rounded-lg";
       const X = j || D.getDay() === 0, se = W || D.getDay() === 6;
       return X && se ? "rounded-lg" : X ? "rounded-l-lg" : se ? "rounded-r-lg" : "rounded-none";
@@ -27462,6 +34296,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     function $(D, B) {
       const L = w(B, D), j = k(B), W = a.modelValue.start ? ze(it(a.modelValue.start)) : null, X = a.modelValue.end ? ze(it(a.modelValue.end)) : null, se = ze(B);
       if (j)
+<<<<<<< HEAD
         return y8;
       let ce = x8;
       if (W && X && Fr(se, W) && Or(se, X)) {
@@ -27469,6 +34304,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         ce = `${_(se, W, X)} ${te || R ? w8 : _8}`;
       }
       return L || (ce = `${ce} ${k8}`), ce;
+=======
+        return $8;
+      let de = S8;
+      if (W && X && Ir(se, W) && Fr(se, X)) {
+        const te = Rt(se, W), E = Rt(se, X);
+        de = `${_(se, W, X)} ${te || E ? T8 : D8}`;
+      }
+      return L || (de = `${de} ${M8}`), de;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function S(D) {
       if (k(D)) return;
@@ -27481,12 +34325,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       Yt(W, j) && ([j, W] = [W, j]), n("update:modelValue", { start: vt(j), end: vt(W) }), c.value = null, r.value = !1;
     }
     function M(D) {
+<<<<<<< HEAD
       u.value = Ea(u.value, D);
+=======
+      u.value = Ra(u.value, D);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function P() {
       r.value = !1;
     }
-    function E(D) {
+    function R(D) {
       if (D?.stopPropagation(), !r.value) {
         if (r.value = !0, c.value = null, a.modelValue.start)
           try {
@@ -27527,9 +34375,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         "aria-expanded": r.value,
         "aria-haspopup": "dialog",
         "aria-labelledby": e.label ? s : void 0,
+<<<<<<< HEAD
         "aria-label": e.label ? void 0 : p.value,
         onFocus: E,
         onClick: E
+=======
+        "aria-label": e.label ? void 0 : b.value,
+        onFocus: R,
+        onClick: R
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }, [
         V(A(ho), {
           class: "h-5 w-5 shrink-0 text-gray-500 dark:text-slate-400",
@@ -27541,7 +34395,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             g.value ? "" : "text-[color:var(--kiut-text-muted)] dark:text-slate-500"
           ])
         }, T(y.value), 3)
-      ], 42, i8),
+      ], 42, h8),
       rt(d("div", {
         ref_key: "panelRef",
         ref: l,
@@ -27555,8 +34409,8 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         ]),
         onKeydown: La(Fe(P, ["stop"]), ["escape"])
       }, [
-        d("div", r8, [
-          d("div", c8, [
+        d("div", g8, [
+          d("div", m8, [
             d("button", {
               type: "button",
               class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
@@ -27568,11 +34422,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                 "aria-hidden": "true"
               })
             ]),
-            d("div", d8, [
-              d("span", u8, T(v.value), 1),
-              d("div", h8, [
-                d("span", f8, T(A(ta)(h.value[0])), 1),
-                d("span", g8, T(A(ta)(h.value[1])), 1)
+            d("div", p8, [
+              d("span", b8, T(v.value), 1),
+              d("div", v8, [
+                d("span", y8, T(A(ta)(h.value[0])), 1),
+                d("span", x8, T(A(ta)(h.value[1])), 1)
               ])
             ]),
             d("button", {
@@ -27587,6 +34441,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               })
             ])
           ]),
+<<<<<<< HEAD
           d("div", m8, [
             (f(!0), x(ie, null, pe(h.value, (L) => (f(), x("div", {
               key: `${L.getFullYear()}-${L.getMonth()}`,
@@ -27597,22 +34452,42 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               ]),
               d("div", b8, [
                 (f(!0), x(ie, null, pe(A(ms)(L), (j) => (f(), x("button", {
+=======
+          d("div", k8, [
+            (g(!0), x(ie, null, pe(h.value, (L) => (g(), x("div", {
+              key: `${L.getFullYear()}-${L.getMonth()}`,
+              class: "w-full max-w-[252px] shrink-0"
+            }, [
+              d("div", _8, [
+                (g(), x(ie, null, pe(p, (j) => d("span", { key: j }, T(j), 1)), 64))
+              ]),
+              d("div", w8, [
+                (g(!0), x(ie, null, pe(A(ms)(L), (j) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: A(vt)(j),
                   type: "button",
                   disabled: k(j),
                   class: K(["relative flex h-[36px] w-[36px] items-center justify-center text-xs outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 disabled:cursor-not-allowed disabled:opacity-100", $(L, j)]),
                   onClick: (W) => S(j)
-                }, T(j.getDate()), 11, v8))), 128))
+                }, T(j.getDate()), 11, C8))), 128))
               ])
             ]))), 128))
           ])
         ])
+<<<<<<< HEAD
       ], 42, l8), [
+=======
+      ], 42, f8), [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         [qt, r.value]
       ])
     ], 512));
   }
+<<<<<<< HEAD
 }), $8 = ["aria-expanded", "aria-labelledby", "aria-label"], S8 = ["onKeydown"], M8 = { class: "p-3" }, D8 = { class: "mb-4 flex items-center justify-between gap-2" }, T8 = { class: "min-w-0 truncate px-1 text-sm font-medium text-[#61616b] dark:text-[#e3e3e8]" }, A8 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, B8 = { class: "grid grid-cols-7 gap-y-2 mt-2" }, L8 = ["disabled", "onMousedown"], P8 = "rounded-lg text-[#61616b]", R8 = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", E8 = "opacity-30", I8 = "bg-[#895af6] font-semibold text-white", F8 = /* @__PURE__ */ de({
+=======
+}), B8 = ["aria-expanded", "aria-labelledby", "aria-label"], L8 = ["onKeydown"], P8 = { class: "p-3" }, E8 = { class: "mb-4 flex items-center justify-between gap-2" }, R8 = { class: "min-w-0 truncate px-1 text-sm font-medium text-[#61616b] dark:text-[#e3e3e8]" }, I8 = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, F8 = { class: "grid grid-cols-7 gap-y-2 mt-2" }, O8 = ["disabled", "onMousedown"], V8 = "rounded-lg text-[#61616b]", N8 = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", z8 = "opacity-30", j8 = "bg-[#895af6] font-semibold text-white", H8 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "DatePicker",
   __name: "DatePicker",
   props: {
@@ -27626,15 +34501,24 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
   },
   emits: ["update:modelValue"],
   setup(e, { emit: t }) {
+<<<<<<< HEAD
     const a = e, n = t, s = `${`kiut-dp-${tt()}`}-lbl`, i = Q(null), l = Q(null), r = Q(!1), c = Q(Ft(/* @__PURE__ */ new Date())), u = C(() => !!a.modelValue), g = C(() => ms(c.value)), h = C(() => a.ariaLabel ?? a.placeholder), p = C(() => {
       const E = "max-sm:left-1/2 max-sm:right-auto max-sm:-translate-x-1/2 sm:translate-x-0";
       return a.panelAlign === "end" ? `right-0 left-auto ${E}` : `left-0 right-auto ${E}`;
     }), m = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], v = C(() => a.modelValue ? _n(it(a.modelValue)) : a.placeholder);
     function b(E, N) {
       return E.getMonth() === N.getMonth() && E.getFullYear() === N.getFullYear();
+=======
+    const a = e, n = t, s = `${`kiut-dp-${tt()}`}-lbl`, i = Q(null), l = Q(null), r = Q(!1), c = Q(Ft(/* @__PURE__ */ new Date())), u = C(() => !!a.modelValue), f = C(() => ms(c.value)), h = C(() => a.ariaLabel ?? a.placeholder), b = C(() => {
+      const R = "max-sm:left-1/2 max-sm:right-auto max-sm:-translate-x-1/2 sm:translate-x-0";
+      return a.panelAlign === "end" ? `right-0 left-auto ${R}` : `left-0 right-auto ${R}`;
+    }), m = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], v = C(() => a.modelValue ? _n(it(a.modelValue)) : a.placeholder);
+    function p(R, N) {
+      return R.getMonth() === N.getMonth() && R.getFullYear() === N.getFullYear();
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
-    function y(E) {
-      const N = ze(E);
+    function y(R) {
+      const N = ze(R);
       if (a.minDate) {
         const D = ze(it(a.minDate));
         if (Yt(N, D)) return !0;
@@ -27645,13 +34529,19 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       }
       return !1;
     }
+<<<<<<< HEAD
     function w(E) {
       const N = b(E, c.value), D = y(E), B = a.modelValue ? Et(E, ze(it(a.modelValue))) : !1;
+=======
+    function w(R) {
+      const N = p(R, c.value), D = y(R), B = a.modelValue ? Rt(R, ze(it(a.modelValue))) : !1;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       if (D)
-        return P8;
-      let L = R8;
-      return B && (L = I8), N || (L = `${L} ${E8}`), L;
+        return V8;
+      let L = N8;
+      return B && (L = j8), N || (L = `${L} ${z8}`), L;
     }
+<<<<<<< HEAD
     function k(E) {
       if (y(E)) return;
       const N = ze(E);
@@ -27659,12 +34549,21 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }
     function _(E) {
       c.value = Ea(c.value, E);
+=======
+    function k(R) {
+      if (y(R)) return;
+      const N = ze(R);
+      n("update:modelValue", vt(N)), r.value = !1;
+    }
+    function _(R) {
+      c.value = Ra(c.value, R);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function $() {
       r.value = !1;
     }
-    function S(E) {
-      if (E?.stopPropagation(), !r.value) {
+    function S(R) {
+      if (R?.stopPropagation(), !r.value) {
         if (r.value = !0, a.modelValue)
           try {
             c.value = Ft(it(a.modelValue));
@@ -27673,14 +34572,14 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         et(() => l.value?.focus());
       }
     }
-    function M(E) {
+    function M(R) {
       if (!r.value) return;
       const N = i.value;
-      N && !N.contains(E.target) && (r.value = !1);
+      N && !N.contains(R.target) && (r.value = !1);
     }
-    function P(E) {
+    function P(R) {
       if (!r.value) return;
-      const N = i.value, D = E.relatedTarget;
+      const N = i.value, D = R.relatedTarget;
       N && D && N.contains(D) || window.setTimeout(() => {
         if (!r.value) return;
         const B = document.activeElement;
@@ -27691,7 +34590,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       document.addEventListener("click", M);
     }), yt(() => {
       document.removeEventListener("click", M);
+<<<<<<< HEAD
     }), (E, N) => (f(), x("div", {
+=======
+    }), (R, N) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ref_key: "rootRef",
       ref: i,
       class: "relative font-sans",
@@ -27726,7 +34629,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             u.value ? "" : "text-[color:var(--kiut-text-muted)] dark:text-slate-500"
           ])
         }, T(v.value), 3)
-      ], 42, $8),
+      ], 42, B8),
       rt(d("div", {
         ref_key: "panelRef",
         ref: l,
@@ -27742,8 +34645,8 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         onMousedown: N[2] || (N[2] = Fe(() => {
         }, ["prevent"]))
       }, [
-        d("div", M8, [
-          d("div", D8, [
+        d("div", P8, [
+          d("div", E8, [
             d("button", {
               type: "button",
               class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
@@ -27755,7 +34658,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                 "aria-hidden": "true"
               })
             ]),
-            d("span", T8, T(A(ta)(c.value)), 1),
+            d("span", R8, T(A(ta)(c.value)), 1),
             d("button", {
               type: "button",
               class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
@@ -27768,25 +34671,41 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               })
             ])
           ]),
+<<<<<<< HEAD
           d("div", A8, [
             (f(), x(ie, null, pe(m, (D) => d("span", { key: D }, T(D), 1)), 64))
           ]),
           d("div", B8, [
             (f(!0), x(ie, null, pe(g.value, (D) => (f(), x("button", {
+=======
+          d("div", I8, [
+            (g(), x(ie, null, pe(m, (D) => d("span", { key: D }, T(D), 1)), 64))
+          ]),
+          d("div", F8, [
+            (g(!0), x(ie, null, pe(f.value, (D) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: A(vt)(D),
               type: "button",
               disabled: y(D),
               class: K(["relative flex h-[36px] w-[36px] items-center justify-center text-xs outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 disabled:cursor-not-allowed disabled:opacity-100", w(D)]),
               onMousedown: Fe((B) => k(D), ["prevent"])
-            }, T(D.getDate()), 43, L8))), 128))
+            }, T(D.getDate()), 43, O8))), 128))
           ])
         ])
+<<<<<<< HEAD
       ], 42, S8), [
+=======
+      ], 42, L8), [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         [qt, r.value]
       ])
     ], 544));
   }
+<<<<<<< HEAD
 }), O8 = ["aria-expanded", "aria-labelledby", "aria-label"], V8 = ["aria-label", "onKeydown"], N8 = { class: "flex flex-col sm:flex-row" }, z8 = ["aria-label"], j8 = { class: "px-2 pt-1 pb-1.5 text-[10px] font-semibold uppercase dark:text-[#61616b] text-[#e3e3e8]" }, H8 = { class: "flex flex-col gap-0.5" }, W8 = ["onClick"], K8 = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, U8 = { class: "mb-4 flex items-center justify-between gap-2" }, Y8 = ["aria-label"], q8 = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, G8 = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, X8 = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, Z8 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, Q8 = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, J8 = ["aria-label"], eD = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, tD = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, aD = { class: "grid grid-cols-7 gap-y-2 mt-2" }, nD = ["disabled", "onClick"], oD = "rounded-lg text-[#61616b]", sD = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", iD = "opacity-30", lD = "bg-[#6b35e9] font-medium text-white", rD = "bg-[#895af6] font-semibold text-white", cD = /* @__PURE__ */ de({
+=======
+}), W8 = ["aria-expanded", "aria-labelledby", "aria-label"], K8 = ["aria-label", "onKeydown"], U8 = { class: "flex flex-col sm:flex-row" }, Y8 = ["aria-label"], q8 = { class: "px-2 pt-1 pb-1.5 text-[10px] font-semibold uppercase dark:text-[#61616b] text-[#e3e3e8]" }, G8 = { class: "flex flex-col gap-0.5" }, X8 = ["onClick"], Z8 = { class: "min-w-0 flex-1 overflow-x-hidden p-3" }, Q8 = { class: "mb-4 flex items-center justify-between gap-2" }, J8 = ["aria-label"], eD = { class: "flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]" }, tD = { class: "min-w-0 truncate px-1 text-sm font-medium sm:hidden" }, aD = { class: "hidden min-w-0 flex-1 justify-center gap-4 sm:flex" }, nD = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, oD = { class: "w-[252px] min-w-0 truncate text-sm font-medium" }, sD = ["aria-label"], iD = { class: "flex flex-col items-center gap-4 sm:flex-row sm:items-start" }, lD = { class: "mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]" }, rD = { class: "grid grid-cols-7 gap-y-2 mt-2" }, cD = ["disabled", "onClick"], dD = "rounded-lg text-[#61616b]", uD = "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white", hD = "opacity-30", fD = "bg-[#6b35e9] font-medium text-white", gD = "bg-[#895af6] font-semibold text-white", mD = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "DatePickerPresets",
   __name: "DatePickerPresets",
   props: {
@@ -27803,10 +34722,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
   setup(e, { emit: t }) {
     const a = e, n = t, s = `${`kiut-dpp-${tt()}`}-lbl`, i = Q(null), l = Q(null), r = Q(!1), c = Q(null), u = Q(Ft(/* @__PURE__ */ new Date())), g = C(() => !!(a.modelValue.start && a.modelValue.end)), h = C(() => {
       const te = Ft(u.value);
+<<<<<<< HEAD
       return [te, Ea(te, 1)];
     }), p = C(
       () => a.placeholder ?? (a.locale === "es" ? "Seleccionar fechas" : "Select dates")
     ), m = C(() => a.ariaLabel ?? p.value), v = C(() => Rr(a.locale)), b = C(() => NS(a.locale)), y = C(() => OS(a.locale)), w = C(
+=======
+      return [te, Ra(te, 1)];
+    }), b = C(
+      () => a.placeholder ?? (a.locale === "es" ? "Seleccionar fechas" : "Select dates")
+    ), m = C(() => a.ariaLabel ?? b.value), v = C(() => Pr(a.locale)), p = C(() => US(a.locale)), y = C(() => WS(a.locale)), w = C(
+>>>>>>> 8a6bd9f (Sales Volume chart)
       () => a.locale === "es" ? "Preajustes de rango" : "Range presets"
     ), k = C(
       () => a.locale === "es" ? "Mes anterior" : "Previous month"
@@ -27820,41 +34746,56 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }), M = C(
       () => `${ta(h.value[0], a.locale)} – ${ta(h.value[1], a.locale)}`
     ), P = C(() => {
+<<<<<<< HEAD
       if (!a.modelValue.start || !a.modelValue.end) return p.value;
       const te = it(a.modelValue.start), R = it(a.modelValue.end);
       return `${_n(te, a.locale)} – ${_n(R, a.locale)}`;
+=======
+      if (!a.modelValue.start || !a.modelValue.end) return b.value;
+      const te = it(a.modelValue.start), E = it(a.modelValue.end);
+      return `${_n(te, a.locale)} – ${_n(E, a.locale)}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     });
-    function E(te, R) {
-      return te.getMonth() === R.getMonth() && te.getFullYear() === R.getFullYear();
+    function R(te, E) {
+      return te.getMonth() === E.getMonth() && te.getFullYear() === E.getFullYear();
     }
     function N(te) {
-      const R = ze(te);
+      const E = ze(te);
       if (a.minDate) {
         const U = ze(it(a.minDate));
+<<<<<<< HEAD
         if (Yt(R, U)) return !0;
       }
       if (a.maxDate) {
         const U = ze(it(a.maxDate));
         if (Yt(U, R)) return !0;
+=======
+        if (Yt(E, U)) return !0;
+      }
+      if (a.maxDate) {
+        const U = ze(it(a.maxDate));
+        if (Yt(U, E)) return !0;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }
       return !1;
     }
-    function D(te, R, U) {
-      const Y = Et(te, R), O = Et(te, U);
+    function D(te, E, U) {
+      const Y = Rt(te, E), O = Rt(te, U);
       if (Y && O) return "rounded-lg";
       const oe = Y || te.getDay() === 0, re = O || te.getDay() === 6;
       return oe && re ? "rounded-lg" : oe ? "rounded-l-lg" : re ? "rounded-r-lg" : "rounded-none";
     }
     function B(te) {
-      const R = HS(
+      const E = GS(
         a.modelValue,
         te,
         /* @__PURE__ */ new Date(),
         a.minDate,
         a.maxDate
       ), U = "text-[#61616b] hover:bg-[#efeff0b3] dark:text-[#e3e3e8] dark:hover:bg-[#23232fb3]";
-      return R ? `${U} font-medium` : U;
+      return E ? `${U} font-medium` : U;
     }
+<<<<<<< HEAD
     function L(te, R) {
       const U = E(R, te), Y = N(R), O = a.modelValue.start ? ze(it(a.modelValue.start)) : null, oe = a.modelValue.end ? ze(it(a.modelValue.end)) : null, re = ze(R);
       if (Y)
@@ -27863,20 +34804,37 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       if (O && oe && Fr(re, O) && Or(re, oe)) {
         const _e = Et(re, O), Ve = Et(re, oe);
         Te = `${D(re, O, oe)} ${_e || Ve ? rD : lD}`;
+=======
+    function L(te, E) {
+      const U = R(E, te), Y = N(E), O = a.modelValue.start ? ze(it(a.modelValue.start)) : null, oe = a.modelValue.end ? ze(it(a.modelValue.end)) : null, re = ze(E);
+      if (Y)
+        return dD;
+      let Te = uD;
+      if (O && oe && Ir(re, O) && Fr(re, oe)) {
+        const _e = Rt(re, O), Ve = Rt(re, oe);
+        Te = `${D(re, O, oe)} ${_e || Ve ? gD : fD}`;
+>>>>>>> 8a6bd9f (Sales Volume chart)
       }
-      return U || (Te = `${Te} ${iD}`), Te;
+      return U || (Te = `${Te} ${hD}`), Te;
     }
     function j(te) {
-      const R = Ir(Er(te), a.minDate, a.maxDate);
+      const E = Rr(Er(te), a.minDate, a.maxDate);
       n("update:modelValue", {
+<<<<<<< HEAD
         start: vt(R.start),
         end: vt(R.end)
       }), u.value = Ft(R.start), c.value = null, r.value = !1;
+=======
+        start: vt(E.start),
+        end: vt(E.end)
+      }), u.value = Ft(E.start), c.value = null, r.value = !1;
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function W(te) {
       if (N(te)) return;
-      const R = ze(te);
+      const E = ze(te);
       if (!c.value) {
+<<<<<<< HEAD
         c.value = new Date(R), n("update:modelValue", { start: vt(R), end: vt(R) });
         return;
       }
@@ -27885,6 +34843,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }
     function X(te) {
       u.value = Ea(u.value, te);
+=======
+        c.value = new Date(E), n("update:modelValue", { start: vt(E), end: vt(E) });
+        return;
+      }
+      let Y = ze(c.value), O = new Date(E);
+      Yt(O, Y) && ([Y, O] = [O, Y]), n("update:modelValue", { start: vt(Y), end: vt(O) }), c.value = null, r.value = !1;
+    }
+    function X(te) {
+      u.value = Ra(u.value, te);
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function se() {
       r.value = !1;
@@ -27903,8 +34871,8 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }
     function G(te) {
       if (!r.value) return;
-      const R = i.value;
-      R && !R.contains(te.target) && (r.value = !1);
+      const E = i.value;
+      E && !E.contains(te.target) && (r.value = !1);
     }
     return Ie(r, (te) => {
       te && (c.value = null);
@@ -27912,7 +34880,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       document.addEventListener("click", G);
     }), yt(() => {
       document.removeEventListener("click", G);
+<<<<<<< HEAD
     }), (te, R) => (f(), x("div", {
+=======
+    }), (te, E) => (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ref_key: "rootRef",
       ref: i,
       class: "relative font-sans"
@@ -27945,7 +34917,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             g.value ? "" : "text-[color:var(--kiut-text-muted)] group-hover:text-white dark:text-slate-500"
           ])
         }, T(P.value), 3)
-      ], 10, O8),
+      ], 10, W8),
       rt(d("div", {
         ref_key: "panelRef",
         ref: l,
@@ -27959,56 +34931,63 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         ]),
         onKeydown: La(Fe(se, ["stop"]), ["escape"])
       }, [
-        d("div", N8, [
+        d("div", U8, [
           d("aside", {
             class: "w-full shrink-0 border-b border-gray-200 p-3 sm:w-[176px] sm:border-r sm:border-b-0 dark:border-[color:var(--kiut-border-light)]",
             "aria-label": w.value
           }, [
+<<<<<<< HEAD
             d("p", j8, T(b.value), 1),
             d("ul", H8, [
               (f(!0), x(ie, null, pe(v.value, (U) => (f(), x("li", {
+=======
+            d("p", q8, T(p.value), 1),
+            d("ul", G8, [
+              (g(!0), x(ie, null, pe(v.value, (U) => (g(), x("li", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: U.id
               }, [
                 d("button", {
                   type: "button",
                   class: K(["w-full rounded-lg px-2 py-1.5 text-left text-xs transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40", B(U.id)]),
                   onClick: (Y) => j(U.id)
-                }, T(U.label), 11, W8)
+                }, T(U.label), 11, X8)
               ]))), 128))
             ])
-          ], 8, z8),
-          d("div", K8, [
-            d("div", U8, [
+          ], 8, Y8),
+          d("div", Z8, [
+            d("div", Q8, [
               d("button", {
                 type: "button",
                 class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
                 "aria-label": k.value,
-                onClick: R[0] || (R[0] = (U) => X(-1))
+                onClick: E[0] || (E[0] = (U) => X(-1))
               }, [
                 V(A(fo), {
                   class: "h-4 w-4",
                   "aria-hidden": "true"
                 })
-              ], 8, Y8),
-              d("div", q8, [
-                d("span", G8, T(M.value), 1),
-                d("div", X8, [
-                  d("span", Z8, T(A(ta)(h.value[0], e.locale)), 1),
-                  d("span", Q8, T(A(ta)(h.value[1], e.locale)), 1)
+              ], 8, J8),
+              d("div", eD, [
+                d("span", tD, T(M.value), 1),
+                d("div", aD, [
+                  d("span", nD, T(A(ta)(h.value[0], e.locale)), 1),
+                  d("span", oD, T(A(ta)(h.value[1], e.locale)), 1)
                 ])
               ]),
               d("button", {
                 type: "button",
                 class: "inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]",
                 "aria-label": _.value,
-                onClick: R[1] || (R[1] = (U) => X(1))
+                onClick: E[1] || (E[1] = (U) => X(1))
               }, [
                 V(A(go), {
                   class: "h-4 w-4",
                   "aria-hidden": "true"
                 })
-              ], 8, J8)
+              ], 8, sD)
             ]),
+<<<<<<< HEAD
             d("div", eD, [
               (f(!0), x(ie, null, pe(h.value, (U) => (f(), x("div", {
                 key: `${U.getFullYear()}-${U.getMonth()}`,
@@ -28019,26 +34998,46 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                 ]),
                 d("div", aD, [
                   (f(!0), x(ie, null, pe(A(ms)(U), (Y) => (f(), x("button", {
+=======
+            d("div", iD, [
+              (g(!0), x(ie, null, pe(h.value, (U) => (g(), x("div", {
+                key: `${U.getFullYear()}-${U.getMonth()}`,
+                class: "w-full max-w-[252px] shrink-0"
+              }, [
+                d("div", lD, [
+                  (g(!0), x(ie, null, pe(y.value, (Y) => (g(), x("span", { key: Y }, T(Y), 1))), 128))
+                ]),
+                d("div", rD, [
+                  (g(!0), x(ie, null, pe(A(ms)(U), (Y) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                     key: A(vt)(Y),
                     type: "button",
                     disabled: N(Y),
                     class: K(["relative flex h-[36px] w-[36px] items-center justify-center text-xs outline-none transition focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 disabled:cursor-not-allowed disabled:opacity-100", L(U, Y)]),
                     onClick: (O) => W(Y)
-                  }, T(Y.getDate()), 11, nD))), 128))
+                  }, T(Y.getDate()), 11, cD))), 128))
                 ])
               ]))), 128))
             ])
           ])
         ])
+<<<<<<< HEAD
       ], 42, V8), [
+=======
+      ], 42, K8), [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         [qt, r.value]
       ])
     ], 512));
   }
-}), dD = { class: "kiut-translation-count-badge__content" }, uD = { class: "kiut-translation-count-badge__title" }, hD = { class: "kiut-translation-count-badge__pills" }, fD = {
+}), pD = { class: "kiut-translation-count-badge__content" }, bD = { class: "kiut-translation-count-badge__title" }, vD = { class: "kiut-translation-count-badge__pills" }, yD = {
   key: 0,
   class: "kiut-translation-count-badge__pill-note"
+<<<<<<< HEAD
 }, jn = 8, ja = 12, gD = /* @__PURE__ */ de({
+=======
+}, jn = 8, ja = 12, xD = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "TranslationCountBadge",
   __name: "TranslationCountBadge",
   props: {
@@ -28062,6 +35061,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       a.value = !1;
     }
     function u() {
+<<<<<<< HEAD
       const p = s.value, m = i.value;
       if (!p || !m) return;
       const v = p.getBoundingClientRect(), b = m.getBoundingClientRect(), y = v.top - ja, w = window.innerHeight - v.bottom - ja, k = y >= b.height + jn, _ = w >= b.height + jn;
@@ -28071,11 +35071,26 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       S = Math.max(
         ja,
         Math.min(S, window.innerHeight - b.height - ja)
+=======
+      const b = s.value, m = i.value;
+      if (!b || !m) return;
+      const v = b.getBoundingClientRect(), p = m.getBoundingClientRect(), y = v.top - ja, w = window.innerHeight - v.bottom - ja, k = y >= p.height + jn, _ = w >= p.height + jn;
+      let $ = "top";
+      k ? $ = "top" : _ ? $ = "bottom" : $ = w >= y ? "bottom" : "top", n.value = $;
+      let S = $ === "top" ? v.top - p.height - jn : v.bottom + jn;
+      S = Math.max(
+        ja,
+        Math.min(S, window.innerHeight - p.height - ja)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       );
       let M = v.left + v.width / 2 - b.width / 2;
       M = Math.max(
         ja,
+<<<<<<< HEAD
         Math.min(M, window.innerWidth - b.width - ja)
+=======
+        Math.min(M, window.innerWidth - p.width - ja)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ), o.value = {
         top: `${S}px`,
         left: `${M}px`
@@ -28092,7 +35107,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }
     return window.addEventListener("scroll", h, !0), window.addEventListener("resize", h), yt(() => {
       window.removeEventListener("scroll", h, !0), window.removeEventListener("resize", h);
+<<<<<<< HEAD
     }), (p, m) => (f(), x(ie, null, [
+=======
+    }), (b, m) => (g(), x(ie, null, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
       d("span", {
         ref_key: "triggerRef",
         ref: s,
@@ -28102,8 +35121,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         onFocus: g,
         onBlur: c
       }, T(e.label), 35),
+<<<<<<< HEAD
       (f(), Z(ua, { to: "body" }, [
         a.value && e.items.length ? (f(), x("div", {
+=======
+      (g(), Z(ua, { to: "body" }, [
+        a.value && e.items.length ? (g(), x("div", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           ref_key: "tooltipRef",
           ref: i,
@@ -28118,6 +35142,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           onMouseenter: g,
           onMouseleave: c
         }, [
+<<<<<<< HEAD
           d("div", dD, [
             d("span", uD, T(e.tooltipTitle), 1),
             d("div", hD, [
@@ -28127,6 +35152,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               }, [
                 Re(T(v.label) + " ", 1),
                 v.note ? (f(), x("span", fD, " (" + T(v.note) + ") ", 1)) : I("", !0)
+=======
+          d("div", pD, [
+            d("span", bD, T(e.tooltipTitle), 1),
+            d("div", vD, [
+              (g(!0), x(ie, null, pe(e.items, (v) => (g(), x("span", {
+                key: v.id,
+                class: K(r.value)
+              }, [
+                Ee(T(v.label) + " ", 1),
+                v.note ? (g(), x("span", yD, " (" + T(v.note) + ") ", 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
               ], 2))), 128))
             ])
           ])
@@ -28134,10 +35170,14 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       ]))
     ], 64));
   }
-}), mD = ["disabled", "aria-expanded", "aria-label"], pD = { class: "min-w-0 flex-1 truncate" }, bD = ["aria-selected", "onClick", "onMouseenter"], vD = {
+}), kD = ["disabled", "aria-expanded", "aria-label"], _D = { class: "min-w-0 flex-1 truncate" }, wD = ["aria-selected", "onClick", "onMouseenter"], CD = {
   class: "flex w-5 shrink-0 justify-center",
   "aria-hidden": "true"
+<<<<<<< HEAD
 }, yD = { class: "min-w-0 flex-1" }, xD = /* @__PURE__ */ de({
+=======
+}, $D = { class: "min-w-0 flex-1" }, SD = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "TagSelect",
   __name: "TagSelect",
   props: {
@@ -28151,9 +35191,15 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
   setup(e, { emit: t }) {
     const a = e, n = t, s = `${`kiut-tag-select-${tt()}`}-listbox`, i = Q(null), l = Q(null), r = Q(null), c = Q(null), u = Q(!1), g = Q(0), h = Q({}), p = C(() => a.options.filter((X) => !X.disabled)), m = C(
       () => a.options.find((X) => X.value === a.modelValue) ?? null
+<<<<<<< HEAD
     ), v = C(() => m.value?.color ?? "neutral"), b = C(
       () => fr(v.value, a.outlined)
     ), y = C(() => m.value ? m.value.label : a.modelValue !== null && a.modelValue !== void 0 && a.modelValue !== "" ? String(a.modelValue) : p.value[0]?.label ?? "Seleccionar…"), w = C(
+=======
+    ), v = C(() => m.value?.color ?? "neutral"), p = C(
+      () => fr(v.value, a.outlined)
+    ), y = C(() => m.value ? m.value.label : a.modelValue !== null && a.modelValue !== void 0 && a.modelValue !== "" ? String(a.modelValue) : b.value[0]?.label ?? "Seleccionar…"), w = C(
+>>>>>>> 8a6bd9f (Sales Volume chart)
       () => a.ariaLabel ?? `Estado: ${y.value}`
     );
     function k() {
@@ -28189,16 +35235,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     function P() {
       k(), M(), et(() => c.value?.focus());
     }
-    function E() {
+    function R() {
       u.value = !1;
     }
     function N(X) {
-      n("update:modelValue", X.value), E();
+      n("update:modelValue", X.value), R();
     }
     function D() {
       if (!a.disabled) {
         if (u.value) {
-          E();
+          R();
           return;
         }
         u.value = !0, P();
@@ -28209,8 +35255,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     }
     function L(X) {
       if (!u.value) return;
+<<<<<<< HEAD
       const se = X.target, ce = i.value, G = r.value;
       ce && !ce.contains(se) && (!G || !G.contains(se)) && E();
+=======
+      const se = X.target, de = i.value, G = r.value;
+      de && !de.contains(se) && (!G || !G.contains(se)) && R();
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }
     function j(X) {
       a.disabled || (X.key === "ArrowDown" || X.key === "Enter" || X.key === " ") && (X.preventDefault(), u.value || (u.value = !0, P()));
@@ -28218,7 +35269,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
     function W(X) {
       const se = p.value;
       if (X.key === "Escape") {
-        X.preventDefault(), E(), l.value?.focus();
+        X.preventDefault(), R(), l.value?.focus();
         return;
       }
       if (se.length !== 0) {
@@ -28264,13 +35315,22 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         onClick: B,
         onKeydown: j
       }, [
+<<<<<<< HEAD
         d("span", pD, T(y.value), 1),
+=======
+        d("span", _D, T(y.value), 1),
+>>>>>>> 8a6bd9f (Sales Volume chart)
         V(A(ha), {
           class: K(["h-3.5 w-3.5 shrink-0 opacity-70 transition-transform", u.value ? "rotate-180" : ""]),
           "aria-hidden": "true"
         }, null, 8, ["class"])
+<<<<<<< HEAD
       ], 42, mD),
       (f(), Z(ua, { to: "body" }, [
+=======
+      ], 42, kD),
+      (g(), Z(ua, { to: "body" }, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
         rt(d("div", {
           ref_key: "panelRef",
           ref: r,
@@ -28285,22 +35345,37 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             tabindex: "-1",
             onKeydown: Fe(W, ["stop"])
           }, [
+<<<<<<< HEAD
             (f(!0), x(ie, null, pe(p.value, (ce, G) => (f(), x("li", {
               key: _(ce),
+=======
+            (g(!0), x(ie, null, pe(b.value, (de, G) => (g(), x("li", {
+              key: _(de),
+>>>>>>> 8a6bd9f (Sales Volume chart)
               role: "option",
               "aria-selected": $(ce),
               class: K(S(ce, G)),
               onClick: Fe((te) => N(ce), ["stop"]),
               onMouseenter: (te) => g.value = G
             }, [
+<<<<<<< HEAD
               d("span", vD, [
                 $(ce) ? (f(), Z(A(eo), {
+=======
+              d("span", CD, [
+                $(de) ? (g(), Z(A(eo), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: 0,
                   class: "h-4 w-4 text-white"
                 })) : I("", !0)
               ]),
+<<<<<<< HEAD
               d("span", yD, T(ce.label), 1)
             ], 42, bD))), 128))
+=======
+              d("span", $D, T(de.label), 1)
+            ], 42, wD))), 128))
+>>>>>>> 8a6bd9f (Sales Volume chart)
           ], 544)
         ], 4), [
           [qt, u.value]
@@ -28308,13 +35383,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       ]))
     ], 512));
   }
-}), kD = ["aria-label"], _D = { class: "flex flex-col gap-1" }, wD = { class: "flex flex-row gap-3 items-center" }, CD = {
+}), MD = ["aria-label"], DD = { class: "flex flex-col gap-1" }, TD = { class: "flex flex-row gap-3 items-center" }, AD = {
   key: 0,
   class: "flex flex-row gap-1 items-center"
-}, $D = {
+}, BD = {
   key: 1,
   class: "flex flex-row gap-1 items-center"
+<<<<<<< HEAD
 }, SD = /* @__PURE__ */ de({
+=======
+}, LD = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   __name: "Banner",
   props: {
     id: { default: "banner-warning" },
@@ -28328,11 +35407,19 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
   },
   setup(e) {
     const t = wn(), a = e, n = {
+<<<<<<< HEAD
       warning: a4,
       info: n4,
       success: t4,
       feature: s4,
       danger: i4
+=======
+      warning: r4,
+      info: c4,
+      success: l4,
+      feature: u4,
+      danger: h4
+>>>>>>> 8a6bd9f (Sales Volume chart)
     }, o = {
       warning: {
         container: "bg-orange-50 border-orange-300 dark:bg-stone-800 dark:border-yellow-800",
@@ -28412,15 +35499,20 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           ])
         ], 2)
       ], 2),
-      d("div", _D, [
+      d("div", DD, [
         d("h1", {
           class: K([s.value.title, "text-base font-bold"])
         }, T(a.title), 3),
         d("span", {
           class: K([s.value.description, "text-sm leading-snug"])
         }, T(a.description), 3),
+<<<<<<< HEAD
         d("div", wD, [
           a.date_start ? (f(), x("div", CD, [
+=======
+        d("div", TD, [
+          a.date_start ? (g(), x("div", AD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("span", {
               class: K([
                 s.value.icon_date,
@@ -28440,7 +35532,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               class: K([s.value.date, "text-xs"])
             }, T(a.date_start), 3)
           ])) : I("", !0),
+<<<<<<< HEAD
           a.date_final ? (f(), x("div", $D, [
+=======
+          a.date_final ? (g(), x("div", BD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("span", {
               class: K([
                 s.value.icon_date,
@@ -28462,19 +35558,23 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           ])) : I("", !0)
         ])
       ])
-    ], 10, kD));
+    ], 10, MD));
   }
-}), MD = {
+}), PD = {
   key: 0,
   class: "fixed inset-0 z-[200] flex items-center justify-center p-4 [font-family:'Inter',sans-serif]",
   "aria-hidden": "false"
-}, DD = ["id"], TD = { class: "min-w-0 flex-1 space-y-1" }, AD = {
+}, ED = ["id"], RD = { class: "min-w-0 flex-1 space-y-1" }, ID = {
   key: 0,
   class: "text-sm leading-snug text-[color:var(--kiut-text-secondary)] dark:text-slate-400"
-}, BD = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, LD = {
+}, FD = { class: "min-h-0 flex-1 overflow-y-auto px-6 py-6" }, OD = {
   key: 0,
   class: "flex shrink-0 justify-end gap-3 px-6 pb-6 pt-2"
+<<<<<<< HEAD
 }, PD = /* @__PURE__ */ de({
+=======
+}, VD = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Modal",
   inheritAttrs: !1,
   __name: "Modal",
@@ -28516,10 +35616,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       document.addEventListener("keydown", u);
     }), yt(() => {
       document.removeEventListener("keydown", u);
+<<<<<<< HEAD
     }), (g, h) => (f(), Z(ua, { to: "body" }, [
       V(Tt, { name: "kiut-modal" }, {
         default: F(() => [
           e.modelValue ? (f(), x("div", MD, [
+=======
+    }), (f, h) => (g(), Z(ua, { to: "body" }, [
+      V(Tt, { name: "kiut-modal" }, {
+        default: F(() => [
+          e.modelValue ? (g(), x("div", PD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("div", {
               class: "absolute inset-0 bg-slate-900/50 backdrop-blur-[2px] dark:bg-black/60",
               "aria-hidden": "true",
@@ -28544,12 +35651,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                   e.headerBorder ? "border-b border-slate-100 dark:border-[color:var(--kiut-border-light)]" : ""
                 ]])
               }, [
-                d("div", TD, [
+                d("div", RD, [
                   d("h2", {
                     id: i,
                     class: "text-xl font-semibold leading-tight tracking-tight text-[color:var(--kiut-text-primary)] dark:text-slate-100"
                   }, T(e.title), 1),
+<<<<<<< HEAD
                   e.subtitle ? (f(), x("p", AD, T(e.subtitle), 1)) : I("", !0)
+=======
+                  e.subtitle ? (g(), x("p", ID, T(e.subtitle), 1)) : I("", !0)
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 ]),
                 V(Ut, {
                   variant: "action",
@@ -28564,10 +35675,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                   _: 1
                 }, 8, ["disabled"])
               ], 2),
+<<<<<<< HEAD
               d("div", BD, [
                 De(g.$slots, "default", {}, void 0, !0)
               ]),
               e.showFooter ? (f(), x("footer", LD, [
+=======
+              d("div", FD, [
+                De(f.$slots, "default", {}, void 0, !0)
+              ]),
+              e.showFooter ? (g(), x("footer", OD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 V(Ut, {
                   variant: "secondary",
                   type: "button",
@@ -28575,7 +35693,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                   onClick: r
                 }, {
                   default: F(() => [
-                    Re(T(e.cancelLabel), 1)
+                    Ee(T(e.cancelLabel), 1)
                   ]),
                   _: 1
                 }, 8, ["disabled"]),
@@ -28586,34 +35704,38 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                   onClick: c
                 }, {
                   default: F(() => [
-                    Re(T(e.confirmLabel), 1)
+                    Ee(T(e.confirmLabel), 1)
                   ]),
                   _: 1
                 }, 8, ["loading"])
               ])) : I("", !0)
-            ], 12, DD)
+            ], 12, ED)
           ])) : I("", !0)
         ]),
         _: 3
       })
     ]));
   }
-}), RD = /* @__PURE__ */ xe(PD, [["__scopeId", "data-v-1ab330ef"]]), ED = { class: "text-left font-['Inter',system-ui,sans-serif]" }, ID = {
+}), ND = /* @__PURE__ */ xe(VD, [["__scopeId", "data-v-1ab330ef"]]), zD = { class: "text-left font-['Inter',system-ui,sans-serif]" }, jD = {
   key: 0,
   class: ""
-}, FD = {
+}, HD = {
   key: 0,
   class: "flex min-w-0 flex-col gap-1.5 mb-4"
-}, OD = { class: "flex min-w-0 flex-1 items-center" }, VD = {
+}, WD = { class: "flex min-w-0 flex-1 items-center" }, KD = {
   key: 0,
   class: "flex shrink-0 flex-wrap items-center gap-2"
-}, ND = {
+}, UD = {
   key: 0,
   class: "flex min-w-0 flex-1 flex-wrap items-center gap-2"
-}, zD = {
+}, YD = {
   key: 1,
   class: "flex shrink-0 flex-wrap items-center gap-2"
+<<<<<<< HEAD
 }, jD = /* @__PURE__ */ de({
+=======
+}, qD = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "Section",
   __name: "Section",
   setup(e) {
@@ -28621,19 +35743,29 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       const n = !!t.filters, o = !!t.actions;
       return n && o ? "justify-between" : o ? "justify-end" : "";
     });
+<<<<<<< HEAD
     return (n, o) => (f(), x("section", ED, [
       n.$slots.description || n.$slots.tabs || n.$slots.filters || n.$slots.actions ? (f(), x("header", ID, [
         n.$slots.description ? (f(), x("div", FD, [
+=======
+    return (n, o) => (g(), x("section", zD, [
+      n.$slots.description || n.$slots.tabs || n.$slots.filters || n.$slots.actions ? (g(), x("header", jD, [
+        n.$slots.description ? (g(), x("div", HD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
           De(n.$slots, "description")
         ])) : I("", !0),
         n.$slots.tabs ? (f(), x("div", {
           key: 1,
           class: K(["flex flex-wrap items-center gap-2", n.$slots.filters ? "" : "justify-between"])
         }, [
-          d("div", OD, [
+          d("div", WD, [
             De(n.$slots, "tabs")
           ]),
+<<<<<<< HEAD
           n.$slots.actions && !n.$slots.filters ? (f(), x("div", VD, [
+=======
+          n.$slots.actions && !n.$slots.filters ? (g(), x("div", KD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             De(n.$slots, "actions")
           ])) : I("", !0)
         ], 2)) : I("", !0),
@@ -28645,10 +35777,17 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             a.value
           ])
         }, [
+<<<<<<< HEAD
           n.$slots.filters ? (f(), x("div", ND, [
             De(n.$slots, "filters")
           ])) : I("", !0),
           n.$slots.actions ? (f(), x("div", zD, [
+=======
+          n.$slots.filters ? (g(), x("div", UD, [
+            De(n.$slots, "filters")
+          ])) : I("", !0),
+          n.$slots.actions ? (g(), x("div", YD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             De(n.$slots, "actions")
           ])) : I("", !0)
         ], 2)) : I("", !0)
@@ -28665,26 +35804,30 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       ], 2)) : I("", !0)
     ]));
   }
-}), HD = { class: "flex flex-1 min-h-0" }, WD = {
+}), GD = { class: "flex flex-1 min-h-0" }, XD = {
   key: 0,
   class: "flex justify-center items-center my-4 shrink-0"
-}, KD = {
+}, ZD = {
   class: "flex-1 overflow-y-auto p-1 flex flex-col gap-1",
   "aria-label": "Sections"
-}, UD = ["aria-current", "data-has-active", "title", "onClick"], YD = {
+}, QD = ["aria-current", "data-has-active", "title", "onClick"], JD = {
   key: 1,
   class: "footer-section shrink-0 border-t [background-color:var(--kiut-lateral-bg)]"
-}, qD = { class: "px-4 py-4 shrink-0" }, GD = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, XD = {
+}, e6 = { class: "px-4 py-4 shrink-0" }, t6 = { class: "text-[12px] font-bold uppercase tracking-widest text-start [color:var(--kiut-text-subtitle)]" }, a6 = {
   class: "flex-1 overflow-y-auto px-1 pb-3 flex flex-col gap-0.5",
   "aria-label": "Section items"
-}, ZD = ["data-nav-id", "aria-current", "onClick"], QD = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, JD = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, e6 = {
+}, n6 = ["data-nav-id", "aria-current", "onClick"], o6 = { class: "flex items-center justify-between px-5 py-3 shrink-0" }, s6 = { class: "text-xs font-bold uppercase tracking-widest [color:var(--kiut-text-muted)]" }, i6 = {
   class: "overflow-y-auto flex-1 px-3 pb-5 flex flex-col gap-1",
   "aria-label": "Section items"
-}, t6 = ["data-nav-id", "aria-current", "onClick"], a6 = { class: "truncate text-[15px]" }, n6 = ["aria-current", "data-has-active", "onClick"], o6 = {
+}, l6 = ["data-nav-id", "aria-current", "onClick"], r6 = { class: "truncate text-[15px]" }, c6 = ["aria-current", "data-has-active", "onClick"], d6 = {
   key: 0,
   class: "absolute top-0 w-1/2 h-0.5 rounded-full [background-color:var(--kiut-primary)]",
   "aria-hidden": "true"
+<<<<<<< HEAD
 }, s6 = { class: "text-[9px] font-semibold leading-none truncate w-full text-center px-0.5" }, i6 = /* @__PURE__ */ de({
+=======
+}, u6 = { class: "text-[9px] font-semibold leading-none truncate w-full text-center px-0.5" }, h6 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "AppShellNavigation",
   inheritAttrs: !1,
   __name: "AppShellNavigation",
@@ -28770,8 +35913,8 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             w[3] || (w[3] = d("div", { class: "flex justify-center pt-3 pb-1 shrink-0" }, [
               d("div", { class: "w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-purple-500/30" })
             ], -1)),
-            d("div", QD, [
-              d("p", JD, T(u.value.label), 1),
+            d("div", o6, [
+              d("p", s6, T(u.value.label), 1),
               d("button", {
                 type: "button",
                 class: "w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors",
@@ -28790,8 +35933,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                 ], -1)
               ])])
             ]),
+<<<<<<< HEAD
             d("nav", e6, [
               (f(!0), x(ie, null, pe(u.value.items, (k) => (f(), x("button", {
+=======
+            d("nav", i6, [
+              (g(!0), x(ie, null, pe(u.value.items, (k) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                 key: k.id,
                 type: "button",
                 "data-nav-id": k.id,
@@ -28805,8 +35953,8 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                   style: { width: "18px", height: "18px" },
                   "aria-hidden": "true"
                 })) : I("", !0),
-                d("span", a6, T(k.label), 1)
-              ], 8, t6))), 128))
+                d("span", r6, T(k.label), 1)
+              ], 8, l6))), 128))
             ])
           ], 4)) : I("", !0)
         ]),
@@ -28817,7 +35965,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         style: Ae({ height: e.mobileBarHeight }),
         "aria-label": "Sections"
       }, [
+<<<<<<< HEAD
         (f(!0), x(ie, null, pe(e.sections, (k) => (f(), x("button", {
+=======
+        (g(!0), x(ie, null, pe(e.sections, (k) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: k.id,
           type: "button",
           "aria-current": e.selectedSectionId === k.id ? "true" : void 0,
@@ -28825,15 +35977,20 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           class: "ksn-section-btn relative flex-1 flex flex-col items-center justify-center gap-1 py-1 px-0.5 min-w-0 transition-colors duration-200 focus-visible:outline-2 focus-visible:ring-2 focus-visible:ring-inset",
           onClick: (_) => p(k)
         }, [
+<<<<<<< HEAD
           e.selectedSectionId === k.id || h(k) ? (f(), x("span", o6)) : I("", !0),
           k.icon ? (f(), Z(Dt(k.icon), {
+=======
+          e.selectedSectionId === k.id || h(k) ? (g(), x("span", d6)) : I("", !0),
+          k.icon ? (g(), Z(Dt(k.icon), {
+>>>>>>> 8a6bd9f (Sales Volume chart)
             key: 1,
             class: "shrink-0",
             style: Ae({ width: e.primaryIconSize, height: e.primaryIconSize }),
             "aria-hidden": "true"
           }, null, 8, ["style"])) : I("", !0),
-          d("span", s6, T(k.label), 1)
-        ], 8, n6))), 128))
+          d("span", u6, T(k.label), 1)
+        ], 8, c6))), 128))
       ], 4)
     ], 16)) : (f(), x("aside", It({
       key: 0,
@@ -28841,7 +35998,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       role: "navigation",
       "aria-label": "Main navigation"
     }, l), [
-      d("div", HD, [
+      d("div", GD, [
         d("div", {
           class: "primary-rail flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r justify-center",
           style: Ae({
@@ -28851,11 +36008,19 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
           onMouseenter: w[0] || (w[0] = (k) => a.value = !0),
           onMouseleave: w[1] || (w[1] = (k) => a.value = !1)
         }, [
+<<<<<<< HEAD
           y.$slots.logo ? (f(), x("div", WD, [
             De(y.$slots, "logo", { expanded: a.value }, void 0, !0)
           ])) : I("", !0),
           d("nav", KD, [
             (f(!0), x(ie, null, pe(e.sections, (k) => (f(), x("button", {
+=======
+          y.$slots.logo ? (g(), x("div", XD, [
+            De(y.$slots, "logo", { expanded: a.value }, void 0, !0)
+          ])) : I("", !0),
+          d("nav", ZD, [
+            (g(!0), x(ie, null, pe(e.sections, (k) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
               key: k.id,
               type: "button",
               "aria-current": e.selectedSectionId === k.id ? "true" : void 0,
@@ -28874,9 +36039,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                 class: "leading-tight font-semibold tracking-wide text-left w-full truncate px-1 color-",
                 style: Ae({ fontSize: e.primaryFontSize })
               }, T(k.label), 5)
-            ], 8, UD))), 128))
+            ], 8, QD))), 128))
           ]),
+<<<<<<< HEAD
           y.$slots.footer ? (f(), x("div", YD, [
+=======
+          y.$slots.footer ? (g(), x("div", JD, [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             De(y.$slots, "footer", { expanded: a.value }, void 0, !0)
           ])) : I("", !0)
         ], 36),
@@ -28887,11 +36056,16 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
               class: "secondary-panel flex flex-col shrink-0 [background-color:var(--kiut-lateral-bg)] border-r [border-color:var(--kiut-lateral-border-color)] overflow-hidden",
               style: Ae({ width: e.secondaryWidth })
             }, [
-              d("div", qD, [
-                d("p", GD, T(u.value.label), 1)
+              d("div", e6, [
+                d("p", t6, T(u.value.label), 1)
               ]),
+<<<<<<< HEAD
               d("nav", XD, [
                 (f(!0), x(ie, null, pe(u.value.items, (k) => (f(), x("button", {
+=======
+              d("nav", a6, [
+                (g(!0), x(ie, null, pe(u.value.items, (k) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
                   key: k.id,
                   type: "button",
                   "data-nav-id": k.id,
@@ -28907,7 +36081,7 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
                     class: "truncate",
                     style: Ae({ fontSize: e.secondaryFontSize })
                   }, T(k.label), 5)
-                ], 8, ZD))), 128))
+                ], 8, n6))), 128))
               ])
             ], 4)) : I("", !0)
           ]),
@@ -28916,10 +36090,10 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       ])
     ], 16));
   }
-}), l6 = /* @__PURE__ */ xe(i6, [["__scopeId", "data-v-e0ccb96c"]]), r6 = ["aria-label"], c6 = {
+}), f6 = /* @__PURE__ */ xe(h6, [["__scopeId", "data-v-e0ccb96c"]]), g6 = ["aria-label"], m6 = {
   key: 0,
   class: "shrink-0 px-4 py-4"
-}, d6 = { class: "text-start text-[12px] font-bold uppercase tracking-widest [color:var(--kiut-text-subtitle)]" }, u6 = ["aria-label"], h6 = ["data-nav-id", "data-testid", "disabled", "aria-current", "onClick"], f6 = {
+}, p6 = { class: "text-start text-[12px] font-bold uppercase tracking-widest [color:var(--kiut-text-subtitle)]" }, b6 = ["aria-label"], v6 = ["data-nav-id", "data-testid", "disabled", "aria-current", "onClick"], y6 = {
   key: 1,
   class: "h-3.5 w-3.5 shrink-0 opacity-70",
   viewBox: "0 0 24 24",
@@ -28929,7 +36103,11 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   "aria-hidden": "true"
+<<<<<<< HEAD
 }, g6 = /* @__PURE__ */ de({
+=======
+}, x6 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "VerticalNavPanel",
   __name: "VerticalNavPanel",
   props: {
@@ -28958,14 +36136,23 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       role: "navigation",
       "aria-label": e.ariaLabel
     }, [
+<<<<<<< HEAD
       e.title ? (f(), x("div", c6, [
         d("p", d6, T(e.title), 1)
+=======
+      e.title ? (g(), x("div", m6, [
+        d("p", p6, T(e.title), 1)
+>>>>>>> 8a6bd9f (Sales Volume chart)
       ])) : I("", !0),
       d("nav", {
         class: K(["flex flex-1 flex-col gap-0.5 overflow-y-auto px-1 pb-3", { "pt-2": !e.title }]),
         "aria-label": e.title || e.ariaLabel
       }, [
+<<<<<<< HEAD
         (f(!0), x(ie, null, pe(e.items, (r) => (f(), x("button", {
+=======
+        (g(!0), x(ie, null, pe(e.items, (r) => (g(), x("button", {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: r.value,
           type: "button",
           "data-nav-id": r.value,
@@ -28985,14 +36172,22 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
             class: "min-w-0 flex-1 truncate",
             style: Ae({ fontSize: e.fontSize })
           }, T(r.label), 5),
+<<<<<<< HEAD
           o(r) ? (f(), x("svg", f6, [...l[0] || (l[0] = [
+=======
+          o(r) ? (g(), x("svg", y6, [...l[0] || (l[0] = [
+>>>>>>> 8a6bd9f (Sales Volume chart)
             d("path", { d: "M9 6l6 6-6 6" }, null, -1)
           ])])) : I("", !0)
-        ], 8, h6))), 128))
-      ], 10, u6)
-    ], 12, r6));
+        ], 8, v6))), 128))
+      ], 10, b6)
+    ], 12, g6));
   }
+<<<<<<< HEAD
 }), zr = /* @__PURE__ */ xe(g6, [["__scopeId", "data-v-cf2cdc84"]]), m6 = { class: "kiut-module-nav-layout flex min-h-0 w-full" }, p6 = { class: "min-w-0 flex-1" }, b6 = /* @__PURE__ */ de({
+=======
+}), Nr = /* @__PURE__ */ xe(x6, [["__scopeId", "data-v-cf2cdc84"]]), k6 = { class: "kiut-module-nav-layout flex min-h-0 w-full" }, _6 = { class: "min-w-0 flex-1" }, w6 = /* @__PURE__ */ ce({
+>>>>>>> 8a6bd9f (Sales Volume chart)
   name: "ModuleNavLayout",
   __name: "ModuleNavLayout",
   props: {
@@ -29007,8 +36202,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
   emits: ["update:modelValue", "change"],
   setup(e, { emit: t }) {
     const a = t;
+<<<<<<< HEAD
     return (n, o) => (f(), x("div", m6, [
       V(zr, {
+=======
+    return (n, o) => (g(), x("div", k6, [
+      V(Nr, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
         title: e.title,
         items: e.items,
         "model-value": e.modelValue,
@@ -29019,8 +36219,13 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
         "onUpdate:modelValue": o[0] || (o[0] = (s) => a("update:modelValue", s)),
         onChange: o[1] || (o[1] = (s) => a("change", s))
       }, null, 8, ["title", "items", "model-value", "aria-label", "panel-width", "font-size", "icon-size"]),
+<<<<<<< HEAD
       d("div", p6, [
         n.$slots.default ? (f(), Z(Tt, {
+=======
+      d("div", _6, [
+        n.$slots.default ? (g(), Z(Tt, {
+>>>>>>> 8a6bd9f (Sales Volume chart)
           key: 0,
           name: "module-nav-panel",
           mode: "out-in"
@@ -29038,8 +36243,9 @@ const Q3 = ["disabled", "aria-expanded", "aria-label"], J3 = {
       ])
     ]));
   }
-}), v6 = /* @__PURE__ */ xe(b6, [["__scopeId", "data-v-d36ff00b"]]), T6 = {
+}), C6 = /* @__PURE__ */ xe(w6, [["__scopeId", "data-v-d36ff00b"]]), R6 = {
   install(e) {
+<<<<<<< HEAD
     e.component("KiutChartBar", Kt), e.component("KiutChartLine", Ct), e.component("KiutPieChart", uo), e.component("KiutBoxplotChart", Qg), e.component("KiutCandlestickChart", Vm), e.component("KiutHistogramChart", dr), e.component("KiutSankeyChart", ga), e.component("KiutAgentsPerDay", H0), e.component("KiutBookingManager", _b), e.component("KiutCheckin", Fb), e.component("KiutCheckinContainer", Qy), e.component("KiutCheckinMetrics", gr), e.component("KiutCheckinErrorReasons", yr), e.component("KiutCheckinSegments", kr), e.component("KiutDisruption", p1), e.component("KiutFAQ", C1), e.component("KiutMessagesPerAgent", Cr), e.component("KiutRecordLocator", ex), e.component("KiutSalesByChannel", $r), e.component("KiutSeller", Sr), e.component("KiutSellerContainer", Ox), e.component("KiutAncillaries", ak), e.component("KiutAncillariesCR", nk), e.component("KiutTopAgents", dk), e.component("KiutPaymentMethod", Bk), e.component("KiutAgentHumanConversations", Qk), e.component("KiutChannelMetrics", Mr), e.component("KiutConversationVolume", u_), e.component("KiutTriageCombinations", $_), e.component("KiutSelectLanguage", B_), e.component("KiutGuardrails", z_), e.component("KiutDisruptionNotifier", l2), e.component("KiutTotalConversationsCard", c2), e.component("KiutCsatP95Card", u2), e.component("KiutCsatPulseCard", h2), e.component("KiutCSATContainer", N2), e.component("KiutAiGeneratedRevenueCard", j2), e.component("KiutAiGeneratedChart", Z2), e.component("KiutTransactionsChart", iw), e.component("KiutCostCard", rw), e.component("KiutHumanEscalations", bw), e.component("KiutHumanEscalationsCard", yw), e.component("KiutAvgResolutionTime", Bw), e.component("KiutAvgResolutionTimeCard", Ow), e.component("KiutCheckinCR", Nw), e.component("KiutCheckinKPI", xr), e.component("KiutCheckinVolume", _r), e.component("KiutCheckinCompletionTime", wr), e.component("KiutSellerCR", jw), e.component("KiutBookingManagerCR", Ww), e.component("KiutNpsDailyMetrics", Tr), e.component("KiutNpsMetrics", Ar), e.component("KiutNpsOverviewMetrics", Dr), e.component("KiutAWSCost", Qw), e.component("KiutCostUsage", r5), e.component("KiutTokenUsage", v5), e.component("KiutConversationCount", D5), e.component("KiutTopAgentsAnalysis", N5), e.component("KiutTopAgentsPie", G5), e.component("KiutDailyCostTrends", oC), e.component("KiutModelUsage", yC), e.component("KiutMessageRoles", DC), e.component("KiutCostPerConversations", NC), e.component("Tabs", Br), e.component("Table", vr), e.component("TableVersions", P$), e.component("TableComparative", e4), e.component("Filters", O4), e.component("InputText", Pr), e.component("InputPassword", Q4), e.component("InputTextarea", nS), e.component("InputFile", wS), e.component("ImageUploadCircle", AS), e.component("InputDateTime", u3), e.component("InputTime", y3), e.component("InputRange", P3), e.component("InputNumber", O3), e.component("InputColorPicker", Y3), e.component("EmojiPicker", uM), e.component("Select", Zt), e.component("LanguageSelect", hM), e.component("LanguagePicker", _M), e.component("MultiSelect", NM), e.component("Toggle", Lr), e.component("InputPhone", qM), e.component("SelectablePills", t8), e.component("SegmentedControl", s8), e.component("DateRangePicker", C8), e.component("DatePicker", F8), e.component("DatePickerPresets", cD), e.component("Tag", gt), e.component("TagSelect", xD), e.component("TranslationCountBadge", gD), e.component("Button", Ut), e.component("Banner", SD), e.component("Modal", RD), e.component("Section", jD), e.component("KiutAppShellNavigation", l6), e.component("ModuleNavLayout", v6), e.component("VerticalNavPanel", zr);
   }
 };
@@ -29157,6 +36363,126 @@ export {
   D6 as buildDefaultCategories,
   X3 as extractEmojis,
   G3 as filterEmojiCatalog,
+=======
+    e.component("KiutChartBar", Kt), e.component("KiutChartLine", xt), e.component("KiutPieChart", uo), e.component("KiutBoxplotChart", Zg), e.component("KiutCandlestickChart", Om), e.component("KiutHistogramChart", dr), e.component("KiutSankeyChart", ga), e.component("KiutAgentsPerDay", j0), e.component("KiutBookingManager", kb), e.component("KiutCheckin", Ib), e.component("KiutCheckinContainer", Xy), e.component("KiutCheckinMetrics", gr), e.component("KiutCheckinErrorReasons", Nv), e.component("KiutCheckinSegments", xr), e.component("KiutDisruption", g1), e.component("KiutFAQ", _1), e.component("KiutMessagesPerAgent", wr), e.component("KiutRecordLocator", Q1), e.component("KiutSalesByChannel", Cr), e.component("KiutSeller", $r), e.component("KiutSellerContainer", Ix), e.component("KiutAncillaries", ek), e.component("KiutAncillariesCR", tk), e.component("KiutTopAgents", rk), e.component("KiutPaymentMethod", Tk), e.component("KiutAgentHumanConversations", Xk), e.component("KiutChannelMetrics", Sr), e.component("KiutConversationVolume", c_), e.component("KiutTriageCombinations", w_), e.component("KiutSelectLanguage", T_), e.component("KiutGuardrails", V_), e.component("KiutDisruptionNotifier", s2), e.component("KiutTotalConversationsCard", l2), e.component("KiutCsatP95Card", c2), e.component("KiutCsatPulseCard", d2), e.component("KiutCSATContainer", O2), e.component("KiutAiGeneratedRevenueCard", N2), e.component("KiutAiGeneratedChart", G2), e.component("KiutTransactionsChart", ow), e.component("KiutCostCard", iw), e.component("KiutHumanEscalations", mw), e.component("KiutHumanEscalationsCard", bw), e.component("KiutAvgResolutionTime", Tw), e.component("KiutAvgResolutionTimeCard", Iw), e.component("KiutCheckinCR", Ow), e.component("KiutCheckinKPI", yr), e.component("KiutCheckinVolume", kr), e.component("KiutSalesVolume", Uw), e.component("KiutCheckinCompletionTime", _r), e.component("KiutSellerCR", qw), e.component("KiutBookingManagerCR", Xw), e.component("KiutNpsDailyMetrics", Dr), e.component("KiutNpsMetrics", Tr), e.component("KiutNpsOverviewMetrics", Mr), e.component("KiutAWSCost", o5), e.component("KiutCostUsage", g5), e.component("KiutTokenUsage", C5), e.component("KiutConversationCount", E5), e.component("KiutTopAgentsAnalysis", U5), e.component("KiutTopAgentsPie", tC), e.component("KiutDailyCostTrends", dC), e.component("KiutModelUsage", $C), e.component("KiutMessageRoles", EC), e.component("KiutCostPerConversations", UC), e.component("Tabs", Ar), e.component("Table", vr), e.component("TableVersions", V$), e.component("TableComparative", i4), e.component("Filters", W4), e.component("InputText", Lr), e.component("InputPassword", oS), e.component("InputTextarea", cS), e.component("InputFile", TS), e.component("ImageUploadCircle", IS), e.component("InputDateTime", b3), e.component("InputTime", $3), e.component("InputRange", V3), e.component("InputNumber", W3), e.component("InputColorPicker", J3), e.component("EmojiPicker", bM), e.component("Select", Zt), e.component("LanguageSelect", vM), e.component("LanguagePicker", DM), e.component("MultiSelect", UM), e.component("Toggle", Br), e.component("InputPhone", e8), e.component("SelectablePills", l8), e.component("SegmentedControl", u8), e.component("DateRangePicker", A8), e.component("DatePicker", H8), e.component("DatePickerPresets", mD), e.component("Tag", gt), e.component("TagSelect", SD), e.component("TranslationCountBadge", xD), e.component("Button", Ut), e.component("Banner", LD), e.component("Modal", ND), e.component("Section", qD), e.component("KiutAppShellNavigation", f6), e.component("ModuleNavLayout", C6), e.component("VerticalNavPanel", Nr);
+  }
+};
+export {
+  o5 as AWSCost,
+  Xk as AgentHumanConversations,
+  j0 as AgentsPerDay,
+  G2 as AiGeneratedChart,
+  N2 as AiGeneratedRevenueCard,
+  ek as Ancillaries,
+  tk as AncillariesCR,
+  f6 as AppShellNavigation,
+  Tw as AvgResolutionTime,
+  Iw as AvgResolutionTimeCard,
+  LD as Banner,
+  kb as BookingManager,
+  Xw as BookingManagerCR,
+  Zg as BoxplotChart,
+  Ut as Button,
+  O2 as CSATContainer,
+  Om as CandlestickChart,
+  Sr as ChannelMetrics,
+  Kt as ChartBar,
+  xt as ChartLine,
+  Ib as Checkin,
+  Ow as CheckinCR,
+  _r as CheckinCompletionTime,
+  Xy as CheckinContainer,
+  Nv as CheckinErrorReasons,
+  yr as CheckinKPI,
+  gr as CheckinMetrics,
+  xr as CheckinSegments,
+  kr as CheckinVolume,
+  E5 as ConversationCount,
+  c_ as ConversationVolume,
+  iw as CostCard,
+  UC as CostPerConversations,
+  g5 as CostUsage,
+  c2 as CsatP95Card,
+  d2 as CsatPulseCard,
+  Or as DEFAULT_CATEGORY_LABELS,
+  ry as DEFAULT_CHECKIN_KPI_LABELS,
+  Vr as DEFAULT_EMOJI_CATALOG,
+  N$ as DEFAULT_TABLE_COMPARATIVE_LABELS,
+  v$ as DEFAULT_TABLE_VERSIONS_LABELS,
+  dC as DailyCostTrends,
+  H8 as DatePicker,
+  mD as DatePickerPresets,
+  A8 as DateRangePicker,
+  g1 as Disruption,
+  s2 as DisruptionNotifier,
+  y$ as ENDPOINT_TABLE_VERSIONS_COLUMNS,
+  bM as EmojiPicker,
+  _1 as FAQ,
+  W4 as Filters,
+  V_ as Guardrails,
+  dr as HistogramChart,
+  mw as HumanEscalations,
+  bw as HumanEscalationsCard,
+  IS as ImageUploadCircle,
+  J3 as InputColorPicker,
+  b3 as InputDateTime,
+  TS as InputFile,
+  W3 as InputNumber,
+  oS as InputPassword,
+  e8 as InputPhone,
+  V3 as InputRange,
+  Lr as InputText,
+  cS as InputTextarea,
+  $3 as InputTime,
+  R6 as KiutUIPlugin,
+  DM as LanguagePicker,
+  vM as LanguageSelect,
+  EC as MessageRoles,
+  wr as MessagesPerAgent,
+  ND as Modal,
+  $C as ModelUsage,
+  C6 as ModuleNavLayout,
+  UM as MultiSelect,
+  Dr as NpsDailyMetrics,
+  Tr as NpsMetrics,
+  Mr as NpsOverviewMetrics,
+  Tk as PaymentMethod,
+  uo as PieChart,
+  P6 as RESOURCE_TABLE_VERSIONS_COLUMNS,
+  Q1 as RecordLocator,
+  Cr as SalesByChannel,
+  Uw as SalesVolume,
+  ga as SankeyChart,
+  qD as Section,
+  u8 as SegmentedControl,
+  Zt as Select,
+  T_ as SelectLanguage,
+  l8 as SelectablePills,
+  $r as Seller,
+  qw as SellerCR,
+  Ix as SellerContainer,
+  vr as Table,
+  i4 as TableComparative,
+  V$ as TableVersions,
+  Ar as Tabs,
+  gt as Tag,
+  SD as TagSelect,
+  Br as Toggle,
+  C5 as TokenUsage,
+  rk as TopAgents,
+  U5 as TopAgentsAnalysis,
+  tC as TopAgentsPie,
+  l2 as TotalConversationsCard,
+  ow as TransactionsChart,
+  xD as TranslationCountBadge,
+  w_ as TriageCombinations,
+  Nr as VerticalNavPanel,
+  nM as appendEmojiToDraft,
+  Qi as buildCheckinKpiFromRecord,
+  E6 as buildDefaultCategories,
+  aM as extractEmojis,
+  tM as filterEmojiCatalog,
+>>>>>>> 8a6bd9f (Sales Volume chart)
   By as mergeCheckinKpiWithPrevious
 };
 //# sourceMappingURL=kiut-ui.es.js.map
