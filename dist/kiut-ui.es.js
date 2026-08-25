@@ -17204,6 +17204,7 @@ Without Reason`
     sellerExportLoading: { type: Boolean, default: !1 },
     salesByChannelExportLoading: { type: Boolean, default: !1 },
     showPaymentMethodDetails: { type: Boolean, default: !1 },
+    showSalesByChannel: { type: Boolean, default: !0 },
     theme: { default: void 0 },
     sellerData: {},
     failedData: {},
@@ -17252,7 +17253,8 @@ Without Reason`
             "export-loading": i.value,
             onExport: u[1] || (u[1] = (m) => r("salesVolume", m))
           }, null, 8, ["data", "failed-data", "loading", "theme", "enable-export", "export-loading"]),
-          O(Sr, {
+          e.showSalesByChannel ? (h(), Z(Sr, {
+            key: 0,
             "initially-open": e.childrenInitiallyOpen,
             data: e.salesByChannelData,
             "channel-comparison": e.channelComparison,
@@ -17261,13 +17263,13 @@ Without Reason`
             "enable-export": e.enableExport,
             "export-loading": l.value,
             onExport: u[2] || (u[2] = (m) => r("salesByChannel", m))
-          }, null, 8, ["initially-open", "data", "channel-comparison", "loading", "theme", "enable-export", "export-loading"])
+          }, null, 8, ["initially-open", "data", "channel-comparison", "loading", "theme", "enable-export", "export-loading"])) : R("", !0)
         ])
       ]),
       _: 1
     }, 8, ["default-open", "loading"]));
   }
-}), ok = /* @__PURE__ */ ye(nk, [["__scopeId", "data-v-3c125fe8"]]), sk = { class: "card-body" }, ik = {
+}), ok = /* @__PURE__ */ ye(nk, [["__scopeId", "data-v-d27edaac"]]), sk = { class: "card-body" }, ik = {
   key: 0,
   class: "chart-section"
 }, lk = { class: "chart-wrapper" }, rk = {
@@ -21542,7 +21544,7 @@ Without Reason`
       _: 1
     }, 8, ["value", "tooltip", "loading", "theme"]));
   }
-}), o5 = /* @__PURE__ */ ye(n5, [["__scopeId", "data-v-39d7bf7a"]]), s5 = "Percentage of Check In Success relative to Check In Started.", i5 = /* @__PURE__ */ ce({
+}), o5 = /* @__PURE__ */ ye(n5, [["__scopeId", "data-v-31b49cd3"]]), s5 = "Percentage of Check In Success relative to Check In Started.", i5 = /* @__PURE__ */ ce({
   __name: "CheckinCR",
   props: {
     checkinCr: { default: 0 },
