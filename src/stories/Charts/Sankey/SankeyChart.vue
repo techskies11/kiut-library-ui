@@ -36,14 +36,14 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref, watch, nextTick, toRef, computed } from 'vue';
 import * as echarts from 'echarts/core';
-import { TooltipComponent, TitleComponent } from 'echarts/components';
+import { TooltipComponent, TitleComponent, GraphicComponent } from 'echarts/components';
 import { SankeyChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 import { useBreakpoint, type Breakpoint } from '../../../composables/useBreakpoint';
 import { formatSankeyPercentage } from './sankeyFormatters';
 
-echarts.use([TooltipComponent, TitleComponent, SankeyChart, CanvasRenderer]);
+echarts.use([TooltipComponent, TitleComponent, GraphicComponent, SankeyChart, CanvasRenderer]);
 
 type SankeyNodeStatus = 'success' | 'abandon' | 'error';
 
@@ -964,13 +964,18 @@ const syncInsideLabelsAfterLayout = (
   if (signature === insideLabelSyncSignature) return false;
   insideLabelSyncSignature = signature;
 
-  chartInstance.setOption(
-    {
-      graphic: buildInsideLabelGraphics(processedNodes, layouts, cfg),
-      animationDurationUpdate: 0,
-    },
-    { replaceMerge: ['graphic'], silent: true },
-  );
+  try {
+    chartInstance.setOption(
+      {
+        graphic: buildInsideLabelGraphics(processedNodes, layouts, cfg),
+        animationDurationUpdate: 0,
+      },
+      { replaceMerge: ['graphic'], silent: true },
+    );
+  } catch (error) {
+    console.warn('Sankey inside labels could not be synced:', error);
+    return false;
+  }
 
   return true;
 };
@@ -1137,6 +1142,7 @@ const setOptions = () => {
         : '#334155';
 
   try {
+    loadError.value = false;
     const { nodes: validNodes, links: validLinks } = validateData();
     const { nodes: processedNodes, maxNodeWidth, contentMargins, originTotal } = processSankeyData(
       validNodes,
