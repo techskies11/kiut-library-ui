@@ -151,6 +151,10 @@ const meta = {
     },
     sellerLoading: { control: 'boolean' },
     salesByChannelLoading: { control: 'boolean' },
+    showSalesByChannel: {
+      control: 'boolean',
+      description: 'Muestra u oculta el bloque Sales by Channel',
+    },
     enableExport: { control: 'boolean' },
     exportLoading: { control: 'boolean' },
     onExport: {
@@ -198,5 +202,12 @@ export const CollapsedOuter: Story = {
   args: {
     ...Default.args,
     containerInitiallyOpen: false,
+  },
+}
+
+export const WithoutSalesByChannel: Story = {
+  args: {
+    ...Default.args,
+    showSalesByChannel: false,
   },
 }
