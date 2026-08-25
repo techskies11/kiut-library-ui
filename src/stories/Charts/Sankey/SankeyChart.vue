@@ -13,29 +13,8 @@
         <p class="error-description">Please check the data format.</p>
       </div>
     </div>
-    <div v-else class="chart-wrapper relative" :style="{ height }">
+    <div v-else class="chart-wrapper" :style="{ height }">
       <div ref="chartEl" class="chart-content"></div>
-      <div
-        v-if="insideLabelOverlays.length"
-        class="pointer-events-none absolute inset-0"
-        aria-hidden="true"
-      >
-        <div
-          v-for="item in insideLabelOverlays"
-          :key="item.name"
-          class="absolute box-border flex items-center justify-center overflow-hidden px-1 text-center font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] font-bold text-white"
-          :style="{
-            left: `${item.x}px`,
-            top: `${item.y}px`,
-            width: `${item.width}px`,
-            height: `${item.height}px`,
-            fontSize: `${item.fontSize}px`,
-            lineHeight: `${item.lineHeight}px`,
-          }"
-        >
-          <span class="block max-h-full w-full overflow-hidden whitespace-pre-line">{{ item.text }}</span>
-        </div>
-      </div>
       <div
         v-if="isLoading"
         class="loading-state loading-overlay"
@@ -129,18 +108,9 @@ const chartEl = ref<HTMLElement | null>(null);
 const isLoading = ref(true);
 const loadError = ref(false);
 
-interface NodeLabelOverlay {
-  name: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  text: string;
-  fontSize: number;
-  lineHeight: number;
-}
-
-const insideLabelOverlays = ref<NodeLabelOverlay[]>([]);
+/** Evita bucles al sincronizar etiquetas internas tras el layout de ECharts. */
+let insideLabelSyncToken = 0;
+let insideLabelSyncSignature = '';
 
 let chartInstance: echarts.ECharts | null = null;
 let containerObserver: ResizeObserver | null = null;
@@ -868,76 +838,87 @@ const readSankeyNodeLayouts = (
   chart: echarts.ECharts,
   processedNodes: SankeyNode[] = [],
 ): SankeyNodeLayout[] => {
-  const resolveName = (idx: number, fallback?: string) =>
-    fallback || processedNodes[idx]?.name || '';
   try {
     const seriesModel = (chart as any).getModel?.()?.getSeriesByIndex?.(0);
-    if (!seriesModel) return [];
+    const data = seriesModel?.getData?.();
+    if (!data?.count?.()) return [];
 
-    const graph = seriesModel.getGraph?.();
-    if (graph?.eachNode) {
-      const layouts: SankeyNodeLayout[] = [];
-      graph.eachNode((node: any) => {
-        const layout = node.getLayout?.();
-        if (!layout || layout.dx == null || layout.dy == null) return;
-        const data = seriesModel.getData?.();
-        const name = resolveName(
-          node.dataIndex,
-          data?.getName?.(node.dataIndex) ||
-            data?.get?.('name', node.dataIndex) ||
-            node.id ||
-            node.name,
-        );
-        if (!name) return;
-        layouts.push({
-          name: String(name),
-          x: layout.x ?? 0,
-          y: layout.y ?? 0,
-          dx: layout.dx,
-          dy: layout.dy,
-        });
+    const layouts: SankeyNodeLayout[] = [];
+    const count = data.count();
+    for (let idx = 0; idx < count; idx += 1) {
+      const layout = data.getItemLayout(idx);
+      if (!layout || layout.dx == null || layout.dy == null) continue;
+      const name =
+        processedNodes[idx]?.name ||
+        data.getName(idx) ||
+        data.get('name', idx);
+      if (!name) continue;
+      layouts.push({
+        name: String(name),
+        x: layout.x ?? 0,
+        y: layout.y ?? 0,
+        dx: layout.dx,
+        dy: layout.dy,
       });
-      if (layouts.length) return layouts;
     }
-
-    const data = seriesModel.getData?.();
-    if (data?.each) {
-      const fromGraphic: SankeyNodeLayout[] = [];
-      data.each((idx: number) => {
-        const el = data.getItemGraphicEl?.(idx);
-        const itemLayout = data.getItemLayout(idx);
-        const shape = el?.shape;
-        const layout = itemLayout?.dx != null
-          ? itemLayout
-          : shape?.width != null
-            ? {
-                x: (el.x ?? 0) + (shape.x ?? 0),
-                y: (el.y ?? 0) + (shape.y ?? 0),
-                dx: shape.width,
-                dy: shape.height,
-              }
-            : null;
-        if (!layout || layout.dx == null || layout.dy == null) return;
-        const name = resolveName(idx, data.getName(idx) || data.get('name', idx));
-        if (!name) return;
-        fromGraphic.push({
-          name: String(name),
-          x: layout.x ?? 0,
-          y: layout.y ?? 0,
-          dx: layout.dx,
-          dy: layout.dy,
-        });
-      });
-      if (fromGraphic.length) return fromGraphic;
-    }
-
-    return [];
+    return layouts;
   } catch {
     return [];
   }
 };
 
-const updateInsideLabelOverlays = (
+const buildInsideLabelGraphics = (
+  processedNodes: SankeyNode[],
+  layouts: SankeyNodeLayout[],
+  cfg: {
+    orient: 'horizontal' | 'vertical';
+    labelFontSize: number;
+    labelLineHeight: number;
+  },
+): Record<string, unknown>[] => {
+  const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
+
+  return layouts.map((layout) => {
+    const node = processedNodes.find((item) => item.name === layout.name);
+    const nodeW = cfg.orient === 'vertical' ? layout.dy : layout.dx;
+    const nodeH = cfg.orient === 'vertical' ? layout.dx : layout.dy;
+    const text = node?.displayLabel || layout.name;
+    const compact = nodeH < lineHeight * 1.75;
+
+    return {
+      type: 'group',
+      silent: true,
+      z: 100,
+      left: layout.x,
+      top: layout.y,
+      clipPath: {
+        type: 'rect',
+        shape: { x: 0, y: 0, width: nodeW, height: nodeH },
+      },
+      children: [
+        {
+          type: 'text',
+          x: nodeW / 2,
+          y: compact ? LABEL_PAD_Y : nodeH / 2,
+          style: {
+            text,
+            fill: '#ffffff',
+            fontSize: cfg.labelFontSize,
+            fontWeight: 700,
+            fontFamily: 'Inter, sans-serif',
+            textAlign: 'center',
+            textVerticalAlign: compact ? 'top' : 'middle',
+            lineHeight,
+            width: Math.max(nodeW - LABEL_PAD_X * 2, 20),
+            overflow: 'truncate',
+          },
+        },
+      ],
+    };
+  });
+};
+
+const syncInsideLabelsAfterLayout = (
   processedNodes: SankeyNode[],
   cfg: {
     orient: 'horizontal' | 'vertical';
@@ -946,17 +927,11 @@ const updateInsideLabelOverlays = (
     labelLineHeight: number;
     labelCharsPerLine: number;
   },
-): void => {
-  if (!chartInstance || cfg.labelPosition !== 'inside') {
-    insideLabelOverlays.value = [];
-    return;
-  }
+): boolean => {
+  if (!chartInstance || cfg.labelPosition !== 'inside') return false;
 
   const layouts = readSankeyNodeLayouts(chartInstance, processedNodes);
-  if (!layouts.length) {
-    insideLabelOverlays.value = [];
-    return;
-  }
+  if (!layouts.length) return false;
 
   const lineHeight = cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25);
   const nodePxByName = new Map<string, number>();
@@ -978,19 +953,26 @@ const updateInsideLabelOverlays = (
     nodeWidthByName,
   );
 
-  insideLabelOverlays.value = layouts.map((layout) => {
-    const node = processedNodes.find((item) => item.name === layout.name);
-    return {
-      name: layout.name,
-      x: layout.x,
-      y: layout.y,
-      width: layout.dx,
-      height: layout.dy,
-      text: node?.displayLabel || layout.name,
-      fontSize: cfg.labelFontSize,
-      lineHeight,
-    };
-  });
+  const signature = layouts
+    .map((layout) => {
+      const node = processedNodes.find((item) => item.name === layout.name);
+      const nodeH = cfg.orient === 'vertical' ? layout.dx : layout.dy;
+      return `${layout.name}:${Math.round(nodeH)}:${node?.displayLabel ?? ''}`;
+    })
+    .join('|');
+
+  if (signature === insideLabelSyncSignature) return false;
+  insideLabelSyncSignature = signature;
+
+  chartInstance.setOption(
+    {
+      graphic: buildInsideLabelGraphics(processedNodes, layouts, cfg),
+      animationDurationUpdate: 0,
+    },
+    { replaceMerge: ['graphic'], silent: true },
+  );
+
+  return true;
 };
 
 const processSankeyData = (
@@ -1179,6 +1161,14 @@ const setOptions = () => {
       chartWidthPx,
     );
     syncNodeLayoutValues(processedNodes, layoutLinks);
+    insideLabelSyncSignature = '';
+    const labelCfg = {
+      orient: cfg.orient,
+      labelPosition: cfg.labelPosition,
+      labelFontSize: cfg.labelFontSize,
+      labelLineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
+      labelCharsPerLine: cfg.labelCharsPerLine,
+    };
     const chartOptions = {
       tooltip: {
         trigger: 'item',
@@ -1264,6 +1254,7 @@ const setOptions = () => {
           ...contentMargins,
         },
       ],
+      graphic: cfg.labelPosition === 'inside' ? [] : undefined,
       backgroundColor: 'transparent',
       animation: true,
       animationDuration: CHART_CONFIG.animation.duration,
@@ -1272,23 +1263,25 @@ const setOptions = () => {
 
     chartInstance.setOption(chartOptions);
     chartInstance.resize();
-    const syncOverlays = () => {
-      updateInsideLabelOverlays(processedNodes, {
-        orient: cfg.orient,
-        labelPosition: cfg.labelPosition,
-        labelFontSize: cfg.labelFontSize,
-        labelLineHeight: cfg.labelLineHeight || Math.round(cfg.labelFontSize * 1.25),
-        labelCharsPerLine: cfg.labelCharsPerLine,
-      });
-    };
-    chartInstance.off('finished');
-    chartInstance.on('finished', syncOverlays);
-    syncOverlays();
-    requestAnimationFrame(syncOverlays);
+
+    if (cfg.labelPosition === 'inside') {
+      const syncToken = ++insideLabelSyncToken;
+      const runLabelSync = () => {
+        if (!chartInstance || syncToken !== insideLabelSyncToken) return;
+        syncInsideLabelsAfterLayout(processedNodes, labelCfg);
+      };
+      chartInstance.off('finished');
+      chartInstance.on('finished', runLabelSync);
+      runLabelSync();
+      requestAnimationFrame(runLabelSync);
+    } else {
+      chartInstance.off('finished');
+      insideLabelSyncSignature = '';
+    }
   } catch (error) {
     console.error('Error setting Sankey chart options:', error);
     loadError.value = true;
-    insideLabelOverlays.value = [];
+    insideLabelSyncSignature = '';
   }
 };
 
@@ -1343,7 +1336,8 @@ const cleanup = () => {
   window.removeEventListener('resize', handleResize);
   containerObserver?.disconnect();
   containerObserver = null;
-  insideLabelOverlays.value = [];
+  insideLabelSyncSignature = '';
+  insideLabelSyncToken += 1;
   if (chartInstance) {
     chartInstance.off('finished');
     chartInstance.dispose();
