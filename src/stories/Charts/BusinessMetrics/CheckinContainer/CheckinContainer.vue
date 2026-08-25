@@ -102,7 +102,6 @@ import {
   mergeCheckinKpiWithPrevious,
   type CheckinFailedKpiShape,
   type CheckinRecordKpiShape,
-  CheckinErrorReasonsBreakdown, CheckinErrorStage
 } from "../CheckinKPI/buildCheckinKpiFromRecord";
   
 import type {
