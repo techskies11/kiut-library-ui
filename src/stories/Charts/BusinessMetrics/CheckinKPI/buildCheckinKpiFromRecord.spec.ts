@@ -43,6 +43,8 @@ describe('buildCheckinKpiFromRecord', () => {
       errorCount: 0,
       abandonRatePct: 0,
       abandonCount: 0,
+      avgCompletionTimeSeconds: null,
+      avgCompletionTimeFormatted: null,
     })
   })
 })

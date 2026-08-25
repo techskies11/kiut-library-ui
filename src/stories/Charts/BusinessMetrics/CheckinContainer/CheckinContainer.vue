@@ -74,6 +74,19 @@
         :export-loading="exportLoading"
         @export="handleSegmentsExport"
       />
+      <CheckinCompletionTime
+        class="w-full min-h-0"
+        :loading="effectiveCheckinLoading"
+        :data="completionTimeData"
+        :theme="theme"
+        :title="completionTimeTitle"
+        :subtitle="completionTimeSubtitle"
+        :empty-title="completionTimeEmptyTitle"
+        :empty-description="completionTimeEmptyDescription"
+        :enable-export="enableExport"
+        :export-loading="exportLoading"
+        @export="(fmt) => handleChildExport('checkinCompletionTime', fmt)"
+      />
     </div>
   </ChartMetricContainer>
 </template>
@@ -89,20 +102,25 @@ import {
   mergeCheckinKpiWithPrevious,
   type CheckinFailedKpiShape,
   type CheckinRecordKpiShape,
+  CheckinErrorReasonsBreakdown, CheckinErrorStage
 } from "../CheckinKPI/buildCheckinKpiFromRecord";
+  
 import type {
   CheckinKpiLabels,
   CheckinKpiProps,
 } from "../CheckinKPI/checkinKpiTypes";
+  
 import CheckinVolume from "../CheckinVolume/CheckinVolume.vue";
 import CheckinErrorReasons, {
   type CheckinErrorReasonsBreakdown,
   type CheckinErrorStage,
 } from "../CheckinErrorReasons/CheckinErrorReasons.vue";
-import type { Theme } from "../../../../composables/useThemeDetection";
-import type { ExportFormat } from "../../Utils/FooterExport";
-
-export type { CheckinErrorReasonsBreakdown, CheckinErrorStage };
+  
+import CheckinCompletionTime, {
+  type CheckinCompletionTimeData,
+} from '../CheckinCompletionTime/CheckinCompletionTime.vue'
+import type { Theme } from '../../../../composables/useThemeDetection'
+import type { ExportFormat } from '../../Utils/FooterExport'
 
 interface SegmentDatum {
   departure_airport: string;
@@ -119,7 +137,8 @@ export type CheckinContainerExportSource =
   | "checkin"
   | "checkinSegments"
   | "checkinVolume"
-  | "checkinErrorReasons";
+  | "checkinErrorReasons"
+  | 'checkinCompletionTime';
 
 export interface CheckinContainerExportPayload {
   source: CheckinContainerExportSource;
@@ -163,7 +182,13 @@ const props = withDefaults(
     errorReasons?: CheckinErrorReasonsBreakdown | null;
     errorReasonsStage?: CheckinErrorStage;
     /** Show Create Payment column in check-in table (Avianca). Maps to CheckinMetrics `isAvianca`. */
-    showPaymentLinks?: boolean;
+    showPaymentLinks?: boolean
+    /** Daily avg completion time series (checkin-completion-time-metrics API). */
+    completionTimeData?: CheckinCompletionTimeData | null
+    completionTimeTitle?: string
+    completionTimeSubtitle?: string
+    completionTimeEmptyTitle?: string
+    completionTimeEmptyDescription?: string
   }>(),
   {
     containerInitiallyOpen: false,
