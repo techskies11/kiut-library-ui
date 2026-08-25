@@ -20,6 +20,16 @@
         :show-payment-method-details="showPaymentMethodDetails"
         @export="(fmt) => handleChildExport('seller', fmt)"
       />
+      <SalesVolume
+        class="w-full min-h-0"
+        :data="sellerData"
+        :failed-data="failedData"
+        :loading="effectiveSellerLoading"
+        :theme="theme"
+        :enable-export="enableExport"
+        :export-loading="effectiveSellerExportLoading"
+        @export="(fmt) => handleChildExport('salesVolume', fmt)"
+      />
       <SalesByChannel
         :initially-open="childrenInitiallyOpen"
         :data="salesByChannelData"
@@ -38,11 +48,12 @@
 import { computed } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import Seller from '../Seller/Seller.vue'
+import SalesVolume from '../SalesVolume/SalesVolume.vue'
 import SalesByChannel from '../SalesByChannel/SalesByChannel.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'
 
-export type SellerContainerExportSource = 'seller' | 'salesByChannel'
+export type SellerContainerExportSource = 'seller' | 'salesVolume' | 'salesByChannel'
 
 export interface SellerContainerExportPayload {
   source: SellerContainerExportSource

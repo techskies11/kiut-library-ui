@@ -162,7 +162,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa Seller y Sales by Channel bajo un único colapsable “Seller”. El evento export identifica si la acción viene del funnel o del desglose por canal.',
+          'Agrupa Seller, Sales Volume y Sales by Channel bajo un único colapsable “Seller”. El evento export identifica si la acción viene del funnel, del volumen temporal o del desglose por canal.',
       },
     },
   },
