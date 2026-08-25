@@ -10,9 +10,7 @@
         ]"
       >
         <thead>
-          <tr
-            class="table-header h-12 border-b border-[#e5e7eb] bg-[#eaeaec80] dark:border-[color:var(--kiut-border-light)] dark:bg-[#23232f80]"
-          >
+          <tr class="table-header h-12 bg-[#eaeaec80] dark:bg-[#23232f80]">
             <th
               v-if="selectable"
               scope="col"
@@ -47,20 +45,31 @@
                 @click="onSortColumn(col.key)"
               >
                 <span>{{ col.label }}</span>
-                <span class="kiut-table-sort-icons inline-flex items-center" aria-hidden="true">
+                <span
+                  class="kiut-table-sort-icons inline-flex items-center"
+                  aria-hidden="true"
+                >
                   <template v-if="isActiveSortColumn(col.key)">
                     <span
                       v-if="sortDirection === 'asc'"
                       class="kiut-table-sort-arrow kiut-table-sort-arrow--active"
-                    >↑</span>
+                      >↑</span
+                    >
                     <span
                       v-else-if="sortDirection === 'desc'"
                       class="kiut-table-sort-arrow kiut-table-sort-arrow--active"
-                    >↓</span>
+                      >↓</span
+                    >
                   </template>
                   <template v-else>
-                    <span class="kiut-table-sort-arrow kiut-table-sort-arrow--muted">↑</span>
-                    <span class="kiut-table-sort-arrow kiut-table-sort-arrow--muted">↓</span>
+                    <span
+                      class="kiut-table-sort-arrow kiut-table-sort-arrow--muted"
+                      >↑</span
+                    >
+                    <span
+                      class="kiut-table-sort-arrow kiut-table-sort-arrow--muted"
+                      >↓</span
+                    >
                   </template>
                 </span>
               </button>
@@ -94,7 +103,9 @@
                 type="button"
                 class="kiut-table-expand-btn shrink-0"
                 :aria-expanded="entry.isExpanded"
-                :aria-label="entry.isExpanded ? ariaLabelCollapseRow : ariaLabelExpandRow"
+                :aria-label="
+                  entry.isExpanded ? ariaLabelCollapseRow : ariaLabelExpandRow
+                "
                 @click.stop="toggleExpand(entry)"
               >
                 <ChevronDownIcon
@@ -132,7 +143,11 @@
                     type="button"
                     class="kiut-table-expand-btn shrink-0"
                     :aria-expanded="entry.isExpanded"
-                    :aria-label="entry.isExpanded ? ariaLabelCollapseRow : ariaLabelExpandRow"
+                    :aria-label="
+                      entry.isExpanded
+                        ? ariaLabelCollapseRow
+                        : ariaLabelExpandRow
+                    "
                     @click.stop="toggleExpand(entry)"
                   >
                     <ChevronDownIcon
@@ -306,9 +321,7 @@ const expandedKeysModel = computed({
   },
 });
 
-const expandedKeysSet = computed(
-  () => new Set(expandedKeysModel.value),
-);
+const expandedKeysSet = computed(() => new Set(expandedKeysModel.value));
 
 const effectiveExpandColumnKey = computed(
   () => props.expandColumnKey ?? props.columns[0]?.key ?? "",
@@ -496,7 +509,9 @@ const someSelected = computed(() => {
   const selected = selectableRowKeys.value.filter((k) =>
     props.selectedKeys.some((selected) => String(selected) === String(k)),
   );
-  return selected.length > 0 && selected.length < selectableRowKeys.value.length;
+  return (
+    selected.length > 0 && selected.length < selectableRowKeys.value.length
+  );
 });
 
 watch(
@@ -564,9 +579,7 @@ function isActiveSortColumn(key: string): boolean {
   return props.sortKey === key && props.sortDirection != null;
 }
 
-function ariaSortForColumn(
-  key: string,
-): "none" | "ascending" | "descending" {
+function ariaSortForColumn(key: string): "none" | "ascending" | "descending" {
   if (!isActiveSortColumn(key)) return "none";
   return props.sortDirection === "asc" ? "ascending" : "descending";
 }
@@ -702,5 +715,9 @@ function ariaSortForColumn(
 
 .kiut-table-sort-arrow--muted {
   opacity: 0.45;
+}
+
+.table-header {
+  border-bottom: 1px solid var(--kiut-border-light);
 }
 </style>
