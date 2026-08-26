@@ -14606,7 +14606,7 @@ const uy = {
   abandon: "% Abandon",
   avgCompletionTime: "Avg completion time",
   avgInteractionsToComplete: "Interactions to complete"
-}, hy = { class: "grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 md:gap-4" }, fy = { class: "kpi-value-with-count" }, gy = { class: "kpi-value-with-count__main" }, my = {
+}, hy = { class: "grid grid-cols-6 gap-3" }, fy = { class: "kpi-value-with-count" }, gy = { class: "kpi-value-with-count__main" }, my = {
   key: 0,
   class: "kpi-value-with-count__secondary"
 }, py = { class: "kpi-value-with-count" }, by = { class: "kpi-value-with-count__main" }, vy = {
@@ -14803,7 +14803,7 @@ const uy = {
       ])
     ], 2));
   }
-}), xr = /* @__PURE__ */ ye(_y, [["__scopeId", "data-v-097b68d8"]]), wy = { class: "card-body" }, Cy = {
+}), xr = /* @__PURE__ */ ye(_y, [["__scopeId", "data-v-0cbf58dc"]]), wy = { class: "card-body" }, Cy = {
   key: 0,
   class: "checkin-segments-daily-section"
 }, $y = { class: "w-full min-w-0" }, Sy = { class: "segment-plain" }, My = { class: "segment-plain" }, Dy = { class: "segment-plain" }, Ty = { class: "percentage-value" }, Ay = { class: "percentage-value" }, By = { class: "percentage-value success" }, Ly = {
