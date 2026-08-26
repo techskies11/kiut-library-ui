@@ -4,7 +4,7 @@
     :class="{ 'checkin-kpi--dark': isDark }"
     data-testid="checkin-kpi"
   >
-    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 md:gap-4">
+    <div class="grid grid-cols-6 gap-3">
       <CardMetric
         :label="resolvedLabels.initiated"
         label-position="header"
@@ -314,6 +314,10 @@ defineExpose({ isDark });
 .checkin-kpi--dark .percent-trend-badge.change-badge--neutral {
   background: rgba(148, 163, 184, 0.12);
   color: #94a3b8;
+}
+
+.checkin-kpi :deep(.metric-label-text){
+  font-size: 10px;
 }
 
 /* Card "iniciados" usa el value default de CardMetric */
