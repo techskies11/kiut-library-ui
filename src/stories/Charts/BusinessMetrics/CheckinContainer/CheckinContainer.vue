@@ -32,17 +32,68 @@
         class="checkin-container__split grid grid-cols-1 items-stretch gap-6"
         :class="{ 'lg:grid-cols-2': showErrorReasons }"
       >
-        <div class="checkin-container__split-cell flex min-h-0 min-w-0 flex-col">
-          <CheckinVolume
-            class="h-full min-h-0 w-full"
+        <div
+          class="checkin-container__split-cell flex min-h-0 min-w-0 flex-col"
+        >
+          <ChartMetricContainer
+            class="w-full min-h-0 self-start"
+            :title="trendTitle"
+            :subtitle="trendSubtitle"
+            :collapsible="false"
             :loading="effectiveCheckinLoading"
-            :checkin-data="checkinData"
-            :failed-data="checkinFailedData"
-            :theme="theme"
-            :enable-export="enableExport"
-            :export-loading="exportLoading"
-            @export="(fmt) => handleChildExport('checkinVolume', fmt)"
-          />
+          >
+            <template #headerAside>
+              <div class="stage-select flex items-center justify-end gap-3">
+                <div class="w-56">
+                  <Select
+                    :model-value="selectedTrend"
+                    :options="TREND_OPTIONS"
+                    aria-label-trigger="Check-in trend view"
+                    :show-option-check="false"
+                    @update:model-value="onTrendChange"
+                  />
+                </div>
+                <FooterExport
+                  v-if="enableExport && !effectiveCheckinLoading"
+                  variant="inline"
+                  :loading="exportLoading"
+                  @export="(fmt) => handleChildExport(trendExportSource, fmt)"
+                />
+              </div>
+            </template>
+
+            <Transition name="checkin-trend-fade" mode="out-in">
+              <CheckinVolume
+                v-if="selectedTrend === 'volume'"
+                key="volume"
+                embedded
+                class="w-full min-h-0"
+                :checkin-data="checkinData"
+                :failed-data="checkinFailedData"
+                :theme="theme"
+              />
+              <CheckinInteractions
+                v-else-if="selectedTrend === 'interactions'"
+                key="interactions"
+                embedded
+                class="w-full min-h-0"
+                :data="interactionsData"
+                :theme="theme"
+                :empty-title="interactionsEmptyTitle"
+                :empty-description="interactionsEmptyDescription"
+              />
+              <CheckinCompletionTime
+                v-else
+                key="completionTime"
+                embedded
+                class="w-full min-h-0"
+                :data="completionTimeData"
+                :theme="theme"
+                :empty-title="completionTimeEmptyTitle"
+                :empty-description="completionTimeEmptyDescription"
+              />
+            </Transition>
+          </ChartMetricContainer>
         </div>
         <div
           v-if="showErrorReasons"
@@ -74,48 +125,12 @@
         :export-loading="exportLoading"
         @export="handleSegmentsExport"
       />
-      <CheckinVolume
-        class="w-full min-h-0"
-        :loading="effectiveCheckinLoading"
-        :checkin-data="checkinData"
-        :failed-data="checkinFailedData"
-        :theme="theme"
-        :enable-export="enableExport"
-        :export-loading="exportLoading"
-        @export="(fmt) => handleChildExport('checkinVolume', fmt)"
-      />
-      <CheckinInteractions
-        class="w-full min-h-0"
-        :loading="effectiveCheckinLoading"
-        :data="interactionsData"
-        :theme="theme"
-        :title="interactionsTitle"
-        :subtitle="interactionsSubtitle"
-        :empty-title="interactionsEmptyTitle"
-        :empty-description="interactionsEmptyDescription"
-        :enable-export="enableExport"
-        :export-loading="exportLoading"
-        @export="(fmt) => handleChildExport('checkinInteractions', fmt)"
-      />
-      <CheckinCompletionTime
-        class="w-full min-h-0"
-        :loading="effectiveCheckinLoading"
-        :data="completionTimeData"
-        :theme="theme"
-        :title="completionTimeTitle"
-        :subtitle="completionTimeSubtitle"
-        :empty-title="completionTimeEmptyTitle"
-        :empty-description="completionTimeEmptyDescription"
-        :enable-export="enableExport"
-        :export-loading="exportLoading"
-        @export="(fmt) => handleChildExport('checkinCompletionTime', fmt)"
-      />
     </div>
   </ChartMetricContainer>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import CheckinKPI from "../CheckinKPI/CheckinKPI.vue";
 import CheckinMetrics from "../CheckinMetrics/CheckinMetrics.vue";
@@ -125,21 +140,28 @@ import {
   mergeCheckinKpiWithPrevious,
   type CheckinFailedKpiShape,
   type CheckinRecordKpiShape,
-} from '../CheckinKPI/buildCheckinKpiFromRecord'
-import type { CheckinKpiLabels, CheckinKpiProps } from '../CheckinKPI/checkinKpiTypes'
-import CheckinVolume from '../CheckinVolume/CheckinVolume.vue'
+} from "../CheckinKPI/buildCheckinKpiFromRecord";
+import type {
+  CheckinKpiLabels,
+  CheckinKpiProps,
+} from "../CheckinKPI/checkinKpiTypes";
+import CheckinVolume from "../CheckinVolume/CheckinVolume.vue";
 import CheckinErrorReasons, {
   type CheckinErrorReasonsBreakdown,
   type CheckinErrorStage,
-} from '../CheckinErrorReasons/CheckinErrorReasons.vue'
+} from "../CheckinErrorReasons/CheckinErrorReasons.vue";
 import CheckinInteractions, {
   type CheckinInteractionsData,
-} from '../CheckinInteractions/CheckinInteractions.vue'
+} from "../CheckinInteractions/CheckinInteractions.vue";
 import CheckinCompletionTime, {
   type CheckinCompletionTimeData,
-} from '../CheckinCompletionTime/CheckinCompletionTime.vue'
-import type { Theme } from '../../../../composables/useThemeDetection'
-import type { ExportFormat } from '../../Utils/FooterExport'
+} from "../CheckinCompletionTime/CheckinCompletionTime.vue";
+import type { Theme } from "../../../../composables/useThemeDetection";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
+import Select, {
+  type KiutSelectOption,
+  type KiutSelectValue,
+} from "../../../../components/Inputs/Select.vue";
 
 interface SegmentDatum {
   departure_airport: string;
@@ -153,12 +175,25 @@ interface SegmentDatum {
 
 /** Origen dentro del grupo Check in (para rutear exports en la app consumidora). */
 export type CheckinContainerExportSource =
-  | 'checkin'
-  | 'checkinSegments'
-  | 'checkinVolume'
-  | 'checkinErrorReasons'
-  | 'checkinInteractions'
-  | 'checkinCompletionTime'
+  | "checkin"
+  | "checkinSegments"
+  | "checkinVolume"
+  | "checkinErrorReasons"
+  | "checkinInteractions"
+  | "checkinCompletionTime";
+
+const TREND_VIEWS = ["volume", "interactions", "completionTime"] as const;
+export type CheckinTrendView = (typeof TREND_VIEWS)[number];
+
+const TREND_OPTIONS: KiutSelectOption<KiutSelectValue>[] = [
+  { value: "volume", label: "Volume" },
+  { value: "interactions", label: "Avg interactions" },
+  { value: "completionTime", label: "Avg completion time" },
+];
+
+function isTrendView(value: string): value is CheckinTrendView {
+  return (TREND_VIEWS as readonly string[]).includes(value);
+}
 
 export interface CheckinContainerExportPayload {
   source: CheckinContainerExportSource;
@@ -202,19 +237,21 @@ const props = withDefaults(
     errorReasons?: CheckinErrorReasonsBreakdown | null;
     errorReasonsStage?: CheckinErrorStage;
     /** Show Create Payment column in check-in table (Avianca). Maps to CheckinMetrics `isAvianca`. */
-    showPaymentLinks?: boolean
+    showPaymentLinks?: boolean;
     /** Daily avg interactions series (checkin-avg-interactions-metrics API). */
-    interactionsData?: CheckinInteractionsData | null
-    interactionsTitle?: string
-    interactionsSubtitle?: string
-    interactionsEmptyTitle?: string
-    interactionsEmptyDescription?: string
+    interactionsData?: CheckinInteractionsData | null;
+    interactionsTitle?: string;
+    interactionsSubtitle?: string;
+    interactionsEmptyTitle?: string;
+    interactionsEmptyDescription?: string;
     /** Daily avg completion time series (checkin-completion-time-metrics API). */
-    completionTimeData?: CheckinCompletionTimeData | null
-    completionTimeTitle?: string
-    completionTimeSubtitle?: string
-    completionTimeEmptyTitle?: string
-    completionTimeEmptyDescription?: string
+    completionTimeData?: CheckinCompletionTimeData | null;
+    completionTimeTitle?: string;
+    completionTimeSubtitle?: string;
+    completionTimeEmptyTitle?: string;
+    completionTimeEmptyDescription?: string;
+    /** Active view in the Volume / Interactions / Completion time select. */
+    trendView?: CheckinTrendView;
   }>(),
   {
     containerInitiallyOpen: false,
@@ -233,6 +270,7 @@ const props = withDefaults(
     showPaymentLinks: false,
     errorReasons: null,
     errorReasonsStage: "on_retrieve",
+    trendView: "volume",
   },
 );
 
@@ -240,7 +278,56 @@ const emit = defineEmits<{
   open: [];
   export: [payload: CheckinContainerExportPayload];
   "update:errorReasonsStage": [stage: CheckinErrorStage];
+  "update:trendView": [view: CheckinTrendView];
 }>();
+
+const selectedTrend = ref<CheckinTrendView>(props.trendView);
+
+watch(
+  () => props.trendView,
+  (view) => {
+    selectedTrend.value = view;
+  },
+);
+
+const trendTitle = computed(() => {
+  if (selectedTrend.value === "interactions") {
+    return props.interactionsTitle ?? "Avg interactions to complete";
+  }
+  if (selectedTrend.value === "completionTime") {
+    return props.completionTimeTitle ?? "Avg check-in completion time";
+  }
+  return "Check-in Volume Over Time";
+});
+
+const trendSubtitle = computed(() => {
+  if (selectedTrend.value === "interactions") {
+    return (
+      props.interactionsSubtitle ??
+      "Average number of interaction turns from initiated to check-in closed"
+    );
+  }
+  if (selectedTrend.value === "completionTime") {
+    return (
+      props.completionTimeSubtitle ??
+      "Daily average from initiated to boarding pass issued or error"
+    );
+  }
+  return "Daily check-in volume by outcome, with share over initiated";
+});
+
+const trendExportSource = computed((): CheckinContainerExportSource => {
+  if (selectedTrend.value === "interactions") return "checkinInteractions";
+  if (selectedTrend.value === "completionTime") return "checkinCompletionTime";
+  return "checkinVolume";
+});
+
+function onTrendChange(value: KiutSelectValue): void {
+  const next = String(value);
+  if (!isTrendView(next)) return;
+  selectedTrend.value = next;
+  emit("update:trendView", next);
+}
 
 const effectiveKpiLoading = computed(() =>
   props.loading ? false : (props.kpiLoading ?? props.checkinLoading),
@@ -320,6 +407,23 @@ function handleSegmentsExport(payload: CheckinSegmentsExportPayload) {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.checkin-trend-fade-enter-active,
+.checkin-trend-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.checkin-trend-fade-enter-from,
+.checkin-trend-fade-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkin-trend-fade-enter-active,
+  .checkin-trend-fade-leave-active {
+    transition: none;
   }
 }
 </style>

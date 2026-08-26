@@ -1,12 +1,10 @@
 <template>
-  <ChartMetricContainer
-    class="w-full min-h-0 self-start"
-    :title="props.title"
-    :subtitle="props.subtitle"
-    :collapsible="false"
-    :loading="props.loading"
+  <component
+    :is="embedded ? 'div' : ChartMetricContainer"
+    :class="embedded ? 'w-full min-h-0' : 'w-full min-h-0 self-start'"
+    v-bind="containerProps"
   >
-    <template #headerExport>
+    <template v-if="!embedded" #headerExport>
       <FooterExport
         v-if="enableExport && !props.loading"
         variant="inline"
@@ -46,7 +44,7 @@
         </div>
       </section>
     </div>
-  </ChartMetricContainer>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -75,6 +73,8 @@ const props = withDefaults(
     subtitle?: string
     emptyTitle?: string
     emptyDescription?: string
+    /** Skip ChartMetricContainer chrome when nested in a parent with a view select. */
+    embedded?: boolean
   }>(),
   {
     loading: false,
@@ -82,6 +82,7 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    embedded: false,
     title: 'Avg interactions to complete',
     subtitle: 'Average number of interaction turns from initiated to check-in closed',
     emptyTitle: 'No check-in interaction data',
@@ -100,6 +101,17 @@ const handleExport = (format: ExportFormat): void => {
 
 const theme = toRef(props, 'theme')
 const { isDark } = useThemeDetection(theme)
+
+const containerProps = computed(() =>
+  props.embedded
+    ? {}
+    : {
+        title: props.title,
+        subtitle: props.subtitle,
+        collapsible: false,
+        loading: props.loading,
+      },
+)
 
 const dataChart = ref<{ labels: string[]; datasets: Array<Record<string, unknown>> }>({
   labels: [],

@@ -20,6 +20,10 @@ import Checkin from "./stories/Charts/BusinessMetrics/Checkin/Checkin.vue";
 import CheckinMetrics from "./stories/Charts/BusinessMetrics/CheckinMetrics/CheckinMetrics.vue";
 import CheckinErrorReasons from "./stories/Charts/BusinessMetrics/CheckinErrorReasons/CheckinErrorReasons.vue";
 import CheckinContainer from "./stories/Charts/BusinessMetrics/CheckinContainer/CheckinContainer.vue";
+export type {
+  CheckinContainerExportSource,
+  CheckinTrendView,
+} from "./stories/Charts/BusinessMetrics/CheckinContainer/CheckinContainer.vue";
 import CheckinSegments from "./stories/Charts/BusinessMetrics/CheckinSegments/checkinSegments.vue";
 import Disruption from "./stories/Charts/BusinessMetrics/Disruption/Disruption.vue";
 import FAQ from "./stories/Charts/BusinessMetrics/FAQ/FAQ.vue";
