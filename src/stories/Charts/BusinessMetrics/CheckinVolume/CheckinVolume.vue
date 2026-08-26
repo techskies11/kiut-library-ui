@@ -1,12 +1,10 @@
 <template>
-  <ChartMetricContainer
-    class="w-full min-h-0 self-start"
-    :title="props.title"
-    :subtitle="props.subtitle"
-    :collapsible="false"
-    :loading="props.loading"
+  <component
+    :is="embedded ? 'div' : ChartMetricContainer"
+    :class="embedded ? 'w-full min-h-0' : 'w-full min-h-0 self-start'"
+    v-bind="containerProps"
   >
-    <template #headerExport>
+    <template v-if="!embedded" #headerExport>
       <FooterExport
         v-if="enableExport && !props.loading"
         variant="inline"
@@ -69,7 +67,7 @@
         </div>
       </section>
     </div>
-  </ChartMetricContainer>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -186,6 +184,8 @@ const props = withDefaults(
     subtitle?: string;
     emptyTitle?: string;
     emptyDescription?: string;
+    /** Skip ChartMetricContainer chrome when nested in a parent with a view select. */
+    embedded?: boolean;
   }>(),
   {
     loading: false,
@@ -195,6 +195,7 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    embedded: false,
     title: "Check-in Volume Over Time",
     subtitle: "Daily check-in volume by outcome, with share over initiated",
     emptyTitle: "No check-in volume data",
@@ -212,6 +213,17 @@ const handleExport = (format: ExportFormat) => {
 
 const theme = toRef(props, "theme");
 const { isDark } = useThemeDetection(theme);
+
+const containerProps = computed(() =>
+  props.embedded
+    ? {}
+    : {
+        title: props.title,
+        subtitle: props.subtitle,
+        collapsible: false,
+        loading: props.loading,
+      },
+);
 
 const volumeDays = computed((): CheckinVolumeDay[] => {
   if (props.checkinData?.record_locator_by_day?.length) {

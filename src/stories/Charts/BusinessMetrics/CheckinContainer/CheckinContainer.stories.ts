@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import CheckinContainer from './CheckinContainer.vue'
+import type { CheckinErrorReasonsBreakdown } from '../CheckinErrorReasons/CheckinErrorReasons.vue'
 
 const mockCheckinData = {
   airline_name: 'Clic Air',
@@ -118,7 +119,7 @@ const mockSegmentsData = [
   },
 ]
 
-const mockErrorReasons = {
+const mockErrorReasons: CheckinErrorReasonsBreakdown = {
   stage: 'on_retrieve',
   total_errors: 42,
   total_unrecovered: null,
@@ -203,12 +204,21 @@ const meta = {
       action: 'update:errorReasonsStage',
       description: 'Emitted when the error-reasons stage select changes',
     },
+    trendView: {
+      control: 'select',
+      options: ['volume', 'interactions', 'completionTime'],
+      description: 'Active view in the Volume / Interactions / Completion time select',
+    },
+    'onUpdate:trendView': {
+      action: 'update:trendView',
+      description: 'Emitted when the trend view select changes',
+    },
   },
   parameters: {
     docs: {
       description: {
         component:
-          'Agrupa métricas Check-in (Sankey), Volume + Error Reasons (lado a lado) y Segments (ancho completo) bajo un único colapsable “Check in”. Los exports indican origen checkin | checkinVolume | checkinErrorReasons | checkinSegments.',
+          'Agrupa métricas Check-in (Sankey), Volume + Error Reasons (lado a lado), Segments y un gráfico de tendencia (Volume / Avg interactions / Avg completion time) con select, como Transactions. Los exports indican origen checkin | checkinVolume | checkinErrorReasons | checkinSegments | checkinInteractions | checkinCompletionTime.',
       },
     },
   },
@@ -233,6 +243,24 @@ export const Default: Story = {
     showErrorReasons: true,
     errorReasonsStage: 'on_retrieve',
     errorReasons: mockErrorReasons,
+    interactionsData: {
+      avg_checkin_interactions_to_complete: 7.4,
+      avg_checkin_interactions_by_day: {
+        '2025-12-03': 6.2,
+        '2025-12-02': 7.1,
+        '2025-11-19': 8.0,
+      },
+    },
+    completionTimeData: {
+      avg_checkin_completion_time_seconds: 186,
+      avg_checkin_completion_time_formatted: '3m 6s',
+      avg_checkin_completion_time_by_day: {
+        '2025-12-03': 180,
+        '2025-12-02': 210,
+        '2025-11-19': 195,
+      },
+    },
+    trendView: 'volume',
   },
 }
 
