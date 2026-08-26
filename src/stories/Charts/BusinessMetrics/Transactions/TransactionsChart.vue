@@ -7,7 +7,7 @@
     :loading="loading"
   >
     <template #headerAside>
-      <div class="flex justify-end">
+      <div class="stage-select flex items-center justify-end gap-3">
         <div class="w-52">
           <Select
             :model-value="selectedBreakdown"
@@ -15,6 +15,12 @@
             @update:model-value="onBreakdownChange"
           />
         </div>
+        <FooterExport
+          v-if="enableExport && !loading"
+          variant="inline"
+          :loading="exportLoading"
+          @export="handleExport"
+        />
       </div>
     </template>
 
@@ -35,11 +41,17 @@
 
         <div v-else key="content" class="w-full shrink-0 flex min-h-0 flex-col">
           <section
-            v-if="dataChart.labels && dataChart.labels.length && dataChart.datasets.length"
+            v-if="
+              dataChart.labels &&
+              dataChart.labels.length &&
+              dataChart.datasets.length
+            "
             class="flex w-full shrink-0 flex-col gap-4 sm:gap-6"
           >
             <!-- Chart area -->
-            <div class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden">
+            <div
+              class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"
+            >
               <ChartBar
                 v-if="isStackedBar"
                 :data="dataChart"
@@ -85,7 +97,8 @@
               <p
                 class="m-0 text-sm leading-relaxed text-[var(--kiut-text-secondary,#737373)] dark:text-[var(--kiut-text-secondary,#a3a3a3)]"
               >
-                No transactions found for the selected period. Try adjusting the date range.
+                No transactions found for the selected period. Try adjusting the
+                date range.
               </p>
             </div>
           </section>
@@ -102,12 +115,16 @@ import LineChart from "../../Line/ChartLine.vue";
 import ChartBar from "../../Bar/ChartBar.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
-import { useThemeDetection, type Theme } from "../../../../composables/useThemeDetection";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
 import Select, {
   type KiutSelectOption,
   type KiutSelectValue,
 } from "../../../../components/Inputs/Select.vue";
 import { normalizeAgentDisplayName } from "../../../../utils/agentDisplayName";
+import { FooterExport, type ExportFormat } from "../../Utils/FooterExport";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -146,17 +163,22 @@ const props = withDefaults(
     data?: TransactionsData | null;
     breakdownBy?: string;
     theme?: Theme;
+    enableExport?: boolean;
+    exportLoading?: boolean;
   }>(),
   {
     loading: false,
     data: null,
     breakdownBy: "all",
     theme: undefined,
+    enableExport: false,
+    exportLoading: false,
   },
 );
 
 const emit = defineEmits<{
   changeBreakdown: [value: string];
+  export: [format: ExportFormat];
 }>();
 
 // ── Internal state ─────────────────────────────────────────────────────────
@@ -185,7 +207,13 @@ const chartTitle = computed(() => {
   return suffix ? `Transactions by ${suffix}` : "Transactions";
 });
 
-const isStackedBar = computed(() => selectedBreakdown.value === "payment_method");
+const isStackedBar = computed(
+  () => selectedBreakdown.value === "payment_method",
+);
+
+const handleExport = (format: ExportFormat): void => {
+  emit("export", format);
+};
 
 // ── Color palette ──────────────────────────────────────────────────────────
 
@@ -228,7 +256,13 @@ const dataChart = ref<{ labels: string[]; datasets: any[] }>({
 });
 
 const topCards = ref<
-  Array<{ key: string; label: string; amount: string; percentage: number; color: string }>
+  Array<{
+    key: string;
+    label: string;
+    amount: string;
+    percentage: number;
+    color: string;
+  }>
 >([]);
 
 const cardInfoGridStyle = computed(() => {
@@ -238,7 +272,10 @@ const cardInfoGridStyle = computed(() => {
 });
 
 const sumChannelCounts = (channels: Record<string, number>): number =>
-  Object.values(channels ?? {}).reduce((acc, value) => acc + Number(value ?? 0), 0);
+  Object.values(channels ?? {}).reduce(
+    (acc, value) => acc + Number(value ?? 0),
+    0,
+  );
 
 const processChartData = (data: TransactionsData | null): void => {
   const breakdownItems = data?.breakdown ?? [];

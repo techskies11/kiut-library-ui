@@ -19,9 +19,21 @@ const meta = {
       options: ['all', 'payment_method', 'agent_type', 'channel', 'channel_and_agent'],
       description: 'Active breakdown dimension',
     },
+    enableExport: {
+      control: 'boolean',
+      description: 'Shows PDF/CSV export buttons in the header',
+    },
+    exportLoading: {
+      control: 'boolean',
+      description: 'Loading state of the export buttons',
+    },
     onChangeBreakdown: {
       action: 'changeBreakdown',
       description: 'Emitted when the breakdown select changes',
+    },
+    onExport: {
+      action: 'export',
+      description: 'Emitted when an export button is clicked (pdf | csv)',
     },
   },
   decorators: [
@@ -49,6 +61,7 @@ const transactionsByDay = [
 export const Default: Story = {
   args: {
     loading: false,
+    enableExport: true,
     breakdownBy: 'all',
     data: {
       airline_name: 'Demo Airline',
@@ -65,6 +78,7 @@ export const Default: Story = {
 export const ByPaymentMethod: Story = {
   args: {
     loading: false,
+    enableExport: true,
     breakdownBy: 'payment_method',
     data: {
       airline_name: 'Demo Airline',
@@ -85,6 +99,7 @@ export const ByPaymentMethod: Story = {
 export const ByChannel: Story = {
   args: {
     loading: false,
+    enableExport: true,
     breakdownBy: 'channel',
     data: {
       airline_name: 'Demo Airline',
