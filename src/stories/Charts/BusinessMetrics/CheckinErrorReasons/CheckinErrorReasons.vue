@@ -8,14 +8,16 @@
     :loading="loading"
   >
     <template #headerAside>
-      <div class="stage-select flex items-start justify-end gap-3">
-        <Select
-          :model-value="stage"
-          :options="stageOptions"
-          aria-label-trigger="Check-in error stage"
-          :show-option-check="false"
-          @update:model-value="onStageChange"
-        />
+      <div class="stage-select flex items-center justify-end gap-3">
+        <div class="w-44">
+          <Select
+            :model-value="stage"
+            :options="stageOptions"
+            aria-label-trigger="Check-in error stage"
+            :show-option-check="false"
+            @update:model-value="onStageChange"
+          />
+        </div>
         <FooterExport
           v-if="enableExport && !loading"
           variant="inline"
