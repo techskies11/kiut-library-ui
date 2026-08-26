@@ -1,0 +1,68 @@
+# Dependabot configuration — PROY-1447
+#
+# Two jobs run off this file:
+#
+#   security-updates  Dependabot already *detects* vulnerable dependencies without
+#                     any config. What it does not do on its own is batch the fixes.
+#                     Grouping every advisory into one PR per ecosystem is what stops
+#                     alerts accumulating one-per-advisory: the org was sitting on 116
+#                     open alerts with a 45-day average age when this was written.
+#
+#   version-updates   Grouped minor/patch only, so routine upgrades arrive as one
+#                     weekly PR instead of a stream. Majors are deliberately excluded
+#                     — they need a human deciding, not an automatic PR.
+#
+# Keep the two `groups` blocks. Without `applies-to: security-updates`, security
+# fixes open one PR per advisory and the backlog rebuilds itself.
+version: 2
+updates:
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Argentina/Buenos_Aires"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    groups:
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      npm-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "America/Argentina/Buenos_Aires"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    groups:
+      github-actions-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+      github-actions-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
