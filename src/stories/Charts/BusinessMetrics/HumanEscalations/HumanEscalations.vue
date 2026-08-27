@@ -40,7 +40,11 @@
           <div
             class="chart-line-area flex h-[230px] w-full min-w-0 shrink-0 flex-col overflow-hidden"
           >
-            <LineChart :data="dataChart" :options="chartOptions" :theme="theme" />
+            <LineChart
+              :data="dataChart"
+              :options="chartOptions"
+              :theme="theme"
+            />
           </div>
 
           <div
@@ -54,7 +58,7 @@
               class="min-w-0"
               :color="item.color"
               :title="item.label"
-              :value="`${item.percentage.toFixed(1)}%`"
+              :value="`${item.percentage.toFixed(2)}%`"
             />
           </div>
         </section>
@@ -77,7 +81,7 @@
             </p>
           </div>
         </section>
-        </div>
+      </div>
     </div>
   </ChartMetricContainer>
 </template>
@@ -220,6 +224,21 @@ const palette = [
 const getColor = (index: number): string => palette[index % palette.length];
 
 const chartOptions = {
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: (context: {
+          parsed: { y: number | null };
+          dataset: { label?: string };
+        }) => {
+          const name = context.dataset.label ?? "";
+          const value = context.parsed.y;
+          if (value === null) return name;
+          return `${name}: ${value.toFixed(2)}%`;
+        },
+      },
+    },
+  },
   scales: {
     y: {
       min: 0,

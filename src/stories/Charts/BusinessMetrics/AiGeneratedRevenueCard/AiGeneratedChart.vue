@@ -341,7 +341,24 @@ const yAxis = computed(() => ({
   ticks: yTicks.value,
 }));
 
+const tooltipPlugins = computed(() => ({
+  tooltip: {
+    callbacks: {
+      label: (context: {
+        dataset: { label?: string };
+        parsed: { y: number | null };
+      }) => {
+        const name = context.dataset.label ?? "";
+        const value = context.parsed.y;
+        if (value === null) return name;
+        return `${name}: ${activeCurrencyCode.value} ${value.toFixed(2)}`;
+      },
+    },
+  },
+}));
+
 const lineChartOptions = computed(() => ({
+  plugins: tooltipPlugins.value,
   scales: {
     x: xAxis.value,
     y: yAxis.value,
@@ -349,6 +366,7 @@ const lineChartOptions = computed(() => ({
 }));
 
 const barChartOptions = computed(() => ({
+  plugins: tooltipPlugins.value,
   scales: {
     x: { ...xAxis.value, stacked: true },
     y: { ...yAxis.value, stacked: true },
