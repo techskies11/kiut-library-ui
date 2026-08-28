@@ -21,6 +21,10 @@ const mockSellerData = {
     { currency: 'USD', total_value: 42000, count: 75 },
     { currency: 'MXN', total_value: 360000, count: 70 },
   ],
+  total_value_sell_success_usd: 850000,
+  avg_sell_completion_time_seconds: 765,
+  avg_sell_completion_time_formatted: '12m 45s',
+  avg_sell_interactions_to_complete: 11.2,
   seller_by_day: [
     {
       date: '2024-11-01',
@@ -73,6 +77,16 @@ const mockSellerData = {
   ],
 }
 
+const mockPreviousSellerData = {
+  ...mockSellerData,
+  total_sell_started: 3800,
+  total_sell_success: 2100,
+  total_value_sell_success_usd: 780000,
+  avg_sell_completion_time_seconds: 810,
+  avg_sell_completion_time_formatted: '13m 30s',
+  avg_sell_interactions_to_complete: 12.1,
+}
+
 const mockFailedData = {
   total_sell_failed: 400,
   failed_by_reason_by_day: [
@@ -101,6 +115,11 @@ const mockFailedData = {
       ],
     },
   ],
+}
+
+const mockPreviousFailedData = {
+  total_sell_failed: 360,
+  failed_by_reason_by_day: [],
 }
 
 const mockSalesByChannelData = {
@@ -166,7 +185,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa Seller, Sales Volume y Sales by Channel bajo un único colapsable “Seller”. El evento export identifica si la acción viene del funnel, del volumen temporal o del desglose por canal.',
+          'Agrupa Seller KPI, Seller, Sales Volume y Sales by Channel bajo un único colapsable “Seller”. El evento export identifica si la acción viene del funnel, del volumen temporal o del desglose por canal.',
       },
     },
   },
@@ -186,6 +205,8 @@ export const Default: Story = {
     exportLoading: false,
     sellerData: mockSellerData,
     failedData: mockFailedData,
+    previousSellerData: mockPreviousSellerData,
+    previousFailedData: mockPreviousFailedData,
     salesByChannelData: mockSalesByChannelData,
     channelComparison: mockChannelComparison,
   },
@@ -195,6 +216,13 @@ export const Loading: Story = {
   args: {
     ...Default.args,
     loading: true,
+  },
+}
+
+export const Opened: Story = {
+  args: {
+    ...Default.args,
+    containerInitiallyOpen: true,
   },
 }
 

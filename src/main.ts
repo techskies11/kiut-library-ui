@@ -77,6 +77,21 @@ export type { CheckinInteractionsData } from "./stories/Charts/BusinessMetrics/C
 import CheckinCompletionTime from "./stories/Charts/BusinessMetrics/CheckinCompletionTime/CheckinCompletionTime.vue";
 export type { CheckinCompletionTimeData } from "./stories/Charts/BusinessMetrics/CheckinCompletionTime/CheckinCompletionTime.vue";
 import SellerCR from "./stories/Charts/BusinessMetrics/SellerCR/SellerCR.vue";
+import SellerKPI from "./stories/Charts/BusinessMetrics/SellerKPI/SellerKPI.vue";
+export type {
+  SellerKpiLabels,
+  SellerKpiProps,
+} from "./stories/Charts/BusinessMetrics/SellerKPI/sellerKpiTypes";
+export { DEFAULT_SELLER_KPI_LABELS } from "./stories/Charts/BusinessMetrics/SellerKPI/sellerKpiTypes";
+export {
+  buildSellerKpiFromRecord,
+  mergeSellerKpiWithPrevious,
+} from "./stories/Charts/BusinessMetrics/SellerKPI/buildSellerKpiFromRecord";
+export type {
+  SellerFailedKpiShape,
+  SellerKpiValues,
+  SellerRecordKpiShape,
+} from "./stories/Charts/BusinessMetrics/SellerKPI/buildSellerKpiFromRecord";
 import BookingManagerCR from "./stories/Charts/BusinessMetrics/BookingManagerCR/BookingManagerCR.vue";
 
 // NPS Metrics
@@ -301,6 +316,7 @@ export {
   CheckinInteractions,
   CheckinCompletionTime,
   SellerCR,
+  SellerKPI,
   BookingManagerCR,
   // NPS Metrics
   NpsDailyMetrics,
@@ -415,6 +431,7 @@ export const KiutUIPlugin = {
     app.component("KiutCheckinInteractions", CheckinInteractions);
     app.component("KiutCheckinCompletionTime", CheckinCompletionTime);
     app.component("KiutSellerCR", SellerCR);
+    app.component("KiutSellerKPI", SellerKPI);
     app.component("KiutBookingManagerCR", BookingManagerCR);
     app.component("KiutNpsDailyMetrics", NpsDailyMetrics);
     app.component("KiutNpsMetrics", NpsMetrics);
