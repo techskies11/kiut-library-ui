@@ -842,7 +842,7 @@ const agentTableColumns = computed<TableColumn[]>(() => {
     },
     {
       key: "onlineTime",
-      label: "Online time",
+      label: "Online time in range",
       align: "center",
       sortable: false,
     },
