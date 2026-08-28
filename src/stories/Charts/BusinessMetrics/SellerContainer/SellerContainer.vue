@@ -9,6 +9,12 @@
     @open="emit('open')"
   >
     <div class="seller-container__body">
+      <SellerKPI
+        v-if="showKpi"
+        v-bind="resolvedKpiProps"
+        :loading="effectiveKpiLoading"
+        :theme="theme"
+      />
       <Seller
         :initially-open="childrenInitiallyOpen"
         :seller-data="sellerData"
@@ -48,11 +54,19 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
+import SellerKPI from '../SellerKPI/SellerKPI.vue'
 import Seller from '../Seller/Seller.vue'
 import SalesVolume from '../SalesVolume/SalesVolume.vue'
 import SalesByChannel from '../SalesByChannel/SalesByChannel.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'
+import {
+  buildSellerKpiFromRecord,
+  mergeSellerKpiWithPrevious,
+  type SellerFailedKpiShape,
+  type SellerRecordKpiShape,
+} from '../SellerKPI/buildSellerKpiFromRecord'
+import type { SellerKpiLabels, SellerKpiProps } from '../SellerKPI/sellerKpiTypes'
 
 export type SellerContainerExportSource = 'seller' | 'salesVolume' | 'salesByChannel'
 
@@ -95,9 +109,14 @@ interface SellerData {
   total_sell_success: number;
   total_sell_success_bank_transfer?: number;
   total_sell_success_cash?: number;
+  total_sell_abandoned?: number;
   total_value_sell_success: number | CurrencyValue[];
+  total_value_sell_success_usd?: number;
   total_value_sell_success_bank_transfer?: CurrencyValue[];
   total_value_sell_success_cash?: CurrencyValue[];
+  avg_sell_completion_time_seconds?: number | null;
+  avg_sell_completion_time_formatted?: string | null;
+  avg_sell_interactions_to_complete?: number | null;
   seller_by_day: SellerDayData[];
 }
 
@@ -154,6 +173,12 @@ const props = withDefaults(
     salesByChannelData?: SalesByChannelData
     /** Shape SalesByChannel.vue channelComparison */
     channelComparison?: ChannelComparisonItem[]
+    showKpi?: boolean
+    kpiLoading?: boolean
+    kpiProps?: Partial<SellerKpiProps>
+    kpiLabels?: SellerKpiLabels
+    previousSellerData?: SellerData
+    previousFailedData?: FailedData
   }>(),
   {
     containerInitiallyOpen: false,
@@ -167,6 +192,7 @@ const props = withDefaults(
     salesByChannelExportLoading: false,
     showPaymentMethodDetails: false,
     showSalesByChannel: true,
+    showKpi: true,
     theme: undefined,
     channelComparison: () => [],
   }
@@ -177,12 +203,38 @@ const emit = defineEmits<{
   export: [payload: SellerContainerExportPayload]
 }>()
 
+const effectiveKpiLoading = computed(() =>
+  props.loading ? false : (props.kpiLoading ?? props.sellerLoading),
+)
 const effectiveSellerLoading = computed(() =>
   props.loading ? false : props.sellerLoading,
 )
 const effectiveSalesByChannelLoading = computed(() =>
   props.loading ? false : props.salesByChannelLoading,
 )
+
+const resolvedKpiProps = computed<SellerKpiProps>(() => {
+  const current = buildSellerKpiFromRecord(
+    props.sellerData as SellerRecordKpiShape | undefined,
+    props.failedData as SellerFailedKpiShape | undefined,
+  )
+  const previous = props.previousSellerData
+    ? buildSellerKpiFromRecord(
+        props.previousSellerData as SellerRecordKpiShape,
+        props.previousFailedData as SellerFailedKpiShape | undefined,
+      )
+    : null
+  const merged = mergeSellerKpiWithPrevious(current, previous)
+
+  return {
+    ...merged,
+    ...props.kpiProps,
+    labels: {
+      ...props.kpiProps?.labels,
+      ...props.kpiLabels,
+    },
+  }
+})
 const effectiveSellerExportLoading = computed(() => props.exportLoading || props.sellerExportLoading)
 const effectiveSalesByChannelExportLoading = computed(() => props.exportLoading || props.salesByChannelExportLoading)
 
