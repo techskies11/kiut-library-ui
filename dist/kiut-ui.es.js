@@ -18295,7 +18295,7 @@ Without Reason`
         },
         {
           key: "onlineTime",
-          label: "Online time",
+          label: "Online time in range",
           align: "center",
           sortable: !1
         },
@@ -18564,7 +18564,7 @@ Without Reason`
       _: 1
     }, 8, ["loading"]));
   }
-}), k_ = /* @__PURE__ */ ye(x_, [["__scopeId", "data-v-313e2fd8"]]), __ = {
+}), k_ = /* @__PURE__ */ ye(x_, [["__scopeId", "data-v-22ae7625"]]), __ = {
   key: 0,
   class: "w-52"
 }, w_ = { class: "flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]" }, C_ = { class: "w-full shrink-0 flex min-h-0 flex-col" }, $_ = {
