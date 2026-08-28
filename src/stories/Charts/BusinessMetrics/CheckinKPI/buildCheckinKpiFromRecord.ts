@@ -1,20 +1,18 @@
 import type { CheckinKpiProps } from './checkinKpiTypes'
+import {
+  computeCheckinFunnelBreakdown,
+  type CheckinData,
+  type FailedData,
+} from '../CheckinMetrics/checkinFunnelMetrics'
 
-export interface CheckinRecordKpiShape {
-  total_checkin_initiated?: number
-  total_record_locator_closed?: number
+export type CheckinRecordKpiShape = CheckinData & {
   total_record_locator_failed?: number
-  total_record_locator_init_abandoned?: number
-  total_checkin_pre_init_abandoned_error?: number
-  total_checkin_pre_init_abandoned_voluntary?: number
   avg_checkin_completion_time_seconds?: number | null
   avg_checkin_completion_time_formatted?: string | null
   avg_checkin_interactions_to_complete?: number | null
 }
 
-export interface CheckinFailedKpiShape {
-  total_checkin_failed?: number
-}
+export type CheckinFailedKpiShape = FailedData
 
 export type CheckinKpiValues = Omit<CheckinKpiProps, 'loading' | 'theme' | 'labels'>
 
@@ -34,24 +32,22 @@ export function buildCheckinKpiFromRecord(
   record?: CheckinRecordKpiShape | null,
   failed?: CheckinFailedKpiShape | null,
 ): CheckinKpiValues {
-  const initiated = record?.total_checkin_initiated ?? 0
-  const closed = record?.total_record_locator_closed ?? 0
-  const failedCount =
-    record?.total_record_locator_failed ?? failed?.total_checkin_failed ?? 0
-  const abandon =
-    (record?.total_checkin_pre_init_abandoned_error ?? 0) +
-    (record?.total_checkin_pre_init_abandoned_voluntary ?? 0) +
-    (record?.total_record_locator_init_abandoned ?? 0)
+  const funnel = computeCheckinFunnelBreakdown(record, failed)
   const avgInteractions = record?.avg_checkin_interactions_to_complete ?? null
+
+  const initiated = funnel?.initiated ?? record?.total_checkin_initiated ?? 0
+  const closed = funnel?.success ?? record?.total_record_locator_closed ?? 0
+  const abandonCount = funnel?.totalAbandoned ?? 0
+  const errorCount = funnel?.totalErrors ?? 0
 
   return {
     checkinInitiated: initiated,
     successRatePct: toPercent(closed, initiated),
     successCount: closed,
-    errorRatePct: toPercent(failedCount, initiated),
-    errorCount: failedCount,
-    abandonRatePct: toPercent(abandon, initiated),
-    abandonCount: abandon,
+    errorRatePct: toPercent(errorCount, initiated),
+    errorCount,
+    abandonRatePct: toPercent(abandonCount, initiated),
+    abandonCount,
     avgCompletionTimeSeconds: record?.avg_checkin_completion_time_seconds ?? null,
     avgCompletionTimeFormatted: record?.avg_checkin_completion_time_formatted ?? null,
     avgInteractionsToComplete: avgInteractions,

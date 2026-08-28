@@ -48,7 +48,6 @@ import { computed, toRef } from "vue";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
 import {
   formatSankeyLinkLabel,
-  formatSankeyPercentage,
 } from "../../Sankey/sankeyFormatters";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import { ChartBarIcon } from "@heroicons/vue/24/outline";
@@ -57,74 +56,13 @@ import {
   useThemeDetection,
   type Theme,
 } from "../../../../composables/useThemeDetection";
+import {
+  computeCheckinFunnelBreakdown,
+  type CheckinData,
+  type FailedData,
+} from "./checkinFunnelMetrics";
 
 type SankeyNodeStatus = "success" | "abandon" | "error";
-
-// Types
-interface CheckinByDay {
-  date: string;
-  checkin_initiated: number;
-  record_locator_init_count: number;
-  record_locator_started_count: number;
-  record_locator_completed_count: number;
-  record_locator_closed_count: number;
-  record_locator_abandoned_count: number;
-  record_locator_create_payment_count?: number;
-}
-
-interface CheckinData {
-  airline_name?: string;
-  start_date?: string;
-  end_date?: string;
-  total_record_locator_init?: number;
-  total_record_locator_started?: number;
-  total_record_locator_completed?: number;
-  total_record_locator_closed?: number;
-  total_record_locator_init_abandoned?: number;
-  total_checkin_initiated?: number;
-  total_record_locator_unrecovered?: number;
-  total_record_locator_init_abandoned_error?: number | null;
-  total_record_locator_init_abandoned_voluntary?: number | null;
-  total_checkin_pre_init_abandoned_error?: number | null;
-  total_checkin_pre_init_abandoned_voluntary?: number | null;
-  total_checkin_retrieval_user_error?: number | null;
-  total_checkin_retrieval_business_rule?: number | null;
-  total_checkin_retrieval_tech_error?: number | null;
-  total_checkin_retrieval_unknown_error?: number | null;
-  record_locator_by_day?: CheckinByDay[];
-}
-
-interface FailedStep {
-  step_name: string;
-  failed_count: number;
-}
-
-interface FailedByDay {
-  date: string;
-  steps: FailedStep[];
-}
-
-interface UnrecoveredByStep {
-  step_name: string;
-  count: number;
-}
-
-interface UnrecoveredByStepByDay {
-  date: string;
-  steps: { step_name: string; count: number }[];
-}
-
-interface FailedData {
-  airline_name?: string;
-  start_date?: string;
-  end_date?: string;
-  total_checkin_failed?: number;
-  total_checkin_unrecovered?: number;
-  total_checkin_init_abandoned?: number;
-  failed_by_step_by_day?: FailedByDay[];
-  unrecovered_by_step_by_day?: UnrecoveredByStepByDay[];
-  unrecovered_by_step?: UnrecoveredByStep[];
-}
 
 const props = withDefaults(
   defineProps<{
@@ -181,42 +119,6 @@ const handleExport = (format: ExportFormat) => {
 // Theme detection with prop fallback
 const { isDark } = useThemeDetection(toRef(props, "theme"));
 
-const BOARDING_PASS_FAILED_STEPS = new Set([
-  "choose_boardingpass",
-  "boarding_pass",
-  "generate_boarding_pass",
-]);
-
-const isBoardingPassFailedStep = (stepName: string | undefined): boolean => {
-  if (!stepName) return false;
-  const normalized = stepName.toLowerCase().trim();
-  return (
-    BOARDING_PASS_FAILED_STEPS.has(normalized) ||
-    normalized.includes("boarding_pass")
-  );
-};
-
-const getBoardingPassFailedCount = (failedData: FailedData | undefined): number => {
-  const byDay = failedData?.failed_by_step_by_day || [];
-  let total = 0;
-  for (const day of byDay) {
-    for (const step of day.steps || []) {
-      if (isBoardingPassFailedStep(step.step_name)) {
-        total += step.failed_count || 0;
-      }
-    }
-  }
-  if (total > 0) return total;
-
-  // Fallback when failed_by_step_by_day is empty
-  for (const step of failedData?.unrecovered_by_step || []) {
-    if (isBoardingPassFailedStep(step.step_name)) {
-      total += step.count || 0;
-    }
-  }
-  return total;
-};
-
 // Computed: Datos del Sankey
 const sankeyData = computed(() => {
   const nodes: { name: string; value?: number; status?: SankeyNodeStatus }[] = [];
@@ -237,72 +139,37 @@ const sankeyData = computed(() => {
     }
   };
 
-  if (!props.checkinData?.total_checkin_initiated) {
+  const funnel = computeCheckinFunnelBreakdown(
+    props.checkinData,
+    props.failedData,
+  );
+  if (!funnel) {
     return { nodes, links };
   }
 
-  const initiated = props.checkinData.total_checkin_initiated || 0;
+  const {
+    initiated,
+    bookingSuccess,
+    preRetrievedAbandon,
+    hasRetrievalErrorSplit,
+    retrievalUserError,
+    retrievalBusinessRule,
+    retrievalTechError,
+    retrievalUnknownError,
+    unifiedPreRetrievedError,
+    closed,
+    completed,
+    bpFailed,
+    abandonedAfterClosed,
+    totalUnrecovered,
+    abandonedBeforeClosed,
+  } = funnel;
 
   addNode("Initiated by agent", { value: initiated });
   addNode("Check In Started");
   // Shared: closed = PSS accepted; completed = BP issued
   addNode("Check In Success");
   addNode("Boarding Pass Issued");
-
-  const init = props.checkinData.total_record_locator_init || 0;
-  const abandonedInit =
-    props.checkinData.total_record_locator_init_abandoned || 0;
-  const preInitAbandonedErrorRaw =
-    props.checkinData.total_checkin_pre_init_abandoned_error;
-  const preInitAbandonedVoluntaryRaw =
-    props.checkinData.total_checkin_pre_init_abandoned_voluntary;
-  const hasPreInitAbandonedSplit =
-    (preInitAbandonedErrorRaw !== null &&
-      preInitAbandonedErrorRaw !== undefined) ||
-    (preInitAbandonedVoluntaryRaw !== null &&
-      preInitAbandonedVoluntaryRaw !== undefined);
-  const preInitAbandonedError = hasPreInitAbandonedSplit
-    ? Math.max(Number(preInitAbandonedErrorRaw) || 0, 0)
-    : 0;
-  const preInitAbandonedVoluntary = hasPreInitAbandonedSplit
-    ? Math.max(Number(preInitAbandonedVoluntaryRaw) || 0, 0)
-    : 0;
-  const abandonedErrorRaw =
-    props.checkinData.total_record_locator_init_abandoned_error;
-  const abandonedVoluntaryRaw =
-    props.checkinData.total_record_locator_init_abandoned_voluntary;
-  const hasAbandonedSplit =
-    (abandonedErrorRaw !== null && abandonedErrorRaw !== undefined) ||
-    (abandonedVoluntaryRaw !== null && abandonedVoluntaryRaw !== undefined);
-  const abandonedError = hasAbandonedSplit
-    ? Math.max(Number(abandonedErrorRaw) || 0, 0)
-    : 0;
-  const abandonedVoluntary = hasAbandonedSplit
-    ? Math.max(Number(abandonedVoluntaryRaw) || 0, 0)
-    : 0;
-  const abandonedStartedFallback = hasAbandonedSplit
-    ? Math.max(abandonedInit - abandonedError - abandonedVoluntary, 0)
-    : abandonedInit;
-  const bookingSuccess = Math.max(init - abandonedInit, 0);
-  const started = props.checkinData.total_record_locator_started || 0;
-  const completed = props.checkinData.total_record_locator_completed || 0;
-  const closed = props.checkinData.total_record_locator_closed || 0;
-  const totalUnrecovered =
-    props.checkinData.total_record_locator_unrecovered || 0;
-
-  // Collapsed funnel: Checkin Init -> Booking Retrieved | unified abandon | unified error
-  const abandonedBeforeInit = Math.max(initiated - init, 0);
-  const unifiedPreRetrievedError =
-    preInitAbandonedError + abandonedError;
-  const unifiedPreRetrievedAbandon = hasPreInitAbandonedSplit
-    ? preInitAbandonedVoluntary +
-      (hasAbandonedSplit
-        ? abandonedVoluntary + abandonedStartedFallback
-        : abandonedInit)
-    : abandonedBeforeInit +
-      (hasAbandonedSplit
-        ? abandonedVoluntary + abandonedStartedFallback
-        : abandonedInit);
 
   if (bookingSuccess > 0) {
     links.push({
@@ -313,35 +180,17 @@ const sankeyData = computed(() => {
     });
   }
 
-  if (unifiedPreRetrievedAbandon > 0) {
+  if (preRetrievedAbandon > 0) {
     addNode("Abandoned: No booking provided", { status: "abandon" });
     links.push({
       source: "Initiated by agent",
       target: "Abandoned: No booking provided",
-      value: unifiedPreRetrievedAbandon,
-      label: formatSankeyLinkLabel(unifiedPreRetrievedAbandon, initiated),
+      value: preRetrievedAbandon,
+      label: formatSankeyLinkLabel(preRetrievedAbandon, initiated),
     });
   }
 
-  const retrievalUserErrorRaw =
-    props.checkinData.total_checkin_retrieval_user_error;
-  const retrievalBusinessRuleRaw =
-    props.checkinData.total_checkin_retrieval_business_rule;
-  const retrievalTechErrorRaw =
-    props.checkinData.total_checkin_retrieval_tech_error;
-  const retrievalUnknownErrorRaw =
-    props.checkinData.total_checkin_retrieval_unknown_error;
-  const hasRetrievalErrorSplit =
-    retrievalUserErrorRaw != null ||
-    retrievalBusinessRuleRaw != null ||
-    retrievalTechErrorRaw != null ||
-    retrievalUnknownErrorRaw != null;
-
-  const addRetrievalErrorNode = (
-    name: string,
-    raw: number | null | undefined,
-  ): void => {
-    const value = Math.max(Number(raw) || 0, 0);
+  const addRetrievalErrorNode = (name: string, value: number): void => {
     if (value > 0) {
       addNode(name, { status: "error" });
       links.push({
@@ -354,10 +203,10 @@ const sankeyData = computed(() => {
   };
 
   if (hasRetrievalErrorSplit) {
-    addRetrievalErrorNode("Error: User error", retrievalUserErrorRaw);
-    addRetrievalErrorNode("Error: Business rule", retrievalBusinessRuleRaw);
-    addRetrievalErrorNode("Error: Tech error", retrievalTechErrorRaw);
-    addRetrievalErrorNode("Error: Unknown error", retrievalUnknownErrorRaw);
+    addRetrievalErrorNode("Error: User error", retrievalUserError);
+    addRetrievalErrorNode("Error: Business rule", retrievalBusinessRule);
+    addRetrievalErrorNode("Error: Tech error", retrievalTechError);
+    addRetrievalErrorNode("Error: Unknown error", retrievalUnknownError);
   } else if (unifiedPreRetrievedError > 0) {
     addNode("Error: On Retrieval", { status: "error" });
     links.push({
@@ -379,9 +228,6 @@ const sankeyData = computed(() => {
     });
   }
 
-  const rawBpFailed = getBoardingPassFailedCount(props.failedData);
-  const bpFailed = Math.min(rawBpFailed, Math.max(closed - completed, 0));
-
   if (completed > 0) {
     links.push({
       source: "Check In Success",
@@ -401,7 +247,6 @@ const sankeyData = computed(() => {
     });
   }
 
-  const abandonedAfterClosed = Math.max(closed - completed - bpFailed, 0);
   if (abandonedAfterClosed > 0) {
     // AV keeps Abandoned after Closed distinct from flow abandon (before Closed).
     const afterClosedNode = props.isAvianca
@@ -427,7 +272,6 @@ const sankeyData = computed(() => {
     });
   }
 
-  const abandonedBeforeClosed = Math.max(started - closed - totalUnrecovered, 0);
   if (abandonedBeforeClosed > 0) {
     addNode("Abandoned: Check In Incomplete", { status: "abandon" });
     links.push({

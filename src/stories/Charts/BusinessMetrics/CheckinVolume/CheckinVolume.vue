@@ -81,53 +81,17 @@ import {
   type Theme,
 } from "../../../../composables/useThemeDetection";
 import { formatSankeyLinkLabel } from "../../Sankey/sankeyFormatters";
+import {
+  computeCheckinVolumeDays,
+  type CheckinData,
+  type CheckinVolumeDay,
+  type FailedData,
+} from "../CheckinMetrics/checkinFunnelMetrics";
 
-export interface CheckinVolumeDay {
-  date: string;
-  initiated: number;
-  success: number;
-  abandoned: number;
-  errors: number;
-}
+export type { CheckinVolumeDay };
 
 export interface CheckinVolumeData {
   by_day: CheckinVolumeDay[];
-}
-
-/** Same daily shape as CheckinMetrics (`record_locator_by_day`). */
-interface CheckinByDay {
-  date: string;
-  checkin_initiated: number;
-  record_locator_init_count: number;
-  record_locator_started_count: number;
-  record_locator_completed_count: number;
-  record_locator_closed_count: number;
-  record_locator_abandoned_count: number;
-  record_locator_create_payment_count?: number;
-}
-
-interface CheckinData {
-  record_locator_by_day?: CheckinByDay[];
-}
-
-interface FailedStep {
-  step_name: string;
-  failed_count: number;
-}
-
-interface FailedByDay {
-  date: string;
-  steps: FailedStep[];
-}
-
-interface UnrecoveredByDay {
-  date: string;
-  unrecovered_count: number;
-}
-
-interface FailedData {
-  failed_by_step_by_day?: FailedByDay[];
-  unrecovered_by_day?: UnrecoveredByDay[];
 }
 
 const SERIES = [
@@ -145,28 +109,11 @@ function formatChartDate(dateStr: string): string {
   return moment(dateStr).format("MMM D");
 }
 
-function errorsForDay(date: string, failedData?: FailedData | null): number {
-  const unrecovered = failedData?.unrecovered_by_day?.find((d) => d.date === date);
-  if (unrecovered) return unrecovered.unrecovered_count || 0;
-  const failedDay = failedData?.failed_by_step_by_day?.find((d) => d.date === date);
-  if (!failedDay?.steps?.length) return 0;
-  return failedDay.steps.reduce((sum, step) => sum + (step.failed_count || 0), 0);
-}
-
 function volumeDaysFromCheckin(
   checkinData?: CheckinData | null,
   failedData?: FailedData | null,
 ): CheckinVolumeDay[] {
-  const days = checkinData?.record_locator_by_day ?? [];
-  return [...days]
-    .map((day) => ({
-      date: day.date,
-      initiated: day.checkin_initiated || 0,
-      success: day.record_locator_closed_count || 0,
-      abandoned: day.record_locator_abandoned_count || 0,
-      errors: errorsForDay(day.date, failedData),
-    }))
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  return computeCheckinVolumeDays(checkinData, failedData);
 }
 
 const props = withDefaults(

@@ -83,70 +83,17 @@ import {
   type Theme,
 } from "../../../../composables/useThemeDetection";
 import { formatSankeyLinkLabel } from "../../Sankey/sankeyFormatters";
+import {
+  computeSalesVolumeDays,
+  type FailedData,
+  type SalesVolumeDay,
+  type SellerData,
+} from "../Seller/sellerFunnelMetrics";
 
-export interface SalesVolumeDay {
-  date: string;
-  initiated: number;
-  success: number;
-  abandoned: number;
-  errors: number;
-}
+export type { SalesVolumeDay };
 
 export interface SalesVolumeData {
   by_day: SalesVolumeDay[];
-}
-
-interface CurrencyValue {
-  currency: string;
-  total_value: number;
-  count: number;
-}
-
-interface FailedReason {
-  reason: string;
-  failed_count: number;
-}
-
-interface SellerDayData {
-  date: string;
-  seller_conversations: number;
-  sell_started_count: number;
-  sell_get_quote_count: number;
-  sell_booking_created_count: number;
-  sell_success_count: number;
-  sell_success_bank_transfer_count?: number;
-  sell_success_cash_count?: number;
-  daily_value_sell_success: number | CurrencyValue[];
-  daily_value_sell_success_bank_transfer?: CurrencyValue[];
-  daily_value_sell_success_cash?: CurrencyValue[];
-  reasons?: FailedReason[];
-}
-
-export interface SellerData {
-  airline_name?: string;
-  start_date?: string;
-  end_date?: string;
-  total_seller_conversations: number;
-  total_sell_started: number;
-  total_sell_get_quote: number;
-  total_sell_booking_created: number;
-  total_sell_success: number;
-  total_sell_success_bank_transfer?: number;
-  total_sell_success_cash?: number;
-  total_value_sell_success: number | CurrencyValue[];
-  total_value_sell_success_bank_transfer?: CurrencyValue[];
-  total_value_sell_success_cash?: CurrencyValue[];
-  seller_by_day: SellerDayData[];
-}
-
-interface FailedByReasonDay {
-  date: string;
-  reasons: FailedReason[];
-}
-
-interface FailedData {
-  total_sell_failed: number;
-  failed_by_reason_by_day: FailedByReasonDay[];
 }
 
 const SERIES = [
@@ -156,77 +103,25 @@ const SERIES = [
   { key: "errors" as const, label: "Errors", color: "#EF4444" },
 ];
 
-function formatChartDate(dateStr: string): string {
-  const [year, month, day] = dateStr.split("-").map(Number);
-  if (year && month && day) {
-    return moment([year, month - 1, day]).format("MMM D");
-  }
-  return moment(dateStr).format("MMM D");
-}
-
 function isSellerData(
   data: SellerData | SalesVolumeData,
 ): data is SellerData {
   return "seller_by_day" in data;
 }
 
-function successForDay(day: SellerDayData): number {
-  return (
-    (day.sell_success_count || 0) +
-    (day.sell_success_bank_transfer_count ?? 0) +
-    (day.sell_success_cash_count ?? 0)
-  );
-}
-
-function errorsForDay(day: SellerDayData): number {
-  if (!day.reasons?.length) return 0;
-  return day.reasons.reduce((sum, reason) => sum + (reason.failed_count || 0), 0);
-}
-
-function toVolumeDay(day: SellerDayData): SalesVolumeDay {
-  const initiated = day.seller_conversations || 0;
-  const success = successForDay(day);
-  const errors = errorsForDay(day);
-  const abandoned = Math.max(0, initiated - success - errors);
-
-  return {
-    date: day.date,
-    initiated,
-    success,
-    abandoned,
-    errors,
-  };
-}
-
 function volumeDaysFromSeller(
   sellerData?: SellerData | null,
   failedData?: FailedData | null,
 ): SalesVolumeDay[] {
-  const data = [...(sellerData?.seller_by_day ?? [])];
+  return computeSalesVolumeDays(sellerData, failedData);
+}
 
-  if (failedData?.failed_by_reason_by_day) {
-    failedData.failed_by_reason_by_day.forEach((failedItem) => {
-      const idx = data.findIndex((sellerItem) => sellerItem.date === failedItem.date);
-      if (idx !== -1) {
-        data[idx] = { ...data[idx], reasons: failedItem.reasons };
-      } else {
-        data.push({
-          date: failedItem.date,
-          seller_conversations: 0,
-          sell_started_count: 0,
-          sell_get_quote_count: 0,
-          sell_booking_created_count: 0,
-          sell_success_count: 0,
-          daily_value_sell_success: 0,
-          reasons: failedItem.reasons,
-        });
-      }
-    });
+function formatChartDate(dateStr: string): string {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  if (year && month && day) {
+    return moment([year, month - 1, day]).format("MMM D");
   }
-
-  return data
-    .map(toVolumeDay)
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  return moment(dateStr).format("MMM D");
 }
 
 const props = withDefaults(

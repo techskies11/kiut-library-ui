@@ -89,7 +89,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Volumen diario de ventas por resultado, con área en degradado bajo cada serie.",
+          "Volumen diario de ventas por resultado, con área en degradado bajo cada serie. Con datos Seller + failedData, las categorías coinciden con Seller Metrics (Sankey).",
       },
     },
   },

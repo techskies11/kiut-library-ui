@@ -270,57 +270,17 @@ import {
 } from "../../../../composables/useThemeDetection";
 import Table, { type TableColumn } from "../../Utils/Table/Table.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
-
-interface FailedReason {
-  reason: string;
-  failed_count: number;
-}
-
-interface CurrencyValue {
-  currency: string;
-  total_value: number;
-  count: number;
-}
-
-interface SellerDayData {
-  date: string;
-  seller_conversations: number;
-  sell_started_count: number;
-  sell_get_quote_count: number;
-  sell_booking_created_count: number;
-  sell_success_count: number;
-  sell_success_bank_transfer_count?: number;
-  sell_success_cash_count?: number;
-  daily_value_sell_success: number | CurrencyValue[];
-  daily_value_sell_success_bank_transfer?: CurrencyValue[];
-  daily_value_sell_success_cash?: CurrencyValue[];
-  reasons?: FailedReason[];
-}
+import {
+  computeSellerFunnelBreakdown,
+  mergeSellerDaysWithFailed,
+  type CurrencyValue,
+  type FailedData,
+  type SellerData,
+  type SellerDayData,
+} from "./sellerFunnelMetrics";
 
 function sellerDayFromRow(r: Record<string, unknown>): SellerDayData {
   return r as unknown as SellerDayData;
-}
-
-interface SellerData {
-  total_seller_conversations: number;
-  total_sell_started: number;
-  total_sell_get_quote: number;
-  total_sell_booking_created: number;
-  total_sell_success: number;
-  total_sell_success_bank_transfer?: number;
-  total_sell_success_cash?: number;
-  total_value_sell_success: number | CurrencyValue[];
-  total_value_sell_success_bank_transfer?: CurrencyValue[];
-  total_value_sell_success_cash?: CurrencyValue[];
-  seller_by_day: SellerDayData[];
-}
-
-interface FailedData {
-  total_sell_failed: number;
-  failed_by_reason_by_day: {
-    date: string;
-    reasons: FailedReason[];
-  }[];
 }
 
 const props = withDefaults(
@@ -372,33 +332,7 @@ const { isDark } = useThemeDetection(toRef(props, "theme"));
 const tableData = computed(() => {
   if (!props.sellerData?.seller_by_day) return [];
 
-  const data = [...props.sellerData.seller_by_day] as SellerDayData[];
-
-  // Merge failed data with seller data by date
-  if (props.failedData?.failed_by_reason_by_day) {
-    props.failedData.failed_by_reason_by_day.forEach((failedItem) => {
-      const idx = data.findIndex(
-        (sellerItem) => sellerItem.date === failedItem.date,
-      );
-      if (idx !== -1) {
-        data[idx] = { ...data[idx], reasons: failedItem.reasons };
-      } else {
-        data.push({
-          date: failedItem.date,
-          seller_conversations: 0,
-          sell_started_count: 0,
-          sell_get_quote_count: 0,
-          sell_booking_created_count: 0,
-          sell_success_count: 0,
-          daily_value_sell_success: 0,
-          reasons: failedItem.reasons,
-        });
-      }
-    });
-  }
-
-  // Sort by date
-  return data.sort(
+  return mergeSellerDaysWithFailed(props.sellerData, props.failedData).sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
 });
@@ -437,8 +371,6 @@ const sellerTableRows = computed((): Record<string, unknown>[] =>
   })),
 );
 
-const sellerData = computed(() => props.sellerData);
-const failedData = computed(() => props.failedData);
 const totalSalesByCurrency = computed(() =>
   Array.isArray(props.sellerData.total_value_sell_success)
     ? props.sellerData.total_value_sell_success
@@ -497,20 +429,24 @@ const formatFailureNodeLabel = (reason: string): string =>
   `Failed:\n${humanizeFailureReason(reason)}`;
 
 const sankeyData = computed(() => {
+  const funnel = computeSellerFunnelBreakdown(
+    props.sellerData,
+    props.failedData,
+  );
+  if (!funnel) return { nodes: [], links: [] };
+
   const {
-    total_seller_conversations: conversations = 0,
-    total_sell_started: started = 0,
-    total_sell_booking_created: bookingCreated = 0,
-    total_sell_success: success = 0,
-    total_sell_success_bank_transfer: successBankTransfer = 0,
-    total_sell_success_cash: successCash = 0,
-  } = sellerData.value;
-  const { failed_by_reason_by_day = [] } = failedData.value;
-
-  if (conversations === 0) return { nodes: [], links: [] };
-
-  // API returns generic sell_success already excluding bank transfer and cash option.
-  const successOnline = success;
+    initiated: conversations,
+    started,
+    bookingCreated,
+    successOnline,
+    successBankTransfer,
+    successCash,
+    droppedBeforeSales,
+    failedAtBooking,
+    failedAtCompletion,
+    failedByReasons,
+  } = funnel;
 
   const nodes: {
     name: string;
@@ -531,8 +467,6 @@ const sankeyData = computed(() => {
     label: string;
   }[] = [];
 
-  // Initial drop-off
-  const droppedBeforeSales = conversations - started;
   if (droppedBeforeSales > 0) {
     nodes.push({
       name: "Abandoned: No Response",
@@ -556,22 +490,6 @@ const sankeyData = computed(() => {
     });
   }
 
-  // Collect all failure reasons
-  const failedByReasons: Record<string, number> =
-    failed_by_reason_by_day.reduce(
-      (acc, dayData) => {
-        if (dayData.reasons && Array.isArray(dayData.reasons)) {
-          dayData.reasons.forEach((reasonData) => {
-            const reason = reasonData.reason;
-            const count = reasonData.failed_count;
-            acc[reason] = (acc[reason] || 0) + count;
-          });
-        }
-        return acc;
-      },
-      {} as Record<string, number>,
-    );
-
   if (bookingCreated > 0) {
     links.push({
       source: "Sell Started",
@@ -581,31 +499,31 @@ const sankeyData = computed(() => {
     });
   }
 
-  if ((successBankTransfer ?? 0) > 0) {
+  if (successBankTransfer > 0) {
     nodes.push({
       name: "Bank Transfer",
-      value: successBankTransfer ?? 0,
+      value: successBankTransfer,
       status: "success",
     });
     links.push({
       source: "Booking Created",
       target: "Bank Transfer",
-      value: successBankTransfer ?? 0,
-      label: formatSankeyLinkLabel(successBankTransfer ?? 0, conversations),
+      value: successBankTransfer,
+      label: formatSankeyLinkLabel(successBankTransfer, conversations),
     });
   }
 
-  if ((successCash ?? 0) > 0) {
+  if (successCash > 0) {
     nodes.push({
       name: "Cash Option",
-      value: successCash ?? 0,
+      value: successCash,
       status: "success",
     });
     links.push({
       source: "Booking Created",
       target: "Cash Option",
-      value: successCash ?? 0,
-      label: formatSankeyLinkLabel(successCash ?? 0, conversations),
+      value: successCash,
+      label: formatSankeyLinkLabel(successCash, conversations),
     });
   }
 
@@ -618,11 +536,6 @@ const sankeyData = computed(() => {
     });
   }
 
-  const failedAtCompletion =
-    bookingCreated -
-    successOnline -
-    (successBankTransfer ?? 0) -
-    (successCash ?? 0);
   if (failedAtCompletion > 0) {
     nodes.push({
       name: "Failed at Completion",
@@ -637,7 +550,6 @@ const sankeyData = computed(() => {
     });
   }
 
-  const failedAtBooking = started - bookingCreated;
   if (failedAtBooking > 0) {
     nodes.push({
       name: "Failed at Booking",
