@@ -377,7 +377,8 @@ function alignClass(align: TableColumnAlign | undefined): string {
 }
 
 function isLastColumn(col: TableColumn): boolean {
-  return props.columns.at(-1)?.key === col.key;
+  const last = props.columns[props.columns.length - 1];
+  return last?.key === col.key;
 }
 
 function resolveRowKey(row: Record<string, unknown>, index: number): string {
