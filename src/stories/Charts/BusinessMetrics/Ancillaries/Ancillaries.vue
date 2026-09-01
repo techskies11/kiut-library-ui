@@ -51,6 +51,12 @@
         <CardInfo
           class="ancillaries-value-card"
           color="var(--kiut-error, #ef4444)"
+          title="Failed"
+          :value="useNumberFormat(failed)"
+        />
+        <CardInfo
+          class="ancillaries-value-card"
+          color="var(--kiut-error, #ef4444)"
           title="Declined"
           :value="useNumberFormat(declined)"
         />
@@ -85,6 +91,11 @@
             <template #cell-paid="{ row }">
               <span class="sl-cell text-center">{{
                 useNumberFormat(Number(row.paid_count) || 0)
+              }}</span>
+            </template>
+            <template #cell-failed="{ row }">
+              <span class="sl-cell text-center">{{
+                useNumberFormat(Number(row.failed_count) || 0)
               }}</span>
             </template>
             <template #cell-declined="{ row }">
@@ -143,6 +154,7 @@ interface AncillariesDayData {
   selected_count: number;
   declined_count: number;
   paid_count?: number;
+  failed_count?: number;
   reasons?: DeclinedReason[];
 }
 
@@ -151,6 +163,7 @@ interface AncillariesData {
   total_ancillaries_selected: number;
   total_ancillaries_declined: number;
   total_ancillaries_paid?: number;
+  total_ancillaries_failed?: number;
   ancillaries_cr: number;
   declined_by_reason?: DeclinedReason[];
   ancillaries_by_day: AncillariesDayData[];
@@ -177,6 +190,7 @@ const props = withDefaults(
       total_ancillaries_selected: 0,
       total_ancillaries_declined: 0,
       total_ancillaries_paid: 0,
+      total_ancillaries_failed: 0,
       ancillaries_cr: 0,
       declined_by_reason: [],
       ancillaries_by_day: [],
@@ -202,6 +216,9 @@ const declined = computed(
 const paid = computed(
   () => props.ancillariesData?.total_ancillaries_paid || 0,
 );
+const failed = computed(
+  () => props.ancillariesData?.total_ancillaries_failed || 0,
+);
 const ancillariesCr = computed(
   () => props.ancillariesData?.ancillaries_cr || 0,
 );
@@ -222,6 +239,7 @@ const sankeyData = computed(() => {
   const selectedCount = selected.value;
   const declinedCount = declined.value;
   const paidCount = paid.value;
+  const failedCount = failed.value;
   const declinedByReason = props.ancillariesData?.declined_by_reason || [];
 
   if (offeredCount === 0) return { nodes: [], links: [] };
@@ -261,6 +279,18 @@ const sankeyData = computed(() => {
       target: "Paid",
       value: paidCount,
       label: formatSankeyLinkLabel(paidCount, paidDenom),
+    });
+  }
+
+  if (failedCount > 0) {
+    nodes.push({ name: "Failed", value: failedCount, status: "error" });
+    const failedSource = selectedCount > 0 ? "Selected" : "Offered";
+    const failedDenom = selectedCount > 0 ? selectedCount : offeredCount;
+    links.push({
+      source: failedSource,
+      target: "Failed",
+      value: failedCount,
+      label: formatSankeyLinkLabel(failedCount, failedDenom),
     });
   }
 
@@ -346,6 +376,7 @@ const tableData = computed(() => {
         selected_count: 0,
         declined_count: 0,
         paid_count: 0,
+        failed_count: 0,
         reasons: dayReasons.reasons,
       });
     }
@@ -361,6 +392,7 @@ const tableColumns = computed<TableColumn[]>(() => [
   { key: "offered", label: "Offered", align: "center" },
   { key: "selected", label: "Selected", align: "center" },
   { key: "paid", label: "Paid", align: "center" },
+  { key: "failed", label: "Failed", align: "center" },
   { key: "declined", label: "Declined", align: "center" },
   { key: "reasons", label: "Decline Reasons", align: "left" },
 ]);
