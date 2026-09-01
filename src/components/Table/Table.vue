@@ -10,11 +10,11 @@
         ]"
       >
         <thead>
-          <tr class="table-header h-12 bg-[#eaeaec80] dark:bg-[#23232f80]">
+          <tr class="table-header h-12">
             <th
               v-if="selectable"
               scope="col"
-              class="w-14 bg-transparent px-4 py-3 text-center align-middle"
+              class="kiut-table-head-cell w-14 px-4 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -30,9 +30,10 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-2 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                'kiut-table-head-cell px-2 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
                 isExpandColumn(col.key) && selectable ? '!pl-0' : '',
                 alignClass(col.align),
+                isLastColumn(col) ? 'kiut-table-col--fill' : '',
                 col.headerClass ?? '',
               ]"
             >
@@ -88,7 +89,7 @@
           >
             <td
               v-if="selectable"
-              class="kiut-table-body-cell w-12 bg-transparent pl-4 pr-0 py-0 text-center align-middle"
+              class="kiut-table-body-cell w-12 pl-4 pr-0 py-0 text-center align-middle"
             >
               <input
                 v-if="isEntrySelectable(entry)"
@@ -119,9 +120,10 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'kiut-table-body-cell bg-transparent py-0 align-middle text-[color:var(--kiut-text-secondary)]',
+                'kiut-table-body-cell py-0 align-middle text-[color:var(--kiut-text-secondary)]',
                 isExpandColumn(col.key) ? 'pl-0 pr-2' : 'px-2',
                 alignClass(col.align),
+                isLastColumn(col) ? 'kiut-table-col--fill' : '',
                 col.cellClass ?? '',
               ]"
             >
@@ -374,6 +376,10 @@ function alignClass(align: TableColumnAlign | undefined): string {
   return "text-left";
 }
 
+function isLastColumn(col: TableColumn): boolean {
+  return props.columns.at(-1)?.key === col.key;
+}
+
 function resolveRowKey(row: Record<string, unknown>, index: number): string {
   if (typeof props.rowKey === "function") {
     return props.rowKey(row);
@@ -588,6 +594,42 @@ function ariaSortForColumn(key: string): "none" | "ascending" | "descending" {
 <style scoped>
 .kiut-table {
   font-family: var(--kiut-table-font, "Inter", system-ui, sans-serif);
+}
+
+.kiut-table-head-cell {
+  background-color: color-mix(
+    in srgb,
+    #eaeaec 50%,
+    var(--kiut-bg-secondary, #ffffff)
+  );
+}
+
+.dark .kiut-table-head-cell {
+  background-color: color-mix(
+    in srgb,
+    #23232f 50%,
+    var(--kiut-bg-secondary, #141419)
+  );
+}
+
+.kiut-table-body-cell {
+  background-color: var(--kiut-bg-secondary, #ffffff);
+}
+
+.dark tbody .kiut-table-body-row .kiut-table-body-cell {
+  background-color: #141419;
+}
+
+.dark tbody .kiut-table-row--child .kiut-table-body-cell {
+  background-color: #1a1a22;
+}
+
+.kiut-table-body-row:hover .kiut-table-body-cell {
+  background: var(--kiut-bg-table-hover);
+}
+
+.kiut-table-col--fill {
+  width: auto;
 }
 
 .kiut-table tbody .kiut-table-body-row {

@@ -45,7 +45,7 @@ const meta: Meta<typeof Table> = {
     docs: {
       description: {
         component:
-          'Tabla declarativa con tokens Kiut. La selección múltiple es opcional (`selectable`). Con `expandable` y `children` en cada fila, las filas hijas se muestran en cascada con chevron e indentación. Prueba **Theme** en la toolbar de Storybook para modo claro y oscuro (clase `dark`).',
+          'Tabla declarativa con tokens Kiut. La selección múltiple es opcional (`selectable`). Con `expandable` y `children` en cada fila, las filas hijas se muestran en cascada con chevron e indentación. La última columna absorbe el ancho sobrante y pinta header/celdas con el mismo fondo, también al hacer scroll horizontal. Prueba **Theme** en la toolbar de Storybook para modo claro y oscuro (clase `dark`).',
       },
     },
   },
@@ -379,7 +379,7 @@ export const FixedLayout: Story = {
     docs: {
       description: {
         story:
-          'Con `fixedLayout` activo, las columnas respetan los anchos definidos en `headerClass`/`cellClass` sin redistribuirse. Ideal para tablas con muchas columnas como la de usuarios.',
+          'Con `fixedLayout` activo, las columnas respetan los anchos definidos en `headerClass`/`cellClass` sin redistribuirse. La última columna (p. ej. Actions) se mueve con el scroll y rellena el espacio sobrante con el fondo del header y de la fila.',
       },
     },
   },
