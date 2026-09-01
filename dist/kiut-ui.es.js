@@ -13903,7 +13903,7 @@ function Lr(e, a, t = 0, n = 0) {
     );
   }), l;
 }
-const Mb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, Db = { class: "container-table w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, Tb = { class: "table-header h-12" }, Ab = {
+const Mb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]" }, Db = { class: "container-table kiut-table-scroll w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden" }, Tb = { class: "table-header h-12" }, Ab = {
   key: 0,
   scope: "col",
   class: "kiut-table-head-cell w-14 px-4 py-3 text-center align-middle"
@@ -14125,7 +14125,7 @@ const Mb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       d("div", Db, [
         d("table", {
           class: K([
-            "kiut-table w-full min-w-[640px] overflow-hidden border-collapse text-left text-sm",
+            "kiut-table w-full min-w-[640px] text-left text-sm",
             e.fixedLayout ? "table-fixed" : ""
           ])
         }, [
@@ -14259,7 +14259,7 @@ const Mb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
-}), Pr = /* @__PURE__ */ be(jb, [["__scopeId", "data-v-80e002bb"]]), Hb = { class: "error-reasons-table-wrap table-section" }, Wb = { class: "metric-cell" }, Kb = { class: "metric-cell" }, Eo = 5, Ub = /* @__PURE__ */ ce({
+}), Pr = /* @__PURE__ */ be(jb, [["__scopeId", "data-v-bd7fde3a"]]), Hb = { class: "error-reasons-table-wrap table-section" }, Wb = { class: "metric-cell" }, Kb = { class: "metric-cell" }, Eo = 5, Ub = /* @__PURE__ */ ce({
   __name: "ErrorReasonsTable",
   props: {
     rows: {}
