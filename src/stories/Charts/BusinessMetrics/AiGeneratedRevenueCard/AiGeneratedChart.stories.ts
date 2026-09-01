@@ -1,107 +1,86 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import AiGeneratedChart from './AiGeneratedChart.vue'
 
-const meta = {
+const mockData = {
+  airline_name: '2W',
+  start_date: '2026-01-01',
+  end_date: '2026-01-31',
+  currency: 'USD',
+  total_ai_revenue: 12500,
+  total_ai_revenue_usd: 12500,
+  breakdown: [
+    { key: 'seller|ticket', total: 8000, total_usd: 8000, percentage: 64 },
+    { key: 'seller|ancillaries', total: 2500, total_usd: 2500, percentage: 20 },
+    { key: 'checkin|ancillaries', total: 2000, total_usd: 2000, percentage: 16 },
+  ],
+  ai_revenue_by_day: [
+    {
+      date: '2026-01-10',
+      ai_revenue: 4200,
+      ai_revenue_usd: 4200,
+      breakdown: {
+        'seller|ticket': { ai_revenue: 3000, ai_revenue_usd: 3000 },
+        'seller|ancillaries': { ai_revenue: 1200, ai_revenue_usd: 1200 },
+      },
+    },
+    {
+      date: '2026-01-11',
+      ai_revenue: 8300,
+      ai_revenue_usd: 8300,
+      breakdown: {
+        'seller|ticket': { ai_revenue: 5000, ai_revenue_usd: 5000 },
+        'checkin|ancillaries': { ai_revenue: 3300, ai_revenue_usd: 3300 },
+      },
+    },
+  ],
+}
+
+const customBreakdownOptions = [
+  { value: 'all', label: 'Todos' },
+  { value: 'agent_and_product', label: 'Agente y producto' },
+]
+
+const customTitles = {
+  all: 'Ingresos IA',
+  agent_and_product: 'Ingresos por agente y producto',
+}
+
+const meta: Meta<typeof AiGeneratedChart> = {
   title: 'Charts/BusinessMetrics/AiGeneratedChart',
   component: AiGeneratedChart,
   tags: ['autodocs'],
-  argTypes: {
-    loading: {
-      control: 'boolean',
-      description: 'Loading state',
-    },
-    data: {
-      control: 'object',
-      description: 'AI revenue data including totals, breakdown items and daily breakdown',
-    },
-    breakdownBy: {
-      control: 'select',
-      options: ['all', 'payment_method', 'agent_type', 'channel', 'channel_and_agent'],
-      description: 'Active breakdown dimension',
-    },
-    onChangeBreakdown: {
-      action: 'changeBreakdown',
-      description: 'Emitted when the breakdown select changes',
-    },
-  },
-  decorators: [
-    () => ({
-      template: '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
-    }),
-  ],
-} satisfies Meta<typeof AiGeneratedChart>
+  parameters: { layout: 'padded' },
+}
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-const sampleDays = [
-  {
-    date: '2026-05-01',
-    ai_revenue: 42000,
-    ai_revenue_usd: 42000,
-    breakdown: {
-      credit_card: { ai_revenue: 25000, ai_revenue_usd: 25000 },
-      debit_card: { ai_revenue: 12000, ai_revenue_usd: 12000 },
-      cash: { ai_revenue: 5000, ai_revenue_usd: 5000 },
-    },
-  },
-  {
-    date: '2026-05-02',
-    ai_revenue: 55000,
-    ai_revenue_usd: 55000,
-    breakdown: {
-      credit_card: { ai_revenue: 30000, ai_revenue_usd: 30000 },
-      debit_card: { ai_revenue: 18000, ai_revenue_usd: 18000 },
-      cash: { ai_revenue: 7000, ai_revenue_usd: 7000 },
-    },
-  },
-  {
-    date: '2026-05-03',
-    ai_revenue: 48000,
-    ai_revenue_usd: 48000,
-    breakdown: {
-      credit_card: { ai_revenue: 27000, ai_revenue_usd: 27000 },
-      debit_card: { ai_revenue: 14000, ai_revenue_usd: 14000 },
-      cash: { ai_revenue: 7000, ai_revenue_usd: 7000 },
-    },
-  },
-]
-
 export const Default: Story = {
   args: {
     loading: false,
+    data: mockData,
     breakdownBy: 'all',
-    data: {
-      airline_name: 'Demo Airline',
-      start_date: '2026-05-01',
-      end_date: '2026-05-03',
-      currency: 'USD',
-      total_ai_revenue: 145000,
-      total_ai_revenue_usd: 145000,
-      breakdown: [],
-      ai_revenue_by_day: sampleDays,
-    },
   },
 }
 
-export const ByPaymentMethod: Story = {
+export const AgentAndProductBreakdown: Story = {
   args: {
     loading: false,
-    breakdownBy: 'payment_method',
-    data: {
-      airline_name: 'Demo Airline',
-      start_date: '2026-05-01',
-      end_date: '2026-05-03',
-      currency: 'USD',
-      total_ai_revenue: 145000,
-      total_ai_revenue_usd: 145000,
-      breakdown: [
-        { key: 'credit_card', total: 82000, total_usd: 82000, percentage: 56.6 },
-        { key: 'debit_card', total: 44000, total_usd: 44000, percentage: 30.3 },
-        { key: 'cash', total: 19000, total_usd: 19000, percentage: 13.1 },
-      ],
-      ai_revenue_by_day: sampleDays,
-    },
+    data: mockData,
+    breakdownBy: 'agent_and_product',
+  },
+}
+
+export const CustomI18nOverrides: Story = {
+  args: {
+    loading: false,
+    data: mockData,
+    breakdownBy: 'agent_and_product',
+    breakdownOptions: customBreakdownOptions,
+    titles: customTitles,
+    subtitle: 'Ingresos generados por IA',
+    emptyTitle: 'Sin datos de ingresos',
+    emptyDescription: 'Ajusta el rango de fechas.',
   },
 }
 
@@ -115,12 +94,8 @@ export const Loading: Story = {
 export const Empty: Story = {
   args: {
     loading: false,
-    breakdownBy: 'all',
     data: {
-      airline_name: 'Demo Airline',
-      start_date: '2026-05-01',
-      end_date: '2026-05-03',
-      currency: 'USD',
+      ...mockData,
       total_ai_revenue: 0,
       total_ai_revenue_usd: 0,
       breakdown: [],
