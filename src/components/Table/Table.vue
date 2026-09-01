@@ -2,10 +2,12 @@
   <div
     class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
-    <div class="container-table w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden">
+    <div
+      class="container-table kiut-table-scroll w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden"
+    >
       <table
         :class="[
-          'kiut-table w-full min-w-[640px] overflow-hidden border-collapse text-left text-sm',
+          'kiut-table w-full min-w-[640px] text-left text-sm',
           fixedLayout ? 'table-fixed' : '',
         ]"
       >
@@ -595,22 +597,39 @@ function ariaSortForColumn(key: string): "none" | "ascending" | "descending" {
 <style scoped>
 .kiut-table {
   font-family: var(--kiut-table-font, "Inter", system-ui, sans-serif);
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.kiut-table-head-cell {
-  background-color: color-mix(
+.kiut-table-wrap {
+  --kiut-table-head-bg: color-mix(
     in srgb,
     #eaeaec 50%,
     var(--kiut-bg-secondary, #ffffff)
   );
 }
 
-.dark .kiut-table-head-cell {
-  background-color: color-mix(
+.dark .kiut-table-wrap {
+  --kiut-table-head-bg: color-mix(
     in srgb,
     #23232f 50%,
     var(--kiut-bg-secondary, #141419)
   );
+}
+
+.kiut-table-scroll {
+  background-color: var(--kiut-bg-secondary, #ffffff);
+  background-image: linear-gradient(
+    var(--kiut-table-head-bg),
+    var(--kiut-table-head-bg)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 3rem;
+  background-attachment: local;
+}
+
+.kiut-table-head-cell {
+  background-color: var(--kiut-table-head-bg);
 }
 
 .kiut-table-body-cell {
