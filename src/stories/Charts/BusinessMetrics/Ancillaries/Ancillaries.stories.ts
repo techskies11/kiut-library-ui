@@ -6,6 +6,7 @@ const mockAncillariesData = {
   total_ancillaries_selected: 420,
   total_ancillaries_declined: 380,
   total_ancillaries_paid: 180,
+  total_ancillaries_failed: 45,
   ancillaries_cr: 42.0,
   declined_by_reason: [
     { reason: "declined", count: 200 },
@@ -20,6 +21,7 @@ const mockAncillariesData = {
       selected_count: 50,
       declined_count: 45,
       paid_count: 22,
+      failed_count: 6,
     },
     {
       date: "2026-08-02",
@@ -27,6 +29,7 @@ const mockAncillariesData = {
       selected_count: 48,
       declined_count: 40,
       paid_count: 20,
+      failed_count: 5,
     },
     {
       date: "2026-08-03",
@@ -34,6 +37,7 @@ const mockAncillariesData = {
       selected_count: 55,
       declined_count: 50,
       paid_count: 24,
+      failed_count: 7,
     },
   ],
   declined_by_reason_by_day: [
@@ -76,7 +80,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Ancillaries funnel Sankey (Offered → Selected → Paid / Declined by reason) with CR highlight card.",
+          "Ancillaries funnel Sankey (Offered → Selected → Paid / Failed / Declined by reason) with CR highlight card.",
       },
     },
   },
@@ -107,6 +111,7 @@ export const Empty: Story = {
       total_ancillaries_selected: 0,
       total_ancillaries_declined: 0,
       total_ancillaries_paid: 0,
+      total_ancillaries_failed: 0,
       ancillaries_cr: 0,
       declined_by_reason: [],
       ancillaries_by_day: [],
