@@ -5,7 +5,8 @@
     data-testid="seller-kpi"
   >
     <div
-      class="grid grid-cols-2 gap-3 md:grid-cols-7"
+      class="grid gap-3"
+      :class="kpiGridClass"
     >
       <CardMetric
         class="min-w-0"
@@ -157,7 +158,7 @@
         :loading="loading"
         :theme="theme"
         :current-value="props.avgInteractionsToComplete ?? 0"
-        :previous-value="null"
+        :previous-value="props.previousAvgInteractionsToComplete"
       >
         <template #icon>
           <ChatBubbleLeftRightIcon class="h-2 w-2" />
@@ -267,6 +268,20 @@ const showAvgInteractions = computed(
   () =>
     props.avgInteractionsToComplete !== null &&
     props.avgInteractionsToComplete !== undefined,
+);
+
+const kpiColumnCount = computed(() => {
+  if (props.loading) return 7;
+  return (
+    4 +
+    Number(showRevenue.value) +
+    Number(showAvgCompletionTime.value) +
+    Number(showAvgInteractions.value)
+  );
+});
+
+const kpiGridClass = computed(() =>
+  kpiColumnCount.value >= 7 ? "grid-cols-7" : "grid-cols-6",
 );
 
 const revenueValueLabel = computed(() =>
