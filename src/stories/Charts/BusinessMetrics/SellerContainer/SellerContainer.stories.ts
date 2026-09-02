@@ -185,7 +185,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa Seller KPI, Seller, Sales Volume y Sales by Channel bajo un único colapsable “Seller”. El evento export identifica si la acción viene del funnel, del volumen temporal o del desglose por canal.',
+          'Agrupa Seller KPI, Seller, a Volume / Avg interactions / Avg completion time selector, y Sales by Channel bajo un único colapsable “Seller”. El evento export identifica la fuente (funnel, volumen, interacciones, tiempo o canal).',
       },
     },
   },
@@ -209,6 +209,32 @@ export const Default: Story = {
     previousFailedData: mockPreviousFailedData,
     salesByChannelData: mockSalesByChannelData,
     channelComparison: mockChannelComparison,
+    interactionsData: {
+      avg_sell_interactions_to_complete: 11.2,
+      avg_sell_interactions_by_day: {
+        '2024-11-01': 10.4,
+        '2024-11-02': 11.8,
+        '2024-11-03': 11.1,
+      },
+    },
+    completionTimeData: {
+      avg_sell_completion_time_seconds: 765,
+      avg_sell_completion_time_formatted: '12m 45s',
+      avg_sell_completion_time_by_day: {
+        '2024-11-01': 720,
+        '2024-11-02': 810,
+        '2024-11-03': 765,
+      },
+    },
+    trendView: 'volume',
+  },
+}
+
+export const InteractionsTrend: Story = {
+  args: {
+    ...Default.args,
+    containerInitiallyOpen: true,
+    trendView: 'interactions',
   },
 }
 

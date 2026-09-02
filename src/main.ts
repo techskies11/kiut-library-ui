@@ -32,6 +32,10 @@ import RecordLocator from "./stories/Charts/BusinessMetrics/RecordLocator/Record
 import SalesByChannel from "./stories/Charts/BusinessMetrics/SalesByChannel/SalesByChannel.vue";
 import Seller from "./stories/Charts/BusinessMetrics/Seller/Seller.vue";
 import SellerContainer from "./stories/Charts/BusinessMetrics/SellerContainer/SellerContainer.vue";
+export type {
+  SellerContainerExportSource,
+  SellerTrendView,
+} from "./stories/Charts/BusinessMetrics/SellerContainer/SellerContainer.vue";
 import Ancillaries from "./stories/Charts/BusinessMetrics/Ancillaries/Ancillaries.vue";
 import AncillariesCR from "./stories/Charts/BusinessMetrics/AncillariesCR/AncillariesCR.vue";
 import TopAgents from "./stories/Charts/BusinessMetrics/TopAgents/TopAgents.vue";
@@ -78,6 +82,10 @@ import CheckinCompletionTime from "./stories/Charts/BusinessMetrics/CheckinCompl
 export type { CheckinCompletionTimeData } from "./stories/Charts/BusinessMetrics/CheckinCompletionTime/CheckinCompletionTime.vue";
 import SellerCR from "./stories/Charts/BusinessMetrics/SellerCR/SellerCR.vue";
 import SellerKPI from "./stories/Charts/BusinessMetrics/SellerKPI/SellerKPI.vue";
+import SellerInteractions from "./stories/Charts/BusinessMetrics/SellerInteractions/SellerInteractions.vue";
+export type { SellerInteractionsData } from "./stories/Charts/BusinessMetrics/SellerInteractions/SellerInteractions.vue";
+import SellerCompletionTime from "./stories/Charts/BusinessMetrics/SellerCompletionTime/SellerCompletionTime.vue";
+export type { SellerCompletionTimeData } from "./stories/Charts/BusinessMetrics/SellerCompletionTime/SellerCompletionTime.vue";
 export type {
   SellerKpiLabels,
   SellerKpiProps,
@@ -317,6 +325,8 @@ export {
   CheckinCompletionTime,
   SellerCR,
   SellerKPI,
+  SellerInteractions,
+  SellerCompletionTime,
   BookingManagerCR,
   // NPS Metrics
   NpsDailyMetrics,
@@ -432,6 +442,8 @@ export const KiutUIPlugin = {
     app.component("KiutCheckinCompletionTime", CheckinCompletionTime);
     app.component("KiutSellerCR", SellerCR);
     app.component("KiutSellerKPI", SellerKPI);
+    app.component("KiutSellerInteractions", SellerInteractions);
+    app.component("KiutSellerCompletionTime", SellerCompletionTime);
     app.component("KiutBookingManagerCR", BookingManagerCR);
     app.component("KiutNpsDailyMetrics", NpsDailyMetrics);
     app.component("KiutNpsMetrics", NpsMetrics);

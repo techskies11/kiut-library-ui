@@ -52,27 +52,22 @@
         </div>
       </section>
 
-      <section class="seller-value-cards">
+      <section
+        v-if="props.showPaymentMethodDetails"
+        class="seller-value-cards"
+      >
         <CardInfo
           class="seller-value-card"
           color="var(--kiut-success)"
-          title="Total Sales Value"
-          :value="totalSalesCardValue"
+          title="Bank Transfer Value"
+          :value="bankTransferCardValue"
         />
-        <template v-if="props.showPaymentMethodDetails">
-          <CardInfo
-            class="seller-value-card"
-            color="var(--kiut-success)"
-            title="Bank Transfer Value"
-            :value="bankTransferCardValue"
-          />
-          <CardInfo
-            class="seller-value-card"
-            color="var(--kiut-success)"
-            title="Cash Option Value"
-            :value="cashOptionCardValue"
-          />
-        </template>
+        <CardInfo
+          class="seller-value-card"
+          color="var(--kiut-success)"
+          title="Cash Option Value"
+          :value="cashOptionCardValue"
+        />
       </section>
 
       <!-- Table Data (chrome: Utils/Table) -->
@@ -371,11 +366,6 @@ const sellerTableRows = computed((): Record<string, unknown>[] =>
   })),
 );
 
-const totalSalesByCurrency = computed(() =>
-  Array.isArray(props.sellerData.total_value_sell_success)
-    ? props.sellerData.total_value_sell_success
-    : [],
-);
 const bankTransferByCurrency = computed(() =>
   Array.isArray(props.sellerData.total_value_sell_success_bank_transfer)
     ? props.sellerData.total_value_sell_success_bank_transfer
@@ -386,19 +376,6 @@ const cashOptionByCurrency = computed(() =>
     ? props.sellerData.total_value_sell_success_cash
     : [],
 );
-
-const totalSalesCardValue = computed((): string => {
-  const items = totalSalesByCurrency.value;
-  if (items.length > 0) {
-    return items
-      .map(
-        (item) =>
-          `${item.currency} ${useCompactCurrencyFormat(item.total_value)}`,
-      )
-      .join(" · ");
-  }
-  return formatCurrencyValue(props.sellerData.total_value_sell_success);
-});
 
 function formatCurrencyBreakdownCard(items: CurrencyValue[]): string {
   if (items.length > 0) {
@@ -660,7 +637,7 @@ defineExpose({ isDark });
 
 .seller-value-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 28px;
   animation: fadeIn 0.55s ease-out 0.05s backwards;
