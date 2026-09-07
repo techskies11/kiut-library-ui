@@ -230,6 +230,7 @@ export type {
 } from "./components/Inputs/dateRangeUtils";
 import DatePicker from "./components/Inputs/DatePicker.vue";
 export type { KiutDateValue } from "./components/Inputs/DatePicker.vue";
+import TimePicker from "./components/Inputs/TimePicker.vue";
 import DatePickerPresets from "./components/Inputs/DatePickerPresets.vue";
 import Tag from "./components/Tag/Tag.vue";
 export type { KiutTagColor } from "./components/Tag/tagTypes";
@@ -370,6 +371,7 @@ export {
   SegmentedControl,
   DateRangePicker,
   DatePicker,
+  TimePicker,
   DatePickerPresets,
   Tag,
   TagSelect,
@@ -486,6 +488,7 @@ export const KiutUIPlugin = {
     app.component("SegmentedControl", SegmentedControl);
     app.component("DateRangePicker", DateRangePicker);
     app.component("DatePicker", DatePicker);
+    app.component("TimePicker", TimePicker);
     app.component("DatePickerPresets", DatePickerPresets);
     app.component("Tag", Tag);
     app.component("TagSelect", TagSelect);
