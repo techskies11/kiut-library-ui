@@ -288,7 +288,8 @@ export function computeCheckinFunnelBreakdown(
 
   const totalAbandoned =
     preRetrievedAbandon + abandonedBeforeClosed + abandonedAfterClosed;
-  const totalErrors = preRetrievalErrors + totalUnrecovered + bpFailed;
+  // Post Check In Success failures (BP not issued) are excluded: closed = success.
+  const totalErrors = preRetrievalErrors + totalUnrecovered;
 
   return {
     initiated,
@@ -370,16 +371,6 @@ export function computeCheckinVolumeDays(
     unrecoveredForDay(day.date, failedData),
   );
 
-  const bpFailedWeights = days.map((day, index) => {
-    const completed = day.record_locator_completed_count || 0;
-    const closed = closedWeights[index];
-    const failedDay = failedData?.failed_by_step_by_day?.find(
-      (entry) => entry.date === day.date,
-    );
-    const rawBpFailed = getBoardingPassFailedCountForDay(failedDay);
-    return Math.min(rawBpFailed, Math.max(closed - completed, 0));
-  });
-
   const preRetrievedAbandonByDay = allocateProportionally(
     funnel.preRetrievedAbandon,
     weightsOrFallback(preGapWeights, initiatedWeights),
@@ -400,11 +391,6 @@ export function computeCheckinVolumeDays(
     funnel.totalUnrecovered,
     weightsOrFallback(unrecoveredWeights, initiatedWeights),
   );
-  const bpFailedByDay = allocateProportionally(
-    funnel.bpFailed,
-    weightsOrFallback(bpFailedWeights, closedWeights),
-  );
-
   return [...days]
     .map((day, index) => ({
       date: day.date,
@@ -414,10 +400,7 @@ export function computeCheckinVolumeDays(
         preRetrievedAbandonByDay[index] +
         abandonedBeforeClosedByDay[index] +
         abandonedAfterClosedByDay[index],
-      errors:
-        preRetrievalErrorsByDay[index] +
-        unrecoveredByDay[index] +
-        bpFailedByDay[index],
+      errors: preRetrievalErrorsByDay[index] + unrecoveredByDay[index],
     }))
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }

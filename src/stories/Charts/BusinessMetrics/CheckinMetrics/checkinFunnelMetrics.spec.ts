@@ -142,7 +142,7 @@ describe('computeCheckinFunnelBreakdown', () => {
         funnel!.abandonedAfterClosed,
     )
     expect(funnel?.totalErrors).toBe(
-      funnel!.preRetrievalErrors + funnel!.totalUnrecovered + funnel!.bpFailed,
+      funnel!.preRetrievalErrors + funnel!.totalUnrecovered,
     )
   })
 
@@ -171,7 +171,7 @@ describe('computeCheckinFunnelBreakdown', () => {
     expect(funnel?.abandonedAfterClosed).toBe(0)
     expect(funnel?.abandonedBeforeClosed).toBe(5)
     expect(funnel?.totalUnrecovered).toBe(1)
-    expect(funnel?.totalErrors).toBe(11)
+    expect(funnel?.totalErrors).toBe(1)
   })
 })
 
@@ -218,6 +218,6 @@ describe('computeCheckinVolumeDays', () => {
     expect(days[0].abandoned).toBe(funnel?.totalAbandoned)
     expect(days[0].errors).toBe(funnel?.totalErrors)
     expect(days[0].abandoned).toBe(11)
-    expect(days[0].errors).toBe(11)
+    expect(days[0].errors).toBe(1)
   })
 })
