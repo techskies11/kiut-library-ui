@@ -94,10 +94,29 @@ const emit = defineEmits<{
   changeBreakdown: [value: string];
 }>();
 
+const isTriageAgentKey = (key: string): boolean => {
+  const agentPart = key.split("|")[0]?.trim().toLowerCase();
+  return agentPart === "triage";
+};
+
+const filterTriageFromBreakdownByDay = (
+  breakdownByDay: Record<string, Record<string, number>>,
+): Record<string, Record<string, number>> =>
+  Object.fromEntries(
+    Object.entries(breakdownByDay).map(([date, dayData]) => [
+      date,
+      Object.fromEntries(
+        Object.entries(dayData).filter(([key]) => !isTriageAgentKey(key)),
+      ),
+    ]),
+  );
+
 const totalConversations = computed(() => props.data?.total_conversations ?? 0);
 const breakdownByDay = computed(() => props.data?.breakdown_by_day ?? {});
 const chartTitle = computed(() => props.titles[props.breakdownBy]);
-const agentData = computed(() => ({ agents_by_day: breakdownByDay.value }));
+const agentData = computed(() => ({
+  agents_by_day: filterTriageFromBreakdownByDay(breakdownByDay.value),
+}));
 const channelData = computed(() => ({
   channels_by_day: breakdownByDay.value,
   total_by_channel: Object.fromEntries(

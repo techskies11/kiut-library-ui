@@ -95,15 +95,34 @@ export const ByAgentType: Story = {
     data: {
       total_conversations: 116,
       breakdown_items: [
+        { key: "triage", total_conversations: 116 },
         { key: "faq", total_conversations: 43 },
         { key: "seller", total_conversations: 31 },
         { key: "checkin", total_conversations: 26 },
         { key: "Unassigned", total_conversations: 16 },
       ],
       breakdown_by_day: {
-        "2026-05-01": { faq: 14, seller: 9, checkin: 7, Unassigned: 4 },
-        "2026-05-02": { faq: 15, seller: 11, checkin: 9, Unassigned: 6 },
-        "2026-05-03": { faq: 14, seller: 11, checkin: 10, Unassigned: 6 },
+        "2026-05-01": {
+          triage: 34,
+          faq: 14,
+          seller: 9,
+          checkin: 7,
+          Unassigned: 4,
+        },
+        "2026-05-02": {
+          triage: 41,
+          faq: 15,
+          seller: 11,
+          checkin: 9,
+          Unassigned: 6,
+        },
+        "2026-05-03": {
+          triage: 41,
+          faq: 14,
+          seller: 11,
+          checkin: 10,
+          Unassigned: 6,
+        },
       },
     },
   },
@@ -147,6 +166,7 @@ export const ByChannelAndAgent: Story = {
       ],
       breakdown_by_day: {
         "2026-05-01": {
+          "triage | WhatsApp": 34,
           "faq | WhatsApp": 9,
           "seller | WhatsApp": 8,
           "checkin | Web": 6,
