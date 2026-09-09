@@ -29,7 +29,7 @@
   --kiut-bg-card-gradient: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
   --kiut-bg-table: #ffffff;
   --kiut-bg-table-header: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
-  --kiut-bg-table-hover: linear-gradient(to right, #fafafa 0%, #f9fafb 100%);
+  --kiut-bg-table-hover: color-mix(in srgb, #000000 3%, #ffffff);
   --kiut-bg-chart-wrapper: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
   --kiut-bg-empty-icon: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
   --kiut-bg-stats-badge: #fafafa;
@@ -94,7 +94,7 @@
   --kiut-bg-card-gradient: linear-gradient(to bottom, #1a1a1d 0%, #0f0f11 100%);
   --kiut-bg-table: #1a1a1d;
   --kiut-bg-table-header: linear-gradient(to bottom, #252528 0%, #1f1f22 100%);
-  --kiut-bg-table-hover: linear-gradient(to right, #252528 0%, #1f1f22 100%);
+  --kiut-bg-table-hover: color-mix(in srgb, #ffffff 1%, #0d0d12);
   --kiut-bg-chart-wrapper: linear-gradient(to bottom, #252528 0%, #1a1a1d 100%);
   --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
   --kiut-bg-stats-badge: #23232f80;
@@ -187,7 +187,7 @@
   --kiut-bg-card-gradient: linear-gradient(to bottom, #1a1a1d 0%, #0f0f11 100%);
   --kiut-bg-table: #1a1a1d;
   --kiut-bg-table-header: linear-gradient(to bottom, #252528 0%, #1f1f22 100%);
-  --kiut-bg-table-hover: linear-gradient(to right, #252528 0%, #1f1f22 100%);
+  --kiut-bg-table-hover: color-mix(in srgb, #ffffff 8%, #141419);
   --kiut-bg-chart-wrapper: linear-gradient(to bottom, #252528 0%, #1a1a1d 100%);
   --kiut-bg-empty-icon: linear-gradient(135deg, #2d2640 0%, #1f1a2e 100%);
   --kiut-bg-stats-badge: #23232f80;

@@ -183,7 +183,15 @@ const onStageChange = (value: KiutSelectValue): void => {
 const breakdown = computed(() => props.errorReasons);
 
 const isProcessStage = computed(() => props.stage === "on_check_in_process");
-const totalErrors = computed(() => breakdown.value?.total_errors ?? 0);
+const totalErrors = computed(() => {
+  const data = breakdown.value;
+  if (!data) return 0;
+  // Post Check In Success (BP not issued) is tracked separately, not in error totals.
+  if (isProcessStage.value) {
+    return data.total_unrecovered ?? 0;
+  }
+  return data.total_errors ?? 0;
+});
 const totalUnrecovered = computed(
   () => breakdown.value?.total_unrecovered ?? 0,
 );

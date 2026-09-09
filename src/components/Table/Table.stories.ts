@@ -45,7 +45,7 @@ const meta: Meta<typeof Table> = {
     docs: {
       description: {
         component:
-          'Tabla declarativa con tokens Kiut. La selección múltiple es opcional (`selectable`). Con `expandable` y `children` en cada fila, las filas hijas se muestran en cascada con chevron e indentación. Prueba **Theme** en la toolbar de Storybook para modo claro y oscuro (clase `dark`).',
+          'Tabla declarativa con tokens Kiut. La selección múltiple es opcional (`selectable`). Con `expandable` y `children` en cada fila, las filas hijas se muestran en cascada con chevron e indentación. La última columna absorbe el ancho sobrante y pinta header/celdas con el mismo fondo, también al hacer scroll horizontal. Prueba **Theme** en la toolbar de Storybook para modo claro y oscuro (clase `dark`).',
       },
     },
   },
@@ -226,6 +226,214 @@ const kbRows: KbRow[] = [
   },
 ];
 
+const flatDocRows: KbRow[] = [
+  {
+    id: 'doc-a',
+    description: 'a',
+    created_at: '2026-09-09',
+    status: 'pending',
+  },
+  {
+    id: 'doc-b',
+    description: 'Política de equipaje actualizada 2026',
+    created_at: '2026-01-15',
+    status: 'processed',
+    aiGenerated: true,
+  },
+];
+
+export const SelectableFlatSinSeleccion: Story = {
+  name: 'Selectable flat (sin selección)',
+
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Filas planas (sin anidación) con `selectable`, `expandable` y `expandColumnKey` en la primera columna — el caso típico de listado de documentos. Ninguna fila seleccionada; el label de descripción debe tener `pl-2` alineado con el header.',
+      },
+    },
+  },
+
+  render: () => ({
+    components: { Table, Tag },
+    setup() {
+      const selectedKeys = ref<string[]>([]);
+
+      const statusLabel = (row: KbRow) =>
+        KB_STATUS_LABELS[row.status] ?? row.status;
+
+      return () =>
+        h('div', { class: 'w-full space-y-3' }, [
+          h(Table, {
+            columns: kbColumns,
+            rows: flatDocRows,
+            rowKey: 'id',
+            expandable: true,
+            expandColumnKey: 'description',
+            fixedLayout: true,
+            selectable: true,
+            selectedKeys: selectedKeys.value,
+            'onUpdate:selectedKeys': (keys: string[]) => {
+              selectedKeys.value = keys;
+            },
+          }, {
+            'cell-description': ({ row }: { row: KbRow }) =>
+              h('div', { class: 'flex min-w-0 items-center gap-1.5' }, [
+                row.aiGenerated
+                  ? h(SparklesIcon, {
+                      class: 'h-4 w-4 shrink-0 text-violet-400',
+                      'aria-hidden': 'true',
+                    })
+                  : null,
+                h(
+                  'span',
+                  { class: 'truncate text-[color:var(--kiut-text-secondary)]' },
+                  row.description,
+                ),
+              ]),
+
+            'cell-created_at': ({ row }: { row: KbRow }) =>
+              h(
+                'span',
+                { class: 'text-[color:var(--kiut-text-secondary)] text-xs whitespace-nowrap' },
+                row.created_at,
+              ),
+
+            'cell-status': ({ row }: { row: KbRow }) =>
+              h(
+                Tag,
+                { color: KB_STATUS_COLORS[row.status] ?? 'neutral', outlined: false },
+                () => statusLabel(row),
+              ),
+          }),
+          h(
+            'p',
+            {
+              class: 'font-mono text-xs text-[color:var(--kiut-text-muted)]',
+            },
+            `Seleccionados: ${selectedKeys.value.length ? selectedKeys.value.join(', ') : '(ninguno)'}`,
+          ),
+        ]);
+    },
+  }),
+};
+
+export const SelectableSinSeleccion: Story = {
+  name: 'Selectable nested (sin selección)',
+
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Tabla anidada con `selectable` y `selectedKeys` vacío. Las filas padre no muestran checkbox (solo chevron); las hijas sí. Sirve para revisar el espaciado del label y el estado inicial sin ninguna fila marcada.',
+      },
+    },
+  },
+
+  render: () => ({
+    components: { Table, Tag },
+    setup() {
+      const selectedKeys = ref<string[]>([]);
+      const expandedKeys = ref<string[]>(['site-1']);
+
+      const isParentRow = (row: KbRow, context: { hasChildren: boolean }) =>
+        context.hasChildren;
+
+      const statusLabel = (row: KbRow) => {
+        const base = KB_STATUS_LABELS[row.status] ?? row.status;
+        if (row.status === 'processing' && row.statusCount != null) {
+          return `${base} (${row.statusCount} documentos)`;
+        }
+        return base;
+      };
+
+      return () =>
+        h('div', { class: 'w-full space-y-3' }, [
+          h(Table, {
+            columns: kbColumns,
+            rows: kbRows,
+            rowKey: 'id',
+            expandable: true,
+            expandColumnKey: 'description',
+            fixedLayout: true,
+            selectable: true,
+            selectedKeys: selectedKeys.value,
+            isRowSelectable: (row: KbRow, context) => !isParentRow(row, context),
+            expandedKeys: expandedKeys.value,
+            'onUpdate:selectedKeys': (keys: string[]) => {
+              selectedKeys.value = keys;
+            },
+            'onUpdate:expandedKeys': (keys: string[]) => {
+              expandedKeys.value = keys;
+            },
+          }, {
+            'cell-description': ({ row }: { row: KbRow }) =>
+              h('div', { class: 'flex min-w-0 items-center gap-1.5' }, [
+                row.aiGenerated
+                  ? h(SparklesIcon, {
+                      class: 'h-4 w-4 shrink-0 text-violet-400',
+                      'aria-hidden': 'true',
+                    })
+                  : null,
+                h(
+                  'span',
+                  {
+                    class: [
+                      'truncate',
+                      row.children?.length
+                        ? 'font-medium text-[color:var(--kiut-text-primary)]'
+                        : 'text-[color:var(--kiut-text-secondary)]',
+                    ].join(' '),
+                  },
+                  row.description,
+                ),
+              ]),
+
+            'cell-created_at': ({ row }: { row: KbRow }) =>
+              h(
+                'span',
+                { class: 'text-[color:var(--kiut-text-secondary)] text-xs whitespace-nowrap' },
+                row.created_at,
+              ),
+
+            'cell-status': ({ row }: { row: KbRow }) =>
+              h(
+                Tag,
+                { color: KB_STATUS_COLORS[row.status] ?? 'neutral', outlined: false },
+                () => statusLabel(row),
+              ),
+
+            'cell-actions': () =>
+              h('div', { class: 'flex items-center justify-end gap-2' }, [
+                h('button', {
+                  class: 'text-gray-400 hover:text-violet-500 transition-colors',
+                  title: 'Editar',
+                  type: 'button',
+                }, [h(PencilSquareIcon, { class: 'h-4 w-4' })]),
+                h('button', {
+                  class: 'text-gray-400 hover:text-violet-500 transition-colors',
+                  title: 'Descargar',
+                  type: 'button',
+                }, [h(ArrowDownTrayIcon, { class: 'h-4 w-4' })]),
+                h('button', {
+                  class: 'text-gray-400 hover:text-red-500 transition-colors',
+                  title: 'Eliminar',
+                  type: 'button',
+                }, [h(TrashIcon, { class: 'h-4 w-4' })]),
+              ]),
+          }),
+          h(
+            'p',
+            {
+              class: 'font-mono text-xs text-[color:var(--kiut-text-muted)]',
+            },
+            `Seleccionados: ${selectedKeys.value.length ? selectedKeys.value.join(', ') : '(ninguno)'}`,
+          ),
+        ]);
+    },
+  }),
+};
+
 export const NestedRows: Story = {
   args: {
     selectable: true
@@ -379,7 +587,7 @@ export const FixedLayout: Story = {
     docs: {
       description: {
         story:
-          'Con `fixedLayout` activo, las columnas respetan los anchos definidos en `headerClass`/`cellClass` sin redistribuirse. Ideal para tablas con muchas columnas como la de usuarios.',
+          'Con `fixedLayout` activo, las columnas respetan los anchos definidos en `headerClass`/`cellClass` sin redistribuirse. La última columna (p. ej. Actions) se mueve con el scroll y rellena el espacio sobrante con el fondo del header y de la fila.',
       },
     },
   },

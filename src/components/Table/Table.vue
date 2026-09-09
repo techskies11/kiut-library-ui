@@ -2,19 +2,21 @@
   <div
     class="kiut-table-wrap overflow-hidden rounded-xl border border-[#e5e7eb] bg-[color:var(--kiut-bg-secondary)] shadow-sm dark:border-[color:var(--kiut-border-light)]"
   >
-    <div class="w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden">
+    <div
+      class="container-table kiut-table-scroll w-full overflow-x-auto overflow-y-auto md:overflow-y-hidden"
+    >
       <table
         :class="[
-          'kiut-table w-full min-w-[640px] overflow-hidden border-collapse text-left text-sm',
+          'kiut-table w-full min-w-[640px] text-left text-sm',
           fixedLayout ? 'table-fixed' : '',
         ]"
       >
         <thead>
-          <tr class="table-header h-12 bg-[#eaeaec80] dark:bg-[#23232f80]">
+          <tr class="table-header h-12">
             <th
               v-if="selectable"
               scope="col"
-              class="w-14 bg-transparent px-4 py-3 text-center align-middle"
+              class="kiut-table-head-cell w-14 px-4 py-3 text-center align-middle"
             >
               <input
                 ref="selectAllRef"
@@ -30,9 +32,10 @@
               :key="col.key"
               scope="col"
               :class="[
-                'px-2 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
-                isExpandColumn(col.key) && selectable ? '!pl-0' : '',
+                'kiut-table-head-cell px-2 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
+                isExpandColumn(col.key) && selectable ? 'pl-2' : '',
                 alignClass(col.align),
+                isLastColumn(col) ? 'kiut-table-col--fill' : '',
                 col.headerClass ?? '',
               ]"
             >
@@ -82,13 +85,13 @@
             v-for="entry in visibleRows"
             :key="entry.key"
             :class="[
-              'kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
+              'kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background-color:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
               entry.depth > 0 ? 'kiut-table-row--child dark:bg-[#1a1a22]' : '',
             ]"
           >
             <td
               v-if="selectable"
-              class="kiut-table-body-cell w-12 bg-transparent pl-4 pr-0 py-0 text-center align-middle"
+              class="kiut-table-body-cell w-12 pl-4 pr-0 py-0 text-center align-middle"
             >
               <input
                 v-if="isEntrySelectable(entry)"
@@ -119,9 +122,14 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'kiut-table-body-cell bg-transparent py-0 align-middle text-[color:var(--kiut-text-secondary)]',
-                isExpandColumn(col.key) ? 'pl-0 pr-2' : 'px-2',
+                'kiut-table-body-cell py-0 align-middle text-[color:var(--kiut-text-secondary)]',
+                isExpandColumn(col.key)
+                  ? selectable
+                    ? 'pl-2 pr-2'
+                    : 'pl-0 pr-2'
+                  : 'px-2',
                 alignClass(col.align),
+                isLastColumn(col) ? 'kiut-table-col--fill' : '',
                 col.cellClass ?? '',
               ]"
             >
@@ -374,6 +382,11 @@ function alignClass(align: TableColumnAlign | undefined): string {
   return "text-left";
 }
 
+function isLastColumn(col: TableColumn): boolean {
+  const last = props.columns[props.columns.length - 1];
+  return last?.key === col.key;
+}
+
 function resolveRowKey(row: Record<string, unknown>, index: number): string {
   if (typeof props.rowKey === "function") {
     return props.rowKey(row);
@@ -462,9 +475,10 @@ function showExpandInDescriptionColumn(entry: FlatTableRow): boolean {
 }
 
 function shouldReserveExpandSpace(entry: FlatTableRow): boolean {
+  if (props.selectable) return false;
   if (showExpandInDescriptionColumn(entry)) return false;
   if (entry.depth > 0) return true;
-  return props.selectable && !canExpandRow(entry);
+  return false;
 }
 
 const selectableRowKeys = computed(() => {
@@ -588,6 +602,67 @@ function ariaSortForColumn(key: string): "none" | "ascending" | "descending" {
 <style scoped>
 .kiut-table {
   font-family: var(--kiut-table-font, "Inter", system-ui, sans-serif);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.kiut-table-wrap {
+  --kiut-table-head-bg: color-mix(
+    in srgb,
+    #eaeaec 50%,
+    var(--kiut-bg-secondary, #ffffff)
+  );
+}
+
+.dark .kiut-table-wrap {
+  --kiut-table-head-bg: color-mix(
+    in srgb,
+    #23232f 50%,
+    var(--kiut-bg-secondary, #141419)
+  );
+}
+
+.kiut-table-scroll {
+  background-color: var(--kiut-bg-secondary, #ffffff);
+  background-image: linear-gradient(
+    var(--kiut-table-head-bg),
+    var(--kiut-table-head-bg)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 3rem;
+  background-attachment: local;
+}
+
+.kiut-table-head-cell {
+  background-color: var(--kiut-table-head-bg);
+}
+
+.kiut-table-body-cell {
+  background-color: var(--kiut-bg-secondary, #ffffff);
+}
+
+.dark tbody .kiut-table-body-row .kiut-table-body-cell {
+  background-color: #141419;
+}
+
+.dark tbody .kiut-table-row--child .kiut-table-body-cell {
+  background-color: #1a1a22;
+}
+
+.kiut-table-body-row:hover .kiut-table-body-cell {
+  background-color: var(--kiut-bg-table-hover);
+}
+
+.dark tbody .kiut-table-body-row:hover .kiut-table-body-cell {
+  background-color: var(--kiut-bg-table-hover);
+}
+
+.dark tbody .kiut-table-row--child:hover .kiut-table-body-cell {
+  background-color: color-mix(in srgb, #ffffff 1%, #0d0d12);
+}
+
+.kiut-table-col--fill {
+  width: auto;
 }
 
 .kiut-table tbody .kiut-table-body-row {

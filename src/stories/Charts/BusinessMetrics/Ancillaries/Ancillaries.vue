@@ -6,6 +6,10 @@
     :default-open="initiallyOpen"
     :loading="props.loading"
   >
+    <template #headerAside>
+      <slot name="headerAside" />
+    </template>
+
     <div class="card-body">
       <section v-if="sankeyData.nodes.length > 0" class="chart-section">
         <div class="chart-wrapper">
