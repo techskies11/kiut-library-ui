@@ -9,8 +9,9 @@
       :id="buttonId"
       type="button"
       class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
-      :class="[variantClass, attrs.class]"
+      :class="[variantClass, attrs.class, activeClass]"
       :disabled="disabled"
+      :aria-pressed="ariaPressed"
       :aria-expanded="open"
       aria-haspopup="menu"
       :aria-controls="menuId"
@@ -93,8 +94,9 @@
       ref="buttonRef"
       type="button"
       class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-45 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
-      :class="[variantClass, attrs.class]"
+      :class="[variantClass, attrs.class, activeClass]"
       :disabled="disabled"
+      :aria-pressed="ariaPressed"
       :aria-expanded="open"
       aria-haspopup="menu"
       :aria-controls="menuId"
@@ -167,9 +169,10 @@
     <button
       :type="buttonType"
       class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
-      :class="[buttonStateClass, variantClass, attrs.class]"
+      :class="[buttonStateClass, variantClass, attrs.class, activeClass]"
       :disabled="isEffectivelyDisabled"
       :aria-busy="loading || undefined"
+      :aria-pressed="ariaPressed"
       :aria-label="effectiveAriaLabel"
       v-bind="forwardedAttrs"
     >
@@ -201,9 +204,10 @@
     v-else
     :type="buttonType"
     class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
-    :class="[buttonStateClass, variantClass, attrs.class]"
+    :class="[buttonStateClass, variantClass, attrs.class, activeClass]"
     :disabled="isEffectivelyDisabled"
     :aria-busy="loading || undefined"
+    :aria-pressed="ariaPressed"
     :aria-label="effectiveAriaLabel"
     v-bind="forwardedAttrs"
   >
@@ -267,6 +271,11 @@ const props = withDefaults(
      * Aplica a `primary`, `secondary` y `action` (no a `dropdown` ni `split`).
      */
     loading?: boolean;
+    /**
+     * Toggle / segmented-control selected state. Applies filled brand styles on `secondary`
+     * and a focus ring on `primary`. Sets `aria-pressed` when true.
+     */
+    active?: boolean;
     /** Texto del tooltip (posición superior). Útil en acciones solo icono. No aplica a `split`. */
     tooltip?: string;
     /** Opciones del menú. Requerido cuando `variant="dropdown"` o `variant="split"`. */
@@ -285,6 +294,7 @@ const props = withDefaults(
     tone: 'default',
     disabled: false,
     loading: false,
+    active: false,
     options: () => [],
     menuMinWidth: '280px',
     menuAlign: 'left',
@@ -316,6 +326,30 @@ const buttonStateClass = computed(() =>
     ? 'cursor-wait disabled:pointer-events-none'
     : 'disabled:pointer-events-none disabled:opacity-45'
 );
+
+const ariaPressed = computed(() => (props.active ? true : undefined));
+
+const activeClass = computed(() => {
+  if (!props.active) return '';
+
+  if (props.variant === 'secondary') {
+    return [
+      '!border-[color:var(--kiut-primary)] !bg-[color:var(--kiut-primary)] !text-white shadow-sm',
+      'hover:!border-[color:var(--kiut-primary-hover)] hover:!bg-[color:var(--kiut-primary-hover)] hover:!text-white',
+      'dark:!border-[color:var(--kiut-primary)] dark:!bg-[color:var(--kiut-primary)] dark:!text-white',
+      'dark:hover:!brightness-110',
+    ];
+  }
+
+  if (props.variant === 'primary') {
+    return [
+      'ring-2 ring-[color:var(--kiut-primary)]/35 ring-offset-2 ring-offset-[color:var(--kiut-bg-secondary)]',
+      'dark:ring-offset-[color:var(--kiut-bg-secondary)]',
+    ];
+  }
+
+  return '';
+});
 
 const effectiveAriaLabel = computed(() => {
   const fromAttrs = attrs['aria-label'];
