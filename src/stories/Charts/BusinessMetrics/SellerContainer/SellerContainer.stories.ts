@@ -122,34 +122,34 @@ const mockPreviousFailedData = {
   failed_by_reason_by_day: [],
 }
 
-const mockSalesByChannelData = {
-  airline_name: 'AeroLineas Plus',
-  start_date: '2025-07-01',
-  end_date: '2025-07-10',
-  total_sell_success: 142,
-  total_by_currency: [
-    { currency: 'USD', total_value: 48350.00, count: 85 },
-    { currency: 'MXN', total_value: 312500.00, count: 57 },
-  ],
-  sales_by_channel_by_day: [
-    { date: '2025-07-01', channels: { whatsapp: 8, sms: 3, voice: 2 } },
-    { date: '2025-07-02', channels: { whatsapp: 10, sms: 4, voice: 1 } },
-    { date: '2025-07-03', channels: { whatsapp: 12, sms: 5, voice: 3 } },
-    { date: '2025-07-04', channels: { whatsapp: 9, sms: 3, voice: 2 } },
-    { date: '2025-07-05', channels: { whatsapp: 15, sms: 6, voice: 4 } },
-    { date: '2025-07-06', channels: { whatsapp: 11, sms: 4, voice: 2 } },
-    { date: '2025-07-07', channels: { whatsapp: 13, sms: 5, voice: 3 } },
-    { date: '2025-07-08', channels: { whatsapp: 7, sms: 2, voice: 1 } },
-    { date: '2025-07-09', channels: { whatsapp: 6, sms: 1, voice: 0 } },
-    { date: '2025-07-10', channels: { whatsapp: 4, sms: 1, voice: 1 } },
-  ],
-}
-
-const mockChannelComparison = [
-  { channel: 'sms', current: 34, previous: 28, delta: 21.4 },
-  { channel: 'voice', current: 19, previous: 22, delta: -13.6 },
-  { channel: 'whatsapp', current: 95, previous: 78, delta: 21.8 },
-]
+// const mockSalesByChannelData = {
+//   airline_name: 'AeroLineas Plus',
+//   start_date: '2025-07-01',
+//   end_date: '2025-07-10',
+//   total_sell_success: 142,
+//   total_by_currency: [
+//     { currency: 'USD', total_value: 48350.00, count: 85 },
+//     { currency: 'MXN', total_value: 312500.00, count: 57 },
+//   ],
+//   sales_by_channel_by_day: [
+//     { date: '2025-07-01', channels: { whatsapp: 8, sms: 3, voice: 2 } },
+//     { date: '2025-07-02', channels: { whatsapp: 10, sms: 4, voice: 1 } },
+//     { date: '2025-07-03', channels: { whatsapp: 12, sms: 5, voice: 3 } },
+//     { date: '2025-07-04', channels: { whatsapp: 9, sms: 3, voice: 2 } },
+//     { date: '2025-07-05', channels: { whatsapp: 15, sms: 6, voice: 4 } },
+//     { date: '2025-07-06', channels: { whatsapp: 11, sms: 4, voice: 2 } },
+//     { date: '2025-07-07', channels: { whatsapp: 13, sms: 5, voice: 3 } },
+//     { date: '2025-07-08', channels: { whatsapp: 7, sms: 2, voice: 1 } },
+//     { date: '2025-07-09', channels: { whatsapp: 6, sms: 1, voice: 0 } },
+//     { date: '2025-07-10', channels: { whatsapp: 4, sms: 1, voice: 1 } },
+//   ],
+// }
+//
+// const mockChannelComparison = [
+//   { channel: 'sms', current: 34, previous: 28, delta: 21.4 },
+//   { channel: 'voice', current: 19, previous: 22, delta: -13.6 },
+//   { channel: 'whatsapp', current: 95, previous: 78, delta: 21.8 },
+// ]
 
 const meta = {
   title: 'Charts/BusinessMetrics/SellerContainer',
@@ -169,11 +169,11 @@ const meta = {
       description: 'Loading en todos los bloques',
     },
     sellerLoading: { control: 'boolean' },
-    salesByChannelLoading: { control: 'boolean' },
-    showSalesByChannel: {
-      control: 'boolean',
-      description: 'Muestra u oculta el bloque Sales by Channel',
-    },
+    // salesByChannelLoading: { control: 'boolean' },
+    // showSalesByChannel: {
+    //   control: 'boolean',
+    //   description: 'Muestra u oculta el bloque Sales by Channel',
+    // },
     enableExport: { control: 'boolean' },
     exportLoading: { control: 'boolean' },
     onExport: {
@@ -185,7 +185,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Agrupa Seller KPI, Seller, Sales Volume y Sales by Channel bajo un único colapsable “Seller”. El evento export identifica si la acción viene del funnel, del volumen temporal o del desglose por canal.',
+          'Agrupa Seller KPI, Seller y Sales Volume bajo un único colapsable “Seller”. Sales by Channel está deshabilitado (ver TransactionsChart). El evento export identifica si la acción viene del funnel o del volumen temporal.',
       },
     },
   },
@@ -200,15 +200,15 @@ export const Default: Story = {
     childrenInitiallyOpen: true,
     loading: false,
     sellerLoading: false,
-    salesByChannelLoading: false,
+    // salesByChannelLoading: false,
     enableExport: true,
     exportLoading: false,
     sellerData: mockSellerData,
     failedData: mockFailedData,
     previousSellerData: mockPreviousSellerData,
     previousFailedData: mockPreviousFailedData,
-    salesByChannelData: mockSalesByChannelData,
-    channelComparison: mockChannelComparison,
+    // salesByChannelData: mockSalesByChannelData,
+    // channelComparison: mockChannelComparison,
   },
 }
 
@@ -233,9 +233,9 @@ export const CollapsedOuter: Story = {
   },
 }
 
-export const WithoutSalesByChannel: Story = {
-  args: {
-    ...Default.args,
-    showSalesByChannel: false,
-  },
-}
+// export const WithoutSalesByChannel: Story = {
+//   args: {
+//     ...Default.args,
+//     showSalesByChannel: false,
+//   },
+// }

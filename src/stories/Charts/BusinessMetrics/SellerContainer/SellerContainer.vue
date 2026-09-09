@@ -36,6 +36,7 @@
         :export-loading="effectiveSellerExportLoading"
         @export="(fmt) => handleChildExport('salesVolume', fmt)"
       />
+      <!-- SalesByChannel disabled: data lives in TransactionsChart / SalesVolume.
       <SalesByChannel
         v-if="showSalesByChannel"
         :initially-open="childrenInitiallyOpen"
@@ -47,6 +48,7 @@
         :export-loading="effectiveSalesByChannelExportLoading"
         @export="(fmt) => handleChildExport('salesByChannel', fmt)"
       />
+      -->
     </div>
   </ChartMetricContainer>
 </template>
@@ -57,7 +59,7 @@ import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricCo
 import SellerKPI from '../SellerKPI/SellerKPI.vue'
 import Seller from '../Seller/Seller.vue'
 import SalesVolume from '../SalesVolume/SalesVolume.vue'
-import SalesByChannel from '../SalesByChannel/SalesByChannel.vue'
+// import SalesByChannel from '../SalesByChannel/SalesByChannel.vue'
 import type { Theme } from '../../../../composables/useThemeDetection'
 import type { ExportFormat } from '../../Utils/FooterExport'
 import {
@@ -68,7 +70,10 @@ import {
 } from '../SellerKPI/buildSellerKpiFromRecord'
 import type { SellerKpiLabels, SellerKpiProps } from '../SellerKPI/sellerKpiTypes'
 
-export type SellerContainerExportSource = 'seller' | 'salesVolume' | 'salesByChannel'
+export type SellerContainerExportSource =
+  | 'seller'
+  | 'salesVolume'
+  // | 'salesByChannel'
 
 export interface SellerContainerExportPayload {
   source: SellerContainerExportSource
@@ -128,26 +133,26 @@ interface FailedData {
   }[];
 }
 
-interface DailySalesByChannel {
-  date: string;
-  channels: Record<string, number>;
-}
-
-interface SalesByChannelData {
-  airline_name?: string;
-  start_date?: string;
-  end_date?: string;
-  total_sell_success: number;
-  total_by_currency: CurrencyValue[];
-  sales_by_channel_by_day: DailySalesByChannel[];
-}
-
-interface ChannelComparisonItem {
-  channel: string;
-  current: number;
-  previous: number;
-  delta: number | null;
-}
+// interface DailySalesByChannel {
+//   date: string;
+//   channels: Record<string, number>;
+// }
+//
+// interface SalesByChannelData {
+//   airline_name?: string;
+//   start_date?: string;
+//   end_date?: string;
+//   total_sell_success: number;
+//   total_by_currency: CurrencyValue[];
+//   sales_by_channel_by_day: DailySalesByChannel[];
+// }
+//
+// interface ChannelComparisonItem {
+//   channel: string;
+//   current: number;
+//   previous: number;
+//   delta: number | null;
+// }
 
 const props = withDefaults(
   defineProps<{
@@ -156,23 +161,22 @@ const props = withDefaults(
     /** Si es true, aplica loading a todas las vistas hijas. */
     loading?: boolean
     sellerLoading?: boolean
-    salesByChannelLoading?: boolean
+    // salesByChannelLoading?: boolean
     enableExport?: boolean
     exportLoading?: boolean
     sellerExportLoading?: boolean
-    salesByChannelExportLoading?: boolean
+    // salesByChannelExportLoading?: boolean
     showPaymentMethodDetails?: boolean
-    /** Si es false, oculta el bloque Sales by Channel. */
-    showSalesByChannel?: boolean
+    // showSalesByChannel?: boolean — Si es false, oculta el bloque Sales by Channel.
     theme?: Theme
     /** Shape Seller.vue */
     sellerData?: SellerData
     /** Shape Seller.vue failedData */
     failedData?: FailedData
     /** Shape SalesByChannel.vue */
-    salesByChannelData?: SalesByChannelData
+    // salesByChannelData?: SalesByChannelData
     /** Shape SalesByChannel.vue channelComparison */
-    channelComparison?: ChannelComparisonItem[]
+    // channelComparison?: ChannelComparisonItem[]
     showKpi?: boolean
     kpiLoading?: boolean
     kpiProps?: Partial<SellerKpiProps>
@@ -185,16 +189,16 @@ const props = withDefaults(
     childrenInitiallyOpen: true,
     loading: false,
     sellerLoading: false,
-    salesByChannelLoading: false,
+    // salesByChannelLoading: false,
     enableExport: false,
     exportLoading: false,
     sellerExportLoading: false,
-    salesByChannelExportLoading: false,
+    // salesByChannelExportLoading: false,
     showPaymentMethodDetails: false,
-    showSalesByChannel: true,
+    // showSalesByChannel: true,
     showKpi: true,
     theme: undefined,
-    channelComparison: () => [],
+    // channelComparison: () => [],
   }
 )
 
@@ -209,9 +213,9 @@ const effectiveKpiLoading = computed(() =>
 const effectiveSellerLoading = computed(() =>
   props.loading ? false : props.sellerLoading,
 )
-const effectiveSalesByChannelLoading = computed(() =>
-  props.loading ? false : props.salesByChannelLoading,
-)
+// const effectiveSalesByChannelLoading = computed(() =>
+//   props.loading ? false : props.salesByChannelLoading,
+// )
 
 const resolvedKpiProps = computed<SellerKpiProps>(() => {
   const current = buildSellerKpiFromRecord(
@@ -236,7 +240,9 @@ const resolvedKpiProps = computed<SellerKpiProps>(() => {
   }
 })
 const effectiveSellerExportLoading = computed(() => props.exportLoading || props.sellerExportLoading)
-const effectiveSalesByChannelExportLoading = computed(() => props.exportLoading || props.salesByChannelExportLoading)
+// const effectiveSalesByChannelExportLoading = computed(
+//   () => props.exportLoading || props.salesByChannelExportLoading,
+// )
 
 function handleChildExport(source: SellerContainerExportSource, format: ExportFormat) {
   emit('export', { source, format })

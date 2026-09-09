@@ -1,6 +1,6 @@
 <template>
   <ChartMetricContainer
-    class="w-full min-h-0 self-start"
+    class="w-full min-h-0"
     title="FAQs"
     subtitle="FAQ volume by category"
     :collapsible="true"
@@ -15,7 +15,7 @@
       />
     </template>
     <div
-      class="flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
+      class="flex min-h-0 w-full shrink-0 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] card-body"
     >
       <div class="w-full shrink-0 flex min-h-0 flex-col">
         <section
@@ -42,7 +42,7 @@
 
         <section
           v-else
-          class="flex min-h-[280px] flex-1 items-center justify-center"
+          class="flex min-h-[280px] flex-1 items-center justify-center w-full"
         >
           <div class="max-w-[360px] px-4 text-center">
             <div
@@ -76,7 +76,7 @@
             </p>
           </div>
         </section>
-        </div>
+      </div>
     </div>
   </ChartMetricContainer>
 </template>
@@ -282,6 +282,14 @@ defineExpose({ isDark });
 </script>
 
 <style scoped>
+/* Card Body */
+.card-body {
+  animation: fadeIn 0.5s ease-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 /* Coincide con ChartLine: 220px trazado + 10px banda de indicadores/leyenda */
 .chart-line-area {
   position: relative;

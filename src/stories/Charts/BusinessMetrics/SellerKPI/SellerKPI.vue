@@ -5,7 +5,7 @@
     data-testid="seller-kpi"
   >
     <div
-      class="grid grid-cols-2 gap-3 md:grid-cols-7"
+      class="flex flex-row gap-3"
     >
       <CardMetric
         class="min-w-0"
