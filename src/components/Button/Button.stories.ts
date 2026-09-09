@@ -29,6 +29,9 @@ const meta: Meta<typeof Button> = {
     loading: {
       control: 'boolean',
     },
+    active: {
+      control: 'boolean',
+    },
   },
 };
 
@@ -464,6 +467,36 @@ export const ActionLoading: Story = {
 };
 
 /** Simula una llamada a backend de 2 s al hacer clic. */
+/** Segmented date shortcuts: ghost secondary + `active` for the selected range. */
+export const SecondaryToggleGroup: Story = {
+  render: () => ({
+    components: { Button },
+    setup() {
+      const selected = ref('current');
+      const options = [
+        { key: 'current', label: 'This month' },
+        { key: 'previous', label: 'Last month' },
+      ];
+      return () =>
+        h('div', { class: 'flex flex-wrap gap-2' }, options.map((opt) =>
+          h(
+            Button,
+            {
+              key: opt.key,
+              variant: 'secondary',
+              active: selected.value === opt.key,
+              class: '!bg-transparent hover:!bg-[#b796d9] dark:hover:!bg-[#8f67b8]',
+              onClick: () => {
+                selected.value = opt.key;
+              },
+            },
+            () => opt.label
+          )
+        ));
+    },
+  }),
+};
+
 export const LoadingInteractive: Story = {
   render: () => ({
     components: { Button },
