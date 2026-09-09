@@ -32,11 +32,27 @@
         :subtitle="trendSubtitle"
         :collapsible="false"
         :loading="effectiveSellerLoading"
-        :theme="theme"
-        :enable-export="enableExport"
-        :export-loading="effectiveSellerExportLoading"
-        @export="(fmt) => handleChildExport('salesVolume', fmt)"
-      />
+      >
+        <template #headerAside>
+          <div class="stage-select flex items-center justify-end gap-3">
+            <div class="w-56">
+              <Select
+                :model-value="selectedTrend"
+                :options="TREND_OPTIONS"
+                aria-label-trigger="Seller trend view"
+                :show-option-check="false"
+                @update:model-value="onTrendChange"
+              />
+            </div>
+            <FooterExport
+              v-if="enableExport && !effectiveSellerLoading"
+              variant="inline"
+              :loading="effectiveSellerExportLoading"
+              @export="(fmt) => handleChildExport(trendExportSource, fmt)"
+            />
+          </div>
+        </template>
+
         <Transition name="seller-trend-fade" mode="out-in">
           <SalesVolume
             v-if="selectedTrend === 'volume'"
