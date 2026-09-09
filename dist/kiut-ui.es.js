@@ -14037,7 +14037,7 @@ const Eb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       return _(H) && !B(H);
     }
     function L(H) {
-      return N(H) ? !1 : H.depth > 0 ? !0 : a.selectable && !_(H);
+      return a.selectable || N(H) ? !1 : H.depth > 0;
     }
     const V = $(() => {
       const { isRowSelectable: H } = a;
@@ -14139,7 +14139,7 @@ const Eb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                 scope: "col",
                 class: K([
                   "kiut-table-head-cell px-2 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]",
-                  w(R.key) && e.selectable ? "!pl-0" : "",
+                  w(R.key) && e.selectable ? "pl-2" : "",
                   p(R.align),
                   g(R) ? "kiut-table-col--fill" : "",
                   R.headerClass ?? ""
@@ -14171,7 +14171,7 @@ const Eb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
             (h(!0), x(se, null, pe(f.value, (R) => (h(), x("tr", {
               key: R.key,
               class: K([
-                "kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]",
+                "kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background-color:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]",
                 R.depth > 0 ? "kiut-table-row--child dark:bg-[#1a1a22]" : ""
               ])
             }, [
@@ -14201,7 +14201,7 @@ const Eb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
                 key: oe.key,
                 class: K([
                   "kiut-table-body-cell py-0 align-middle text-[color:var(--kiut-text-secondary)]",
-                  w(oe.key) ? "pl-0 pr-2" : "px-2",
+                  w(oe.key) ? e.selectable ? "pl-2 pr-2" : "pl-0 pr-2" : "px-2",
                   p(oe.align),
                   g(oe) ? "kiut-table-col--fill" : "",
                   oe.cellClass ?? ""
@@ -14251,7 +14251,7 @@ const Eb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
-}), Vr = /* @__PURE__ */ be(Xb, [["__scopeId", "data-v-bd7fde3a"]]), Zb = { class: "error-reasons-table-wrap table-section" }, Qb = { class: "metric-cell" }, Jb = { class: "metric-cell" }, Vo = 5, ey = /* @__PURE__ */ ie({
+}), Vr = /* @__PURE__ */ be(Xb, [["__scopeId", "data-v-302f6061"]]), Zb = { class: "error-reasons-table-wrap table-section" }, Qb = { class: "metric-cell" }, Jb = { class: "metric-cell" }, Vo = 5, ey = /* @__PURE__ */ ie({
   __name: "ErrorReasonsTable",
   props: {
     rows: {}
