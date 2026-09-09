@@ -33,7 +33,7 @@
               scope="col"
               :class="[
                 'kiut-table-head-cell px-2 py-3 font-semibold tracking-tight text-[color:var(--kiut-text-table-header)]',
-                isExpandColumn(col.key) && selectable ? '!pl-0' : '',
+                isExpandColumn(col.key) && selectable ? 'pl-2' : '',
                 alignClass(col.align),
                 isLastColumn(col) ? 'kiut-table-col--fill' : '',
                 col.headerClass ?? '',
@@ -85,7 +85,7 @@
             v-for="entry in visibleRows"
             :key="entry.key"
             :class="[
-              'kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
+              'kiut-table-body-row border-b border-[#e5e7eb] last:border-b-0 bg-transparent transition-colors hover:[background-color:var(--kiut-bg-table-hover)] dark:border-[color:var(--kiut-border-light)] dark:bg-[#141419]',
               entry.depth > 0 ? 'kiut-table-row--child dark:bg-[#1a1a22]' : '',
             ]"
           >
@@ -123,7 +123,11 @@
               :key="col.key"
               :class="[
                 'kiut-table-body-cell py-0 align-middle text-[color:var(--kiut-text-secondary)]',
-                isExpandColumn(col.key) ? 'pl-0 pr-2' : 'px-2',
+                isExpandColumn(col.key)
+                  ? selectable
+                    ? 'pl-2 pr-2'
+                    : 'pl-0 pr-2'
+                  : 'px-2',
                 alignClass(col.align),
                 isLastColumn(col) ? 'kiut-table-col--fill' : '',
                 col.cellClass ?? '',
@@ -471,9 +475,10 @@ function showExpandInDescriptionColumn(entry: FlatTableRow): boolean {
 }
 
 function shouldReserveExpandSpace(entry: FlatTableRow): boolean {
+  if (props.selectable) return false;
   if (showExpandInDescriptionColumn(entry)) return false;
   if (entry.depth > 0) return true;
-  return props.selectable && !canExpandRow(entry);
+  return false;
 }
 
 const selectableRowKeys = computed(() => {
@@ -645,7 +650,15 @@ function ariaSortForColumn(key: string): "none" | "ascending" | "descending" {
 }
 
 .kiut-table-body-row:hover .kiut-table-body-cell {
-  background: var(--kiut-bg-table-hover);
+  background-color: var(--kiut-bg-table-hover);
+}
+
+.dark tbody .kiut-table-body-row:hover .kiut-table-body-cell {
+  background-color: var(--kiut-bg-table-hover);
+}
+
+.dark tbody .kiut-table-row--child:hover .kiut-table-body-cell {
+  background-color: color-mix(in srgb, #ffffff 1%, #0d0d12);
 }
 
 .kiut-table-col--fill {
