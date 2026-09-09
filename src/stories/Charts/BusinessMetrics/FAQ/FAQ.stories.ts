@@ -71,7 +71,7 @@ const meta = {
   decorators: [
     () => ({
       template:
-        '<div class="box-border h-[560px] w-full max-w-5xl px-2 py-4"><story /></div>',
+        '<div class="box-border h-[560px] w-full px-2 py-4"><story /></div>',
     }),
   ],
 } satisfies Meta<typeof FAQ>;
