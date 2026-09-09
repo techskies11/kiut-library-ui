@@ -123,10 +123,6 @@ interface AvgResolutionTimeData {
   overall_resolution_time_by_day?: Record<string, number | null>
   channel_breakdown_items?: AvgResolutionTimeBreakdownItem[]
   channel_resolution_time_by_day?: Record<string, Record<string, number | null>>
-  agent_breakdown_items?: AvgResolutionTimeBreakdownItem[]
-  agent_resolution_time_by_day?: Record<string, Record<string, number | null>>
-  agent_channel_breakdown_items?: AvgResolutionTimeBreakdownItem[]
-  agent_channel_resolution_time_by_day?: Record<string, Record<string, number | null>>
 }
 
 const props = withDefaults(
@@ -159,10 +155,8 @@ const handleExport = (format: ExportFormat): void => {
 
 const BREAKDOWN_OPTIONS: KiutSelectOption<KiutSelectValue>[] = [
   { value: 'all', label: 'All' },
-  { value: 'agent', label: 'Agent' },
   { value: 'resolution_mode', label: 'Resolution Mode' },
   { value: 'channel', label: 'Channel' },
-  { value: 'agent_channel', label: 'Channel & Agent' },
 ]
 
 const theme = toRef(props, 'theme')
@@ -172,9 +166,7 @@ const selectedBreakdown = ref(props.breakdownBy)
 const chartTitle = computed(() => {
   const titleSuffix: Record<string, string> = {
     resolution_mode: 'Resolution Mode',
-    agent: 'Agent',
     channel: 'Channel',
-    agent_channel: 'Channel & Agent',
   }
   const suffix = titleSuffix[selectedBreakdown.value]
   return suffix ? `Average resolution time by ${suffix}` : 'Average resolution time'
@@ -212,32 +204,6 @@ const DEFAULT_CHANNEL_COLOR = '#9ca3af'
 const getChannelColor = (channelKey: string): string =>
   CHANNEL_COLOR_MAP[channelKey.toLowerCase()] || DEFAULT_CHANNEL_COLOR
 
-// Keep in sync with TopAgents.vue's `colorMap` ("Top Agents" chart) so the
-// same agent always renders with the same color across both charts.
-const AGENT_COLOR_MAP: Record<string, string> = {
-  checkin: '#3B82F6',
-  faq: '#EF4444',
-  disruption_manager: '#F59E0B',
-  booking_manager: '#a78bfa',
-  triage: '#10B981',
-  seller: '#06B6D4',
-  human: '#F472B6',
-  agency: '#6366F1',
-  loyalty: '#EAB308',
-}
-const DEFAULT_AGENT_COLOR = '#94a3b8'
-
-const getAgentColor = (agentKey: string): string =>
-  AGENT_COLOR_MAP[agentKey.toLowerCase()] || DEFAULT_AGENT_COLOR
-
-// Combined "agent | channel" keys are colored by their agent half, so the
-// same agent keeps a consistent hue regardless of which channel it is paired
-// with in this breakdown.
-const getAgentChannelColor = (key: string): string => {
-  const [agentPart] = key.split('|').map((part) => part.trim())
-  return getAgentColor(agentPart || key)
-}
-
 const formatBreakdownLabel = (label: string): string => {
   if (!label) return 'Unknown'
   const normalized = normalizeAgentDisplayName(label).replace(/_/g, ' ').trim()
@@ -264,10 +230,6 @@ const metricsData = computed<AvgResolutionTimeData>(() => {
       overall_resolution_time_by_day: {},
       channel_breakdown_items: [],
       channel_resolution_time_by_day: {},
-      agent_breakdown_items: [],
-      agent_resolution_time_by_day: {},
-      agent_channel_breakdown_items: [],
-      agent_channel_resolution_time_by_day: {},
     }
   )
 })
@@ -314,24 +276,11 @@ const buildBreakdownCards = (
 const channelCards = computed(() =>
   buildBreakdownCards(metricsData.value.channel_breakdown_items ?? [], getChannelColor),
 )
-const agentCards = computed(() =>
-  buildBreakdownCards(metricsData.value.agent_breakdown_items ?? [], getAgentColor),
-)
-const agentChannelCards = computed(() =>
-  buildBreakdownCards(
-    metricsData.value.agent_channel_breakdown_items ?? [],
-    getAgentChannelColor,
-  ),
-)
 
 const activeCards = computed(() => {
   switch (selectedBreakdown.value) {
     case 'channel':
       return channelCards.value
-    case 'agent':
-      return agentCards.value
-    case 'agent_channel':
-      return agentChannelCards.value
     case 'resolution_mode':
       return segmentCards.value
     default:
@@ -455,20 +404,6 @@ const processChartData = (data: AvgResolutionTimeData | null): void => {
         data?.channel_resolution_time_by_day ?? {},
         data?.channel_breakdown_items ?? [],
         getChannelColor,
-      )
-      return
-    case 'agent':
-      processBreakdownChartData(
-        data?.agent_resolution_time_by_day ?? {},
-        data?.agent_breakdown_items ?? [],
-        getAgentColor,
-      )
-      return
-    case 'agent_channel':
-      processBreakdownChartData(
-        data?.agent_channel_resolution_time_by_day ?? {},
-        data?.agent_channel_breakdown_items ?? [],
-        getAgentChannelColor,
       )
       return
     case 'resolution_mode':

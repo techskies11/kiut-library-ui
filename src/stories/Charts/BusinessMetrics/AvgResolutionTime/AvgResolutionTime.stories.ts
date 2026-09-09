@@ -17,8 +17,9 @@ const meta = {
     },
     breakdownBy: {
       control: 'select',
-      options: ['all', 'channel'],
-      description: 'Modo de desglose del grafico: "all" (por segmento) o "channel" (por canal)',
+      options: ['all', 'resolution_mode', 'channel'],
+      description:
+        'Modo de desglose: "all", "resolution_mode" (AI/Human/Hybrid) o "channel"',
     },
     enableExport: {
       control: 'boolean',
