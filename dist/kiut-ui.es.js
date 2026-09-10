@@ -13910,7 +13910,7 @@ const Pb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
   class: "kiut-table-sort-arrow kiut-table-sort-arrow--active"
 }, Hb = {
   key: 0,
-  class: "kiut-table-body-cell w-12 pl-4 pr-0 py-0 text-center align-middle"
+  class: "kiut-table-body-cell w-12 pl-4 pr-0 py-3 text-center align-middle"
 }, Wb = ["checked", "aria-label", "onChange"], Kb = ["aria-expanded", "aria-label", "onClick"], Ub = ["aria-expanded", "aria-label", "onClick"], Yb = {
   key: 1,
   class: "inline-block w-4 shrink-0",
@@ -14200,8 +14200,8 @@ const Pb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
               (h(!0), x(se, null, ge(e.columns, (Q) => (h(), x("td", {
                 key: Q.key,
                 class: U([
-                  "kiut-table-body-cell py-0 align-middle text-[color:var(--kiut-text-secondary)]",
-                  _(Q.key) ? e.selectable ? "pl-2 pr-2" : "pl-0 pr-2" : "px-2",
+                  "kiut-table-body-cell py-3 align-middle text-[color:var(--kiut-text-secondary)]",
+                  _(Q.key) ? (e.selectable, "pl-2 pr-2") : "px-2",
                   p(Q.align),
                   g(Q) ? "kiut-table-col--fill" : "",
                   Q.cellClass ?? ""
@@ -14251,7 +14251,7 @@ const Pb = { class: "kiut-table-wrap overflow-hidden rounded-xl border border-[#
       ])
     ]));
   }
-}), Vr = /* @__PURE__ */ be(Gb, [["__scopeId", "data-v-302f6061"]]), Xb = { class: "error-reasons-table-wrap table-section" }, Zb = { class: "metric-cell" }, Qb = { class: "metric-cell" }, Vo = 5, Jb = /* @__PURE__ */ ie({
+}), Vr = /* @__PURE__ */ be(Gb, [["__scopeId", "data-v-706dc05a"]]), Xb = { class: "error-reasons-table-wrap table-section" }, Zb = { class: "metric-cell" }, Qb = { class: "metric-cell" }, Vo = 5, Jb = /* @__PURE__ */ ie({
   __name: "ErrorReasonsTable",
   props: {
     rows: {}
