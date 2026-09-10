@@ -88,7 +88,7 @@ export const Selectable: Story = {
   args: {
     columns: baseColumns,
     rows: baseRows,
-    selectable: true,
+    selectable: false,
     rowKey: 'id',
   },
   render: (args) => ({
