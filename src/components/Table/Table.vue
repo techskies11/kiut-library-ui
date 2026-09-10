@@ -91,7 +91,7 @@
           >
             <td
               v-if="selectable"
-              class="kiut-table-body-cell w-12 pl-4 pr-0 py-0 text-center align-middle"
+              class="kiut-table-body-cell w-12 pl-4 pr-0 py-3 text-center align-middle"
             >
               <input
                 v-if="isEntrySelectable(entry)"
@@ -122,11 +122,11 @@
               v-for="col in columns"
               :key="col.key"
               :class="[
-                'kiut-table-body-cell py-0 align-middle text-[color:var(--kiut-text-secondary)]',
+                'kiut-table-body-cell py-3 align-middle text-[color:var(--kiut-text-secondary)]',
                 isExpandColumn(col.key)
                   ? selectable
                     ? 'pl-2 pr-2'
-                    : 'pl-0 pr-2'
+                    : 'pl-2 pr-2'
                   : 'px-2',
                 alignClass(col.align),
                 isLastColumn(col) ? 'kiut-table-col--fill' : '',
