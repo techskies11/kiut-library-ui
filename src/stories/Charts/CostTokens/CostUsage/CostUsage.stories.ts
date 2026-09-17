@@ -18,110 +18,47 @@ const meta: Meta<typeof CostUsage> = {
 export default meta;
 type Story = StoryObj<typeof CostUsage>;
 
+const dayTemplate = (
+  inputCost: number,
+  outputCost: number,
+  cacheReadCost: number,
+  cacheWriteCost: number,
+) => ({
+  input_tokens: Math.round(inputCost * 500_000),
+  output_tokens: Math.round(outputCost * 120_000),
+  cache_read_tokens: Math.round(cacheReadCost * 1_000_000),
+  cache_write_tokens: Math.round(cacheWriteCost * 50_000),
+  total_tokens: 0,
+  input_cost: inputCost,
+  output_cost: outputCost,
+  cache_read_cost: cacheReadCost,
+  cache_write_cost: cacheWriteCost,
+  total_cost: inputCost + outputCost + cacheReadCost + cacheWriteCost,
+});
+
 const mockData = {
-  "airline_name": "Clic Air",
-  "start_date": "2026-01-01",
-  "end_date": "2026-01-08",
-  "costs_by_day": {
-    "2026-01-01": {
-      "input_tokens": 208625,
-      "output_tokens": 8836,
-      "cache_read_tokens": 675072,
-      "cache_write_tokens": 0,
-      "total_tokens": 892533,
-      "input_cost": 0.41725,
-      "output_cost": 0.070688,
-      "cache_read_cost": 0.0675,
-      "cache_write_cost": 0.0,
-      "total_cost": 0.555438
-    },
-    "2026-01-02": {
-      "input_tokens": 302019,
-      "output_tokens": 11655,
-      "cache_read_tokens": 422656,
-      "cache_write_tokens": 5000,
-      "total_tokens": 741330,
-      "input_cost": 0.604038,
-      "output_cost": 0.09324,
-      "cache_read_cost": 0.042266,
-      "cache_write_cost": 0.025,
-      "total_cost": 0.764544
-    },
-    "2026-01-03": {
-      "input_tokens": 185000,
-      "output_tokens": 9200,
-      "cache_read_tokens": 580000,
-      "cache_write_tokens": 2500,
-      "total_tokens": 776700,
-      "input_cost": 0.370,
-      "output_cost": 0.0736,
-      "cache_read_cost": 0.058,
-      "cache_write_cost": 0.0125,
-      "total_cost": 0.5141
-    },
-    "2026-01-04": {
-      "input_tokens": 220000,
-      "output_tokens": 10500,
-      "cache_read_tokens": 490000,
-      "cache_write_tokens": 3200,
-      "total_tokens": 723700,
-      "input_cost": 0.440,
-      "output_cost": 0.084,
-      "cache_read_cost": 0.049,
-      "cache_write_cost": 0.016,
-      "total_cost": 0.589
-    },
-    "2026-01-05": {
-      "input_tokens": 195000,
-      "output_tokens": 8900,
-      "cache_read_tokens": 620000,
-      "cache_write_tokens": 1800,
-      "total_tokens": 825700,
-      "input_cost": 0.390,
-      "output_cost": 0.0712,
-      "cache_read_cost": 0.062,
-      "cache_write_cost": 0.009,
-      "total_cost": 0.5322
-    },
-    "2026-01-06": {
-      "input_tokens": 245000,
-      "output_tokens": 12000,
-      "cache_read_tokens": 510000,
-      "cache_write_tokens": 4100,
-      "total_tokens": 771100,
-      "input_cost": 0.490,
-      "output_cost": 0.096,
-      "cache_read_cost": 0.051,
-      "cache_write_cost": 0.0205,
-      "total_cost": 0.6575
-    },
-    "2026-01-07": {
-      "input_tokens": 208625,
-      "output_tokens": 8836,
-      "cache_read_tokens": 675072,
-      "cache_write_tokens": 0,
-      "total_tokens": 892533,
-      "input_cost": 0.41725,
-      "output_cost": 0.070688,
-      "cache_read_cost": 0.0,
-      "cache_write_cost": 0.0,
-      "total_cost": 0.487938
-    },
-    "2026-01-08": {
-      "input_tokens": 302019,
-      "output_tokens": 11655,
-      "cache_read_tokens": 422656,
-      "cache_write_tokens": 0,
-      "total_tokens": 736330,
-      "input_cost": 0.604038,
-      "output_cost": 0.09324,
-      "cache_read_cost": 0.0,
-      "cache_write_cost": 0.0,
-      "total_cost": 0.697278
-    }
+  airline_name: 'Clic Air',
+  start_date: '2026-03-01',
+  end_date: '2026-03-15',
+  costs_by_day: {
+    '2026-03-01': dayTemplate(1.05, 1.62, 0.06, 0.28),
+    '2026-03-02': dayTemplate(0.92, 1.48, 0.04, 0.22),
+    '2026-03-03': dayTemplate(1.18, 1.75, 0.08, 0.31),
+    '2026-03-04': dayTemplate(0.88, 1.55, 0.05, 0.19),
+    '2026-03-05': dayTemplate(1.12, 1.68, 0.07, 0.35),
+    '2026-03-06': dayTemplate(0.95, 1.42, 0.03, 0.24),
+    '2026-03-07': dayTemplate(1.08, 1.81, 0.09, 0.27),
+    '2026-03-08': dayTemplate(0.99, 1.59, 0.06, 0.33),
+    '2026-03-09': dayTemplate(1.15, 1.72, 0.04, 0.21),
+    '2026-03-10': dayTemplate(0.91, 1.51, 0.08, 0.29),
+    '2026-03-11': dayTemplate(1.06, 1.64, 0.05, 0.26),
+    '2026-03-12': dayTemplate(1.02, 1.78, 0.07, 0.32),
+    '2026-03-13': dayTemplate(0.97, 1.46, 0.06, 0.18),
+    '2026-03-14': dayTemplate(1.14, 1.69, 0.04, 0.34),
+    '2026-03-15': dayTemplate(1.08, 1.56, 0.09, 0.23),
   },
-  "total_cost": 4.798098,
-  "avg_cost_per_conversation": 0.0790144
+  total_cost: 48.37,
+  avg_cost_per_conversation: 0.0790144,
 };
 
 export const Default: Story = {
@@ -144,4 +81,3 @@ export const Loading: Story = {
     data: mockData,
   },
 };
-
