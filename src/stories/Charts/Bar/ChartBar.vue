@@ -39,7 +39,14 @@ const props = defineProps<{
       backgroundColor?: string | string[]
       borderColor?: string | string[]
       borderWidth?: number
-      borderRadius?: number
+      borderRadius?:
+        | number
+        | {
+            topLeft?: number
+            topRight?: number
+            bottomLeft?: number
+            bottomRight?: number
+          }
     }>
   }
   options?: Record<string, any>
