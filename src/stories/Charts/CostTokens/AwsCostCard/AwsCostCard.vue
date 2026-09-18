@@ -1,7 +1,7 @@
 <template>
   <CardMetric
     :label="label"
-    :value="formattedMean"
+    :value="formattedTotalCost"
     :tooltip="tooltip"
     :loading="loading"
     :theme="theme"
@@ -18,9 +18,8 @@
           stroke-linejoin="round"
           aria-hidden="true"
         >
-          <path d="M12 6v12" />
           <path
-            d="M15 9.5c0-1.38-1.12-2.5-2.5-2.5S10 8.12 10 9.5s1.12 2.5 3.5 2.5 3.5 1.12 3.5 2.5-1.12 2.5-3.5 2.5-3.5-1.12-3.5-2.5"
+            d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.673-.396m0 0A4.502 4.502 0 0 0 19.5 15c0-1.746-.94-3.276-2.343-4.11m0 0A4.5 4.5 0 0 0 12 7.5a4.5 4.5 0 0 0-4.157 3.39m0 0A4.502 4.502 0 0 0 4.5 15c0 2.9 2.35 5.25 5.25 5.25h6.75"
           />
         </svg>
       </slot>
@@ -36,7 +35,10 @@
     </template>
 
     <template #value>
-      <span class="metric-value">{{ formattedMean }}</span>
+      <div class="metric-row">
+        <span class="metric-value">{{ formattedTotalCost }}</span>
+        <span v-if="showDailyMean" class="metric-daily">({{ formattedDailyMean }}/day)</span>
+      </div>
     </template>
   </CardMetric>
 </template>
@@ -45,32 +47,26 @@
 import { computed, ref, toRef } from 'vue'
 import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
 
-const DEFAULT_LABEL = 'Avg cost per conversation'
+const DEFAULT_LABEL = 'AWS cost'
 const DEFAULT_TOOLTIP =
-  'Average LLM cost per conversation for the selected period.'
+  'Allocated AWS infrastructure spend for the selected period, with the daily average shown in parentheses.'
 
 const props = withDefaults(
   defineProps<{
-    mean?: number
-    previousMean?: number | null
-    /** @deprecated Min daily is no longer shown in the compact card layout. */
-    minDaily?: number
-    /** @deprecated Peak day is no longer shown in the compact card layout. */
-    peakDay?: string
-    /** @deprecated Peak day is no longer shown in the compact card layout. */
-    peakDayValue?: number
+    totalCost?: number
+    dailyMean?: number
+    previousTotalCost?: number | null
     label?: string
     tooltip?: string
     loading?: boolean
     theme?: Theme
   }>(),
   {
-    mean: 0,
-    previousMean: null,
-    minDaily: 0,
-    peakDay: '-',
-    peakDayValue: 0,
+    totalCost: 0,
+    dailyMean: 0,
+    previousTotalCost: null,
     label: DEFAULT_LABEL,
     tooltip: DEFAULT_TOOLTIP,
     loading: false,
@@ -81,26 +77,29 @@ const props = withDefaults(
 const cardMetricRef = ref<InstanceType<typeof CardMetric> | null>(null)
 const { isDark } = useThemeDetection(toRef(props, 'theme'))
 
-const formattedMean = computed(() => {
-  const value = props.mean
-  const fractionDigits = Math.abs(value) < 1 ? 3 : 2
+const formattedTotalCost = computed(() => useCompactCurrencyFormat(props.totalCost))
+
+const showDailyMean = computed(() => props.dailyMean > 0)
+
+const formattedDailyMean = computed(() => {
+  if (!showDailyMean.value) return ''
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  }).format(value)
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(props.dailyMean)
 })
 
 const hasPreviousData = computed(
-  () => props.previousMean !== null && props.previousMean !== undefined,
+  () => props.previousTotalCost !== null && props.previousTotalCost !== undefined,
 )
 
 const changePercent = computed(() => {
   if (!hasPreviousData.value) return 0
-  const previousValue = props.previousMean!
-  if (previousValue === 0) return props.mean > 0 ? 100 : 0
-  return ((props.mean - previousValue) / previousValue) * 100
+  const previousValue = props.previousTotalCost!
+  if (previousValue === 0) return props.totalCost > 0 ? 100 : 0
+  return ((props.totalCost - previousValue) / previousValue) * 100
 })
 
 const changeLabel = computed(() => {
@@ -119,6 +118,15 @@ defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
+.metric-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 6px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
 .metric-value {
   font-family:
     'Inter',
@@ -128,6 +136,20 @@ defineExpose({ isDark, changePercent })
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--kiut-text-primary);
+}
+
+.metric-daily {
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #6b7280;
+}
+
+:global(.dark) .metric-daily {
+  color: #9ca3af;
 }
 
 .change-badge {
