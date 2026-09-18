@@ -1,137 +1,170 @@
 <template>
-  <ChartMetricContainer class="h-full min-h-0" title="Total Tokens" :collapsible="false" :loading="loading">
-    <div
-      class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
-    >
-        <div class="container-value">
-          <div class="value">
-            {{ formattedTotalTokens }}
-          </div>
-        </div>
+  <CardMetric
+    :label="label"
+    :value="formattedTotalTokens"
+    :tooltip="tooltip"
+    :loading="loading"
+    :theme="theme"
+    ref="cardMetricRef"
+  >
+    <template #icon>
+      <slot name="icon">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="9" cy="12" r="6" />
+          <circle cx="15" cy="12" r="6" />
+        </svg>
+      </slot>
+    </template>
 
-        <div class="stats-section">
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="stat-label">Input</div>
-              <div class="stat-value">{{ formattedInputTokens }}</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Output</div>
-              <div class="stat-value">{{ formattedOutputTokens }}</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Cache Read</div>
-              <div class="stat-value">{{ formattedCacheReadTokens }}</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Cache Write</div>
-              <div class="stat-value">{{ formattedCacheWriteTokens }}</div>
-            </div>
-          </div>
-        </div>
-    </div>
-  </ChartMetricContainer>
+    <template #headerAside>
+      <div
+        v-if="hasPreviousData"
+        :class="['change-badge', invertedBadgeClass, { 'change-badge--dark': isDark }]"
+      >
+        {{ changeLabel }}
+      </div>
+    </template>
+
+    <template #value>
+      <span class="metric-value">{{ formattedTotalTokens }}</span>
+    </template>
+  </CardMetric>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import { useNumberFormat } from '../../../../plugins/numberFormat'
+import { computed, ref, toRef } from 'vue'
+import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { useCompactNumberFormat } from '../../../../plugins/numberFormat'
+
+const DEFAULT_LABEL = 'Total tokens'
+const DEFAULT_TOOLTIP = 'Total LLM tokens consumed during the selected period.'
 
 const props = withDefaults(
   defineProps<{
     totalTokens?: number
+    previousTotalTokens?: number | null
+    /** @deprecated Token breakdown is no longer shown in the compact card layout. */
     inputTokens?: number
+    /** @deprecated Token breakdown is no longer shown in the compact card layout. */
     outputTokens?: number
+    /** @deprecated Token breakdown is no longer shown in the compact card layout. */
     cacheReadTokens?: number
+    /** @deprecated Token breakdown is no longer shown in the compact card layout. */
     cacheWriteTokens?: number
+    label?: string
+    tooltip?: string
     loading?: boolean
+    theme?: Theme
   }>(),
   {
     totalTokens: 0,
+    previousTotalTokens: null,
     inputTokens: 0,
     outputTokens: 0,
     cacheReadTokens: 0,
     cacheWriteTokens: 0,
+    label: DEFAULT_LABEL,
+    tooltip: DEFAULT_TOOLTIP,
     loading: false,
+    theme: undefined,
   },
 )
 
-const formattedTotalTokens = computed(() => useNumberFormat(props.totalTokens))
-const formattedInputTokens = computed(() => useNumberFormat(props.inputTokens))
-const formattedOutputTokens = computed(() => useNumberFormat(props.outputTokens))
-const formattedCacheReadTokens = computed(() => useNumberFormat(props.cacheReadTokens))
-const formattedCacheWriteTokens = computed(() => useNumberFormat(props.cacheWriteTokens))
+const cardMetricRef = ref<InstanceType<typeof CardMetric> | null>(null)
+const { isDark } = useThemeDetection(toRef(props, 'theme'))
+
+const formattedTotalTokens = computed(() => useCompactNumberFormat(props.totalTokens))
+
+const hasPreviousData = computed(
+  () => props.previousTotalTokens !== null && props.previousTotalTokens !== undefined,
+)
+
+const changePercent = computed(() => {
+  if (!hasPreviousData.value) return 0
+  const previousValue = props.previousTotalTokens!
+  if (previousValue === 0) return props.totalTokens > 0 ? 100 : 0
+  return ((props.totalTokens - previousValue) / previousValue) * 100
+})
+
+const changeLabel = computed(() => {
+  const pct = changePercent.value.toFixed(1)
+  if (changePercent.value > 0) return `+${pct}%`
+  return `${pct}%`
+})
+
+const invertedBadgeClass = computed(() => {
+  if (changePercent.value < 0) return 'change-badge--up'
+  if (changePercent.value > 0) return 'change-badge--down'
+  return 'change-badge--neutral'
+})
+
+defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.container-value {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.metric-value {
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--kiut-text-primary);
 }
 
-.value {
-  font-weight: bold;
-  background-image: linear-gradient(to right, #2563eb, #4f46e5);
-  background-clip: text;
-  color: transparent;
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+.change-badge {
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  line-height: 1;
+  letter-spacing: 0.01em;
 }
 
-.stats-section {
-  padding-top: 0.75rem;
+.change-badge--up {
+  background: #dcfce7;
+  color: #166534;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.375rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+.change-badge--down {
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
-.stat-item {
-  text-align: center;
-  padding: 0.375rem;
-  background-color: var(--kiut-bg-stats-badge, rgba(255, 255, 255, 0.6));
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 1.125rem;
+.change-badge--neutral {
+  background: rgba(148, 163, 184, 0.16);
+  color: #64748b;
 }
 
-.stat-label {
-  color: var(--kiut-text-secondary, #6a7282);
-  font-size: 0.625rem;
-  line-height: 0.875rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  margin-bottom: 0.125rem;
+.change-badge--dark.change-badge--up,
+:global(.dark) .change-badge--up {
+  background: rgba(74, 222, 128, 0.14);
+  color: #4ade80;
 }
 
-.stat-value {
-  font-weight: bold;
-  font-size: 0.8125rem;
-  color: var(--kiut-text-primary, #1e2939);
+.change-badge--dark.change-badge--down,
+:global(.dark) .change-badge--down {
+  background: rgba(251, 113, 133, 0.16);
+  color: #fb7185;
 }
 
-@media (max-width: 768px) {
-  .value {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .value {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
+.change-badge--dark.change-badge--neutral,
+:global(.dark) .change-badge--neutral {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
 }
 </style>

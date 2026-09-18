@@ -10,22 +10,13 @@ const meta: Meta<typeof TotalTokens> = {
     docs: {
       description: {
         component: `
-Tarjeta de visualización de tokens totales.
+Compact KPI card for total LLM token consumption.
 
-## Features
-- Muestra el total de tokens utilizados
-- Desglose por tipo: Input, Output, Cache Read, Cache Write
-- Estado de carga con animación
-- Diseño glassmorphism con gradientes azul/indigo
-
-## Uso
+## Usage
 \`\`\`vue
 <TotalTokens
-  :totalTokens="1250000"
-  :inputTokens="500000"
-  :outputTokens="350000"
-  :cacheReadTokens="250000"
-  :cacheWriteTokens="150000"
+  :totalTokens="15000000"
+  :previousTotalTokens="14200000"
   :loading="false"
 />
 \`\`\`
@@ -33,50 +24,31 @@ Tarjeta de visualización de tokens totales.
       },
     },
   },
+  decorators: [
+    () => ({
+      template: '<div style="width: 320px;"><story /></div>',
+    }),
+  ],
   argTypes: {
     totalTokens: {
       control: 'number',
-      description: 'El total de tokens utilizados',
+      description: 'Total tokens consumed in the selected period',
       table: {
         type: { summary: 'number' },
         defaultValue: { summary: '0' },
       },
     },
-    inputTokens: {
+    previousTotalTokens: {
       control: 'number',
-      description: 'Total de tokens de entrada',
+      description: 'Previous period total for the change badge',
       table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: '0' },
-      },
-    },
-    outputTokens: {
-      control: 'number',
-      description: 'Total de tokens de salida',
-      table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: '0' },
-      },
-    },
-    cacheReadTokens: {
-      control: 'number',
-      description: 'Total de tokens leídos de caché',
-      table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: '0' },
-      },
-    },
-    cacheWriteTokens: {
-      control: 'number',
-      description: 'Total de tokens escritos en caché',
-      table: {
-        type: { summary: 'number' },
-        defaultValue: { summary: '0' },
+        type: { summary: 'number | null' },
+        defaultValue: { summary: 'null' },
       },
     },
     loading: {
       control: 'boolean',
-      description: 'Estado de carga',
+      description: 'Loading state',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -88,72 +60,54 @@ Tarjeta de visualización de tokens totales.
 export default meta
 type Story = StoryObj<typeof TotalTokens>
 
-/**
- * Visualización por defecto con datos de ejemplo
- */
 export const Default: Story = {
   args: {
-    totalTokens: 1250000,
-    inputTokens: 500000,
-    outputTokens: 350000,
-    cacheReadTokens: 250000,
-    cacheWriteTokens: 150000,
+    totalTokens: 15_000_000,
+    previousTotalTokens: 14_200_000,
     loading: false,
   },
 }
 
-/**
- * Estado de carga con animación
- */
 export const Loading: Story = {
   args: {
     totalTokens: 0,
-    inputTokens: 0,
-    outputTokens: 0,
-    cacheReadTokens: 0,
-    cacheWriteTokens: 0,
+    previousTotalTokens: null,
     loading: true,
   },
 }
 
-/**
- * Sin datos (valores en cero)
- */
 export const Empty: Story = {
   args: {
     totalTokens: 0,
-    inputTokens: 0,
-    outputTokens: 0,
-    cacheReadTokens: 0,
-    cacheWriteTokens: 0,
+    previousTotalTokens: null,
     loading: false,
   },
 }
 
-/**
- * Con valores altos (millones de tokens)
- */
 export const HighValues: Story = {
   args: {
-    totalTokens: 125750000,
-    inputTokens: 50000000,
-    outputTokens: 35000000,
-    cacheReadTokens: 25750000,
-    cacheWriteTokens: 15000000,
+    totalTokens: 125_750_000,
+    previousTotalTokens: 110_000_000,
     loading: false,
   },
 }
 
-/**
- * Uso predominante de caché
- */
-export const CacheHeavy: Story = {
+export const TokensDecrease: Story = {
   args: {
-    totalTokens: 2500000,
-    inputTokens: 250000,
-    outputTokens: 150000,
-    cacheReadTokens: 1500000,
-    cacheWriteTokens: 600000,
+    totalTokens: 12_500_000,
+    previousTotalTokens: 15_000_000,
     loading: false,
+  },
+}
+
+export const Dark: Story = {
+  args: {
+    totalTokens: 15_000_000,
+    previousTotalTokens: 14_200_000,
+    loading: false,
+    theme: 'dark',
+  },
+  parameters: {
+    backgrounds: { default: 'dark' },
   },
 }

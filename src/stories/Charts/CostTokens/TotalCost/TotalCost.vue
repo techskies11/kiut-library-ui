@@ -1,171 +1,206 @@
 <template>
-  <ChartMetricContainer
-    class="h-full min-h-0"
-    title="Total Cost"
-    :collapsible="false"
+  <CardMetric
+    :label="label"
+    :value="formattedTotalCost"
+    :tooltip="tooltip"
     :loading="loading"
+    :theme="theme"
+    ref="cardMetricRef"
   >
-    <div
-      class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]"
-    >
-        <div class="container-value">
-          <div class="value">
-            {{ formattedTotalCost }}
-          </div>
-        </div>
+    <template #icon>
+      <slot name="icon">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3"
+          />
+        </svg>
+      </slot>
+    </template>
 
-        <div class="stats-section">
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="stat-label">Daily Average</div>
-              <div class="stat-value">{{ formattedDailyMean }}</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Peak Day</div>
-              <div class="stat-date">{{ peakDayDate }}</div>
-              <div class="stat-value">{{ formattedPeakValue }}</div>
-            </div>
-          </div>
-        </div>
-    </div>
-  </ChartMetricContainer>
+    <template #headerAside>
+      <div
+        v-if="hasPreviousData"
+        :class="['change-badge', invertedBadgeClass, { 'change-badge--dark': isDark }]"
+      >
+        {{ changeLabel }}
+      </div>
+    </template>
+
+    <template #value>
+      <div class="metric-row">
+        <span class="metric-value">{{ formattedTotalCost }}</span>
+        <span v-if="showDailyMean" class="metric-daily">({{ formattedDailyMean }}/day)</span>
+      </div>
+    </template>
+  </CardMetric>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
-import { useCurrencyFormat } from '../../../../plugins/numberFormat'
+import { computed, ref, toRef } from 'vue'
+import CardMetric from '../../Utils/CardMetric/CardMetric.vue'
+import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import { useCompactCurrencyFormat } from '../../../../plugins/numberFormat'
+
+const DEFAULT_LABEL = 'LLM cost'
+const DEFAULT_TOOLTIP =
+  'Total LLM spend for the selected period, with the daily average shown in parentheses.'
 
 const props = withDefaults(
   defineProps<{
     totalCost?: number
     dailyMean?: number
+    /** @deprecated Peak day is no longer shown in the compact card layout. */
     peakDayDate?: string
+    /** @deprecated Peak day is no longer shown in the compact card layout. */
     peakDayValue?: number
+    previousTotalCost?: number | null
+    label?: string
+    tooltip?: string
     loading?: boolean
+    theme?: Theme
   }>(),
   {
     totalCost: 0,
     dailyMean: 0,
     peakDayDate: '-',
     peakDayValue: 0,
+    previousTotalCost: null,
+    label: DEFAULT_LABEL,
+    tooltip: DEFAULT_TOOLTIP,
     loading: false,
+    theme: undefined,
   },
 )
 
-const formattedTotalCost = computed(() => useCurrencyFormat(props.totalCost))
-const formattedDailyMean = computed(() => useCurrencyFormat(props.dailyMean))
-const formattedPeakValue = computed(() => useCurrencyFormat(props.peakDayValue))
+const cardMetricRef = ref<InstanceType<typeof CardMetric> | null>(null)
+const { isDark } = useThemeDetection(toRef(props, 'theme'))
+
+const formattedTotalCost = computed(() => useCompactCurrencyFormat(props.totalCost))
+
+const showDailyMean = computed(() => props.dailyMean > 0)
+
+const formattedDailyMean = computed(() => {
+  if (!showDailyMean.value) return ''
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(props.dailyMean)
+})
+
+const hasPreviousData = computed(
+  () => props.previousTotalCost !== null && props.previousTotalCost !== undefined,
+)
+
+const changePercent = computed(() => {
+  if (!hasPreviousData.value) return 0
+  const previousValue = props.previousTotalCost!
+  if (previousValue === 0) return props.totalCost > 0 ? 100 : 0
+  return ((props.totalCost - previousValue) / previousValue) * 100
+})
+
+const changeLabel = computed(() => {
+  const pct = changePercent.value.toFixed(1)
+  if (changePercent.value > 0) return `+${pct}%`
+  return `${pct}%`
+})
+
+const invertedBadgeClass = computed(() => {
+  if (changePercent.value < 0) return 'change-badge--up'
+  if (changePercent.value > 0) return 'change-badge--down'
+  return 'change-badge--neutral'
+})
+
+defineExpose({ isDark, changePercent })
 </script>
 
 <style scoped>
-.container-value {
+.metric-row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 6px;
+  flex-wrap: wrap;
+  text-align: left;
 }
 
-.value {
-  font-weight: bold;
-  background-image: linear-gradient(to right, #7f22fe, #155dfc);
-  background-clip: text;
-  color: transparent;
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+.metric-value {
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--kiut-text-primary);
 }
 
-.stats-section {
-  padding-top: 0.75rem;
+.metric-daily {
+  font-family:
+    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #6b7280;
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
+:global(.dark) .metric-daily {
+  color: #9ca3af;
 }
 
-.stat-item {
-  text-align: center;
-  padding: 0.625rem;
-  background-color: var(--kiut-bg-stats-badge, rgba(255, 255, 255, 0.6));
-  border: 1px solid var(--kiut-border-light);
-  border-radius: 1.125rem;
-}
-
-.stat-label {
-  color: var(--kiut-text-secondary, #6a7282);
+.change-badge {
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
+    'Inter',
+    sans-serif;
   font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  margin-bottom: 0.25rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  line-height: 1;
+  letter-spacing: 0.01em;
 }
 
-.stat-value {
-  font-weight: bold;
-  font-size: 1rem;
-  color: var(--kiut-text-primary, #1e2939);
+.change-badge--up {
+  background: #dcfce7;
+  color: #166534;
 }
 
-.stat-date {
-  font-size: 0.75rem;
-  color: var(--kiut-text-primary, #101112);
-  margin-bottom: 0.125rem;
-  font-weight: bold;
+.change-badge--down {
+  background: #fee2e2;
+  color: #b91c1c;
 }
 
-@media (max-width: 768px) {
-  .value {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-
-  .stats-grid {
-    gap: 0.5rem;
-  }
-
-  .stat-item {
-    padding: 0.5rem;
-  }
-
-  .stat-label {
-    font-size: 0.625rem;
-  }
-
-  .stat-value {
-    font-size: 0.875rem;
-  }
+.change-badge--neutral {
+  background: rgba(148, 163, 184, 0.16);
+  color: #64748b;
 }
 
-@media (max-width: 480px) {
-  .value {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
+.change-badge--dark.change-badge--up,
+:global(.dark) .change-badge--up {
+  background: rgba(74, 222, 128, 0.14);
+  color: #4ade80;
+}
 
-  .stats-section {
-    padding-top: 0.5rem;
-  }
+.change-badge--dark.change-badge--down,
+:global(.dark) .change-badge--down {
+  background: rgba(251, 113, 133, 0.16);
+  color: #fb7185;
+}
 
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-
-  .stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: left;
-    padding: 0.5rem 0.75rem;
-  }
-
-  .stat-label {
-    margin-bottom: 0;
-  }
+.change-badge--dark.change-badge--neutral,
+:global(.dark) .change-badge--neutral {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
 }
 </style>

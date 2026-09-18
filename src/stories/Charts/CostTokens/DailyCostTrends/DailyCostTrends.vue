@@ -1,11 +1,34 @@
 <template>
   <ChartMetricContainer
     class="h-full min-h-0"
-    title="Daily Cost Trends"
-    subtitle="Mean USD/conversation per day"
+    title="Average cost"
+    :subtitle="chartSubtitle"
     :collapsible="false"
     :loading="loading"
   >
+    <template #headerAside>
+      <div class="flex items-center justify-end gap-3">
+        <div class="w-44">
+          <Select
+            :model-value="selectedMetricType"
+            :options="METRIC_TYPE_OPTIONS"
+            aria-label-trigger="Average cost metric"
+            :show-option-check="false"
+            @update:model-value="onMetricTypeChange"
+          />
+        </div>
+        <div class="w-28">
+          <Select
+            :model-value="selectedScopeBreakdown"
+            :options="SCOPE_BREAKDOWN_OPTIONS"
+            aria-label-trigger="Average cost scope"
+            :show-option-check="false"
+            @update:model-value="onScopeBreakdownChange"
+          />
+        </div>
+      </div>
+    </template>
+
     <div class="flex min-h-0 flex-1 flex-col font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif]">
 
     <div class="card-body">
@@ -21,7 +44,7 @@
           <div class="empty-icon-wrapper">
             <ChartBarIcon class="empty-icon" />
           </div>
-          <p class="empty-title">No daily cost trends data</p>
+          <p class="empty-title">No average cost data</p>
           <p class="empty-description">Try adjusting the date range or check your filters.</p>
         </div>
       </section>
@@ -31,12 +54,30 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
+import moment from 'moment'
 import LineChart from '../../Line/ChartLine.vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
 import { ChartBarIcon } from '@heroicons/vue/24/outline'
 import { useCurrencyFormat } from '../../../../plugins/numberFormat'
 import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
+import Select, {
+  type KiutSelectOption,
+  type KiutSelectValue,
+} from '../../../../components/Inputs/Select.vue'
+import { CHART_INTER_FONT_FAMILY } from '../../chartInterFont'
+
+type AverageCostMetricType = 'per_conversation' | 'per_interaction'
+type AverageCostScopeBreakdown = 'all'
+
+const METRIC_TYPE_OPTIONS: KiutSelectOption<AverageCostMetricType>[] = [
+  { value: 'per_conversation', label: 'Per conversation' },
+  { value: 'per_interaction', label: 'Per interaction', disabled: true },
+]
+
+const SCOPE_BREAKDOWN_OPTIONS: KiutSelectOption<AverageCostScopeBreakdown>[] = [
+  { value: 'all', label: 'All' },
+]
 
 // Modelo de datos para costs_by_day
 interface CostDayData {
@@ -85,24 +126,72 @@ const props = withDefaults(defineProps<{
   loading?: boolean;
   options?: Record<string, any>;
   theme?: Theme;
+  metricType?: AverageCostMetricType;
+  scopeBreakdown?: AverageCostScopeBreakdown;
 }>(), {
   costData: () => ({}),
   conversationData: () => ({}),
   loading: false,
   options: undefined,
   theme: undefined,
+  metricType: 'per_conversation',
+  scopeBreakdown: 'all',
 });
+
+const emit = defineEmits<{
+  'update:metricType': [value: AverageCostMetricType];
+  'update:scopeBreakdown': [value: AverageCostScopeBreakdown];
+}>()
 
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'))
 
-// Función para formatear fecha a MM-DD
-const formatDate = (dateStr: string): string => {
-  const date = new Date(dateStr);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  return `${month}-${day}`;
-};
+const selectedMetricType = ref<AverageCostMetricType>(props.metricType)
+const selectedScopeBreakdown = ref<AverageCostScopeBreakdown>(props.scopeBreakdown)
+
+watch(
+  () => props.metricType,
+  (value) => {
+    selectedMetricType.value = value
+  },
+)
+
+watch(
+  () => props.scopeBreakdown,
+  (value) => {
+    selectedScopeBreakdown.value = value
+  },
+)
+
+const chartSubtitle = computed(() => {
+  if (selectedScopeBreakdown.value === 'all') {
+    return 'Aggregated across all agents'
+  }
+  return 'Average cost over time'
+})
+
+const formatDate = (dateStr: string): string => moment(dateStr).format('MMM D')
+
+const formatAxisCurrency = (value: number): string =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
+  }).format(value)
+
+function onMetricTypeChange(value: KiutSelectValue): void {
+  if (value !== 'per_conversation' && value !== 'per_interaction') return
+  if (value === 'per_interaction') return
+  selectedMetricType.value = value
+  emit('update:metricType', value)
+}
+
+function onScopeBreakdownChange(value: KiutSelectValue): void {
+  if (value !== 'all') return
+  selectedScopeBreakdown.value = value
+  emit('update:scopeBreakdown', value)
+}
 
 // Check if we have data
 const hasData = computed(() => {
@@ -124,16 +213,17 @@ const chartData = computed(() => {
       labels: sortedSeries.map((point) => formatDate(point.date)),
       datasets: [
         {
-          label: 'Mean USD/conv',
+          label: 'Average cost',
           data: sortedSeries.map((point) => Number(point.value) || 0),
-          backgroundColor: '#a78bfa80',
-          borderColor: '#a78bfa',
+          backgroundColor: '#8b45dc',
+          borderColor: '#8b45dc',
           borderWidth: 2,
           tension: 0.4,
           fill: false,
-          pointRadius: 5,
-          pointHoverRadius: 7,
+          pointRadius: 3,
+          pointHoverRadius: 6,
           pointBackgroundColor: '#ffffff',
+          pointBorderColor: '#8b45dc',
           pointBorderWidth: 2,
         }
       ]
@@ -164,16 +254,17 @@ const chartData = computed(() => {
     labels,
     datasets: [
       {
-        label: 'Mean USD/conv',
+        label: 'Average cost',
         data: meanCostPerDay,
         backgroundColor: '#a78bfa80',
         borderColor: '#a78bfa',
         borderWidth: 2,
         tension: 0.4,
         fill: false,
-        pointRadius: 5,
-        pointHoverRadius: 7,
+        pointRadius: 4,
+        pointHoverRadius: 6,
         pointBackgroundColor: '#ffffff',
+        pointBorderColor: '#a78bfa',
         pointBorderWidth: 2,
       }
     ]
@@ -192,22 +283,7 @@ const chartOptions = computed(() => {
     },
     plugins: {
       legend: {
-        display: true,
-        position: 'top' as const,
-        align: 'center' as const,
-        labels: {
-          font: {
-            family: "'DM Sans', sans-serif",
-            size: 13,
-            weight: 500 as any,
-          },
-          color: colors.value.textSecondary,
-          padding: 12,
-          boxWidth: 40,
-          boxHeight: 12,
-          borderRadius: 4,
-          usePointStyle: false,
-        }
+        display: false,
       },
       tooltip: {
         enabled: true,
@@ -219,12 +295,12 @@ const chartOptions = computed(() => {
         padding: 12,
         cornerRadius: 8,
         titleFont: {
-          family: "'DM Sans', sans-serif",
+          family: CHART_INTER_FONT_FAMILY,
           size: 13,
           weight: 600 as any,
         },
         bodyFont: {
-          family: "'DM Sans', sans-serif",
+          family: CHART_INTER_FONT_FAMILY,
           size: 12,
           weight: 500 as any,
         },
@@ -245,11 +321,17 @@ const chartOptions = computed(() => {
     scales: {
       x: {
         border: { display: false },
-        grid: { color: colors.value.gridLines, lineWidth: 1, drawTicks: false },
+        grid: {
+          color: colors.value.gridLines,
+          lineWidth: 1,
+          drawTicks: false,
+          borderDash: [4, 4],
+        },
         ticks: {
-          font: { family: "'DM Sans', sans-serif", size: 12, weight: 500 as any },
+          font: { family: CHART_INTER_FONT_FAMILY, size: 12, weight: 500 as any },
           color: colors.value.textSecondary,
           padding: 8,
+          maxTicksLimit: 8,
         }
       },
       y: {
@@ -259,13 +341,14 @@ const chartOptions = computed(() => {
           color: colors.value.gridLines,
           lineWidth: 1,
           drawTicks: false,
+          borderDash: [4, 4],
         },
         ticks: {
-          font: { family: "'DM Sans', sans-serif", size: 12, weight: 500 as any },
+          font: { family: CHART_INTER_FONT_FAMILY, size: 12, weight: 500 as any },
           color: colors.value.textSecondary,
           padding: 8,
-          callback: function(value: any) {
-            return useCurrencyFormat(value);
+          callback: function(value: string | number) {
+            return formatAxisCurrency(Number(value));
           }
         }
       }
