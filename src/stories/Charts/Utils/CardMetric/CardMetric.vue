@@ -7,6 +7,7 @@
       {
         'card-metric--dark': isDark,
         'card-metric--label-header': labelInHeader,
+        'card-metric--with-details': hasDetails,
       },
     ]"
   >
@@ -79,20 +80,67 @@
           <slot name="value">
             <div class="metric-row">
               <span v-if="prefix" class="metric-prefix">{{ prefix }}</span>
-              <span class="metric-value">
+              <span
+                :class="[
+                  'metric-value',
+                  { 'metric-value--large': valueSize === 'large' },
+                ]"
+              >
                 {{ value }}
               </span>
             </div>
           </slot>
-          <span v-if="!labelInHeader" class="metric-label metric-label--row">
-            <span>{{ label }}</span>
-            <CardMetricInfo
-              v-if="tooltipText"
-              :title="tooltipHeading"
-              :text="tooltipText"
-              :dark="isDark"
-            />
-          </span>
+
+          <div v-if="!labelInHeader" class="metric-label-row">
+            <div class="metric-label metric-label--row">
+              <div class="metric-info">
+                <span class="metric-label-text">{{ label }}</span>
+                <CardMetricInfo
+                  v-if="tooltipText"
+                  :title="tooltipHeading"
+                  :text="tooltipText"
+                  :dark="isDark"
+                />
+              </div>
+              <button
+                v-if="hasDetails"
+                type="button"
+                class="details-toggle"
+                :class="{ 'details-toggle--open': detailsOpen }"
+                :aria-expanded="detailsOpen"
+                :aria-label="detailsOpen ? 'Hide details' : 'Show details'"
+                @click="toggleDetails"
+              >
+                <svg
+                  class="details-toggle__chevron"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div v-if="hasDetails && detailsOpen" class="metric-details">
+            <slot name="details">
+              <div
+                v-for="(detail, index) in details"
+                :key="`${detail.label}-${index}`"
+                class="metric-details__row"
+              >
+                <span class="metric-details__label">{{ detail.label }}</span>
+                <span class="metric-details__value">{{ detail.value }}</span>
+              </div>
+            </slot>
+          </div>
         </div>
       </div>
     </Transition>
@@ -100,77 +148,114 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
-import ChartMetricContainer from '../ChartMetricContainer/ChartMetricContainer.vue'
-import { useThemeDetection, type Theme } from '../../../../composables/useThemeDetection'
-import CardMetricInfo from './CardMetricInfo.vue'
+import { computed, ref, toRef, useSlots, watch } from "vue";
+import ChartMetricContainer from "../ChartMetricContainer/ChartMetricContainer.vue";
+import {
+  useThemeDetection,
+  type Theme,
+} from "../../../../composables/useThemeDetection";
+import CardMetricInfo from "./CardMetricInfo.vue";
+
+export interface CardMetricDetail {
+  label: string;
+  value: string;
+}
 
 const props = withDefaults(
   defineProps<{
-    label: string
-    value: string
-    prefix?: string
+    label: string;
+    value: string;
+    prefix?: string;
     /** Ubicación de la etiqueta: bajo el valor (default) o en la fila del header junto al icono. */
-    labelPosition?: 'below' | 'header'
+    labelPosition?: "below" | "header";
+    /** Tamaño del valor principal. */
+    valueSize?: "default" | "large";
     /** Descripción del KPI. Si se informa, muestra el icono de info junto a la etiqueta. */
-    tooltip?: string
+    tooltip?: string;
     /** Título del tooltip. Por defecto usa `label`. */
-    tooltipTitle?: string
-    loading?: boolean
-    theme?: Theme
-    currentValue?: number
-    previousValue?: number | null
+    tooltipTitle?: string;
+    /** Filas opcionales de desglose bajo el valor principal. */
+    details?: CardMetricDetail[];
+    /** Estado inicial del panel de desglose. */
+    detailsDefaultOpen?: boolean;
+    loading?: boolean;
+    theme?: Theme;
+    currentValue?: number;
+    previousValue?: number | null;
   }>(),
   {
     prefix: undefined,
-    labelPosition: 'below',
+    labelPosition: "below",
+    valueSize: "default",
     tooltip: undefined,
     tooltipTitle: undefined,
+    details: () => [],
+    detailsDefaultOpen: false,
     loading: false,
     theme: undefined,
     currentValue: 0,
     previousValue: null,
   },
-)
+);
 
-const { isDark } = useThemeDetection(toRef(props, 'theme'))
+const slots = useSlots();
+const detailsOpen = ref(props.detailsDefaultOpen);
 
-const labelInHeader = computed(() => props.labelPosition === 'header')
+const { isDark } = useThemeDetection(toRef(props, "theme"));
 
-const tooltipText = computed(() => props.tooltip?.trim() || '')
+const hasDetailsProp = computed(() => (props.details?.length ?? 0) > 0);
+const hasDetailsSlot = computed(() => Boolean(slots.details));
+const hasDetails = computed(() => hasDetailsProp.value || hasDetailsSlot.value);
 
-const tooltipHeading = computed(() => props.tooltipTitle?.trim() || props.label)
+watch(
+  () => props.detailsDefaultOpen,
+  (open) => {
+    detailsOpen.value = open;
+  },
+);
+
+function toggleDetails(): void {
+  detailsOpen.value = !detailsOpen.value;
+}
+
+const labelInHeader = computed(() => props.labelPosition === "header");
+
+const tooltipText = computed(() => props.tooltip?.trim() || "");
+
+const tooltipHeading = computed(
+  () => props.tooltipTitle?.trim() || props.label,
+);
 
 const hasPreviousData = computed(
   () => props.previousValue !== null && props.previousValue !== undefined,
-)
+);
 
 const changePercent = computed(() => {
-  if (!hasPreviousData.value) return 0
-  const previousValue = props.previousValue!
-  if (previousValue === 0) return props.currentValue > 0 ? 100 : 0
-  return ((props.currentValue - previousValue) / previousValue) * 100
-})
+  if (!hasPreviousData.value) return 0;
+  const previousValue = props.previousValue!;
+  if (previousValue === 0) return props.currentValue > 0 ? 100 : 0;
+  return ((props.currentValue - previousValue) / previousValue) * 100;
+});
 
 const changeLabel = computed(() => {
-  const pctValue = changePercent.value
-  if (Number.isNaN(pctValue)) return '-'
-  const pct = pctValue.toFixed(1)
-  if (pctValue > 0) return `+${pct}%`
-  return `${pct}%`
-})
+  const pctValue = changePercent.value;
+  if (Number.isNaN(pctValue)) return "-";
+  const pct = pctValue.toFixed(1);
+  if (pctValue > 0) return `+${pct}%`;
+  return `${pct}%`;
+});
 
 const changeBadgeClass = computed(() => {
-  if (changePercent.value > 0) return 'change-badge--up'
-  if (changePercent.value < 0) return 'change-badge--down'
-  return 'change-badge--neutral'
-})
+  if (changePercent.value > 0) return "change-badge--up";
+  if (changePercent.value < 0) return "change-badge--down";
+  return "change-badge--neutral";
+});
 
-defineExpose({ isDark, changePercent })
+defineExpose({ isDark, changePercent });
 </script>
 
 <style scoped>
-@import '../ut-shared.css';
+@import "../ut-shared.css";
 
 .card-metric {
   gap: 8px;
@@ -197,6 +282,20 @@ defineExpose({ isDark, changePercent })
 
 .card-metric--label-header .card-body {
   gap: 0;
+}
+
+.card-metric--with-details.card-metric--label-header .card-body,
+.card-metric--with-details:not(.card-metric--label-header) .card-body {
+  gap: 2px;
+}
+
+.card-metric--with-details :deep(.card-header) {
+  margin-bottom: 2px;
+}
+
+.card-metric--with-details .metric-value,
+.card-metric--with-details .metric-value--large {
+  margin-bottom: 2px;
 }
 
 .header-title-group {
@@ -235,8 +334,7 @@ defineExpose({ isDark, changePercent })
 
 .change-badge {
   font-family:
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif),
-    'Inter',
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), "Inter",
     sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
@@ -282,6 +380,7 @@ defineExpose({ isDark, changePercent })
   align-items: flex-start;
   gap: 6px;
   text-align: left;
+  width: 100%;
 }
 
 .metric-row {
@@ -294,7 +393,8 @@ defineExpose({ isDark, changePercent })
 }
 
 .metric-prefix {
-  font-family: 'Inter', var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-family:
+    "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
   font-size: 16px;
   font-weight: 700;
   line-height: 1.2;
@@ -304,8 +404,7 @@ defineExpose({ isDark, changePercent })
 
 .metric-value {
   font-family:
-    'Inter',
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+    "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
   font-size: 24px;
   font-weight: 700;
   line-height: 1.2;
@@ -320,18 +419,129 @@ defineExpose({ isDark, changePercent })
 
 .metric-label {
   font-family:
-    'Inter',
-    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+    "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
   font-size: 12px;
   font-weight: 400;
   line-height: 1.25;
   color: #61616b;
 }
 
+.metric-info {
+  display: flex;
+  justify-content: row;
+  gap: 5px;
+}
+
+.metric-label-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
 .metric-label--row {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 4px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.metric-label--row .metric-label-text {
+  font-size: 12px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.details-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #9191a1;
+  cursor: pointer;
+}
+
+.details-toggle:hover {
+  color: #61616b;
+}
+
+.details-toggle:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.details-toggle__chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.details-toggle--open .details-toggle__chevron {
+  transform: rotate(180deg);
+}
+
+.card-metric--dark .details-toggle {
+  color: #71717a;
+}
+
+.card-metric--dark .details-toggle:hover {
+  color: #a1a1aa;
+}
+
+.metric-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid #e4e4e7;
+}
+
+.card-metric--dark .metric-details {
+  border-top-color: #2d2d39;
+}
+
+.metric-details__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.metric-details__label {
+  font-family:
+    "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #61616b;
+}
+
+.metric-details__value {
+  font-family:
+    "Inter", var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--kiut-text-primary);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.card-metric--dark .metric-details__label {
+  color: #9191a1;
 }
 
 .metric-label--header {
@@ -405,6 +615,10 @@ defineExpose({ isDark, changePercent })
 @media (prefers-reduced-motion: reduce) {
   .card-metric-fade-enter-active,
   .card-metric-fade-leave-active {
+    transition: none;
+  }
+
+  .details-toggle__chevron {
     transition: none;
   }
 }
