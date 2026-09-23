@@ -16913,7 +16913,7 @@ function Ho(e, a) {
   return e.some((t) => t > 0) ? e : a;
 }
 function nk(e) {
-  return (e.sell_success_count || 0) + (e.sell_success_bank_transfer_count ?? 0) + (e.sell_success_cash_count ?? 0);
+  return e.sell_success_count || 0;
 }
 function ok(e) {
   const a = {};
@@ -16944,15 +16944,18 @@ function Gr(e, a) {
 function Xr(e, a) {
   const t = e?.total_seller_conversations || 0;
   if (!t) return null;
-  const n = e?.total_sell_started || 0, o = e?.total_sell_booking_created || 0, s = e?.total_sell_success || 0, i = e?.total_sell_success_bank_transfer || 0, l = e?.total_sell_success_cash || 0, r = s + i + l, c = Math.max(t - n, 0), u = Math.max(n - o, 0), f = Math.max(o - r, 0);
+  const n = e?.total_sell_started || 0, o = e?.total_sell_booking_created || 0, s = e?.total_sell_success || 0, i = e?.total_sell_success_bank_transfer || 0, l = e?.total_sell_success_cash || 0, r = Math.max(
+    s - i - l,
+    0
+  ), c = Math.max(t - n, 0), u = Math.max(n - o, 0), f = Math.max(o - s, 0);
   return {
     initiated: t,
     started: n,
     bookingCreated: o,
-    successOnline: s,
+    successOnline: r,
     successBankTransfer: i,
     successCash: l,
-    success: r,
+    success: s,
     droppedBeforeSales: c,
     failedAtBooking: u,
     failedAtCompletion: f,

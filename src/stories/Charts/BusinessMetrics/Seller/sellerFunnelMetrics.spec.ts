@@ -93,11 +93,11 @@ describe('computeSellerFunnelBreakdown', () => {
     expect(funnel?.totalErrors).toBe(1800)
   })
 
-  it('includes payment method success channels in total success', () => {
+  it('uses inclusive success total without duplicating payment method breakdowns', () => {
     const funnel = computeSellerFunnelBreakdown(
       {
         ...mockSellerData,
-        total_sell_success: 100,
+        total_sell_success: 130,
         total_sell_success_bank_transfer: 20,
         total_sell_success_cash: 10,
       },
@@ -105,6 +105,9 @@ describe('computeSellerFunnelBreakdown', () => {
     )
 
     expect(funnel?.success).toBe(130)
+    expect(funnel?.successOnline).toBe(100)
+    expect(funnel?.successBankTransfer).toBe(20)
+    expect(funnel?.successCash).toBe(10)
     expect(funnel?.failedAtCompletion).toBe(
       mockSellerData.total_sell_booking_created - 130,
     )
@@ -150,5 +153,35 @@ describe('computeSalesVolumeDays', () => {
     expect(days[0].success).toBe(85)
     expect(days[0].abandoned).toBe(30)
     expect(days[0].errors).toBe(65)
+  })
+
+  it('does not duplicate daily cash and bank-transfer breakdowns', () => {
+    const days = computeSalesVolumeDays(
+      {
+        ...mockSellerData,
+        total_seller_conversations: 20,
+        total_sell_started: 18,
+        total_sell_booking_created: 13,
+        total_sell_success: 10,
+        total_sell_success_bank_transfer: 2,
+        total_sell_success_cash: 1,
+        seller_by_day: [
+          {
+            date: '2024-11-01',
+            seller_conversations: 20,
+            sell_started_count: 18,
+            sell_get_quote_count: 15,
+            sell_booking_created_count: 13,
+            sell_success_count: 10,
+            sell_success_bank_transfer_count: 2,
+            sell_success_cash_count: 1,
+            daily_value_sell_success: 100,
+          },
+        ],
+      },
+      { total_sell_failed: 3, failed_by_reason_by_day: [] },
+    )
+
+    expect(days[0].success).toBe(10)
   })
 })
