@@ -3,6 +3,10 @@
 ## [current]
 
 ### Added
+- CardMetric optional expandable `details` breakdown rows with chevron toggle (`detailsDefaultOpen`).
+
+### Changed
+- CardMetric details layout: inline chevron after info icon, divider spacing, and bold detail values to match KPI design.
 - DAI-400: Add AwsCostCard compact KPI for allocated AWS infrastructure spend.
 - DAI-400: Add `useCompactNumberFormat` for token KPI values (e.g. `15M`).
 - Button `active` prop for toggle/segmented secondary controls with filled brand styles and `aria-pressed`.
