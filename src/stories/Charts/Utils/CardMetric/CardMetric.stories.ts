@@ -26,6 +26,8 @@ Contenedor reutilizable para tarjetas KPI compactas: icono, badge de cambio, val
 - \`labelPosition\`: \`below\` (default) o \`header\` (junto al icono).
 - \`tooltip\`: texto de ayuda. Si se informa, muestra un icono de info junto a la etiqueta.
 - \`tooltipTitle\`: título del tooltip (por defecto usa \`label\`).
+- \`details\`: filas opcionales de desglose bajo el valor (muestra chevron para expandir/colapsar).
+- \`detailsDefaultOpen\`: estado inicial del panel de desglose.
 - \`loading\`: muestra skeleton completo con animación shimmer.
 - \`currentValue\` / \`previousValue\`: calculan el badge de cambio
         `,
@@ -54,7 +56,7 @@ const renderWithIcon = (args: Record<string, unknown>) => ({
   `,
 })
 
-export const Default: Story = {
+/* export const Default: Story = {
   args: {
     label: 'Total Conversations',
     value: '12,450',
@@ -63,7 +65,7 @@ export const Default: Story = {
     loading: false,
   },
   render: renderWithIcon,
-}
+} */
 
 export const WithTooltip: Story = {
   args: {
@@ -160,6 +162,32 @@ export const LabelInHeader: Story = {
     loading: false,
   },
   render: renderWithIcon,
+}
+
+export const Default: Story = {
+  args: {
+    label: 'Avg Conversation Cost',
+    value: '$0.34',
+    tooltip: 'Average cost per conversation for the selected period.',
+    detailsDefaultOpen: true,
+    details: [
+      { label: 'Avg LLM Cost', value: '$0.2765' },
+      { label: 'Avg AWS Cost', value: '$0.0635' },
+    ],
+    currentValue: 0.34,
+    previousValue: 0.39,
+    loading: false,
+  },
+  render: (args) => ({
+    components: { CardMetric },
+    setup() {
+      return { args }
+    },
+    template: `
+      <CardMetric v-bind="args">
+      </CardMetric>
+    `,
+  }),
 }
 
 export const LabelInHeaderLoading: Story = {
