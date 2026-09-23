@@ -105,11 +105,7 @@ function weightsOrFallback(weights: number[], fallback: number[]): number[] {
 }
 
 export function successForDay(day: SellerDayData): number {
-  return (
-    (day.sell_success_count || 0) +
-    (day.sell_success_bank_transfer_count ?? 0) +
-    (day.sell_success_cash_count ?? 0)
-  );
+  return day.sell_success_count || 0;
 }
 
 export function aggregateFailedByReasons(
@@ -164,10 +160,13 @@ export function computeSellerFunnelBreakdown(
 
   const started = sellerData?.total_sell_started || 0;
   const bookingCreated = sellerData?.total_sell_booking_created || 0;
-  const successOnline = sellerData?.total_sell_success || 0;
+  const success = sellerData?.total_sell_success || 0;
   const successBankTransfer = sellerData?.total_sell_success_bank_transfer || 0;
   const successCash = sellerData?.total_sell_success_cash || 0;
-  const success = successOnline + successBankTransfer + successCash;
+  const successOnline = Math.max(
+    success - successBankTransfer - successCash,
+    0,
+  );
 
   const droppedBeforeSales = Math.max(initiated - started, 0);
   const failedAtBooking = Math.max(started - bookingCreated, 0);

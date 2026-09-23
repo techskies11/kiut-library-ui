@@ -15,6 +15,7 @@
 - DAI-400: Rename Daily Cost Trends chart to Average cost with header metric/scope selectors (per conversation and All enabled; per interaction pending backend).
 
 ### Fixed
+- DAI-532: Treat seller success totals as inclusive while preserving cash and bank-transfer Sankey branches without double counting.
 - Table: align body cell vertical padding with header (`py-3`) and remove fixed 61px row height so content is not cramped.
 
 ### Removed
