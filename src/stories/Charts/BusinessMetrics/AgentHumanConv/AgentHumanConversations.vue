@@ -79,53 +79,53 @@
           </template>
         </CardMetric>
 
-        <!--   <CardMetric
-            label="Transferred"
-            label-position="header"
-            :value="formatNumber(totalTransferred)"
-            :theme="theme"
-            :current-value="totalTransferred"
-            :previous-value="previousTotalTransferred"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-                />
-              </svg>
-            </template>
-          </CardMetric>
+        <CardMetric
+          label="Transfers Received"
+          label-position="header"
+          :value="formatNumber(totalTransfersReceived)"
+          :theme="theme"
+          :current-value="totalTransfersReceived"
+          :previous-value="previousTotalTransferred"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m12 3c0 1.232-.046 2.453-.138 3.662a4.006 4.006 0 0 1-3.7 3.7 48.678 48.678 0 0 1-7.324 0 4.006 4.006 0 0 1-3.7-3.7c-.017-.22-.032-.441-.046-.662M4.5 12l3 3m-3-3 3-3"
+              />
+            </svg>
+          </template>
+        </CardMetric>
 
-          <CardMetric
-            label="Abandoned"
-            label-position="header"
-            :value="formatNumber(totalAbandoned)"
-            :theme="theme"
-            :current-value="totalAbandoned"
-            :previous-value="previousTotalAbandoned"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
-                />
-              </svg>
-            </template>
-          </CardMetric> -->
+        <CardMetric
+          label="Transfers Made"
+          label-position="header"
+          :value="formatNumber(totalTransfersMade)"
+          :theme="theme"
+          :current-value="totalTransfersMade"
+          :previous-value="previousTotalTransfersMade"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+              />
+            </svg>
+          </template>
+        </CardMetric>
 
         <CardMetric
           label="Avg Time to Assign"
@@ -237,9 +237,14 @@
                 formatNumber(Number(row.handled))
               }}</span>
             </template>
-            <template #cell-transferred="{ row }">
+            <template #cell-transfersReceived="{ row }">
               <span class="cell-plain cell-plain--orange">{{
-                formatNumber(Number(row.transferred))
+                formatNumber(Number(row.transfersReceived))
+              }}</span>
+            </template>
+            <template #cell-transfersMade="{ row }">
+              <span class="cell-plain cell-plain--orange">{{
+                formatNumber(Number(row.transfersMade))
               }}</span>
             </template>
             <template #cell-abandoned="{ row }">
@@ -325,6 +330,8 @@ interface AgentDayData {
   assigned_count: number;
   closed_count: number;
   transferred_count?: number;
+  transfers_received_count?: number;
+  transfers_made_count?: number;
   abandoned_count?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
@@ -332,6 +339,8 @@ interface AgentDayData {
   day_total_closed?: number;
   day_total_enqueued?: number;
   day_total_transferred?: number;
+  day_total_transfers_received?: number;
+  day_total_transfers_made?: number;
   day_total_abandoned?: number;
   day_avg_time_to_assign_seconds?: DurationInput;
   day_avg_conversation_duration_seconds?: DurationInput;
@@ -348,6 +357,8 @@ interface AgentHumanConvData {
   total_closed?: number;
   total_enqueued?: number;
   total_transferred?: number;
+  total_transfers_received?: number;
+  total_transfers_made?: number;
   total_abandoned?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
@@ -361,7 +372,8 @@ interface AgentTableRow {
   agent_name: string;
   agent_email: string;
   handled: number;
-  transferred: number;
+  transfersReceived: number;
+  transfersMade: number;
   /** Per-agent abandoned count (chats abandoned while assigned to this agent). */
   abandoned: number;
   connected_at: string | null;
@@ -380,7 +392,8 @@ type SortKey =
   | "name"
   | "email"
   | "handled"
-  | "transferred"
+  | "transfersReceived"
+  | "transfersMade"
   | "abandoned"
   | "avgAssignation"
   | "avgResolution";
@@ -395,6 +408,7 @@ const props = withDefaults(
     previousTotalEnqueued?: number | null;
     previousTotalClosed?: number | null;
     previousTotalTransferred?: number | null;
+    previousTotalTransfersMade?: number | null;
     previousTotalAbandoned?: number | null;
     previousAvgTimeToAssignSeconds?: number | null;
     previousAvgConversationDurationSeconds?: number | null;
@@ -405,6 +419,8 @@ const props = withDefaults(
       total_closed: 0,
       total_enqueued: 0,
       total_transferred: 0,
+      total_transfers_received: 0,
+      total_transfers_made: 0,
       total_abandoned: 0,
       avg_time_to_assign_seconds: null as string | null,
       avg_conversation_duration_seconds: null as string | null,
@@ -417,6 +433,7 @@ const props = withDefaults(
     previousTotalEnqueued: null,
     previousTotalClosed: null,
     previousTotalTransferred: null,
+    previousTotalTransfersMade: null,
     previousTotalAbandoned: null,
     previousAvgTimeToAssignSeconds: null,
     previousAvgConversationDurationSeconds: null,
@@ -446,17 +463,28 @@ function isDisplayableAgentRow(agent: AgentDayData): boolean {
   if (!isValidAgentEmail(agent.agent_email)) return false;
   const assigned = agent.assigned_count ?? 0;
   const closed = agent.closed_count ?? 0;
-  const transferred = agent.transferred_count ?? 0;
+  const transfersReceived = getTransfersReceivedCount(agent);
+  const transfersMade = getTransfersMadeCount(agent);
   const abandoned = agent.abandoned_count ?? 0;
-  return assigned > 0 || closed > 0 || transferred > 0 || abandoned > 0;
+  return (
+    assigned > 0 ||
+    closed > 0 ||
+    transfersReceived > 0 ||
+    transfersMade > 0 ||
+    abandoned > 0
+  );
 }
 
 function getHandledCount(agent: AgentDayData): number {
   return agent.closed_count ?? 0;
 }
 
-function getTransferredCount(agent: AgentDayData): number {
-  return agent.transferred_count ?? 0;
+function getTransfersReceivedCount(agent: AgentDayData): number {
+  return agent.transfers_received_count ?? agent.transferred_count ?? 0;
+}
+
+function getTransfersMadeCount(agent: AgentDayData): number {
+  return agent.transfers_made_count ?? 0;
 }
 
 function getAgentAbandonedCount(agent: AgentDayData): number {
@@ -490,9 +518,18 @@ const hasAgentRows = computed(() => displayAgentRows.value.length > 0);
 
 const hasData = computed(() => {
   const hasEnqueued = (props.data?.total_enqueued ?? 0) > 0;
-  const hasTransferred = (props.data?.total_transferred ?? 0) > 0;
+  const hasTransfersReceived =
+    (props.data?.total_transfers_received ?? props.data?.total_transferred ?? 0) >
+    0;
+  const hasTransfersMade = (props.data?.total_transfers_made ?? 0) > 0;
   const hasAbandoned = (props.data?.total_abandoned ?? 0) > 0;
-  return hasAgentRows.value || hasEnqueued || hasTransferred || hasAbandoned;
+  return (
+    hasAgentRows.value ||
+    hasEnqueued ||
+    hasTransfersReceived ||
+    hasTransfersMade ||
+    hasAbandoned
+  );
 });
 
 const tableViewMode = ref<TableViewMode>("by_date");
@@ -583,7 +620,13 @@ function formatDurationDisplay(val: DurationInput): string {
 
 const totalEnqueued = computed(() => props.data?.total_enqueued ?? 0);
 const totalClosed = computed(() => props.data?.total_closed ?? 0);
-const totalTransferred = computed(() => props.data?.total_transferred ?? 0);
+const totalTransfersReceived = computed(
+  () =>
+    props.data?.total_transfers_received ?? props.data?.total_transferred ?? 0,
+);
+const totalTransfersMade = computed(
+  () => props.data?.total_transfers_made ?? 0,
+);
 const totalAbandoned = computed(() => props.data?.total_abandoned ?? 0);
 const avgAssignSeconds = computed(
   () => props.data?.avg_time_to_assign_seconds ?? null,
@@ -620,7 +663,8 @@ function mapAgentToRow(agent: AgentDayData, index: number): AgentTableRow {
     agent_name: agent.agent_name ?? "",
     agent_email: agent.agent_email,
     handled: getHandledCount(agent),
-    transferred: getTransferredCount(agent),
+    transfersReceived: getTransfersReceivedCount(agent),
+    transfersMade: getTransfersMadeCount(agent),
     abandoned: getAgentAbandonedCount(agent),
     connected_at: agent.connected_at ?? null,
     disconnected_at: agent.disconnected_at ?? null,
@@ -648,7 +692,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       agent_name: string;
       agent_email: string;
       handled: number;
-      transferred: number;
+      transfersReceived: number;
+      transfersMade: number;
       abandoned: number;
       assignSum: number;
       assignWeight: number;
@@ -666,7 +711,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
         agent_name: agent.agent_name?.trim() ?? "",
         agent_email: key,
         handled: 0,
-        transferred: 0,
+        transfersReceived: 0,
+        transfersMade: 0,
         abandoned: 0,
         assignSum: 0,
         assignWeight: 0,
@@ -679,7 +725,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
     const assigned = agent.assigned_count ?? 0;
     const closed = agent.closed_count ?? 0;
     acc.handled += getHandledCount(agent);
-    acc.transferred += getTransferredCount(agent);
+    acc.transfersReceived += getTransfersReceivedCount(agent);
+    acc.transfersMade += getTransfersMadeCount(agent);
     acc.abandoned += getAgentAbandonedCount(agent);
 
     if (agent.agent_name?.trim()) {
@@ -711,7 +758,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       agent_name: acc.agent_name,
       agent_email: acc.agent_email,
       handled: acc.handled,
-      transferred: acc.transferred,
+      transfersReceived: acc.transfersReceived,
+      transfersMade: acc.transfersMade,
       abandoned: acc.abandoned,
       connected_at: null,
       disconnected_at: null,
@@ -759,8 +807,11 @@ function compareRows(
     case "handled":
       cmp = a.handled - b.handled;
       break;
-    case "transferred":
-      cmp = a.transferred - b.transferred;
+    case "transfersReceived":
+      cmp = a.transfersReceived - b.transfersReceived;
+      break;
+    case "transfersMade":
+      cmp = a.transfersMade - b.transfersMade;
       break;
     case "abandoned":
       cmp = (a.abandoned ?? 0) - (b.abandoned ?? 0);
@@ -817,8 +868,14 @@ const agentTableColumns = computed<TableColumn[]>(() => {
     { key: "email", label: "Email", align: "left", sortable: true },
     { key: "handled", label: "Handled", align: "center", sortable: true },
     {
-      key: "transferred",
-      label: "Transferred",
+      key: "transfersReceived",
+      label: "Transfers Received",
+      align: "center",
+      sortable: true,
+    },
+    {
+      key: "transfersMade",
+      label: "Transfers Made",
       align: "center",
       sortable: true,
     },
