@@ -52,7 +52,7 @@
         </div>
       </section>
 
-      <section
+<!--       <section
         v-if="props.showPaymentMethodDetails"
         class="seller-value-cards"
       >
@@ -68,7 +68,7 @@
           title="Cash Option Value"
           :value="cashOptionCardValue"
         />
-      </section>
+      </section> -->
 
       <!-- Table Data (chrome: Utils/Table) -->
       <section
@@ -340,7 +340,7 @@ const sellerTableColumns = computed<TableColumn[]>(() => {
     { key: "getQuote", label: "Get Quote", align: "center" },
     { key: "bookingCreated", label: "Booking Created", align: "center" },
   ];
-
+/* 
   if (props.showPaymentMethodDetails) {
     columns.push(
       { key: "btValue", label: "BT Success Value", align: "center" },
@@ -348,7 +348,7 @@ const sellerTableColumns = computed<TableColumn[]>(() => {
       { key: "coValue", label: "CO Success Value", align: "center" },
       { key: "cashSuccess", label: "Cash Success", align: "center" },
     );
-  }
+  } */
 
   columns.push(
     { key: "sellSuccess", label: "Sell Success", align: "center" },
