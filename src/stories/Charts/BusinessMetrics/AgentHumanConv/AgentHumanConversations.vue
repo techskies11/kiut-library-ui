@@ -333,8 +333,6 @@ interface AgentDayData {
   transfers_made_count?: number;
   /** @deprecated use transfers_received_count */
   transferred_count?: number;
-  transfers_received_count?: number;
-  transfers_made_count?: number;
   abandoned_count?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
@@ -345,8 +343,6 @@ interface AgentDayData {
   day_total_transfers_made?: number;
   /** @deprecated use day_total_transfers_received */
   day_total_transferred?: number;
-  day_total_transfers_received?: number;
-  day_total_transfers_made?: number;
   day_total_abandoned?: number;
   day_avg_time_to_assign_seconds?: DurationInput;
   day_avg_conversation_duration_seconds?: DurationInput;
@@ -366,8 +362,6 @@ interface AgentHumanConvData {
   total_transfers_made?: number;
   /** @deprecated use total_transfers_received */
   total_transferred?: number;
-  total_transfers_received?: number;
-  total_transfers_made?: number;
   total_abandoned?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
@@ -430,8 +424,6 @@ const props = withDefaults(
       total_transfers_received: 0,
       total_transfers_made: 0,
       total_transferred: 0,
-      total_transfers_received: 0,
-      total_transfers_made: 0,
       total_abandoned: 0,
       avg_time_to_assign_seconds: null as string | null,
       avg_conversation_duration_seconds: null as string | null,
