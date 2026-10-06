@@ -26,20 +26,46 @@
           <slot name="headerAside" />
         </div>
       </div>
-      <svg
-        class="metric-collapsible__chevron"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
+      <div class="cmc-summary-actions">
+        <button
+          v-if="showRefresh"
+          type="button"
+          class="cmc-refresh"
+          data-testid="chart-refresh"
+          :disabled="loading"
+          :aria-label="refreshLabel"
+          @click="onRefreshClick"
+        >
+          <svg
+            class="cmc-refresh__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20 12a8 8 0 10-2.3 5.6M20 12v-5m0 5h-5"
+            />
+          </svg>
+        </button>
+        <svg
+          class="metric-collapsible__chevron"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
           d="M19 9l-7 7-7-7"
         />
-      </svg>
+        </svg>
+      </div>
     </summary>
 
     <div v-if="showBody" class="chart-metric-container__body">
@@ -82,6 +108,30 @@
         <div v-if="$slots.headerAside" class="cmc-header-aside">
           <slot name="headerAside" />
         </div>
+        <button
+          v-if="showRefresh"
+          type="button"
+          class="cmc-refresh"
+          data-testid="chart-refresh"
+          :disabled="loading"
+          :aria-label="refreshLabel"
+          @click="onRefreshClick"
+        >
+          <svg
+            class="cmc-refresh__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20 12a8 8 0 10-2.3 5.6M20 12v-5m0 5h-5"
+            />
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -126,6 +176,9 @@ const props = withDefaults(
     loading?: boolean;
     /** When true and collapsible, body content mounts only after first open. */
     lazyMount?: boolean;
+    /** Shows a header button that reloads this chart only. */
+    showRefresh?: boolean;
+    refreshLabel?: string;
   }>(),
   {
     title: "",
@@ -133,13 +186,31 @@ const props = withDefaults(
     defaultOpen: false,
     loading: false,
     lazyMount: false,
+    showRefresh: true,
+    refreshLabel: "Refresh chart",
   },
 );
 
 const emit = defineEmits<{
   open: [];
   toggle: [open: boolean];
+  refresh: [];
 }>();
+
+const chartRefreshEvent = "kiut-chart-refresh";
+
+function onRefreshClick(event: MouseEvent): void {
+  event.preventDefault();
+  event.stopPropagation();
+  if (props.loading) return;
+  emit("refresh");
+  const target = event.currentTarget;
+  if (target instanceof HTMLElement) {
+    target.dispatchEvent(
+      new CustomEvent(chartRefreshEvent, { bubbles: true, composed: true }),
+    );
+  }
+}
 
 /** Only strict `true` opens. Avoids truthy strings like `"false"` opening `<details>`. */
 function toOpenFlag(value: unknown): boolean {
@@ -369,6 +440,72 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 
 .cmc-header-aside {
   flex-shrink: 0;
+}
+
+.cmc-summary-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.cmc-refresh {
+  display: inline-flex;
+  height: 32px;
+  width: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  padding: 0;
+  color: var(--kiut-text-secondary, #64748b);
+  background: transparent;
+  cursor: pointer;
+  font-family:
+    var(--kiut-font-ui, ui-sans-serif, system-ui, sans-serif), "Inter",
+    sans-serif;
+}
+
+.cmc-refresh:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--kiut-text-primary, #1e293b);
+}
+
+.dark .cmc-refresh:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--kiut-text-primary, #f8fafc);
+}
+
+.cmc-refresh:focus-visible {
+  outline: 2px solid var(--kiut-primary, #5d4b93);
+  outline-offset: 2px;
+}
+
+.cmc-refresh:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.cmc-refresh__icon {
+  height: 16px;
+  width: 16px;
+}
+
+.cmc-refresh:disabled .cmc-refresh__icon {
+  animation: cmc-refresh-spin 0.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cmc-refresh:disabled .cmc-refresh__icon {
+    animation: none;
+  }
+}
+
+@keyframes cmc-refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .chart-metric-container .card-title {

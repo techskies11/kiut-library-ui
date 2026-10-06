@@ -329,6 +329,9 @@ interface AgentDayData {
   agent_tag?: string | null;
   assigned_count: number;
   closed_count: number;
+  transfers_received_count?: number;
+  transfers_made_count?: number;
+  /** @deprecated use transfers_received_count */
   transferred_count?: number;
   transfers_received_count?: number;
   transfers_made_count?: number;
@@ -338,6 +341,9 @@ interface AgentDayData {
   day_total_assigned?: number;
   day_total_closed?: number;
   day_total_enqueued?: number;
+  day_total_transfers_received?: number;
+  day_total_transfers_made?: number;
+  /** @deprecated use day_total_transfers_received */
   day_total_transferred?: number;
   day_total_transfers_received?: number;
   day_total_transfers_made?: number;
@@ -356,6 +362,9 @@ interface AgentHumanConvData {
   total_assigned?: number;
   total_closed?: number;
   total_enqueued?: number;
+  total_transfers_received?: number;
+  total_transfers_made?: number;
+  /** @deprecated use total_transfers_received */
   total_transferred?: number;
   total_transfers_received?: number;
   total_transfers_made?: number;
@@ -418,6 +427,8 @@ const props = withDefaults(
       total_assigned: 0,
       total_closed: 0,
       total_enqueued: 0,
+      total_transfers_received: 0,
+      total_transfers_made: 0,
       total_transferred: 0,
       total_transfers_received: 0,
       total_transfers_made: 0,
@@ -466,13 +477,7 @@ function isDisplayableAgentRow(agent: AgentDayData): boolean {
   const transfersReceived = getTransfersReceivedCount(agent);
   const transfersMade = getTransfersMadeCount(agent);
   const abandoned = agent.abandoned_count ?? 0;
-  return (
-    assigned > 0 ||
-    closed > 0 ||
-    transfersReceived > 0 ||
-    transfersMade > 0 ||
-    abandoned > 0
-  );
+  return assigned > 0 || closed > 0 || transfersReceived > 0 || transfersMade > 0 || abandoned > 0;
 }
 
 function getHandledCount(agent: AgentDayData): number {
@@ -480,7 +485,11 @@ function getHandledCount(agent: AgentDayData): number {
 }
 
 function getTransfersReceivedCount(agent: AgentDayData): number {
-  return agent.transfers_received_count ?? agent.transferred_count ?? 0;
+  return (
+    agent.transfers_received_count ??
+    agent.transferred_count ??
+    0
+  );
 }
 
 function getTransfersMadeCount(agent: AgentDayData): number {
@@ -624,9 +633,7 @@ const totalTransfersReceived = computed(
   () =>
     props.data?.total_transfers_received ?? props.data?.total_transferred ?? 0,
 );
-const totalTransfersMade = computed(
-  () => props.data?.total_transfers_made ?? 0,
-);
+const totalTransfersMade = computed(() => props.data?.total_transfers_made ?? 0);
 const totalAbandoned = computed(() => props.data?.total_abandoned ?? 0);
 const avgAssignSeconds = computed(
   () => props.data?.avg_time_to_assign_seconds ?? null,

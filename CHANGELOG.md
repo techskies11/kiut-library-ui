@@ -1,8 +1,8 @@
 # Change Log
 
 ## [current]
-
 ### Added
+- DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
 - CardMetric optional expandable `details` breakdown rows with chevron toggle (`detailsDefaultOpen`).
 
 ### Changed
