@@ -21,6 +21,8 @@
 ### Fixed
 - DAI-532: Treat seller success totals as inclusive while preserving cash and bank-transfer Sankey branches without double counting.
 - Table: align body cell vertical padding with header (`py-3`) and remove fixed 61px row height so content is not cramped.
+### Changed
+- DAI-483: Split Agent Human Conversations transfer metrics into Transfers Received and Transfers Made KPIs and table columns; keep deprecated `transferred_count` / `total_transferred` mapped to received.
 
 ### Removed
 - DAI-408: Remove Agent and Channel & Agent breakdown options from Average Resolution Time. Keep All, Resolution Mode, and Channel.

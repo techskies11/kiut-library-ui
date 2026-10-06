@@ -79,53 +79,53 @@
           </template>
         </CardMetric>
 
-        <!--   <CardMetric
-            label="Transferred"
-            label-position="header"
-            :value="formatNumber(totalTransferred)"
-            :theme="theme"
-            :current-value="totalTransferred"
-            :previous-value="previousTotalTransferred"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
-                />
-              </svg>
-            </template>
-          </CardMetric>
+        <CardMetric
+          label="Transfers Received"
+          label-position="header"
+          :value="formatNumber(totalTransfersReceived)"
+          :theme="theme"
+          :current-value="totalTransfersReceived"
+          :previous-value="previousTotalTransferred"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m12 3c0 1.232-.046 2.453-.138 3.662a4.006 4.006 0 0 1-3.7 3.7 48.678 48.678 0 0 1-7.324 0 4.006 4.006 0 0 1-3.7-3.7c-.017-.22-.032-.441-.046-.662M4.5 12l3 3m-3-3 3-3"
+              />
+            </svg>
+          </template>
+        </CardMetric>
 
-          <CardMetric
-            label="Abandoned"
-            label-position="header"
-            :value="formatNumber(totalAbandoned)"
-            :theme="theme"
-            :current-value="totalAbandoned"
-            :previous-value="previousTotalAbandoned"
-          >
-            <template #icon>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
-                />
-              </svg>
-            </template>
-          </CardMetric> -->
+        <CardMetric
+          label="Transfers Made"
+          label-position="header"
+          :value="formatNumber(totalTransfersMade)"
+          :theme="theme"
+          :current-value="totalTransfersMade"
+          :previous-value="previousTotalTransfersMade"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+              />
+            </svg>
+          </template>
+        </CardMetric>
 
         <CardMetric
           label="Avg Time to Assign"
@@ -333,6 +333,8 @@ interface AgentDayData {
   transfers_made_count?: number;
   /** @deprecated use transfers_received_count */
   transferred_count?: number;
+  transfers_received_count?: number;
+  transfers_made_count?: number;
   abandoned_count?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
@@ -343,6 +345,8 @@ interface AgentDayData {
   day_total_transfers_made?: number;
   /** @deprecated use day_total_transfers_received */
   day_total_transferred?: number;
+  day_total_transfers_received?: number;
+  day_total_transfers_made?: number;
   day_total_abandoned?: number;
   day_avg_time_to_assign_seconds?: DurationInput;
   day_avg_conversation_duration_seconds?: DurationInput;
@@ -362,6 +366,8 @@ interface AgentHumanConvData {
   total_transfers_made?: number;
   /** @deprecated use total_transfers_received */
   total_transferred?: number;
+  total_transfers_received?: number;
+  total_transfers_made?: number;
   total_abandoned?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
@@ -411,6 +417,7 @@ const props = withDefaults(
     previousTotalEnqueued?: number | null;
     previousTotalClosed?: number | null;
     previousTotalTransferred?: number | null;
+    previousTotalTransfersMade?: number | null;
     previousTotalAbandoned?: number | null;
     previousAvgTimeToAssignSeconds?: number | null;
     previousAvgConversationDurationSeconds?: number | null;
@@ -423,6 +430,8 @@ const props = withDefaults(
       total_transfers_received: 0,
       total_transfers_made: 0,
       total_transferred: 0,
+      total_transfers_received: 0,
+      total_transfers_made: 0,
       total_abandoned: 0,
       avg_time_to_assign_seconds: null as string | null,
       avg_conversation_duration_seconds: null as string | null,
@@ -435,6 +444,7 @@ const props = withDefaults(
     previousTotalEnqueued: null,
     previousTotalClosed: null,
     previousTotalTransferred: null,
+    previousTotalTransfersMade: null,
     previousTotalAbandoned: null,
     previousAvgTimeToAssignSeconds: null,
     previousAvgConversationDurationSeconds: null,
@@ -866,13 +876,13 @@ const agentTableColumns = computed<TableColumn[]>(() => {
     { key: "handled", label: "Handled", align: "center", sortable: true },
     {
       key: "transfersReceived",
-      label: "Transfers In",
+      label: "Transfers Received",
       align: "center",
       sortable: true,
     },
     {
       key: "transfersMade",
-      label: "Transfers Out",
+      label: "Transfers Made",
       align: "center",
       sortable: true,
     },
