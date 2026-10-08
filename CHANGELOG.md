@@ -3,9 +3,11 @@
 ## [current]
 ### Added
 - DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
+- ConversationVolume chart titles support for `custom_tags` breakdown (backoffice conversation tags).
 - CardMetric optional expandable `details` breakdown rows with chevron toggle (`detailsDefaultOpen`).
 
 ### Changed
+- Export compact cost/token KPI cards (`AwsCostCard`, `TotalCost`, `TotalTokens`, `MeanConversationCost`) from the package barrel for direct `kiut-library-ui` imports.
 - CardMetric details layout: inline chevron after info icon, divider spacing, and bold detail values to match KPI design.
 - DAI-400: Add AwsCostCard compact KPI for allocated AWS infrastructure spend.
 - DAI-400: Add `useCompactNumberFormat` for token KPI values (e.g. `15M`).
