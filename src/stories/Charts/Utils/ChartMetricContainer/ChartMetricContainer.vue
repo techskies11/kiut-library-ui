@@ -27,30 +27,6 @@
         </div>
       </div>
       <div class="cmc-summary-actions">
-        <button
-          v-if="showRefresh"
-          type="button"
-          class="cmc-refresh"
-          data-testid="chart-refresh"
-          :disabled="loading"
-          :aria-label="refreshLabel"
-          @click="onRefreshClick"
-        >
-          <svg
-            class="cmc-refresh__icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20 12a8 8 0 10-2.3 5.6M20 12v-5m0 5h-5"
-            />
-          </svg>
-        </button>
         <svg
           class="metric-collapsible__chevron"
           fill="none"
@@ -58,12 +34,12 @@
           stroke="currentColor"
           aria-hidden="true"
         >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 9l-7 7-7-7"
-        />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </div>
     </summary>
@@ -78,7 +54,10 @@
           aria-label="Loading chart"
         >
           <slot name="loading">
-            <div class="cmc-body-loading__skeleton ut-skeleton-blink" aria-hidden="true" />
+            <div
+              class="cmc-body-loading__skeleton ut-skeleton-blink"
+              aria-hidden="true"
+            />
           </slot>
         </div>
         <div v-else key="body-content">
@@ -94,9 +73,22 @@
         <div class="metric-header-content__main">
           <div class="metric-header-content__text">
             <div class="metric-header-content__loaded">
-              <slot name="title">
-                <h3 v-if="title" class="card-title">{{ title }}</h3>
-              </slot>
+              <div class="cmc-title-row">
+                <slot name="title">
+                  <h3 v-if="title" class="card-title">{{ title }}</h3>
+                </slot>
+                <button
+                  v-if="showRefresh"
+                  type="button"
+                  class="cmc-refresh"
+                  data-testid="chart-refresh"
+                  :disabled="loading"
+                  :aria-label="refreshLabel"
+                  @click="onRefreshClick"
+                >
+                  <ArrowPathIcon class="cmc-refresh__icon" />
+                </button>
+              </div>
               <p v-if="subtitle" class="card-subtitle">{{ subtitle }}</p>
               <slot name="headerAppend" />
             </div>
@@ -108,30 +100,6 @@
         <div v-if="$slots.headerAside" class="cmc-header-aside">
           <slot name="headerAside" />
         </div>
-        <button
-          v-if="showRefresh"
-          type="button"
-          class="cmc-refresh"
-          data-testid="chart-refresh"
-          :disabled="loading"
-          :aria-label="refreshLabel"
-          @click="onRefreshClick"
-        >
-          <svg
-            class="cmc-refresh__icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20 12a8 8 0 10-2.3 5.6M20 12v-5m0 5h-5"
-            />
-          </svg>
-        </button>
       </div>
     </div>
 
@@ -145,7 +113,10 @@
           aria-label="Loading chart"
         >
           <slot name="loading">
-            <div class="cmc-body-loading__skeleton ut-skeleton-blink" aria-hidden="true" />
+            <div
+              class="cmc-body-loading__skeleton ut-skeleton-blink"
+              aria-hidden="true"
+            />
           </slot>
         </div>
         <div v-else key="body-content">
@@ -166,6 +137,7 @@ import {
   watch,
   type VNode,
 } from "vue";
+import { ArrowPathIcon } from "@heroicons/vue/24/outline";
 
 const props = withDefaults(
   defineProps<{
@@ -450,6 +422,7 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 }
 
 .cmc-refresh {
+  visibility: hidden;
   display: inline-flex;
   height: 32px;
   width: 32px;
@@ -467,17 +440,23 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
     sans-serif;
 }
 
+.chart-metric-container:hover .cmc-refresh {
+  visibility: visible;
+}
+
 .cmc-refresh:hover:not(:disabled) {
+  display: inline-flex;
   background: rgba(0, 0, 0, 0.05);
-  color: var(--kiut-text-primary, #1e293b);
+  color: var(--kiut-primary-hover);
 }
 
 .dark .cmc-refresh:hover:not(:disabled) {
+  display: inline-flex;
   background: rgba(255, 255, 255, 0.08);
-  color: var(--kiut-text-primary, #f8fafc);
 }
 
 .cmc-refresh:focus-visible {
+  display: inline-flex;
   outline: 2px solid var(--kiut-primary, #5d4b93);
   outline-offset: 2px;
 }
@@ -575,6 +554,13 @@ details.chart-metric-container.metric-collapsible
   height: 100%;
   min-height: 380px;
   border-radius: 10px;
+}
+
+.cmc-title-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
 }
 
 .metric-header-content__loaded {

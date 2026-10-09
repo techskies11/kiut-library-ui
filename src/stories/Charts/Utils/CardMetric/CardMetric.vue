@@ -10,6 +10,7 @@
         'card-metric--with-details': hasDetails,
       },
     ]"
+    :show-refresh="false"
   >
     <template #title>
       <Transition name="card-metric-fade" mode="out-in">
@@ -76,71 +77,84 @@
       </div>
 
       <div v-else key="body-content" class="highlight-inner">
-        <div class="card-body">
-          <slot name="value">
-            <div class="metric-row">
-              <span v-if="prefix" class="metric-prefix">{{ prefix }}</span>
-              <span
-                :class="[
-                  'metric-value',
-                  { 'metric-value--large': valueSize === 'large' },
-                ]"
-              >
-                {{ value }}
-              </span>
-            </div>
-          </slot>
-
-          <div v-if="!labelInHeader" class="metric-label-row">
-            <div class="metric-label metric-label--row">
-              <div class="metric-info">
-                <span class="metric-label-text">{{ label }}</span>
-                <CardMetricInfo
-                  v-if="tooltipText"
-                  :title="tooltipHeading"
-                  :text="tooltipText"
-                  :dark="isDark"
-                />
-              </div>
-              <button
-                v-if="hasDetails"
-                type="button"
-                class="details-toggle"
-                :class="{ 'details-toggle--open': detailsOpen }"
-                :aria-expanded="detailsOpen"
-                :aria-label="detailsOpen ? 'Hide details' : 'Show details'"
-                @click="toggleDetails"
-              >
-                <svg
-                  class="details-toggle__chevron"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
+        <div class="card_body_container">
+          <div class="card-body">
+            <slot name="value">
+              <div class="metric-row">
+                <span v-if="prefix" class="metric-prefix">{{ prefix }}</span>
+                <span
+                  :class="[
+                    'metric-value',
+                    { 'metric-value--large': valueSize === 'large' },
+                  ]"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div v-if="hasDetails && detailsOpen" class="metric-details">
-            <slot name="details">
-              <div
-                v-for="(detail, index) in details"
-                :key="`${detail.label}-${index}`"
-                class="metric-details__row"
-              >
-                <span class="metric-details__label">{{ detail.label }}</span>
-                <span class="metric-details__value">{{ detail.value }}</span>
+                  {{ value }}
+                </span>
               </div>
             </slot>
+
+            <div v-if="!labelInHeader" class="metric-label-row">
+              <div class="metric-label metric-label--row">
+                <div class="metric-info">
+                  <span class="metric-label-text">{{ label }}</span>
+                  <CardMetricInfo
+                    v-if="tooltipText"
+                    :title="tooltipHeading"
+                    :text="tooltipText"
+                    :dark="isDark"
+                  />
+                </div>
+                <button
+                  v-if="hasDetails"
+                  type="button"
+                  class="details-toggle"
+                  :class="{ 'details-toggle--open': detailsOpen }"
+                  :aria-expanded="detailsOpen"
+                  :aria-label="detailsOpen ? 'Hide details' : 'Show details'"
+                  @click="toggleDetails"
+                >
+                  <svg
+                    class="details-toggle__chevron"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div v-if="hasDetails && detailsOpen" class="metric-details">
+              <slot name="details">
+                <div
+                  v-for="(detail, index) in details"
+                  :key="`${detail.label}-${index}`"
+                  class="metric-details__row"
+                >
+                  <span class="metric-details__label">{{ detail.label }}</span>
+                  <span class="metric-details__value">{{ detail.value }}</span>
+                </div>
+              </slot>
+            </div>
           </div>
+
+          <button
+            v-if="showRefresh"
+            type="button"
+            class="cmc-refresh"
+            data-testid="chart-refresh"
+            :disabled="loading"
+            :aria-label="refreshLabel"
+            @click="onRefreshClick"
+          >
+            <ArrowPathIcon class="cmc-refresh__icon" />
+          </button>
         </div>
       </div>
     </Transition>
@@ -149,6 +163,7 @@
 
 <script setup lang="ts">
 import { computed, ref, toRef, useSlots, watch } from "vue";
+import { ArrowPathIcon } from "@heroicons/vue/24/outline";
 import ChartMetricContainer from "../ChartMetricContainer/ChartMetricContainer.vue";
 import {
   useThemeDetection,
@@ -182,6 +197,9 @@ const props = withDefaults(
     theme?: Theme;
     currentValue?: number;
     previousValue?: number | null;
+    /** Shows a button that reloads this metric only. */
+    showRefresh?: boolean;
+    refreshLabel?: string;
   }>(),
   {
     prefix: undefined,
@@ -195,8 +213,29 @@ const props = withDefaults(
     theme: undefined,
     currentValue: 0,
     previousValue: null,
+    showRefresh: true,
+    refreshLabel: "Refresh chart",
   },
 );
+
+const emit = defineEmits<{
+  refresh: [];
+}>();
+
+const chartRefreshEvent = "kiut-chart-refresh";
+
+function onRefreshClick(event: MouseEvent): void {
+  event.preventDefault();
+  event.stopPropagation();
+  if (props.loading) return;
+  emit("refresh");
+  const target = event.currentTarget;
+  if (target instanceof HTMLElement) {
+    target.dispatchEvent(
+      new CustomEvent(chartRefreshEvent, { bubbles: true, composed: true }),
+    );
+  }
+}
 
 const slots = useSlots();
 const detailsOpen = ref(props.detailsDefaultOpen);
@@ -612,6 +651,67 @@ defineExpose({ isDark, changePercent });
   opacity: 0;
 }
 
+.metric-info_down {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.cmc-refresh {
+  visibility: hidden;
+  display: inline-flex;
+  height: 32px;
+  width: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  padding: 0;
+  color: var(--kiut-text-secondary, #64748b);
+  background: transparent;
+  cursor: pointer;
+}
+
+.card-metric:hover .cmc-refresh,
+.cmc-refresh:focus-visible {
+  visibility: visible;
+}
+
+.cmc-refresh:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--kiut-primary-hover);
+}
+
+.card-metric--dark .cmc-refresh:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cmc-refresh:focus-visible {
+  outline: 2px solid var(--kiut-primary, #5d4b93);
+  outline-offset: 2px;
+}
+
+.cmc-refresh:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.cmc-refresh__icon {
+  height: 16px;
+  width: 16px;
+}
+
+.cmc-refresh:disabled .cmc-refresh__icon {
+  animation: cmc-refresh-spin 0.8s linear infinite;
+}
+
+@keyframes cmc-refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card-metric-fade-enter-active,
   .card-metric-fade-leave-active {
@@ -621,5 +721,17 @@ defineExpose({ isDark, changePercent });
   .details-toggle__chevron {
     transition: none;
   }
+
+  .cmc-refresh:disabled .cmc-refresh__icon {
+    animation: none;
+  }
+}
+
+.card_body_container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-between;
 }
 </style>
