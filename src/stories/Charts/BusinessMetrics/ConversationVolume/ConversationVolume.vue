@@ -59,6 +59,7 @@ interface ConversationVolumeTitles {
   agent: string;
   channel: string;
   agent_channel: string;
+  custom_tags: string;
 }
 
 const props = withDefaults(
@@ -83,6 +84,7 @@ const props = withDefaults(
       agent: "Conversations by Agent",
       channel: "Conversations by Channel",
       agent_channel: "Conversations by Agent and Channel",
+      custom_tags: "Conversations by Tag",
     }),
     subtitle: "Conversations over time",
     emptyTitle: "No conversation data",

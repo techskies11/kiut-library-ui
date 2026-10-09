@@ -3,10 +3,12 @@
 ## [current]
 ### Added
 - DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
+- ConversationVolume chart titles support for `custom_tags` breakdown (backoffice conversation tags).
 - CardMetric optional expandable `details` breakdown rows with chevron toggle (`detailsDefaultOpen`).
 
 ### Changed
 - CardMetric draws its own refresh button in the card body and hides the header one, keeping the same per-metric reload.
+- Export compact cost/token KPI cards (`AwsCostCard`, `TotalCost`, `TotalTokens`, `MeanConversationCost`) from the package barrel for direct `kiut-library-ui` imports.
 - CardMetric details layout: inline chevron after info icon, divider spacing, and bold detail values to match KPI design.
 - DAI-400: Add AwsCostCard compact KPI for allocated AWS infrastructure spend.
 - DAI-400: Add `useCompactNumberFormat` for token KPI values (e.g. `15M`).
@@ -20,6 +22,7 @@
 - DAI-400: Rename Daily Cost Trends chart to Average cost with header metric/scope selectors (per conversation and All enabled; per interaction pending backend).
 
 ### Fixed
+- Remove duplicate transfer-count fields in Agent Human Conversations so the library typecheck passes.
 - DAI-532: Treat seller success totals as inclusive while preserving cash and bank-transfer Sankey branches without double counting.
 - Table: align body cell vertical padding with header (`py-3`) and remove fixed 61px row height so content is not cramped.
 ### Changed

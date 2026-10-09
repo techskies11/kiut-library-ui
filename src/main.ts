@@ -120,6 +120,10 @@ import DailyCostTrends from "./stories/Charts/CostTokens/DailyCostTrends/DailyCo
 import ModelUsage from "./stories/Charts/CostTokens/ModelUsage/ModelUsage.vue";
 import MessageRoles from "./stories/Charts/CostTokens/MessageRoles/MessageRoles.vue";
 import CostPerConversations from "./stories/Charts/CostTokens/CostPerConversations/CostPerConversations.vue";
+import AwsCostCard from "./stories/Charts/CostTokens/AwsCostCard/AwsCostCard.vue";
+import TotalCost from "./stories/Charts/CostTokens/TotalCost/TotalCost.vue";
+import TotalTokens from "./stories/Charts/CostTokens/TotalTokens/TotalTokens.vue";
+import MeanConversationCost from "./stories/Charts/CostTokens/MeanConversationCost/MeanConversationCost.vue";
 
 // ============================================
 // Componentes UI
@@ -344,6 +348,10 @@ export {
   ModelUsage,
   MessageRoles,
   CostPerConversations,
+  AwsCostCard,
+  TotalCost,
+  TotalTokens,
+  MeanConversationCost,
   // UI
   Tabs,
   Table,
@@ -462,6 +470,10 @@ export const KiutUIPlugin = {
     app.component("KiutModelUsage", ModelUsage);
     app.component("KiutMessageRoles", MessageRoles);
     app.component("KiutCostPerConversations", CostPerConversations);
+    app.component("KiutAwsCostCard", AwsCostCard);
+    app.component("KiutTotalCost", TotalCost);
+    app.component("KiutTotalTokens", TotalTokens);
+    app.component("KiutMeanConversationCost", MeanConversationCost);
     app.component("Tabs", Tabs);
     app.component("Table", Table);
     app.component("TableVersions", TableVersions);
