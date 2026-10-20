@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   computeSalesVolumeDays,
   computeSellerFunnelBreakdown,
+  resolveSellerSuccessTotal,
 } from './sellerFunnelMetrics'
 
 const mockSellerData = {
@@ -79,6 +80,28 @@ function sumVolumeDays(
   return days.reduce((total, day) => total + day[key], 0)
 }
 
+describe('resolveSellerSuccessTotal', () => {
+  it('returns inclusive total when sell success already includes payment subsets', () => {
+    expect(
+      resolveSellerSuccessTotal({
+        total_sell_success: 130,
+        total_sell_success_bank_transfer: 20,
+        total_sell_success_cash: 10,
+      }),
+    ).toBe(130)
+  })
+
+  it('adds bank transfer and cash when sell success is online-only', () => {
+    expect(
+      resolveSellerSuccessTotal({
+        total_sell_success: 34,
+        total_sell_success_bank_transfer: 5,
+        total_sell_success_cash: 3,
+      }),
+    ).toBe(42)
+  })
+})
+
 describe('computeSellerFunnelBreakdown', () => {
   it('computes seller funnel totals aligned with Sankey categories', () => {
     const funnel = computeSellerFunnelBreakdown(mockSellerData, mockFailedData)
@@ -91,6 +114,23 @@ describe('computeSellerFunnelBreakdown', () => {
     expect(funnel?.failedAtCompletion).toBe(400)
     expect(funnel?.totalAbandoned).toBe(800)
     expect(funnel?.totalErrors).toBe(1800)
+  })
+
+  it('sums partitioned payment methods into funnel success total', () => {
+    const funnel = computeSellerFunnelBreakdown(
+      {
+        ...mockSellerData,
+        total_sell_success: 34,
+        total_sell_success_bank_transfer: 5,
+        total_sell_success_cash: 3,
+      },
+      mockFailedData,
+    )
+
+    expect(funnel?.success).toBe(42)
+    expect(funnel?.successOnline).toBe(34)
+    expect(funnel?.successBankTransfer).toBe(5)
+    expect(funnel?.successCash).toBe(3)
   })
 
   it('uses inclusive success total without duplicating payment method breakdowns', () => {

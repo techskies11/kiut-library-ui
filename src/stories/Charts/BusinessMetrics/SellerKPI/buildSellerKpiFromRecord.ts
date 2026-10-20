@@ -1,3 +1,9 @@
+import {
+  computeSellerFunnelBreakdown,
+  resolveSellerSuccessTotal,
+  type FailedData,
+  type SellerData,
+} from '../Seller/sellerFunnelMetrics'
 import type { SellerKpiProps } from './sellerKpiTypes'
 
 export interface SellerCurrencyBreakdown {
@@ -9,6 +15,7 @@ export interface SellerCurrencyBreakdown {
 export interface SellerRecordKpiShape {
   total_seller_conversations?: number
   total_sell_started?: number
+  total_sell_booking_created?: number
   total_sell_success?: number
   total_sell_success_bank_transfer?: number
   total_sell_success_cash?: number
@@ -76,16 +83,53 @@ function formatRevenue(
   return items.map((item) => `${item.currency} ${formatAmount(item.total_value)}`).join(' · ')
 }
 
+function resolveSellerKpiFunnelCounts(
+  record?: SellerRecordKpiShape | null,
+  failed?: SellerFailedKpiShape | null,
+): { initiated: number; success: number; errorCount: number; abandonCount: number } {
+  const funnel = computeSellerFunnelBreakdown(
+    record as SellerData | undefined,
+    failed as FailedData | undefined,
+  )
+
+  const initiated =
+    funnel?.initiated ??
+    record?.total_seller_conversations ??
+    record?.total_sell_started ??
+    0
+  const success = funnel?.success ?? resolveSellerSuccessTotal(record)
+
+  if (funnel) {
+    return {
+      initiated,
+      success,
+      errorCount: funnel.totalErrors,
+      abandonCount: funnel.totalAbandoned,
+    }
+  }
+
+  const started = record?.total_sell_started ?? 0
+  const bookingCreated = record?.total_sell_booking_created ?? 0
+  const failedAtBooking = Math.max(started - bookingCreated, 0)
+  const failedAtCompletion = Math.max(bookingCreated - success, 0)
+
+  return {
+    initiated,
+    success,
+    errorCount: failedAtBooking + failedAtCompletion,
+    abandonCount:
+      record?.total_sell_abandoned ?? Math.max(0, initiated - started),
+  }
+}
+
 export function buildSellerKpiFromRecord(
   record?: SellerRecordKpiShape | null,
   failed?: SellerFailedKpiShape | null,
 ): SellerKpiValues {
-  const initiated =
-    record?.total_seller_conversations ?? record?.total_sell_started ?? 0
-  const success = record?.total_sell_success ?? 0
-  const failedCount = failed?.total_sell_failed ?? 0
-  const abandon =
-    record?.total_sell_abandoned ?? Math.max(0, initiated - success - failedCount)
+  const { initiated, success, errorCount, abandonCount } = resolveSellerKpiFunnelCounts(
+    record,
+    failed,
+  )
   const avgInteractions = record?.avg_sell_interactions_to_complete ?? null
   const revenueUsd = resolveRevenueUsd(record)
 
@@ -93,10 +137,10 @@ export function buildSellerKpiFromRecord(
     salesInitiated: initiated,
     successRatePct: toPercent(success, initiated),
     successCount: success,
-    errorRatePct: toPercent(failedCount, initiated),
-    errorCount: failedCount,
-    abandonRatePct: toPercent(abandon, initiated),
-    abandonCount: abandon,
+    errorRatePct: toPercent(errorCount, initiated),
+    errorCount,
+    abandonRatePct: toPercent(abandonCount, initiated),
+    abandonCount,
     revenueUsd,
     revenueFormatted: formatRevenue(revenueUsd, record),
     avgCompletionTimeSeconds: record?.avg_sell_completion_time_seconds ?? null,

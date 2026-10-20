@@ -124,6 +124,31 @@ export function aggregateFailedByReasons(
   return failedByReasons;
 }
 
+export interface SellerSuccessTotalsShape {
+  total_sell_success?: number;
+  total_sell_success_bank_transfer?: number;
+  total_sell_success_cash?: number;
+}
+
+export function resolveSellerSuccessTotal(
+  sellerData?: SellerSuccessTotalsShape | null,
+): number {
+  const onlineOrInclusive = sellerData?.total_sell_success ?? 0;
+  const bankTransfer = sellerData?.total_sell_success_bank_transfer ?? 0;
+  const cash = sellerData?.total_sell_success_cash ?? 0;
+  const paymentMethodSubset = bankTransfer + cash;
+
+  if (paymentMethodSubset === 0) {
+    return onlineOrInclusive;
+  }
+
+  if (onlineOrInclusive >= paymentMethodSubset) {
+    return onlineOrInclusive;
+  }
+
+  return onlineOrInclusive + paymentMethodSubset;
+}
+
 export function mergeSellerDaysWithFailed(
   sellerData?: SellerData | null,
   failedData?: FailedData | null,
@@ -160,13 +185,17 @@ export function computeSellerFunnelBreakdown(
 
   const started = sellerData?.total_sell_started || 0;
   const bookingCreated = sellerData?.total_sell_booking_created || 0;
-  const success = sellerData?.total_sell_success || 0;
+  const successReported = sellerData?.total_sell_success || 0;
   const successBankTransfer = sellerData?.total_sell_success_bank_transfer || 0;
   const successCash = sellerData?.total_sell_success_cash || 0;
-  const successOnline = Math.max(
-    success - successBankTransfer - successCash,
-    0,
-  );
+  const paymentMethodSubset = successBankTransfer + successCash;
+  const success = resolveSellerSuccessTotal(sellerData);
+  const successOnline =
+    paymentMethodSubset === 0
+      ? successReported
+      : successReported >= paymentMethodSubset
+        ? Math.max(successReported - paymentMethodSubset, 0)
+        : successReported;
 
   const droppedBeforeSales = Math.max(initiated - started, 0);
   const failedAtBooking = Math.max(started - bookingCreated, 0);
