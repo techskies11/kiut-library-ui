@@ -25,6 +25,7 @@
 - Seller KPI "Sales Initiated" card now uses `total_seller_conversations` (Initiated by agent) instead of `total_sell_started`.
 - Seller KPI "% Sales Success" count includes bank transfer and cash when those totals are reported separately from online sell success.
 - Seller KPI "% Abandon" and "% Errors" now follow the same funnel rules as the Sankey and Sales Volume chart (pre-sales drop vs booking/completion gaps), not `total_sell_failed` or a residual over initiated.
+- Seller KPI "Revenue" adds bank transfer and cash USD when those buckets are reported separately and the main USD total is online-only.
 - Rebuild `dist` so compact KPI cards (`AwsCostCard`, `TotalCost`, `TotalTokens`, `MeanConversationCost`) are named exports in `kiut-ui.es.js` (barrel matched source but stale bundle broke Hangar CI).
 - Remove duplicate transfer-count fields in Agent Human Conversations so the library typecheck passes.
 - DAI-532: Treat seller success totals as inclusive while preserving cash and bank-transfer Sankey branches without double counting.

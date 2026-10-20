@@ -6,7 +6,7 @@ export interface FailedReason {
 export interface CurrencyValue {
   currency: string;
   total_value: number;
-  count: number;
+  count?: number;
 }
 
 export interface SellerDayData {
@@ -130,6 +130,58 @@ export interface SellerSuccessTotalsShape {
   total_sell_success_cash?: number;
 }
 
+export interface SellerRevenueTotalsShape extends SellerSuccessTotalsShape {
+  total_value_sell_success?: number | CurrencyValue[];
+  total_value_sell_success_usd?: number;
+  total_value_sell_success_bank_transfer?: CurrencyValue[];
+  total_value_sell_success_cash?: CurrencyValue[];
+}
+
+function normalizeCurrencyBreakdown(
+  value: number | CurrencyValue[] | undefined,
+): CurrencyValue[] {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return [{ currency: "USD", total_value: value, count: 0 }];
+  }
+  return [];
+}
+
+function usdFromCurrencyBreakdown(
+  value: number | CurrencyValue[] | undefined,
+): number {
+  return normalizeCurrencyBreakdown(value)
+    .filter((item) => item.currency.toUpperCase() === "USD")
+    .reduce((sum, item) => sum + (item.total_value || 0), 0);
+}
+
+export function mergeSellerCurrencyBreakdowns(
+  ...groups: Array<number | CurrencyValue[] | undefined>
+): CurrencyValue[] {
+  const merged = new Map<string, CurrencyValue>();
+
+  for (const group of groups) {
+    for (const item of normalizeCurrencyBreakdown(group)) {
+      const currency = item.currency.toUpperCase();
+      const existing = merged.get(currency);
+      if (existing) {
+        existing.total_value += item.total_value || 0;
+        existing.count = (existing.count || 0) + (item.count || 0);
+      } else {
+        merged.set(currency, {
+          currency: item.currency,
+          total_value: item.total_value || 0,
+          count: item.count || 0,
+        });
+      }
+    }
+  }
+
+  return [...merged.values()].sort((a, b) => b.total_value - a.total_value);
+}
+
 export function resolveSellerSuccessTotal(
   sellerData?: SellerSuccessTotalsShape | null,
 ): number {
@@ -147,6 +199,51 @@ export function resolveSellerSuccessTotal(
   }
 
   return onlineOrInclusive + paymentMethodSubset;
+}
+
+export function resolveSellerRevenueUsd(
+  record?: SellerRevenueTotalsShape | null,
+): number | null {
+  const reportedUsd =
+    typeof record?.total_value_sell_success_usd === "number"
+      ? record.total_value_sell_success_usd
+      : null;
+  const mainBreakdownUsd = usdFromCurrencyBreakdown(record?.total_value_sell_success);
+  const primaryUsd = reportedUsd ?? (mainBreakdownUsd > 0 ? mainBreakdownUsd : null);
+
+  const bankTransferUsd = usdFromCurrencyBreakdown(
+    record?.total_value_sell_success_bank_transfer,
+  );
+  const cashUsd = usdFromCurrencyBreakdown(record?.total_value_sell_success_cash);
+  const paymentMethodUsd = bankTransferUsd + cashUsd;
+
+  const hasPaymentMethodValues =
+    normalizeCurrencyBreakdown(record?.total_value_sell_success_bank_transfer).length >
+      0 ||
+    normalizeCurrencyBreakdown(record?.total_value_sell_success_cash).length > 0;
+
+  if (!hasPaymentMethodValues) {
+    return primaryUsd;
+  }
+
+  if (
+    reportedUsd !== null &&
+    mainBreakdownUsd === 0 &&
+    Math.abs(reportedUsd - paymentMethodUsd) < 0.01
+  ) {
+    return reportedUsd;
+  }
+
+  const additiveUsd = (primaryUsd ?? mainBreakdownUsd ?? 0) + paymentMethodUsd;
+  if (reportedUsd !== null && additiveUsd > reportedUsd + 0.01) {
+    return additiveUsd;
+  }
+
+  if (reportedUsd !== null) {
+    return reportedUsd;
+  }
+
+  return additiveUsd > 0 ? additiveUsd : null;
 }
 
 export function mergeSellerDaysWithFailed(

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   computeSalesVolumeDays,
   computeSellerFunnelBreakdown,
+  resolveSellerRevenueUsd,
   resolveSellerSuccessTotal,
 } from './sellerFunnelMetrics'
 
@@ -79,6 +80,34 @@ function sumVolumeDays(
 ) {
   return days.reduce((total, day) => total + day[key], 0)
 }
+
+describe('resolveSellerRevenueUsd', () => {
+  it('adds bank transfer and cash USD when reported total is online-only', () => {
+    expect(
+      resolveSellerRevenueUsd({
+        total_value_sell_success_usd: 430,
+        total_value_sell_success_cash: [{ currency: 'USD', total_value: 50, count: 1 }],
+        total_sell_success: 3,
+        total_sell_success_cash: 1,
+      }),
+    ).toBe(480)
+  })
+
+  it('keeps inclusive USD total when it already matches payment-method buckets', () => {
+    expect(
+      resolveSellerRevenueUsd({
+        total_value_sell_success_usd: 1200,
+        total_value_sell_success_bank_transfer: [
+          { currency: 'USD', total_value: 800, count: 8 },
+        ],
+        total_value_sell_success_cash: [{ currency: 'USD', total_value: 400, count: 4 }],
+        total_sell_success: 30,
+        total_sell_success_bank_transfer: 8,
+        total_sell_success_cash: 4,
+      }),
+    ).toBe(1200)
+  })
+})
 
 describe('resolveSellerSuccessTotal', () => {
   it('returns inclusive total when sell success already includes payment subsets', () => {

@@ -75,6 +75,19 @@ describe('buildSellerKpiFromRecord', () => {
     expect(result.abandonRatePct).toBe(25)
   })
 
+  it('adds bank transfer and cash USD into revenue KPI when values are split', () => {
+    const result = buildSellerKpiFromRecord({
+      total_seller_conversations: 100,
+      total_sell_success: 3,
+      total_sell_success_cash: 1,
+      total_value_sell_success_usd: 430,
+      total_value_sell_success_cash: [{ currency: 'USD', total_value: 50, count: 1 }],
+    })
+
+    expect(result.revenueUsd).toBe(480)
+    expect(result.revenueFormatted).toBe('USD 480')
+  })
+
   it('formats USD from currency breakdown when usd total is missing', () => {
     const result = buildSellerKpiFromRecord({
       total_sell_started: 10,

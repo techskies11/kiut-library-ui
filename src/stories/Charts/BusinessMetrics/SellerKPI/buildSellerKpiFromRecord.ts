@@ -1,5 +1,7 @@
 import {
   computeSellerFunnelBreakdown,
+  mergeSellerCurrencyBreakdowns,
+  resolveSellerRevenueUsd,
   resolveSellerSuccessTotal,
   type FailedData,
   type SellerData,
@@ -22,6 +24,8 @@ export interface SellerRecordKpiShape {
   total_sell_abandoned?: number
   total_value_sell_success?: number | SellerCurrencyBreakdown[]
   total_value_sell_success_usd?: number
+  total_value_sell_success_bank_transfer?: SellerCurrencyBreakdown[]
+  total_value_sell_success_cash?: SellerCurrencyBreakdown[]
   avg_sell_completion_time_seconds?: number | null
   avg_sell_completion_time_formatted?: string | null
   avg_sell_interactions_to_complete?: number | null
@@ -63,22 +67,23 @@ function currencyBreakdown(
   return []
 }
 
-function resolveRevenueUsd(record?: SellerRecordKpiShape | null): number | null {
-  if (typeof record?.total_value_sell_success_usd === 'number') {
-    return record.total_value_sell_success_usd
-  }
-  const usd = currencyBreakdown(record?.total_value_sell_success).find(
-    (item) => item.currency.toUpperCase() === 'USD',
-  )
-  return usd ? usd.total_value : null
-}
-
 function formatRevenue(
   usd: number | null,
   record?: SellerRecordKpiShape | null,
 ): string | null {
   if (usd !== null) return formatUsd(usd)
-  const items = currencyBreakdown(record?.total_value_sell_success)
+
+  const hasPaymentMethodValues =
+    (record?.total_value_sell_success_bank_transfer?.length ?? 0) > 0 ||
+    (record?.total_value_sell_success_cash?.length ?? 0) > 0
+  const items = hasPaymentMethodValues
+    ? mergeSellerCurrencyBreakdowns(
+        record?.total_value_sell_success,
+        record?.total_value_sell_success_bank_transfer,
+        record?.total_value_sell_success_cash,
+      )
+    : currencyBreakdown(record?.total_value_sell_success)
+
   if (!items.length) return null
   return items.map((item) => `${item.currency} ${formatAmount(item.total_value)}`).join(' · ')
 }
@@ -131,7 +136,7 @@ export function buildSellerKpiFromRecord(
     failed,
   )
   const avgInteractions = record?.avg_sell_interactions_to_complete ?? null
-  const revenueUsd = resolveRevenueUsd(record)
+  const revenueUsd = resolveSellerRevenueUsd(record)
 
   return {
     salesInitiated: initiated,
