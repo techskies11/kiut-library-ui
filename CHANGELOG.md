@@ -27,6 +27,8 @@
 - Seller KPI "% Abandon" and "% Errors" now follow the same funnel rules as the Sankey and Sales Volume chart (pre-sales drop vs booking/completion gaps), not `total_sell_failed` or a residual over initiated.
 - Seller KPI "Revenue" adds bank transfer and cash USD when those buckets are reported separately and the main USD total is online-only.
 - SellerContainer accepts `revenueCurrency` so the revenue KPI uses the dashboard-selected currency from seller value breakdowns.
+- Seller revenue KPI no longer falls back to native COP/MXN when the selected dashboard currency is absent from seller-metrics breakdowns.
+- Seller funnel table can show converted daily sales values via `dailyRevenueByDate` and `displayCurrency` on SellerContainer.
 - Rebuild `dist` so compact KPI cards (`AwsCostCard`, `TotalCost`, `TotalTokens`, `MeanConversationCost`) are named exports in `kiut-ui.es.js` (barrel matched source but stale bundle broke Hangar CI).
 - Remove duplicate transfer-count fields in Agent Human Conversations so the library typecheck passes.
 - DAI-532: Treat seller success totals as inclusive while preserving cash and bank-transfer Sankey branches without double counting.

@@ -105,8 +105,7 @@ function formatRevenue(
       .join(' · ')
   }
 
-  if (!items.length) return null
-  return items.map((item) => `${item.currency} ${formatAmount(item.total_value)}`).join(' · ')
+  return null
 }
 
 function resolveSellerKpiFunnelCounts(

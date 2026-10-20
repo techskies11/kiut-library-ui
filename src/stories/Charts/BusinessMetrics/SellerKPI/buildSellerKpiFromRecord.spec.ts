@@ -98,14 +98,18 @@ describe('buildSellerKpiFromRecord', () => {
     expect(result.revenueFormatted).toBe('USD 12,500')
   })
 
-  it('formats non-USD breakdown when usd total is missing', () => {
-    const result = buildSellerKpiFromRecord({
-      total_sell_started: 10,
-      total_value_sell_success: [{ currency: 'MXN', total_value: 125000, count: 4 }],
-    })
+  it('does not fall back to other currencies when dashboard currency is missing from breakdown', () => {
+    const result = buildSellerKpiFromRecord(
+      {
+        total_sell_started: 10,
+        total_value_sell_success: [{ currency: 'MXN', total_value: 125000, count: 4 }],
+      },
+      undefined,
+      { revenueCurrency: 'EUR' },
+    )
 
     expect(result.revenueUsd).toBeNull()
-    expect(result.revenueFormatted).toBe('MXN 125,000')
+    expect(result.revenueFormatted).toBeNull()
   })
 
   it('uses dashboard revenue currency instead of defaulting to USD', () => {

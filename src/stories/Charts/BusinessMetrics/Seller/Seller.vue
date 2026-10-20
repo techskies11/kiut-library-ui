@@ -199,8 +199,12 @@
             </template>
             <template #cell-totalSalesValue="{ row }">
               <span class="sl-cell text-center success-value">
+                <span v-if="convertedDailyRevenue(row) !== null">
+                  {{ displayCurrencyCode }}
+                  {{ useCompactCurrencyFormat(convertedDailyRevenue(row) ?? 0) }}
+                </span>
                 <div
-                  v-if="
+                  v-else-if="
                     Array.isArray(row.daily_value_sell_success) &&
                     row.daily_value_sell_success.length > 0
                   "
@@ -288,6 +292,9 @@ const props = withDefaults(
     exportLoading?: boolean;
     initiallyOpen?: boolean;
     showPaymentMethodDetails?: boolean;
+    /** When set with dailyRevenueByDate, table sales values use converted amounts. */
+    displayCurrency?: string;
+    dailyRevenueByDate?: Record<string, number>;
   }>(),
   {
     sellerData: () => ({
@@ -309,8 +316,30 @@ const props = withDefaults(
     exportLoading: false,
     initiallyOpen: true,
     showPaymentMethodDetails: false,
+    displayCurrency: undefined,
+    dailyRevenueByDate: undefined,
   },
 );
+
+const displayCurrencyCode = computed(() =>
+  (props.displayCurrency ?? "USD").toUpperCase(),
+);
+
+const useConvertedDailyRevenue = computed(
+  () =>
+    Boolean(props.displayCurrency?.trim()) &&
+    Boolean(props.dailyRevenueByDate) &&
+    Object.keys(props.dailyRevenueByDate ?? {}).length > 0,
+);
+
+function convertedDailyRevenue(row: Record<string, unknown>): number | null {
+  if (!useConvertedDailyRevenue.value) return null;
+  const dateKey = typeof row.date === "string" ? row.date : "";
+  if (!dateKey) return null;
+  const value = props.dailyRevenueByDate?.[dateKey];
+  if (value === undefined || value === null) return null;
+  return value;
+}
 
 const emit = defineEmits<{
   export: [format: ExportFormat];

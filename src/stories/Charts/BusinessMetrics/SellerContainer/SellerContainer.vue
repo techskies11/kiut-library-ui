@@ -24,6 +24,8 @@
         :enable-export="enableExport"
         :export-loading="effectiveSellerExportLoading"
         :show-payment-method-details="showPaymentMethodDetails"
+        :display-currency="revenueCurrency"
+        :daily-revenue-by-date="dailyRevenueByDate"
         @export="(fmt) => handleChildExport('seller', fmt)"
       />
       <ChartMetricContainer
@@ -272,6 +274,8 @@ const props = withDefaults(
     trendView?: SellerTrendView
     /** Dashboard currency for the revenue KPI (defaults to USD). */
     revenueCurrency?: string
+    /** Optional converted seller revenue per table row date (dashboard currency). */
+    dailyRevenueByDate?: Record<string, number>
   }>(),
   {
     containerInitiallyOpen: false,
