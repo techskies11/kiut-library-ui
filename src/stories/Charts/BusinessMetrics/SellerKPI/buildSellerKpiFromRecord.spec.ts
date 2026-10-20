@@ -5,10 +5,21 @@ import {
 } from './buildSellerKpiFromRecord'
 
 describe('buildSellerKpiFromRecord', () => {
+  it('uses total_seller_conversations for Sales Initiated (Initiated by agent)', () => {
+    const result = buildSellerKpiFromRecord({
+      total_seller_conversations: 10_463,
+      total_sell_started: 8_092,
+      total_sell_success: 34,
+    })
+
+    expect(result.salesInitiated).toBe(10_463)
+  })
+
   it('computes KPI values from seller totals and failed payload', () => {
     const result = buildSellerKpiFromRecord(
       {
-        total_sell_started: 1200,
+        total_seller_conversations: 1200,
+        total_sell_started: 900,
         total_sell_success: 610,
         total_value_sell_success_usd: 48920,
       },
@@ -93,7 +104,8 @@ describe('mergeSellerKpiWithPrevious', () => {
   it('attaches previous period rates for trend badges', () => {
     const current = buildSellerKpiFromRecord(
       {
-        total_sell_started: 1200,
+        total_seller_conversations: 1200,
+        total_sell_started: 900,
         total_sell_success: 610,
         total_value_sell_success_usd: 48920,
       },
@@ -101,7 +113,8 @@ describe('mergeSellerKpiWithPrevious', () => {
     )
     const previous = buildSellerKpiFromRecord(
       {
-        total_sell_started: 1067,
+        total_seller_conversations: 1067,
+        total_sell_started: 800,
         total_sell_success: 519,
         total_value_sell_success_usd: 45000,
       },

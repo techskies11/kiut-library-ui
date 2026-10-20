@@ -22,6 +22,8 @@
 - DAI-400: Rename Daily Cost Trends chart to Average cost with header metric/scope selectors (per conversation and All enabled; per interaction pending backend).
 
 ### Fixed
+- Seller KPI "Sales Initiated" card now uses `total_seller_conversations` (Initiated by agent) instead of `total_sell_started`.
+- Rebuild `dist` so compact KPI cards (`AwsCostCard`, `TotalCost`, `TotalTokens`, `MeanConversationCost`) are named exports in `kiut-ui.es.js` (barrel matched source but stale bundle broke Hangar CI).
 - Remove duplicate transfer-count fields in Agent Human Conversations so the library typecheck passes.
 - DAI-532: Treat seller success totals as inclusive while preserving cash and bank-transfer Sankey branches without double counting.
 - Table: align body cell vertical padding with header (`py-3`) and remove fixed 61px row height so content is not cramped.

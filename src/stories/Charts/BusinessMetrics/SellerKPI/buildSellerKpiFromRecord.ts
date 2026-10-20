@@ -7,6 +7,7 @@ export interface SellerCurrencyBreakdown {
 }
 
 export interface SellerRecordKpiShape {
+  total_seller_conversations?: number
   total_sell_started?: number
   total_sell_success?: number
   total_sell_success_bank_transfer?: number
@@ -79,7 +80,8 @@ export function buildSellerKpiFromRecord(
   record?: SellerRecordKpiShape | null,
   failed?: SellerFailedKpiShape | null,
 ): SellerKpiValues {
-  const initiated = record?.total_sell_started ?? 0
+  const initiated =
+    record?.total_seller_conversations ?? record?.total_sell_started ?? 0
   const success = record?.total_sell_success ?? 0
   const failedCount = failed?.total_sell_failed ?? 0
   const abandon =
