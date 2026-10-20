@@ -1,7 +1,7 @@
 import {
   computeSellerFunnelBreakdown,
   mergeSellerCurrencyBreakdowns,
-  resolveSellerRevenueUsd,
+  resolveSellerRevenueAmount,
   resolveSellerSuccessTotal,
   type FailedData,
   type SellerData,
@@ -37,6 +37,16 @@ export interface SellerFailedKpiShape {
 
 export type SellerKpiValues = Omit<SellerKpiProps, 'loading' | 'theme' | 'labels'>
 
+export interface BuildSellerKpiOptions {
+  /** Dashboard display currency for the revenue KPI (default USD). */
+  revenueCurrency?: string
+}
+
+function normalizeRevenueCurrency(currencyCode?: string): string {
+  const normalized = (currencyCode ?? 'USD').trim().toUpperCase()
+  return normalized || 'USD'
+}
+
 function toPercent(count: number, initiated: number): number {
   if (!initiated) return 0
   return (count / initiated) * 100
@@ -53,8 +63,8 @@ function formatAmount(value: number): string {
   return new Intl.NumberFormat('en-US').format(Math.round(value))
 }
 
-function formatUsd(value: number): string {
-  return `USD ${formatAmount(value)}`
+function formatCurrencyAmount(currencyCode: string, value: number): string {
+  return `${currencyCode} ${formatAmount(value)}`
 }
 
 function currencyBreakdown(
@@ -68,11 +78,13 @@ function currencyBreakdown(
 }
 
 function formatRevenue(
-  usd: number | null,
+  amount: number | null,
+  currencyCode: string,
   record?: SellerRecordKpiShape | null,
 ): string | null {
-  if (usd !== null) return formatUsd(usd)
+  if (amount !== null) return formatCurrencyAmount(currencyCode, amount)
 
+  const currency = normalizeRevenueCurrency(currencyCode)
   const hasPaymentMethodValues =
     (record?.total_value_sell_success_bank_transfer?.length ?? 0) > 0 ||
     (record?.total_value_sell_success_cash?.length ?? 0) > 0
@@ -83,6 +95,15 @@ function formatRevenue(
         record?.total_value_sell_success_cash,
       )
     : currencyBreakdown(record?.total_value_sell_success)
+
+  const currencyItems = items.filter(
+    (item) => item.currency.toUpperCase() === currency,
+  )
+  if (currencyItems.length) {
+    return currencyItems
+      .map((item) => formatCurrencyAmount(item.currency.toUpperCase(), item.total_value))
+      .join(' · ')
+  }
 
   if (!items.length) return null
   return items.map((item) => `${item.currency} ${formatAmount(item.total_value)}`).join(' · ')
@@ -130,13 +151,15 @@ function resolveSellerKpiFunnelCounts(
 export function buildSellerKpiFromRecord(
   record?: SellerRecordKpiShape | null,
   failed?: SellerFailedKpiShape | null,
+  options?: BuildSellerKpiOptions,
 ): SellerKpiValues {
+  const revenueCurrency = normalizeRevenueCurrency(options?.revenueCurrency)
   const { initiated, success, errorCount, abandonCount } = resolveSellerKpiFunnelCounts(
     record,
     failed,
   )
   const avgInteractions = record?.avg_sell_interactions_to_complete ?? null
-  const revenueUsd = resolveSellerRevenueUsd(record)
+  const revenueUsd = resolveSellerRevenueAmount(record, revenueCurrency)
 
   return {
     salesInitiated: initiated,
@@ -147,7 +170,7 @@ export function buildSellerKpiFromRecord(
     abandonRatePct: toPercent(abandonCount, initiated),
     abandonCount,
     revenueUsd,
-    revenueFormatted: formatRevenue(revenueUsd, record),
+    revenueFormatted: formatRevenue(revenueUsd, revenueCurrency, record),
     avgCompletionTimeSeconds: record?.avg_sell_completion_time_seconds ?? null,
     avgCompletionTimeFormatted: record?.avg_sell_completion_time_formatted ?? null,
     avgInteractionsToComplete: avgInteractions,

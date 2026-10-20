@@ -108,6 +108,26 @@ describe('buildSellerKpiFromRecord', () => {
     expect(result.revenueFormatted).toBe('MXN 125,000')
   })
 
+  it('uses dashboard revenue currency instead of defaulting to USD', () => {
+    const result = buildSellerKpiFromRecord(
+      {
+        total_seller_conversations: 100,
+        total_value_sell_success: [
+          { currency: 'MXN', total_value: 125000, count: 4 },
+          { currency: 'USD', total_value: 430, count: 3 },
+        ],
+        total_value_sell_success_cash: [{ currency: 'MXN', total_value: 5000, count: 1 }],
+        total_sell_success: 3,
+        total_sell_success_cash: 1,
+      },
+      undefined,
+      { revenueCurrency: 'MXN' },
+    )
+
+    expect(result.revenueUsd).toBe(130_000)
+    expect(result.revenueFormatted).toBe('MXN 130,000')
+  })
+
   it('maps average interactions to complete with one decimal', () => {
     const result = buildSellerKpiFromRecord({
       total_sell_started: 10,

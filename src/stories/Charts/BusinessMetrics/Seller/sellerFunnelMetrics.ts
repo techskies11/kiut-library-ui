@@ -149,12 +149,28 @@ function normalizeCurrencyBreakdown(
   return [];
 }
 
+function normalizeCurrencyCode(currencyCode?: string): string {
+  const normalized = (currencyCode ?? "USD").trim().toUpperCase();
+  return normalized || "USD";
+}
+
+export function amountFromCurrencyBreakdown(
+  value: number | CurrencyValue[] | undefined,
+  currencyCode: string,
+): number {
+  const currency = normalizeCurrencyCode(currencyCode);
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return currency === "USD" ? value : 0;
+  }
+  return normalizeCurrencyBreakdown(value)
+    .filter((item) => item.currency.toUpperCase() === currency)
+    .reduce((sum, item) => sum + (item.total_value || 0), 0);
+}
+
 function usdFromCurrencyBreakdown(
   value: number | CurrencyValue[] | undefined,
 ): number {
-  return normalizeCurrencyBreakdown(value)
-    .filter((item) => item.currency.toUpperCase() === "USD")
-    .reduce((sum, item) => sum + (item.total_value || 0), 0);
+  return amountFromCurrencyBreakdown(value, "USD");
 }
 
 export function mergeSellerCurrencyBreakdowns(
@@ -201,21 +217,31 @@ export function resolveSellerSuccessTotal(
   return onlineOrInclusive + paymentMethodSubset;
 }
 
-export function resolveSellerRevenueUsd(
+export function resolveSellerRevenueAmount(
   record?: SellerRevenueTotalsShape | null,
+  currencyCode = "USD",
 ): number | null {
-  const reportedUsd =
-    typeof record?.total_value_sell_success_usd === "number"
+  const currency = normalizeCurrencyCode(currencyCode);
+  const reportedPrimary =
+    currency === "USD" && typeof record?.total_value_sell_success_usd === "number"
       ? record.total_value_sell_success_usd
       : null;
-  const mainBreakdownUsd = usdFromCurrencyBreakdown(record?.total_value_sell_success);
-  const primaryUsd = reportedUsd ?? (mainBreakdownUsd > 0 ? mainBreakdownUsd : null);
-
-  const bankTransferUsd = usdFromCurrencyBreakdown(
-    record?.total_value_sell_success_bank_transfer,
+  const mainBreakdownAmount = amountFromCurrencyBreakdown(
+    record?.total_value_sell_success,
+    currency,
   );
-  const cashUsd = usdFromCurrencyBreakdown(record?.total_value_sell_success_cash);
-  const paymentMethodUsd = bankTransferUsd + cashUsd;
+  const primaryAmount =
+    reportedPrimary ?? (mainBreakdownAmount > 0 ? mainBreakdownAmount : null);
+
+  const bankTransferAmount = amountFromCurrencyBreakdown(
+    record?.total_value_sell_success_bank_transfer,
+    currency,
+  );
+  const cashAmount = amountFromCurrencyBreakdown(
+    record?.total_value_sell_success_cash,
+    currency,
+  );
+  const paymentMethodAmount = bankTransferAmount + cashAmount;
 
   const hasPaymentMethodValues =
     normalizeCurrencyBreakdown(record?.total_value_sell_success_bank_transfer).length >
@@ -223,27 +249,34 @@ export function resolveSellerRevenueUsd(
     normalizeCurrencyBreakdown(record?.total_value_sell_success_cash).length > 0;
 
   if (!hasPaymentMethodValues) {
-    return primaryUsd;
+    return primaryAmount;
   }
 
   if (
-    reportedUsd !== null &&
-    mainBreakdownUsd === 0 &&
-    Math.abs(reportedUsd - paymentMethodUsd) < 0.01
+    reportedPrimary !== null &&
+    mainBreakdownAmount === 0 &&
+    Math.abs(reportedPrimary - paymentMethodAmount) < 0.01
   ) {
-    return reportedUsd;
+    return reportedPrimary;
   }
 
-  const additiveUsd = (primaryUsd ?? mainBreakdownUsd ?? 0) + paymentMethodUsd;
-  if (reportedUsd !== null && additiveUsd > reportedUsd + 0.01) {
-    return additiveUsd;
+  const additiveAmount =
+    (primaryAmount ?? mainBreakdownAmount ?? 0) + paymentMethodAmount;
+  if (reportedPrimary !== null && additiveAmount > reportedPrimary + 0.01) {
+    return additiveAmount;
   }
 
-  if (reportedUsd !== null) {
-    return reportedUsd;
+  if (reportedPrimary !== null) {
+    return reportedPrimary;
   }
 
-  return additiveUsd > 0 ? additiveUsd : null;
+  return additiveAmount > 0 ? additiveAmount : null;
+}
+
+export function resolveSellerRevenueUsd(
+  record?: SellerRevenueTotalsShape | null,
+): number | null {
+  return resolveSellerRevenueAmount(record, "USD");
 }
 
 export function mergeSellerDaysWithFailed(
