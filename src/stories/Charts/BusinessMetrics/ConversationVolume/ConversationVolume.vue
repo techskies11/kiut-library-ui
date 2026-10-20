@@ -84,7 +84,7 @@ const props = withDefaults(
       agent: "Conversations by Agent",
       channel: "Conversations by Channel",
       agent_channel: "Conversations by Agent and Channel",
-      custom_tags: "Conversations by Tag",
+      custom_tags: "Conversations by Label",
     }),
     subtitle: "Conversations over time",
     emptyTitle: "No conversation data",

@@ -1,7 +1,12 @@
 # Change Log
 
 ## [current]
+### Changed
+- ConversationVolume: rename custom_tags breakdown option label from Tags to Label (dropdown and default chart title).
+
 ### Added
+- DAI-312: Add Offline time in range column to Agent Human Conversations table (complements summed online time from the API).
+- DAI-312: Info tooltips on Connected, Disconnected, and online/offline time columns; Table supports optional `headerTooltip` on columns.
 - DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
 - ConversationVolume chart titles support for `custom_tags` breakdown (backoffice conversation tags).
 - CardMetric optional expandable `details` breakdown rows with chevron toggle (`detailsDefaultOpen`).
@@ -29,6 +34,7 @@
 - SellerContainer accepts `revenueCurrency` so the revenue KPI uses the dashboard-selected currency from seller value breakdowns.
 - Seller revenue KPI no longer falls back to native COP/MXN when the selected dashboard currency is absent from seller-metrics breakdowns.
 - Seller funnel table can show converted daily sales values via `dailyRevenueByDate` and `displayCurrency` on SellerContainer.
+- Transactions chart agent breakdown: clearer labels, stable series keys, and no stale chart while refetching after breakdown change.
 - Rebuild `dist` so compact KPI cards (`AwsCostCard`, `TotalCost`, `TotalTokens`, `MeanConversationCost`) are named exports in `kiut-ui.es.js` (barrel matched source but stale bundle broke Hangar CI).
 - Remove duplicate transfer-count fields in Agent Human Conversations so the library typecheck passes.
 - DAI-532: Treat seller success totals as inclusive while preserving cash and bank-transfer Sankey branches without double counting.
