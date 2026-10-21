@@ -79,11 +79,11 @@ export interface DisruptionNotifierSankeyData {
 
 const RECORDS = "Records Detected";
 const VALID = "Valid Reservations";
-const INVALID = "Invalid / Unprocessed";
+const INVALID = "Invalid Reservations";
 const CONTACTABLE = "Contactable";
 const DATA_QUALITY = "Data Quality Issues";
 const NOTIFIED = "Notified";
-const NOT_DELIVERED = "Not Delivered";
+const NOT_NOTIFIED = "Not Notified";
 
 /**
  * Records → Valid Reservations, then Contactable opens as another branch of
@@ -158,7 +158,7 @@ export function buildDisruptionNotifierSankey(
   if (notDelivered > 0) {
     links.push({
       source: CONTACTABLE,
-      target: NOT_DELIVERED,
+      target: NOT_NOTIFIED,
       value: notDelivered,
       label: fl(notDelivered, records),
     });
@@ -169,9 +169,9 @@ export function buildDisruptionNotifierSankey(
     { name: VALID, status: "success" },
     { name: INVALID, status: "error" },
     { name: CONTACTABLE, status: "success" },
-    { name: DATA_QUALITY, status: "error" },
+    { name: DATA_QUALITY, status: "abandon" },
     { name: NOTIFIED, status: "success" },
-    { name: NOT_DELIVERED, status: "abandon" },
+    { name: NOT_NOTIFIED, status: "abandon" },
   ];
 
   const used = new Set(links.flatMap((link) => [link.source, link.target]));

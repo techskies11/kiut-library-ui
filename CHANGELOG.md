@@ -3,6 +3,7 @@
 ## [current]
 ### Changed
 - DAI-470: Disruption dropdown shows one Sankey at a time, Flow by default, and loads the Notifications diagram only after it is selected.
+- DAI-470: Disruption Sankey header matches the design: dropdown, process-flow and notifications-flow titles, and node colors.
 - DAI-470: Notifications Sankey keeps Contactable as a branch after Valid Reservations, with Notified continuing from that branch.
 - ConversationVolume: rename custom_tags breakdown option label from Tags to Label (dropdown and default chart title).
 
