@@ -220,7 +220,7 @@
 import { computed, toRef } from "vue";
 import moment from "moment";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
-import { formatSankeyLinkLabel } from "../../Sankey/sankeyFormatters";
+import { buildDisruptionNotifierSankey } from "./buildDisruptionNotifierSankey";
 import LineChart from "../../Line/ChartLine.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
@@ -387,80 +387,15 @@ const failureTableRows = computed((): Record<string, unknown>[] =>
   })),
 );
 
-// Funnel: Records detected → Valid reservations → Contactable → Notified
-const funnelData = computed(() => {
-  const records = affected.value;
-  const valid = procTotals.value.processing_success;
-  const contactable = Math.max(0, valid - procTotals.value.totalDqErrors);
-  const notified = procTotals.value.notification_sent;
-  const invalidRecords = Math.max(0, records - valid);
-  const dqTotal = procTotals.value.totalDqErrors;
-  const notContactable = Math.max(0, contactable - notified);
-
-  const fl = (v: number, t: number): string => formatSankeyLinkLabel(v, t);
-
-  const nodes = [
-    { name: "Records Detected", status: "success" as const },
-    { name: "Valid Reservations", status: "success" as const },
-    { name: "Invalid / Unprocessed", status: "error" as const },
-    { name: "Contactable", status: "success" as const },
-    { name: "Data Quality Issues", status: "error" as const },
-    { name: "Notified", status: "success" as const },
-    { name: "Not Delivered", status: "abandon" as const },
-  ];
-
-  const links: {
-    source: string;
-    target: string;
-    value: number;
-    label: string;
-  }[] = [];
-
-  if (valid > 0)
-    links.push({
-      source: "Records Detected",
-      target: "Valid Reservations",
-      value: valid,
-      label: fl(valid, records),
-    });
-  if (invalidRecords > 0)
-    links.push({
-      source: "Records Detected",
-      target: "Invalid / Unprocessed",
-      value: invalidRecords,
-      label: fl(invalidRecords, records),
-    });
-  if (contactable > 0)
-    links.push({
-      source: "Valid Reservations",
-      target: "Contactable",
-      value: contactable,
-      label: fl(contactable, records),
-    });
-  if (dqTotal > 0)
-    links.push({
-      source: "Valid Reservations",
-      target: "Data Quality Issues",
-      value: dqTotal,
-      label: fl(dqTotal, records),
-    });
-  if (notified > 0)
-    links.push({
-      source: "Contactable",
-      target: "Notified",
-      value: notified,
-      label: fl(notified, records),
-    });
-  if (notContactable > 0)
-    links.push({
-      source: "Contactable",
-      target: "Not Delivered",
-      value: notContactable,
-      label: fl(notContactable, records),
-    });
-
-  return { nodes, links };
-});
+const funnelData = computed(() =>
+  buildDisruptionNotifierSankey({
+    records: affected.value,
+    validReservations: procTotals.value.processing_success,
+    dataQualityIssues: procTotals.value.totalDqErrors,
+    notificationSent: procTotals.value.notification_sent,
+    notificationFailed: procTotals.value.notification_failed,
+  }),
+);
 
 // Trend: notification success rate per day
 const trendChartData = computed(() => {

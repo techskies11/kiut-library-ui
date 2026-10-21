@@ -18,23 +18,49 @@
     <div class="card-body">
       <!-- Sankey Visualization -->
       <section class="chart-section">
+        <div
+          class="mb-3 flex flex-wrap gap-2"
+          role="group"
+          aria-label="Disruption diagram"
+        >
+          <Button
+            variant="secondary"
+            :active="diagram === 'flow'"
+            @click="selectDiagram('flow')"
+          >
+            Flow
+          </Button>
+          <Button
+            variant="secondary"
+            :active="diagram === 'notifications'"
+            @click="selectDiagram('notifications')"
+          >
+            Notifications
+          </Button>
+        </div>
         <div class="chart-wrapper">
           <SankeyChart
-            v-if="sankeyData.nodes.length > 0 && sankeyData.links.length > 0"
-            :data="sankeyData"
+            v-if="activeSankey.nodes.length > 0 && activeSankey.links.length > 0"
+            :data="activeSankey"
             height="400px"
             :use-gradient="false"
             :node-gap="16"
           />
           <div v-else class="empty-chart">
             <p class="empty-chart-text">
-              No disruption data available for visualization
+              {{
+                diagram === "notifications"
+                  ? notifierLoading
+                    ? "Loading notification flow…"
+                    : "No notification data available for visualization"
+                  : "No disruption data available for visualization"
+              }}
             </p>
           </div>
         </div>
       </section>
 
-      <section class="payment-success-summary">
+      <section v-if="diagram === 'flow'" class="payment-success-summary">
         <CardInfo
           color="#22c55e"
           title="Payment Success Value"
@@ -44,7 +70,7 @@
 
       <!-- Daily Overview Table (chrome de tabla: Utils/Table) -->
       <section
-        v-if="tableData && tableData.length > 0"
+        v-if="diagram === 'flow' && tableData && tableData.length > 0"
         class="disruption-daily-section"
       >
         <div class="section-header">
@@ -228,7 +254,10 @@
       </section>
 
       <!-- Empty State -->
-      <section v-else class="empty-state">
+      <section
+        v-if="diagram === 'flow' && (!tableData || tableData.length === 0)"
+        class="empty-state"
+      >
         <div class="empty-state-content">
           <div class="empty-icon-wrapper">
             <svg
@@ -257,13 +286,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import moment from "moment";
 import {
   useCurrencyFormat,
   useNumberFormat,
 } from "../../../../plugins/numberFormat";
+import Button from "../../../../components/Button/Button.vue";
 import Tag from "../../../../components/Tag/Tag.vue";
+import {
+  buildDisruptionNotifierSankeyFromData,
+  type DisruptionNotifierChartData,
+} from "../DisruptionNotifier/buildDisruptionNotifierSankey";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
 import { formatSankeyLinkLabel, formatSankeyPercentage } from "../../Sankey/sankeyFormatters";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
@@ -314,6 +348,8 @@ const props = withDefaults(
     loading?: boolean;
     enableExport?: boolean;
     exportLoading?: boolean;
+    notifierData?: DisruptionNotifierChartData;
+    notifierLoading?: boolean;
   }>(),
   {
     data: () => ({
@@ -332,13 +368,26 @@ const props = withDefaults(
     loading: false,
     enableExport: false,
     exportLoading: false,
+    notifierData: undefined,
+    notifierLoading: false,
   },
 );
+
+type DisruptionDiagram = "flow" | "notifications";
+
+const diagram = ref<DisruptionDiagram>("flow");
 
 const emit = defineEmits<{
   open: [];
   export: [format: ExportFormat];
+  "diagram-change": [diagram: DisruptionDiagram];
 }>();
+
+function selectDiagram(next: DisruptionDiagram): void {
+  if (diagram.value === next) return;
+  diagram.value = next;
+  emit("diagram-change", next);
+}
 
 const handleExport = (format: ExportFormat) => {
   emit("export", format);
@@ -561,6 +610,14 @@ const sankeyData = computed(() => {
 
   return { nodes, links };
 });
+
+const notifierSankey = computed(() =>
+  buildDisruptionNotifierSankeyFromData(props.notifierData),
+);
+
+const activeSankey = computed(() =>
+  diagram.value === "notifications" ? notifierSankey.value : sankeyData.value,
+);
 </script>
 
 <style scoped>
