@@ -1,3 +1,11 @@
+import {
+  computeSellerFunnelBreakdown,
+  mergeSellerCurrencyBreakdowns,
+  resolveSellerRevenueAmount,
+  resolveSellerSuccessTotal,
+  type FailedData,
+  type SellerData,
+} from '../Seller/sellerFunnelMetrics'
 import type { SellerKpiProps } from './sellerKpiTypes'
 
 export interface SellerCurrencyBreakdown {
@@ -7,13 +15,17 @@ export interface SellerCurrencyBreakdown {
 }
 
 export interface SellerRecordKpiShape {
+  total_seller_conversations?: number
   total_sell_started?: number
+  total_sell_booking_created?: number
   total_sell_success?: number
   total_sell_success_bank_transfer?: number
   total_sell_success_cash?: number
   total_sell_abandoned?: number
   total_value_sell_success?: number | SellerCurrencyBreakdown[]
   total_value_sell_success_usd?: number
+  total_value_sell_success_bank_transfer?: SellerCurrencyBreakdown[]
+  total_value_sell_success_cash?: SellerCurrencyBreakdown[]
   avg_sell_completion_time_seconds?: number | null
   avg_sell_completion_time_formatted?: string | null
   avg_sell_interactions_to_complete?: number | null
@@ -24,6 +36,16 @@ export interface SellerFailedKpiShape {
 }
 
 export type SellerKpiValues = Omit<SellerKpiProps, 'loading' | 'theme' | 'labels'>
+
+export interface BuildSellerKpiOptions {
+  /** Dashboard display currency for the revenue KPI (default USD). */
+  revenueCurrency?: string
+}
+
+function normalizeRevenueCurrency(currencyCode?: string): string {
+  const normalized = (currencyCode ?? 'USD').trim().toUpperCase()
+  return normalized || 'USD'
+}
 
 function toPercent(count: number, initiated: number): number {
   if (!initiated) return 0
@@ -41,8 +63,8 @@ function formatAmount(value: number): string {
   return new Intl.NumberFormat('en-US').format(Math.round(value))
 }
 
-function formatUsd(value: number): string {
-  return `USD ${formatAmount(value)}`
+function formatCurrencyAmount(currencyCode: string, value: number): string {
+  return `${currencyCode} ${formatAmount(value)}`
 }
 
 function currencyBreakdown(
@@ -55,48 +77,99 @@ function currencyBreakdown(
   return []
 }
 
-function resolveRevenueUsd(record?: SellerRecordKpiShape | null): number | null {
-  if (typeof record?.total_value_sell_success_usd === 'number') {
-    return record.total_value_sell_success_usd
-  }
-  const usd = currencyBreakdown(record?.total_value_sell_success).find(
-    (item) => item.currency.toUpperCase() === 'USD',
-  )
-  return usd ? usd.total_value : null
-}
-
 function formatRevenue(
-  usd: number | null,
+  amount: number | null,
+  currencyCode: string,
   record?: SellerRecordKpiShape | null,
 ): string | null {
-  if (usd !== null) return formatUsd(usd)
-  const items = currencyBreakdown(record?.total_value_sell_success)
-  if (!items.length) return null
-  return items.map((item) => `${item.currency} ${formatAmount(item.total_value)}`).join(' · ')
+  if (amount !== null) return formatCurrencyAmount(currencyCode, amount)
+
+  const currency = normalizeRevenueCurrency(currencyCode)
+  const hasPaymentMethodValues =
+    (record?.total_value_sell_success_bank_transfer?.length ?? 0) > 0 ||
+    (record?.total_value_sell_success_cash?.length ?? 0) > 0
+  const items = hasPaymentMethodValues
+    ? mergeSellerCurrencyBreakdowns(
+        record?.total_value_sell_success,
+        record?.total_value_sell_success_bank_transfer,
+        record?.total_value_sell_success_cash,
+      )
+    : currencyBreakdown(record?.total_value_sell_success)
+
+  const currencyItems = items.filter(
+    (item) => item.currency.toUpperCase() === currency,
+  )
+  if (currencyItems.length) {
+    return currencyItems
+      .map((item) => formatCurrencyAmount(item.currency.toUpperCase(), item.total_value))
+      .join(' · ')
+  }
+
+  return null
+}
+
+function resolveSellerKpiFunnelCounts(
+  record?: SellerRecordKpiShape | null,
+  failed?: SellerFailedKpiShape | null,
+): { initiated: number; success: number; errorCount: number; abandonCount: number } {
+  const funnel = computeSellerFunnelBreakdown(
+    record as SellerData | undefined,
+    failed as FailedData | undefined,
+  )
+
+  const initiated =
+    funnel?.initiated ??
+    record?.total_seller_conversations ??
+    record?.total_sell_started ??
+    0
+  const success = funnel?.success ?? resolveSellerSuccessTotal(record)
+
+  if (funnel) {
+    return {
+      initiated,
+      success,
+      errorCount: funnel.totalErrors,
+      abandonCount: funnel.totalAbandoned,
+    }
+  }
+
+  const started = record?.total_sell_started ?? 0
+  const bookingCreated = record?.total_sell_booking_created ?? 0
+  const failedAtBooking = Math.max(started - bookingCreated, 0)
+  const failedAtCompletion = Math.max(bookingCreated - success, 0)
+
+  return {
+    initiated,
+    success,
+    errorCount: failedAtBooking + failedAtCompletion,
+    abandonCount:
+      record?.total_sell_abandoned ?? Math.max(0, initiated - started),
+  }
 }
 
 export function buildSellerKpiFromRecord(
   record?: SellerRecordKpiShape | null,
   failed?: SellerFailedKpiShape | null,
+  options?: BuildSellerKpiOptions,
 ): SellerKpiValues {
-  const initiated = record?.total_sell_started ?? 0
-  const success = record?.total_sell_success ?? 0
-  const failedCount = failed?.total_sell_failed ?? 0
-  const abandon =
-    record?.total_sell_abandoned ?? Math.max(0, initiated - success - failedCount)
+  const revenueCurrency = normalizeRevenueCurrency(options?.revenueCurrency)
+  const { initiated, success, errorCount, abandonCount } = resolveSellerKpiFunnelCounts(
+    record,
+    failed,
+  )
   const avgInteractions = record?.avg_sell_interactions_to_complete ?? null
-  const revenueUsd = resolveRevenueUsd(record)
+  const revenueUsd = resolveSellerRevenueAmount(record, revenueCurrency)
 
   return {
     salesInitiated: initiated,
     successRatePct: toPercent(success, initiated),
     successCount: success,
-    errorRatePct: toPercent(failedCount, initiated),
-    errorCount: failedCount,
-    abandonRatePct: toPercent(abandon, initiated),
-    abandonCount: abandon,
+    errorRatePct: toPercent(errorCount, initiated),
+    errorCount,
+    abandonRatePct: toPercent(abandonCount, initiated),
+    abandonCount,
     revenueUsd,
-    revenueFormatted: formatRevenue(revenueUsd, record),
+    revenueFormatted: formatRevenue(revenueUsd, revenueCurrency, record),
     avgCompletionTimeSeconds: record?.avg_sell_completion_time_seconds ?? null,
     avgCompletionTimeFormatted: record?.avg_sell_completion_time_formatted ?? null,
     avgInteractionsToComplete: avgInteractions,

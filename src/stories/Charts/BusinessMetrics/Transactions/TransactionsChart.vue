@@ -263,12 +263,73 @@ const formatCompact = (value: number): string => {
   return Math.round(value).toLocaleString();
 };
 
-const formatKey = (key: string): string => {
+const formatAgentLabel = (key: string): string => {
+  const normalized = normalizeAgentDisplayName(key);
+  return normalized
+    .split("_")
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+};
+
+const formatKey = (key: string, breakdown: string): string => {
   if (!key || key === "unknown") return "Unknown";
+  if (breakdown === "agent_type") {
+    return formatAgentLabel(key);
+  }
+  if (breakdown === "agent_and_product" || breakdown === "channel_and_agent") {
+    const [left, right] = key.split("|");
+    if (right) {
+      const formatProductLabel = (part: string): string => {
+        if (part === "ancillaries") return "Ancillaries";
+        if (part === "ticket") return "Ticket";
+        return formatAgentLabel(part);
+      };
+      const leftLabel =
+        breakdown === "channel_and_agent"
+          ? left.charAt(0).toUpperCase() + left.slice(1)
+          : formatAgentLabel(left);
+      const rightLabel =
+        breakdown === "agent_and_product"
+          ? formatProductLabel(right)
+          : formatAgentLabel(right);
+      return `${leftLabel} · ${rightLabel}`;
+    }
+  }
   return normalizeAgentDisplayName(key)
     .split(/[_|]/)
     .map((w) => (w ? w.charAt(0).toUpperCase() + w.slice(1) : ""))
     .join(" ");
+};
+
+const resolveOrderedBreakdownKeys = (
+  breakdownItems: TransactionBreakdownItem[],
+  days: DailyTransactionsBreakdown[],
+): string[] => {
+  const totalsFromDays = new Map<string, number>();
+  for (const day of days) {
+    for (const [key, count] of Object.entries(day.breakdown ?? {})) {
+      totalsFromDays.set(key, (totalsFromDays.get(key) ?? 0) + Number(count ?? 0));
+    }
+  }
+
+  const ordered: string[] = [];
+  for (const item of breakdownItems) {
+    if (!ordered.includes(item.key)) {
+      ordered.push(item.key);
+    }
+  }
+  const extras = [...totalsFromDays.keys()]
+    .filter((key) => !ordered.includes(key))
+    .sort(
+      (a, b) => (totalsFromDays.get(b) ?? 0) - (totalsFromDays.get(a) ?? 0),
+    );
+  return [...ordered, ...extras].slice(0, 7);
+};
+
+const clearChart = (): void => {
+  dataChart.value = { labels: [], datasets: [] };
+  topCards.value = [];
 };
 
 // ── Chart data ─────────────────────────────────────────────────────────────
@@ -338,9 +399,9 @@ const processChartData = (data: TransactionsData | null): void => {
 
   const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
   const labels = sorted.map((d) => moment(d.date).format("MMM DD"));
+  const breakdownMode = selectedBreakdown.value;
 
-  // Collect unique dimension keys ordered by aggregate total (top 7 max)
-  const orderedKeys = breakdownItems.slice(0, 7).map((b) => b.key);
+  const orderedKeys = resolveOrderedBreakdownKeys(breakdownItems, sorted);
 
   const datasets = orderedKeys.map((key, idx) => {
     const color = getColor(idx);
@@ -348,7 +409,7 @@ const processChartData = (data: TransactionsData | null): void => {
 
     if (isStackedBar.value) {
       return {
-        label: formatKey(key),
+        label: formatKey(key, breakdownMode),
         data: seriesData,
         backgroundColor: color,
         borderColor: color,
@@ -357,7 +418,7 @@ const processChartData = (data: TransactionsData | null): void => {
       };
     }
     return {
-      label: formatKey(key),
+      label: formatKey(key, breakdownMode),
       data: seriesData,
       borderColor: color,
       backgroundColor: "transparent",
@@ -371,7 +432,7 @@ const processChartData = (data: TransactionsData | null): void => {
   // Breakdown cards (top 5)
   topCards.value = breakdownItems.slice(0, 5).map((item, idx) => ({
     key: item.key,
-    label: formatKey(item.key),
+    label: formatKey(item.key, breakdownMode),
     amount: formatCompact(item.count),
     percentage: Number(item.percentage ?? 0),
     color: getColor(idx),
@@ -417,7 +478,10 @@ const barChartOptions = computed(() => ({
 
 watch(
   () => props.data,
-  (newData) => processChartData(newData ?? null),
+  (newData) => {
+    if (props.loading) return;
+    processChartData(newData ?? null);
+  },
   { deep: true, immediate: true },
 );
 
@@ -425,12 +489,28 @@ watch(
   () => props.breakdownBy,
   (newValue) => {
     selectedBreakdown.value = newValue;
+    if (props.loading) {
+      clearChart();
+      return;
+    }
+    processChartData(props.data ?? null);
+  },
+);
+
+watch(
+  () => props.loading,
+  (isLoading) => {
+    if (isLoading) {
+      clearChart();
+      return;
+    }
     processChartData(props.data ?? null);
   },
 );
 
 const onBreakdownChange = (value: KiutSelectValue): void => {
   selectedBreakdown.value = String(value);
+  clearChart();
   emit("changeBreakdown", selectedBreakdown.value);
 };
 

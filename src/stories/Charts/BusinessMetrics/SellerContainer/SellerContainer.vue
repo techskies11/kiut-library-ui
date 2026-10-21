@@ -24,6 +24,8 @@
         :enable-export="enableExport"
         :export-loading="effectiveSellerExportLoading"
         :show-payment-method-details="showPaymentMethodDetails"
+        :display-currency="revenueCurrency"
+        :daily-revenue-by-date="dailyRevenueByDate"
         @export="(fmt) => handleChildExport('seller', fmt)"
       />
       <ChartMetricContainer
@@ -270,6 +272,10 @@ const props = withDefaults(
     completionTimeEmptyDescription?: string
     /** Active view in the Volume / Interactions / Completion time select. */
     trendView?: SellerTrendView
+    /** Dashboard currency for the revenue KPI (defaults to USD). */
+    revenueCurrency?: string
+    /** Optional converted seller revenue per table row date (dashboard currency). */
+    dailyRevenueByDate?: Record<string, number>
   }>(),
   {
     containerInitiallyOpen: false,
@@ -287,6 +293,7 @@ const props = withDefaults(
     theme: undefined,
     // channelComparison: () => [],
     trendView: 'volume',
+    revenueCurrency: 'USD',
   }
 )
 
@@ -352,14 +359,17 @@ const effectiveSellerLoading = computed(() =>
 // )
 
 const resolvedKpiProps = computed<SellerKpiProps>(() => {
+  const kpiOptions = { revenueCurrency: props.revenueCurrency }
   const current = buildSellerKpiFromRecord(
     props.sellerData as SellerRecordKpiShape | undefined,
     props.failedData as SellerFailedKpiShape | undefined,
+    kpiOptions,
   )
   const previous = props.previousSellerData
     ? buildSellerKpiFromRecord(
         props.previousSellerData as SellerRecordKpiShape,
         props.previousFailedData as SellerFailedKpiShape | undefined,
+        kpiOptions,
       )
     : null
   const merged = mergeSellerKpiWithPrevious(current, previous)

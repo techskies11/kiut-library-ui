@@ -8,6 +8,7 @@ const breakdownOptions = [
   { value: "agent", label: "Agent Type" },
   { value: "channel", label: "Channel" },
   { value: "agent_channel", label: "Channel & Agent" },
+  { value: "custom_tags", label: "Label" },
 ];
 
 const titles = {
@@ -16,6 +17,7 @@ const titles = {
   agent: "Conversations by Agent",
   channel: "Conversations by Channel",
   agent_channel: "Conversations by Agent and Channel",
+  custom_tags: "Conversations by Label",
 };
 
 const meta = {

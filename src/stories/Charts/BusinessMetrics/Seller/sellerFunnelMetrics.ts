@@ -6,7 +6,7 @@ export interface FailedReason {
 export interface CurrencyValue {
   currency: string;
   total_value: number;
-  count: number;
+  count?: number;
 }
 
 export interface SellerDayData {
@@ -124,6 +124,161 @@ export function aggregateFailedByReasons(
   return failedByReasons;
 }
 
+export interface SellerSuccessTotalsShape {
+  total_sell_success?: number;
+  total_sell_success_bank_transfer?: number;
+  total_sell_success_cash?: number;
+}
+
+export interface SellerRevenueTotalsShape extends SellerSuccessTotalsShape {
+  total_value_sell_success?: number | CurrencyValue[];
+  total_value_sell_success_usd?: number;
+  total_value_sell_success_bank_transfer?: CurrencyValue[];
+  total_value_sell_success_cash?: CurrencyValue[];
+}
+
+function normalizeCurrencyBreakdown(
+  value: number | CurrencyValue[] | undefined,
+): CurrencyValue[] {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return [{ currency: "USD", total_value: value, count: 0 }];
+  }
+  return [];
+}
+
+function normalizeCurrencyCode(currencyCode?: string): string {
+  const normalized = (currencyCode ?? "USD").trim().toUpperCase();
+  return normalized || "USD";
+}
+
+export function amountFromCurrencyBreakdown(
+  value: number | CurrencyValue[] | undefined,
+  currencyCode: string,
+): number {
+  const currency = normalizeCurrencyCode(currencyCode);
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return currency === "USD" ? value : 0;
+  }
+  return normalizeCurrencyBreakdown(value)
+    .filter((item) => item.currency.toUpperCase() === currency)
+    .reduce((sum, item) => sum + (item.total_value || 0), 0);
+}
+
+function usdFromCurrencyBreakdown(
+  value: number | CurrencyValue[] | undefined,
+): number {
+  return amountFromCurrencyBreakdown(value, "USD");
+}
+
+export function mergeSellerCurrencyBreakdowns(
+  ...groups: Array<number | CurrencyValue[] | undefined>
+): CurrencyValue[] {
+  const merged = new Map<string, CurrencyValue>();
+
+  for (const group of groups) {
+    for (const item of normalizeCurrencyBreakdown(group)) {
+      const currency = item.currency.toUpperCase();
+      const existing = merged.get(currency);
+      if (existing) {
+        existing.total_value += item.total_value || 0;
+        existing.count = (existing.count || 0) + (item.count || 0);
+      } else {
+        merged.set(currency, {
+          currency: item.currency,
+          total_value: item.total_value || 0,
+          count: item.count || 0,
+        });
+      }
+    }
+  }
+
+  return [...merged.values()].sort((a, b) => b.total_value - a.total_value);
+}
+
+export function resolveSellerSuccessTotal(
+  sellerData?: SellerSuccessTotalsShape | null,
+): number {
+  const onlineOrInclusive = sellerData?.total_sell_success ?? 0;
+  const bankTransfer = sellerData?.total_sell_success_bank_transfer ?? 0;
+  const cash = sellerData?.total_sell_success_cash ?? 0;
+  const paymentMethodSubset = bankTransfer + cash;
+
+  if (paymentMethodSubset === 0) {
+    return onlineOrInclusive;
+  }
+
+  if (onlineOrInclusive >= paymentMethodSubset) {
+    return onlineOrInclusive;
+  }
+
+  return onlineOrInclusive + paymentMethodSubset;
+}
+
+export function resolveSellerRevenueAmount(
+  record?: SellerRevenueTotalsShape | null,
+  currencyCode = "USD",
+): number | null {
+  const currency = normalizeCurrencyCode(currencyCode);
+  const reportedPrimary =
+    currency === "USD" && typeof record?.total_value_sell_success_usd === "number"
+      ? record.total_value_sell_success_usd
+      : null;
+  const mainBreakdownAmount = amountFromCurrencyBreakdown(
+    record?.total_value_sell_success,
+    currency,
+  );
+  const primaryAmount =
+    reportedPrimary ?? (mainBreakdownAmount > 0 ? mainBreakdownAmount : null);
+
+  const bankTransferAmount = amountFromCurrencyBreakdown(
+    record?.total_value_sell_success_bank_transfer,
+    currency,
+  );
+  const cashAmount = amountFromCurrencyBreakdown(
+    record?.total_value_sell_success_cash,
+    currency,
+  );
+  const paymentMethodAmount = bankTransferAmount + cashAmount;
+
+  const hasPaymentMethodValues =
+    normalizeCurrencyBreakdown(record?.total_value_sell_success_bank_transfer).length >
+      0 ||
+    normalizeCurrencyBreakdown(record?.total_value_sell_success_cash).length > 0;
+
+  if (!hasPaymentMethodValues) {
+    return primaryAmount;
+  }
+
+  if (
+    reportedPrimary !== null &&
+    mainBreakdownAmount === 0 &&
+    Math.abs(reportedPrimary - paymentMethodAmount) < 0.01
+  ) {
+    return reportedPrimary;
+  }
+
+  const additiveAmount =
+    (primaryAmount ?? mainBreakdownAmount ?? 0) + paymentMethodAmount;
+  if (reportedPrimary !== null && additiveAmount > reportedPrimary + 0.01) {
+    return additiveAmount;
+  }
+
+  if (reportedPrimary !== null) {
+    return reportedPrimary;
+  }
+
+  return additiveAmount > 0 ? additiveAmount : null;
+}
+
+export function resolveSellerRevenueUsd(
+  record?: SellerRevenueTotalsShape | null,
+): number | null {
+  return resolveSellerRevenueAmount(record, "USD");
+}
+
 export function mergeSellerDaysWithFailed(
   sellerData?: SellerData | null,
   failedData?: FailedData | null,
@@ -160,13 +315,17 @@ export function computeSellerFunnelBreakdown(
 
   const started = sellerData?.total_sell_started || 0;
   const bookingCreated = sellerData?.total_sell_booking_created || 0;
-  const success = sellerData?.total_sell_success || 0;
+  const successReported = sellerData?.total_sell_success || 0;
   const successBankTransfer = sellerData?.total_sell_success_bank_transfer || 0;
   const successCash = sellerData?.total_sell_success_cash || 0;
-  const successOnline = Math.max(
-    success - successBankTransfer - successCash,
-    0,
-  );
+  const paymentMethodSubset = successBankTransfer + successCash;
+  const success = resolveSellerSuccessTotal(sellerData);
+  const successOnline =
+    paymentMethodSubset === 0
+      ? successReported
+      : successReported >= paymentMethodSubset
+        ? Math.max(successReported - paymentMethodSubset, 0)
+        : successReported;
 
   const droppedBeforeSales = Math.max(initiated - started, 0);
   const failedAtBooking = Math.max(started - bookingCreated, 0);

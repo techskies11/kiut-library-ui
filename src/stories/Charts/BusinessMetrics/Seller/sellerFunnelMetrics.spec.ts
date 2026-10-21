@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import {
   computeSalesVolumeDays,
   computeSellerFunnelBreakdown,
+  resolveSellerRevenueUsd,
+  resolveSellerSuccessTotal,
 } from './sellerFunnelMetrics'
 
 const mockSellerData = {
@@ -79,6 +81,56 @@ function sumVolumeDays(
   return days.reduce((total, day) => total + day[key], 0)
 }
 
+describe('resolveSellerRevenueUsd', () => {
+  it('adds bank transfer and cash USD when reported total is online-only', () => {
+    expect(
+      resolveSellerRevenueUsd({
+        total_value_sell_success_usd: 430,
+        total_value_sell_success_cash: [{ currency: 'USD', total_value: 50, count: 1 }],
+        total_sell_success: 3,
+        total_sell_success_cash: 1,
+      }),
+    ).toBe(480)
+  })
+
+  it('keeps inclusive USD total when it already matches payment-method buckets', () => {
+    expect(
+      resolveSellerRevenueUsd({
+        total_value_sell_success_usd: 1200,
+        total_value_sell_success_bank_transfer: [
+          { currency: 'USD', total_value: 800, count: 8 },
+        ],
+        total_value_sell_success_cash: [{ currency: 'USD', total_value: 400, count: 4 }],
+        total_sell_success: 30,
+        total_sell_success_bank_transfer: 8,
+        total_sell_success_cash: 4,
+      }),
+    ).toBe(1200)
+  })
+})
+
+describe('resolveSellerSuccessTotal', () => {
+  it('returns inclusive total when sell success already includes payment subsets', () => {
+    expect(
+      resolveSellerSuccessTotal({
+        total_sell_success: 130,
+        total_sell_success_bank_transfer: 20,
+        total_sell_success_cash: 10,
+      }),
+    ).toBe(130)
+  })
+
+  it('adds bank transfer and cash when sell success is online-only', () => {
+    expect(
+      resolveSellerSuccessTotal({
+        total_sell_success: 34,
+        total_sell_success_bank_transfer: 5,
+        total_sell_success_cash: 3,
+      }),
+    ).toBe(42)
+  })
+})
+
 describe('computeSellerFunnelBreakdown', () => {
   it('computes seller funnel totals aligned with Sankey categories', () => {
     const funnel = computeSellerFunnelBreakdown(mockSellerData, mockFailedData)
@@ -91,6 +143,23 @@ describe('computeSellerFunnelBreakdown', () => {
     expect(funnel?.failedAtCompletion).toBe(400)
     expect(funnel?.totalAbandoned).toBe(800)
     expect(funnel?.totalErrors).toBe(1800)
+  })
+
+  it('sums partitioned payment methods into funnel success total', () => {
+    const funnel = computeSellerFunnelBreakdown(
+      {
+        ...mockSellerData,
+        total_sell_success: 34,
+        total_sell_success_bank_transfer: 5,
+        total_sell_success_cash: 3,
+      },
+      mockFailedData,
+    )
+
+    expect(funnel?.success).toBe(42)
+    expect(funnel?.successOnline).toBe(34)
+    expect(funnel?.successBankTransfer).toBe(5)
+    expect(funnel?.successCash).toBe(3)
   })
 
   it('uses inclusive success total without duplicating payment method breakdowns', () => {

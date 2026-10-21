@@ -40,7 +40,19 @@
                   </template>
                 </span>
               </button>
-              <template v-else>{{ col.label }}</template>
+              <span
+                v-else
+                class="inline-flex items-center gap-1"
+                :class="headerLabelWrapClass(col.align)"
+              >
+                <span>{{ col.label }}</span>
+                <CardMetricInfo
+                  v-if="col.headerTooltip?.trim()"
+                  :title="col.label"
+                  :text="col.headerTooltip.trim()"
+                  :dark="infoTooltipDark"
+                />
+              </span>
             </th>
           </tr>
         </thead>
@@ -102,6 +114,8 @@ export interface TableColumn {
   cellClass?: string
   /** Header clickeable; requiere `sortKey` / `sortDirection` en la tabla y escuchar `@sort`. */
   sortable?: boolean
+  /** Optional info tooltip beside the column label (non-sortable headers). */
+  headerTooltip?: string
 }
 
 export interface TableProps {
@@ -117,11 +131,14 @@ export interface TableProps {
   rowKey?: string | ((row: Record<string, unknown>) => string | number)
   sortKey?: string | null
   sortDirection?: TableSortDirection | null
+  /** Use dark tooltip styling (e.g. when the chart runs in dark mode). */
+  infoTooltipDark?: boolean
 }
 </script>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import CardMetricInfo from '../CardMetric/CardMetricInfo.vue'
 
 const props = withDefaults(
   defineProps<TableProps>(),
@@ -132,6 +149,7 @@ const props = withDefaults(
     rowKey: 'id',
     sortKey: null,
     sortDirection: null,
+    infoTooltipDark: false,
   },
 )
 
@@ -154,6 +172,12 @@ function alignClass(align: TableColumnAlign | undefined): string {
   if (align === 'center') return 'text-center'
   if (align === 'right') return 'text-right'
   return 'text-left'
+}
+
+function headerLabelWrapClass(align: TableColumnAlign | undefined): string {
+  if (align === 'center') return 'justify-center w-full'
+  if (align === 'right') return 'justify-end w-full'
+  return 'justify-start'
 }
 
 function cellSlotName(key: string): string {

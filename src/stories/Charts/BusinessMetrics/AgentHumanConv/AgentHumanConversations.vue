@@ -214,6 +214,7 @@
             :sort-key="sortKey"
             :sort-direction="sortDirection"
             :max-visible-rows="MAX_VISIBLE_ROWS"
+            :info-tooltip-dark="isDark"
             row-key="id"
             @sort="onSortColumn"
           >
@@ -265,6 +266,11 @@
             <template #cell-onlineTime="{ row }">
               <span class="cell-plain cell-plain--muted">{{
                 formatOptionalDisplay(row.online_time_display as string | null)
+              }}</span>
+            </template>
+            <template #cell-offlineTime="{ row }">
+              <span class="cell-plain cell-plain--muted">{{
+                formatOptionalDisplay(row.offline_time_display as string | null)
               }}</span>
             </template>
             <template #cell-avgAssignation="{ row }">
@@ -349,6 +355,7 @@ interface AgentDayData {
   connected_at?: string | null;
   disconnected_at?: string | null;
   online_time_seconds?: DurationInput;
+  offline_time_seconds?: DurationInput;
 }
 
 interface AgentHumanConvData {
@@ -382,6 +389,7 @@ interface AgentTableRow {
   connected_at: string | null;
   disconnected_at: string | null;
   online_time_display: string | null;
+  offline_time_display: string | null;
   avg_assignation_seconds: number | null;
   avg_resolution_seconds: number | null;
   avg_assignation_display: string;
@@ -543,6 +551,17 @@ const sortDirection = ref<TableSortDirection>("desc");
 
 const MAX_VISIBLE_ROWS = 6;
 
+const CONNECTIVITY_COLUMN_TOOLTIPS = {
+  connected:
+    "First time the agent entered AVAILABLE status on this UTC calendar day, shown in the airline support-center timezone.",
+  disconnected:
+    "Last OFFLINE or CLOSING_SHIFT event that day. Shows — if the agent was still AVAILABLE at the end of the UTC day.",
+  online:
+    "Total time in AVAILABLE status during the UTC day, summed across every connect/disconnect cycle. It is not Disconnected minus Connected.",
+  offline:
+    "Time in the UTC calendar day when the agent was not AVAILABLE (24 hours minus online time in range).",
+} as const;
+
 watch(tableViewMode, (mode) => {
   if (mode === "aggregated") {
     sortKey.value = "name";
@@ -671,6 +690,10 @@ function mapAgentToRow(agent: AgentDayData, index: number): AgentTableRow {
       agent.online_time_seconds == null || agent.online_time_seconds === ""
         ? null
         : formatDurationDisplay(agent.online_time_seconds),
+    offline_time_display:
+      agent.offline_time_seconds == null || agent.offline_time_seconds === ""
+        ? null
+        : formatDurationDisplay(agent.offline_time_seconds),
     avg_assignation_seconds: hhmmssToSeconds(agent.avg_time_to_assign_seconds),
     avg_resolution_seconds: hhmmssToSeconds(
       agent.avg_conversation_duration_seconds,
@@ -763,6 +786,7 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       connected_at: null,
       disconnected_at: null,
       online_time_display: null,
+      offline_time_display: null,
       avg_assignation_seconds: assignAvg,
       avg_resolution_seconds: resAvg,
       avg_assignation_display:
@@ -889,18 +913,28 @@ const agentTableColumns = computed<TableColumn[]>(() => {
       label: "Connected",
       align: "center",
       sortable: false,
+      headerTooltip: CONNECTIVITY_COLUMN_TOOLTIPS.connected,
     },
     {
       key: "disconnected",
       label: "Disconnected",
       align: "center",
       sortable: false,
+      headerTooltip: CONNECTIVITY_COLUMN_TOOLTIPS.disconnected,
     },
     {
       key: "onlineTime",
       label: "Online time in range",
       align: "center",
       sortable: false,
+      headerTooltip: CONNECTIVITY_COLUMN_TOOLTIPS.online,
+    },
+    {
+      key: "offlineTime",
+      label: "Offline time in range",
+      align: "center",
+      sortable: false,
+      headerTooltip: CONNECTIVITY_COLUMN_TOOLTIPS.offline,
     },
     {
       key: "avgAssignation",
