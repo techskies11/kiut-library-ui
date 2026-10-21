@@ -1,6 +1,10 @@
 # Change Log
 
 ## [current]
+### Changed
+- DAI-470: Disruption dropdown shows one Sankey at a time, Flow by default, and loads the Notifications diagram only after it is selected.
+- DAI-470: Notifications Sankey keeps Contactable as a branch after Valid Reservations, with Notified continuing from that branch.
+
 ### Added
 - DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
 - ConversationVolume chart titles support for `custom_tags` breakdown (backoffice conversation tags).
