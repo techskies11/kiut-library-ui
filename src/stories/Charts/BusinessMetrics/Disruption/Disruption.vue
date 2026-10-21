@@ -1,12 +1,23 @@
 <template>
   <ChartMetricContainer
     class="disruption-metrics-root h-full min-h-0"
-    title="Disruption Manager Metrics"
-    subtitle="Disruption workflow performance and completion tracking"
+    :title="chartTitle"
+    :subtitle="chartSubtitle"
     :loading="loading"
     lazy-mount
     @open="emit('open')"
   >
+    <template #headerAside>
+      <div class="w-44" @click.stop @keydown.stop>
+        <Select
+          :model-value="diagram"
+          :options="diagramOptions"
+          aria-label-trigger="Disruption diagram"
+          :show-option-check="false"
+          @update:model-value="onDiagramModel"
+        />
+      </div>
+    </template>
     <template #headerExport>
       <FooterExport
         v-if="enableExport && !props.loading"
@@ -18,30 +29,11 @@
     <div class="card-body">
       <!-- Sankey Visualization -->
       <section class="chart-section">
-        <div
-          class="mb-3 flex flex-wrap gap-2"
-          role="group"
-          aria-label="Disruption diagram"
-        >
-          <Button
-            variant="secondary"
-            :active="diagram === 'flow'"
-            @click="selectDiagram('flow')"
-          >
-            Flow
-          </Button>
-          <Button
-            variant="secondary"
-            :active="diagram === 'notifications'"
-            @click="selectDiagram('notifications')"
-          >
-            Notifications
-          </Button>
-        </div>
         <div class="chart-wrapper">
           <SankeyChart
             v-if="activeSankey.nodes.length > 0 && activeSankey.links.length > 0"
             :data="activeSankey"
+            :node-colors="activeNodeColors"
             height="400px"
             :use-gradient="false"
             :node-gap="16"
@@ -292,7 +284,7 @@ import {
   useCurrencyFormat,
   useNumberFormat,
 } from "../../../../plugins/numberFormat";
-import Button from "../../../../components/Button/Button.vue";
+import Select, { type KiutSelectValue } from "../../../../components/Inputs/Select.vue";
 import Tag from "../../../../components/Tag/Tag.vue";
 import {
   buildDisruptionNotifierSankeyFromData,
@@ -375,7 +367,48 @@ const props = withDefaults(
 
 type DisruptionDiagram = "flow" | "notifications";
 
+const FLOW_NODE_COLORS: Record<string, string> = {
+  "Disruption Initiated": "#66BB6A",
+  "Disruption Started": "#66BB6A",
+  "Voluntary Change": "#66BB6A",
+  Confirmed: "#66BB6A",
+  Paid: "#66BB6A",
+  Accepted: "#66BB6A",
+  "Involuntary Change": "#FFA726",
+  "Abandon (Init)": "#FFA726",
+  "Abandon (Started)": "#FFA726",
+  "Not Paid": "#FFA726",
+  "Not Confirmed": "#FBC02D",
+  Rejected: "#EF5350",
+  "Redirect to Human": "#EF5350",
+};
+
+const NOTIFIER_NODE_COLORS: Record<string, string> = {
+  "Records Detected": "#42A5F5",
+  "Valid Reservations": "#66BB6A",
+  "Invalid Reservations": "#EF5350",
+  Contactable: "#26C6DA",
+  "Data Quality Issues": "#FBC02D",
+  Notified: "#66BB6A",
+  "Not Notified": "#FFA726",
+};
+
 const diagram = ref<DisruptionDiagram>("flow");
+
+const diagramOptions = [
+  { value: "flow", label: "Flow" },
+  { value: "notifications", label: "Notifications" },
+];
+
+const chartTitle = computed(() =>
+  diagram.value === "notifications" ? "Notifications Flow" : "Disruption Process Flow",
+);
+
+const chartSubtitle = computed(() =>
+  diagram.value === "notifications"
+    ? "From records detected to passengers notified, with validation and contactability drop-offs"
+    : "End-to-end disruption flow with voluntary/involuntary paths, abandonments and errors",
+);
 
 const emit = defineEmits<{
   open: [];
@@ -387,6 +420,10 @@ function selectDiagram(next: DisruptionDiagram): void {
   if (diagram.value === next) return;
   diagram.value = next;
   emit("diagram-change", next);
+}
+
+function onDiagramModel(value: KiutSelectValue | null): void {
+  if (value === "flow" || value === "notifications") selectDiagram(value);
 }
 
 const handleExport = (format: ExportFormat) => {
@@ -479,19 +516,19 @@ const sankeyData = computed(() => {
 
   // Define nodes
   const nodes = [
-    { name: "Initiated by agent", status: "success" as const },
-    { name: "Disruption started", status: "success" as const },
-    { name: "Voluntary", status: "success" as const },
-    { name: "Selected", status: "success" as const },
-    { name: "Voluntary change success", status: "success" as const },
+    { name: "Disruption Initiated", status: "success" as const },
+    { name: "Disruption Started", status: "success" as const },
+    { name: "Voluntary Change", status: "success" as const },
+    { name: "Confirmed", status: "success" as const },
+    { name: "Paid", status: "success" as const },
     { name: "Not Paid", status: "abandon" as const },
-    { name: "Error: payment rejected", status: "error" as const },
+    { name: "Rejected", status: "error" as const },
     { name: "Not Confirmed", status: "abandon" as const },
-    { name: "Involuntary", status: "success" as const },
-    { name: "Involuntary change accepted", status: "success" as const },
+    { name: "Involuntary Change", status: "abandon" as const },
+    { name: "Accepted", status: "success" as const },
     { name: "Redirect to Human", status: "error" as const },
-    { name: "Abandoned: No Response", status: "abandon" as const },
-    { name: "Abandoned (Start)", status: "abandon" as const },
+    { name: "Abandon (Init)", status: "abandon" as const },
+    { name: "Abandon (Started)", status: "abandon" as const },
   ];
 
   // Define links with flows
@@ -505,16 +542,16 @@ const sankeyData = computed(() => {
   // First level: Conversations splits
   if (initiated > 0) {
     links.push({
-      source: "Initiated by agent",
-      target: "Disruption started",
+      source: "Disruption Initiated",
+      target: "Disruption Started",
       value: initiated,
       label: formatLabel(initiated, conversations),
     });
   }
   if (abandonedFromConversations > 0) {
     links.push({
-      source: "Initiated by agent",
-      target: "Abandoned: No Response",
+      source: "Disruption Initiated",
+      target: "Abandon (Init)",
       value: abandonedFromConversations,
       label: formatLabel(abandonedFromConversations, conversations),
     });
@@ -523,24 +560,24 @@ const sankeyData = computed(() => {
   // Second level: Started splits
   if (voluntary > 0) {
     links.push({
-      source: "Disruption started",
-      target: "Voluntary",
+      source: "Disruption Started",
+      target: "Voluntary Change",
       value: voluntary,
       label: formatLabel(voluntary, conversations),
     });
   }
   if (involuntary > 0) {
     links.push({
-      source: "Disruption started",
-      target: "Involuntary",
+      source: "Disruption Started",
+      target: "Involuntary Change",
       value: involuntary,
       label: formatLabel(involuntary, conversations),
     });
   }
   if (abandonedFromInitiated > 0) {
     links.push({
-      source: "Disruption started",
-      target: "Abandoned (Start)",
+      source: "Disruption Started",
+      target: "Abandon (Started)",
       value: abandonedFromInitiated,
       label: formatLabel(abandonedFromInitiated, conversations),
     });
@@ -549,15 +586,15 @@ const sankeyData = computed(() => {
   // Third level: Involuntary splits
   if (accepted > 0) {
     links.push({
-      source: "Involuntary",
-      target: "Involuntary change accepted",
+      source: "Involuntary Change",
+      target: "Accepted",
       value: accepted,
       label: formatLabel(accepted, conversations),
     });
   }
   if (notAccepted > 0) {
     links.push({
-      source: "Involuntary",
+      source: "Involuntary Change",
       target: "Redirect to Human",
       value: notAccepted,
       label: formatLabel(notAccepted, conversations),
@@ -567,15 +604,15 @@ const sankeyData = computed(() => {
   // Third level: Voluntary splits
   if (confirmed > 0) {
     links.push({
-      source: "Voluntary",
-      target: "Selected",
+      source: "Voluntary Change",
+      target: "Confirmed",
       value: confirmed,
       label: formatLabel(confirmed, conversations),
     });
   }
   if (notConfirmed > 0) {
     links.push({
-      source: "Voluntary",
+      source: "Voluntary Change",
       target: "Not Confirmed",
       value: notConfirmed,
       label: formatLabel(notConfirmed, conversations),
@@ -585,23 +622,23 @@ const sankeyData = computed(() => {
   // Fourth level: Selected splits
   if (sellSuccess > 0) {
     links.push({
-      source: "Selected",
-      target: "Voluntary change success",
+      source: "Confirmed",
+      target: "Paid",
       value: sellSuccess,
       label: formatLabel(sellSuccess, conversations),
     });
   }
   if (rejected > 0) {
     links.push({
-      source: "Selected",
-      target: "Error: payment rejected",
+      source: "Confirmed",
+      target: "Rejected",
       value: rejected,
       label: formatLabel(rejected, conversations),
     });
   }
   if (notPaid > 0) {
     links.push({
-      source: "Selected",
+      source: "Confirmed",
       target: "Not Paid",
       value: notPaid,
       label: formatLabel(notPaid, conversations),
@@ -617,6 +654,10 @@ const notifierSankey = computed(() =>
 
 const activeSankey = computed(() =>
   diagram.value === "notifications" ? notifierSankey.value : sankeyData.value,
+);
+
+const activeNodeColors = computed(() =>
+  diagram.value === "notifications" ? NOTIFIER_NODE_COLORS : FLOW_NODE_COLORS,
 );
 </script>
 
