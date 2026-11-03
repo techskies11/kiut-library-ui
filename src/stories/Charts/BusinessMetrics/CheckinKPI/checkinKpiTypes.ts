@@ -4,6 +4,7 @@ export interface CheckinKpiLabels {
   initiated?: string
   success?: string
   errors?: string
+  notEligible?: string
   abandon?: string
   avgCompletionTime?: string
   avgInteractionsToComplete?: string
@@ -13,6 +14,7 @@ export const DEFAULT_CHECKIN_KPI_LABELS: Required<CheckinKpiLabels> = {
   initiated: 'Check-in Initiated',
   success: '% Check-in Success',
   errors: '% Errors',
+  notEligible: 'No eligible: Business rules',
   abandon: '% Abandon',
   avgCompletionTime: 'Avg completion time',
   avgInteractionsToComplete: 'Interactions to complete',
@@ -34,6 +36,10 @@ export interface CheckinKpiProps {
   errorRatePct?: number
   errorCount?: number
   previousErrorRatePct?: number | null
+
+  notEligibleRatePct?: number
+  notEligibleCount?: number
+  previousNotEligibleRatePct?: number | null
 
   abandonRatePct?: number
   abandonCount?: number

@@ -153,11 +153,12 @@ describe('computeCheckinFunnelBreakdown', () => {
     )
 
     expect(funnel?.hasRetrievalErrorSplit).toBe(true)
-    expect(funnel?.preRetrievalErrors).toBe(410)
+    expect(funnel?.preRetrievalErrors).toBe(270)
     expect(funnel?.retrievalUserError).toBe(180)
     expect(funnel?.retrievalBusinessRule).toBe(140)
     expect(funnel?.retrievalTechError).toBe(50)
     expect(funnel?.retrievalUnknownError).toBe(40)
+    expect(funnel?.totalErrors).toBe(321)
   })
 
   it('caps boarding pass failures and computes abandoned after closed for Avianca', () => {

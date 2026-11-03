@@ -4,7 +4,7 @@
     :class="{ 'checkin-kpi--dark': isDark }"
     data-testid="checkin-kpi"
   >
-    <div class="grid grid-cols-6 gap-3">
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-7">
       <CardMetric
         :label="resolvedLabels.initiated"
         label-position="header"
@@ -73,6 +73,39 @@
               class="kpi-value-with-count__secondary"
             >
               {{ errorCountLabel }}
+            </span>
+          </div>
+        </template>
+      </CardMetric>
+
+      <CardMetric
+        :label="resolvedLabels.notEligible"
+        label-position="header"
+        :value="notEligibleValueLabel"
+        :loading="loading"
+        :theme="theme"
+        :current-value="notEligibleRatePct"
+        :previous-value="null"
+        data-testid="checkin-kpi-not-eligible"
+      >
+        <template #icon>
+          <NoSymbolIcon class="w-1 h-1" />
+        </template>
+        <template v-if="notEligibleTrend" #headerAside>
+          <div :class="['percent-trend-badge', notEligibleTrend.class]">
+            {{ notEligibleTrend.label }}
+          </div>
+        </template>
+        <template #value>
+          <div class="kpi-value-with-count">
+            <span class="kpi-value-with-count__main">{{
+              notEligibleValueLabel
+            }}</span>
+            <span
+              v-if="notEligibleCountLabel"
+              class="kpi-value-with-count__secondary"
+            >
+              {{ notEligibleCountLabel }}
             </span>
           </div>
         </template>
@@ -161,6 +194,7 @@ import {
   ChatBubbleLeftRightIcon,
   CheckCircleIcon,
   ClockIcon,
+  NoSymbolIcon,
   PaperAirplaneIcon,
   XCircleIcon,
 } from "@heroicons/vue/24/outline";
@@ -177,6 +211,9 @@ const props = withDefaults(defineProps<CheckinKpiProps>(), {
   errorRatePct: 0,
   errorCount: 0,
   previousErrorRatePct: null,
+  notEligibleRatePct: 0,
+  notEligibleCount: 0,
+  previousNotEligibleRatePct: null,
   abandonRatePct: 0,
   abandonCount: 0,
   previousAbandonRatePct: null,
@@ -211,6 +248,20 @@ const errorValueLabel = computed(() => formatPercent(props.errorRatePct));
 const errorCountLabel = computed(() => formatCountLabel(props.errorCount));
 const errorTrend = computed(() =>
   buildPercentTrend(props.errorRatePct, props.previousErrorRatePct, true),
+);
+
+const notEligibleValueLabel = computed(() =>
+  formatPercent(props.notEligibleRatePct),
+);
+const notEligibleCountLabel = computed(() =>
+  formatCountLabel(props.notEligibleCount),
+);
+const notEligibleTrend = computed(() =>
+  buildPercentTrend(
+    props.notEligibleRatePct,
+    props.previousNotEligibleRatePct,
+    true,
+  ),
 );
 
 const abandonValueLabel = computed(() => formatPercent(props.abandonRatePct));
