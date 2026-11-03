@@ -45,7 +45,7 @@ import { formatSankeyPercentage } from './sankeyFormatters';
 
 echarts.use([TooltipComponent, TitleComponent, SankeyChart, CanvasRenderer]);
 
-type SankeyNodeStatus = 'success' | 'abandon' | 'error';
+type SankeyNodeStatus = 'success' | 'ineligible' | 'abandon' | 'error';
 
 interface SankeyNode {
   name: string;
@@ -135,19 +135,22 @@ const LABEL_RENDER_BUFFER = 4;
 const LABEL_CHAR_WIDTH_RATIO = 0.65;
 const LABEL_ELLIPSIS = '…';
 
-/** Colores sólidos tipo dashboard BM (verde / naranja / rojo sobre fondo oscuro). */
+/** Colores sólidos tipo dashboard BM (verde / amarillo / naranja / rojo). */
 const STATUS_COLORS: Record<SankeyNodeStatus, string> = {
   success: '#66BB6A',
+  ineligible: '#FBC02D',
   abandon: '#FFA726',
   error: '#EF5350',
 };
 
 const STATUS_PRIORITY: Record<SankeyNodeStatus, number> = {
   success: 0,
-  abandon: 1,
-  error: 2,
+  ineligible: 1,
+  abandon: 2,
+  error: 3,
 };
 
+const INELIGIBLE_PATTERN = /no eligible|not eligible|ineligible/i;
 const ABANDON_PATTERN =
   /abandon|exit|lost|bounce|cancelled|no pending|not paid|not confirmed|not delivered/i;
 const ERROR_PATTERN =
@@ -334,6 +337,7 @@ interface LabelBox {
 
 const resolveNodeStatus = (node: SankeyNode): SankeyNodeStatus => {
   if (node.status) return node.status;
+  if (INELIGIBLE_PATTERN.test(node.name)) return 'ineligible';
   if (ABANDON_PATTERN.test(node.name)) return 'abandon';
   if (ERROR_PATTERN.test(node.name)) return 'error';
   return 'success';
@@ -440,6 +444,7 @@ const getNodeLayoutRank = (
     return 200 + parentRank;
   }
 
+  if (status === 'ineligible') return 800;
   if (status === 'abandon') return 1000;
   return 2000;
 };
