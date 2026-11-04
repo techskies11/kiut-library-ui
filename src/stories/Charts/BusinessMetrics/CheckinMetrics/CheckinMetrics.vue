@@ -62,7 +62,7 @@ import {
   type FailedData,
 } from "./checkinFunnelMetrics";
 
-type SankeyNodeStatus = "success" | "abandon" | "error";
+type SankeyNodeStatus = "success" | "ineligible" | "abandon" | "error";
 
 const props = withDefaults(
   defineProps<{
@@ -193,9 +193,13 @@ const sankeyData = computed(() => {
     });
   }
 
-  const addRetrievalErrorNode = (name: string, value: number): void => {
+  const addRetrievalErrorNode = (
+    name: string,
+    value: number,
+    status: SankeyNodeStatus = "error",
+  ): void => {
     if (value > 0) {
-      addNode(name, { status: "error" });
+      addNode(name, { status });
       links.push({
         source: "Initiated by agent",
         target: name,
@@ -207,7 +211,11 @@ const sankeyData = computed(() => {
 
   if (hasRetrievalErrorSplit) {
     addRetrievalErrorNode("Error: User error", retrievalUserError);
-    addRetrievalErrorNode("Error: Business rule", retrievalBusinessRule);
+    addRetrievalErrorNode(
+      "No eligible: Business rules",
+      retrievalBusinessRule,
+      "ineligible",
+    );
     addRetrievalErrorNode("Error: Tech error", retrievalTechError);
     addRetrievalErrorNode("Error: Unknown error", retrievalUnknownError);
   } else if (unifiedPreRetrievedError > 0) {

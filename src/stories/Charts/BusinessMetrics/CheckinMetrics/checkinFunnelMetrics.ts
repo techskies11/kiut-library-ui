@@ -316,11 +316,9 @@ export function computeCheckinFunnelBreakdown(
     checkinData?.total_checkin_retrieval_tech_error != null ||
     checkinData?.total_checkin_retrieval_unknown_error != null;
 
+  // Business-rule retrievals are "no eligible", not errors.
   const preRetrievalErrors = hasRetrievalErrorSplit
-    ? retrievalUserError +
-      retrievalBusinessRule +
-      retrievalTechError +
-      retrievalUnknownError
+    ? retrievalUserError + retrievalTechError + retrievalUnknownError
     : unifiedPreRetrievedError;
 
   const rawBpFailed = getBoardingPassFailedCount(failedData);

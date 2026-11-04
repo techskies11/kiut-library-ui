@@ -39,6 +39,7 @@ export function buildCheckinKpiFromRecord(
   const closed = funnel?.success ?? record?.total_record_locator_closed ?? 0
   const abandonCount = funnel?.totalAbandoned ?? 0
   const errorCount = funnel?.totalErrors ?? 0
+  const notEligibleCount = funnel?.retrievalBusinessRule ?? 0
 
   return {
     checkinInitiated: initiated,
@@ -46,6 +47,8 @@ export function buildCheckinKpiFromRecord(
     successCount: closed,
     errorRatePct: toPercent(errorCount, initiated),
     errorCount,
+    notEligibleRatePct: toPercent(notEligibleCount, initiated),
+    notEligibleCount,
     abandonRatePct: toPercent(abandonCount, initiated),
     abandonCount,
     avgCompletionTimeSeconds: record?.avg_checkin_completion_time_seconds ?? null,
@@ -65,6 +68,7 @@ export function mergeCheckinKpiWithPrevious(
       previousCheckinInitiated: null,
       previousSuccessRatePct: null,
       previousErrorRatePct: null,
+      previousNotEligibleRatePct: null,
       previousAbandonRatePct: null,
       previousAvgCompletionTimeSeconds: null,
       previousAvgInteractionsToComplete: null,
@@ -76,6 +80,7 @@ export function mergeCheckinKpiWithPrevious(
     previousCheckinInitiated: previous.checkinInitiated ?? null,
     previousSuccessRatePct: previous.successRatePct ?? null,
     previousErrorRatePct: previous.errorRatePct ?? null,
+    previousNotEligibleRatePct: previous.notEligibleRatePct ?? null,
     previousAbandonRatePct: previous.abandonRatePct ?? null,
     previousAvgCompletionTimeSeconds: previous.avgCompletionTimeSeconds ?? null,
     previousAvgInteractionsToComplete: previous.avgInteractionsToComplete ?? null,

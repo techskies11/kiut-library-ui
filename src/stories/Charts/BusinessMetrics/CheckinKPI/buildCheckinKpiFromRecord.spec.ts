@@ -66,8 +66,27 @@ describe('buildCheckinKpiFromRecord', () => {
     expect(result.successCount).toBe(28)
     expect(result.abandonCount).toBe(407)
     expect(result.errorCount).toBe(461)
+    expect(result.notEligibleCount).toBe(0)
     expect(result.abandonRatePct).toBeCloseTo(45.424, 2)
     expect(result.errorRatePct).toBeCloseTo(51.451, 2)
+  })
+
+  it('keeps business-rule retrievals out of errors and on the no-eligible card', () => {
+    const result = buildCheckinKpiFromRecord(
+      {
+        ...collapsedPreRetrievedFunnelCheckinData,
+        total_checkin_retrieval_user_error: 180,
+        total_checkin_retrieval_business_rule: 140,
+        total_checkin_retrieval_tech_error: 50,
+        total_checkin_retrieval_unknown_error: 40,
+      },
+      { failed_by_step_by_day: [] },
+    )
+
+    expect(result.notEligibleCount).toBe(140)
+    expect(result.notEligibleRatePct).toBeCloseTo(15.625, 2)
+    expect(result.errorCount).toBe(321)
+    expect(result.errorRatePct).toBeCloseTo(35.826, 2)
   })
 
   it('returns zeros when record is missing', () => {
@@ -77,6 +96,8 @@ describe('buildCheckinKpiFromRecord', () => {
       successCount: 0,
       errorRatePct: 0,
       errorCount: 0,
+      notEligibleRatePct: 0,
+      notEligibleCount: 0,
       abandonRatePct: 0,
       abandonCount: 0,
       avgCompletionTimeSeconds: null,
@@ -107,6 +128,7 @@ describe('mergeCheckinKpiWithPrevious', () => {
     expect(merged.previousCheckinInitiated).toBe(1587)
     expect(merged.previousSuccessRatePct).toBeCloseTo(76.81, 2)
     expect(merged.previousErrorRatePct).toBe(previous.errorRatePct)
+    expect(merged.previousNotEligibleRatePct).toBe(previous.notEligibleRatePct)
     expect(merged.previousAbandonRatePct).toBe(previous.abandonRatePct)
     expect(merged.previousAvgInteractionsToComplete).toBeNull()
   })
