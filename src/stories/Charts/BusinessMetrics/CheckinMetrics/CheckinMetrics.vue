@@ -159,17 +159,20 @@ const sankeyData = computed(() => {
     unifiedPreRetrievedError,
     closed,
     completed,
+    reprints,
     bpFailed,
     abandonedAfterClosed,
-    totalUnrecovered,
+    notEligible,
+    escalated,
+    processErrors,
     abandonedBeforeClosed,
   } = funnel;
 
   addNode("Initiated by agent", { value: initiated });
   addNode("Check In Started");
-  // Shared: closed = PSS accepted; completed = BP issued
-  addNode("Check In Success");
-  addNode("Boarding Pass Issued");
+  // Shared: closed = PSS accepted; completed = BP issued. Skip nodes with no flow to avoid orphans.
+  if (closed > 0) addNode("Check In Success");
+  if (completed > 0) addNode("Boarding Pass Issued");
 
   if (bookingSuccess > 0) {
     links.push({
@@ -236,12 +239,24 @@ const sankeyData = computed(() => {
     });
   }
 
-  if (completed > 0) {
+  const completedAfterClosed = completed - reprints;
+  if (completedAfterClosed > 0) {
     links.push({
-      source: "Check In Success",
+      // Without a closed event (legacy data) the node does not exist: link from Started
+      source: closed > 0 ? "Check In Success" : "Check In Started",
       target: "Boarding Pass Issued",
-      value: completed,
-      label: formatSankeyLinkLabel(completed, initiated),
+      value: completedAfterClosed,
+      label: formatSankeyLinkLabel(completedAfterClosed, initiated),
+    });
+  }
+
+  // Already checked-in reprints go straight to Boarding Pass Issued (no new Check In Success)
+  if (reprints > 0) {
+    links.push({
+      source: "Initiated by agent",
+      target: "Boarding Pass Issued",
+      value: reprints,
+      label: formatSankeyLinkLabel(reprints, initiated),
     });
   }
 
@@ -270,15 +285,30 @@ const sankeyData = computed(() => {
   }
 
   // Unrecovered excludes closed reservations; these failed before PSS close
-  if (totalUnrecovered > 0) {
+  if (processErrors > 0) {
     addNode("Error: On Check In Process", { status: "error" });
     links.push({
       source: "Check In Started",
       target: "Error: On Check In Process",
-      value: totalUnrecovered,
-      label: formatSankeyLinkLabel(totalUnrecovered, initiated),
+      value: processErrors,
+      label: formatSankeyLinkLabel(processErrors, initiated),
     });
   }
+
+  // Business outcomes, not technical errors
+  const addOutcomeNode = (name: string, value: number): void => {
+    if (value > 0) {
+      addNode(name, { status: "abandon" });
+      links.push({
+        source: "Check In Started",
+        target: name,
+        value,
+        label: formatSankeyLinkLabel(value, initiated),
+      });
+    }
+  };
+  addOutcomeNode("Not Eligible", notEligible);
+  addOutcomeNode("Handed Off to Human", escalated);
 
   if (abandonedBeforeClosed > 0) {
     addNode("Abandoned: Check In Incomplete", { status: "abandon" });

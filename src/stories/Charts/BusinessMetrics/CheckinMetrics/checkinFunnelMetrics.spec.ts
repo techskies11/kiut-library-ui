@@ -134,7 +134,9 @@ describe('computeCheckinFunnelBreakdown', () => {
     expect(funnel).not.toBeNull()
     expect(funnel?.initiated).toBe(896)
     expect(funnel?.success).toBe(28)
-    expect(funnel?.preRetrievedAbandon).toBe(338)
+    // 338 raw pre-started abandon minus 15 reprints (completed 43 - closed 28) for 2W
+    expect(funnel?.reprints).toBe(15)
+    expect(funnel?.preRetrievedAbandon).toBe(323)
     expect(funnel?.preRetrievalErrors).toBe(410)
     expect(funnel?.totalAbandoned).toBe(
       funnel!.preRetrievedAbandon +
@@ -144,6 +146,59 @@ describe('computeCheckinFunnelBreakdown', () => {
     expect(funnel?.totalErrors).toBe(
       funnel!.preRetrievalErrors + funnel!.totalUnrecovered,
     )
+  })
+
+  it('does not treat completed above closed as reprints outside 2W', () => {
+    const funnel = computeCheckinFunnelBreakdown(
+      { ...collapsedPreRetrievedFunnelCheckinData, airline_name: 'Avianca' },
+      collapsedPreRetrievedFunnelFailedData,
+    )
+
+    expect(funnel?.reprints).toBe(0)
+    expect(funnel?.preRetrievedAbandon).toBe(338)
+  })
+
+  it('splits not eligible and human handoff from technical process errors', () => {
+    const funnel = computeCheckinFunnelBreakdown(
+      collapsedPreRetrievedFunnelCheckinData,
+      {
+        ...collapsedPreRetrievedFunnelFailedData,
+        unrecovered_by_step: [
+          { step_name: 'not_eligible', count: 20 },
+          { step_name: 'escalation', count: 11 },
+          { step_name: 'error', count: 20 },
+        ],
+      },
+    )
+
+    expect(funnel?.totalUnrecovered).toBe(51)
+    expect(funnel?.notEligible).toBe(20)
+    expect(funnel?.escalated).toBe(11)
+    expect(funnel?.processErrors).toBe(20)
+    expect(funnel?.totalErrors).toBe(funnel!.preRetrievalErrors + 20)
+    expect(funnel?.totalAbandoned).toBe(
+      funnel!.preRetrievedAbandon +
+        funnel!.abandonedBeforeClosed +
+        funnel!.abandonedAfterClosed +
+        31,
+    )
+  })
+
+  it('never classifies more outcomes than unrecovered sessions', () => {
+    const funnel = computeCheckinFunnelBreakdown(
+      collapsedPreRetrievedFunnelCheckinData,
+      {
+        ...collapsedPreRetrievedFunnelFailedData,
+        unrecovered_by_step: [
+          { step_name: 'not_eligible', count: 40 },
+          { step_name: 'escalation', count: 40 },
+        ],
+      },
+    )
+
+    expect(funnel?.notEligible).toBe(40)
+    expect(funnel?.escalated).toBe(11)
+    expect(funnel?.processErrors).toBe(0)
   })
 
   it('uses retrieval error categories when split totals are present', () => {
@@ -189,6 +244,28 @@ describe('computeCheckinVolumeDays', () => {
 
     expect(sumVolumeDays(days, 'initiated')).toBe(funnel?.initiated)
     expect(sumVolumeDays(days, 'success')).toBe(funnel?.success)
+    expect(sumVolumeDays(days, 'abandoned')).toBe(funnel?.totalAbandoned)
+    expect(sumVolumeDays(days, 'errors')).toBe(funnel?.totalErrors)
+  })
+
+  it('keeps daily abandoned and error totals aligned when outcomes are split', () => {
+    const failedData = {
+      ...collapsedPreRetrievedFunnelFailedData,
+      unrecovered_by_step: [
+        { step_name: 'not_eligible', count: 20 },
+        { step_name: 'escalation', count: 11 },
+        { step_name: 'error', count: 20 },
+      ],
+    }
+    const funnel = computeCheckinFunnelBreakdown(
+      collapsedPreRetrievedFunnelCheckinData,
+      failedData,
+    )
+    const days = computeCheckinVolumeDays(
+      collapsedPreRetrievedFunnelCheckinData,
+      failedData,
+    )
+
     expect(sumVolumeDays(days, 'abandoned')).toBe(funnel?.totalAbandoned)
     expect(sumVolumeDays(days, 'errors')).toBe(funnel?.totalErrors)
   })

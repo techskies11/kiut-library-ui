@@ -86,6 +86,10 @@ export interface CheckinFunnelBreakdown {
   completed: number;
   closed: number;
   totalUnrecovered: number;
+  notEligible: number;
+  escalated: number;
+  processErrors: number;
+  reprints: number;
   preInitAbandonedError: number;
   preInitAbandonedVoluntary: number;
   hasPreInitAbandonedSplit: boolean;
@@ -150,6 +154,24 @@ export function getBoardingPassFailedCount(
     }
   }
   return total;
+}
+
+const NOT_ELIGIBLE_STEP = "not_eligible";
+const ESCALATION_STEP = "escalation";
+// Carriers whose already checked-in reprints emit a boarding pass without a new Check In Success.
+const REPRINT_AIRLINES = new Set(["2W"]);
+
+function unrecoveredStepCount(
+  failedData: FailedData | null | undefined,
+  stepName: string,
+): number {
+  return (failedData?.unrecovered_by_step || []).reduce(
+    (total, step) =>
+      step.step_name?.toLowerCase().trim() === stepName
+        ? total + (step.count || 0)
+        : total,
+    0,
+  );
 }
 
 export function unrecoveredForDay(
@@ -240,9 +262,27 @@ export function computeCheckinFunnelBreakdown(
   const closed = checkinData?.total_record_locator_closed || 0;
   const totalUnrecovered = checkinData?.total_record_locator_unrecovered || 0;
 
+  // Business outcomes (not eligible / handed to a human) are not technical errors.
+  const notEligible = Math.min(
+    unrecoveredStepCount(failedData, NOT_ELIGIBLE_STEP),
+    totalUnrecovered,
+  );
+  const escalated = Math.min(
+    unrecoveredStepCount(failedData, ESCALATION_STEP),
+    totalUnrecovered - notEligible,
+  );
+  const processErrors = totalUnrecovered - notEligible - escalated;
+
+  // Reprints: boarding pass issued without a new PSS check-in (completed without closed).
+  const reprints = REPRINT_AIRLINES.has(
+    (checkinData?.airline_name || "").toUpperCase(),
+  )
+    ? Math.max(completed - closed, 0)
+    : 0;
+
   const abandonedBeforeInit = Math.max(initiated - init, 0);
   const unifiedPreRetrievedError = preInitAbandonedError + abandonedError;
-  const preRetrievedAbandon = hasPreInitAbandonedSplit
+  const preRetrievedAbandonRaw = hasPreInitAbandonedSplit
     ? preInitAbandonedVoluntary +
       (hasAbandonedSplit
         ? abandonedVoluntary + abandonedStartedFallback
@@ -251,6 +291,8 @@ export function computeCheckinFunnelBreakdown(
       (hasAbandonedSplit
         ? abandonedVoluntary + abandonedStartedFallback
         : abandonedInit);
+  // Reprint sessions never reach "started", so they land in the pre-started abandon bucket.
+  const preRetrievedAbandon = Math.max(preRetrievedAbandonRaw - reprints, 0);
 
   const retrievalUserError = Math.max(
     Number(checkinData?.total_checkin_retrieval_user_error) || 0,
@@ -285,9 +327,13 @@ export function computeCheckinFunnelBreakdown(
   const abandonedBeforeClosed = Math.max(started - closed - totalUnrecovered, 0);
 
   const totalAbandoned =
-    preRetrievedAbandon + abandonedBeforeClosed + abandonedAfterClosed;
+    preRetrievedAbandon +
+    abandonedBeforeClosed +
+    abandonedAfterClosed +
+    notEligible +
+    escalated;
   // Post Check In Success failures (BP not issued) are excluded: closed = success.
-  const totalErrors = preRetrievalErrors + totalUnrecovered;
+  const totalErrors = preRetrievalErrors + processErrors;
 
   return {
     initiated,
@@ -298,6 +344,10 @@ export function computeCheckinFunnelBreakdown(
     completed,
     closed,
     totalUnrecovered,
+    notEligible,
+    escalated,
+    processErrors,
+    reprints,
     preInitAbandonedError,
     preInitAbandonedVoluntary,
     hasPreInitAbandonedSplit,
@@ -386,7 +436,11 @@ export function computeCheckinVolumeDays(
     weightsOrFallback(afterClosedWeights, closedWeights),
   );
   const unrecoveredByDay = allocateProportionally(
-    funnel.totalUnrecovered,
+    funnel.processErrors,
+    weightsOrFallback(unrecoveredWeights, initiatedWeights),
+  );
+  const handledOutcomesByDay = allocateProportionally(
+    funnel.notEligible + funnel.escalated,
     weightsOrFallback(unrecoveredWeights, initiatedWeights),
   );
   return [...days]
@@ -397,7 +451,8 @@ export function computeCheckinVolumeDays(
       abandoned:
         preRetrievedAbandonByDay[index] +
         abandonedBeforeClosedByDay[index] +
-        abandonedAfterClosedByDay[index],
+        abandonedAfterClosedByDay[index] +
+        handledOutcomesByDay[index],
       errors: preRetrievalErrorsByDay[index] + unrecoveredByDay[index],
     }))
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
