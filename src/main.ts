@@ -266,6 +266,11 @@ export type {
 import ModuleNavLayout from "./components/ModuleNav/ModuleNavLayout.vue";
 export type { VerticalNavItem } from "./components/ModuleNav/moduleNavTypes";
 import VerticalNavPanel from "./components/ModuleNav/VerticalNavPanel.vue";
+import Notifications from "./components/Notifications/Notifications.vue";
+export type {
+  NotificationItem,
+  NotificationRole,
+} from "./components/Notifications/notificationTypes";
 
 // ============================================
 // Estilos
@@ -391,6 +396,7 @@ export {
   AppShellNavigation,
   ModuleNavLayout,
   VerticalNavPanel,
+  Notifications,
 };
 
 // ============================================
@@ -512,5 +518,6 @@ export const KiutUIPlugin = {
     app.component("KiutAppShellNavigation", AppShellNavigation);
     app.component("ModuleNavLayout", ModuleNavLayout);
     app.component("VerticalNavPanel", VerticalNavPanel);
+    app.component("Notifications", Notifications);
   },
 };
