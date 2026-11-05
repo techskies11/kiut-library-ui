@@ -3,16 +3,14 @@ export interface NotificationRole {
   label: string;
 }
 
-/** `editable` toggles. `locked-on` / `locked-off` stay fixed. */
-export type NotificationUserLinkMode = 'editable' | 'locked-on' | 'locked-off';
-
 export interface NotificationItem {
   id: string;
   title: string;
   description: string;
-  /** Optional second line, for example the related SLA parameter. */
-  hint?: string;
+  /** Role ids assigned as recipients. */
   roleIds: string[];
+  /** Whether the person tied to the event also receives the notice. */
   userLinked: boolean;
-  userLinkMode: NotificationUserLinkMode;
+  /** Only editable rows can toggle `userLinked`. */
+  userLinkedEditable: boolean;
 }
