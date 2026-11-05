@@ -3,72 +3,70 @@
     class="font-['Inter',system-ui,sans-serif] text-[color:var(--kiut-text-primary)]"
     data-testid="notifications"
   >
-    <p class="mb-5 max-w-4xl text-sm leading-relaxed text-[color:var(--kiut-text-secondary)]">
+    <p class="mb-5 max-w-5xl text-[15px] leading-relaxed text-[color:var(--kiut-text-secondary)]">
       <slot name="intro">{{ intro }}</slot>
     </p>
 
     <div
-      class="overflow-hidden rounded-xl border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)]"
+      class="overflow-visible rounded-xl border border-slate-200 bg-white dark:border-[#2c2c34] dark:bg-[#1c1c21]"
     >
       <div
-        class="grid grid-cols-[minmax(0,1.4fr)_minmax(16rem,1fr)_7.5rem] items-center gap-4 border-b border-[color:var(--kiut-border-light)] px-5 py-3 text-[11px] font-medium uppercase tracking-[0.08em] text-[color:var(--kiut-text-muted)]"
+        class="grid grid-cols-[minmax(0,1.45fr)_minmax(18rem,1fr)_6.5rem] items-end gap-6 border-b border-slate-200 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400 dark:border-[#2c2c34] dark:text-[#8d8d98]"
       >
         <span>{{ columnNotice }}</span>
         <span>{{ columnRoles }}</span>
-        <span class="text-right leading-tight">{{ columnUser }}</span>
+        <span class="ml-auto max-w-[5.5rem] text-right leading-tight">{{ columnUser }}</span>
       </div>
 
       <ul>
         <li
           v-for="item in items"
           :key="item.id"
-          class="grid grid-cols-[minmax(0,1.4fr)_minmax(16rem,1fr)_7.5rem] items-center gap-4 border-b border-[color:var(--kiut-border-light)] px-5 py-4 last:border-b-0"
+          class="grid grid-cols-[minmax(0,1.45fr)_minmax(18rem,1fr)_6.5rem] items-center gap-6 border-b border-slate-200 px-5 py-4 last:border-b-0 dark:border-[#2a2a31]"
           :data-testid="`notification-row-${item.id}`"
         >
           <div class="min-w-0">
-            <p class="text-sm font-semibold leading-snug">{{ item.title }}</p>
-            <p class="mt-0.5 text-[13px] leading-snug text-[color:var(--kiut-text-secondary)]">
+            <p class="text-[15px] font-semibold leading-snug">{{ item.title }}</p>
+            <p class="mt-0.5 text-[13px] leading-snug text-slate-500 dark:text-[#8f8f9a]">
               {{ item.description }}
-            </p>
-            <p v-if="item.hint" class="mt-1 text-xs leading-snug text-[color:var(--kiut-text-muted)]">
-              {{ item.hint }}
             </p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-1.5">
+          <div class="flex flex-wrap items-center gap-2">
             <span
               v-if="item.roleIds.length === 0"
-              class="inline-flex h-8 items-center rounded-full border border-dashed border-[color:var(--kiut-border-color)] px-3 text-xs text-[color:var(--kiut-text-muted)]"
+              class="inline-flex h-8 items-center rounded-full border border-slate-200 bg-slate-50 px-3.5 text-[13px] text-slate-400 dark:border-[#34343c] dark:bg-[#24242a] dark:text-[#7c7c88]"
             >
               {{ emptyRoles }}
             </span>
             <span
               v-else-if="allRolesSelected(item)"
-              class="inline-flex h-8 items-center rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] px-3 text-xs font-medium"
+              :class="pillClass"
             >
-              {{ allRolesText }}
+              {{ allRolesLabel(roles.length) }}
             </span>
             <template v-else>
               <span
                 v-for="role in visibleRoles(item)"
                 :key="role.id"
-                class="inline-flex h-8 max-w-[10rem] items-center truncate rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] px-3 text-xs font-medium"
+                :class="pillClass"
+                :data-testid="`notification-role-${item.id}-${role.id}`"
               >
                 {{ role.label }}
               </span>
               <span
                 v-if="hiddenCount(item) > 0"
-                class="inline-flex h-8 items-center rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] px-3 text-xs font-medium"
-                :title="hiddenRoleNames(item)"
+                :class="pillClass"
+                :title="hiddenRoleLabels(item)"
               >
                 {{ moreLabel(hiddenCount(item)) }}
               </span>
             </template>
 
-            <div class="relative" :data-menu="item.id">
+            <div class="relative">
               <button
                 type="button"
-                class="inline-flex size-8 items-center justify-center rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] text-base leading-none text-[color:var(--kiut-text-secondary)] transition-colors hover:border-[color:var(--kiut-text-muted)] hover:text-[color:var(--kiut-text-primary)]"
+                class="inline-flex size-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-lg leading-none text-slate-500 transition-colors hover:text-slate-800 dark:border-[#3a3a44] dark:bg-[#24242a] dark:text-[#c7c7d1] dark:hover:text-white"
                 :aria-label="addRoleLabel"
                 :aria-expanded="openMenuId === item.id"
                 :data-testid="`notification-add-${item.id}`"
@@ -76,50 +74,55 @@
               >
                 +
               </button>
-              <ul
+              <div
                 v-if="openMenuId === item.id"
-                class="absolute left-0 z-20 mt-1 max-h-56 min-w-[14rem] overflow-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg"
-                role="listbox"
-                aria-multiselectable="true"
+                class="absolute left-0 z-20 mt-1 min-w-[14rem] rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg"
+                role="group"
+                :aria-label="addRoleLabel"
               >
-                <li>
-                  <label class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-[color:var(--kiut-bg-primary)]">
-                    <input
-                      type="checkbox"
-                      class="size-3.5 accent-emerald-600"
-                      :checked="allRolesSelected(item)"
-                      @change="toggleAll(item)"
-                    />
-                    {{ selectAllLabel }}
-                  </label>
-                </li>
-                <li v-for="role in roles" :key="role.id">
-                  <label class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-[color:var(--kiut-bg-primary)]">
-                    <input
-                      type="checkbox"
-                      class="size-3.5 accent-emerald-600"
-                      :checked="item.roleIds.includes(role.id)"
-                      @change="toggleRole(item, role.id)"
-                    />
-                    {{ role.label }}
-                  </label>
-                </li>
-              </ul>
+                <label class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-[color:var(--kiut-bg-primary)]">
+                  <input
+                    type="checkbox"
+                    class="size-3.5 accent-emerald-600"
+                    :checked="allRolesSelected(item)"
+                    @change="toggleAll(item)"
+                  />
+                  {{ selectAllLabel }}
+                </label>
+                <label
+                  v-for="role in roles"
+                  :key="role.id"
+                  class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-[color:var(--kiut-bg-primary)]"
+                >
+                  <input
+                    type="checkbox"
+                    class="size-3.5 accent-emerald-600"
+                    :checked="item.roleIds.includes(role.id)"
+                    @change="toggleRole(item, role.id)"
+                  />
+                  {{ role.label }}
+                </label>
+              </div>
             </div>
           </div>
 
-          <div class="flex justify-end">
+          <div class="flex justify-end pr-1">
             <button
               type="button"
-              class="inline-flex size-6 items-center justify-center rounded-full border"
-              :class="linkClass(item)"
-              :disabled="item.userLinkMode !== 'editable'"
-              :title="linkTooltip(item)"
-              :aria-pressed="isLinked(item)"
+              class="inline-flex size-[22px] items-center justify-center rounded-full border"
+              :class="[
+                item.userLinked
+                  ? 'border-[#3dce7a] bg-[#3dce7a] text-white'
+                  : 'border-[#5a5a66] bg-transparent text-transparent dark:border-[#4a4a55]',
+                item.userLinkedEditable ? 'cursor-pointer' : 'cursor-default',
+              ]"
+              :disabled="!item.userLinkedEditable"
+              :title="userLinkedTooltip(item)"
+              :aria-pressed="item.userLinked"
               :data-testid="`notification-user-${item.id}`"
-              @click="toggleLinked(item)"
+              @click="toggleUserLinked(item)"
             >
-              <svg viewBox="0 0 16 16" class="size-3.5" fill="none" aria-hidden="true">
+              <svg viewBox="0 0 16 16" class="size-3" fill="none" aria-hidden="true">
                 <path
                   d="M3.5 8.2 6.4 11l6.1-6.2"
                   stroke="currentColor"
@@ -141,12 +144,7 @@
           stroke="currentColor"
           stroke-width="1.4"
         />
-        <path
-          d="M8.2 14.2a1.8 1.8 0 0 0 3.6 0"
-          stroke="currentColor"
-          stroke-width="1.4"
-          stroke-linecap="round"
-        />
+        <path d="M8.2 14.2a1.8 1.8 0 0 0 3.6 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
       </svg>
       <span>
         {{ footerBefore }}
@@ -165,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import type { NotificationItem, NotificationRole } from './notificationTypes';
 
 defineOptions({ name: 'Notifications' });
@@ -183,10 +181,9 @@ const props = withDefaults(
     emptyRoles?: string;
     addRoleLabel?: string;
     selectAllLabel?: string;
-    /** Use `{count}` for the number of roles. */
-    allRolesLabel?: string;
-    linkedTooltip?: string;
-    unlinkedTooltip?: string;
+    allRolesLabel?: (count: number) => string;
+    userLinkedHint?: string;
+    userLinkedLockedHint?: string;
     footerBefore?: string;
     footerLink?: string;
     footerAfter?: string;
@@ -194,16 +191,16 @@ const props = withDefaults(
   }>(),
   {
     intro:
-      'Elegí los roles destinatarios de cada notificación. Luego cada usuario podrá desactivar las que considere desde su perfil',
+      'Elegí los roles destinatarios de cada aviso entre los roles que la aerolínea creó en Personas → Roles. Cada usuario elige después por qué medio recibirlos desde su menú, en "Mis notificaciones".',
     columnNotice: 'Aviso',
     columnRoles: 'Roles destinatarios',
     columnUser: 'Usuario vinculado',
     emptyRoles: 'Ningún rol',
     addRoleLabel: 'Agregar rol',
     selectAllLabel: 'Seleccionar todos',
-    allRolesLabel: 'Todos los roles ({count})',
-    linkedTooltip: 'Le llega a la persona asociada al hecho.',
-    unlinkedTooltip: 'Este aviso no está vinculado a un usuario en particular.',
+    allRolesLabel: (count: number) => `Todos los roles (${count})`,
+    userLinkedHint: 'Le llega a la persona asociada al hecho.',
+    userLinkedLockedHint: 'Este aviso no está vinculado a un usuario en particular.',
     footerBefore: 'Cada usuario define sus medios en',
     footerLink: 'Mis notificaciones',
     footerAfter: '.',
@@ -218,9 +215,8 @@ const emit = defineEmits<{
 
 const openMenuId = ref<string | null>(null);
 
-const allRolesText = computed(() =>
-  props.allRolesLabel.replace('{count}', String(props.roles.length)),
-);
+const pillClass =
+  'inline-flex h-8 max-w-[11rem] items-center truncate rounded-full border border-slate-200 bg-slate-50 px-3.5 text-[13px] font-medium text-slate-800 dark:border-[#3a3a44] dark:bg-[#2a2a32] dark:text-[#ececf1]';
 
 function roleById(id: string): NotificationRole | undefined {
   return props.roles.find((role) => role.id === id);
@@ -244,7 +240,7 @@ function hiddenCount(item: NotificationItem): number {
   return Math.max(0, resolvedRoles(item).length - props.maxVisibleRoles);
 }
 
-function hiddenRoleNames(item: NotificationItem): string {
+function hiddenRoleLabels(item: NotificationItem): string {
   return resolvedRoles(item)
     .slice(props.maxVisibleRoles)
     .map((role) => role.label)
@@ -253,29 +249,6 @@ function hiddenRoleNames(item: NotificationItem): string {
 
 function moreLabel(count: number): string {
   return `+${count} más`;
-}
-
-function isLinked(item: NotificationItem): boolean {
-  if (item.userLinkMode === 'locked-on') return true;
-  if (item.userLinkMode === 'locked-off') return false;
-  return item.userLinked;
-}
-
-function linkTooltip(item: NotificationItem): string {
-  return item.userLinkMode === 'locked-off' ? props.unlinkedTooltip : props.linkedTooltip;
-}
-
-function linkClass(item: NotificationItem): string {
-  const on = isLinked(item);
-  const locked = item.userLinkMode !== 'editable';
-  if (on) {
-    return locked
-      ? 'cursor-not-allowed border-emerald-500 bg-emerald-500 text-white opacity-80'
-      : 'border-emerald-500 bg-emerald-500 text-white';
-  }
-  return locked
-    ? 'cursor-not-allowed border-[color:var(--kiut-border-color)] text-transparent opacity-70'
-    : 'border-[color:var(--kiut-border-color)] text-transparent hover:border-[color:var(--kiut-text-muted)]';
 }
 
 function toggleMenu(itemId: string): void {
@@ -302,18 +275,13 @@ function toggleAll(item: NotificationItem): void {
   });
 }
 
-function toggleLinked(item: NotificationItem): void {
-  if (item.userLinkMode !== 'editable') return;
+function userLinkedTooltip(item: NotificationItem): string {
+  if (!item.userLinkedEditable && !item.userLinked) return props.userLinkedLockedHint;
+  return props.userLinkedHint;
+}
+
+function toggleUserLinked(item: NotificationItem): void {
+  if (!item.userLinkedEditable) return;
   patch(item, { userLinked: !item.userLinked });
 }
-
-function onPointerDown(event: PointerEvent): void {
-  const target = event.target;
-  if (!(target instanceof Element)) return;
-  if (target.closest('[data-menu]')) return;
-  openMenuId.value = null;
-}
-
-onMounted(() => document.addEventListener('pointerdown', onPointerDown));
-onUnmounted(() => document.removeEventListener('pointerdown', onPointerDown));
 </script>
