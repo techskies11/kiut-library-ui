@@ -17,6 +17,7 @@ const seed: NotificationItem[] = [
     description: 'Un cliente respondió en una conversación que tenés asignada.',
     roleIds: ['admin', 'supervisor', 'agent'],
     userLinked: true,
+    userLinkMode: 'locked-on',
   },
   {
     id: 'new-conversation',
@@ -24,27 +25,34 @@ const seed: NotificationItem[] = [
     description: 'Se te asignó una conversación nueva para atender.',
     roleIds: ['admin', 'supervisor', 'agent'],
     userLinked: true,
+    userLinkMode: 'locked-on',
   },
   {
     id: 'unassigned',
     title: 'Conversación sin asignación',
     description: 'Una conversación escalada a humano quedó sin agente asignado.',
+    hint: 'Parámetro asignación abandonada en config SLAs e inactividad',
     roleIds: ['admin', 'supervisor'],
     userLinked: false,
+    userLinkMode: 'locked-off',
   },
   {
     id: 'sla',
     title: 'SLA incumplido',
-    description: 'Se superó el tiempo de primera respuesta, respuesta o resolución.',
+    description: 'Se superó el tiempo de asignación, primera respuesta o respuesta posterior.',
+    hint: 'Parámetro SLAs tiempo sin asignación, primera respuesta o respuesta posterior en config SLAs e inactividad',
     roleIds: ['admin', 'supervisor'],
     userLinked: false,
+    userLinkMode: 'editable',
   },
   {
     id: 'abandoned',
     title: 'Conversación abandonada',
     description: 'Una conversación quedó sin respuesta del cliente o del agente.',
+    hint: 'Parámetro conversación abandonada por cliente o por agente en config SLAs e inactividad',
     roleIds: ['admin', 'supervisor'],
     userLinked: false,
+    userLinkMode: 'editable',
   },
   {
     id: 'document',
@@ -52,6 +60,7 @@ const seed: NotificationItem[] = [
     description: 'Resultado de la generación de un documento de la base de conocimiento.',
     roleIds: [],
     userLinked: true,
+    userLinkMode: 'locked-on',
   },
   {
     id: 'disruption',
@@ -59,6 +68,7 @@ const seed: NotificationItem[] = [
     description: 'Resultado del procesamiento de una disrupción de vuelo.',
     roleIds: ['supervisor'],
     userLinked: true,
+    userLinkMode: 'locked-on',
   },
   {
     id: 'threat',
@@ -66,6 +76,7 @@ const seed: NotificationItem[] = [
     description: 'Se detectó lenguaje inapropiado o contenido de riesgo en una conversación.',
     roleIds: ['admin', 'supervisor'],
     userLinked: false,
+    userLinkMode: 'locked-off',
   },
 ];
 
@@ -73,15 +84,7 @@ const meta: Meta<typeof Notifications> = {
   title: 'Components/Notifications',
   component: Notifications,
   tags: ['autodocs'],
-  parameters: {
-    layout: 'padded',
-    docs: {
-      description: {
-        component:
-          'Tabla de avisos y roles destinatarios. Presentacional: la app pasa `items` y `roles`, y escucha `update:items` y `preferences`. Usar la toolbar Theme para claro y oscuro.',
-      },
-    },
-  },
+  parameters: { layout: 'padded' },
 };
 
 export default meta;
@@ -91,7 +94,7 @@ export const Default: Story = {
   render: () => ({
     components: { Notifications },
     setup() {
-      const items = ref<NotificationItem[]>(seed.map((item) => ({ ...item, roleIds: [...item.roleIds] })));
+      const items = ref(seed.map((item) => ({ ...item, roleIds: [...item.roleIds] })));
       return { items, roles };
     },
     template: `

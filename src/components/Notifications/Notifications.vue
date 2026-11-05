@@ -30,6 +30,9 @@
             <p class="mt-0.5 text-[13px] leading-snug text-[color:var(--kiut-text-secondary)]">
               {{ item.description }}
             </p>
+            <p v-if="item.hint" class="mt-1 text-xs leading-snug text-[color:var(--kiut-text-muted)]">
+              {{ item.hint }}
+            </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-1.5">
@@ -39,26 +42,30 @@
             >
               {{ emptyRoles }}
             </span>
-            <button
-              v-for="role in visibleRoles(item)"
-              :key="role.id"
-              type="button"
-              class="inline-flex h-8 max-w-[10rem] items-center truncate rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] px-3 text-xs font-medium text-[color:var(--kiut-text-primary)] transition-colors hover:border-[color:var(--kiut-text-muted)]"
-              :title="removeRoleLabel"
-              :data-testid="`notification-role-${item.id}-${role.id}`"
-              @click="removeRole(item, role.id)"
-            >
-              {{ role.label }}
-            </button>
-            <button
-              v-if="hiddenCount(item) > 0 && !expanded[item.id]"
-              type="button"
+            <span
+              v-else-if="allRolesSelected(item)"
               class="inline-flex h-8 items-center rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] px-3 text-xs font-medium"
-              @click="expanded[item.id] = true"
             >
-              {{ moreLabel(hiddenCount(item)) }}
-            </button>
-            <div class="relative">
+              {{ allRolesText }}
+            </span>
+            <template v-else>
+              <span
+                v-for="role in visibleRoles(item)"
+                :key="role.id"
+                class="inline-flex h-8 max-w-[10rem] items-center truncate rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] px-3 text-xs font-medium"
+              >
+                {{ role.label }}
+              </span>
+              <span
+                v-if="hiddenCount(item) > 0"
+                class="inline-flex h-8 items-center rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] px-3 text-xs font-medium"
+                :title="hiddenRoleNames(item)"
+              >
+                {{ moreLabel(hiddenCount(item)) }}
+              </span>
+            </template>
+
+            <div class="relative" :data-menu="item.id">
               <button
                 type="button"
                 class="inline-flex size-8 items-center justify-center rounded-full border border-[color:var(--kiut-border-color)] bg-[color:var(--kiut-bg-primary)] text-base leading-none text-[color:var(--kiut-text-secondary)] transition-colors hover:border-[color:var(--kiut-text-muted)] hover:text-[color:var(--kiut-text-primary)]"
@@ -71,38 +78,46 @@
               </button>
               <ul
                 v-if="openMenuId === item.id"
-                class="absolute left-0 z-20 mt-1 max-h-48 min-w-[11rem] overflow-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg"
+                class="absolute left-0 z-20 mt-1 max-h-56 min-w-[14rem] overflow-auto rounded-lg border border-[color:var(--kiut-border-light)] bg-[color:var(--kiut-bg-secondary)] py-1 shadow-lg"
                 role="listbox"
+                aria-multiselectable="true"
               >
-                <li
-                  v-if="availableRoles(item).length === 0"
-                  class="px-3 py-2 text-xs text-[color:var(--kiut-text-muted)]"
-                >
-                  {{ noMoreRoles }}
+                <li>
+                  <label class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-[color:var(--kiut-bg-primary)]">
+                    <input
+                      type="checkbox"
+                      class="size-3.5 accent-emerald-600"
+                      :checked="allRolesSelected(item)"
+                      @change="toggleAll(item)"
+                    />
+                    {{ selectAllLabel }}
+                  </label>
                 </li>
-                <li v-for="role in availableRoles(item)" :key="role.id">
-                  <button
-                    type="button"
-                    class="flex w-full px-3 py-2 text-left text-sm hover:bg-[color:var(--kiut-bg-primary)]"
-                    role="option"
-                    @click="addRole(item, role.id)"
-                  >
+                <li v-for="role in roles" :key="role.id">
+                  <label class="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-[color:var(--kiut-bg-primary)]">
+                    <input
+                      type="checkbox"
+                      class="size-3.5 accent-emerald-600"
+                      :checked="item.roleIds.includes(role.id)"
+                      @change="toggleRole(item, role.id)"
+                    />
                     {{ role.label }}
-                  </button>
+                  </label>
                 </li>
               </ul>
             </div>
           </div>
 
           <div class="flex justify-end">
-            <span
+            <button
+              type="button"
               class="inline-flex size-6 items-center justify-center rounded-full border"
-              :class="
-                item.userLinked
-                  ? 'border-emerald-500 bg-emerald-500 text-white'
-                  : 'border-[color:var(--kiut-border-color)] text-transparent'
-              "
-              :aria-label="item.userLinked ? userLinkedLabel : userUnlinkedLabel"
+              :class="linkClass(item)"
+              :disabled="item.userLinkMode !== 'editable'"
+              :title="linkTooltip(item)"
+              :aria-pressed="isLinked(item)"
+              :data-testid="`notification-user-${item.id}`"
+              @click="toggleLinked(item)"
             >
               <svg viewBox="0 0 16 16" class="size-3.5" fill="none" aria-hidden="true">
                 <path
@@ -113,7 +128,7 @@
                   stroke-linejoin="round"
                 />
               </svg>
-            </span>
+            </button>
           </div>
         </li>
       </ul>
@@ -126,7 +141,12 @@
           stroke="currentColor"
           stroke-width="1.4"
         />
-        <path d="M8.2 14.2a1.8 1.8 0 0 0 3.6 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        <path
+          d="M8.2 14.2a1.8 1.8 0 0 0 3.6 0"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+        />
       </svg>
       <span>
         {{ footerBefore }}
@@ -145,7 +165,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import type { NotificationItem, NotificationRole } from './notificationTypes';
 
 defineOptions({ name: 'Notifications' });
@@ -162,28 +182,28 @@ const props = withDefaults(
     columnUser?: string;
     emptyRoles?: string;
     addRoleLabel?: string;
-    removeRoleLabel?: string;
-    noMoreRoles?: string;
-    userLinkedLabel?: string;
-    userUnlinkedLabel?: string;
+    selectAllLabel?: string;
+    /** Use `{count}` for the number of roles. */
+    allRolesLabel?: string;
+    linkedTooltip?: string;
+    unlinkedTooltip?: string;
     footerBefore?: string;
     footerLink?: string;
     footerAfter?: string;
-    /** Roles shown before the overflow pill. */
     maxVisibleRoles?: number;
   }>(),
   {
     intro:
-      'Elegí los roles destinatarios de cada aviso entre los roles que la aerolínea creó en Personas → Roles. Cada usuario elige después por qué medio recibirlos desde su menú, en "Mis notificaciones".',
+      'Elegí los roles destinatarios de cada notificación. Luego cada usuario podrá desactivar las que considere desde su perfil',
     columnNotice: 'Aviso',
     columnRoles: 'Roles destinatarios',
     columnUser: 'Usuario vinculado',
     emptyRoles: 'Ningún rol',
     addRoleLabel: 'Agregar rol',
-    removeRoleLabel: 'Quitar rol',
-    noMoreRoles: 'No hay más roles',
-    userLinkedLabel: 'Usuario vinculado',
-    userUnlinkedLabel: 'Sin usuario vinculado',
+    selectAllLabel: 'Seleccionar todos',
+    allRolesLabel: 'Todos los roles ({count})',
+    linkedTooltip: 'Le llega a la persona asociada al hecho.',
+    unlinkedTooltip: 'Este aviso no está vinculado a un usuario en particular.',
     footerBefore: 'Cada usuario define sus medios en',
     footerLink: 'Mis notificaciones',
     footerAfter: '.',
@@ -197,7 +217,10 @@ const emit = defineEmits<{
 }>();
 
 const openMenuId = ref<string | null>(null);
-const expanded = reactive<Record<string, boolean>>({});
+
+const allRolesText = computed(() =>
+  props.allRolesLabel.replace('{count}', String(props.roles.length)),
+);
 
 function roleById(id: string): NotificationRole | undefined {
   return props.roles.find((role) => role.id === id);
@@ -209,42 +232,88 @@ function resolvedRoles(item: NotificationItem): NotificationRole[] {
     .filter((role): role is NotificationRole => role !== undefined);
 }
 
+function allRolesSelected(item: NotificationItem): boolean {
+  return props.roles.length > 0 && props.roles.every((role) => item.roleIds.includes(role.id));
+}
+
 function visibleRoles(item: NotificationItem): NotificationRole[] {
-  const roles = resolvedRoles(item);
-  if (expanded[item.id]) return roles;
-  return roles.slice(0, props.maxVisibleRoles);
+  return resolvedRoles(item).slice(0, props.maxVisibleRoles);
 }
 
 function hiddenCount(item: NotificationItem): number {
   return Math.max(0, resolvedRoles(item).length - props.maxVisibleRoles);
 }
 
+function hiddenRoleNames(item: NotificationItem): string {
+  return resolvedRoles(item)
+    .slice(props.maxVisibleRoles)
+    .map((role) => role.label)
+    .join(', ');
+}
+
 function moreLabel(count: number): string {
   return `+${count} más`;
 }
 
-function availableRoles(item: NotificationItem): NotificationRole[] {
-  const taken = new Set(item.roleIds);
-  return props.roles.filter((role) => !taken.has(role.id));
+function isLinked(item: NotificationItem): boolean {
+  if (item.userLinkMode === 'locked-on') return true;
+  if (item.userLinkMode === 'locked-off') return false;
+  return item.userLinked;
+}
+
+function linkTooltip(item: NotificationItem): string {
+  return item.userLinkMode === 'locked-off' ? props.unlinkedTooltip : props.linkedTooltip;
+}
+
+function linkClass(item: NotificationItem): string {
+  const on = isLinked(item);
+  const locked = item.userLinkMode !== 'editable';
+  if (on) {
+    return locked
+      ? 'cursor-not-allowed border-emerald-500 bg-emerald-500 text-white opacity-80'
+      : 'border-emerald-500 bg-emerald-500 text-white';
+  }
+  return locked
+    ? 'cursor-not-allowed border-[color:var(--kiut-border-color)] text-transparent opacity-70'
+    : 'border-[color:var(--kiut-border-color)] text-transparent hover:border-[color:var(--kiut-text-muted)]';
 }
 
 function toggleMenu(itemId: string): void {
   openMenuId.value = openMenuId.value === itemId ? null : itemId;
 }
 
-function patch(item: NotificationItem, roleIds: string[]): void {
+function patch(item: NotificationItem, next: Partial<NotificationItem>): void {
   emit(
     'update:items',
-    props.items.map((current) => (current.id === item.id ? { ...current, roleIds } : current)),
+    props.items.map((current) => (current.id === item.id ? { ...current, ...next } : current)),
   );
 }
 
-function addRole(item: NotificationItem, roleId: string): void {
-  if (!item.roleIds.includes(roleId)) patch(item, [...item.roleIds, roleId]);
+function toggleRole(item: NotificationItem, roleId: string): void {
+  const roleIds = item.roleIds.includes(roleId)
+    ? item.roleIds.filter((id) => id !== roleId)
+    : [...item.roleIds, roleId];
+  patch(item, { roleIds });
+}
+
+function toggleAll(item: NotificationItem): void {
+  patch(item, {
+    roleIds: allRolesSelected(item) ? [] : props.roles.map((role) => role.id),
+  });
+}
+
+function toggleLinked(item: NotificationItem): void {
+  if (item.userLinkMode !== 'editable') return;
+  patch(item, { userLinked: !item.userLinked });
+}
+
+function onPointerDown(event: PointerEvent): void {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  if (target.closest('[data-menu]')) return;
   openMenuId.value = null;
 }
 
-function removeRole(item: NotificationItem, roleId: string): void {
-  patch(item, item.roleIds.filter((id) => id !== roleId));
-}
+onMounted(() => document.addEventListener('pointerdown', onPointerDown));
+onUnmounted(() => document.removeEventListener('pointerdown', onPointerDown));
 </script>
