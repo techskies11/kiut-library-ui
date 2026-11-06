@@ -8045,7 +8045,7 @@ function qn(e, a, t) {
   const c = i - s;
   return c ? l + (r - l) * (a - s) / c : l;
 }
-class yB extends sl {
+class xB extends sl {
   static id = "timeseries";
   static defaults = sl.defaults;
   constructor(a) {
@@ -25917,7 +25917,7 @@ Without Reason`
     cellClass: "w-28",
     actions: ["view", "run", "edit"]
   }
-], xB = [
+], kB = [
   {
     key: "name",
     label: "NOMBRE",
@@ -28736,7 +28736,7 @@ function sT(e, a, t) {
     emojis: o.emojis.map((s) => s.char)
   }));
 }
-function kB(e) {
+function _B(e) {
   const a = {
     ...Lc,
     ...e
@@ -31580,7 +31580,7 @@ const J6 = ["aria-expanded", "aria-labelledby", "aria-label"], eA = ["onKeydown"
 }), jL = /* @__PURE__ */ ye(zL, [["__scopeId", "data-v-d36ff00b"]]), HL = {
   class: "font-['Inter',system-ui,sans-serif] text-[color:var(--kiut-text-primary)]",
   "data-testid": "notifications"
-}, WL = { class: "mb-5 max-w-5xl text-[15px] leading-relaxed text-[color:var(--kiut-text-secondary)]" }, KL = { class: "overflow-visible rounded-xl border border-slate-200 bg-white dark:border-[#2c2c34] dark:bg-[#1c1c21]" }, UL = { class: "grid grid-cols-[minmax(0,1.45fr)_minmax(18rem,1fr)_6.5rem] items-end gap-6 border-b border-slate-200 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400 dark:border-[#2c2c34] dark:text-[#8d8d98]" }, YL = { class: "ml-auto max-w-[5.5rem] text-right leading-tight" }, qL = ["data-testid"], GL = { class: "min-w-0" }, XL = { class: "text-[15px] font-semibold leading-snug" }, ZL = { class: "mt-0.5 text-[13px] leading-snug text-slate-500 dark:text-[#8f8f9a]" }, QL = { class: "flex flex-wrap items-center gap-2" }, JL = {
+}, WL = { class: "mb-5 max-w-5xl text-[15px] leading-relaxed text-[color:var(--kiut-text-secondary)]" }, KL = { class: "overflow-visible rounded-xl border border-slate-200 bg-white dark:border-[#2c2c34] dark:bg-[#1c1c21]" }, UL = { class: "notifications-grid notifications-grid--head border-b border-slate-200 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400 dark:border-[#2c2c34] dark:text-[#8d8d98]" }, YL = { class: "ml-auto max-w-[5.5rem] text-right leading-tight" }, qL = ["data-testid"], GL = { class: "min-w-0" }, XL = { class: "text-[15px] font-semibold leading-snug" }, ZL = { class: "mt-0.5 text-[13px] leading-snug text-slate-500 dark:text-[#8f8f9a]" }, QL = { class: "flex flex-wrap items-center gap-2" }, JL = {
   key: 0,
   class: "inline-flex h-8 items-center rounded-full border border-slate-200 bg-slate-50 px-3.5 text-[13px] text-slate-400 dark:border-[#34343c] dark:bg-[#24242a] dark:text-[#7c7c88]"
 }, eB = ["data-testid"], tB = ["title"], aB = { class: "relative" }, nB = ["aria-label", "aria-expanded", "data-testid", "onClick"], oB = ["aria-label"], sB = { class: "flex cursor-pointer items-center gap-2 px-3 py-2 text-sm hover:bg-[color:var(--kiut-bg-primary)]" }, iB = ["checked", "onChange"], lB = ["checked", "onChange"], rB = { class: "flex justify-end pr-1" }, cB = ["disabled", "title", "aria-pressed", "data-testid", "onClick"], dB = { class: "mt-4 flex items-center gap-2 text-sm text-[color:var(--kiut-text-secondary)]" }, Qo = "inline-flex h-8 max-w-[11rem] items-center truncate rounded-full border border-slate-200 bg-slate-50 px-3.5 text-[13px] font-medium text-slate-800 dark:border-[#3a3a44] dark:bg-[#2a2a32] dark:text-[#ececf1]", uB = /* @__PURE__ */ ie({
@@ -31656,7 +31656,7 @@ const J6 = ["aria-expanded", "aria-labelledby", "aria-label"], eA = ["onKeydown"
       d("p", WL, [
         we(_.$slots, "intro", {}, () => [
           Pe(D(e.intro), 1)
-        ])
+        ], !0)
       ]),
       d("div", KL, [
         d("div", UL, [
@@ -31667,7 +31667,7 @@ const J6 = ["aria-expanded", "aria-labelledby", "aria-label"], eA = ["onKeydown"
         d("ul", null, [
           (h(!0), k(se, null, fe(e.items, (y) => (h(), k("li", {
             key: y.id,
-            class: "grid grid-cols-[minmax(0,1.45fr)_minmax(18rem,1fr)_6.5rem] items-center gap-6 border-b border-slate-200 px-5 py-4 last:border-b-0 dark:border-[#2a2a31]",
+            class: "notifications-grid border-b border-slate-200 px-5 py-4 last:border-b-0 dark:border-[#2a2a31]",
             "data-testid": `notification-row-${y.id}`
           }, [
             d("div", GL, [
@@ -31793,9 +31793,9 @@ const J6 = ["aria-expanded", "aria-labelledby", "aria-label"], eA = ["onKeydown"
       ])
     ]));
   }
-}), _B = {
+}), hB = /* @__PURE__ */ ye(uB, [["__scopeId", "data-v-69a8027e"]]), wB = {
   install(e) {
-    e.component("KiutChartBar", Gt), e.component("KiutChartLine", vt), e.component("KiutPieChart", $o), e.component("KiutBoxplotChart", Wg), e.component("KiutCandlestickChart", Lp), e.component("KiutHistogramChart", zr), e.component("KiutSankeyChart", va), e.component("KiutAgentsPerDay", Ev), e.component("KiutBookingManager", pb), e.component("KiutCheckin", Lb), e.component("KiutCheckinContainer", _x), e.component("KiutCheckinMetrics", Qr), e.component("KiutCheckinErrorReasons", nc), e.component("KiutCheckinSegments", sc), e.component("KiutDisruption", jx), e.component("KiutFAQ", Xx), e.component("KiutMessagesPerAgent", dc), e.component("KiutRecordLocator", Sk), e.component("KiutSalesByChannel", Rk), e.component("KiutSeller", mc), e.component("KiutSellerContainer", f2), e.component("KiutAncillaries", B2), e.component("KiutAncillariesCR", R2), e.component("KiutTopAgents", N2), e.component("KiutPaymentMethod", lw), e.component("KiutAgentHumanConversations", Aw), e.component("KiutChannelMetrics", yc), e.component("KiutConversationVolume", Hw), e.component("KiutTriageCombinations", n5), e.component("KiutSelectLanguage", c5), e.component("KiutGuardrails", y5), e.component("KiutDisruptionNotifier", V5), e.component("KiutTotalConversationsCard", z5), e.component("KiutCsatP95Card", H5), e.component("KiutCsatPulseCard", W5), e.component("KiutCSATContainer", bC), e.component("KiutAiGeneratedRevenueCard", xC), e.component("KiutAiGeneratedChart", BC), e.component("KiutTransactionsChart", WC), e.component("KiutCostCard", UC), e.component("KiutHumanEscalations", t$), e.component("KiutHumanEscalationsCard", n$), e.component("KiutAvgResolutionTime", m$), e.component("KiutAvgResolutionTimeCard", k$), e.component("KiutCheckinCR", w$), e.component("KiutCheckinKPI", oc), e.component("KiutCheckinVolume", ic), e.component("KiutCheckinInteractions", lc), e.component("KiutCheckinCompletionTime", rc), e.component("KiutSellerCR", $$), e.component("KiutSellerKPI", gc), e.component("KiutSellerInteractions", pc), e.component("KiutSellerCompletionTime", vc), e.component("KiutBookingManagerCR", M$), e.component("KiutNpsDailyMetrics", kc), e.component("KiutNpsMetrics", _c), e.component("KiutNpsOverviewMetrics", xc), e.component("KiutAWSCost", E$), e.component("KiutCostUsage", K$), e.component("KiutTokenUsage", t4), e.component("KiutConversationCount", u4), e.component("KiutTopAgentsAnalysis", w4), e.component("KiutTopAgentsPie", B4), e.component("KiutDailyCostTrends", W4), e.component("KiutModelUsage", s3), e.component("KiutMessageRoles", m3), e.component("KiutCostPerConversations", S3), e.component("KiutAwsCostCard", R3), e.component("KiutTotalCost", N3), e.component("KiutTotalTokens", K3), e.component("KiutMeanConversationCost", X3), e.component("Tabs", wc), e.component("Table", ac), e.component("TableVersions", HS), e.component("TableComparative", dM), e.component("Filters", qM), e.component("InputText", $c), e.component("InputPassword", r8), e.component("InputTextarea", f8), e.component("InputFile", R8), e.component("ImageUploadCircle", N8), e.component("InputDateTime", kD), e.component("InputTime", TD), e.component("InputRange", HD), e.component("InputNumber", qD), e.component("InputColorPicker", nT), e.component("EmojiPicker", kT), e.component("Select", At), e.component("LanguageSelect", _T), e.component("LanguagePicker", BT), e.component("MultiSelect", XT), e.component("Toggle", Cc), e.component("InputPhone", o6), e.component("SelectablePills", u6), e.component("SegmentedControl", g6), e.component("DateRangePicker", I6), e.component("DatePicker", Y6), e.component("TimePicker", lA), e.component("DatePickerPresets", RA), e.component("Tag", bt), e.component("TagSelect", WA), e.component("TranslationCountBadge", OA), e.component("Button", Xt), e.component("Banner", XA), e.component("Modal", oL), e.component("Section", hL), e.component("KiutAppShellNavigation", LL), e.component("ModuleNavLayout", jL), e.component("VerticalNavPanel", Rc), e.component("Notifications", uB);
+    e.component("KiutChartBar", Gt), e.component("KiutChartLine", vt), e.component("KiutPieChart", $o), e.component("KiutBoxplotChart", Wg), e.component("KiutCandlestickChart", Lp), e.component("KiutHistogramChart", zr), e.component("KiutSankeyChart", va), e.component("KiutAgentsPerDay", Ev), e.component("KiutBookingManager", pb), e.component("KiutCheckin", Lb), e.component("KiutCheckinContainer", _x), e.component("KiutCheckinMetrics", Qr), e.component("KiutCheckinErrorReasons", nc), e.component("KiutCheckinSegments", sc), e.component("KiutDisruption", jx), e.component("KiutFAQ", Xx), e.component("KiutMessagesPerAgent", dc), e.component("KiutRecordLocator", Sk), e.component("KiutSalesByChannel", Rk), e.component("KiutSeller", mc), e.component("KiutSellerContainer", f2), e.component("KiutAncillaries", B2), e.component("KiutAncillariesCR", R2), e.component("KiutTopAgents", N2), e.component("KiutPaymentMethod", lw), e.component("KiutAgentHumanConversations", Aw), e.component("KiutChannelMetrics", yc), e.component("KiutConversationVolume", Hw), e.component("KiutTriageCombinations", n5), e.component("KiutSelectLanguage", c5), e.component("KiutGuardrails", y5), e.component("KiutDisruptionNotifier", V5), e.component("KiutTotalConversationsCard", z5), e.component("KiutCsatP95Card", H5), e.component("KiutCsatPulseCard", W5), e.component("KiutCSATContainer", bC), e.component("KiutAiGeneratedRevenueCard", xC), e.component("KiutAiGeneratedChart", BC), e.component("KiutTransactionsChart", WC), e.component("KiutCostCard", UC), e.component("KiutHumanEscalations", t$), e.component("KiutHumanEscalationsCard", n$), e.component("KiutAvgResolutionTime", m$), e.component("KiutAvgResolutionTimeCard", k$), e.component("KiutCheckinCR", w$), e.component("KiutCheckinKPI", oc), e.component("KiutCheckinVolume", ic), e.component("KiutCheckinInteractions", lc), e.component("KiutCheckinCompletionTime", rc), e.component("KiutSellerCR", $$), e.component("KiutSellerKPI", gc), e.component("KiutSellerInteractions", pc), e.component("KiutSellerCompletionTime", vc), e.component("KiutBookingManagerCR", M$), e.component("KiutNpsDailyMetrics", kc), e.component("KiutNpsMetrics", _c), e.component("KiutNpsOverviewMetrics", xc), e.component("KiutAWSCost", E$), e.component("KiutCostUsage", K$), e.component("KiutTokenUsage", t4), e.component("KiutConversationCount", u4), e.component("KiutTopAgentsAnalysis", w4), e.component("KiutTopAgentsPie", B4), e.component("KiutDailyCostTrends", W4), e.component("KiutModelUsage", s3), e.component("KiutMessageRoles", m3), e.component("KiutCostPerConversations", S3), e.component("KiutAwsCostCard", R3), e.component("KiutTotalCost", N3), e.component("KiutTotalTokens", K3), e.component("KiutMeanConversationCost", X3), e.component("Tabs", wc), e.component("Table", ac), e.component("TableVersions", HS), e.component("TableComparative", dM), e.component("Filters", qM), e.component("InputText", $c), e.component("InputPassword", r8), e.component("InputTextarea", f8), e.component("InputFile", R8), e.component("ImageUploadCircle", N8), e.component("InputDateTime", kD), e.component("InputTime", TD), e.component("InputRange", HD), e.component("InputNumber", qD), e.component("InputColorPicker", nT), e.component("EmojiPicker", kT), e.component("Select", At), e.component("LanguageSelect", _T), e.component("LanguagePicker", BT), e.component("MultiSelect", XT), e.component("Toggle", Cc), e.component("InputPhone", o6), e.component("SelectablePills", u6), e.component("SegmentedControl", g6), e.component("DateRangePicker", I6), e.component("DatePicker", Y6), e.component("TimePicker", lA), e.component("DatePickerPresets", RA), e.component("Tag", bt), e.component("TagSelect", WA), e.component("TranslationCountBadge", OA), e.component("Button", Xt), e.component("Banner", XA), e.component("Modal", oL), e.component("Section", hL), e.component("KiutAppShellNavigation", LL), e.component("ModuleNavLayout", jL), e.component("VerticalNavPanel", Rc), e.component("Notifications", hB);
   }
 };
 export {
@@ -31868,7 +31868,7 @@ export {
   $c as InputText,
   f8 as InputTextarea,
   TD as InputTime,
-  _B as KiutUIPlugin,
+  wB as KiutUIPlugin,
   BT as LanguagePicker,
   _T as LanguageSelect,
   X3 as MeanConversationCost,
@@ -31878,13 +31878,13 @@ export {
   s3 as ModelUsage,
   jL as ModuleNavLayout,
   XT as MultiSelect,
-  uB as Notifications,
+  hB as Notifications,
   kc as NpsDailyMetrics,
   _c as NpsMetrics,
   xc as NpsOverviewMetrics,
   lw as PaymentMethod,
   $o as PieChart,
-  xB as RESOURCE_TABLE_VERSIONS_COLUMNS,
+  kB as RESOURCE_TABLE_VERSIONS_COLUMNS,
   Sk as RecordLocator,
   Rk as SalesByChannel,
   va as SankeyChart,
@@ -31920,7 +31920,7 @@ export {
   Rc as VerticalNavPanel,
   lT as appendEmojiToDraft,
   kl as buildCheckinKpiFromRecord,
-  kB as buildDefaultCategories,
+  _B as buildDefaultCategories,
   Ml as buildSellerKpiFromRecord,
   iT as extractEmojis,
   sT as filterEmojiCatalog,
