@@ -11,7 +11,7 @@
       class="overflow-visible rounded-xl border border-slate-200 bg-white dark:border-[#2c2c34] dark:bg-[#1c1c21]"
     >
       <div
-        class="grid grid-cols-[minmax(0,1.45fr)_minmax(18rem,1fr)_6.5rem] items-end gap-6 border-b border-slate-200 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400 dark:border-[#2c2c34] dark:text-[#8d8d98]"
+        class="notifications-grid notifications-grid--head border-b border-slate-200 px-5 py-3 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400 dark:border-[#2c2c34] dark:text-[#8d8d98]"
       >
         <span>{{ columnNotice }}</span>
         <span>{{ columnRoles }}</span>
@@ -22,7 +22,7 @@
         <li
           v-for="item in items"
           :key="item.id"
-          class="grid grid-cols-[minmax(0,1.45fr)_minmax(18rem,1fr)_6.5rem] items-center gap-6 border-b border-slate-200 px-5 py-4 last:border-b-0 dark:border-[#2a2a31]"
+          class="notifications-grid border-b border-slate-200 px-5 py-4 last:border-b-0 dark:border-[#2a2a31]"
           :data-testid="`notification-row-${item.id}`"
         >
           <div class="min-w-0">
@@ -285,3 +285,23 @@ function toggleUserLinked(item: NotificationItem): void {
   patch(item, { userLinked: !item.userLinked });
 }
 </script>
+
+<style scoped>
+.notifications-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 1fr) 6.5rem;
+  column-gap: 1.5rem;
+  align-items: center;
+}
+
+.notifications-grid--head {
+  align-items: end;
+}
+
+@media (max-width: 720px) {
+  .notifications-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.75rem;
+  }
+}
+</style>
