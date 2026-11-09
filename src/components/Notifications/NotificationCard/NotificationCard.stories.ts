@@ -9,7 +9,7 @@ const items: InboxNotification[] = [
     title: "Nuevo mensaje de María González",
     body: "Hola, necesito cambiar la fecha de mi vuelo para el sábado, ¿es posible?",
     time: "1m ago",
-    unread: true,
+    unread: false,
     type: "notificationList",
   },
   {
@@ -51,7 +51,7 @@ export const Default: Story = {
       return { items };
     },
     template: `
-      <div class="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900">
+      <div class="w-full overflow-hidden rounded-2xl border border-slate-200 bg-[color:var(--kiut-bg-primary)] dark:border-white/10">
         <NotificationCard v-for="item in items" :key="item.id" :item="item" />
       </div>
     `,

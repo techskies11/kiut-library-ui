@@ -20,7 +20,7 @@
 
     <div
       v-if="open"
-      class="absolute right-0 top-full z-50 mt-2 w-[22.5rem] overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-xl shadow-slate-900/10 dark:border-white/10 dark:bg-slate-900 dark:text-slate-100 dark:shadow-black/40"
+      class="absolute right-0 top-full z-50 mt-2 w-[22.5rem] overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-xl shadow-slate-900/10 dark:border-[#2c2c34] dark:bg-[#1c1c21] dark:text-slate-100 dark:shadow-black/40"
     >
       <header class="flex items-center justify-between gap-3 px-4 pb-2 pt-4">
         <h2 class="text-base font-semibold tracking-tight">
@@ -113,7 +113,7 @@ const props = withDefaults(
         title: "Nuevo mensaje de María González",
         body: "Hola, necesito cambiar la fecha de mi vuelo para el sábado, ¿es posible?",
         time: "1m ago",
-        unread: true,
+        unread: false,
         type: "notification",
       },
       {

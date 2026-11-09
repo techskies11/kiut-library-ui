@@ -1,7 +1,10 @@
 <template>
   <button
     type="button"
-    class="flex w-full gap-3 border-b border-slate-100 px-4 py-3 text-left transition-colors hover:bg-slate-50 dark:border-white/10 dark:hover:bg-white/5"
+    :class="[
+      notificationUnread,
+      'flex w-full gap-3 border-b px-4 py-3 text-left transition-colors border-slate-100 hover:bg-slate-50 dark:border-[#2c2c34] dark:bg-[#1c1c21] dark:hover:bg-[#2f2f379c]',
+    ]"
     @click="emit('select', item)"
   >
     <span
@@ -73,6 +76,9 @@ const dotClass = computed(() => dotByTone[props.item.tone]);
 
 const notificationType = computed(() =>
   props.item.type === "notification" ? "flex-col" : "flex-row justify-between",
-
 );
+
+const notificationUnread = computed(() =>
+  props.item.unread === true ? "opacity-100" : "opacity-50",
+ );
 </script>
