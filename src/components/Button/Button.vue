@@ -238,6 +238,7 @@ import {
   onUnmounted,
   ref,
   useAttrs,
+  useSlots,
   type Component,
 } from 'vue';
 import { randomInstanceSuffix } from '../../utils/randomId';
@@ -306,6 +307,7 @@ const emit = defineEmits<{
 }>();
 
 const attrs = useAttrs();
+const slots = useSlots();
 const hasTooltip = computed(
   () =>
     Boolean(props.tooltip?.trim()) &&
@@ -317,7 +319,9 @@ const isDropdown = computed(() => props.variant === 'dropdown');
 const isSplit = computed(() => props.variant === 'split');
 const isAction = computed(() => props.variant === 'action');
 
-const showLabelSlot = computed(() => !isAction.value && !isSplit.value);
+const showLabelSlot = computed(
+  () => !isAction.value && !isSplit.value && Boolean(slots.default)
+);
 
 const isEffectivelyDisabled = computed(() => props.disabled || props.loading);
 
