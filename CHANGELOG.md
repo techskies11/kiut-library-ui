@@ -10,6 +10,8 @@
 - ConversationVolume: rename custom_tags breakdown option label from Tags to Label (dropdown and default chart title).
 
 ### Added
+- Export `ButtonNotification` and `NotificationCard` for the backoffice inbox. View all closes the bell menu.
+
 - DAI-312: Add Offline time in range column to Agent Human Conversations table (complements summed online time from the API).
 - DAI-312: Info tooltips on Connected, Disconnected, and online/offline time columns; Table supports optional `headerTooltip` on columns.
 - DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
