@@ -271,8 +271,13 @@ export type {
   NotificationItem,
   NotificationRole,
 } from "./components/Notifications/ConfigNotifications/notificationTypes";
-import NotificationCard from "./components/Notifications/ButtonNotifications/NotificationCard.vue";
+import NotificationCard from "./components/Notifications/NotificationCard/NotificationCard.vue";
 import ButtonNotification from "./components/Notifications/ButtonNotifications/ButtonNotification.vue";
+export type {
+  InboxNotification,
+  NotificationTone,
+  NotificationType,
+} from "./components/Notifications/NotificationCard/notificationCardTypes";
 
 // ============================================
 // Estilos
@@ -399,6 +404,8 @@ export {
   ModuleNavLayout,
   VerticalNavPanel,
   Notifications,
+  NotificationCard,
+  ButtonNotification,
 };
 
 // ============================================

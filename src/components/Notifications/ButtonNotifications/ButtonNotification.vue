@@ -3,7 +3,7 @@
     <Button
       variant="secondary"
       class="!h-10 !w-10 !min-w-10 !p-0"
-      aria-label="Notificaciones"
+      :aria-label="ariaLabel"
       :aria-expanded="open"
       @click="open = !open"
     >
@@ -80,7 +80,7 @@
       <button
         type="button"
         class="w-full px-4 py-3.5 text-center text-sm font-semibold transition-colors hover:bg-slate-50 dark:hover:bg-white/5"
-        @click="emit('view-all')"
+        @click="onViewAll"
       >
         {{ viewAll }}
       </button>
@@ -104,6 +104,7 @@ const props = withDefaults(
     notRead?: string;
     viewAll?: string;
     emptyText?: string;
+    ariaLabel?: string;
   }>(),
   {
     items: () => [
@@ -150,6 +151,7 @@ const props = withDefaults(
     notRead: "Solo no leídas",
     viewAll: "View all",
     emptyText: "No hay notificaciones",
+    ariaLabel: "Notifications",
   },
 );
 
@@ -175,6 +177,11 @@ const visibleItems = computed(() =>
 
 function onSelect(item: InboxNotification) {
   emit("select", item);
+}
+
+function onViewAll() {
+  open.value = false;
+  emit("view-all");
 }
 
 function onPointerDown(event: PointerEvent) {
