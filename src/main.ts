@@ -266,11 +266,13 @@ export type {
 import ModuleNavLayout from "./components/ModuleNav/ModuleNavLayout.vue";
 export type { VerticalNavItem } from "./components/ModuleNav/moduleNavTypes";
 import VerticalNavPanel from "./components/ModuleNav/VerticalNavPanel.vue";
-import Notifications from "./components/Notifications/Notifications.vue";
+import Notifications from "./components/Notifications/ConfigNotifications/Notifications.vue";
 export type {
   NotificationItem,
   NotificationRole,
-} from "./components/Notifications/notificationTypes";
+} from "./components/Notifications/ConfigNotifications/notificationTypes";
+import NotificationCard from "./components/Notifications/ButtonNotifications/NotificationCard.vue";
+import ButtonNotification from "./components/Notifications/ButtonNotifications/ButtonNotification.vue";
 
 // ============================================
 // Estilos
