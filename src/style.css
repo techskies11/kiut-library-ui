@@ -41,6 +41,7 @@
   --kiut-primary-section: #895af626;
   --kiut-secondary-section: #895af626;
   --kiut-text: #895af6;
+  --kiut-notification-hover: #f8fafc;
 
   /* Text Colors */
   --kiut-text-primary: #1e293b;
@@ -106,6 +107,7 @@
   --kiut-primary-section: #895af626;
   --kiut-secondary-section: #895af626;
   --kiut-text: #c27aff;
+  --kiut-notification-hover: #2f2f379c;
   --kiut-text-hover: #f5f3ff;
 
   /* Text Colors */

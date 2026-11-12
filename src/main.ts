@@ -220,6 +220,7 @@ import LanguagePicker from "./components/Inputs/LanguagePicker.vue";
 export type { KiutLanguagePickerOption } from "./components/Inputs/LanguagePicker.vue";
 import MultiSelect from "./components/Inputs/MultiSelect.vue";
 import Toggle from "./components/Inputs/Toggle.vue";
+import Checkbox from "./components/Inputs/Checkbox.vue";
 import InputPhone from "./components/Inputs/InputPhone.vue";
 export type { KiutPhoneValue } from "./components/Inputs/InputPhone.vue";
 import SelectablePills from "./components/Inputs/SelectablePills.vue";
@@ -386,6 +387,7 @@ export {
   LanguagePicker,
   MultiSelect,
   Toggle,
+  Checkbox,
   InputPhone,
   SelectablePills,
   SegmentedControl,
@@ -510,6 +512,7 @@ export const KiutUIPlugin = {
     app.component("LanguagePicker", LanguagePicker);
     app.component("MultiSelect", MultiSelect);
     app.component("Toggle", Toggle);
+    app.component("Checkbox", Checkbox);
     app.component("InputPhone", InputPhone);
     app.component("SelectablePills", SelectablePills);
     app.component("SegmentedControl", SegmentedControl);

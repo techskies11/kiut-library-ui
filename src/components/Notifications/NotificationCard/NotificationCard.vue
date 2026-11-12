@@ -3,7 +3,7 @@
     type="button"
     :class="[
       notificationUnread,
-      'flex w-full gap-3 border-b px-4 py-3 text-left transition-colors border-slate-100 hover:bg-slate-50 dark:border-[#2c2c34] dark:bg-[#1c1c21] dark:hover:bg-[#2f2f379c]',
+      'flex w-full gap-3 border-b px-4 py-3 text-left transition-colors border-slate-100 hover:bg-[color:var(--kiut-notification-hover)] dark:border-[#2c2c34] dark:bg-[#1c1c21] dark:hover:bg-[color:var(--kiut-notification-hover)]',
     ]"
     @click="emit('select', item)"
   >
