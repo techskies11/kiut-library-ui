@@ -2,7 +2,7 @@
   <div ref="rootRef" class="relative inline-flex font-sans">
     <Button
       variant="secondary"
-      class="!h-10 !w-10 !min-w-10 !p-0"
+      class="!h-10 !w-10 !min-w-10 !p-0 !bg-white/80 !text-gray-600 hover:!border-[#c67dff]/40 dark:!bg-[#1a1a1d]/80 dark:!text-[#c67dff]"
       :aria-label="ariaLabel"
       :aria-expanded="open"
       @click="open = !open"

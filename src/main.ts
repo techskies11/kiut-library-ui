@@ -279,6 +279,8 @@ export type {
   NotificationTone,
   NotificationType,
 } from "./components/Notifications/NotificationCard/notificationCardTypes";
+import Float from "./components/Float/Float.vue";
+export type { FloatItem, FloatTone, FloatIcon } from "./components/Float/floatTypes";
 
 // ============================================
 // Estilos
@@ -408,6 +410,7 @@ export {
   Notifications,
   NotificationCard,
   ButtonNotification,
+  Float,
 };
 
 // ============================================
@@ -531,5 +534,6 @@ export const KiutUIPlugin = {
     app.component("ModuleNavLayout", ModuleNavLayout);
     app.component("VerticalNavPanel", VerticalNavPanel);
     app.component("Notifications", Notifications);
+    app.component("Float", Float);
   },
 };
