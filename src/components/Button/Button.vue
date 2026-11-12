@@ -395,7 +395,7 @@ const variantClass = computed(() => {
       "hover:border-slate-300 hover:bg-slate-100",
       "active:bg-slate-200/80",
       "dark:border-[color:var(--kiut-border-light)] dark:bg-[#191a23] dark:text-slate-100",
-      "dark:hover:border-white/[0.18] dark:hover:bg-[#313345]",
+      "dark:hover:border-[#3a3a44] dark:hover:bg-[#24262e]",
       "dark:active:bg-slate-700/90",
     ];
   }
