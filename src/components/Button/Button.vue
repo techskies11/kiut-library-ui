@@ -65,13 +65,11 @@
           >
             <component :is="opt.icon" class="h-5 w-5" />
           </span>
-          <span
-            v-else
-            class="h-5 w-5 shrink-0"
-            aria-hidden="true"
-          />
+          <span v-else class="h-5 w-5 shrink-0" aria-hidden="true" />
           <span class="min-w-0 flex-1 text-left">
-            <span class="block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100">
+            <span
+              class="block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100"
+            >
               {{ opt.label }}
             </span>
             <span
@@ -142,13 +140,11 @@
           >
             <component :is="opt.icon" class="h-5 w-5" />
           </span>
-          <span
-            v-else
-            class="h-5 w-5 shrink-0"
-            aria-hidden="true"
-          />
+          <span v-else class="h-5 w-5 shrink-0" aria-hidden="true" />
           <span class="min-w-0 flex-1 text-left">
-            <span class="block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100">
+            <span
+              class="block text-sm font-semibold text-[color:var(--kiut-text-primary)] dark:text-slate-100"
+            >
               {{ opt.label }}
             </span>
             <span
@@ -162,10 +158,7 @@
       </div>
     </Teleport>
   </div>
-  <span
-    v-else-if="hasTooltip"
-    class="group relative inline-flex shrink-0"
-  >
+  <span v-else-if="hasTooltip" class="group relative inline-flex shrink-0">
     <button
       :type="buttonType"
       class="inline-flex items-center justify-center gap-2 rounded-xl font-sans text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[color:var(--kiut-bg-secondary)]"
@@ -180,15 +173,16 @@
       <span
         v-else-if="$slots.icon"
         class="inline-flex shrink-0"
-        :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
+        :class="
+          isAction
+            ? '[&>svg]:size-4'
+            : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'
+        "
         aria-hidden="true"
       >
         <slot name="icon" />
       </span>
-      <span
-        v-if="showLabelSlot"
-        class="min-w-0 truncate"
-      >
+      <span v-if="showLabelSlot" class="min-w-0 truncate">
         <slot />
       </span>
     </button>
@@ -215,22 +209,23 @@
     <span
       v-else-if="$slots.icon"
       class="inline-flex shrink-0"
-      :class="isAction ? '[&>svg]:size-4' : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'"
+      :class="
+        isAction
+          ? '[&>svg]:size-4'
+          : '[&>svg]:h-[1.125rem] [&>svg]:w-[1.125rem]'
+      "
       aria-hidden="true"
     >
       <slot name="icon" />
     </span>
-    <span
-      v-if="showLabelSlot"
-      class="min-w-0 truncate"
-    >
+    <span v-if="showLabelSlot" class="min-w-0 truncate">
       <slot />
     </span>
   </button>
 </template>
 
 <script setup lang="ts">
-import { ChevronDownIcon } from '@heroicons/vue/24/outline';
+import { ChevronDownIcon } from "@heroicons/vue/24/outline";
 import {
   computed,
   nextTick,
@@ -240,15 +235,20 @@ import {
   useAttrs,
   useSlots,
   type Component,
-} from 'vue';
-import { randomInstanceSuffix } from '../../utils/randomId';
-import ButtonLoadingSpinner from './ButtonLoadingSpinner.vue';
+} from "vue";
+import { randomInstanceSuffix } from "../../utils/randomId";
+import ButtonLoadingSpinner from "./ButtonLoadingSpinner.vue";
 
-defineOptions({ name: 'Button', inheritAttrs: false });
+defineOptions({ name: "Button", inheritAttrs: false });
 
-export type KiutButtonVariant = 'primary' | 'secondary' | 'action' | 'dropdown' | 'split';
+export type KiutButtonVariant =
+  | "primary"
+  | "secondary"
+  | "action"
+  | "dropdown"
+  | "split";
 
-export type KiutButtonActionTone = 'default' | 'danger';
+export type KiutButtonActionTone = "default" | "danger";
 
 export interface KiutButtonMenuOption {
   value: string;
@@ -259,7 +259,7 @@ export interface KiutButtonMenuOption {
 }
 
 /** Alineación horizontal del panel respecto al botón disparador. */
-export type KiutButtonMenuAlign = 'left' | 'right';
+export type KiutButtonMenuAlign = "left" | "right";
 
 const props = withDefaults(
   defineProps<{
@@ -291,15 +291,15 @@ const props = withDefaults(
     menuAlign?: KiutButtonMenuAlign;
   }>(),
   {
-    variant: 'primary',
-    tone: 'default',
+    variant: "primary",
+    tone: "default",
     disabled: false,
     loading: false,
     active: false,
     options: () => [],
-    menuMinWidth: '280px',
-    menuAlign: 'left',
-  }
+    menuMinWidth: "280px",
+    menuAlign: "left",
+  },
 );
 
 const emit = defineEmits<{
@@ -311,108 +311,114 @@ const slots = useSlots();
 const hasTooltip = computed(
   () =>
     Boolean(props.tooltip?.trim()) &&
-    props.variant !== 'dropdown' &&
-    props.variant !== 'split'
+    props.variant !== "dropdown" &&
+    props.variant !== "split",
 );
 
-const isDropdown = computed(() => props.variant === 'dropdown');
-const isSplit = computed(() => props.variant === 'split');
-const isAction = computed(() => props.variant === 'action');
+const isDropdown = computed(() => props.variant === "dropdown");
+const isSplit = computed(() => props.variant === "split");
+const isAction = computed(() => props.variant === "action");
 
 const showLabelSlot = computed(
-  () => !isAction.value && !isSplit.value && Boolean(slots.default)
+  () => !isAction.value && !isSplit.value && Boolean(slots.default),
 );
 
 const isEffectivelyDisabled = computed(() => props.disabled || props.loading);
 
 const buttonStateClass = computed(() =>
   props.loading
-    ? 'cursor-wait disabled:pointer-events-none'
-    : 'disabled:pointer-events-none disabled:opacity-45'
+    ? "cursor-wait disabled:pointer-events-none"
+    : "disabled:pointer-events-none disabled:opacity-45",
 );
 
 const ariaPressed = computed(() => (props.active ? true : undefined));
 
 const activeClass = computed(() => {
-  if (!props.active) return '';
+  if (!props.active) return "";
 
-  if (props.variant === 'secondary') {
+  if (props.variant === "secondary") {
     return [
-      '!border-[color:var(--kiut-primary)] !bg-[color:var(--kiut-primary)] !text-white shadow-sm',
-      'hover:!border-[color:var(--kiut-primary-hover)] hover:!bg-[color:var(--kiut-primary-hover)] hover:!text-white',
-      'dark:!border-[color:var(--kiut-primary)] dark:!bg-[color:var(--kiut-primary)] dark:!text-white',
-      'dark:hover:!brightness-110',
+      "!border-[color:var(--kiut-primary)] !bg-[color:var(--kiut-primary)] !text-white shadow-sm",
+      "hover:!border-[color:var(--kiut-primary-hover)] hover:!bg-[color:var(--kiut-primary-hover)] hover:!text-white",
+      "dark:!border-[color:var(--kiut-primary)] dark:!bg-[color:var(--kiut-primary)] dark:!text-white",
+      "dark:hover:!brightness-110",
     ];
   }
 
-  if (props.variant === 'primary') {
+  if (props.variant === "primary") {
     return [
-      'ring-2 ring-[color:var(--kiut-primary)]/35 ring-offset-2 ring-offset-[color:var(--kiut-bg-secondary)]',
-      'dark:ring-offset-[color:var(--kiut-bg-secondary)]',
+      "ring-2 ring-[color:var(--kiut-primary)]/35 ring-offset-2 ring-offset-[color:var(--kiut-bg-secondary)]",
+      "dark:ring-offset-[color:var(--kiut-bg-secondary)]",
     ];
   }
 
-  return '';
+  return "";
 });
 
 const effectiveAriaLabel = computed(() => {
-  const fromAttrs = attrs['aria-label'];
-  if (typeof fromAttrs === 'string' && fromAttrs.length > 0) return fromAttrs;
-  if ((isAction.value || isSplit.value) && props.tooltip?.trim()) return props.tooltip.trim();
+  const fromAttrs = attrs["aria-label"];
+  if (typeof fromAttrs === "string" && fromAttrs.length > 0) return fromAttrs;
+  if ((isAction.value || isSplit.value) && props.tooltip?.trim())
+    return props.tooltip.trim();
   return undefined;
 });
 
-const buttonType = computed((): 'button' | 'submit' | 'reset' => {
+const buttonType = computed((): "button" | "submit" | "reset" => {
   const t = attrs.type;
-  if (t === 'submit' || t === 'reset' || t === 'button') return t;
-  return 'button';
+  if (t === "submit" || t === "reset" || t === "button") return t;
+  return "button";
 });
 
 const forwardedAttrs = computed(() => {
-  const { class: _c, type: _t, 'aria-label': _a, ...rest } = attrs as Record<string, unknown>;
+  const {
+    class: _c,
+    type: _t,
+    "aria-label": _a,
+    ...rest
+  } = attrs as Record<string, unknown>;
   return rest;
 });
 
 const variantClass = computed(() => {
-  if (props.variant === 'primary' || props.variant === 'dropdown') {
+  if (props.variant === "primary" || props.variant === "dropdown") {
     return [
-      'px-4 py-2.5',
-      'bg-[color:var(--kiut-primary)] text-white shadow-sm',
-      'hover:bg-[color:var(--kiut-primary-hover)] active:bg-[color:var(--kiut-primary-dark)]',
-      'dark:text-white dark:hover:brightness-110 dark:active:brightness-95',
+      "px-4 py-2.5",
+      "bg-[color:var(--kiut-primary)] text-white shadow-sm",
+      "hover:bg-[color:var(--kiut-primary-hover)] active:bg-[color:var(--kiut-primary-dark)]",
+      "dark:text-white dark:hover:brightness-110 dark:active:brightness-95",
     ];
   }
-  if (props.variant === 'secondary') {
+  if (props.variant === "secondary") {
     return [
-      'px-4 py-2.5',
-      'border border-slate-200 bg-slate-50 text-[color:var(--kiut-text-primary)]',
-      'hover:border-slate-300 hover:bg-slate-100',
-      'active:bg-slate-200/80',
-      'dark:border-[color:var(--kiut-border-light)] dark:bg-[#0E0E13] dark:text-slate-100',
-      'dark:hover:border-white/[0.18] dark:hover:bg-slate-900',
-      'dark:active:bg-slate-700/90',
+      "px-4 py-2.5",
+      "border border-slate-200 bg-slate-50 text-[color:var(--kiut-text-primary)]",
+      "hover:border-slate-300 hover:bg-slate-100",
+      "active:bg-slate-200/80",
+      "dark:border-[color:var(--kiut-border-light)] dark:bg-[#191a23] dark:text-slate-100",
+      "dark:hover:border-white/[0.18] dark:hover:bg-[#313345]",
+      "dark:active:bg-slate-700/90",
     ];
   }
   /* action / split: solo icono, sin borde ni fondo por defecto */
-  const danger = props.tone === 'danger';
+  const danger = props.tone === "danger";
   if (danger) {
     return [
-      'h-9 w-9 min-h-9 min-w-9 shrink-0 border-0 bg-transparent p-0 shadow-none',
-      'text-red-600',
-      'hover:bg-red-600 hover:text-white',
-      'active:bg-red-700 active:text-white',
-      'dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white',
-      'dark:active:bg-red-700',
+      "h-9 w-9 min-h-9 min-w-9 shrink-0 border-0 bg-transparent p-0 shadow-none",
+      "text-red-600",
+      "hover:bg-red-600 hover:text-white",
+      "active:bg-red-700 active:text-white",
+      "dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white",
+      "dark:active:bg-red-700",
     ];
   }
   return [
-    'h-9 w-9 min-h-9 min-w-9 shrink-0 border-0 bg-transparent p-0 shadow-none',
-    'text-[color:var(--kiut-text-primary)]',
-    'hover:bg-[color:var(--kiut-primary)] hover:text-white',
-    'active:bg-[color:var(--kiut-primary-dark)] active:text-white',
-    'dark:text-slate-200',
-    'dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white',
-    'dark:active:bg-[color:var(--kiut-primary-dark)]',
+    "h-9 w-9 min-h-9 min-w-9 shrink-0 border-0 bg-transparent p-0 shadow-none",
+    "text-[color:var(--kiut-text-primary)]",
+    "hover:bg-[color:var(--kiut-primary)] hover:text-white",
+    "active:bg-[color:var(--kiut-primary-dark)] active:text-white",
+    "dark:text-slate-200",
+    "dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white",
+    "dark:active:bg-[color:var(--kiut-primary-dark)]",
   ];
 });
 
@@ -442,12 +448,12 @@ function updatePosition() {
     minWidth: `max(${rect.width}px, ${props.menuMinWidth})`,
   };
 
-  if (props.menuAlign === 'right') {
+  if (props.menuAlign === "right") {
     style.right = `${window.innerWidth - rect.right}px`;
-    style.left = 'auto';
+    style.left = "auto";
   } else {
     style.left = `${rect.left}px`;
-    style.right = 'auto';
+    style.right = "auto";
   }
 
   floatingStyle.value = style;
@@ -456,8 +462,8 @@ function updatePosition() {
 function menuItemClass(index: number) {
   const hi = highlightIndex.value === index;
   return [
-    'mx-1 flex w-full cursor-pointer items-start gap-3 rounded-lg px-3 py-2.5 text-left outline-none transition-colors disabled:cursor-not-allowed disabled:opacity-45',
-    hi ? 'bg-slate-100 dark:bg-white/5' : '',
+    "mx-1 flex w-full cursor-pointer items-start gap-3 rounded-lg px-3 py-2.5 text-left outline-none transition-colors disabled:cursor-not-allowed disabled:opacity-45",
+    hi ? "bg-slate-100 dark:bg-white/5" : "",
   ];
 }
 
@@ -483,7 +489,7 @@ function toggle() {
 
 function selectOption(opt: KiutButtonMenuOption) {
   if (opt.disabled) return;
-  emit('select', opt);
+  emit("select", opt);
   closePanel();
 }
 
@@ -504,7 +510,7 @@ function onDocumentClick(e: MouseEvent) {
 
 function onTriggerKeydown(e: KeyboardEvent) {
   if (props.disabled) return;
-  if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+  if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
     e.preventDefault();
     if (!open.value) {
       open.value = true;
@@ -515,24 +521,24 @@ function onTriggerKeydown(e: KeyboardEvent) {
 
 function onMenuKeydown(e: KeyboardEvent) {
   const opts = enabledOptions.value;
-  if (e.key === 'Escape') {
+  if (e.key === "Escape") {
     e.preventDefault();
     closePanel();
     buttonRef.value?.focus();
     return;
   }
   if (opts.length === 0) return;
-  if (e.key === 'ArrowDown') {
+  if (e.key === "ArrowDown") {
     e.preventDefault();
     highlightIndex.value = Math.min(highlightIndex.value + 1, opts.length - 1);
     return;
   }
-  if (e.key === 'ArrowUp') {
+  if (e.key === "ArrowUp") {
     e.preventDefault();
     highlightIndex.value = Math.max(highlightIndex.value - 1, 0);
     return;
   }
-  if (e.key === 'Enter' || e.key === ' ') {
+  if (e.key === "Enter" || e.key === " ") {
     e.preventDefault();
     const opt = opts[highlightIndex.value];
     if (opt) selectOption(opt);
@@ -540,10 +546,10 @@ function onMenuKeydown(e: KeyboardEvent) {
 }
 
 onMounted(() => {
-  document.addEventListener('click', onDocumentClick);
+  document.addEventListener("click", onDocumentClick);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', onDocumentClick);
+  document.removeEventListener("click", onDocumentClick);
 });
 </script>
