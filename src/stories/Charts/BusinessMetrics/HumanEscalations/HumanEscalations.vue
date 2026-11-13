@@ -145,6 +145,8 @@ const props = withDefaults(
     theme?: Theme;
     enableExport?: boolean;
     exportLoading?: boolean;
+    /** Color of the "all" line. Omitted keeps the default violet. */
+    accentColor?: string;
   }>(),
   {
     loading: false,
@@ -153,6 +155,7 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    accentColor: undefined,
   },
 );
 
@@ -286,7 +289,7 @@ const processChartData = (data: HumanEscalationsData | null): void => {
           data: sorted.map((item) =>
             Number(item.escalation_rate_percentage || 0),
           ),
-          borderColor: "#8b5cf6",
+          borderColor: props.accentColor || "#8b5cf6",
           backgroundColor: "transparent",
           fill: false,
           tension: 0.35,

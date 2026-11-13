@@ -179,6 +179,8 @@ const props = withDefaults(
     breakdownOptions?: BreakdownOption[];
     showSummaryCards?: boolean;
     maxSeries?: number;
+    /** Color of the "all" series. Omitted keeps the default violet. */
+    accentColor?: string;
   }>(),
   {
     data: () => ({}),
@@ -198,6 +200,7 @@ const props = withDefaults(
     breakdownOptions: () => [],
     showSummaryCards: true,
     maxSeries: undefined,
+    accentColor: undefined,
   },
 );
 
@@ -216,6 +219,7 @@ const handleBreakdownChange = (value: KiutSelectValue): void => {
 
 const getSeriesColor = (value: string): string => {
   const normalized = value.toLowerCase();
+  if (normalized === "all" && props.accentColor) return props.accentColor;
   const configuredColor = colorMap[normalized] || colorMap[value];
   if (configuredColor) return configuredColor;
 

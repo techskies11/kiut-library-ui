@@ -187,6 +187,8 @@ const props = withDefaults(
     theme?: Theme;
     enableExport?: boolean;
     exportLoading?: boolean;
+    /** Color of the first series. Omitted keeps the default violet. */
+    accentColor?: string;
   }>(),
   {
     loading: false,
@@ -201,6 +203,7 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    accentColor: undefined,
   },
 );
 
@@ -251,7 +254,10 @@ const palette = [
   "#e879f9",
 ];
 
-const getColor = (index: number): string => palette[index % palette.length];
+const getColor = (index: number): string => {
+  if (index === 0 && props.accentColor) return props.accentColor;
+  return palette[index % palette.length];
+};
 
 // ── Formatting helpers ─────────────────────────────────────────────────────
 

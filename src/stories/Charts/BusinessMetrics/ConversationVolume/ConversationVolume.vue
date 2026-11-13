@@ -25,6 +25,7 @@
     :total-conversations="totalConversations"
     :max-series="props.breakdownBy === 'agent_channel' ? 7 : undefined"
     :show-summary-cards="props.breakdownBy !== 'all'"
+    :accent-color="props.accentColor"
     :empty-title="props.emptyTitle"
     :empty-description="props.emptyDescription"
     @change-breakdown="emit('changeBreakdown', $event)"
@@ -72,6 +73,8 @@ const props = withDefaults(
     subtitle?: string;
     emptyTitle?: string;
     emptyDescription?: string;
+    /** Color of the "all" line. Omitted keeps the default violet. */
+    accentColor?: string;
   }>(),
   {
     data: null,
@@ -89,6 +92,7 @@ const props = withDefaults(
     subtitle: "Conversations over time",
     emptyTitle: "No conversation data",
     emptyDescription: "Try adjusting the date range or filters.",
+    accentColor: undefined,
   },
 );
 

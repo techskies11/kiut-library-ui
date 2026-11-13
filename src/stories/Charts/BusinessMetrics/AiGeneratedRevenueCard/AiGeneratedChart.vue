@@ -172,6 +172,8 @@ const props = withDefaults(
     emptyTitle?: string;
     emptyDescription?: string;
     theme?: Theme;
+    /** Color of the first series. Omitted keeps the default violet. */
+    accentColor?: string;
   }>(),
   {
     loading: false,
@@ -183,6 +185,7 @@ const props = withDefaults(
     emptyTitle: "No revenue data available",
     emptyDescription: "No AI revenue found for the selected period. Try adjusting the date range.",
     theme: undefined,
+    accentColor: undefined,
   },
 );
 
@@ -227,7 +230,10 @@ const palette = [
   "#e879f9",
 ];
 
-const getColor = (index: number): string => palette[index % palette.length];
+const getColor = (index: number): string => {
+  if (index === 0 && props.accentColor) return props.accentColor;
+  return palette[index % palette.length];
+};
 
 // ── Formatting helpers ─────────────────────────────────────────────────────
 

@@ -200,6 +200,8 @@ const props = withDefaults(
     /** Shows a button that reloads this metric only. */
     showRefresh?: boolean;
     refreshLabel?: string;
+    /** Icon stroke color. Omitted keeps the default violet. */
+    iconColor?: string;
   }>(),
   {
     prefix: undefined,
@@ -215,6 +217,7 @@ const props = withDefaults(
     previousValue: null,
     showRefresh: true,
     refreshLabel: "Refresh chart",
+    iconColor: undefined,
   },
 );
 
@@ -364,11 +367,11 @@ defineExpose({ isDark, changePercent });
 .icon-wrapper :deep(svg) {
   width: 22px;
   height: 22px;
-  color: #7c3aed;
+  color: v-bind("iconColor || '#7c3aed'");
 }
 
 .card-metric--dark .icon-wrapper :deep(svg) {
-  color: #8b5cf6;
+  color: v-bind("iconColor || '#8b5cf6'");
 }
 
 .change-badge {

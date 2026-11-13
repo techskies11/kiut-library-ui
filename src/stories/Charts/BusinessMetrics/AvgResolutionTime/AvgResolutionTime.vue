@@ -133,6 +133,8 @@ const props = withDefaults(
     theme?: Theme
     enableExport?: boolean
     exportLoading?: boolean
+    /** Color of the overall line. Omitted keeps the default violet. */
+    accentColor?: string
   }>(),
   {
     loading: false,
@@ -141,6 +143,7 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    accentColor: undefined,
   },
 )
 
@@ -325,7 +328,7 @@ const processOverallChartData = (data: AvgResolutionTimeData | null): void => {
       {
         label: 'All',
         data: rawSecondsByDataset.value[0].map((seconds) => secondsToMinutes(seconds)),
-        borderColor: OVERALL_COLOR,
+        borderColor: props.accentColor || OVERALL_COLOR,
         backgroundColor: 'transparent',
         fill: false,
         tension: 0.35,
