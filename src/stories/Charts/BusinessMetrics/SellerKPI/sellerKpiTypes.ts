@@ -23,6 +23,8 @@ export const DEFAULT_SELLER_KPI_LABELS: Required<SellerKpiLabels> = {
 export interface SellerKpiProps {
   loading?: boolean
   theme?: Theme
+  /** Icon color. Omitted keeps the default violet. */
+  iconColor?: string
   /** Custom labels for each KPI card. Unset keys use defaults. */
   labels?: SellerKpiLabels
 

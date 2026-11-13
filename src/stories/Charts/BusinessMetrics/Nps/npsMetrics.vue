@@ -8,6 +8,7 @@
         :data="data"
         :loading="loading"
         :enable-export="enableExport"
+        :accent-color="accentColor"
         @export="handleExport"
       />
       <NpsDailyMetrics
@@ -15,6 +16,7 @@
         :data="data"
         :loading="loading"
         :enable-export="enableExport"
+        :accent-color="accentColor"
         @export="handleExport"
       />
     </div>
@@ -36,6 +38,7 @@
         :data="data"
         :loading="loading"
         :enable-export="enableExport"
+        :accent-color="accentColor"
         @export="handleExport"
       />
     </div>
@@ -75,6 +78,10 @@ const props = defineProps({
   showCsatPulseChart: {
     type: Boolean,
     default: false,
+  },
+  accentColor: {
+    type: String,
+    default: undefined,
   },
 })
 

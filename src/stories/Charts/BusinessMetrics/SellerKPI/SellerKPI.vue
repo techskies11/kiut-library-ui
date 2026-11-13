@@ -14,6 +14,7 @@
         :value="formatNumber(salesInitiated)"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="salesInitiated"
         :previous-value="previousSalesInitiated"
       >
@@ -29,6 +30,7 @@
         :value="successValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="successRatePct"
         :previous-value="previousSuccessRatePct"
       >
@@ -57,6 +59,7 @@
         :value="errorValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="errorRatePct"
         :previous-value="null"
       >
@@ -90,6 +93,7 @@
         :value="abandonValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="abandonRatePct"
         :previous-value="null"
       >
@@ -124,6 +128,7 @@
         :value="revenueValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="props.revenueUsd ?? 0"
         :previous-value="props.previousRevenueUsd"
       >
@@ -140,6 +145,7 @@
         :value="avgCompletionValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="props.avgCompletionTimeSeconds ?? 0"
         :previous-value="props.previousAvgCompletionTimeSeconds"
       >
@@ -156,6 +162,7 @@
         :value="avgInteractionsValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="props.avgInteractionsToComplete ?? 0"
         :previous-value="props.previousAvgInteractionsToComplete"
       >

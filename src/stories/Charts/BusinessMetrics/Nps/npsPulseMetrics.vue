@@ -65,6 +65,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  accentColor: {
+    type: String,
+    default: undefined,
+  },
 });
 
 const pulseByDay = computed(() => props.data?.csat_pulse_by_day || []);
@@ -76,8 +80,8 @@ const lineData = computed(() => ({
     {
       label: "CSAT Pulse",
       data: pulseByDay.value.map((point: any) => Number(point.csat_pulse || 0)),
-      borderColor: "#7C3AED",
-      pointBorderColor: "#7C3AED",
+      borderColor: props.accentColor || "#7C3AED",
+      pointBorderColor: props.accentColor || "#7C3AED",
       pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
       clip: false,

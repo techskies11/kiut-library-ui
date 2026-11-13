@@ -66,6 +66,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  accentColor: {
+    type: String,
+    default: undefined,
+  },
 });
 
 const series = computed(() => props.data?.csat_p95_by_day || []);
@@ -77,8 +81,8 @@ const lineData = computed(() => ({
     {
       label: "CSAT P95",
       data: series.value.map((point) => Number(point.p95_score || 0)),
-      borderColor: "#7C3AED",
-      pointBorderColor: "#7C3AED",
+      borderColor: props.accentColor || "#7C3AED",
+      pointBorderColor: props.accentColor || "#7C3AED",
       pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
       clip: false,

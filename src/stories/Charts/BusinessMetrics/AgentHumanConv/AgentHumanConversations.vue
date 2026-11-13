@@ -26,6 +26,7 @@
           label-position="header"
           :value="formatNumber(totalEnqueued)"
           :theme="theme"
+          :icon-color="iconColor"
           :current-value="totalEnqueued"
           :previous-value="previousTotalEnqueued"
         >
@@ -50,6 +51,7 @@
           label-position="header"
           :value="formatNumber(totalClosed)"
           :theme="theme"
+          :icon-color="iconColor"
           :current-value="totalClosed"
           :previous-value="previousTotalClosed"
         >
@@ -84,6 +86,7 @@
           label-position="header"
           :value="formatNumber(totalTransfersReceived)"
           :theme="theme"
+          :icon-color="iconColor"
           :current-value="totalTransfersReceived"
           :previous-value="previousTotalTransferred"
         >
@@ -108,6 +111,7 @@
           label-position="header"
           :value="formatNumber(totalTransfersMade)"
           :theme="theme"
+          :icon-color="iconColor"
           :current-value="totalTransfersMade"
           :previous-value="previousTotalTransfersMade"
         >
@@ -132,6 +136,7 @@
           label-position="header"
           :value="formatDurationDisplay(avgAssignSeconds)"
           :theme="theme"
+          :icon-color="iconColor"
           :current-value="hhmmssToSeconds(avgAssignSeconds) ?? 0"
           :previous-value="previousAvgTimeToAssignSeconds"
         >
@@ -161,6 +166,7 @@
           label-position="header"
           :value="formatDurationDisplay(avgResolutionSeconds)"
           :theme="theme"
+          :icon-color="iconColor"
           :current-value="hhmmssToSeconds(avgResolutionSeconds) ?? 0"
           :previous-value="previousAvgConversationDurationSeconds"
         >
@@ -416,6 +422,8 @@ const props = withDefaults(
     theme?: Theme;
     enableExport?: boolean;
     exportLoading?: boolean;
+    /** KPI icon color. Omitted keeps the default violet. */
+    iconColor?: string;
     previousTotalEnqueued?: number | null;
     previousTotalClosed?: number | null;
     previousTotalTransferred?: number | null;
@@ -441,6 +449,7 @@ const props = withDefaults(
     theme: undefined,
     enableExport: false,
     exportLoading: false,
+    iconColor: undefined,
     previousTotalEnqueued: null,
     previousTotalClosed: null,
     previousTotalTransferred: null,

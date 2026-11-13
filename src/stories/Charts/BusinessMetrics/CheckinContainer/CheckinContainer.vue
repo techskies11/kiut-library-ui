@@ -221,6 +221,8 @@ const props = withDefaults(
     theme?: Theme;
     showKpi?: boolean;
     kpiLoading?: boolean;
+    /** KPI icon color. Omitted keeps the default violet. */
+    iconColor?: string;
     /** Override manual de KPIs (opcional). */
     kpiProps?: Partial<CheckinKpiProps>;
     /** Labels custom para las tarjetas KPI (se fusionan con defaults). */
@@ -356,6 +358,7 @@ const resolvedKpiProps = computed<CheckinKpiProps>(() => {
   return {
     ...merged,
     ...props.kpiProps,
+    ...(props.iconColor ? { iconColor: props.iconColor } : {}),
     labels: {
       ...props.kpiProps?.labels,
       ...props.kpiLabels,

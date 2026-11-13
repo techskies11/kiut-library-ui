@@ -254,6 +254,8 @@ const props = withDefaults(
     // channelComparison?: ChannelComparisonItem[]
     showKpi?: boolean
     kpiLoading?: boolean
+    /** KPI icon color. Omitted keeps the default violet. */
+    iconColor?: string
     kpiProps?: Partial<SellerKpiProps>
     kpiLabels?: SellerKpiLabels
     previousSellerData?: SellerData
@@ -377,6 +379,7 @@ const resolvedKpiProps = computed<SellerKpiProps>(() => {
   return {
     ...merged,
     ...props.kpiProps,
+    ...(props.iconColor ? { iconColor: props.iconColor } : {}),
     labels: {
       ...props.kpiProps?.labels,
       ...props.kpiLabels,

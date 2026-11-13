@@ -11,6 +11,7 @@
         :value="formatNumber(checkinInitiated)"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="checkinInitiated"
         :previous-value="previousCheckinInitiated"
       >
@@ -25,6 +26,7 @@
         :value="successValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="successRatePct"
         :previous-value="previousSuccessRatePct"
       >
@@ -52,6 +54,7 @@
         :value="errorValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="errorRatePct"
         :previous-value="null"
       >
@@ -84,6 +87,7 @@
         :value="notEligibleValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="notEligibleRatePct"
         :previous-value="null"
         data-testid="checkin-kpi-not-eligible"
@@ -117,6 +121,7 @@
         :value="abandonValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="abandonRatePct"
         :previous-value="null"
       >
@@ -149,6 +154,7 @@
         :value="avgCompletionValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="props.avgCompletionTimeSeconds ?? 0"
         :previous-value="props.previousAvgCompletionTimeSeconds"
       >
@@ -163,6 +169,7 @@
         :value="avgInteractionsValueLabel"
         :loading="loading"
         :theme="theme"
+        :icon-color="iconColor"
         :current-value="props.avgInteractionsToComplete ?? 0"
         :previous-value="null"
       >

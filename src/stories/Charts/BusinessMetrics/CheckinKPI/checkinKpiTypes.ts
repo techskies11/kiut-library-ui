@@ -23,6 +23,8 @@ export const DEFAULT_CHECKIN_KPI_LABELS: Required<CheckinKpiLabels> = {
 export interface CheckinKpiProps {
   loading?: boolean
   theme?: Theme
+  /** Icon color. Omitted keeps the default violet. */
+  iconColor?: string
   /** Custom labels for each KPI card. Unset keys use defaults. */
   labels?: CheckinKpiLabels
 

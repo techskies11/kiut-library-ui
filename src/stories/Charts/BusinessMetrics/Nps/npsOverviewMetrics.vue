@@ -35,6 +35,7 @@
           :plot-inset="10"
           :show-legend="false"
           :show-stat-labels="false"
+          :accent-color="accentColor"
         />
       </div>
       <div
@@ -116,6 +117,10 @@ const props = defineProps({
   exportLoading: {
     type: Boolean,
     default: false,
+  },
+  accentColor: {
+    type: String,
+    default: undefined,
   },
 });
 

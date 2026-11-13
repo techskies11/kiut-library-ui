@@ -149,7 +149,7 @@
         v-if="gaussianPath"
         :d="gaussianPath"
         fill="none"
-        stroke="#8b5cf6"
+        :stroke="seriesColor"
         stroke-width="2.5"
         opacity="0.7"
         class="gaussian-curve"
@@ -162,8 +162,8 @@
           :y="bar.y"
           :width="barWidth"
           :height="bar.height"
-          fill="rgba(198, 125, 255, 0.6)"
-          stroke="#C67DFF"
+          :fill="barFill"
+          :stroke="barStroke"
           stroke-width="2"
           rx="4"
           class="histogram-bar"
@@ -457,6 +457,8 @@ const props = withDefaults(defineProps<{
   /** When false, disables tooltip, cursor change, and hover styling on bars/container/curve */
   interactive?: boolean;
   theme?: Theme;
+  /** Curve and bar color. Omitted keeps the default violet. */
+  accentColor?: string;
 }>(), {
   histogram: () => [],
   minScore: 0,
@@ -474,8 +476,24 @@ const props = withDefaults(defineProps<{
   showLegend: true,
   showStatLabels: true,
   interactive: true,
-  theme: undefined
+  theme: undefined,
+  accentColor: undefined,
 });
+
+function hexToRgba(hex: string, alpha: number): string {
+  const normalized = hex.trim().replace('#', '');
+  if (!/^[0-9a-fA-F]{6}$/.test(normalized)) return hex;
+  const red = Number.parseInt(normalized.slice(0, 2), 16);
+  const green = Number.parseInt(normalized.slice(2, 4), 16);
+  const blue = Number.parseInt(normalized.slice(4, 6), 16);
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
+const seriesColor = computed(() => props.accentColor || '#8b5cf6');
+const barStroke = computed(() => props.accentColor || '#C67DFF');
+const barFill = computed(() =>
+  props.accentColor ? hexToRgba(props.accentColor, 0.6) : 'rgba(198, 125, 255, 0.6)',
+);
 
 // Theme detection with prop fallback
 const { isDark, colors } = useThemeDetection(toRef(props, 'theme'));

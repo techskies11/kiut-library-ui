@@ -14,6 +14,7 @@
         :enable-export="enableExport"
         :show-resolution-chart="showResolutionChart"
         :show-csat-pulse-chart="showCsatPulseChart"
+        :accent-color="accentColor"
         @export="handleExport"
       />
     </div>
@@ -39,6 +40,8 @@ withDefaults(
     data?: object
     showResolutionChart?: boolean
     showCsatPulseChart?: boolean
+    /** Histogram and CSAT line color. Omitted keeps the default violet. */
+    accentColor?: string
   }>(),
   {
     containerInitiallyOpen: false,
@@ -47,6 +50,7 @@ withDefaults(
     data: undefined,
     showResolutionChart: false,
     showCsatPulseChart: false,
+    accentColor: undefined,
   }
 )
 

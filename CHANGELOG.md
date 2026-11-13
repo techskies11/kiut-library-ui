@@ -14,6 +14,7 @@
 - Circular `Checkbox` input (`role="checkbox"`) for boolean preferences such as notification sound.
 - Export `ButtonNotification` and `NotificationCard` for the backoffice inbox. View all closes the bell menu.
 - CardMetric accepts optional `iconColor`. Conversation, escalation, resolution, revenue, and transaction line charts accept optional `accentColor`. Omitted, both stay violet.
+- CSAT histogram and lines accept optional `accentColor`. Check-in, seller, and human-agent KPI cards accept optional `iconColor`. Omitted, they stay violet.
 - DAI-312: Add Offline time in range column to Agent Human Conversations table (complements summed online time from the API).
 - DAI-312: Info tooltips on Connected, Disconnected, and online/offline time columns; Table supports optional `headerTooltip` on columns.
 - DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
