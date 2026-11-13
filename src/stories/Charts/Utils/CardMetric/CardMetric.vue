@@ -27,7 +27,11 @@
           />
         </div>
         <div v-else key="title-content" class="header-title-group">
-          <div class="icon-wrapper" aria-hidden="true">
+          <div
+            class="icon-wrapper"
+            :style="iconColor ? { '--card-metric-icon': iconColor } : undefined"
+            aria-hidden="true"
+          >
             <slot name="icon" />
           </div>
           <span v-if="labelInHeader" class="metric-label metric-label--header">
@@ -367,11 +371,11 @@ defineExpose({ isDark, changePercent });
 .icon-wrapper :deep(svg) {
   width: 22px;
   height: 22px;
-  color: v-bind("iconColor || '#7c3aed'");
+  color: var(--card-metric-icon, #7c3aed);
 }
 
 .card-metric--dark .icon-wrapper :deep(svg) {
-  color: v-bind("iconColor || '#8b5cf6'");
+  color: var(--card-metric-icon, #8b5cf6);
 }
 
 .change-badge {
