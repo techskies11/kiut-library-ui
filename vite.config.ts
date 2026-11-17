@@ -14,7 +14,15 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 export default defineConfig({
   plugins: [tailwindcss(), vue()],
   test: {
-    projects: [{
+    projects: [
+    {
+      test: {
+        name: 'unit',
+        environment: 'node',
+        include: ['src/components/AppShellNavigation/**/*.spec.ts'],
+      },
+    },
+    {
       extends: true,
       plugins: [
       // The plugin will run tests for the stories defined in your Storybook config
