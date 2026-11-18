@@ -17,6 +17,7 @@
 - Export `ButtonNotification` and `NotificationCard` for the backoffice inbox. View all closes the bell menu.
 - CardMetric accepts optional `iconColor`. Conversation, escalation, resolution, revenue, and transaction line charts accept optional `accentColor`. Omitted, both stay violet.
 - CSAT histogram and lines accept optional `accentColor`. Check-in, seller, and human-agent KPI cards accept optional `iconColor`. Omitted, they stay violet.
+- KPI `iconColor` is applied on the icon itself, so the passed color shows instead of the default violet.
 - DAI-312: Add Offline time in range column to Agent Human Conversations table (complements summed online time from the API).
 - DAI-312: Info tooltips on Connected, Disconnected, and online/offline time columns; Table supports optional `headerTooltip` on columns.
 - DAI-533: Add a refresh button on each chart card header so one metric can be reloaded on its own.
@@ -39,6 +40,7 @@
 - DAI-400: Rename Daily Cost Trends chart to Average cost with header metric/scope selectors (per conversation and All enabled; per interaction pending backend).
 
 ### Fixed
+- App shell navigation highlights only the most specific menu item when one item path is a prefix of another, so `/agent-builder` and `/agent-builder/mcp` are not both active.
 - Seller KPI "Sales Initiated" card now uses `total_seller_conversations` (Initiated by agent) instead of `total_sell_started`.
 - Seller KPI "% Sales Success" count includes bank transfer and cash when those totals are reported separately from online sell success.
 - Seller KPI "% Abandon" and "% Errors" now follow the same funnel rules as the Sankey and Sales Volume chart (pre-sales drop vs booking/completion gaps), not `total_sell_failed` or a residual over initiated.

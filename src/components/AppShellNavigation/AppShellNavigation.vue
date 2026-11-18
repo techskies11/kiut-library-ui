@@ -246,6 +246,8 @@ import {
   type Component,
 } from "vue";
 
+import { resolveActiveNavPath } from "./activeNavPath";
+
 defineOptions({ name: "AppShellNavigation", inheritAttrs: false });
 
 const isHoveringRail = ref(false);
@@ -361,12 +363,17 @@ const activeSection = computed<NavSection | null>(() => {
   return section?.items?.length ? section : null;
 });
 
+const activeItemPath = computed(() =>
+  resolveActiveNavPath(
+    props.activePath,
+    props.sections.flatMap((section) =>
+      (section.items ?? []).map((item) => item.path),
+    ),
+  ),
+);
+
 function isItemActive(item: NavItem): boolean {
-  if (!props.activePath) return false;
-  return (
-    props.activePath === item.path ||
-    props.activePath.startsWith(item.path + "/")
-  );
+  return item.path === activeItemPath.value;
 }
 
 function hasSectionActiveItem(section: NavSection): boolean {

@@ -27,7 +27,11 @@
           />
         </div>
         <div v-else key="title-content" class="header-title-group">
-          <div class="icon-wrapper" aria-hidden="true">
+          <div
+            class="icon-wrapper"
+            :style="iconColor ? { '--card-metric-icon': iconColor } : undefined"
+            aria-hidden="true"
+          >
             <slot name="icon" />
           </div>
           <span v-if="labelInHeader" class="metric-label metric-label--header">
