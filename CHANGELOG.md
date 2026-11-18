@@ -4,6 +4,7 @@
 ### Changed
 - Storybook toolbar "Brand" overrides the `--kiut-primary` ramp locally (violet, teal, orange, blue) so a color change can be checked without touching the host app.
 - Brand accents (buttons already did this; calendars, tags, banners, tabs, nav, chart series) read `--kiut-primary` and its ramp so a host app can recolor them from CSS variables.
+- Dashboard chart loading skeletons are a neutral gray shimmer, so they do not clash with the brand color.
 - Secondary button dark background is `#0E0E13`. Notification card hover reads `--kiut-notification-hover`.
 - DAI-561: Check-in Sankey and KPIs separate "Not Eligible" and "Handed Off to Human" from technical errors, hide the Check In Success and Boarding Pass nodes when they have no flow, and (2W only) show already checked-in reprints as a direct Initiated → Boarding Pass flow instead of inflating "No booking provided".
 - DAI-562: Check-in business rules show as a yellow "No eligible: Business rules" funnel node and their own KPI card, and no longer count toward Errors.
