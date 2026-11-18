@@ -31,7 +31,7 @@
           <div
             class="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))]"
           >
-            <ChartBarIcon class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]" />
+            <ChartBarIcon class="h-10 w-10 text-[var(--kiut-primary,var(--kiut-primary))]" />
           </div>
           <p class="mb-2 text-lg font-semibold tracking-tight text-[var(--kiut-text-primary,#171717)] dark:text-[var(--kiut-text-primary,#e5e5e5)]">
             Sin datos de costos

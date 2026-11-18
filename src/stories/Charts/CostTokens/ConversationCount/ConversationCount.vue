@@ -36,6 +36,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from 'vue'
 import LineChart from '../../Line/ChartLine.vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
@@ -100,8 +102,8 @@ const chartData = computed(() => {
     {
       label: 'Conversations',
       data: sortedKeys.map(date => conversationsData[date] || 0),
-      backgroundColor: '#a78bfa80',
-      borderColor: '#a78bfa',
+      backgroundColor: kiutColor('--kiut-primary-light', '#a78bfa') + '80',
+      borderColor: kiutColor('--kiut-primary-light', '#a78bfa'),
       borderWidth: 2,
       tension: 0.4,
       fill: false,

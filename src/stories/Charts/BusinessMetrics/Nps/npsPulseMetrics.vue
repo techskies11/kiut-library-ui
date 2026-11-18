@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed } from "vue";
 import ChartLine from "../../Line/ChartLine.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
@@ -80,8 +82,8 @@ const lineData = computed(() => ({
     {
       label: "CSAT Pulse",
       data: pulseByDay.value.map((point: any) => Number(point.csat_pulse || 0)),
-      borderColor: props.accentColor || "#7C3AED",
-      pointBorderColor: props.accentColor || "#7C3AED",
+      borderColor: props.accentColor || kiutColor('--kiut-primary-hover', '#7c3aed'),
+      pointBorderColor: props.accentColor || kiutColor('--kiut-primary-hover', '#7c3aed'),
       pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
       clip: false,

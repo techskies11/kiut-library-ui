@@ -66,7 +66,7 @@ const iconByTone: Record<NotificationTone, typeof EnvelopeIcon> = {
 };
 
 const dotByTone: Record<NotificationTone, string> = {
-  message: "bg-violet-500",
+  message: "bg-[color:var(--kiut-primary)]",
   pending: "bg-amber-400",
   alert: "bg-red-500",
 };

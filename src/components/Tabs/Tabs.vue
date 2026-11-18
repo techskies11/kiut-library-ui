@@ -138,7 +138,7 @@ function tabButtonClass(item: TabItem): string {
     return `${base} cursor-not-allowed opacity-40`;
   }
   if (active) {
-    return `${base} bg-white text-[color:var(--kiut-text-primary)] shadow-sm ring-1 ring-black/[0.04] dark:bg-black/45 dark:text-[color:var(--kiut-text-primary)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)] dark:ring-white/[0.06]`;
+    return `${base} bg-[color:var(--kiut-bg-secondary)] text-[color:var(--kiut-text-primary)] shadow-sm ring-1 ring-black/[0.04] dark:bg-[color:var(--kiut-bg-primary)] dark:text-[color:var(--kiut-text-primary)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)] dark:ring-white/[0.06]`;
   }
   return `${base} text-[color:var(--kiut-text-secondary)] hover:text-[color:var(--kiut-text-primary)] dark:text-[color:var(--kiut-text-muted)] dark:hover:text-[color:var(--kiut-text-secondary)]`;
 }

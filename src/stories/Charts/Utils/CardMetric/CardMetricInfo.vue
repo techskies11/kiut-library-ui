@@ -111,7 +111,7 @@ onUnmounted(() => {
     @focus="openTooltip"
     @blur="hideTooltip"
   >
-    <ExclamationCircleIcon class="w-2.5 h-2.5 text-gray-600 dark:text-gray-200 hover:#5d4b93"/>
+    <ExclamationCircleIcon class="w-2.5 h-2.5 text-gray-600 dark:text-gray-200 hover:var(--kiut-primary-default)"/>
   </button>
 
   <Teleport to="body">

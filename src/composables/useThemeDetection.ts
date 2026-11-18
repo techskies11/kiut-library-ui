@@ -1,4 +1,5 @@
 import { ref, computed, onMounted, onUnmounted, watch, type Ref } from 'vue'
+import { kiutColor } from '../utils/kiutColor'
 
 export type Theme = 'light' | 'dark'
 
@@ -182,7 +183,13 @@ export function useThemeDetection(themeProp?: Ref<Theme | undefined>) {
 
   // Get colors based on current theme
   const colors = computed<ThemeColors>(() => {
-    return isDark.value ? darkColors : lightColors
+    const base = isDark.value ? darkColors : lightColors
+    return {
+      ...base,
+      primaryLight: kiutColor('--kiut-primary-light', base.primaryLight),
+      primaryDefault: kiutColor('--kiut-primary-default', base.primaryDefault),
+      primaryDark: kiutColor('--kiut-primary-dark', base.primaryDark),
+    }
   })
 
   // Setup MutationObserver to watch for class changes on documentElement

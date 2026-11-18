@@ -36,7 +36,7 @@
         />
         <CardInfo
           class="ancillaries-value-card"
-          color="var(--kiut-primary, #5d4b93)"
+          color="var(--kiut-primary, var(--kiut-primary-default))"
           title="Offered"
           :value="useNumberFormat(offered)"
         />
@@ -48,7 +48,7 @@
         />
         <CardInfo
           class="ancillaries-value-card"
-          color="var(--kiut-primary, #5d4b93)"
+          color="var(--kiut-primary, var(--kiut-primary-default))"
           title="Paid"
           :value="useNumberFormat(paid)"
         />

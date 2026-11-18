@@ -48,6 +48,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, ref, toRef, watch } from 'vue'
 import moment from 'moment'
 import LineChart from '../../Line/ChartLine.vue'
@@ -66,7 +68,7 @@ export interface SellerCompletionTimeData {
   avg_sell_completion_time_by_day?: Record<string, number | null>
 }
 
-const SERIES_COLOR = '#8b5cf6'
+const SERIES_COLOR = kiutColor('--kiut-primary', '#8b5cf6')
 
 const props = withDefaults(
   defineProps<{

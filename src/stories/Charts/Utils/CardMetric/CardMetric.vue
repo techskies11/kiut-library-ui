@@ -371,11 +371,11 @@ defineExpose({ isDark, changePercent });
 .icon-wrapper :deep(svg) {
   width: 22px;
   height: 22px;
-  color: var(--card-metric-icon, #7c3aed);
+  color: v-bind("iconColor || 'var(--kiut-primary-hover)'");
 }
 
 .card-metric--dark .icon-wrapper :deep(svg) {
-  color: var(--card-metric-icon, #8b5cf6);
+  color: v-bind("iconColor || 'var(--kiut-primary)'");
 }
 
 .change-badge {
@@ -521,7 +521,7 @@ defineExpose({ isDark, changePercent });
 }
 
 .details-toggle:focus-visible {
-  outline: 2px solid #8b5cf6;
+  outline: 2px solid var(--kiut-primary);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -695,7 +695,7 @@ defineExpose({ isDark, changePercent });
 }
 
 .cmc-refresh:focus-visible {
-  outline: 2px solid var(--kiut-primary, #5d4b93);
+  outline: 2px solid var(--kiut-primary, var(--kiut-primary-default));
   outline-offset: 2px;
 }
 

@@ -39,7 +39,7 @@ const badgeClass = computed(() => {
   const base =
     'whitespace-nowrap rounded-md px-2 py-0.5 text-xs cursor-default font-[\'Inter\',system-ui,sans-serif]';
   if (props.variant === 'configured') {
-    return `${base} border border-purple-300 text-purple-700 dark:border-purple-700/50 dark:text-purple-400`;
+    return `${base} border border-[color:var(--kiut-primary)]/40 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)]/50 dark:text-[color:var(--kiut-primary-light)]`;
   }
   if (props.variant === 'autoconfigured') {
     return `${base} border border-dashed border-green-400 text-green-600 dark:border-green-600 dark:text-green-400`;

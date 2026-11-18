@@ -43,6 +43,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from 'vue'
 import BarChart from '../../Bar/ChartBar.vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
@@ -124,8 +126,8 @@ const costChartData = computed(() => {
       {
         label: 'Total Cost',
         data: agents.map(agent => agent.total_cost || 0),
-        backgroundColor: '#a78bfa80',
-        borderColor: '#a78bfa',
+        backgroundColor: kiutColor('--kiut-primary-light', '#a78bfa') + '80',
+        borderColor: kiutColor('--kiut-primary-light', '#a78bfa'),
         borderWidth: 1,
       }
     ]

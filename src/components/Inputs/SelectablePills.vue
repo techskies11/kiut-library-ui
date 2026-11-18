@@ -89,7 +89,7 @@ function pillClass(item: KiutPillItem) {
     'inline-flex max-w-full items-center gap-2 rounded-xl border px-3 py-2 text-left transition',
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--kiut-primary)]',
     on
-      ? 'border-[color:var(--kiut-primary)]/50 bg-violet-50/80 dark:bg-violet-950/30'
+      ? 'border-[color:var(--kiut-primary)]/50 bg-[color:var(--kiut-primary)]/10 dark:bg-[color:var(--kiut-primary)]/20'
       : 'border-gray-300 bg-white dark:border-[color:var(--kiut-border-light)] dark:bg-[color:var(--kiut-bg-secondary)]',
   ];
 }

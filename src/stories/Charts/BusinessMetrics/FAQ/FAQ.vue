@@ -49,7 +49,7 @@
               class="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]"
             >
               <svg
-                class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]"
+                class="h-10 w-10 text-[var(--kiut-primary,var(--kiut-primary))]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -82,6 +82,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { ref, watch, computed, toRef } from "vue";
 import moment from "moment";
 import LineChart from "../../Line/ChartLine.vue";
@@ -150,7 +152,7 @@ const theme = toRef(props, "theme");
 const { isDark } = useThemeDetection(theme);
 
 const faqColorMap: Record<string, string> = {
-  airline_information: "#8b5cf6",
+  airline_information: kiutColor('--kiut-primary', '#8b5cf6'),
   booking_info: "#f59e0b",
   flight_status: "#06b6d4",
 };

@@ -87,6 +87,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, ref, toRef, watch } from "vue";
 import moment from "moment";
 import LineChart from "../../Line/ChartLine.vue";
@@ -218,7 +220,7 @@ const palette = [
   "#3b82f6",
   "#f59e0b",
   "#06b6d4",
-  "#8b5cf6",
+  kiutColor('--kiut-primary', '#8b5cf6'),
   "#22c55e",
   "#ef4444",
   "#14b8a6",
@@ -289,7 +291,7 @@ const processChartData = (data: HumanEscalationsData | null): void => {
           data: sorted.map((item) =>
             Number(item.escalation_rate_percentage || 0),
           ),
-          borderColor: props.accentColor || "#8b5cf6",
+          borderColor: props.accentColor || kiutColor('--kiut-primary', '#8b5cf6'),
           backgroundColor: "transparent",
           fill: false,
           tension: 0.35,

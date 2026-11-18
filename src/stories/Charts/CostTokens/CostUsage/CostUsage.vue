@@ -68,6 +68,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from "vue";
 import moment from "moment";
 import BarChart from "../../Bar/ChartBar.vue";
@@ -140,7 +142,7 @@ const BAR_TOP_RADIUS = 3;
 const formatDate = (dateStr: string): string => moment(dateStr).format("MMM D");
 
 const costColors = {
-  input: "#a78bfa",
+  input: kiutColor('--kiut-primary-light', '#a78bfa'),
   output: "#22d3ee",
   cache_read: "#4ade80",
   cache_write: "#fb923c",

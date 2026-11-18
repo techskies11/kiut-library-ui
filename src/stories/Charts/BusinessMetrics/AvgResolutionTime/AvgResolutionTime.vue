@@ -80,6 +80,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, ref, toRef, watch } from 'vue'
 import moment from 'moment'
 import LineChart from '../../Line/ChartLine.vue'
@@ -180,10 +182,10 @@ const onBreakdownChange = (value: KiutSelectValue): void => {
   emit('changeBreakdown', selectedBreakdown.value)
 }
 
-const OVERALL_COLOR = '#8b5cf6'
+const OVERALL_COLOR = kiutColor('--kiut-primary', '#8b5cf6')
 
 const SEGMENTS = [
-  { key: 'ai_agent', label: 'AI Agent', color: '#8b5cf6' },
+  { key: 'ai_agent', label: 'AI Agent', color: kiutColor('--kiut-primary', '#8b5cf6') },
   { key: 'human', label: 'Human', color: '#f59e0b' },
   { key: 'hybrid', label: 'AI + Human', color: '#06b6d4' },
 ] as const
@@ -194,7 +196,7 @@ const SEGMENTS = [
 const CHANNEL_COLOR_MAP: Record<string, string> = {
   wsp: '#25D366',
   whatsapp: '#25D366',
-  voice: '#8b5cf6',
+  voice: kiutColor('--kiut-primary', '#8b5cf6'),
   sms: '#f59e0b',
   web_chat: '#06b6d4',
   email: '#ec4899',

@@ -84,20 +84,20 @@
         <div class="mb-4 flex items-center justify-between gap-2">
           <button
             type="button"
-            class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]"
+            class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[color:var(--kiut-text-subtitle)] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/[0.06]"
             :aria-label="previousMonthAriaLabel"
             @click.stop="shiftView(-1)"
           >
             <ChevronLeftIcon class="h-4 w-4" aria-hidden="true" />
           </button>
           <span
-            class="min-w-0 truncate px-1 text-sm font-medium text-[#61616b] dark:text-[#e3e3e8]"
+            class="min-w-0 truncate px-1 text-sm font-medium text-[color:var(--kiut-text-subtitle)] dark:text-[color:var(--kiut-text-primary)]"
           >
             {{ formatMonthYearTitle(viewMonth, locale) }}
           </span>
           <button
             type="button"
-            class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]"
+            class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[color:var(--kiut-text-subtitle)] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/[0.06]"
             :aria-label="nextMonthAriaLabel"
             @click.stop="shiftView(1)"
           >
@@ -106,7 +106,7 @@
         </div>
 
         <div
-          class="mb-2 grid grid-cols-7 text-center text-xs font-normal tracking-wide text-[#61616b] dark:text-[#e3e3e8]"
+          class="mb-2 grid grid-cols-7 text-center text-xs font-normal tracking-wide text-[color:var(--kiut-text-subtitle)] dark:text-[color:var(--kiut-text-primary)]"
         >
           <span v-for="wd in weekDays" :key="wd">{{ wd }}</span>
         </div>
@@ -315,14 +315,14 @@ function dayClass(cell: Date) {
   const selected = draftDate.value ? sameDay(cell, draftDate.value) : false;
 
   if (disabled) {
-    return "rounded-lg text-[#61616b] opacity-40";
+    return "rounded-lg text-[color:var(--kiut-text-subtitle)] opacity-40";
   }
 
   let classes =
-    "rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white";
+    "rounded-lg text-[color:var(--kiut-text-primary)] hover:bg-[color:var(--kiut-primary)] hover:text-white dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white";
 
   if (selected) {
-    classes = "rounded-lg bg-[#895af6] font-semibold text-white";
+    classes = "rounded-lg bg-[color:var(--kiut-primary)] font-semibold text-white";
   }
 
   if (!inMonth) {

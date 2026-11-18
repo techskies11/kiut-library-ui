@@ -117,7 +117,7 @@
             :y1="candle.highY"
             :x2="0"
             :y2="candle.lowY"
-            :stroke="candle.isTotal ? '#8b5cf6' : '#C67DFF'"
+            :stroke="candle.isTotal ? 'var(--kiut-primary)' : 'var(--kiut-primary-light)'"
             stroke-width="2.5"
             class="hover-line"
             @mouseenter="showTooltip($event, candle, 'wick')"
@@ -131,8 +131,8 @@
             :y="Math.min(candle.q1Y, candle.q3Y) - (Math.abs(candle.q3Y - candle.q1Y) < 4 ? 4 : 0)"
             :width="candleWidth"
             :height="Math.max(8, Math.abs(candle.q3Y - candle.q1Y))"
-            :fill="candle.isTotal ? 'rgba(139, 92, 246, 0.15)' : 'rgba(198, 125, 255, 0.15)'"
-            :stroke="candle.isTotal ? '#8b5cf6' : '#C67DFF'"
+            :fill="candle.isTotal ? 'rgba(139, 92, 246, 0.15)' : 'color-mix(in srgb, var(--kiut-primary-light) 15%, transparent)'"
+            :stroke="candle.isTotal ? 'var(--kiut-primary)' : 'var(--kiut-primary-light)'"
             stroke-width="2.5"
             rx="4"
             class="hover-rect"
@@ -148,7 +148,7 @@
             :y1="candle.medianY"
             :x2="candleWidth / 2"
             :y2="candle.medianY"
-            stroke="#8b5cf6"
+            stroke="var(--kiut-primary)"
             stroke-width="3"
             class="hover-line"
             @mouseenter="showTooltip($event, candle, 'median')"
@@ -177,7 +177,7 @@
             :cx="0"
             :cy="candle.lowY"
             r="5"
-            fill="#5d4b93"
+            fill="var(--kiut-primary-default)"
             :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
@@ -189,7 +189,7 @@
             :cx="0"
             :cy="candle.highY"
             r="5"
-            fill="#C67DFF"
+            fill="var(--kiut-primary-light)"
             :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
@@ -229,7 +229,7 @@
       <g v-if="showLegend" :transform="`translate(${chartWidth / 2}, ${chartMargin - 35})`">
         <!-- Min -->
         <g transform="translate(-180, 0)">
-          <circle cx="0" cy="0" r="5" fill="#5d4b93" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="5" fill="var(--kiut-primary-default)" :stroke="svgColors.dotStroke" stroke-width="1.5" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Min
           </text>
@@ -237,7 +237,7 @@
         
         <!-- Q1 -->
         <g transform="translate(-120, 0)">
-          <rect x="-6" y="-6" width="12" height="12" fill="rgba(198, 125, 255, 0.15)" stroke="#C67DFF" stroke-width="1.5" rx="2" />
+          <rect x="-6" y="-6" width="12" height="12" fill="color-mix(in srgb, var(--kiut-primary-light) 15%, transparent)" stroke="var(--kiut-primary-light)" stroke-width="1.5" rx="2" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Q1
           </text>
@@ -245,7 +245,7 @@
         
         <!-- Q3 -->
         <g transform="translate(-60, 0)">
-          <rect x="-6" y="-6" width="12" height="12" fill="rgba(198, 125, 255, 0.15)" stroke="#C67DFF" stroke-width="1.5" rx="2" />
+          <rect x="-6" y="-6" width="12" height="12" fill="color-mix(in srgb, var(--kiut-primary-light) 15%, transparent)" stroke="var(--kiut-primary-light)" stroke-width="1.5" rx="2" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Q3
           </text>
@@ -253,7 +253,7 @@
         
         <!-- Max -->
         <g transform="translate(0, 0)">
-          <circle cx="0" cy="0" r="5" fill="#C67DFF" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="5" fill="var(--kiut-primary-light)" :stroke="svgColors.dotStroke" stroke-width="1.5" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Max
           </text>
@@ -269,7 +269,7 @@
         
         <!-- Median -->
         <g transform="translate(130, 0)">
-          <line x1="0" y1="0" x2="14" y2="0" stroke="#8b5cf6" stroke-width="2.5" />
+          <line x1="0" y1="0" x2="14" y2="0" stroke="var(--kiut-primary)" stroke-width="2.5" />
           <text x="18" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Median
           </text>

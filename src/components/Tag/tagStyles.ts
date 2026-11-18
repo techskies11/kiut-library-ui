@@ -7,8 +7,8 @@ export function getTagSemanticClass(color: KiutTagColor, outlined: boolean): str
   switch (color) {
     case 'purple':
       return outlined
-        ? 'border border-violet-500 bg-violet-500/10 text-violet-700 dark:border-violet-400 dark:bg-violet-950/40 dark:text-violet-300'
-        : 'border border-violet-200 bg-violet-50 text-violet-700 dark:border-violet-700 dark:bg-violet-950/40 dark:text-violet-300';
+        ? 'border border-[color:var(--kiut-primary)] bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary-light)] dark:bg-[color:var(--kiut-primary)]/20 dark:text-[color:var(--kiut-primary-light)]'
+        : 'border border-[color:var(--kiut-primary)]/30 bg-[color:var(--kiut-primary)]/10 text-[color:var(--kiut-primary-default)] dark:border-[color:var(--kiut-primary)] dark:bg-[color:var(--kiut-primary)]/20 dark:text-[color:var(--kiut-primary-light)]';
     case 'warning':
       return outlined
         ? 'border border-amber-500 bg-amber-500/10 text-amber-800 dark:border-amber-400 dark:bg-amber-950/35 dark:text-amber-200'

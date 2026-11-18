@@ -45,7 +45,7 @@
     >
       <div class="p-3">
         <div
-          class="mb-2 grid grid-cols-2 gap-2 text-center text-xs font-medium tracking-wide text-[#61616b] dark:text-[#e3e3e8]"
+          class="mb-2 grid grid-cols-2 gap-2 text-center text-xs font-medium tracking-wide text-[color:var(--kiut-text-subtitle)] dark:text-[color:var(--kiut-text-primary)]"
         >
           <span>Hora</span>
           <span>Min</span>
@@ -176,8 +176,8 @@ const displayTime = computed(() => {
 });
 
 const timeOptionActiveClass =
-  'text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white';
-const timeOptionSelectedClass = 'bg-[#895af6] font-semibold text-white';
+  'text-[color:var(--kiut-text-primary)] hover:bg-[color:var(--kiut-primary)] hover:text-white dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white';
+const timeOptionSelectedClass = 'bg-[color:var(--kiut-primary)] font-semibold text-white';
 
 function pad2(value: number) {
   return String(value).padStart(2, '0');

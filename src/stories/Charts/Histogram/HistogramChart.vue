@@ -181,7 +181,7 @@
         :y1="chartMargin"
         :x2="minX"
         :y2="chartHeight - chartBottomMargin"
-        stroke="#5d4b93"
+        stroke="var(--kiut-primary-default)"
         stroke-width="2.5"
         stroke-dasharray="6,4"
         opacity="0.8"
@@ -191,7 +191,7 @@
         :x="minX"
         :y="chartHeight - chartBottomMargin + 60"
         text-anchor="middle"
-        fill="#5d4b93"
+        fill="var(--kiut-primary-default)"
         font-size="12"
         font-weight="600"
         font-family="'DM Sans', sans-serif"
@@ -206,7 +206,7 @@
         :y1="chartMargin"
         :x2="q1X"
         :y2="chartHeight - chartBottomMargin"
-        stroke="#a855f7"
+        stroke="var(--kiut-primary-light)"
         stroke-width="2.5"
         stroke-dasharray="6,4"
         opacity="0.8"
@@ -216,7 +216,7 @@
         :x="q1X"
         :y="getLabelY('q1')"
         text-anchor="middle"
-        fill="#a855f7"
+        fill="var(--kiut-primary-light)"
         font-size="12"
         font-weight="600"
         font-family="'DM Sans', sans-serif"
@@ -231,7 +231,7 @@
         :y1="chartMargin"
         :x2="medianX"
         :y2="chartHeight - chartBottomMargin"
-        stroke="#8b5cf6"
+        stroke="var(--kiut-primary)"
         stroke-width="3"
         stroke-dasharray="6,4"
         opacity="0.9"
@@ -241,7 +241,7 @@
         :x="medianX"
         :y="getLabelY('median')"
         text-anchor="middle"
-        fill="#8b5cf6"
+        fill="var(--kiut-primary)"
         font-size="13"
         font-weight="700"
         font-family="'DM Sans', sans-serif"
@@ -281,7 +281,7 @@
         :y1="chartMargin"
         :x2="q3X"
         :y2="chartHeight - chartBottomMargin"
-        stroke="#7c3aed"
+        stroke="var(--kiut-primary-hover)"
         stroke-width="2.5"
         stroke-dasharray="6,4"
         opacity="0.8"
@@ -291,7 +291,7 @@
         :x="q3X"
         :y="getLabelY('q3')"
         text-anchor="middle"
-        fill="#7c3aed"
+        fill="var(--kiut-primary-hover)"
         font-size="12"
         font-weight="600"
         font-family="'DM Sans', sans-serif"
@@ -306,7 +306,7 @@
         :y1="chartMargin"
         :x2="maxX"
         :y2="chartHeight - chartBottomMargin"
-        stroke="#C67DFF"
+        stroke="var(--kiut-primary-light)"
         stroke-width="2.5"
         stroke-dasharray="6,4"
         opacity="0.8"
@@ -316,7 +316,7 @@
         :x="maxX"
         :y="chartHeight - chartBottomMargin + 60"
         text-anchor="middle"
-        fill="#C67DFF"
+        fill="var(--kiut-primary-light)"
         font-size="12"
         font-weight="600"
         font-family="'DM Sans', sans-serif"
@@ -328,7 +328,7 @@
       <g v-if="showLegend" :transform="`translate(${chartWidth / 2}, ${chartMargin - 50})`">
         <!-- Gaussian curve -->
         <g transform="translate(-220, 0)">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#8b5cf6" stroke-width="2.5" />
+          <line x1="0" y1="0" x2="20" y2="0" stroke="var(--kiut-primary)" stroke-width="2.5" />
           <text x="24" y="4" :fill="svgColors.legendText" font-size="11" font-family="'DM Sans', sans-serif" font-weight="500">
             Gaussian
           </text>
@@ -336,7 +336,7 @@
         
         <!-- Min -->
         <g transform="translate(-140, 0)">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#5d4b93" stroke-width="2.5" stroke-dasharray="6,4" />
+          <line x1="0" y1="0" x2="20" y2="0" stroke="var(--kiut-primary-default)" stroke-width="2.5" stroke-dasharray="6,4" />
           <text x="24" y="4" :fill="svgColors.legendText" font-size="11" font-family="'DM Sans', sans-serif" font-weight="500">
             Min
           </text>
@@ -344,7 +344,7 @@
         
         <!-- Q1 -->
         <g transform="translate(-80, 0)">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#a855f7" stroke-width="2.5" stroke-dasharray="6,4" />
+          <line x1="0" y1="0" x2="20" y2="0" stroke="var(--kiut-primary-light)" stroke-width="2.5" stroke-dasharray="6,4" />
           <text x="24" y="4" :fill="svgColors.legendText" font-size="11" font-family="'DM Sans', sans-serif" font-weight="500">
             Q1
           </text>
@@ -352,7 +352,7 @@
         
         <!-- Median -->
         <g transform="translate(-20, 0)">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="6,4" />
+          <line x1="0" y1="0" x2="20" y2="0" stroke="var(--kiut-primary)" stroke-width="3" stroke-dasharray="6,4" />
           <text x="24" y="4" :fill="svgColors.legendText" font-size="11" font-family="'DM Sans', sans-serif" font-weight="500">
             Median
           </text>
@@ -368,7 +368,7 @@
         
         <!-- Q3 -->
         <g transform="translate(130, 0)">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#7c3aed" stroke-width="2.5" stroke-dasharray="6,4" />
+          <line x1="0" y1="0" x2="20" y2="0" stroke="var(--kiut-primary-hover)" stroke-width="2.5" stroke-dasharray="6,4" />
           <text x="24" y="4" :fill="svgColors.legendText" font-size="11" font-family="'DM Sans', sans-serif" font-weight="500">
             Q3
           </text>
@@ -376,7 +376,7 @@
         
         <!-- Max -->
         <g transform="translate(180, 0)">
-          <line x1="0" y1="0" x2="20" y2="0" stroke="#C67DFF" stroke-width="2.5" stroke-dasharray="6,4" />
+          <line x1="0" y1="0" x2="20" y2="0" stroke="var(--kiut-primary-light)" stroke-width="2.5" stroke-dasharray="6,4" />
           <text x="24" y="4" :fill="svgColors.legendText" font-size="11" font-family="'DM Sans', sans-serif" font-weight="500">
             Max
           </text>
@@ -430,6 +430,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../utils/kiutColor'
+
 import { computed, ref, toRef } from 'vue';
 import { useThemeDetection, type Theme } from '../../../composables/useThemeDetection';
 
@@ -489,10 +491,10 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 }
 
-const seriesColor = computed(() => props.accentColor || '#8b5cf6');
-const barStroke = computed(() => props.accentColor || '#C67DFF');
+const seriesColor = computed(() => props.accentColor || kiutColor('--kiut-primary', '#8b5cf6'));
+const barStroke = computed(() => props.accentColor || kiutColor('--kiut-primary-light', '#c67dff'));
 const barFill = computed(() =>
-  props.accentColor ? hexToRgba(props.accentColor, 0.6) : 'rgba(198, 125, 255, 0.6)',
+  props.accentColor ? hexToRgba(props.accentColor, 0.6) : hexToRgba(kiutColor('--kiut-primary-light', '#c67dff'), 0.6),
 );
 
 // Theme detection with prop fallback
@@ -737,7 +739,7 @@ const topLabelPositions = computed(() => {
       y: baseY, 
       value: props.q1Score, 
       label: `Q1: ${q1Value.value.toFixed(1)}`,
-      color: '#a855f7',
+      color: kiutColor('--kiut-primary-light', '#a855f7'),
       id: 'q1',
       width: 55
     });
@@ -748,7 +750,7 @@ const topLabelPositions = computed(() => {
       y: baseY - levelHeight, 
       value: props.medianScore, 
       label: `Median: ${medianValue.value.toFixed(1)}`,
-      color: '#8b5cf6',
+      color: kiutColor('--kiut-primary', '#8b5cf6'),
       id: 'median',
       width: 90
     });
@@ -770,7 +772,7 @@ const topLabelPositions = computed(() => {
       y: baseY, 
       value: props.q3Score, 
       label: `Q3: ${q3Value.value.toFixed(1)}`,
-      color: '#7c3aed',
+      color: kiutColor('--kiut-primary-hover', '#7c3aed'),
       id: 'q3',
       width: 55
     });

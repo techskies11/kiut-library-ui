@@ -295,7 +295,7 @@ const viewMoreCollapsedLabel = computed(() =>
 }
 
 .kiut-table-sort-btn:focus-visible {
-  outline: 2px solid var(--kiut-primary-light, #a78bfa);
+  outline: 2px solid var(--kiut-primary-light, var(--kiut-primary-light));
   outline-offset: 2px;
   border-radius: 4px;
 }
