@@ -457,7 +457,7 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 
 .cmc-refresh:focus-visible {
   display: inline-flex;
-  outline: 2px solid var(--kiut-primary, #5d4b93);
+  outline: 2px solid var(--kiut-primary, var(--kiut-primary-default));
   outline-offset: 2px;
 }
 
@@ -503,7 +503,7 @@ details.chart-metric-container.metric-collapsible[open]::details-content {
 }
 
 .chart-metric-container--static .card-title {
-  color: var(--kiut-primary, #8b5cf6);
+  color: var(--kiut-primary, var(--kiut-primary));
 }
 
 .chart-metric-container .card-subtitle,

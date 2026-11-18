@@ -115,6 +115,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from "vue";
 import BarChart from "../../Bar/ChartBar.vue";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
@@ -247,7 +249,7 @@ const colors = {
   c0: "#ef444480", // Rojo (0 intenciones adicionales)
   c1: "#10b98180", // Verde (1 intención adicional)
   c2: "#f59e0b80", // Ámbar (2 intenciones adicionales)
-  c3: "#a78bfa80", // Púrpura (3 intenciones adicionales)
+  c3: kiutColor('--kiut-primary-light', '#a78bfa') + '80', // Púrpura (3 intenciones adicionales)
   c4p: "#94a3b880", // Gris (4+ intenciones adicionales)
 };
 

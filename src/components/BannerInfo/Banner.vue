@@ -171,13 +171,13 @@ const VARIANT_STYLES: Record<KiutBannerVariant, BannerStyle> = {
   },
   feature: {
     container:
-      "bg-violet-50 border-violet-200 dark:bg-violet-950/40 dark:border-violet-800",
-    title: "text-violet-700 dark:text-violet-300",
+      "bg-[color:var(--kiut-primary)]/10 border-[color:var(--kiut-primary)]/30 dark:bg-[color:var(--kiut-primary)]/15 dark:border-[color:var(--kiut-primary-light)]/40",
+    title: "text-[color:var(--kiut-primary-default)] dark:text-[color:var(--kiut-primary-light)]",
     description: "text-slate-700 dark:text-zinc-300",
     subtitle_date: "text-black dark:text-gray-300",
     date: "text-gray-500 dark:text-gray-400",
-    icon: "text-violet-500 dark:text-violet-400",
-    container_icon: "bg-violet-200/50 dark:bg-violet-300/20",
+    icon: "text-[color:var(--kiut-primary)] dark:text-[color:var(--kiut-primary-light)]",
+    container_icon: "bg-[color:var(--kiut-primary)]/20 dark:bg-[color:var(--kiut-primary)]/25",
     icon_date: "text-slate-400",
   },
   danger: {

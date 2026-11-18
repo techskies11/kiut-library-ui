@@ -99,7 +99,7 @@
               :y1="boxplot.minY"
               :x2="0"
               :y2="boxplot.q1Y"
-              stroke="#8b5cf6"
+              stroke="var(--kiut-primary)"
               stroke-width="2.5"
             />
             <line
@@ -107,7 +107,7 @@
               :y1="boxplot.q3Y"
               :x2="0"
               :y2="boxplot.maxY"
-              stroke="#8b5cf6"
+              stroke="var(--kiut-primary)"
               stroke-width="2.5"
             />
             
@@ -117,7 +117,7 @@
               :y1="boxplot.minY"
               :x2="18"
               :y2="boxplot.minY"
-              stroke="#8b5cf6"
+              stroke="var(--kiut-primary)"
               stroke-width="2.5"
             />
             <line
@@ -125,7 +125,7 @@
               :y1="boxplot.maxY"
               :x2="18"
               :y2="boxplot.maxY"
-              stroke="#8b5cf6"
+              stroke="var(--kiut-primary)"
               stroke-width="2.5"
             />
             
@@ -135,9 +135,9 @@
               :y="boxplot.q3Y"
               width="48"
               :height="boxplot.q1Y - boxplot.q3Y"
-              fill="#8b5cf6"
+              fill="var(--kiut-primary)"
               fill-opacity="0.15"
-              stroke="#8b5cf6"
+              stroke="var(--kiut-primary)"
               stroke-width="2.5"
               rx="4"
             />
@@ -149,7 +149,7 @@
               :y1="boxplot.minY"
               :x2="0"
               :y2="boxplot.q1Y"
-              stroke="#C67DFF"
+              stroke="var(--kiut-primary-light)"
               stroke-width="2.5"
             />
             <line
@@ -157,7 +157,7 @@
               :y1="boxplot.q3Y"
               :x2="0"
               :y2="boxplot.maxY"
-              stroke="#C67DFF"
+              stroke="var(--kiut-primary-light)"
               stroke-width="2.5"
             />
             
@@ -167,7 +167,7 @@
               :y1="boxplot.minY"
               :x2="18"
               :y2="boxplot.minY"
-              stroke="#C67DFF"
+              stroke="var(--kiut-primary-light)"
               stroke-width="2.5"
             />
             <line
@@ -175,7 +175,7 @@
               :y1="boxplot.maxY"
               :x2="18"
               :y2="boxplot.maxY"
-              stroke="#C67DFF"
+              stroke="var(--kiut-primary-light)"
               stroke-width="2.5"
             />
             
@@ -185,9 +185,9 @@
               :y="boxplot.q3Y"
               width="48"
               :height="boxplot.q1Y - boxplot.q3Y"
-              fill="#C67DFF"
+              fill="var(--kiut-primary-light)"
               fill-opacity="0.15"
-              stroke="#C67DFF"
+              stroke="var(--kiut-primary-light)"
               stroke-width="2.5"
               rx="4"
             />
@@ -198,7 +198,7 @@
             :cx="0"
             :cy="boxplot.minY"
             r="6"
-            fill="#5d4b93"
+            fill="var(--kiut-primary-default)"
             :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
@@ -210,7 +210,7 @@
             :cx="0"
             :cy="boxplot.q1Y"
             r="6"
-            fill="#a855f7"
+            fill="var(--kiut-primary-light)"
             :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
@@ -222,7 +222,7 @@
             :cx="0"
             :cy="boxplot.q3Y"
             r="6"
-            fill="#7c3aed"
+            fill="var(--kiut-primary-hover)"
             :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
@@ -234,7 +234,7 @@
             :cx="0"
             :cy="boxplot.maxY"
             r="6"
-            fill="#C67DFF"
+            fill="var(--kiut-primary-light)"
             :stroke="svgColors.dotStroke"
             stroke-width="2"
             class="hover-circle"
@@ -249,7 +249,7 @@
             :y1="boxplot.medianY"
             :x2="24"
             :y2="boxplot.medianY"
-            stroke="#8b5cf6"
+            stroke="var(--kiut-primary)"
             stroke-width="3.5"
             class="hover-line"
             @mouseenter="showTooltip($event, `Median: ${boxplot.median.toFixed(1)}`)"
@@ -304,7 +304,7 @@
       <g v-if="showLegend" :transform="`translate(${chartWidth / 2}, ${chartMargin - 35})`">
         <!-- Min -->
         <g transform="translate(-200, 0)">
-          <circle cx="0" cy="0" r="5" fill="#5d4b93" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="5" fill="var(--kiut-primary-default)" :stroke="svgColors.dotStroke" stroke-width="1.5" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Min
           </text>
@@ -312,7 +312,7 @@
         
         <!-- Q1 -->
         <g transform="translate(-130, 0)">
-          <circle cx="0" cy="0" r="5" fill="#a855f7" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="5" fill="var(--kiut-primary-light)" :stroke="svgColors.dotStroke" stroke-width="1.5" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Q1
           </text>
@@ -320,7 +320,7 @@
         
         <!-- Q3 -->
         <g transform="translate(-60, 0)">
-          <circle cx="0" cy="0" r="5" fill="#7c3aed" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="5" fill="var(--kiut-primary-hover)" :stroke="svgColors.dotStroke" stroke-width="1.5" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Q3
           </text>
@@ -328,7 +328,7 @@
         
         <!-- Max -->
         <g transform="translate(10, 0)">
-          <circle cx="0" cy="0" r="5" fill="#C67DFF" :stroke="svgColors.dotStroke" stroke-width="1.5" />
+          <circle cx="0" cy="0" r="5" fill="var(--kiut-primary-light)" :stroke="svgColors.dotStroke" stroke-width="1.5" />
           <text x="10" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Max
           </text>
@@ -344,7 +344,7 @@
         
         <!-- Median -->
         <g transform="translate(150, 0)">
-          <line x1="0" y1="0" x2="14" y2="0" stroke="#8b5cf6" stroke-width="2.5" />
+          <line x1="0" y1="0" x2="14" y2="0" stroke="var(--kiut-primary)" stroke-width="2.5" />
           <text x="18" y="4" :fill="svgColors.legendText" font-size="12" font-family="'DM Sans', sans-serif" font-weight="500">
             Median
           </text>

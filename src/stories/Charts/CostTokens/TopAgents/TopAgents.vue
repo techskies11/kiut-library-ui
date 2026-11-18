@@ -31,6 +31,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from 'vue'
 import PieChart from '../../Pie/PieChart.vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
@@ -85,7 +87,7 @@ const colorMap: Record<string, string> = {
   checkin: '#3B82F6',
   faq: '#EF4444',
   disruption_manager: '#F59E0B',
-  booking_manager: '#a78bfa',
+  booking_manager: kiutColor('--kiut-primary-light', '#a78bfa'),
   triage: '#10B981',
   seller: '#06B6D4',
   human: '#F472B6',
@@ -122,14 +124,14 @@ const chartData = computed(() => {
   // Get colors with opacity for backgrounds
   const backgroundColors = agents.map(agent => {
     const agentKey = agent.agent_type?.toLowerCase();
-    const baseColor = colorMap[agentKey] || '#a78bfa';
+    const baseColor = colorMap[agentKey] || kiutColor('--kiut-primary-light', '#a78bfa');
     return baseColor + '80'; // Add 80 for 50% opacity
   });
 
   // Get solid colors for borders
   const borderColors = agents.map(agent => {
     const agentKey = agent.agent_type?.toLowerCase();
-    return colorMap[agentKey] || '#a78bfa';
+    return colorMap[agentKey] || kiutColor('--kiut-primary-light', '#a78bfa');
   });
 
   // Create labels with count and percentage

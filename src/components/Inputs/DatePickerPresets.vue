@@ -5,7 +5,7 @@
       type="button"
       :class="[
         kiutInputControlClass,
-        'group flex w-full items-center gap-2 text-left hover:bg-[#6b35e9] hover:text-white',
+        'group flex w-full items-center gap-2 text-left hover:bg-[color:var(--kiut-primary-hover)] hover:text-white',
         open ? 'border-[color:var(--kiut-primary)] ring-2 ring-[color:var(--kiut-primary)]/25' : '',
       ]"
       :aria-expanded="open"
@@ -49,7 +49,7 @@
           :aria-label="presetsSectionAriaLabel"
         >
           <p
-            class="px-2 pt-1 pb-1.5 text-[10px] font-semibold uppercase dark:text-[#61616b] text-[#e3e3e8]"
+            class="px-2 pt-1 pb-1.5 text-[10px] font-semibold uppercase dark:text-[color:var(--kiut-text-subtitle)] text-[color:var(--kiut-text-primary)]"
           >
             {{ presetsSectionLabel }}
           </p>
@@ -71,13 +71,13 @@
           <div class="mb-4 flex items-center justify-between gap-2">
             <button
               type="button"
-              class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]"
+              class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[color:var(--kiut-text-subtitle)] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/[0.06]"
               :aria-label="previousMonthAriaLabel"
               @click="shiftView(-1)"
             >
               <ChevronLeftIcon class="h-4 w-4" aria-hidden="true" />
             </button>
-            <div class="flex min-w-0 flex-1 justify-center text-center text-[#61616b] dark:text-[#e3e3e8]">
+            <div class="flex min-w-0 flex-1 justify-center text-center text-[color:var(--kiut-text-subtitle)] dark:text-[color:var(--kiut-text-primary)]">
               <span
                 class="min-w-0 truncate px-1 text-sm font-medium sm:hidden"
               >
@@ -94,7 +94,7 @@
             </div>
             <button
               type="button"
-              class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[#61616b] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[#e3e3e8] dark:hover:bg-white/[0.06]"
+              class="inline-flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-md border border-gray-300 text-[color:var(--kiut-text-subtitle)] transition hover:bg-black/[0.04] focus-visible:outline focus-visible:ring-2 focus-visible:ring-[color:var(--kiut-primary)]/30 dark:border-[color:var(--kiut-border-light)] dark:text-[color:var(--kiut-text-primary)] dark:hover:bg-white/[0.06]"
               :aria-label="nextMonthAriaLabel"
               @click="shiftView(1)"
             >
@@ -109,7 +109,7 @@
               class="w-full max-w-[252px] shrink-0"
             >
               <div
-                class="mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[#61616b] font-normal text-[0.8rem]"
+                class="mb-2 grid grid-cols-7 text-center text-xs font-medium tracking-wide text-[color:var(--kiut-text-subtitle)] font-normal text-[0.8rem]"
               >
                 <span v-for="wd in weekDays" :key="wd">{{ wd }}</span>
               </div>
@@ -267,12 +267,12 @@ function isDisabled(cell: Date) {
   return false;
 }
 
-const dayDisabledClass = 'rounded-lg text-[#61616b]';
+const dayDisabledClass = 'rounded-lg text-[color:var(--kiut-text-subtitle)]';
 const dayActiveClass =
-  'rounded-lg text-[#17171C] hover:bg-[#895af6] hover:text-white dark:text-[#e3e3e8] dark:hover:bg-[#895af6] dark:hover:text-white';
+  'rounded-lg text-[color:var(--kiut-text-primary)] hover:bg-[color:var(--kiut-primary)] hover:text-white dark:hover:bg-[color:var(--kiut-primary)] dark:hover:text-white';
 const dayOutOfMonthOpacity = 'opacity-30';
-const dayRangeBgClass = 'bg-[#6b35e9] font-medium text-white';
-const daySelectedBgClass = 'bg-[#895af6] font-semibold text-white';
+const dayRangeBgClass = 'bg-[color:var(--kiut-primary-hover)] font-medium text-white';
+const daySelectedBgClass = 'bg-[color:var(--kiut-primary)] font-semibold text-white';
 
 /** Radio por fila: redondeo izq en domingo o inicio; derecho en sábado o fin. */
 function rangeSegmentRadiusClass(d: Date, start: Date, end: Date): string {
@@ -298,7 +298,7 @@ function presetClass(id: KiutDatePresetId) {
     props.maxDate
   );
   const base =
-    'text-[#61616b] hover:bg-[#efeff0b3] dark:text-[#e3e3e8] dark:hover:bg-[#23232fb3]';
+    'text-[color:var(--kiut-text-subtitle)] hover:bg-[color:var(--kiut-notification-hover)] dark:text-[color:var(--kiut-text-primary)] dark:hover:bg-[color:var(--kiut-notification-hover)]';
   return active ? `${base} font-medium` : base;
 }
 

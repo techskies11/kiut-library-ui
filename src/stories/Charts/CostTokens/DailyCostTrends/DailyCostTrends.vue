@@ -54,6 +54,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, ref, toRef, watch } from 'vue'
 import moment from 'moment'
 import LineChart from '../../Line/ChartLine.vue'
@@ -256,15 +258,15 @@ const chartData = computed(() => {
       {
         label: 'Average cost',
         data: meanCostPerDay,
-        backgroundColor: '#a78bfa80',
-        borderColor: '#a78bfa',
+        backgroundColor: kiutColor('--kiut-primary-light', '#a78bfa') + '80',
+        borderColor: kiutColor('--kiut-primary-light', '#a78bfa'),
         borderWidth: 2,
         tension: 0.4,
         fill: false,
         pointRadius: 4,
         pointHoverRadius: 6,
         pointBackgroundColor: '#ffffff',
-        pointBorderColor: '#a78bfa',
+        pointBorderColor: kiutColor('--kiut-primary-light', '#a78bfa'),
         pointBorderWidth: 2,
       }
     ]

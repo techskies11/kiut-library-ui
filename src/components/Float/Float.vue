@@ -146,7 +146,7 @@ const toneClass: Record<FloatTone, string> = {
     "bg-amber-500/15 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400",
   success:
     "bg-emerald-500/15 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400",
-  info: "bg-violet-500/15 text-violet-600 dark:bg-violet-500/20 dark:text-violet-300",
+  info: "bg-[color:var(--kiut-primary)]/15 text-[color:var(--kiut-primary)] dark:bg-[color:var(--kiut-primary)]/20 dark:text-[color:var(--kiut-primary-light)]",
 };
 
 const iconByName: Record<FloatIcon, typeof XMarkIcon> = {

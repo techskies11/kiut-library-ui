@@ -139,7 +139,7 @@
         <!-- Drag handle -->
         <div class="flex justify-center pt-3 pb-1 shrink-0">
           <div
-            class="w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-purple-500/30"
+            class="w-10 h-1 rounded-full [background-color:var(--kiut-lateral-border-color)] dark:bg-[color:var(--kiut-primary)]/30"
           />
         </div>
 
@@ -152,7 +152,7 @@
           </p>
           <button
             type="button"
-            class="w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-500/20 dark:hover:text-purple-300 transition-colors"
+            class="w-8 h-8 flex items-center justify-center rounded-lg [color:var(--kiut-text-muted)] hover:bg-[color:var(--kiut-primary)]/10 hover:text-[color:var(--kiut-primary)] dark:hover:bg-[color:var(--kiut-primary)]/20 dark:hover:text-[color:var(--kiut-primary-light)] transition-colors"
             aria-label="Close"
             @click="closeSheet"
           >

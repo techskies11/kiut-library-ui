@@ -108,6 +108,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, ref, toRef, watch } from "vue";
 import moment from "moment";
 import LineChart from "../../Line/ChartLine.vue";
@@ -244,7 +246,7 @@ const handleExport = (format: ExportFormat): void => {
 // ── Color palette ──────────────────────────────────────────────────────────
 
 const palette = [
-  "#8b5cf6",
+  kiutColor('--kiut-primary', '#8b5cf6'),
   "#34d399",
   "#f59e0b",
   "#60a5fa",

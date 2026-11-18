@@ -137,6 +137,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { ref, computed, toRef, onMounted, watch } from "vue";
 import moment from "moment";
 import ChartMetricContainer from "../../Utils/ChartMetricContainer/ChartMetricContainer.vue";
@@ -373,7 +375,7 @@ const searchData = async () => {
 const cardAccentColors = [
   "#10b981",
   "#3b82f6",
-  "#8b5cf6",
+  kiutColor('--kiut-primary', '#8b5cf6'),
   "#f59e0b",
   "#f43f5e",
   "#06b6d4",

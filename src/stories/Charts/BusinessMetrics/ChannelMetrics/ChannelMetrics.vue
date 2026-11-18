@@ -79,7 +79,7 @@
               class="mx-auto mb-5 inline-flex h-20 w-20 items-center justify-center rounded-[20px] bg-[var(--kiut-bg-empty-icon,rgba(139,92,246,0.12))] shadow-[var(--kiut-shadow-empty-icon,0_8px_24px_rgba(139,92,246,0.15))]"
             >
               <ChartBarIcon
-                class="h-10 w-10 text-[var(--kiut-primary,#8b5cf6)]"
+                class="h-10 w-10 text-[var(--kiut-primary,var(--kiut-primary))]"
               />
             </div>
             <p
@@ -100,6 +100,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { ref, watch, computed, toRef } from "vue";
 import moment from "moment";
 import { ChartBarIcon } from "@heroicons/vue/24/outline";
@@ -201,7 +203,7 @@ const { isDark } = useThemeDetection(theme);
 const channelColorMap: Record<string, string> = {
   wsp: "#25D366",
   whatsapp: "#25D366",
-  voice: "#8b5cf6",
+  voice: kiutColor('--kiut-primary', '#8b5cf6'),
   sms: "#f59e0b",
   web_chat: "#06b6d4",
   email: "#ec4899",

@@ -56,6 +56,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from 'vue'
 import BarChart from '../../Bar/ChartBar.vue'
 import ChartMetricContainer from '../../Utils/ChartMetricContainer/ChartMetricContainer.vue'
@@ -121,11 +123,11 @@ const agentColorMap: { [key: string]: string } = {
   'checkin': '#3B82F6',
   'faq': '#EF4444',
   'disruption_manager': '#F59E0B',
-  'booking_manager': '#a78bfa',
+  'booking_manager': kiutColor('--kiut-primary-light', '#a78bfa'),
   'triage': '#10B981',
   'seller': '#06B6D4',
   'human': '#F472B6',
-  'customer_service': '#8b5cf6',
+  'customer_service': kiutColor('--kiut-primary', '#8b5cf6'),
   'booking_assistant': '#06b6d4',
   'flight_info': '#f59e0b',
   'support': '#10b981',

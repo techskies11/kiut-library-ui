@@ -18,7 +18,7 @@
             class="shrink-0"
             title="Total"
             :value="useNumberFormat(totalCount)"
-            color="#8b5cf6"
+            color="var(--kiut-primary)"
           />
         </div>
       </template>
@@ -53,6 +53,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from "vue";
 import PieChart from "../../Pie/PieChart.vue";
 import CardInfo from "../../Utils/CardInfo/CardInfo.vue";
@@ -93,7 +95,7 @@ const props = withDefaults(
 const { isDark, colors } = useThemeDetection(toRef(props, "theme"));
 
 const languageColors = [
-  "#8b5cf6",
+  kiutColor('--kiut-primary', '#8b5cf6'),
   "#06b6d4",
   "#f59e0b",
   "#10b981",
@@ -318,7 +320,7 @@ defineExpose({ isDark });
 .empty-icon {
   width: 40px;
   height: 40px;
-  color: var(--kiut-primary, #8b5cf6);
+  color: var(--kiut-primary, var(--kiut-primary));
 }
 .empty-title {
   font-size: 18px;

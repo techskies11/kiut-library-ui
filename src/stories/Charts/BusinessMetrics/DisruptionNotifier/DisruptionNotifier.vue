@@ -48,7 +48,7 @@
             :value="useNumberFormat(docTotals.row_count_total)"
           />
           <CardInfo
-            color="#8b5cf6"
+            color="var(--kiut-primary)"
             title="Passengers Affected"
             :value="useNumberFormat(affected)"
           />
@@ -217,6 +217,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed, toRef } from "vue";
 import moment from "moment";
 import SankeyChart from "../../Sankey/SankeyChart.vue";
@@ -433,7 +435,7 @@ const trendChartData = computed(() => {
       {
         label: "Success Rate (%)",
         data: rateData,
-        borderColor: "#8b5cf6",
+        borderColor: kiutColor('--kiut-primary', '#8b5cf6'),
         yAxisID: "y",
       },
       {

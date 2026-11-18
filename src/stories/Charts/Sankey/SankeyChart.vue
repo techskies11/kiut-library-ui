@@ -34,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import { kiutColor } from '../../../utils/kiutColor'
+
 import { onMounted, onBeforeUnmount, ref, watch, nextTick, toRef, computed } from 'vue';
 import * as echarts from 'echarts/core';
 import { TooltipComponent, TitleComponent } from 'echarts/components';
@@ -1031,11 +1033,11 @@ const processSankeyData = (
 
 // Default purple colors from design system
 const DEFAULT_COLORS = [
-  '#C67DFF', // Primary light
-  '#8b5cf6', // Primary medium
-  '#a855f7', // Bright purple
-  '#7c3aed', // Vibrant purple
-  '#5d4b93', // Primary dark
+  kiutColor('--kiut-primary-light', '#c67dff'), // Primary light
+  kiutColor('--kiut-primary', '#8b5cf6'), // Primary medium
+  kiutColor('--kiut-primary-light', '#a855f7'), // Bright purple
+  kiutColor('--kiut-primary-hover', '#7c3aed'), // Vibrant purple
+  kiutColor('--kiut-primary-default', '#5d4b93'), // Primary dark
   '#9333ea', // Deep purple
 ];
 

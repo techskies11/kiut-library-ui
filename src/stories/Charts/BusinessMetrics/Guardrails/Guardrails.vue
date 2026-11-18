@@ -202,7 +202,7 @@ defineExpose({ isDark })
   display: inline-flex; align-items: center;
   padding: 3px 10px; border-radius: 6px;
   font-size: 0.7rem; font-weight: 600; white-space: nowrap;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(198, 125, 255, 0.12));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--kiut-primary) 8%, transparent), color-mix(in srgb, var(--kiut-primary-light) 12%, transparent));
   color: var(--kiut-text-primary, #4b5563);
   text-transform: uppercase; letter-spacing: 0.02em;
 }

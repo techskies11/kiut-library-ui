@@ -38,9 +38,9 @@
   --kiut-text-subtitle: #61616b;
   --kiut-lateral-bg: #ffffff;
   --kiut-lateral-border-color: rgba(0, 0, 0, 0.05);
-  --kiut-primary-section: #895af626;
-  --kiut-secondary-section: #895af626;
-  --kiut-text: #895af6;
+  --kiut-primary-section: color-mix(in srgb, var(--kiut-primary) 15%, transparent);
+  --kiut-secondary-section: color-mix(in srgb, var(--kiut-primary) 15%, transparent);
+  --kiut-text: var(--kiut-primary);
   --kiut-notification-hover: #f8fafc;
 
   /* Text Colors */
@@ -66,8 +66,8 @@
     0 4px 6px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 0 0 1px rgba(0, 0, 0, 0.05);
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.15);
-  --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.4);
+  --kiut-shadow-empty-icon: 0 4px 12px color-mix(in srgb, var(--kiut-primary) 15%, transparent);
+  --kiut-shadow-loader: 0 4px 12px color-mix(in srgb, var(--kiut-primary) 40%, transparent);
 
   /* Tooltips (Charts) */
   --kiut-tooltip-bg: rgba(15, 23, 42, 0.95);
@@ -104,9 +104,9 @@
   --kiut-lateral-bg: #0f0f15;
   --kiut-lateral-border-color: #22222b;
   --kiut-text-subtitle: #9191a1;
-  --kiut-primary-section: #895af626;
-  --kiut-secondary-section: #895af626;
-  --kiut-text: #c27aff;
+  --kiut-primary-section: color-mix(in srgb, var(--kiut-primary) 15%, transparent);
+  --kiut-secondary-section: color-mix(in srgb, var(--kiut-primary) 15%, transparent);
+  --kiut-text: var(--kiut-primary-light);
   --kiut-notification-hover: #2f2f379c;
   --kiut-text-hover: #f5f3ff;
 
@@ -133,8 +133,8 @@
     0 4px 6px rgba(0, 0, 0, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5),
     0 0 0 1px #2d2d39;
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
-  --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
+  --kiut-shadow-empty-icon: 0 4px 12px color-mix(in srgb, var(--kiut-primary) 25%, transparent);
+  --kiut-shadow-loader: 0 4px 12px color-mix(in srgb, var(--kiut-primary) 50%, transparent);
 
   /* Tooltips (Charts) */
   --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);
@@ -217,8 +217,8 @@
     0 4px 6px rgba(0, 0, 0, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5),
     0 0 0 1px #2d2d39;
   --kiut-shadow-chart-wrapper: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --kiut-shadow-empty-icon: 0 4px 12px rgba(139, 92, 246, 0.25);
-  --kiut-shadow-loader: 0 4px 12px rgba(139, 92, 246, 0.5);
+  --kiut-shadow-empty-icon: 0 4px 12px color-mix(in srgb, var(--kiut-primary) 25%, transparent);
+  --kiut-shadow-loader: 0 4px 12px color-mix(in srgb, var(--kiut-primary) 50%, transparent);
 
   /* Tooltips (Charts) */
   --kiut-tooltip-bg: rgba(26, 26, 29, 0.98);

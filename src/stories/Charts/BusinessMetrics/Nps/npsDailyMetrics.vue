@@ -37,6 +37,8 @@
 </template>
 
 <script setup>
+import { kiutColor } from '../../../../utils/kiutColor'
+
 import { computed } from "vue";
 import moment from "moment";
 import ChartLine from "../../Line/ChartLine.vue";
@@ -81,8 +83,8 @@ const lineData = computed(() => ({
     {
       label: "CSAT P95",
       data: series.value.map((point) => Number(point.p95_score || 0)),
-      borderColor: props.accentColor || "#7C3AED",
-      pointBorderColor: props.accentColor || "#7C3AED",
+      borderColor: props.accentColor || kiutColor('--kiut-primary-hover', '#7c3aed'),
+      pointBorderColor: props.accentColor || kiutColor('--kiut-primary-hover', '#7c3aed'),
       pointBackgroundColor: "#FFFFFF",
       tension: 0.25,
       clip: false,
