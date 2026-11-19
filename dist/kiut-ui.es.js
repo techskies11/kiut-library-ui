@@ -25711,11 +25711,11 @@ Without Reason`
     ] : t.variant === "secondary" ? [
       "px-4 py-2.5",
       "border border-slate-200 bg-slate-50 text-[color:var(--kiut-text-primary)]",
-      "hover:border-slate-300 hover:bg-slate-100",
-      "active:bg-slate-200/80",
+      "hover:border-[color:color-mix(in_srgb,var(--kiut-primary)_80%,transparent)] hover:bg-[color:color-mix(in_srgb,var(--kiut-primary)_80%,transparent)] hover:text-white",
+      "active:border-[color:var(--kiut-primary-dark)] active:bg-[color:var(--kiut-primary-dark)] active:text-white",
       "dark:border-[color:var(--kiut-border-light)] dark:bg-[#191a23] dark:text-slate-100",
-      "dark:hover:border-[#3a3a44] dark:hover:bg-[#24262e]",
-      "dark:active:bg-slate-700/90"
+      "dark:hover:border-[color:color-mix(in_srgb,var(--kiut-primary)_80%,transparent)] dark:hover:bg-[color:color-mix(in_srgb,var(--kiut-primary)_80%,transparent)] dark:hover:text-white",
+      "dark:active:border-[color:var(--kiut-primary-dark)] dark:active:bg-[color:var(--kiut-primary-dark)]"
     ] : t.tone === "danger" ? [
       "h-9 w-9 min-h-9 min-w-9 shrink-0 border-0 bg-transparent p-0 shadow-none",
       "text-red-600",
