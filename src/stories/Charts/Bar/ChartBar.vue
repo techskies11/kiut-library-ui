@@ -281,12 +281,13 @@ const computedOptions = computed(() => {
       beginAtZero: true,
       ...merged.scales.x,
     }
-    const { beginAtZero: _beginAtZero, ticks: yTicks, ...yScaleRest } = merged.scales.y ?? {}
+    const { beginAtZero: _beginAtZero, ticks: yTicks, type: _linearType, ...yScaleRest } =
+      merged.scales.y ?? {}
     const labelCount = props.data.labels?.length ?? 0
     const categoryLabelMaxLength = props.categoryLabelMaxLength ?? 20
     merged.scales.y = {
-      type: 'category',
       ...yScaleRest,
+      type: 'category',
       ticks: {
         ...yTicks,
         autoSkip: false,

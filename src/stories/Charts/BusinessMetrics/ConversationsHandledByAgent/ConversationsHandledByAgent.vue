@@ -64,7 +64,7 @@ const props = withDefaults(
   },
 );
 
-const heightPx = computed(() => Math.max(220, props.items.length * 36));
+const heightPx = computed(() => 260);
 
 const chartData = computed(() => ({
   labels: props.items.map((row) => row.agent),
@@ -79,7 +79,16 @@ const chartData = computed(() => ({
 }));
 
 const chartOptions = {
-  indexAxis: "y" as const,
   plugins: { legend: { display: false } },
+  scales: {
+    x: {
+      ticks: {
+        callback(this: { getLabelForValue: (value: unknown) => unknown }, value: unknown) {
+          const raw = this.getLabelForValue(value);
+          return typeof raw === "string" ? raw : String(raw ?? "");
+        },
+      },
+    },
+  },
 };
 </script>
