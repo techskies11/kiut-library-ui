@@ -8627,17 +8627,17 @@ const cl = 10, Hm = /* @__PURE__ */ le({
           beginAtZero: !0,
           ...p.scales.x
         };
-        const { beginAtZero: g, ticks: y, ...x } = p.scales.y ?? {}, b = t.data.labels?.length ?? 0, _ = t.categoryLabelMaxLength ?? 20;
+        const { beginAtZero: g, ticks: y, type: x, ...b } = p.scales.y ?? {}, _ = t.data.labels?.length ?? 0, w = t.categoryLabelMaxLength ?? 20;
         p.scales.y = {
+          ...b,
           type: "category",
-          ...x,
           ticks: {
             ...y,
             autoSkip: !1,
-            maxTicksLimit: b > 0 ? b : An,
-            callback: function(w) {
-              const v = this.getLabelForValue(w), $ = typeof v == "string" ? v : String(v ?? "");
-              return r($, _);
+            maxTicksLimit: _ > 0 ? _ : An,
+            callback: function(v) {
+              const $ = this.getLabelForValue(v), S = typeof $ == "string" ? $ : String($ ?? "");
+              return r(S, w);
             }
           }
         };
@@ -8661,7 +8661,7 @@ const cl = 10, Hm = /* @__PURE__ */ le({
   for (const [n, o] of a)
     t[n] = o;
   return t;
-}, Ut = /* @__PURE__ */ ve(Hm, [["__scopeId", "data-v-1b16a2f6"]]), Wm = { class: "chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] min-w-0" }, Km = { class: "chart-line-canvas-host relative min-h-0 w-full flex-1" }, Um = {
+}, Ut = /* @__PURE__ */ ve(Hm, [["__scopeId", "data-v-da3d1a21"]]), Wm = { class: "chart-line-root flex h-full min-h-[230px] w-full shrink-0 flex-col bg-transparent font-[family-name:Inter,ui-sans-serif,system-ui,sans-serif] min-w-0" }, Km = { class: "chart-line-canvas-host relative min-h-0 w-full flex-1" }, Um = {
   key: 0,
   class: "chart-line-indicators mt-0 flex shrink-0 list-none flex-nowrap items-center justify-center gap-x-4 overflow-x-auto overflow-y-hidden px-1 pb-0.5 pt-0.5",
   role: "list"
@@ -20344,7 +20344,7 @@ Without Reason`
     theme: { default: void 0 }
   },
   setup(e) {
-    const a = e, t = C(() => Math.max(220, a.items.length * 36)), n = C(() => ({
+    const a = e, t = C(() => 260), n = C(() => ({
       labels: a.items.map((s) => s.agent),
       datasets: [
         {
@@ -20355,8 +20355,17 @@ Without Reason`
         }
       ]
     })), o = {
-      indexAxis: "y",
-      plugins: { legend: { display: !1 } }
+      plugins: { legend: { display: !1 } },
+      scales: {
+        x: {
+          ticks: {
+            callback(s) {
+              const i = this.getLabelForValue(s);
+              return typeof i == "string" ? i : String(i ?? "");
+            }
+          }
+        }
+      }
     };
     return (s, i) => (h(), Y(Ae, {
       class: "w-full min-h-0 self-start",
