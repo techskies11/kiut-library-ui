@@ -14,6 +14,7 @@
 - ConversationVolume: rename custom_tags breakdown option label from Tags to Label (dropdown and default chart title).
 
 ### Added
+- DAI-568: Bar chart of average minutes until a human agent sends the first reply after a chat lands in their inbox.
 - Circular `Checkbox` input (`role="checkbox"`) for boolean preferences such as notification sound.
 - Export `ButtonNotification` and `NotificationCard` for the backoffice inbox. View all closes the bell menu.
 - CardMetric accepts optional `iconColor`. Conversation, escalation, resolution, revenue, and transaction line charts accept optional `accentColor`. Omitted, both stay violet.
