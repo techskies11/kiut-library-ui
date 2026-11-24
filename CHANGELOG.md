@@ -2,6 +2,9 @@
 
 ## [current]
 ### Changed
+- DAI-485: Agent Human Conversations splits abandonment into customer (left before a reply) and agent (first-response SLA breach).
+
+### Changed
 - Storybook toolbar "Brand" overrides the `--kiut-primary` ramp locally (violet, teal, orange, blue) so a color change can be checked without touching the host app.
 - Brand accents (buttons already did this; calendars, tags, banners, tabs, nav, chart series) read `--kiut-primary` and its ramp so a host app can recolor them from CSS variables.
 - Dashboard chart loading skeletons are a neutral gray shimmer, so they do not clash with the brand color.
