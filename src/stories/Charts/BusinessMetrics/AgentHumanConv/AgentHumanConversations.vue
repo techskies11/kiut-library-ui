@@ -192,6 +192,55 @@
             </div>
           </template>
         </CardMetric>
+
+        <CardMetric
+          label="Abandoned by customer"
+          label-position="header"
+          :value="formatNumber(totalAbandonedByCustomer)"
+          :theme="theme"
+          :icon-color="iconColor"
+          :current-value="totalAbandonedByCustomer"
+          :previous-value="previousTotalAbandoned"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+              />
+            </svg>
+          </template>
+        </CardMetric>
+
+        <CardMetric
+          label="Abandoned by agent"
+          label-position="header"
+          :value="formatNumber(totalAbandonedByAgent)"
+          :theme="theme"
+          :icon-color="iconColor"
+          :current-value="totalAbandonedByAgent"
+        >
+          <template #icon>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </template>
+        </CardMetric>
       </div>
 
       <ChartMetricContainer
@@ -254,9 +303,14 @@
                 formatNumber(Number(row.transfersMade))
               }}</span>
             </template>
-            <template #cell-abandoned="{ row }">
+            <template #cell-abandonedByCustomer="{ row }">
               <span class="cell-plain cell-plain--red">{{
-                formatAbandonedDisplay(row.abandoned as number)
+                formatAbandonedDisplay(row.abandonedByCustomer as number)
+              }}</span>
+            </template>
+            <template #cell-abandonedByAgent="{ row }">
+              <span class="cell-plain cell-plain--red">{{
+                formatAbandonedDisplay(row.abandonedByAgent as number)
               }}</span>
             </template>
             <template #cell-connected="{ row }">
@@ -346,6 +400,8 @@ interface AgentDayData {
   /** @deprecated use transfers_received_count */
   transferred_count?: number;
   abandoned_count?: number;
+  abandoned_by_customer_count?: number;
+  abandoned_by_agent_count?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
   day_total_assigned?: number;
@@ -376,6 +432,8 @@ interface AgentHumanConvData {
   /** @deprecated use total_transfers_received */
   total_transferred?: number;
   total_abandoned?: number;
+  total_abandoned_by_customer?: number;
+  total_abandoned_by_agent?: number;
   avg_time_to_assign_seconds?: DurationInput;
   avg_conversation_duration_seconds?: DurationInput;
   agents_by_day?: AgentDayData[];
@@ -390,8 +448,10 @@ interface AgentTableRow {
   handled: number;
   transfersReceived: number;
   transfersMade: number;
-  /** Per-agent abandoned count (chats abandoned while assigned to this agent). */
-  abandoned: number;
+  /** Customer left before an agent replied. */
+  abandonedByCustomer: number;
+  /** Assigned case whose first-response SLA breached. */
+  abandonedByAgent: number;
   connected_at: string | null;
   disconnected_at: string | null;
   online_time_display: string | null;
@@ -411,7 +471,8 @@ type SortKey =
   | "handled"
   | "transfersReceived"
   | "transfersMade"
-  | "abandoned"
+  | "abandonedByCustomer"
+  | "abandonedByAgent"
   | "avgAssignation"
   | "avgResolution";
 
@@ -485,8 +546,16 @@ function isDisplayableAgentRow(agent: AgentDayData): boolean {
   const closed = agent.closed_count ?? 0;
   const transfersReceived = getTransfersReceivedCount(agent);
   const transfersMade = getTransfersMadeCount(agent);
-  const abandoned = agent.abandoned_count ?? 0;
-  return assigned > 0 || closed > 0 || transfersReceived > 0 || transfersMade > 0 || abandoned > 0;
+  const abandonedByCustomer = getAbandonedByCustomerCount(agent);
+  const abandonedByAgent = getAbandonedByAgentCount(agent);
+  return (
+    assigned > 0 ||
+    closed > 0 ||
+    transfersReceived > 0 ||
+    transfersMade > 0 ||
+    abandonedByCustomer > 0 ||
+    abandonedByAgent > 0
+  );
 }
 
 function getHandledCount(agent: AgentDayData): number {
@@ -505,12 +574,21 @@ function getTransfersMadeCount(agent: AgentDayData): number {
   return agent.transfers_made_count ?? 0;
 }
 
-function getAgentAbandonedCount(agent: AgentDayData): number {
+function hasAbandonmentSplit(agent: AgentDayData): boolean {
+  return (
+    agent.abandoned_by_customer_count != null ||
+    agent.abandoned_by_agent_count != null
+  );
+}
+
+function getAbandonedByCustomerCount(agent: AgentDayData): number {
+  if (hasAbandonmentSplit(agent)) return agent.abandoned_by_customer_count ?? 0;
   return agent.abandoned_count ?? 0;
 }
 
-function getAbandonedCount(agent: AgentDayData): number {
-  return agent.day_total_abandoned ?? 0;
+function getAbandonedByAgentCount(agent: AgentDayData): number {
+  if (hasAbandonmentSplit(agent)) return agent.abandoned_by_agent_count ?? 0;
+  return 0;
 }
 
 function formatAgentName(name: string | null | undefined): string {
@@ -540,7 +618,10 @@ const hasData = computed(() => {
     (props.data?.total_transfers_received ?? props.data?.total_transferred ?? 0) >
     0;
   const hasTransfersMade = (props.data?.total_transfers_made ?? 0) > 0;
-  const hasAbandoned = (props.data?.total_abandoned ?? 0) > 0;
+  const hasAbandoned =
+    (props.data?.total_abandoned ?? 0) > 0 ||
+    (props.data?.total_abandoned_by_customer ?? 0) > 0 ||
+    (props.data?.total_abandoned_by_agent ?? 0) > 0;
   return (
     hasAgentRows.value ||
     hasEnqueued ||
@@ -654,7 +735,18 @@ const totalTransfersReceived = computed(
     props.data?.total_transfers_received ?? props.data?.total_transferred ?? 0,
 );
 const totalTransfersMade = computed(() => props.data?.total_transfers_made ?? 0);
-const totalAbandoned = computed(() => props.data?.total_abandoned ?? 0);
+const totalAbandonedByCustomer = computed(() => {
+  if (
+    props.data?.total_abandoned_by_customer != null ||
+    props.data?.total_abandoned_by_agent != null
+  ) {
+    return props.data?.total_abandoned_by_customer ?? 0;
+  }
+  return props.data?.total_abandoned ?? 0;
+});
+const totalAbandonedByAgent = computed(
+  () => props.data?.total_abandoned_by_agent ?? 0,
+);
 const avgAssignSeconds = computed(
   () => props.data?.avg_time_to_assign_seconds ?? null,
 );
@@ -692,7 +784,8 @@ function mapAgentToRow(agent: AgentDayData, index: number): AgentTableRow {
     handled: getHandledCount(agent),
     transfersReceived: getTransfersReceivedCount(agent),
     transfersMade: getTransfersMadeCount(agent),
-    abandoned: getAgentAbandonedCount(agent),
+    abandonedByCustomer: getAbandonedByCustomerCount(agent),
+    abandonedByAgent: getAbandonedByAgentCount(agent),
     connected_at: agent.connected_at ?? null,
     disconnected_at: agent.disconnected_at ?? null,
     online_time_display:
@@ -725,7 +818,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       handled: number;
       transfersReceived: number;
       transfersMade: number;
-      abandoned: number;
+      abandonedByCustomer: number;
+      abandonedByAgent: number;
       assignSum: number;
       assignWeight: number;
       resolutionSum: number;
@@ -744,7 +838,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
         handled: 0,
         transfersReceived: 0,
         transfersMade: 0,
-        abandoned: 0,
+        abandonedByCustomer: 0,
+        abandonedByAgent: 0,
         assignSum: 0,
         assignWeight: 0,
         resolutionSum: 0,
@@ -758,7 +853,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
     acc.handled += getHandledCount(agent);
     acc.transfersReceived += getTransfersReceivedCount(agent);
     acc.transfersMade += getTransfersMadeCount(agent);
-    acc.abandoned += getAgentAbandonedCount(agent);
+    acc.abandonedByCustomer += getAbandonedByCustomerCount(agent);
+    acc.abandonedByAgent += getAbandonedByAgentCount(agent);
 
     if (agent.agent_name?.trim()) {
       acc.agent_name = agent.agent_name.trim();
@@ -791,7 +887,8 @@ function aggregateAgents(agents: AgentDayData[]): AgentTableRow[] {
       handled: acc.handled,
       transfersReceived: acc.transfersReceived,
       transfersMade: acc.transfersMade,
-      abandoned: acc.abandoned,
+      abandonedByCustomer: acc.abandonedByCustomer,
+      abandonedByAgent: acc.abandonedByAgent,
       connected_at: null,
       disconnected_at: null,
       online_time_display: null,
@@ -845,8 +942,11 @@ function compareRows(
     case "transfersMade":
       cmp = a.transfersMade - b.transfersMade;
       break;
-    case "abandoned":
-      cmp = (a.abandoned ?? 0) - (b.abandoned ?? 0);
+    case "abandonedByCustomer":
+      cmp = (a.abandonedByCustomer ?? 0) - (b.abandonedByCustomer ?? 0);
+      break;
+    case "abandonedByAgent":
+      cmp = (a.abandonedByAgent ?? 0) - (b.abandonedByAgent ?? 0);
       break;
     case "avgAssignation":
       cmp =
@@ -912,10 +1012,20 @@ const agentTableColumns = computed<TableColumn[]>(() => {
       sortable: true,
     },
     {
-      key: "abandoned",
-      label: "Abandoned",
+      key: "abandonedByCustomer",
+      label: "Abandoned by customer",
       align: "center",
       sortable: true,
+      headerTooltip:
+        "The customer left before an agent replied, and the first-response SLA did not breach.",
+    },
+    {
+      key: "abandonedByAgent",
+      label: "Abandoned by agent",
+      align: "center",
+      sortable: true,
+      headerTooltip:
+        "The case was assigned and the first-response SLA breached without agent action.",
     },
     {
       key: "connected",
